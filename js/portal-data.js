@@ -53,7 +53,8 @@ window.WEC_LC_data = (function () {
     'me',
     // student
     'dashboard', 'studyPlan', 'profile', 'saveProfile',
-    'profileShares', 'createProfileShare', 'documents', 'sharedProfile',
+    'profileShares', 'createProfileShare', 'revokeProfileShare',
+    'documents', 'issueDocument', 'sharedProfile',
     // learning
     'timeOnTask', 'reviewQueue', 'recordingInit', 'recordingPart',
     'recordingComplete', 'recordingReview', 'quizAttempt',
@@ -117,14 +118,22 @@ window.WEC_LC_data = (function () {
     dashboard: function () { return request('/api/student/dashboard'); },
     studyPlan: function () { return request('/api/student/study-plan'); },
     profile: function () { return request('/api/student/profile'); },
+    // PATCH, matching functions/api/student/profile.js's onRequestPatch —
+    // that endpoint has no PUT handler at all.
     saveProfile: function (body) {
-      return request('/api/student/profile', { method: 'PUT', body: body });
+      return request('/api/student/profile', { method: 'PATCH', body: body });
     },
     profileShares: function () { return request('/api/student/profile-shares'); },
     createProfileShare: function (body) {
       return request('/api/student/profile-shares', { method: 'POST', body: body });
     },
+    revokeProfileShare: function (id) {
+      return request('/api/student/profile-shares?id=' + seg(id), { method: 'DELETE' });
+    },
     documents: function () { return request('/api/student/documents'); },
+    issueDocument: function (body) {
+      return request('/api/student/documents', { method: 'POST', body: body });
+    },
     sharedProfile: function (token) { return request('/api/share/' + seg(token)); },
 
     timeOnTask: function (body) {

@@ -28,6 +28,17 @@
  * Names, share labels and document titles are written by people. The
  * difference between "a label with an angle bracket in it" and an attack
  * only exists if the page never gives it the chance to be the second.
+ *
+ * ────────────────────────────────────────────────────────────────
+ * DATA GOES THROUGH js/portal-data.js, NOT A LOCAL FETCH HELPER
+ * ────────────────────────────────────────────────────────────────
+ * This page used to hand-roll its own auth (one Clerk token minted at
+ * load and reused for the whole session — Clerk session tokens are
+ * short-lived, and that pattern is exactly what js/api-auth.js exists to
+ * prevent) and its own fetch wrapper naming endpoints directly. Both are
+ * gone: js/portal-guard.js gates the page the same way every other
+ * portal page does, and every read/write goes through a
+ * window.WEC_LC_data operation, which mints a fresh token per request.
  */
 (function () {
   'use strict';
@@ -45,21 +56,6 @@
     var d = new Date(iso.length === 10 ? iso + 'T00:00:00Z' : iso);
     if (isNaN(d.getTime())) return iso;
     return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
-  }
-
-  // ---- authenticated fetch ------------------------------------------
-  // A learner's own record is never public. Without a session there is
-  // nothing to show, and the page says so rather than rendering an empty
-  // shell that looks like a record with nothing in it.
-  var authHeaders = {};
-
-  function api(path, opts) {
-    var o = opts || {};
-    o.headers = Object.assign({ Accept: 'application/json' }, authHeaders, o.headers || {});
-    if (o.body) o.headers['Content-Type'] = 'application/json';
-    return fetch(path, o).then(function (r) {
-      return r.json().then(function (d) { return { ok: r.ok, status: r.status, data: d }; });
-    });
   }
 
   function state(strong, rest) {
@@ -148,8 +144,7 @@
         btn.setAttribute('aria-label', 'Withdraw the link "' + (s.label || 'Untitled link') + '"');
         btn.addEventListener('click', function () {
           btn.disabled = true;
-          api('/api/student/profile-shares?id=' + encodeURIComponent(s.id), { method: 'DELETE' })
-            .then(loadShares);
+          window.WEC_LC_data.revokeProfileShare(s.id).then(loadShares).catch(function () { btn.disabled = false; });
         });
         li.appendChild(btn);
       }
@@ -159,9 +154,9 @@
   }
 
   function loadShares() {
-    return api('/api/student/profile-shares').then(function (r) {
-      if (r.ok) renderShares(r.data.shares || []);
-    });
+    return window.WEC_LC_data.profileShares().then(function (data) {
+      renderShares(data.shares || []);
+    }).catch(function () {});
   }
 
   // ---- documents ------------------------------------------------------
@@ -199,9 +194,9 @@
   }
 
   function loadDocuments() {
-    return api('/api/student/documents').then(function (r) {
-      if (r.ok) renderDocuments(r.data.documents || []);
-    });
+    return window.WEC_LC_data.documents().then(function (data) {
+      renderDocuments(data.documents || []);
+    }).catch(function () {});
   }
 
   // ---- wiring ---------------------------------------------------------
@@ -211,26 +206,20 @@
       $('#handleError').textContent = '';
       $('#saved').textContent = '';
       var handle = $('#handle').value.trim();
-      api('/api/student/profile', {
-        method: 'PATCH',
-        body: JSON.stringify({
-          handle: handle || null,
-          isPublic: $('#isPublic').checked,
-          transcript: $('#showTranscript').checked,
-          competencies: $('#showCompetencies').checked,
-          cpd: $('#showCpd').checked,
-          studyTime: $('#showStudyTime').checked,
-        }),
-      }).then(function (r) {
-        if (!r.ok) {
-          $('#handleError').textContent = (r.data && r.data.message)
-            || 'Those settings could not be saved.';
-          return;
-        }
-        renderPrivacy(r.data);
+      window.WEC_LC_data.saveProfile({
+        handle: handle || null,
+        isPublic: $('#isPublic').checked,
+        transcript: $('#showTranscript').checked,
+        competencies: $('#showCompetencies').checked,
+        cpd: $('#showCpd').checked,
+        studyTime: $('#showStudyTime').checked,
+      }).then(function (data) {
+        renderPrivacy(data);
         $('#saved').textContent = 'Saved. ' + ($('#isPublic').checked
           ? 'Your profile is published.'
           : 'Your profile is private.');
+      }).catch(function (err) {
+        $('#handleError').textContent = (err && err.apiMessage) || 'Those settings could not be saved.';
       });
     });
 
@@ -238,28 +227,26 @@
       e.preventDefault();
       var sections = [].slice.call(document.querySelectorAll('input[name="sections"]:checked'))
         .map(function (i) { return i.value; });
-      api('/api/student/profile-shares', {
-        method: 'POST',
-        body: JSON.stringify({
-          sections: sections,
-          days: Number($('#shareDays').value),
-          label: $('#shareLabel').value.trim() || null,
-        }),
-      }).then(function (r) {
+      window.WEC_LC_data.createProfileShare({
+        sections: sections,
+        days: Number($('#shareDays').value),
+        label: $('#shareLabel').value.trim() || null,
+      }).then(function (data) {
         var box = $('#newLink');
         box.textContent = '';
         box.hidden = false;
-        if (!r.ok) {
-          box.appendChild(el('strong', null, 'That link could not be created.'));
-          box.appendChild(document.createTextNode((r.data && r.data.message) || ''));
-          return;
-        }
-        var url = location.origin + '/graduate.html?share=' + encodeURIComponent(r.data.token);
+        var url = location.origin + '/graduate.html?share=' + encodeURIComponent(data.token);
         box.appendChild(el('strong', null, 'Copy this link now.'));
         box.appendChild(document.createTextNode(
           'The College stores only a fingerprint of it and cannot show it to you again. If you lose it, withdraw the link and make another.'));
         box.appendChild(el('code', null, url));
         loadShares();
+      }).catch(function (err) {
+        var box = $('#newLink');
+        box.textContent = '';
+        box.hidden = false;
+        box.appendChild(el('strong', null, 'That link could not be created.'));
+        box.appendChild(document.createTextNode((err && err.apiMessage) || ''));
       });
     });
 
@@ -267,64 +254,50 @@
       btn.addEventListener('click', function () {
         $('#docError').textContent = '';
         btn.disabled = true;
-        api('/api/student/documents', {
-          method: 'POST',
-          body: JSON.stringify({ documentType: btn.getAttribute('data-issue') }),
-        }).then(function (r) {
-          btn.disabled = false;
-          if (!r.ok) {
-            $('#docError').textContent = (r.data && r.data.message)
-              || 'That document could not be issued.';
-            return;
-          }
-          loadDocuments();
-        });
+        window.WEC_LC_data.issueDocument({ documentType: btn.getAttribute('data-issue') })
+          .then(function () {
+            btn.disabled = false;
+            loadDocuments();
+          }).catch(function (err) {
+            btn.disabled = false;
+            $('#docError').textContent = (err && err.apiMessage) || 'That document could not be issued.';
+          });
       });
     });
   }
 
   function load() {
-    api('/api/student/profile').then(function (r) {
-      if (r.status === 401) {
+    window.WEC_LC_data.profile().then(function (data) {
+      $('#state').textContent = '';
+      renderRecord(data);
+      renderPrivacy(data);
+      wire();
+      loadShares();
+      loadDocuments();
+    }).catch(function (err) {
+      if (err.status === 401) {
         state('You are not signed in.',
           'Your academic record is private to you. Sign in to see it, or verify an award by its code if you are checking someone else’s.');
         return;
       }
-      if (!r.ok) {
-        state('Your record could not be loaded.',
-          'This is a fault on our side. Please try again shortly.');
-        return;
-      }
-      $('#state').textContent = '';
-      renderRecord(r.data);
-      renderPrivacy(r.data);
-      wire();
-      loadShares();
-      loadDocuments();
-    }).catch(function () {
-      state('Your record could not be loaded.', 'Please try again shortly.');
+      state('Your record could not be loaded.', window.WEC_LC_data.humanError(err, 'Please try again shortly.'));
     });
   }
 
   document.addEventListener('DOMContentLoaded', function () {
-    var cfg = window.WEC_LC_AUTH || {};
-    // With a key configured, attach the session token so the API
-    // recognises the learner. Without one, the call still runs and
-    // returns 401, and the page says so — which is the honest state of a
-    // deployment with no auth provider rather than a blank screen.
-    if (cfg.clerkPublishableKey && typeof window.WEC_LC_loadClerk === 'function') {
-      window.WEC_LC_loadClerk(cfg.clerkPublishableKey, function (err, clerk) {
-        if (!err && clerk && clerk.session) {
-          clerk.session.getToken().then(function (tok) {
-            if (tok) authHeaders.Authorization = 'Bearer ' + tok;
-            load();
-          }).catch(load);
-          return;
-        }
+    var guarded = window.WEC_LC_guardPortal({
+      signOutRedirect: '/',
+      shellSelector: '.rec-shell',
+      onAuthenticated: function (clerk, done) {
+        window.WEC_LC_apiAuth.attach(clerk);
+        done();
         load();
-      });
-      return;
-    }
-    load();
+      },
+    });
+    // No Clerk key configured: nothing gates the page, and load() runs
+    // directly — the API call still goes out, still returns 401, and
+    // the page says so, which is the honest state of a deployment with
+    // no auth provider rather than a blank screen.
+    if (!guarded) load();
   });
 })();

@@ -110,7 +110,7 @@ check(`Every endpoint the seam serves has a route behind it — ${new Set(endpoi
 //
 // Add each here as it lands, so the list is a record of what is actually
 // guaranteed rather than an aspiration.
-const MIGRATED = ['my-programme.js', 'instructor-review.js'];
+const MIGRATED = ['my-programme.js', 'instructor-review.js', 'my-record.js'];
 
 const offenders = [];
 for (const f of MIGRATED) {
