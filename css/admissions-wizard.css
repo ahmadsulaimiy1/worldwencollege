@@ -1,10 +1,48 @@
 /* WEC — the admissions application wizard.
    Loaded only on admissions/apply/ (and its Arabic mirror). Reuses
-   css/brand.css's .form-grid/.field components and css/dashboard.css's
-   .stepper — this file adds only what neither already has: the
-   step-visibility mechanics, the review screen, and the declaration
-   well (adapted from css/pages.css's .declaration, which this
-   standalone app-shell page does not load). */
+   css/brand.css's .form-grid/.field/.field--float/.dropzone components
+   and css/dashboard.css's .form-stepper/.success-moment — this file
+   adds only what neither already has: a purpose-built application
+   shell (own masthead, no borrowed dependency on css/listening-lab.css
+   any more), the step-visibility mechanics, the optional-substep
+   disclosure, the review screen, and the declaration well (adapted
+   from css/pages.css's .declaration, which this standalone app-shell
+   page does not load). */
+
+/* --- Shell (formerly borrowed .lab/.lab-head/.lab-body from
+   css/listening-lab.css — that file's shell carried unused
+   Listening-Lab-specific tokens and a 2-column grid this page always
+   had to override inline. This is the same visual masthead, stripped
+   to what the wizard actually uses, with no other stylesheet
+   dependency.) --- */
+.apply-shell { background: var(--ivory); min-height: 100vh; }
+.apply-head {
+  background: linear-gradient(160deg, var(--royal) 0%, var(--royal-deep) 100%);
+  color: var(--ivory); padding: 2.4rem 0 2.9rem; position: relative; overflow: hidden;
+}
+.apply-head::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--gold-gradient); opacity: .85; }
+.apply-head__wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 1.4rem; }
+.apply-eyebrow {
+  font: 600 .74rem/1 var(--font-body); letter-spacing: .17em; text-transform: uppercase;
+  color: var(--gold-bright); margin: 0 0 .7rem; display: flex; align-items: center; gap: .6rem; flex-wrap: wrap;
+}
+.apply-eyebrow span[data-sep] { opacity: .5; }
+.apply-body { max-width: var(--wrap); margin: 0 auto; padding: 1.9rem 1.4rem 5rem; }
+
+/* Cross-app continuity mark — deliberately the same rule as
+   css/listening-lab.css's .app-crest ("one mark, one behaviour,
+   wherever a person is standing"), copied rather than linked so this
+   page has no dependency on that file at all. */
+.app-crest {
+  display: inline-flex; align-items: center; gap: .7rem; min-height: 44px;
+  color: inherit; text-decoration: none; font: 700 .9rem/1.15 var(--font-body, Inter, sans-serif);
+  letter-spacing: .01em; margin-bottom: 1.1rem; opacity: .92;
+  transition: opacity var(--dur-fast, .18s) var(--ease-premium, ease);
+}
+.app-crest:hover { opacity: 1; }
+.app-crest:focus-visible { outline: 2px solid var(--gold, #C7A24A); outline-offset: 4px; border-radius: 4px; }
+.app-crest small { display: block; font-weight: 400; opacity: .7; font-size: .74rem; letter-spacing: .1em; text-transform: uppercase; }
+@media (max-width: 560px) { .app-crest { margin-bottom: .8rem; } }
 
 .wizard-card {
   background: var(--surface, #fff); border: 1px solid var(--line);
@@ -16,6 +54,26 @@
   font-size: .74rem; letter-spacing: .1em; text-transform: uppercase;
   font-weight: 700; color: var(--ink-soft); margin: 0 0 18px;
 }
+
+/* --- Optional sub-step disclosure (identity-document, emergency
+   contact, education background — folded under their stage rather
+   than presented as equal-weight top-level steps) --- */
+.wizard-optional {
+  margin: 8px 0 28px; border: 1px dashed var(--line); border-radius: 10px; padding: 4px 18px;
+}
+.wizard-optional > summary {
+  cursor: pointer; padding: 12px 0; font-weight: 700; font-size: .92rem; color: var(--ink);
+  list-style: none; display: flex; align-items: center; gap: 8px;
+}
+.wizard-optional > summary::-webkit-details-marker { display: none; }
+.wizard-optional > summary::before {
+  content: '+'; display: inline-flex; align-items: center; justify-content: center;
+  width: 18px; height: 18px; color: var(--gold-antique); font-weight: 700;
+  transition: transform var(--dur-fast) var(--ease-premium);
+}
+.wizard-optional[open] > summary::before { transform: rotate(45deg); }
+.wizard-optional > summary .field__optional { margin-left: 2px; }
+.wizard-optional [data-step] { padding-top: 4px; }
 
 [data-step] legend { padding: 0; margin: 0 0 4px; }
 [data-step] h2 { font-size: 1.3rem; margin: 0 0 6px; }
@@ -88,17 +146,8 @@
 }
 .declaration__note { display: block; margin-top: 4px; font-size: .82rem; color: var(--ink-soft); }
 
-/* --- Status view (shown instead of the wizard once a real
-   application exists) --------------------------------------------- */
-.application-status {
-  max-width: 640px; margin: 0 auto; text-align: center;
-}
-.application-status .status-pill { display: inline-flex; margin-bottom: 16px; }
-.application-status__id {
-  font-family: var(--font-mono, monospace); font-size: .95rem;
-  background: var(--paper); border: 1px solid var(--line); border-radius: 8px;
-  padding: 10px 16px; display: inline-block; margin: 12px 0 24px;
-}
+/* Status view is now css/dashboard.css's .success-moment — no
+   page-specific styling needed here any more. */
 
 [data-wizard-unavailable], [data-wizard-load-error] {
   max-width: 640px; margin: 40px auto; text-align: center;

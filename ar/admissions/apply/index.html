@@ -12,20 +12,20 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/brand.css">
-<link rel="stylesheet" href="/css/listening-lab.css">
 <link rel="stylesheet" href="/css/dashboard.css">
+<link rel="stylesheet" href="/css/atelier.css">
 <link rel="stylesheet" href="/css/admissions-wizard.css">
 <link rel="stylesheet" href="/css/arabic.css">
 </head>
-<body class="lab">
+<body class="apply-shell">
 
-<header class="lab-head">
-  <div class="lab-head__wrap">
+<header class="apply-head">
+  <div class="apply-head__wrap">
     <a class="app-crest" href="/ar/">
       <img src="/assets/images/favicon.svg" alt="" width="34" height="34" aria-hidden="true">
       <span>الكلية العالمية للغة الإنجليزية<small>الحرم الجامعي بلندن</small></span>
     </a>
-    <p class="lab-eyebrow">
+    <p class="apply-eyebrow">
       <span>القبول والتسجيل</span>
       <span data-sep>—</span>
       <span>طلبك</span>
@@ -34,7 +34,7 @@
   </div>
 </header>
 
-<main class="lab-body" id="main" style="grid-template-columns:minmax(0,1fr)">
+<main class="apply-body" id="main">
 
   <div data-wizard-unavailable hidden>
     <h2>تسجيل الدخول غير مُفعَّل بعد</h2>
@@ -52,44 +52,45 @@
   <div data-wizard-shell hidden>
     <span class="eyebrow" style="margin-bottom:8px">القبول والتسجيل</span>
     <h1>طلبك.</h1>
-    <p class="lede" style="margin-bottom:28px">تسع خطوات قصيرة، تُحفَظ أولًا بأول. أغلق الصفحة في أي وقت واستأنف تمامًا من حيث توقفت &mdash; لا شيء يضيع بين الزيارات. خطوة واحدة، وثيقة الهوية، اختيارية بالكامل: تخطَّها الآن وأضفها لاحقًا، أو ارفعها اليوم إن كنت تفضّل تقديم طلب كامل من البداية.</p>
+    <p class="lede" style="margin-bottom:28px">خمس مراحل، تُحفَظ أولًا بأول. أغلق الصفحة في أي وقت واستأنف تمامًا من حيث توقفت &mdash; لا شيء يضيع بين الزيارات. بضعة أسئلة اختيارية بالكامل: افتحها فقط إن رغبت بالإجابة عنها الآن.</p>
 
-    <p class="wizard-progress-label" data-wizard-progress-label>الخطوة ١ من ٩</p>
+    <p class="wizard-progress-label" data-wizard-progress-label>المرحلة ١ من ٥</p>
 
-    <div class="stepper" data-stepper style="margin-bottom:32px">
-      <div class="stepper__node" data-stepper-node><div class="stepper__dot">١</div><div class="stepper__label">من أنت</div></div>
-      <div class="stepper__line"></div>
-      <div class="stepper__node" data-stepper-node><div class="stepper__dot">٢</div><div class="stepper__label">وثيقة الهوية<br>(اختياري)</div></div>
-      <div class="stepper__line"></div>
-      <div class="stepper__node" data-stepper-node><div class="stepper__dot">٣</div><div class="stepper__label">التواصل</div></div>
-      <div class="stepper__line"></div>
-      <div class="stepper__node" data-stepper-node><div class="stepper__dot">٤</div><div class="stepper__label">جهة اتصال<br>الطوارئ</div></div>
-      <div class="stepper__line"></div>
-      <div class="stepper__node" data-stepper-node><div class="stepper__dot">٥</div><div class="stepper__label">البرنامج</div></div>
-      <div class="stepper__line"></div>
-      <div class="stepper__node" data-stepper-node><div class="stepper__dot">٦</div><div class="stepper__label">التعليم</div></div>
-      <div class="stepper__line"></div>
-      <div class="stepper__node" data-stepper-node><div class="stepper__dot">٧</div><div class="stepper__label">الرسوم</div></div>
-      <div class="stepper__line"></div>
-      <div class="stepper__node" data-stepper-node><div class="stepper__dot">٨</div><div class="stepper__label">الإقرار</div></div>
-      <div class="stepper__line"></div>
-      <div class="stepper__node" data-stepper-node><div class="stepper__dot">٩</div><div class="stepper__label">المراجعة</div></div>
+    <div class="form-stepper" data-form-stepper style="margin-bottom:32px">
+      <div class="form-stepper__node" data-stepper-node="0">
+        <button type="button" class="form-stepper__control" data-stepper-jump="0"><span class="form-stepper__dot">١</span><span class="form-stepper__label">من أنت</span></button>
+      </div>
+      <div class="form-stepper__line"></div>
+      <div class="form-stepper__node" data-stepper-node="1">
+        <button type="button" class="form-stepper__control" data-stepper-jump="1"><span class="form-stepper__dot">٢</span><span class="form-stepper__label">التواصل والسلامة</span></button>
+      </div>
+      <div class="form-stepper__line"></div>
+      <div class="form-stepper__node" data-stepper-node="2">
+        <button type="button" class="form-stepper__control" data-stepper-jump="2"><span class="form-stepper__dot">٣</span><span class="form-stepper__label">برنامجك</span></button>
+      </div>
+      <div class="form-stepper__line"></div>
+      <div class="form-stepper__node" data-stepper-node="3">
+        <button type="button" class="form-stepper__control" data-stepper-jump="3"><span class="form-stepper__dot">٤</span><span class="form-stepper__label">الرسوم</span></button>
+      </div>
+      <div class="form-stepper__line"></div>
+      <div class="form-stepper__node" data-stepper-node="4">
+        <button type="button" class="form-stepper__control" data-stepper-jump="4"><span class="form-stepper__dot">٥</span><span class="form-stepper__label">الإقرار والمراجعة</span></button>
+      </div>
     </div>
 
     <div class="wizard-card">
       <form data-wizard-form>
 
-        <fieldset data-step="identity">
+        <fieldset data-step="identity" data-stage-index="0">
           <legend><h2>من أنت</h2></legend>
           <p class="step-intro">الاسم في سجلك، والحقيقتان اللتان تحددان خيارات إقامتك التطبيقية لاحقًا.</p>
           <div class="form-grid">
-            <div class="field field--full">
+            <div class="field field--full field--float">
+              <input id="w-fullName" name="fullName" type="text" placeholder=" " autocomplete="name" required>
               <label for="w-fullName">الاسم الكامل <span data-review-label="الاسم الكامل"></span></label>
-              <input id="w-fullName" name="fullName" type="text" autocomplete="name" required>
               <span class="field__error" data-error-for="fullName"></span>
             </div>
-            <div class="field">
-              <label for="w-country">بلد الإقامة</label>
+            <div class="field field--float">
               <select id="w-country" name="country">
                 <option value="">اختر بلدك</option>
                 <option value="AE">الإمارات العربية المتحدة</option><option value="SA">المملكة العربية السعودية</option>
@@ -102,11 +103,11 @@
                 <option value="GB">المملكة المتحدة</option><option value="US">الولايات المتحدة</option>
                 <option value="FR">فرنسا</option><option value="DE">ألمانيا</option><option value="OTHER">أخرى</option>
               </select>
+              <label for="w-country">بلد الإقامة</label>
               <span data-review-label="بلد الإقامة"></span>
               <span class="field__error" data-error-for="country"></span>
             </div>
-            <div class="field">
-              <label for="w-nationality">الجنسية &mdash; جواز السفر الذي تحمله</label>
+            <div class="field field--float">
               <select id="w-nationality" name="nationality">
                 <option value="">اختر جنسيتك</option>
                 <option value="AE">الإمارات العربية المتحدة</option><option value="SA">المملكة العربية السعودية</option>
@@ -119,105 +120,116 @@
                 <option value="GB">المملكة المتحدة</option><option value="US">الولايات المتحدة</option>
                 <option value="FR">فرنسا</option><option value="DE">ألمانيا</option><option value="OTHER">أخرى</option>
               </select>
+              <label for="w-nationality">الجنسية &mdash; جواز السفر الذي تحمله</label>
               <span data-review-label="الجنسية"></span>
               <span class="field__error" data-error-for="nationality"></span>
             </div>
           </div>
         </fieldset>
 
-        <fieldset data-step="identity-document" hidden>
-          <legend><h2>وثيقة الهوية <span class="field__optional">اختياري</span></h2></legend>
-          <p class="step-intro">تخطَّ هذه الخطوة وأضفها لاحقًا، أو ارفع الوثيقة الآن إن كنت تفضّل تقديم طلب كامل من البداية. تُحفَظ الوثيقة ولا تُتحقَّق منها &mdash; لا شيء هنا يقابلها بسجل رسمي؛ يحدث ذلك لاحقًا في إجراءات الإقامة.</p>
-          <div class="form-grid">
-            <div class="field field--full">
-              <label for="w-passportNumber">رقم جواز السفر أو الهوية <span class="field__optional">اختياري</span></label>
-              <input id="w-passportNumber" name="passportNumber" type="text" autocomplete="off" dir="ltr">
-              <span data-review-label="رقم الوثيقة"></span>
-              <span class="field__error" data-error-for="passportNumber"></span>
+        <details class="wizard-optional">
+          <summary>أضف وثيقة هوية <span class="field__optional">اختياري</span></summary>
+          <fieldset data-step="identity-document" data-stage-index="0">
+            <legend><h2>وثيقة الهوية <span class="field__optional">اختياري</span></h2></legend>
+            <p class="step-intro">تخطَّ هذه الخطوة وأضفها لاحقًا، أو ارفع الوثيقة الآن إن كنت تفضّل تقديم طلب كامل من البداية. تُحفَظ الوثيقة ولا تُتحقَّق منها &mdash; لا شيء هنا يقابلها بسجل رسمي؛ يحدث ذلك لاحقًا في إجراءات الإقامة.</p>
+            <div class="form-grid">
+              <div class="field field--full field--float">
+                <input id="w-passportNumber" name="passportNumber" type="text" placeholder=" " autocomplete="off" dir="ltr">
+                <label for="w-passportNumber">رقم جواز السفر أو الهوية <span class="field__optional">اختياري</span></label>
+                <span data-review-label="رقم الوثيقة"></span>
+                <span class="field__error" data-error-for="passportNumber"></span>
+              </div>
+              <div class="field field--float">
+                <select id="w-docType" data-kyc-doc-type>
+                  <option value="passport">جواز سفر</option>
+                  <option value="national_id">هوية وطنية</option>
+                  <option value="other">أخرى</option>
+                </select>
+                <label for="w-docType">نوع الوثيقة</label>
+              </div>
+              <div class="field field--full">
+                <label>ارفع نسخة ممسوحة أو صورة</label>
+                <div class="dropzone" data-kyc-dropzone>
+                  <input id="w-docFile" type="file" accept="application/pdf,image/jpeg,image/png" data-kyc-file-input>
+                  <div class="dropzone__icon"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 8l5-5 5 5M5 21h14"/></svg></div>
+                  <p class="dropzone__label">اسحب ملفًا هنا، أو انقر للاختيار</p>
+                  <p class="dropzone__hint">PDF أو JPEG أو PNG، حتى 10 ميغابايت</p>
+                  <p class="dropzone__filename" data-dropzone-filename hidden></p>
+                </div>
+              </div>
+              <div class="field field--full">
+                <button type="button" class="btn btn--outline" data-kyc-upload-btn>ارفع الوثيقة</button>
+                <p class="field__error" data-kyc-upload-error role="alert"></p>
+                <ul class="kyc-doc-list" data-kyc-doc-list></ul>
+              </div>
             </div>
-            <div class="field">
-              <label for="w-docType">نوع الوثيقة</label>
-              <select id="w-docType" data-kyc-doc-type>
-                <option value="passport">جواز سفر</option>
-                <option value="national_id">هوية وطنية</option>
-                <option value="other">أخرى</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="w-docFile">ارفع نسخة ممسوحة أو صورة</label>
-              <input id="w-docFile" type="file" accept="application/pdf,image/jpeg,image/png" data-kyc-file-input>
-              <span class="field__optional">PDF أو JPEG أو PNG، حتى 10 ميغابايت</span>
-            </div>
-            <div class="field field--full">
-              <button type="button" class="btn btn--outline" data-kyc-upload-btn>ارفع الوثيقة</button>
-              <p class="field__error" data-kyc-upload-error role="alert"></p>
-              <ul class="kyc-doc-list" data-kyc-doc-list></ul>
-            </div>
-          </div>
-        </fieldset>
+          </fieldset>
+        </details>
 
-        <fieldset data-step="contact" hidden>
+        <fieldset data-step="contact" data-stage-index="1">
           <legend><h2>بيانات التواصل</h2></legend>
           <p class="step-intro">كيف يصل إليك القبول، وأين أنت اليوم.</p>
           <div class="form-grid">
-            <div class="field field--full">
+            <div class="field field--full field--float">
+              <input id="w-email" name="email" type="email" placeholder=" " autocomplete="email" required dir="ltr">
               <label for="w-email">البريد الإلكتروني</label>
-              <input id="w-email" name="email" type="email" autocomplete="email" required dir="ltr">
               <span data-review-label="البريد الإلكتروني"></span>
               <span class="field__error" data-error-for="email"></span>
             </div>
-            <div class="field">
+            <div class="field field--float">
+              <input id="w-phone" name="phone" type="tel" placeholder=" " autocomplete="tel" dir="ltr">
               <label for="w-phone">الهاتف (مع رمز الدولة)</label>
-              <input id="w-phone" name="phone" type="tel" autocomplete="tel" placeholder="+971 50 000 0000" dir="ltr">
               <span data-review-label="الهاتف"></span>
               <span class="field__error" data-error-for="phone"></span>
             </div>
-            <div class="field">
+            <div class="field field--float">
+              <input id="w-city" name="city" type="text" placeholder=" " autocomplete="address-level2">
               <label for="w-city">المدينة</label>
-              <input id="w-city" name="city" type="text" autocomplete="address-level2">
               <span data-review-label="المدينة"></span>
               <span class="field__error" data-error-for="city"></span>
             </div>
-            <div class="field field--full">
+            <div class="field field--full field--float">
+              <input id="w-address" name="residentialAddress" type="text" placeholder=" " autocomplete="street-address">
               <label for="w-address">عنوان الإقامة <span class="field__optional">اختياري</span></label>
-              <input id="w-address" name="residentialAddress" type="text" autocomplete="street-address">
               <span data-review-label="عنوان الإقامة"></span>
               <span class="field__error" data-error-for="residentialAddress"></span>
             </div>
           </div>
         </fieldset>
 
-        <fieldset data-step="emergency" hidden>
-          <legend><h2>جهة اتصال الطوارئ</h2></legend>
-          <p class="step-intro">شخص يمكن للكلية التواصل معه إن احتاجت ذلك فعلًا. لا يُشارَك ولا يُستخدم لأي غرض آخر.</p>
-          <div class="form-grid">
-            <div class="field field--full">
-              <label for="w-ecName">الاسم <span class="field__optional">اختياري</span></label>
-              <input id="w-ecName" name="emergencyContactName" type="text">
-              <span data-review-label="جهة اتصال الطوارئ"></span>
-              <span class="field__error" data-error-for="emergencyContactName"></span>
+        <details class="wizard-optional">
+          <summary>أضف جهة اتصال للطوارئ <span class="field__optional">اختياري</span></summary>
+          <fieldset data-step="emergency" data-stage-index="1">
+            <legend><h2>جهة اتصال الطوارئ</h2></legend>
+            <p class="step-intro">شخص يمكن للكلية التواصل معه إن احتاجت ذلك فعلًا. لا يُشارَك ولا يُستخدم لأي غرض آخر.</p>
+            <div class="form-grid">
+              <div class="field field--full field--float">
+                <input id="w-ecName" name="emergencyContactName" type="text" placeholder=" ">
+                <label for="w-ecName">الاسم <span class="field__optional">اختياري</span></label>
+                <span data-review-label="جهة اتصال الطوارئ"></span>
+                <span class="field__error" data-error-for="emergencyContactName"></span>
+              </div>
+              <div class="field field--float">
+                <input id="w-ecRel" name="emergencyContactRelationship" type="text" placeholder=" ">
+                <label for="w-ecRel">صلة القرابة بك <span class="field__optional">اختياري</span></label>
+                <span data-review-label="صلة القرابة"></span>
+                <span class="field__error" data-error-for="emergencyContactRelationship"></span>
+              </div>
+              <div class="field field--float">
+                <input id="w-ecPhone" name="emergencyContactPhone" type="tel" placeholder=" " dir="ltr">
+                <label for="w-ecPhone">هاتفه <span class="field__optional">اختياري</span></label>
+                <span data-review-label="هاتف الطوارئ"></span>
+                <span class="field__error" data-error-for="emergencyContactPhone"></span>
+              </div>
             </div>
-            <div class="field">
-              <label for="w-ecRel">صلة القرابة بك <span class="field__optional">اختياري</span></label>
-              <input id="w-ecRel" name="emergencyContactRelationship" type="text" placeholder="مثال: أحد الوالدين، الزوج أو الزوجة، الأخ أو الأخت">
-              <span data-review-label="صلة القرابة"></span>
-              <span class="field__error" data-error-for="emergencyContactRelationship"></span>
-            </div>
-            <div class="field">
-              <label for="w-ecPhone">هاتفه <span class="field__optional">اختياري</span></label>
-              <input id="w-ecPhone" name="emergencyContactPhone" type="tel" dir="ltr">
-              <span data-review-label="هاتف الطوارئ"></span>
-              <span class="field__error" data-error-for="emergencyContactPhone"></span>
-            </div>
-          </div>
-        </fieldset>
+          </fieldset>
+        </details>
 
-        <fieldset data-step="programme" hidden>
+        <fieldset data-step="programme" data-stage-index="2">
           <legend><h2>برنامجك</h2></legend>
           <p class="step-intro">ما الغرض من الإنجليزية، وأين تتوقّع أن تبدأ.</p>
           <div class="form-grid">
-            <div class="field">
-              <label for="w-level">أين تتوقّع أن تبدأ؟</label>
+            <div class="field field--float">
               <select id="w-level" name="selfAssessedLevelId">
                 <option value="">لست متأكدًا &mdash; سأخضع لتقييم تحديد المستوى</option>
                 <option value="1">المستوى الأول &middot; التأسيس (A1)</option>
@@ -227,11 +239,12 @@
                 <option value="5">المستوى الخامس &middot; المتقدم (C1)</option>
                 <option value="6">المستوى السادس &middot; الإتقان (C2)</option>
               </select>
+              <label for="w-level">أين تتوقّع أن تبدأ؟</label>
               <span data-review-label="المستوى المتوقّع (تقدير ذاتي)"></span>
               <span class="field__error" data-error-for="selfAssessedLevelId"></span>
+              <span class="field__optional" data-level-prefill-note hidden>مُعبّأ مسبقًا من تقييمك الذاتي — غيّره إن لم يبدُ مناسبًا.</span>
             </div>
-            <div class="field">
-              <label for="w-purpose">ما الغرض من الإنجليزية؟</label>
+            <div class="field field--float">
               <select id="w-purpose" name="purpose">
                 <option value="">اختر السبب</option>
                 <option value="university">مقعد جامعي</option>
@@ -241,11 +254,11 @@
                 <option value="business">الأعمال والتجارة</option>
                 <option value="personal">الإتقان الشخصي</option>
               </select>
+              <label for="w-purpose">ما الغرض من الإنجليزية؟</label>
               <span data-review-label="الغرض"></span>
               <span class="field__error" data-error-for="purpose"></span>
             </div>
-            <div class="field">
-              <label for="w-start">متى تودّ البدء؟</label>
+            <div class="field field--float">
               <select id="w-start" name="startPreference">
                 <option value="">اختر التوقيت</option>
                 <option value="immediately">فورًا</option>
@@ -253,11 +266,11 @@
                 <option value="within_6_months">خلال ستة أشهر</option>
                 <option value="undecided">لم أقرّر بعد</option>
               </select>
+              <label for="w-start">متى تودّ البدء؟</label>
               <span data-review-label="توقيت البدء"></span>
               <span class="field__error" data-error-for="startPreference"></span>
             </div>
-            <div class="field field--full">
-              <label for="w-residency">الإقامة التطبيقية &mdash; أين تودّ إتمامها؟</label>
+            <div class="field field--full field--float">
               <select id="w-residency" name="residencyInterest">
                 <option value="">اختر تفضيلك</option>
                 <option value="own_city">في مدينتي، تحت إشراف الكلية</option>
@@ -266,45 +279,48 @@
                 <option value="uk_other">المملكة المتحدة &mdash; موقع آخر</option>
                 <option value="undecided">لم أقرّر بعد</option>
               </select>
+              <label for="w-residency">الإقامة التطبيقية &mdash; أين تودّ إتمامها؟</label>
               <span data-review-label="تفضيل الإقامة"></span>
               <span class="field__error" data-error-for="residencyInterest"></span>
             </div>
           </div>
         </fieldset>
 
-        <fieldset data-step="education" hidden>
-          <legend><h2>الخلفية التعليمية</h2></legend>
-          <p class="step-intro">خلفية لإدارة القبول ولإرشاد تحديد المستوى &mdash; لا شيء هنا يُتحقَّق منه في هذه المرحلة.</p>
-          <div class="form-grid">
-            <div class="field">
-              <label for="w-eduLevel">أعلى مستوى أتممته <span class="field__optional">اختياري</span></label>
-              <select id="w-eduLevel" name="educationLevel">
-                <option value="">اختر مستوى</option>
-                <option value="secondary">المرحلة الثانوية</option>
-                <option value="undergraduate">درجة جامعية أولى</option>
-                <option value="postgraduate">دراسات عليا</option>
-                <option value="doctorate">دكتوراه</option>
-                <option value="professional">مؤهل مهني</option>
-                <option value="other">أخرى</option>
-              </select>
-              <span data-review-label="المستوى التعليمي"></span>
-              <span class="field__error" data-error-for="educationLevel"></span>
+        <details class="wizard-optional">
+          <summary>أضف خلفيتك التعليمية <span class="field__optional">اختياري</span></summary>
+          <fieldset data-step="education" data-stage-index="2">
+            <legend><h2>الخلفية التعليمية</h2></legend>
+            <p class="step-intro">خلفية لإدارة القبول ولإرشاد تحديد المستوى &mdash; لا شيء هنا يُتحقَّق منه في هذه المرحلة.</p>
+            <div class="form-grid">
+              <div class="field field--float">
+                <select id="w-eduLevel" name="educationLevel">
+                  <option value="">اختر مستوى</option>
+                  <option value="secondary">المرحلة الثانوية</option>
+                  <option value="undergraduate">درجة جامعية أولى</option>
+                  <option value="postgraduate">دراسات عليا</option>
+                  <option value="doctorate">دكتوراه</option>
+                  <option value="professional">مؤهل مهني</option>
+                  <option value="other">أخرى</option>
+                </select>
+                <label for="w-eduLevel">أعلى مستوى أتممته <span class="field__optional">اختياري</span></label>
+                <span data-review-label="المستوى التعليمي"></span>
+                <span class="field__error" data-error-for="educationLevel"></span>
+              </div>
+              <div class="field field--float">
+                <input id="w-eduInst" name="educationInstitution" type="text" placeholder=" ">
+                <label for="w-eduInst">المؤسسة التعليمية <span class="field__optional">اختياري</span></label>
+                <span data-review-label="المؤسسة التعليمية"></span>
+                <span class="field__error" data-error-for="educationInstitution"></span>
+              </div>
             </div>
-            <div class="field">
-              <label for="w-eduInst">المؤسسة التعليمية <span class="field__optional">اختياري</span></label>
-              <input id="w-eduInst" name="educationInstitution" type="text">
-              <span data-review-label="المؤسسة التعليمية"></span>
-              <span class="field__error" data-error-for="educationInstitution"></span>
-            </div>
-          </div>
-        </fieldset>
+          </fieldset>
+        </details>
 
-        <fieldset data-step="funding" hidden>
+        <fieldset data-step="funding" data-stage-index="3">
           <legend><h2>الرسوم</h2></legend>
           <p class="step-intro">من يدفع، وكيف &mdash; يُسأل الآن حتى لا يخسر المتقدّم المموَّل من جهة عمله أسبوعًا في اكتشاف ذلك بعد العرض. <strong>لا يُستوفى أي مبلغ هنا</strong>، ولن تطلب الكلية أبدًا بيانات بطاقة أو حساب بنكي عبر البريد الإلكتروني.</p>
           <div class="form-grid">
-            <div class="field">
-              <label for="w-funding">من سيتكفّل بالرسوم؟</label>
+            <div class="field field--float">
               <select id="w-funding" name="funding">
                 <option value="">اختر الجهة الدافعة</option>
                 <option value="self">أنا شخصيًا</option>
@@ -314,11 +330,11 @@
                 <option value="scholarship">منحة أو وقف</option>
                 <option value="undecided">لم أقرّر بعد</option>
               </select>
+              <label for="w-funding">من سيتكفّل بالرسوم؟</label>
               <span data-review-label="جهة التمويل"></span>
               <span class="field__error" data-error-for="funding"></span>
             </div>
-            <div class="field">
-              <label for="w-plan">كيف تفضّل السداد؟</label>
+            <div class="field field--float">
               <select id="w-plan" name="paymentPlan">
                 <option value="">اختر تفضيلك</option>
                 <option value="level_by_level">مستوى واحد في كل مرة</option>
@@ -326,17 +342,17 @@
                 <option value="full_pathway">المسار كاملًا مقدّمًا</option>
                 <option value="undecided">لم أقرّر بعد</option>
               </select>
+              <label for="w-plan">كيف تفضّل السداد؟</label>
               <span data-review-label="خطة السداد"></span>
               <span class="field__error" data-error-for="paymentPlan"></span>
             </div>
-            <div class="field">
+            <div class="field field--float">
+              <input id="w-sponsorName" name="sponsorName" type="text" placeholder=" ">
               <label for="w-sponsorName">اسم الراعي <span class="field__optional">إن لم يكن التمويل ذاتيًا</span></label>
-              <input id="w-sponsorName" name="sponsorName" type="text">
               <span data-review-label="الراعي"></span>
               <span class="field__error" data-error-for="sponsorName"></span>
             </div>
-            <div class="field">
-              <label for="w-sponsorRel">صلة الراعي بك <span class="field__optional">اختياري</span></label>
+            <div class="field field--float">
               <select id="w-sponsorRel" name="sponsorRelationship">
                 <option value="">اختر خيارًا</option>
                 <option value="employer">جهة العمل</option>
@@ -346,6 +362,7 @@
                 <option value="government">جهة حكومية</option>
                 <option value="other">أخرى</option>
               </select>
+              <label for="w-sponsorRel">صلة الراعي بك <span class="field__optional">اختياري</span></label>
               <span data-review-label="صلة الراعي"></span>
               <span class="field__error" data-error-for="sponsorRelationship"></span>
             </div>
@@ -355,13 +372,13 @@
           </div>
         </fieldset>
 
-        <fieldset data-step="declaration" hidden>
+        <fieldset data-step="declaration" data-stage-index="4">
           <legend><h2>الإقرار</h2></legend>
           <p class="step-intro">آخر التفاصيل، والأمران اللذان تحتاج الكلية إلى تأكيدهما منك.</p>
           <div class="form-grid">
-            <div class="field field--full">
+            <div class="field field--full field--float">
+              <input id="w-heard" name="heardVia" type="text" placeholder=" ">
               <label for="w-heard">كيف سمعت عن الكلية؟ <span class="field__optional">اختياري</span></label>
-              <input id="w-heard" name="heardVia" type="text">
               <span data-review-label="كيف سمعت عنا"></span>
               <span class="field__error" data-error-for="heardVia"></span>
             </div>
@@ -386,9 +403,9 @@
           </div>
         </fieldset>
 
-        <fieldset data-step="review" hidden>
+        <fieldset data-step="review" data-stage-index="4">
           <legend><h2>راجع طلبك</h2></legend>
-          <p class="step-intro">كل ما يلي هو ما سيُرسَل. عد إلى أي خطوة لتغيير شيء فيها.</p>
+          <p class="step-intro">كل ما يلي هو ما سيُرسَل. عد إلى أي مرحلة لتغيير شيء فيها.</p>
           <dl class="review-summary" data-review-summary></dl>
         </fieldset>
 
@@ -404,17 +421,22 @@
     </div>
   </div>
 
-  <div class="application-status" data-application-status hidden>
+  <div class="success-moment" data-application-status hidden>
+    <div class="success-moment__mark" data-success-mark><svg aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg></div>
     <span class="status-pill status-pill--progress" data-status-state>submitted</span>
     <h2>طلبك وصل.</h2>
-    <p class="lede">الرقم المرجعي، إن احتجت إلى مراسلة إدارة القبول بشأنه:</p>
-    <div class="application-status__id" data-status-id dir="ltr">&mdash;</div>
-    <p data-status-only="submitted">أُرسِل تأكيد إلى بريدك الإلكتروني. تراجع إدارة القبول الطلبات بترتيب وصولها &mdash; لا يوجد موضع في طابور تتحقق منه، بل الرد فقط.</p>
-    <p data-status-only="placement_pending" hidden>يجري ترتيب تقييم تحديد مستواك. ستتواصل إدارة القبول عبر البريد الإلكتروني لتحديد موعده.</p>
-    <p data-status-only="offer_sent" hidden>أُرسِل عرض إلى بريدك الإلكتروني. رُدّ هناك لقبوله واستلام فاتورتك.</p>
-    <p data-status-only="accepted" hidden>عرضك مقبول. يكتمل التسجيل بعد استلام السداد &mdash; راجع بريدك للاطلاع على الفاتورة.</p>
-    <p data-status-only="enrolled" hidden>أنت مسجَّل. <a href="/my-programme.html">اذهب إلى برنامجي ←</a></p>
-    <p class="form-note" style="margin-top:24px"><a href="mailto:info@worldwencollege.co.uk?subject=Application%20Query">راسل إدارة القبول</a> بأي سؤال، مع ذكر الرقم المرجعي أعلاه.</p>
+    <div class="success-moment__id" data-status-id dir="ltr">&mdash;</div>
+    <div class="success-moment__next">
+      <h3>ماذا يحدث بعد ذلك</h3>
+      <ol>
+        <li data-status-only="submitted">أُرسِل تأكيد إلى بريدك الإلكتروني. تراجع إدارة القبول الطلبات بترتيب وصولها &mdash; لا يوجد موضع في طابور تتحقق منه، بل الرد فقط.</li>
+        <li data-status-only="placement_pending" hidden>يجري ترتيب تقييم تحديد مستواك. ستتواصل إدارة القبول عبر البريد الإلكتروني لتحديد موعده.</li>
+        <li data-status-only="offer_sent" hidden>أُرسِل عرض إلى بريدك الإلكتروني. رُدّ هناك لقبوله واستلام فاتورتك.</li>
+        <li data-status-only="accepted" hidden>عرضك مقبول. يكتمل التسجيل بعد استلام السداد &mdash; راجع بريدك للاطلاع على الفاتورة.</li>
+        <li data-status-only="enrolled" hidden><a href="/my-programme.html">اذهب إلى برنامجي ←</a></li>
+      </ol>
+    </div>
+    <p class="form-note" style="margin-top:20px"><a href="mailto:info@worldwencollege.co.uk?subject=Application%20Query">راسل إدارة القبول</a> بأي سؤال، مع ذكر الرقم المرجعي أعلاه.</p>
   </div>
 
 </main>

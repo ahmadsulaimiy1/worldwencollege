@@ -143,6 +143,11 @@ const PAGES = {};
 PAGES.pillar = {
   slug: 'admissions', output: 'admissions/index.html', file: 'admissions.html',
   contents: true,
+  // css/dashboard.css's .status-pill and .form-stepper-adjacent tokens
+  // (--status-good/-progress/-critical) back the status-lookup card
+  // below — the only reason this marketing page needs the dashboard
+  // component layer at all.
+  extraCss: ['/css/dashboard.css'],
   title: 'Admissions &mdash; Worldwide English College',
   // Under 160 characters — see the note in scripts/build-teaching.js.
   description: 'The whole admissions decision in one place: whether you qualify, how to apply, '
@@ -221,7 +226,7 @@ PAGES.pillar = {
     </div>
     <ol class="dot-list">
       <li><span class="num">01</span><span><strong>Enquire &amp; choose your entry point</strong> — tell us your current English level and goals.</span><span class="leader"></span></li>
-      <li><span class="num">02</span><span><strong>Submit your application</strong> — the form below. Nothing else is asked for at this stage: no documents, no fee.</span><span class="leader"></span></li>
+      <li><span class="num">02</span><span><strong>Start your application</strong> — sign in and work through it step by step, saved as you go. No document and no fee are required to begin.</span><span class="leader"></span></li>
       <li><span class="num">03</span><span><strong>Placement assessment</strong> — a short assessment confirms your correct starting level, Foundation through Advanced.</span><span class="leader"></span></li>
       <li><span class="num">04</span><span><strong>Offer &amp; enrolment</strong> — receive your offer, confirm your payment plan, and secure your place.</span><span class="leader"></span></li>
       <li><span class="num">05</span><span><strong>Orientation &amp; your first module</strong> — onboarding to the digital campus, then Level I opens and the first module is yours to begin.</span><span class="leader"></span></li>
@@ -233,80 +238,16 @@ PAGES.pillar = {
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">Start Your Application</span>
-      <h2>Step 2: submit your application.</h2>
-      <p class="lede">This connects directly to Admissions. If our online application system is briefly unreachable, your details open in your email app instead — either way, nothing you've entered is lost.</p>
+      <h2>Step 2: your application, step by step.</h2>
+      <p class="lede">Sign in, work through nine short questions at your own pace — saved as you go — and review before you submit. If you took the self-assessment above, your suggested level carries forward automatically.</p>
     </div>
-
-    <form class="form-grid" data-admissions-form
-      data-endpoint="/api/admissions/apply"
-      data-fallback-email="info@worldwencollege.co.uk"
-      data-storage-key="wec-lc-admissions-draft"
-      data-loading-text="Submitting…"
-      data-error-text="Please fix the highlighted fields below."
-      data-success-text="Application received — we'll be in touch soon."
-      data-fallback-text="We couldn't reach our online application system, so we've opened your email app with your details ready to send — please hit send to complete your application."
-      data-retry-label="Try the Online Form Again"
-      data-level-summary-template="Suggested starting level: {text}"
-      novalidate>
-
-      <div class="field field--full"><div class="form-status" data-form-status role="status" aria-live="polite"></div></div>
-
-      <div class="field field--full" data-level-summary hidden style="background:rgba(199,162,74,.08);border:1px solid var(--line-dark);border-radius:6px;padding:12px 16px;">
-        <span style="font-size:.82rem;color:var(--gold-bright)" data-level-summary-text></span>
-        <a href="#self-assessment" style="font-size:.78rem;text-decoration:underline;margin-left:.8em;color:rgba(247,244,236,.7)">Retake the assessment</a>
-      </div>
-
-      <div class="field">
-        <label for="app-name">Full Name</label>
-        <input id="app-name" name="fullName" type="text" required aria-describedby="app-name-error">
-        <span class="field__error" id="app-name-error" role="alert">Please enter your full name.</span>
-      </div>
-      <div class="field">
-        <label for="app-email">Email Address</label>
-        <input id="app-email" name="email" type="email" required aria-describedby="app-email-error">
-        <span class="field__error" id="app-email-error" role="alert">Please enter a valid email address.</span>
-      </div>
-      <div class="field field--full">
-        <label for="app-country">Country of Residence</label>
-        <select id="app-country" name="country" required aria-describedby="app-country-error">
-          <option value="">Select your country</option>
-          <option value="AF">Afghanistan</option><option value="DZ">Algeria</option><option value="AR">Argentina</option>
-          <option value="AU">Australia</option><option value="AT">Austria</option><option value="BH">Bahrain</option>
-          <option value="BD">Bangladesh</option><option value="BE">Belgium</option><option value="BR">Brazil</option>
-          <option value="CM">Cameroon</option><option value="CA">Canada</option><option value="TD">Chad</option>
-          <option value="CL">Chile</option><option value="CN">China</option><option value="CO">Colombia</option>
-          <option value="CD">Congo (DRC)</option><option value="EG">Egypt</option><option value="ET">Ethiopia</option>
-          <option value="FR">France</option><option value="GM">Gambia</option><option value="DE">Germany</option>
-          <option value="GH">Ghana</option><option value="GR">Greece</option><option value="GN">Guinea</option>
-          <option value="IN">India</option><option value="ID">Indonesia</option><option value="IQ">Iraq</option>
-          <option value="IE">Ireland</option><option value="IT">Italy</option><option value="CI">Ivory Coast</option>
-          <option value="JP">Japan</option><option value="JO">Jordan</option><option value="KE">Kenya</option>
-          <option value="KW">Kuwait</option><option value="LB">Lebanon</option><option value="LR">Liberia</option>
-          <option value="LY">Libya</option><option value="MY">Malaysia</option><option value="ML">Mali</option>
-          <option value="MX">Mexico</option><option value="MA">Morocco</option><option value="NL">Netherlands</option>
-          <option value="NZ">New Zealand</option><option value="NE">Niger</option><option value="NG">Nigeria</option>
-          <option value="OM">Oman</option><option value="PK">Pakistan</option><option value="PH">Philippines</option>
-          <option value="PL">Poland</option><option value="PT">Portugal</option><option value="QA">Qatar</option>
-          <option value="RU">Russia</option><option value="RW">Rwanda</option><option value="SA">Saudi Arabia</option>
-          <option value="SN">Senegal</option><option value="SL">Sierra Leone</option><option value="SG">Singapore</option>
-          <option value="SO">Somalia</option><option value="ZA">South Africa</option><option value="KR">South Korea</option>
-          <option value="ES">Spain</option><option value="LK">Sri Lanka</option><option value="SD">Sudan</option>
-          <option value="SE">Sweden</option><option value="CH">Switzerland</option><option value="SY">Syria</option>
-          <option value="TZ">Tanzania</option><option value="TH">Thailand</option><option value="TG">Togo</option>
-          <option value="TN">Tunisia</option><option value="TR">Turkey</option><option value="UG">Uganda</option>
-          <option value="UA">Ukraine</option><option value="AE">United Arab Emirates</option>
-          <option value="GB">United Kingdom</option><option value="US">United States</option>
-          <option value="VN">Vietnam</option><option value="YE">Yemen</option><option value="ZM">Zambia</option>
-          <option value="ZW">Zimbabwe</option><option value="OTHER">Other</option>
-        </select>
-        <span class="field__error" id="app-country-error" role="alert">Please select your country.</span>
-      </div>
-
-      <div class="field field--full">
-        <button type="submit" class="btn btn--gold" data-submit-btn><span data-btn-label>Submit Application</span></button>
-        <p class="form-note">Prefer email? <a href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application%20Enquiry" style="color:var(--gold-bright);text-decoration:underline">Write to Admissions directly</a>.</p>
-      </div>
-    </form>
+    <div class="card card--dark" style="max-width:520px;margin:0 auto;text-align:center;">
+      <span class="card__num">Step 2</span>
+      <h3>Ready when you are.</h3>
+      <p>No document, no fee, and nothing is lost if you close the tab — sign in and pick up exactly where you left off.</p>
+      <a href="/admissions/apply/" class="btn btn--gold magnetic aurum aurum--twin">Start Your Application<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <p class="form-note">Prefer email? <a href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application%20Enquiry" style="color:var(--gold-bright);text-decoration:underline">Write to Admissions directly</a>.</p>
+    </div>
   </div>
 </section>
 
@@ -327,7 +268,7 @@ PAGES.pillar = {
               <td>A one-question self-assessment on the Admissions page suggests a starting level. It is not the placement decision and it binds nobody, including you.</td>
               <td>You, in about thirty seconds</td><td>&mdash;</td></tr>
           <tr><td><strong>2 &middot; Submit the form</strong></td>
-              <td>Name, email address and country of residence, plus the self-assessed level if you took the estimate. Nothing else is asked for at this point &mdash; no documents, no fee.</td>
+              <td>A short, saved-as-you-go application &mdash; your name and email are the only two answers actually required to create the record; everything else helps Admissions place and contact you, and every optional question is labelled optional in the form itself.</td>
               <td>You. The record is created immediately and you are emailed a confirmation.</td><td><code>submitted</code></td></tr>
           <tr><td><strong>3 &middot; Placement</strong></td>
               <td>A conversation and a short assessment to confirm which of the six levels you should enter. There is no automated placement test on this site; a member of the founding team arranges this with you by email.</td>
@@ -373,8 +314,28 @@ ${card('Your pace', 'Offer to enrolment', 'An offer does not expire on a timetab
 ${darkCard('Your reference', 'Keep the application id', 'The confirmation email carries an identifier beginning <code>app_</code>. It is the only key to your record, and it is deliberately the only key &mdash; the College will not disclose an application state to anyone who does not hold it, including someone who knows your email address.')}
 ${darkCard('No account needed', 'Status without signing in', 'You do not have an account at application stage &mdash; one is created at enrolment. So status is looked up by reference, not by login, and returns the state and the date it was created. Nothing else.')}
     </div>
+    <div class="card card--dark" style="max-width:480px;margin:28px auto 0;">
+      <span class="card__num">Look it up</span>
+      <h3>Check your status now.</h3>
+      <form class="form-grid" data-status-lookup-form data-endpoint="/api/admissions/status" novalidate>
+        <div class="field field--full field--float">
+          <input id="status-id" name="id" type="text" placeholder=" " pattern="app_.*" required aria-describedby="status-id-error">
+          <label for="status-id">Application id (starts app_&hellip;)</label>
+          <span class="field__error" id="status-id-error" role="alert">Enter your application id, starting <code>app_</code>.</span>
+        </div>
+        <div class="field field--full">
+          <button type="submit" class="btn btn--gold" data-status-lookup-btn><span data-btn-label>Check Status</span></button>
+        </div>
+        <div class="field field--full" data-status-lookup-result hidden>
+          <span class="status-pill" data-status-pill></span>
+          <p data-status-lookup-created></p>
+        </div>
+        <div class="field field--full form-status" data-status-lookup-error role="alert"></div>
+      </form>
+    </div>
   </div>
 </section>
+<script defer src="/js/admissions-status-lookup.js"></script>
 
 <section class="section--light section-pad">
   <div class="container reveal">
@@ -678,7 +639,7 @@ PAGES.faq = {
 
       <div class="accordion__item">
         <button class="accordion__q"><span>How do I apply?</span><span class="plus" aria-hidden="true">+</span></button>
-        <div class="accordion__a"><div class="accordion__a-inner">Complete the online application on the <a href="/admissions/#apply">Admissions</a> page with your name, email and country of residence — a short self-assessment first suggests your likely starting level. See Admissions for the full five-step journey.</div></div>
+        <div class="accordion__a"><div class="accordion__a-inner">Sign in on the <a href="/admissions/#apply">Admissions</a> page and work through a short, saved-as-you-go application — a self-assessment first suggests your likely starting level. See Admissions for the full journey.</div></div>
       </div>
 
     </div>
@@ -816,7 +777,7 @@ ${qa('Then what am I paying for?', 'A complete, inspectable programme: six level
     {
       "@type": "Question",
       "name": "How do I apply?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Complete the online application on the Admissions page with your name, email, and country of residence — a short self-assessment helps suggest your likely starting level before you apply." }
+      "acceptedAnswer": { "@type": "Answer", "text": "Sign in on the Admissions page and work through a short, saved-as-you-go application — a self-assessment helps suggest your likely starting level before you apply." }
     }
   ]
 }
@@ -1081,7 +1042,7 @@ PAGES.policy = {
 ${card('One', 'Admission is on placement, not on merit', 'The IEFC is not selective. The question at admission is which of the six levels you belong in, not whether you are good enough to be admitted. There is no ranking, no quota and no competitive round.')}
 ${card('Two', 'The same fee for everyone', `${PER_LEVEL} per level and ${FULL_PRICE} for the programme, regardless of nationality, residence or how the application arrived. There is no international rate and no negotiated rate.`)}
 ${card('Three', 'A decision is recorded with a reason', 'Applications that are declined or withdrawn stay on the record with their state, so that a decision can be looked up by whoever made it. Nothing is deleted to tidy the numbers.')}
-${card('Four', 'Nothing is required that is not used', 'The application asks for a name, an email address and a country. It asks for no documents, no photographs, no identity papers and no fee, because none of those is needed to place a learner in a language level.')}
+${card('Four', 'Nothing is required that is not used', 'Only a name and an email are actually required to create the record. Everything else the application asks for &mdash; contact details, programme and funding questions, an optional identity document &mdash; is asked because a real admissions and placement decision needs it, and every optional field is labelled optional in the form itself. No fee is ever asked for at this stage.')}
     </div>
   </div>
 </section>
@@ -1110,14 +1071,16 @@ ${card('Four', 'Nothing is required that is not used', 'The application asks for
     </div>
     <div class="table-scroll">
       <table class="ledger">
-        <thead><tr><th>What</th><th>Why</th><th>Where it is held</th></tr></thead>
+        <thead><tr><th>Stage</th><th>What&rsquo;s asked</th><th>Why</th></tr></thead>
         <tbody>
-          <tr><td>Full name</td><td>To address you, and to place the application on the record</td><td>The College&rsquo;s database, hosted by Cloudflare</td></tr>
-          <tr><td>Email address</td><td>The only channel by which placement, offer and enrolment move</td><td>The same database, plus the email service that delivers the messages</td></tr>
-          <tr><td>Country of residence</td><td>To offer payment methods that work where you are</td><td>The same database</td></tr>
-          <tr><td>Self-assessed level</td><td>Context for the placement conversation. Non-binding.</td><td>The same database</td></tr>
+          <tr><td><strong>Who you are</strong></td><td>Full name, nationality, country of residence. Optional: an identity document.</td><td>The name on your record, and the two facts that shape your residency options later. A document is stored, not verified &mdash; nothing checks it against an official record at this stage.</td></tr>
+          <tr><td><strong>Contact &amp; safety</strong></td><td>Email, phone, city, address. Optional: an emergency contact.</td><td>How Admissions reaches you, and where you are today. An emergency contact is someone the College can reach if it genuinely needs to &mdash; not shared or used for anything else.</td></tr>
+          <tr><td><strong>Your programme</strong></td><td>Self-assessed level, purpose, start preference. Optional: education background.</td><td>What the English is for, where you expect to begin, and context for the placement conversation &mdash; all non-binding.</td></tr>
+          <tr><td><strong>Funding</strong></td><td>How tuition will be paid. Optional: sponsor details.</td><td>Asked now so an employer-sponsored applicant does not lose a week discovering it after an offer. No payment is taken here, and the College never asks for card or bank details by email.</td></tr>
+          <tr><td><strong>Declaration</strong></td><td>How you heard about WEC, and confirmation you are 18 or the application is made with a parent/guardian.</td><td>The last details Admissions needs before review.</td></tr>
         </tbody>
       </table>
+      <p class="form-note">Held in the College&rsquo;s database, hosted by Cloudflare, plus the email service that delivers placement/offer/enrolment messages. An identity document, if uploaded, is held separately and never made public.</p>
     </div>
     <div class="callout">
       <span class="callout__label">Accountability &mdash; an outstanding appointment</span>
@@ -1193,6 +1156,7 @@ for (const p of Object.values(PAGES)) {
     contentFile: p.file, lang: 'en', dir: 'ltr',
   };
   if (p.contents) entry.contents = true;
+  if (p.extraCss) entry.extraCss = p.extraCss;
   const i = entries.findIndex((e) => e.slug === p.slug);
   if (i >= 0) entries[i] = { ...entries[i], ...entry }; else entries.push(entry);
   written.push(p.output);

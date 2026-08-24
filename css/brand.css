@@ -1708,6 +1708,73 @@ section { position: relative; }
 .form-note { font-size: .82rem; color: var(--ink-soft); margin-top: 16px; }
 .section--dark .form-note, .section--deep .form-note { color: rgba(247,244,236,.6); }
 
+/* Custom select chevron — every .field select gets this, sitewide,
+   with zero markup change anywhere the base .field already applies.
+   Browser-default select chrome was the one control on the page that
+   never got a visual pass; this replaces only the chevron, the focus
+   glow/outline above still does the rest. */
+.field select {
+  appearance: none; -webkit-appearance: none; -moz-appearance: none;
+  padding-right: 38px;
+  background-repeat: no-repeat; background-position: right 14px center; background-size: 11px 7px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' fill='none' stroke='%234B5768' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+.field select:focus { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' fill='none' stroke='%23C7A24A' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+.section--dark .field select, .section--deep .field select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' fill='none' stroke='%23E7C97A' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+[dir="rtl"] .field select { background-position: left 14px center; padding-right: 14px; padding-left: 38px; }
+
+/* Floating label — opt-in via .field--float, base .field is untouched
+   everywhere it's already used. The label rests inside the control and
+   floats up on focus/fill, converging on the same uppercase/gold/bold
+   treatment the static label already carries so it reads as one label
+   system, animated, not a second style. Relies on placeholder=" " (a
+   single space, not empty) so :placeholder-shown only ever matches a
+   genuinely empty field. */
+.field--float { position: relative; }
+.field--float input, .field--float select, .field--float textarea { padding: 22px 14px 8px; }
+.field--float label {
+  position: absolute; left: 15px; top: 21px; margin: 0; pointer-events: none;
+  transform-origin: left top; transition: transform var(--dur-fast) var(--ease-premium), color var(--dur-fast) ease;
+  text-transform: none; font-weight: 600; font-size: .95rem; color: var(--ink-soft);
+  background: var(--paper); padding: 0 4px; max-width: calc(100% - 30px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+[dir="rtl"] .field--float label { left: auto; right: 15px; transform-origin: right top; }
+.field--float input:focus + label,
+.field--float input:not(:placeholder-shown) + label,
+.field--float textarea:focus + label,
+.field--float textarea:not(:placeholder-shown) + label,
+.field--float select + label {
+  transform: translateY(-19px) scale(.78);
+  color: var(--gold-antique); font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+}
+.field--float.is-invalid label { color: var(--red); }
+.section--dark .field--float label, .section--deep .field--float label { background: var(--royal-deep); }
+
+/* Drag-and-drop file upload shell — a progressive-enhancement wrapper
+   around a plain native <input type=file>. Drop handling assigns
+   DataTransfer.files onto that same input, so anything already reading
+   input.files[0] needs no changes at all. */
+.dropzone {
+  position: relative; border: 1.5px dashed var(--line); border-radius: var(--r-md);
+  padding: 28px 20px; text-align: center; cursor: pointer;
+  background: rgba(199,162,74,.03);
+  transition: border-color var(--dur-fast) ease, background var(--dur-med) var(--ease-premium), box-shadow var(--dur-med) var(--ease-premium);
+}
+.dropzone input[type="file"] { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+.dropzone:hover, .dropzone:focus-within { border-color: var(--gold); background: rgba(199,162,74,.07); }
+.dropzone.is-dragover { border-color: var(--gold-bright); background: rgba(199,162,74,.12); box-shadow: var(--shadow-sm); }
+.dropzone.is-invalid { border-color: var(--red); background: rgba(163,38,56,.05); }
+.dropzone__icon { width: 38px; height: 38px; margin: 0 auto 10px; color: var(--ink-soft); }
+.dropzone__icon svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 1.4; }
+.dropzone.is-dragover .dropzone__icon, .dropzone:hover .dropzone__icon { color: var(--gold); }
+.dropzone__label { font-weight: 700; font-size: .92rem; margin: 0; color: var(--ink); }
+.dropzone__hint { font-size: .78rem; color: var(--ink-soft); margin: 4px 0 0; }
+.dropzone__filename { font-size: .84rem; font-weight: 700; color: var(--royal-deep); margin: 8px 0 0; }
+.section--dark .dropzone, .section--deep .dropzone { border-color: var(--line-dark); background: rgba(255,255,255,.03); }
+.section--dark .dropzone__label, .section--deep .dropzone__label { color: #fff; }
+
 /* -------------------- Level self-assessment -------------------- */
 .level-quiz { max-width: 720px; }
 .level-quiz fieldset { border: 0; margin: 0; padding: 0; min-width: 0; } /* reset UA fieldset chrome — grouping is semantic only here */

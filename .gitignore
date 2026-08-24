@@ -4,6 +4,10 @@
 tests/browser/screenshots/
 node_modules/
 
+# Local Miniflare state from `wrangler pages dev` (D1/KV/R2 simulation) —
+# machine-local dev state, never source.
+.wrangler/
+
 # Licensed photographic originals. The book places 2,400px derivatives
 # (363 dpi at the plate size); these full-resolution sources are archival
 # and too large for version control. Re-download via the licence if a

@@ -115,6 +115,7 @@ const PAGES = {};
 PAGES.admissions = {
   slug: 'admissions-ar', output: 'ar/admissions/index.html', file: 'admissions.ar.html',
   contents: true,
+  extraCss: ['/css/dashboard.css'],
   altHref: '/admissions/',
   title: 'القبول — الكلية العالمية للغة الإنجليزية',
   description: 'قرار الالتحاق كاملًا في صفحة واحدة: هل تنطبق الشروط عليك، وكيف تقدّم، ومتى تبدأ، وما يخص المتقدمين الدوليين والتأشيرات.',
@@ -192,7 +193,7 @@ PAGES.admissions = {
     </div>
     <ol class="dot-list">
       <li><span class="num">01</span><span><strong>استفسر واختر نقطة انطلاقك</strong> — أخبرنا بمستواك الحالي في اللغة الإنجليزية وأهدافك.</span><span class="leader"></span></li>
-      <li><span class="num">02</span><span><strong>قدّم طلبك</strong> — النموذج أدناه. لا يُطلب منك شيء آخر في هذه المرحلة: لا مستندات ولا رسوم.</span><span class="leader"></span></li>
+      <li><span class="num">02</span><span><strong>ابدأ طلبك</strong> — سجّل الدخول وأكمله خطوة بخطوة، ويُحفظ تلقائيًا أثناء تقدّمك. لا مستندات ولا رسوم للبدء.</span><span class="leader"></span></li>
       <li><span class="num">03</span><span><strong>تقييم تحديد المستوى</strong> — تقييم قصير يحدّد المستوى الصحيح لانطلاقك، من التأسيس إلى المتقدّم.</span><span class="leader"></span></li>
       <li><span class="num">04</span><span><strong>العرض والتسجيل</strong> — استلم عرض القبول، أكّد خطة الدفع، وثبّت مقعدك.</span><span class="leader"></span></li>
       <li><span class="num">05</span><span><strong>التوجيه والوحدة الأولى</strong> — تهيئة على الحرم الرقمي، ثم يُفتح المستوى الأول وتبدأ وحدتك الأولى.</span><span class="leader"></span></li>
@@ -204,80 +205,16 @@ PAGES.admissions = {
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">ابدأ طلبك الآن</span>
-      <h2>الخطوة الثانية: قدّم طلبك.</h2>
-      <p class="lede">يتصل هذا النموذج مباشرة بفريق القبول والتسجيل. إذا تعذّر الوصول إلى نظام التقديم الإلكتروني للحظات، ستفتح بياناتك في تطبيق البريد الإلكتروني بدلًا من ذلك — في الحالتين، لن تفقد ما أدخلته.</p>
+      <h2>الخطوة الثانية: طلبك، خطوة بخطوة.</h2>
+      <p class="lede">سجّل الدخول، وأكمل تسع أسئلة قصيرة في وقتك الخاص — تُحفظ تلقائيًا أثناء تقدّمك — وراجعها قبل الإرسال. إن أجريت التقييم الذاتي أعلاه، سينتقل مستواك المقترح تلقائيًا.</p>
     </div>
-
-    <form class="form-grid" data-admissions-form
-      data-endpoint="/api/admissions/apply"
-      data-fallback-email="info@worldwencollege.co.uk"
-      data-storage-key="wec-lc-admissions-draft-ar"
-      data-loading-text="جارٍ الإرسال…"
-      data-error-text="يرجى تصحيح الحقول المظلّلة أدناه."
-      data-success-text="تم استلام طلبك — سنتواصل معك قريبًا."
-      data-fallback-text="تعذّر الوصول إلى نظام التقديم الإلكتروني، لذا فتحنا تطبيق البريد الإلكتروني ببياناتك جاهزة للإرسال — يرجى الضغط على إرسال لإكمال طلبك."
-      data-retry-label="أعد المحاولة عبر النموذج الإلكتروني"
-      data-level-summary-template="المستوى المقترح للبدء: {text}"
-      novalidate dir="rtl">
-
-      <div class="field field--full"><div class="form-status" data-form-status role="status" aria-live="polite"></div></div>
-
-      <div class="field field--full" data-level-summary hidden style="background:rgba(199,162,74,.08);border:1px solid var(--line-dark);border-radius:6px;padding:12px 16px;">
-        <span style="font-size:.82rem;color:var(--gold-bright)" data-level-summary-text></span>
-        <a href="#self-assessment" style="font-size:.78rem;text-decoration:underline;margin-right:.8em;color:rgba(247,244,236,.7)">أعد التقييم الذاتي</a>
-      </div>
-
-      <div class="field">
-        <label for="app-name">الاسم الكامل</label>
-        <input id="app-name" name="fullName" type="text" required aria-describedby="app-name-error">
-        <span class="field__error" id="app-name-error" role="alert">الرجاء إدخال اسمك الكامل.</span>
-      </div>
-      <div class="field">
-        <label for="app-email">البريد الإلكتروني</label>
-        <input id="app-email" name="email" type="email" required dir="ltr" aria-describedby="app-email-error">
-        <span class="field__error" id="app-email-error" role="alert">الرجاء إدخال بريد إلكتروني صحيح.</span>
-      </div>
-      <div class="field field--full">
-        <label for="app-country">بلد الإقامة</label>
-        <select id="app-country" name="country" required aria-describedby="app-country-error">
-          <option value="">اختر بلدك</option>
-          <option value="AF">أفغانستان</option><option value="DZ">الجزائر</option><option value="AR">الأرجنتين</option>
-          <option value="AU">أستراليا</option><option value="AT">النمسا</option><option value="BH">البحرين</option>
-          <option value="BD">بنغلاديش</option><option value="BE">بلجيكا</option><option value="BR">البرازيل</option>
-          <option value="CM">الكاميرون</option><option value="CA">كندا</option><option value="TD">تشاد</option>
-          <option value="CL">تشيلي</option><option value="CN">الصين</option><option value="CO">كولومبيا</option>
-          <option value="CD">جمهورية الكونغو الديمقراطية</option><option value="EG">مصر</option><option value="ET">إثيوبيا</option>
-          <option value="FR">فرنسا</option><option value="GM">غامبيا</option><option value="DE">ألمانيا</option>
-          <option value="GH">غانا</option><option value="GR">اليونان</option><option value="GN">غينيا</option>
-          <option value="IN">الهند</option><option value="ID">إندونيسيا</option><option value="IQ">العراق</option>
-          <option value="IE">أيرلندا</option><option value="IT">إيطاليا</option><option value="CI">ساحل العاج</option>
-          <option value="JP">اليابان</option><option value="JO">الأردن</option><option value="KE">كينيا</option>
-          <option value="KW">الكويت</option><option value="LB">لبنان</option><option value="LR">ليبيريا</option>
-          <option value="LY">ليبيا</option><option value="MY">ماليزيا</option><option value="ML">مالي</option>
-          <option value="MX">المكسيك</option><option value="MA">المغرب</option><option value="NL">هولندا</option>
-          <option value="NZ">نيوزيلندا</option><option value="NE">النيجر</option><option value="NG">نيجيريا</option>
-          <option value="OM">عُمان</option><option value="PK">باكستان</option><option value="PH">الفلبين</option>
-          <option value="PL">بولندا</option><option value="PT">البرتغال</option><option value="QA">قطر</option>
-          <option value="RU">روسيا</option><option value="RW">رواندا</option><option value="SA">المملكة العربية السعودية</option>
-          <option value="SN">السنغال</option><option value="SL">سيراليون</option><option value="SG">سنغافورة</option>
-          <option value="SO">الصومال</option><option value="ZA">جنوب أفريقيا</option><option value="KR">كوريا الجنوبية</option>
-          <option value="ES">إسبانيا</option><option value="LK">سريلانكا</option><option value="SD">السودان</option>
-          <option value="SE">السويد</option><option value="CH">سويسرا</option><option value="SY">سوريا</option>
-          <option value="TZ">تنزانيا</option><option value="TH">تايلاند</option><option value="TG">توغو</option>
-          <option value="TN">تونس</option><option value="TR">تركيا</option><option value="UG">أوغندا</option>
-          <option value="UA">أوكرانيا</option><option value="AE">الإمارات العربية المتحدة</option>
-          <option value="GB">المملكة المتحدة</option><option value="US">الولايات المتحدة الأمريكية</option>
-          <option value="VN">فيتنام</option><option value="YE">اليمن</option><option value="ZM">زامبيا</option>
-          <option value="ZW">زيمبابوي</option><option value="OTHER">أخرى</option>
-        </select>
-        <span class="field__error" id="app-country-error" role="alert">الرجاء اختيار بلدك.</span>
-      </div>
-
-      <div class="field field--full">
-        <button type="submit" class="btn btn--gold" data-submit-btn><span data-btn-label>إرسال الطلب</span></button>
-        <p class="form-note">تفضّل البريد الإلكتروني؟ <a href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application%20Enquiry" style="color:var(--gold-bright);text-decoration:underline">راسل فريق القبول والتسجيل مباشرة</a>.</p>
-      </div>
-    </form>
+    <div class="card card--dark" style="max-width:520px;margin:0 auto;text-align:center;" dir="rtl">
+      <span class="card__num">جاهز</span>
+      <h3>عندما تكون جاهزًا.</h3>
+      <p>لا مستندات، لا رسوم، ولن تفقد شيئًا إن أغلقت الصفحة — سجّل الدخول وتابع من حيث توقفت تمامًا.</p>
+      <a href="/ar/admissions/apply/" class="btn btn--gold magnetic aurum aurum--twin">ابدأ طلبك الآن<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <p class="form-note">تفضّل البريد الإلكتروني؟ <a href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application%20Enquiry" style="color:var(--gold-bright);text-decoration:underline">راسل فريق القبول والتسجيل مباشرة</a>.</p>
+    </div>
   </div>
 </section>
 
@@ -297,7 +234,7 @@ PAGES.admissions = {
               <td>سؤال واحد على صفحة القبول يقترح مستوى بداية. ليس قرار تحديد المستوى، ولا يُلزم أحدًا، بمن فيهم أنت.</td>
               <td>أنت، في نحو ثلاثين ثانية</td></tr>
           <tr><td><strong>٢ · أرسل النموذج</strong></td>
-              <td>الاسم والبريد الإلكتروني وبلد الإقامة، مع المستوى الذي قدّرته إن أجريت التقدير. لا مستندات ولا رسوم في هذه المرحلة.</td>
+              <td>طلب قصير يُحفظ تلقائيًا أثناء تقدّمك — اسمك وبريدك الإلكتروني هما الإجابتان الوحيدتان المطلوبتان فعليًا لإنشاء السجل؛ وما عداهما يساعد فريق القبول على تحديد مستواك والتواصل معك، وكل سؤال اختياري مذكور بوضوح في النموذج نفسه.</td>
               <td>أنت. يُنشأ السجل فورًا ويصلك تأكيد بالبريد.</td></tr>
           <tr><td><strong>٣ · تحديد المستوى</strong></td>
               <td>محادثة وتقييم قصير لتأكيد أي المستويات الستة تدخل. لا يوجد اختبار آلي لتحديد المستوى على هذا الموقع؛ يرتب ذلك معك أحد أعضاء الفريق المؤسس بالبريد الإلكتروني.</td>
@@ -342,8 +279,28 @@ ${card('بإيقاعك', 'من العرض إلى التسجيل', 'لا تنته
 ${darkCard('مرجعك', 'احتفظ برقم الطلب', 'يحمل بريد التأكيد معرّفًا يبدأ بـ <span dir="ltr">app_</span>. وهو المفتاح الوحيد لسجلك، وهو الوحيد عن قصد: لن تُفصح الكلية عن حالة طلب لمن لا يحمله، ولو كان يعرف بريدك الإلكتروني.')}
 ${darkCard('بلا حساب', 'الاستعلام دون تسجيل دخول', 'لا حساب لك في مرحلة التقديم — يُنشأ عند التسجيل. لذلك يتم الاستعلام بالرقم المرجعي لا بتسجيل الدخول، ويعيد الحالة وتاريخ الإنشاء فقط. لا شيء غير ذلك.')}
     </div>
+    <div class="card card--dark" style="max-width:480px;margin:28px auto 0;" dir="rtl">
+      <span class="card__num">استعلام</span>
+      <h3>تحقّق من حالتك الآن.</h3>
+      <form class="form-grid" data-status-lookup-form data-endpoint="/api/admissions/status" novalidate>
+        <div class="field field--full field--float">
+          <input id="status-id" name="id" type="text" placeholder=" " pattern="app_.*" required aria-describedby="status-id-error" dir="ltr">
+          <label for="status-id">رقم الطلب (يبدأ بـ app_&hellip;)</label>
+          <span class="field__error" id="status-id-error" role="alert">أدخل رقم طلبك، الذي يبدأ بـ <span dir="ltr">app_</span>.</span>
+        </div>
+        <div class="field field--full">
+          <button type="submit" class="btn btn--gold" data-status-lookup-btn><span data-btn-label>تحقّق من الحالة</span></button>
+        </div>
+        <div class="field field--full" data-status-lookup-result hidden>
+          <span class="status-pill" data-status-pill></span>
+          <p data-status-lookup-created></p>
+        </div>
+        <div class="field field--full form-status" data-status-lookup-error role="alert"></div>
+      </form>
+    </div>
   </div>
 </section>
+<script defer src="/js/admissions-status-lookup.js"></script>
 
 <section class="section--light section-pad">
   <div class="container reveal">
@@ -1059,7 +1016,7 @@ PAGES.faq = {
 
       <div class="accordion__item">
         <button class="accordion__q"><span>كيف أتقدّم بطلبي؟</span><span class="plus" aria-hidden="true">+</span></button>
-        <div class="accordion__a"><div class="accordion__a-inner">قدّم طلبك عبر النموذج الإلكتروني في صفحة <a href="/ar/admissions/#apply">القبول</a> بالاسم الكامل والبريد الإلكتروني وبلد الإقامة — ويقترح تقييم ذاتي قصير مستواك المبدئي قبل التقديم. راجع صفحة القبول للاطّلاع على رحلة التقديم كاملة بخطواتها الخمس.</div></div>
+        <div class="accordion__a"><div class="accordion__a-inner">سجّل الدخول في صفحة <a href="/ar/admissions/#apply">القبول</a> وأكمل طلبًا قصيرًا يُحفظ تلقائيًا أثناء تقدّمك — ويقترح تقييم ذاتي قصير مستواك المبدئي قبل التقديم. راجع صفحة القبول للاطّلاع على الرحلة كاملة.</div></div>
       </div>
 
     </div>
@@ -1198,7 +1155,7 @@ ${darkCard('س', 'إذن ما الذي أدفع مقابله؟', 'برنامج �
     {
       "@type": "Question",
       "name": "كيف أتقدّم بطلبي؟",
-      "acceptedAnswer": { "@type": "Answer", "text": "قدّم طلبك عبر النموذج الإلكتروني في صفحة القبول بالاسم الكامل والبريد الإلكتروني وبلد الإقامة — ويقترح تقييم ذاتي قصير مستواك المبدئي قبل التقديم." }
+      "acceptedAnswer": { "@type": "Answer", "text": "سجّل الدخول في صفحة القبول وأكمل طلبًا قصيرًا يُحفظ تلقائيًا أثناء تقدّمك — ويقترح تقييم ذاتي قصير مستواك المبدئي قبل التقديم." }
     }
   ]
 }
@@ -2096,6 +2053,7 @@ for (const p of Object.values(PAGES)) {
     contentFile: p.file, lang: 'ar', dir: 'rtl', altHref: p.altHref,
   };
   if (p.contents) entry.contents = true;
+  if (p.extraCss) entry.extraCss = p.extraCss;
   const i = entries.findIndex((e) => e.slug === p.slug);
   if (i >= 0) entries[i] = { ...entries[i], ...entry }; else entries.push(entry);
 

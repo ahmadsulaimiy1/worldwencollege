@@ -1,7 +1,13 @@
 /* =========================================================
    WEC Student Portal — Dashboard Component Layer
    Extends css/brand.css tokens for data-dense, authenticated UI.
-   Design preview only — not wired to a real backend.
+   Most of this file backs the /student-portal/preview/ and
+   /finance/preview/ design-preview mockups (not wired to a real
+   backend) — but individual components are also used directly by real,
+   backend-wired pages: .stepper and (as of the form-stepper/
+   success-moment components below) the admissions wizard at
+   /admissions/apply/. Check the consuming page before assuming
+   "preview" applies to any one component here.
    ========================================================= */
 
 :root {
@@ -108,6 +114,42 @@ body.app { background: var(--ivory); }
 .progress-meter__fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--gold), var(--gold-bright)); }
 .progress-meter__caption { display: flex; justify-content: space-between; font-size: .78rem; color: var(--ink-soft); margin-top: 8px; font-variant-numeric: tabular-nums; }
 
+/* ---------------- Form stepper (interactive multi-step nav) ---------------- */
+/* A sibling of .stepper above, not a reskin of it: .stepper is read-only
+   programme-progress display, this is a real control — a completed
+   node is a <button> a visitor can click to jump back to it. Same dot/
+   line visual language on purpose, so a stepper reads as "one WEC
+   component" wherever it appears. Upcoming nodes stay inert — you
+   can't legally skip ahead of a step whose data was never saved. */
+.form-stepper { display: flex; align-items: flex-start; }
+.form-stepper__node { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; }
+.form-stepper__control {
+  all: unset; box-sizing: border-box; display: flex; flex-direction: column; align-items: center;
+  gap: 8px; width: 100%; cursor: default;
+}
+.form-stepper__node.is-done .form-stepper__control { cursor: pointer; }
+.form-stepper__dot {
+  width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-weight: 700; font-size: .82rem; border: 2px solid var(--line); color: var(--ink-soft);
+  background: var(--paper); transition: box-shadow var(--dur-fast) var(--ease-premium), transform var(--dur-fast) var(--ease-premium);
+}
+.form-stepper__node.is-done .form-stepper__dot { background: var(--status-good); border-color: var(--status-good); color: #fff; }
+.form-stepper__node.is-current .form-stepper__dot { background: var(--gold); border-color: var(--gold); color: var(--royal-deep); box-shadow: 0 0 0 4px var(--status-progress-soft); }
+.form-stepper__node.is-done .form-stepper__control:hover .form-stepper__dot,
+.form-stepper__node.is-done .form-stepper__control:focus-visible .form-stepper__dot { box-shadow: var(--shadow-sm); transform: translateY(-1px); }
+.form-stepper__node.is-done .form-stepper__control:focus-visible .form-stepper__dot { outline: 2px solid var(--gold); outline-offset: 2px; }
+.form-stepper__label { font-size: .7rem; text-align: center; color: var(--ink-soft); font-weight: 600; line-height: 1.3; }
+.form-stepper__node.is-current .form-stepper__label { color: var(--ink); }
+.form-stepper__line { flex: 1; height: 2px; background: var(--line); margin: 17px -2px 0; }
+.form-stepper__line.is-done { background: var(--status-good); }
+@media (max-width: 640px) {
+  .form-stepper { overflow-x: auto; padding-bottom: 6px; }
+  .form-stepper__node { flex: 0 0 84px; min-width: 84px; }
+  .form-stepper__line { flex: 0 0 22px; min-width: 22px; }
+  .form-stepper__label { font-size: .66rem; }
+}
+@media (prefers-reduced-motion: reduce) { .form-stepper__dot { transition-duration: .01ms !important; } .form-stepper__node.is-done .form-stepper__control:hover .form-stepper__dot { transform: none; } }
+
 /* ---------------- Stat tiles ---------------- */
 .stat-tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
 @media (max-width: 900px) { .stat-tiles { grid-template-columns: repeat(2, 1fr); } }
@@ -204,6 +246,34 @@ button.btn[disabled], a.btn[aria-disabled="true"] { opacity: .5; cursor: not-all
 @media (prefers-reduced-motion: reduce) { .toast, .class-row, .mini-list li, .message-card, .stat-tile, .app-nav a, .app-nav li.active a::before { transition-duration: .01ms !important; animation-duration: .01ms !important; } .stat-tile:hover, .message-card:hover { transform: none; } }
 .toast::before { content: ''; width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; background: var(--status-good); }
 .toast--error::before { background: var(--status-critical); }
+
+/* ---------------- Success moment ---------------- */
+/* A restrained but genuinely weighty confirmation state — not a toast,
+   not a plain text block. Luxury through restraint per the editorial
+   bible: one mark, the status, the reference id presented with
+   intention, a clear "what happens next." The --milestone modifier
+   (adds .aurum to the mark, in markup — see admissions-wizard.css) is
+   for the genuine first-submission moment only; every later status
+   check reuses the same shell without it. */
+.success-moment { max-width: 560px; margin: 0 auto; text-align: center; animation: successIn var(--dur-slow) var(--ease-premium) both; }
+@keyframes successIn { from { opacity: 0; transform: translateY(10px); } }
+@media (prefers-reduced-motion: reduce) { .success-moment { animation: none; } }
+.success-moment__mark {
+  width: 64px; height: 64px; margin: 0 auto 20px; border-radius: 50%; background: var(--royal-deep);
+  display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-md);
+}
+.success-moment__mark svg { width: 26px; height: 26px; stroke: var(--gold-bright); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.success-moment .status-pill { margin-bottom: 14px; }
+.success-moment h2 { margin: 0 0 4px; }
+.success-moment__id {
+  font-variant-numeric: tabular-nums; letter-spacing: .02em; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 10px; padding: 12px 18px; display: inline-flex; align-items: center; gap: 10px;
+  margin: 16px 0 26px; box-shadow: var(--shadow-sm); font-size: .92rem;
+}
+.success-moment__next { text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 22px 26px; box-shadow: var(--shadow-sm); }
+[dir="rtl"] .success-moment__next { text-align: right; }
+.success-moment__next h3 { font-size: .82rem; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-soft); margin: 0 0 12px; }
+.success-moment__next ol { margin: 0; padding-inline-start: 1.2em; display: flex; flex-direction: column; gap: 10px; font-size: .9rem; color: var(--ink); }
 
 /* ---------------- Loading skeleton ---------------- */
 /* Generic shimmer placeholder for any async panel while real data

@@ -43,7 +43,10 @@
     "lang": "en",
     "dir": "ltr",
     "altHref": "/ar/admissions/",
-    "contents": true
+    "contents": true,
+    "extraCss": [
+      "/css/dashboard.css"
+    ]
   },
   {
     "slug": "admissions-tuition",
@@ -145,7 +148,10 @@
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/admissions/",
-    "contents": true
+    "contents": true,
+    "extraCss": [
+      "/css/dashboard.css"
+    ]
   },
   {
     "slug": "admissions-tuition-ar",

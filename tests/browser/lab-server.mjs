@@ -80,6 +80,12 @@ const qr = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/qr.js`));
 const instVerify = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/institutional-verification.js`));
 const distinctions = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/distinctions.js`));
 const documents = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/documents.js`));
+// The real Pages Function handler, not a hand-rolled equivalent — this
+// one's public/no-auth/read-only, so calling it directly (and
+// forwarding its actual Response) is safe and exercises the exact
+// deployed behaviour, including its exact 404 wording, rather than a
+// second copy of the same logic that could drift from it.
+const admissionsStatus = await import(pathToFileURL(`${ROOT}/functions/api/admissions/status.js`));
 // Beats reaching the harness, so a browser test can assert the beacon
 // actually fires rather than that the file merely loads.
 const beats = [];
@@ -309,6 +315,13 @@ createServer(async (req, res) => {
       const token = decodeURIComponent(url.pathname.slice('/api/share/'.length));
       return json(res, await profile.viewShare(env, { token }));
     }
+    if (url.pathname === '/api/admissions/status' && req.method === 'GET') {
+      const request = new Request(`http://localhost${url.pathname}${url.search}`);
+      const response = await admissionsStatus.onRequestGet({ request, env });
+      const body = await response.text();
+      res.writeHead(response.status, { 'Content-Type': response.headers.get('content-type') || 'application/json' });
+      return res.end(body);
+    }
     // The learner's own record. The harness identifies usr_demo, the
     // same fixture the study plan uses, so My Record is driven by the
     // same data a learner would actually have.
@@ -378,6 +391,15 @@ createServer(async (req, res) => {
         replacement: DEMO.replacement.verification_code,
         shareToken: DEMO.share.token,
       });
+    }
+    // Test-only fixture for tests/browser/admissions-wizard.mjs — a
+    // real, minimal applications row so the status-lookup card's
+    // success path can be exercised against real data, not just its
+    // 404 path.
+    if (url.pathname === '/__seed-application' && req.method === 'POST') {
+      await env.DB.prepare(`INSERT OR IGNORE INTO applications (id, full_name, email, status)
+        VALUES ('app_browser_test_fixture', 'Browser Test Fixture', 'fixture@example.com', 'submitted')`).bind().run();
+      return json(res, { ok: true });
     }
     if (url.pathname === '/api/student/study-plan' && req.method === 'GET') {
       const who = url.searchParams.get('as') || 'usr_demo';
