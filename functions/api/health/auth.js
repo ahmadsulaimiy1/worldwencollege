@@ -40,30 +40,79 @@ export const CLERK_BROWSER_SDK_PATH = '/npm/@clerk/clerk-js@5/dist/clerk.browser
 // that a dead one answers the operator rather than hanging on them.
 const PROBE_TIMEOUT_MS = 5000;
 
-// What a status code from the Clerk host actually means, where it means
-// something specific.
+// DOES THE HOSTNAME EXIST IN DNS AT ALL?
 //
-// 530 is the one worth naming. It is Cloudflare's "Origin DNS error"
-// (1016): a DNS record for the hostname exists and points at
-// Cloudflare's proxy, and Cloudflare cannot resolve what sits behind
-// it. On a Clerk custom domain that is almost always one thing — the
-// CNAME was left PROXIED (orange cloud) when Clerk requires it DNS
-// only (grey cloud). A proxied record also answers with Cloudflare's
-// certificate rather than Clerk's, which the browser refuses.
+// This exists because of a wrong answer given confidently.
 //
-// The generic advice — "check the publishable key belongs to the
-// instance you intend" — is actively wrong here. The key is fine. The
-// record is not, and sending an operator to re-copy a correct key
-// costs them the evening.
-function explainStatus(status, host) {
+// The probe found HTTP 530 and this file explained it as Cloudflare's
+// "Origin DNS error" (1016) caused by a CNAME left PROXIED where Clerk
+// requires DNS only. That is *a* cause of 530. It was not this one.
+// clerk.worldwencollege.co.uk had no DNS record whatsoever, and a
+// Worker fetching a hostname inside a Cloudflare zone that holds no
+// record for it is answered 530 by the edge — indistinguishable, at the
+// HTTP layer, from the proxied case. The operator was sent to look for
+// an orange cloud on a record that did not exist.
+//
+// A status code cannot tell those apart, so this stops trying to and
+// asks DNS directly. Cloudflare's public resolver answers over HTTPS,
+// which is the one kind of outbound call a Worker can always make.
+//
+//   NXDOMAIN  -> the record was never added. A different fault with a
+//                different fix, and no amount of looking at proxy
+//                settings will ever find it.
+//   an answer -> the record exists; say what it points at, and only
+//                then is the proxy setting worth suspecting.
+//
+// Best-effort throughout. A resolver that does not answer must not
+// downgrade the diagnosis into a guess, so it returns null and the
+// caller says less rather than more.
+const DOH = 'https://cloudflare-dns.com/dns-query';
+
+async function resolves(host) {
+  try {
+    const resp = await fetch(`${DOH}?name=${encodeURIComponent(host)}&type=A`, {
+      headers: { accept: 'application/dns-json' },
+      signal: AbortSignal.timeout(PROBE_TIMEOUT_MS),
+    });
+    if (!resp.ok) return null;
+    const body = await resp.json();
+    // dns-json: Status 3 is NXDOMAIN. An empty Answer under NOERROR
+    // means the name exists but carries no address record, which for
+    // this purpose is the same as nothing being there.
+    if (body.Status === 3) return { exists: false, points: null };
+    const answers = Array.isArray(body.Answer) ? body.Answer : [];
+    if (!answers.length) return { exists: false, points: null };
+    // Type 5 is CNAME, and for a Clerk record that is the interesting
+    // half: what the College's hostname was pointed at.
+    const cname = answers.find((a) => a.type === 5);
+    return { exists: true, points: cname ? String(cname.data).replace(/\.$/, '') : null };
+  } catch {
+    return null;
+  }
+}
+
+// What a status code from the Clerk host means — given what DNS said,
+// because on its own it does not mean enough.
+function explainStatus(status, host, dns) {
+  if (dns && dns.exists === false) {
+    return `Nothing in DNS answers for ${host}: the hostname has no record at all. `
+      + 'The records Clerk asks for have not been added, so the Frontend API for this '
+      + 'production instance has nowhere to live. Clerk dashboard > Domains lists the exact '
+      + 'records for this instance \u2014 add each one in Cloudflare > DNS > Records with proxy '
+      + 'status DNS only (grey cloud), then verify in Clerk. Nothing in this deployment, and '
+      + 'neither key, is at fault.';
+  }
   if (status === 530) {
-    return `HTTP 530 is Cloudflare's "Origin DNS error" (1016): a DNS record for ${host} `
-      + 'exists and points at Cloudflare, and Cloudflare cannot resolve what is behind it. '
-      + 'On a Clerk custom domain the usual cause is a CNAME left PROXIED (orange cloud) '
-      + 'where Clerk requires DNS only (grey cloud) \u2014 a proxied record also answers with '
-      + "Cloudflare's certificate instead of Clerk's, which the browser refuses. Fix it in "
-      + 'Cloudflare > DNS > Records: find the record for this hostname and switch its proxy '
-      + 'status to DNS only. The publishable key is not the problem.';
+    let where = 'HTTP 530 is Cloudflare\u2019s "Origin DNS error" (1016): Cloudflare is answering '
+      + `for ${host} and cannot resolve what sits behind it. `;
+    if (dns && dns.exists && dns.points) {
+      where += `The hostname does resolve, by CNAME to ${dns.points}. `;
+    }
+    return where
+      + 'On a Clerk custom domain this has two causes needing different fixes: the record was '
+      + 'never added, or it was added PROXIED (orange cloud) where Clerk requires DNS only '
+      + '(grey cloud). Compare what Clerk dashboard > Domains lists against Cloudflare > DNS > '
+      + 'Records. The publishable key is not the problem.';
   }
   if (status === 404) {
     return 'The host is serving, but not this path. Check that the publishable key belongs '
@@ -123,13 +172,14 @@ export async function onRequestGet({ env }) {
   const fapi = frontendApiFromPublishableKey(env.CLERK_PUBLISHABLE_KEY);
   const sdkUrl = fapi ? `https://${fapi}${CLERK_BROWSER_SDK_PATH}` : null;
 
-  const [jwksProbe, sdkProbe] = await Promise.all([
+  const [jwksProbe, sdkProbe, dns] = await Promise.all([
     jwks.url ? probe(jwks.url) : Promise.resolve(null),
     // Range-limited: this asks whether the file is SERVED, not for the
     // half-megabyte of it. A HEAD would risk a 405 from a CDN that
     // serves the GET perfectly well, which would report a working
     // deployment as broken.
     sdkUrl ? probe(sdkUrl, { Range: 'bytes=0-0' }) : Promise.resolve(null),
+    fapi ? resolves(fapi) : Promise.resolve(null),
   ]);
 
   // A JWKS that answers 200 with no signing keys in it verifies nothing.
@@ -189,10 +239,14 @@ export async function onRequestGet({ env }) {
         return {
           ok: false,
           detail: `${host} could not be reached at all (${(jwksProbe && jwksProbe.error) || 'no response'}). `
-            + 'If this is a Clerk PRODUCTION instance, the usual cause is that the DNS '
-            + 'records Clerk asks for have not been added or have not finished verifying '
-            + 'yet: the key is right, the URL is right, and the domain is not serving. '
-            + 'Clerk dashboard > Domains shows which records are still outstanding.',
+            + (dns && dns.exists === false
+              ? 'It has no DNS record at all: the records Clerk asks for have not been added. '
+                + 'Clerk dashboard > Domains lists them; each goes into Cloudflare > DNS > '
+                + 'Records as DNS only (grey cloud).'
+              : 'If this is a Clerk PRODUCTION instance, the usual cause is that the DNS '
+                + 'records Clerk asks for have not been added or have not finished verifying '
+                + 'yet: the key is right, the URL is right, and the domain is not serving. '
+                + 'Clerk dashboard > Domains shows which records are still outstanding.'),
           host,
         };
       }
@@ -200,7 +254,7 @@ export async function onRequestGet({ env }) {
         return {
           ok: false,
           detail: `${host} answered HTTP ${jwksProbe.status} instead of 200 for its signing keys. `
-            + explainStatus(jwksProbe.status, host),
+            + explainStatus(jwksProbe.status, host, dns),
           host,
           status: jwksProbe.status,
         };
@@ -253,7 +307,7 @@ export async function onRequestGet({ env }) {
           ok: false,
           detail: `The browser would load Clerk from ${fapi}, and that request answers HTTP `
             + `${sdkProbe.status}. No sign-in form can appear on any page. `
-            + explainStatus(sdkProbe.status, fapi),
+            + explainStatus(sdkProbe.status, fapi, dns),
           url: sdkUrl,
           status: sdkProbe.status,
         };

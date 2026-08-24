@@ -288,6 +288,79 @@ const req = (headers = {}) => new Request('https://wec.test/api/admissions/draft
   check('...nor the full JWKS URL path', !text.includes('/.well-known/jwks.json'));
 
   // -------------------------------------------------------------------
+  // A 530 does not say WHICH fault it is, so DNS is asked
+  // -------------------------------------------------------------------
+  // This block exists because of a wrong answer given confidently. The
+  // probe found HTTP 530, the endpoint explained it as a CNAME left
+  // proxied where Clerk requires DNS only, and the operator went
+  // looking in Cloudflare for an orange cloud. There was no record
+  // there at all — and a Worker fetching a hostname inside a Cloudflare
+  // zone that holds no record for it is answered 530 by the edge,
+  // indistinguishably, at the HTTP layer, from the proxied case.
+  //
+  // Two faults, one status code, different fixes. The endpoint now asks
+  // the resolver instead of inferring.
+  {
+    const LIVE530 = 'pk_live_' + Buffer.from('clerk.worldwencollege.co.uk$').toString('base64');
+    const doh = (body) => async (url) => {
+      if (String(url).includes('cloudflare-dns.com')) {
+        return new Response(JSON.stringify(body), { status: 200 });
+      }
+      // Everything else 530s, exactly as the live deployment saw.
+      return new Response('', { status: 530 });
+    };
+
+    const realFetch2 = globalThis.fetch;
+
+    // NXDOMAIN: the record was never added. This is the live case.
+    globalThis.fetch = doh({ Status: 3 });
+    const missing = await healthGet({ env: { DB: {}, CLERK_PUBLISHABLE_KEY: LIVE530 } });
+    const mBody2 = await missing.json();
+    check('Health: a 530 on a hostname with NO DNS record says exactly that',
+      /has no record at all/.test(mBody2.checks.providerReachable.detail),
+      mBody2.checks.providerReachable.detail);
+    check('...and does NOT send the operator hunting for a proxy setting',
+      !/orange cloud/.test(mBody2.checks.providerReachable.detail),
+      'there is no record to un-proxy; that advice cost an evening once already');
+    check('...naming Clerk\u2019s own dashboard as the source of the records',
+      /Clerk dashboard > Domains lists the exact records/.test(mBody2.checks.providerReachable.detail));
+    check('...and clearing the deployment and both keys explicitly',
+      /neither key, is at fault/.test(mBody2.checks.providerReachable.detail));
+    check('...still blocking, because sign-in is still dead',
+      mBody2.ready === false && missing.status === 503);
+
+    // The record DOES exist. Only now is the proxy setting worth
+    // raising — and the answer names what it points at.
+    globalThis.fetch = doh({
+      Status: 0,
+      Answer: [{ name: 'clerk.worldwencollege.co.uk', type: 5, data: 'frontend-api.clerk.services.' }],
+    });
+    const present = await healthGet({ env: { DB: {}, CLERK_PUBLISHABLE_KEY: LIVE530 } });
+    const pBody2 = await present.json();
+    check('Health: a 530 on a hostname that DOES resolve reports what it points at',
+      /CNAME to frontend-api\.clerk\.services/.test(pBody2.checks.providerReachable.detail),
+      pBody2.checks.providerReachable.detail);
+    check('...and offers both causes rather than picking one',
+      /never added, or it was added PROXIED/.test(pBody2.checks.providerReachable.detail));
+
+    // A resolver that will not answer must not turn the diagnosis into
+    // a guess. Saying less is the correct behaviour.
+    globalThis.fetch = async (url) => (String(url).includes('cloudflare-dns.com')
+      ? new Response('nonsense', { status: 500 })
+      : new Response('', { status: 530 }));
+    const unknown = await healthGet({ env: { DB: {}, CLERK_PUBLISHABLE_KEY: LIVE530 } });
+    const uBody = await unknown.json();
+    check('Health: an unavailable resolver does not manufacture a cause',
+      !/has no record at all/.test(uBody.checks.providerReachable.detail)
+        && /two causes needing different fixes/.test(uBody.checks.providerReachable.detail),
+      uBody.checks.providerReachable.detail);
+    check('...and still reports the deployment as unable to sign anybody in',
+      uBody.ready === false);
+
+    globalThis.fetch = realFetch2;
+  }
+
+  // -------------------------------------------------------------------
   // The provider is actually contacted
   // -------------------------------------------------------------------
   // Every assertion above this line can hold on a deployment where
@@ -733,11 +806,29 @@ for (const page of ['admissions/apply/index.html', 'ar/admissions/apply/index.ht
     check('...naming the 530 this deployment actually returned',
       /HTTP 530 \u2014 the one this site actually hit/.test(fix)
         && /Origin DNS error/.test(fix));
-    check('...with the click-by-click fix, not just the cause',
-      /Proxy status/.test(fix) && /Click the cloud so it turns grey/.test(fix)
-        && /DNS[^\n]*Records/.test(fix));
+    // 530 has two causes that look identical over HTTP, and this
+    // document asserted the wrong one. The correction stays visible:
+    // an operator who read the first version went looking in Cloudflare
+    // for an orange cloud on a record that did not exist.
+    check('...admitting the cause this document first gave was wrong',
+      /This document first said the cause was a CNAME left proxied\. That was\s+wrong\*\*/.test(fix),
+      'a correction that is quietly edited away teaches nobody');
+    check('...and separating the two causes rather than picking one',
+      /the record was never added at all/.test(fix)
+        && /proxied\*\* where Clerk requires DNS only/.test(fix));
+    check('...showing the resolution that settled which it was',
+      /clerk\.worldwencollege\.co\.uk\s+-> no resolution/.test(fix), 'the evidence, not the conclusion');
+    check('...with the fix for the cause it actually is',
+      /Clerk dashboard \u2192 Domains/.test(fix) && /Add record/.test(fix)
+        && /Proxy status: DNS only/.test(fix));
+    check('...refusing to invent the per-instance targets',
+      /They are per-instance/.test(fix) && /a guessed target is a\s+record that will never verify/.test(fix));
     check('...and the other records that share the fault',
       /clkmail/.test(fix) && /_domainkey/.test(fix));
+    check('...offering the development instance as the same-day route',
+      /The same-day alternative/.test(fix) && /clerk\.accounts\.dev/.test(fix));
+    check('...with its costs stated rather than sold',
+      /rate-limited/.test(fix) && /not intended to carry real applicants/.test(fix));
     check('...and the immediate way out, with its cost stated',
       /development instance/.test(fix) && /rate-limited/.test(fix));
   }

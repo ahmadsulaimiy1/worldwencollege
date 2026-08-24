@@ -234,7 +234,7 @@ two `clk*._domainkey` subdomains are the usual set. Clerk verifies them
 itself once they resolve; nothing needs redeploying afterwards, though a
 redeploy is a quick way to make this endpoint say so.
 
-#### HTTP 530 — the one this site actually hit
+#### HTTP 530 — the one this site actually hit, and what it turned out to be
 
 On 24 August 2026 the live deployment reported:
 
@@ -244,36 +244,71 @@ On 24 August 2026 the live deployment reported:
 ```
 
 Everything else was correct: production instance, matched
-`pk_live_`/`sk_live_` keys, D1 bound, authorized parties set. **530 is
-Cloudflare's "Origin DNS error" (1016)**: a DNS record for
-`clerk.worldwencollege.co.uk` exists and points at Cloudflare, and
-Cloudflare cannot resolve what is behind it.
+`pk_live_`/`sk_live_` keys, D1 bound, authorized parties set.
 
-A CNAME on Cloudflare DNS must be **DNS only** (grey cloud), not
-proxied. A proxied record answers with Cloudflare's certificate rather
-than Clerk's and the browser refuses the script — and when the target
-behind it does not resolve, Cloudflare returns 530 instead.
+**This document first said the cause was a CNAME left proxied. That was
+wrong**, and it is recorded here rather than quietly edited away,
+because the wrong version sent somebody into Cloudflare to hunt for an
+orange cloud on a record that did not exist.
 
-**The fix, in full:**
+HTTP 530 is Cloudflare's "Origin DNS error" (1016), and on a Clerk
+custom domain it has **two** causes that look identical over HTTP:
 
-1. Cloudflare dashboard → the `worldwencollege.co.uk` zone → **DNS →
-   Records**.
-2. Find the record whose name is `clerk`.
-3. Its **Proxy status** column will read *Proxied* with an orange cloud.
-   Click the cloud so it turns grey and reads **DNS only**. Save.
-4. Do the same for every other record Clerk asked for — `accounts`,
-   `clkmail`, and the two `clk*._domainkey` records. All of them are
-   DNS-only.
-5. If a record Clerk lists is missing entirely, add it exactly as Clerk
-   states it, DNS only.
-6. Clerk dashboard → **Domains** → verify. Clerk re-checks the records
-   itself; nothing needs redeploying, though a redeploy makes
-   `/api/health/auth` say so.
+1. the record exists but is **proxied** where Clerk requires DNS only; or
+2. **the record was never added at all** — a Worker fetching a hostname
+   inside a Cloudflare zone that holds no record for it is answered 530
+   by the edge, not a resolution failure.
+
+Direct resolution settled it:
+
+```
+worldwencollege.co.uk          -> 2606:4700:3034::…   (Cloudflare)
+www.worldwencollege.co.uk      -> 2606:4700:3034::…   (Cloudflare)
+clerk.worldwencollege.co.uk    -> no resolution
+accounts.worldwencollege.co.uk -> no resolution
+```
+
+The zone is on Cloudflare. The Clerk hostnames have no records. **Cause
+2.** `/api/health/auth` now asks Cloudflare's resolver over HTTPS and
+reports which of the two it is, rather than inferring from the status
+code — see `resolves()` in `functions/api/health/auth.js`.
+
+**The fix:**
+
+1. **Clerk dashboard → Domains** (Configure → Domains) for the
+   **Production** instance. It lists the exact records for *this*
+   instance — typically five: `clerk`, `accounts`, `clkmail`, and two
+   `clk*._domainkey` entries, each a CNAME to a host carrying the
+   instance's own id. **Copy them from there.** They are per-instance;
+   nothing here can tell you what yours are, and a guessed target is a
+   record that will never verify.
+2. **Cloudflare → the `worldwencollege.co.uk` zone → DNS → Records →
+   Add record.** One CNAME per row, name and target exactly as Clerk
+   states, **Proxy status: DNS only** (grey cloud) on every one. A
+   proxied record answers with Cloudflare's certificate rather than
+   Clerk's, and the browser refuses the script — that is cause 1, and
+   adding the records proxied would simply move the fault.
+3. **Clerk → Domains → verify.** Clerk re-checks the records itself.
+   Propagation is usually a minute or two.
 
 Re-read `/api/health/auth` afterwards. `providerReachable` and
 `browserSignIn` both reporting `ok: true` is the proof — the first
 counts the signing keys it received, the second requests the exact
 `clerk.browser.js` URL the browser will.
+
+#### The same-day alternative
+
+A Clerk **development** instance serves its Frontend API from
+`*.clerk.accounts.dev` and needs no DNS records at all. Switching
+`CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY` to that instance's
+`pk_test_`/`sk_test_` pair makes sign-in work as soon as the next
+deploy finishes.
+
+It is the right choice for a preview and the wrong one for a live
+admissions round: development instances are rate-limited, their
+sessions are not intended to carry real applicants, and the sign-in
+screen carries Clerk's development badge. Worth knowing it exists;
+worth not reaching for it if the records can be added instead.
 
 #### Can the deploy do this itself?
 
