@@ -99,6 +99,33 @@ export async function run({ token, host, mode = 'report', log = console.log, fet
     return { ok: false, reason: 'no-host' };
   }
 
+  // CAN THIS TOKEN SEE ZONES AT ALL?
+  //
+  // Asked first, and separately, because Cloudflare does not answer 403
+  // for a token with no Zone permissions — it answers 200 with an empty
+  // list, exactly as it would for a token that can see zones and simply
+  // found no match. The first version of this script conflated the two
+  // and reported "no zone found for clerk.worldwencollege.co.uk — DNS
+  // must be hosted elsewhere" about a domain that is on Cloudflare. A
+  // confident wrong answer sends somebody to the wrong registrar; the
+  // honest one names the missing permission.
+  const visible = await call('/zones?per_page=50');
+  if (visible.status === 401 || visible.status === 403) {
+    log(`The API token cannot read zones (HTTP ${visible.status}). Add "Zone -> Zone -> Read" `
+      + 'and "Zone -> DNS -> Edit" to it, scoped to this domain, to let the deploy report and '
+      + 'repair these records. Nothing has been changed.');
+    return { ok: false, reason: 'forbidden' };
+  }
+  const zonesSeen = (visible.json && visible.json.result) || [];
+  if (!zonesSeen.length) {
+    log('This API token can be used, but it can see no DNS zones at all — which is what a token '
+      + 'scoped to Pages, D1 and R2 looks like. That is a statement about the TOKEN, not about '
+      + `${host}: nothing here has established where its DNS is hosted. Give the token `
+      + '"Zone -> Zone -> Read" and "Zone -> DNS -> Edit" for this domain, or make the change by '
+      + 'hand in Cloudflare -> DNS -> Records. Nothing has been changed.');
+    return { ok: false, reason: 'no-zone-visibility' };
+  }
+
   let zone = null;
   for (const name of zoneCandidates(host)) {
     const { status, json } = await call(`/zones?name=${encodeURIComponent(name)}`);
@@ -112,9 +139,14 @@ export async function run({ token, host, mode = 'report', log = console.log, fet
     if (found) { zone = found; break; }
   }
   if (!zone) {
-    log(`No Cloudflare zone found for ${host}. If DNS for this domain is hosted elsewhere, `
-      + 'the records have to be changed there instead.');
-    return { ok: false, reason: 'no-zone' };
+    // Only now is this claim earned: the token can see zones, and none
+    // of them holds this host. Naming what it CAN see is the difference
+    // between "hosted elsewhere" and "right domain, wrong account".
+    log(`No Cloudflare zone found for ${host}, on a token that can see: `
+      + `${zonesSeen.map((z) => z.name).join(', ')}. If DNS for this domain is hosted elsewhere, `
+      + 'the records have to be changed there instead; if it is on another Cloudflare account, '
+      + 'the token belongs to the wrong one.');
+    return { ok: false, reason: 'no-zone', visible: zonesSeen.map((z) => z.name) };
   }
 
   const { status, json } = await call(`/zones/${zone.id}/dns_records?per_page=200`);

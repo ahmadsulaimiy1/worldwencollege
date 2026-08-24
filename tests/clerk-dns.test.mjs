@@ -105,6 +105,10 @@ check('Junk is never claimed',
   const fetchImpl = async (url, opts) => {
     const method = (opts && opts.method) || 'GET';
     if (method !== 'GET') writes.push(`${method} ${url}`);
+    // The visibility probe: a token that can see zones at all.
+    if (url.includes('/zones?per_page')) {
+      return new Response(JSON.stringify({ result: [zone] }), { status: 200 });
+    }
     if (url.includes('/zones?name=worldwencollege.co.uk')) {
       return new Response(JSON.stringify({ result: [zone] }), { status: 200 });
     }
@@ -146,7 +150,7 @@ check('Junk is never claimed',
 {
   const fetchImpl = async (url, opts) => {
     const method = (opts && opts.method) || 'GET';
-    if (url.includes('/zones?name=worldwencollege.co.uk')) {
+    if (url.includes('/zones?per_page') || url.includes('/zones?name=worldwencollege.co.uk')) {
       return new Response(JSON.stringify({ result: [{ id: 'z1', name: 'worldwencollege.co.uk' }] }), { status: 200 });
     }
     if (url.includes('/zones?name=')) return new Response(JSON.stringify({ result: [] }), { status: 200 });
@@ -187,6 +191,61 @@ check('Junk is never claimed',
     /Nothing has been changed/.test(lines.join('\n')));
 }
 
+// ---------------------------------------------------------------------
+// 6 · "I could not see it" is not "it is not there"
+// ---------------------------------------------------------------------
+// Cloudflare does NOT answer 403 for a token with no Zone permissions.
+// It answers 200 with an empty list — indistinguishable, to a naive
+// check, from a token that can see zones and found no match. The first
+// version of this script conflated them and reported that
+// worldwencollege.co.uk's DNS "must be hosted elsewhere". It is not.
+// That sends somebody to the wrong registrar looking for a record that
+// is not there.
+{
+  const lines = [];
+  const blind = await run({
+    token: 't', host: 'clerk.worldwencollege.co.uk',
+    log: (m) => lines.push(m),
+    // A Pages/D1/R2-scoped token: usable, and sees no zones.
+    fetchImpl: async () => new Response(JSON.stringify({ success: true, result: [] }), { status: 200 }),
+  });
+  check('A token that can see no zones is a distinct finding',
+    blind.reason === 'no-zone-visibility', blind.reason);
+  check('...reported as a fact about the TOKEN, not about the domain',
+    /statement about the TOKEN/.test(lines.join('\n')), lines.join('\n'));
+  check('...and it must NOT claim the DNS is hosted elsewhere',
+    !/hosted elsewhere/.test(lines.join('\n')),
+    'that claim was never established and sends somebody to the wrong registrar');
+  check('...naming the permissions that would let it look',
+    /Zone -> Zone -> Read/.test(lines.join('\n'))
+      && /Zone -> DNS -> Edit/.test(lines.join('\n')));
+  check('...and offering the by-hand route meanwhile',
+    /Cloudflare -> DNS -> Records/.test(lines.join('\n')));
+}
+
+// The claim IS earned when the token can see zones and none matches —
+// and naming what it can see separates "hosted elsewhere" from "right
+// domain, wrong Cloudflare account".
+{
+  const lines = [];
+  const elsewhere = await run({
+    token: 't', host: 'clerk.worldwencollege.co.uk',
+    log: (m) => lines.push(m),
+    fetchImpl: async (url) => {
+      if (/\/zones\?per_page/.test(url)) {
+        return new Response(JSON.stringify({ result: [{ id: 'z9', name: 'someother.example' }] }), { status: 200 });
+      }
+      return new Response(JSON.stringify({ result: [] }), { status: 200 });
+    },
+  });
+  check('A visible-but-unmatched zone list earns the "elsewhere" claim',
+    elsewhere.reason === 'no-zone');
+  check('...and names the zones the token can actually see',
+    /someother\.example/.test(lines.join('\n')), lines.join('\n'));
+  check('...offering "wrong account" as the other reading',
+    /wrong one/.test(lines.join('\n')));
+}
+
 // No records at all is a different fault from proxied records, and has
 // a different fix: they were never added.
 {
@@ -195,7 +254,7 @@ check('Junk is never claimed',
     token: 't', host: 'clerk.worldwencollege.co.uk',
     log: (m) => lines.push(m),
     fetchImpl: async (url) => {
-      if (url.includes('/zones?name=worldwencollege.co.uk')) {
+      if (url.includes('/zones?per_page') || url.includes('/zones?name=worldwencollege.co.uk')) {
         return new Response(JSON.stringify({ result: [{ id: 'z1', name: 'worldwencollege.co.uk' }] }), { status: 200 });
       }
       if (url.includes('/zones?name=')) return new Response(JSON.stringify({ result: [] }), { status: 200 });

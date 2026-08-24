@@ -833,6 +833,18 @@ for (const page of ['admissions/apply/index.html', 'ar/admissions/apply/index.ht
   const dns = readFileSync(`${ROOT}/scripts/clerk-dns.mjs`, 'utf8');
   check('...against wording the script actually emits',
     /'PROXIED  <- must be DNS only'/.test(dns) && /switched \$\{r\.name\} to DNS only/.test(dns));
+  // The first run of this step announced that worldwencollege.co.uk's
+  // DNS "must be hosted elsewhere". It is not. Cloudflare answers 200
+  // with an empty list for a token holding no Zone permissions, and the
+  // check read that as an answer about the domain rather than about the
+  // token. A wrong conclusion stated confidently is worse than none.
+  check('...and surfacing a token that cannot see the zone as its own finding',
+    /statement about the TOKEN/.test(wf)
+      && /cannot see any DNS zone/.test(wf));
+  check('...pinned to the sentence the script emits for it',
+    /statement about the TOKEN/.test(dns));
+  check('...without letting that be read as a claim about the domain',
+    /nothing here says where this domain's DNS is hosted/.test(wf));
 }
 
 function fakeJwt() {

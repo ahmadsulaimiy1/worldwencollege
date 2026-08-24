@@ -862,6 +862,15 @@ jobs:
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
+          # "The token cannot see it" is not "it is not there". Cloudflare
+          # answers 200 with an empty list for a token that holds no Zone
+          # permissions, so a check that does not separate the two reports
+          # a wrong conclusion confidently — which is how the first run of
+          # this step announced that the domain's DNS must be hosted
+          # somewhere it is not.
+          if grep -q 'statement about the TOKEN' /tmp/clerk-dns.txt; then
+            echo "::warning::The deploy token cannot see any DNS zone, so the Clerk records could not be read — and nothing here says where this domain's DNS is hosted. Add Zone > Zone > Read and Zone > DNS > Edit to CLOUDFLARE_API_TOKEN, or make the change by hand in Cloudflare -> DNS -> Records."
+          fi
           if grep -q 'PROXIED' /tmp/clerk-dns.txt; then
             echo "::warning::A Clerk DNS record is PROXIED and must be DNS only. This is what returns HTTP 530 and takes sign-in down. Re-run this workflow with fix_clerk_dns enabled, or switch the orange cloud to grey in Cloudflare -> DNS -> Records."
           fi
