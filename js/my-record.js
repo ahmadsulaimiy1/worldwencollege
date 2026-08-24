@@ -51,16 +51,31 @@
   // A learner's own record is never public. Without a session there is
   // nothing to show, and the page says so rather than rendering an empty
   // shell that looks like a record with nothing in it.
-  var authHeaders = {};
-
-  function api(path, opts) {
-    var o = opts || {};
-    o.headers = Object.assign({ Accept: 'application/json' }, authHeaders, o.headers || {});
-    if (o.body) o.headers['Content-Type'] = 'application/json';
-    return fetch(path, o).then(function (r) {
-      return r.json().then(function (d) { return { ok: r.ok, status: r.status, data: d }; });
+  //
+  // THIS PAGE USED TO HOLD ITS OWN TOKEN, and that was a real defect
+  // rather than a stylistic one. It fetched a Clerk session token once,
+  // at page load, into a shared authHeaders object and reused it for
+  // every request afterwards. Clerk session tokens last about a minute.
+  // js/api-auth.js exists precisely to mint a fresh one per request —
+  // its own comment names this failure — and this was the single page
+  // that bypassed it. The first call after sign-in worked and everything
+  // later in the session was refused, which reads to a learner as their
+  // record being broken rather than their session being stale.
+  //
+  // settle() is the only thing left of the old helper. The seam throws
+  // on a non-2xx; these call sites branch on r.ok and r.status instead,
+  // and that is the right shape for this page — 401 is not an error here,
+  // it is the not-signed-in state and has its own copy. So the rejection
+  // is converted back into a value rather than the call sites being
+  // rewritten around a different control flow.
+  function settle(promise) {
+    return promise.then(function (data) {
+      return { ok: true, status: 200, data: data || {} };
+    }, function (err) {
+      return { ok: false, status: (err && err.status) || 0, data: (err && err.body) || {} };
     });
   }
+  var D = function () { return window.AIPC_data; };
 
   function state(strong, rest) {
     var box = $('#state');
@@ -148,7 +163,7 @@
         btn.setAttribute('aria-label', 'Withdraw the link "' + (s.label || 'Untitled link') + '"');
         btn.addEventListener('click', function () {
           btn.disabled = true;
-          api('/api/student/profile-shares?id=' + encodeURIComponent(s.id), { method: 'DELETE' })
+          settle(D().revokeProfileShare(s.id))
             .then(loadShares);
         });
         li.appendChild(btn);
@@ -159,7 +174,7 @@
   }
 
   function loadShares() {
-    return api('/api/student/profile-shares').then(function (r) {
+    return settle(D().profileShares()).then(function (r) {
       if (r.ok) renderShares(r.data.shares || []);
     });
   }
@@ -199,7 +214,7 @@
   }
 
   function loadDocuments() {
-    return api('/api/student/documents').then(function (r) {
+    return settle(D().documents()).then(function (r) {
       if (r.ok) renderDocuments(r.data.documents || []);
     });
   }
@@ -211,17 +226,14 @@
       $('#handleError').textContent = '';
       $('#saved').textContent = '';
       var handle = $('#handle').value.trim();
-      api('/api/student/profile', {
-        method: 'PATCH',
-        body: JSON.stringify({
+      settle(D().saveProfile({
           handle: handle || null,
           isPublic: $('#isPublic').checked,
           transcript: $('#showTranscript').checked,
           competencies: $('#showCompetencies').checked,
           cpd: $('#showCpd').checked,
           studyTime: $('#showStudyTime').checked,
-        }),
-      }).then(function (r) {
+        })).then(function (r) {
         if (!r.ok) {
           $('#handleError').textContent = (r.data && r.data.message)
             || 'Those settings could not be saved.';
@@ -238,14 +250,11 @@
       e.preventDefault();
       var sections = [].slice.call(document.querySelectorAll('input[name="sections"]:checked'))
         .map(function (i) { return i.value; });
-      api('/api/student/profile-shares', {
-        method: 'POST',
-        body: JSON.stringify({
+      settle(D().createProfileShare({
           sections: sections,
           days: Number($('#shareDays').value),
           label: $('#shareLabel').value.trim() || null,
-        }),
-      }).then(function (r) {
+        })).then(function (r) {
         var box = $('#newLink');
         box.textContent = '';
         box.hidden = false;
@@ -267,10 +276,7 @@
       btn.addEventListener('click', function () {
         $('#docError').textContent = '';
         btn.disabled = true;
-        api('/api/student/documents', {
-          method: 'POST',
-          body: JSON.stringify({ documentType: btn.getAttribute('data-issue') }),
-        }).then(function (r) {
+        settle(D().issueDocument({ documentType: btn.getAttribute('data-issue') })).then(function (r) {
           btn.disabled = false;
           if (!r.ok) {
             $('#docError').textContent = (r.data && r.data.message)
@@ -284,7 +290,7 @@
   }
 
   function load() {
-    api('/api/student/profile').then(function (r) {
+    settle(D().profile()).then(function (r) {
       if (r.status === 401) {
         state('You are not signed in.',
           'Your academic record is private to you. Sign in to see it, or verify an award by its code if you are checking someone else’s.');
@@ -315,10 +321,11 @@
     if (cfg.clerkPublishableKey && typeof window.AIPC_loadClerk === 'function') {
       window.AIPC_loadClerk(cfg.clerkPublishableKey, function (err, clerk) {
         if (!err && clerk && clerk.session) {
-          clerk.session.getToken().then(function (tok) {
-            if (tok) authHeaders.Authorization = 'Bearer ' + tok;
-            load();
-          }).catch(load);
+          // attach() hands the session to js/api-auth.js, which mints a
+          // fresh token per request. Nothing is captured here: that is
+          // the whole point of the change.
+          if (window.AIPC_apiAuth) window.AIPC_apiAuth.attach(clerk);
+          load();
           return;
         }
         load();

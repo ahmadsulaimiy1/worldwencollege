@@ -53,7 +53,8 @@ window.AIPC_data = (function () {
     'me',
     // student
     'dashboard', 'studyPlan', 'profile', 'saveProfile',
-    'profileShares', 'createProfileShare', 'documents', 'sharedProfile',
+    'profileShares', 'createProfileShare', 'revokeProfileShare',
+    'documents', 'issueDocument', 'sharedProfile',
     // learning
     'timeOnTask', 'reviewQueue', 'recordingInit', 'recordingPart',
     'recordingComplete', 'recordingReview', 'quizAttempt',
@@ -117,10 +118,21 @@ window.AIPC_data = (function () {
     dashboard: function () { return request('/api/student/dashboard'); },
     studyPlan: function () { return request('/api/student/study-plan'); },
     profile: function () { return request('/api/student/profile'); },
+    // PATCH, not PUT. functions/api/student/profile.js exports
+    // onRequestGet and onRequestPatch and nothing else, so a PUT was
+    // never handled by anything — the call went out, the endpoint did
+    // not answer it, and a learner's saved profile silently did not
+    // save. Verified against the endpoint rather than assumed.
     saveProfile: function (body) {
-      return request('/api/student/profile', { method: 'PUT', body: body });
+      return request('/api/student/profile', { method: 'PATCH', body: body });
     },
     profileShares: function () { return request('/api/student/profile-shares'); },
+    revokeProfileShare: function (id) {
+      return request('/api/student/profile-shares?id=' + seg(id), { method: 'DELETE' });
+    },
+    issueDocument: function (body) {
+      return request('/api/student/documents', { method: 'POST', body: body });
+    },
     createProfileShare: function (body) {
       return request('/api/student/profile-shares', { method: 'POST', body: body });
     },

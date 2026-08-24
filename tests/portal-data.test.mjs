@@ -101,6 +101,7 @@ check(`Every endpoint the seam serves has a route behind it — ${new Set(endpoi
 //   admin-enrolments.js — six call sites including role changes. Every
 //     operation exists on the seam; this is mechanical work that wants
 //     its own diff rather than riding along with the seam's.
+//   (my-record.js has since been migrated in full — see below.)
 //   graduate.js — its QR call is migrated. The remaining fetch is a
 //     PUBLIC, unauthenticated record lookup whose caller deliberately
 //     inspects the body on a non-2xx, so that a withdrawn link and an
@@ -110,7 +111,7 @@ check(`Every endpoint the seam serves has a route behind it — ${new Set(endpoi
 //
 // Add each here as it lands, so the list is a record of what is actually
 // guaranteed rather than an aspiration.
-const MIGRATED = ['my-programme.js', 'instructor-review.js'];
+const MIGRATED = ['my-programme.js', 'instructor-review.js', 'my-record.js'];
 
 const offenders = [];
 for (const f of MIGRATED) {
@@ -178,6 +179,24 @@ check('humanError classifies 401, 403, 404 and 429 by status',
   covered.length === 4, 'covered: ' + covered.join(', '));
 check('humanError never surfaces HTTP statusText',
   !/return[^;]*statusText/.test(seamSrc.slice(seamSrc.indexOf('function humanError('))));
+
+// ---------------------------------------------------------------------
+// 6 · Every page loading the seam also loads what the seam requires
+// ---------------------------------------------------------------------
+// js/portal-data.js calls window.AIPC_apiAuth.headers() on every
+// authenticated operation. A page that loads the seam without
+// js/api-auth.js therefore throws on first call — and graduate.html did
+// exactly that, surviving only because its one operation (credentialQr)
+// uses a plain fetch. The next authenticated call added there would have
+// broken it, with nothing to say why.
+const missingAuth = [];
+for (const p of readdirSync(ROOT).filter((f) => f.endsWith('.html'))) {
+  const html = readFileSync(path.join(ROOT, p), 'utf8');
+  if (!html.includes('/js/portal-data.js')) continue;
+  if (!html.includes('/js/api-auth.js')) missingAuth.push(p);
+}
+check('Every page loading the seam also loads js/api-auth.js',
+  missingAuth.length === 0, missingAuth.join(', '));
 
 console.log(`\n${passed} passed, ${failed} failed.`);
 if (failed) process.exitCode = 1;
