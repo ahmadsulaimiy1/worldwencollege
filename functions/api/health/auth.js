@@ -73,6 +73,50 @@ export async function onRequestGet({ env }) {
           + 'changes will not reconcile.',
       blocking: false,
     },
+    // Whether the configured keys belong to the SAME Clerk instance.
+    //
+    // This check exists because the very first deploy that reported the
+    // instance found a mismatch waiting to happen: the site is wired to
+    // a Clerk PRODUCTION instance (clerk.worldwencollege.co.uk) while
+    // the operator was reading the DEVELOPMENT environment in Clerk's
+    // dashboard, where the keys are sk_test_/pk_test_.
+    //
+    // A test secret against a live publishable key fails exactly like
+    // the outage this endpoint was built for: sign-in succeeds and
+    // every request after it is refused. The difference is invisible
+    // unless something compares them, so something does.
+    //
+    // Only the PREFIX is read — sk_test_ versus sk_live_ is a category,
+    // not a value, and no part of a key is ever returned.
+    keyEnvironmentMatch: (() => {
+      const { url } = resolveJwksUrl(env);
+      if (!url) return { ok: true, detail: 'No instance resolved yet; nothing to compare.', blocking: false };
+      const host = jwksHost(url);
+      const instance = /\.clerk\.accounts\.dev$/.test(host || '') ? 'development' : 'production';
+      const envOf = (key) => {
+        if (typeof key !== 'string') return null;
+        if (/^(pk|sk)_test_/.test(key)) return 'development';
+        if (/^(pk|sk)_live_/.test(key)) return 'production';
+        return null;
+      };
+      const pk = envOf(env.CLERK_PUBLISHABLE_KEY);
+      const sk = envOf(env.CLERK_SECRET_KEY);
+      const wrong = [];
+      if (pk && pk !== instance) wrong.push(`CLERK_PUBLISHABLE_KEY is a ${pk} key`);
+      if (sk && sk !== instance) wrong.push(`CLERK_SECRET_KEY is a ${sk} key`);
+      return {
+        ok: wrong.length === 0,
+        detail: wrong.length === 0
+          ? `This is a Clerk ${instance} instance (${host}), and every key configured for it `
+            + `is a ${instance} key.`
+          : `This is a Clerk ${instance} instance (${host}), but ${wrong.join(' and ')}. `
+            + `Sign-in will appear to succeed and every request after it will be refused. `
+            + `Copy the ${instance === 'production' ? 'sk_live_/pk_live_' : 'sk_test_/pk_test_'} `
+            + `keys from the ${instance} environment in the Clerk dashboard.`,
+        instance,
+        blocking: false,
+      };
+    })(),
     // Whether a first-time learner can be given an account.
     //
     // Clerk's DEFAULT session token carries no email claim, and

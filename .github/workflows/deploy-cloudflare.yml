@@ -705,10 +705,21 @@ jobs:
             "")                   instance="" ;;
             *)                    instance="Clerk PRODUCTION instance — expects pk_live_/sk_live_ keys" ;;
           esac
+          # A key from the wrong Clerk environment is the one fault that
+          # still looks exactly like the original outage. The endpoint
+          # compares them; this surfaces it where somebody will see it.
+          mismatch=$(sed -n 's/.*\(but CLERK_[A-Z_]* is a [a-z]* key[^"]*\).*/\1/p' /tmp/health.json 2>/dev/null)
           echo "  /api/health/auth -> HTTP $code"
           echo "  $summary"
           [ -n "$verifies" ] && echo "  verifying against $verifies"
           [ -n "$instance" ] && echo "  $instance"
+          if [ -n "$mismatch" ]; then
+            echo "::warning::WRONG CLERK ENVIRONMENT. $mismatch"
+            {
+              echo ""
+              echo "> **Wrong Clerk environment.** $mismatch"
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
 
           {
             echo "### Can this deployment authenticate?"

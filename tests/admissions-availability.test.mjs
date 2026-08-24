@@ -199,6 +199,48 @@ const req = (headers = {}) => new Request('https://wec.test/api/admissions/draft
   check('...without treating it as blocking, since two other routes exist',
     pBody.checks.accountProvisioning.blocking === false);
 
+  // Keys from two different Clerk environments. The first deploy that
+  // reported the instance found this waiting to happen: the site is
+  // wired to a Clerk PRODUCTION instance while the operator was reading
+  // the DEVELOPMENT environment in the dashboard, where the keys are
+  // sk_test_/pk_test_. A test secret against a live publishable key
+  // fails exactly like the original outage — sign-in succeeds and every
+  // request after it is refused — and nothing compared them.
+  const PROD = 'pk_live_' + Buffer.from('clerk.worldwencollege.co.uk$').toString('base64');
+  const DEV = 'pk_test_' + Buffer.from('grand-mole-42.clerk.accounts.dev$').toString('base64');
+
+  const matched = await healthGet({ env: { DB: {}, CLERK_PUBLISHABLE_KEY: PROD, CLERK_SECRET_KEY: 'sk_live_x' } });
+  const mBody = await matched.json();
+  check('Health: matched production keys report no mismatch',
+    mBody.checks.keyEnvironmentMatch.ok === true, mBody.checks.keyEnvironmentMatch.detail);
+  check('...and name the instance as production',
+    mBody.checks.keyEnvironmentMatch.instance === 'production');
+
+  const mixed = await healthGet({ env: { DB: {}, CLERK_PUBLISHABLE_KEY: PROD, CLERK_SECRET_KEY: 'sk_test_x' } });
+  const xBody = await mixed.json();
+  check('Health: a TEST secret on a production instance is caught',
+    xBody.checks.keyEnvironmentMatch.ok === false, xBody.checks.keyEnvironmentMatch.detail);
+  check('...naming which key is wrong',
+    /CLERK_SECRET_KEY is a development key/.test(xBody.checks.keyEnvironmentMatch.detail));
+  check('...and saying what the symptom will be',
+    /appear to succeed and every request after it will be refused/
+      .test(xBody.checks.keyEnvironmentMatch.detail));
+  check('...and which keys to copy instead',
+    /sk_live_\/pk_live_/.test(xBody.checks.keyEnvironmentMatch.detail));
+
+  const dev = await healthGet({ env: { DB: {}, CLERK_PUBLISHABLE_KEY: DEV, CLERK_SECRET_KEY: 'sk_test_x' } });
+  const dBody = await dev.json();
+  check('Health: matched development keys are fine too',
+    dBody.checks.keyEnvironmentMatch.ok === true
+      && dBody.checks.keyEnvironmentMatch.instance === 'development',
+    dBody.checks.keyEnvironmentMatch.detail);
+
+  // Not blocking: a mismatch is a real fault but the endpoint reports
+  // rather than adjudicates, and an operator mid-migration between
+  // instances should not be told the deployment is dead.
+  check('...and a mismatch reports without blocking',
+    xBody.checks.keyEnvironmentMatch.blocking === false);
+
   // It must never return a secret. Every value is a boolean or a
   // sentence we wrote.
   const secretish = await healthGet({ env: {
@@ -211,6 +253,14 @@ const req = (headers = {}) => new Request('https://wec.test/api/admissions/draft
   const withKey = await healthGet({ env: { DB: {}, CLERK_SECRET_KEY: 'sk_live_NEVERPRINTTHIS',
     CLERK_PUBLISHABLE_KEY: 'pk_live_' + Buffer.from('h.clerk.accounts.dev$').toString('base64') } });
   check('...including the Clerk secret key', !(await withKey.text()).includes('NEVERPRINTTHIS'));
+  // The environment check reads a key's PREFIX. That is a category, not
+  // a value — and the rest of the key must still never appear.
+  const prefixed = await healthGet({ env: { DB: {},
+    CLERK_PUBLISHABLE_KEY: 'pk_live_' + Buffer.from('clerk.worldwencollege.co.uk$').toString('base64'),
+    CLERK_SECRET_KEY: 'sk_test_THISPARTISSECRET' } });
+  const pText = await prefixed.text();
+  check('...even when it has just read that key\u2019s prefix',
+    !pText.includes('THISPARTISSECRET') && /development key/.test(pText));
   check('...nor the full JWKS URL path', !text.includes('/.well-known/jwks.json'));
 }
 
