@@ -44,10 +44,43 @@ Why this fits without over-committing:
 ```
 wrangler d1 create wec-lc                                  # get a real database_id
 # paste that id into wrangler.toml's database_id field
-npm run db:schema                                          # applies sql/schema.sql
+npm run db:provision                                       # schema AND the curriculum
 wrangler pages secret put STRIPE_SECRET_KEY                # repeat per .env.example
 wrangler pages deploy .
 ```
+
+**`db:provision`, not `db:schema`.** This line used to read
+`npm run db:schema`, and that was the single most consequential
+sentence in this document, because it was wrong in a way nothing
+caught.
+
+`sql/schema.sql` creates every table and seeds six rows into `courses`
+— and nothing at all into `units` or `learning_items`. The programme
+itself, all 60 modules, 294 learning items and 660 quiz questions,
+lives in `sql/seed-curriculum-level-1.sql` … `-6.sql`. Sixteen scripts
+in this repository read those files; the provisioning step did not. A
+College set up exactly as this page instructed would have taken a
+learner's money and handed them a programme page listing six levels
+with nothing inside any of them.
+
+`scripts/provision-db.mjs` loads both, in the order the foreign keys
+require, stops on the first failure rather than skipping past it, and
+then asks the database level by level whether modules actually arrived
+— exiting non-zero if any level came out empty. `npm run
+db:provision:local` does the same against the local D1, so nobody has
+to try it on the real one first.
+
+`tests/provisioning.test.mjs` holds it: it builds a database from
+exactly the file list that script exports and fails if any level is an
+empty shell, if a quiz has no questions, if a reading has no text, or
+if an answer key points past the end of its own choices.
+
+**One thing is deliberately not provisioned:** the level examination
+papers. A paper is an academic decision, authored and published by the
+Registrar at `/staff-papers.html`; seeding one would be the platform
+setting its own standard. Until a paper is published for a level,
+learners can study that level but cannot sit it — which is also
+asserted, so it stays a decision rather than becoming an oversight.
 
 ---
 
