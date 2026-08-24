@@ -73,6 +73,7 @@ const content = await import(pathToFileURL(`${ROOT}/functions/_lib/lms/content.j
 const adminEnrol = await import(pathToFileURL(`${ROOT}/functions/_lib/admin/enrolments.js`));
 const adminRoles = await import(pathToFileURL(`${ROOT}/functions/_lib/admin/roles.js`));
 const studyPlan = await import(pathToFileURL(`${ROOT}/functions/_lib/student/study-plan.js`));
+const dashboard = await import(pathToFileURL(`${ROOT}/functions/_lib/student/dashboard.js`));
 const timeOnTask = await import(pathToFileURL(`${ROOT}/functions/_lib/lms/time-on-task.js`));
 const registry = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/awards.js`));
 const profile = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/profile.js`));
@@ -404,6 +405,16 @@ createServer(async (req, res) => {
     if (url.pathname === '/api/student/study-plan' && req.method === 'GET') {
       const who = url.searchParams.get('as') || 'usr_demo';
       return json(res, await studyPlan.buildStudyPlan(env, who));
+    }
+    // /api/auth/me and /api/student/dashboard — what js/portal-auth.js
+    // calls once a real Clerk session exists (see tests/browser/
+    // student-portal-preview.mjs, the only suite that exercises them).
+    // Fixed to usr_demo like the other /api/student/* routes above.
+    if (url.pathname === '/api/auth/me' && req.method === 'GET') {
+      return json(res, { id: 'usr_demo', email: 'demo@example.com', preferredName: null, preferredLanguage: 'en', role: 'student' });
+    }
+    if (url.pathname === '/api/student/dashboard' && req.method === 'GET') {
+      return json(res, await dashboard.buildStudentDashboard(env, 'usr_demo'));
     }
     if (url.pathname === '/api/admin/role' && req.method === 'GET') {
       const who = url.searchParams.get('userId');

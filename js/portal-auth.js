@@ -35,6 +35,34 @@
       el.removeAttribute('style');
       el.addEventListener('click', function () { clerk.openUserProfile(); });
     });
+    var accountNote = document.querySelector('[data-account-note]');
+    if (accountNote) accountNote.textContent = 'Editing these details isn’t available from this page yet — contact Admissions to update your contact information.';
+    var passwordNote = document.querySelector('[data-password-note]');
+    if (passwordNote) passwordNote.textContent = 'Managed from your account security settings.';
+  }
+
+  // Clerk's own record, not a WEC guess — telling a student who has
+  // turned 2FA on that it is "not enabled" would be actively wrong,
+  // not merely illustrative.
+  function render2fa(clerk) {
+    var pill = document.querySelector('[data-twofactor-status]');
+    if (!pill) return;
+    var on = !!clerk.user.twoFactorEnabled;
+    pill.textContent = on ? 'Enabled' : 'Not enabled';
+    pill.className = 'status-pill status-pill--' + (on ? 'good' : 'muted');
+  }
+
+  // The static banner otherwise keeps insisting "not a live student
+  // account" to a real, signed-in student — the mandate's honesty
+  // problem pointed the other way from a placeholder overstating what
+  // is real. Swapped only once Clerk auth has actually succeeded.
+  function updateBanner() {
+    var banner = document.querySelector('.preview-banner');
+    if (!banner) return;
+    banner.innerHTML = '<strong>Some sections are illustrative</strong>' +
+      'You’re signed in — your level, progress and payment history below are real. ' +
+      'Classes, assignments, the Digital Library and messaging are not yet built. ' +
+      '<a href="/student-portal/" style="color:var(--royal-deep);text-decoration:underline;margin-left:.6em;">Back to Student Portal overview →</a>';
   }
 
   function applyRealUser(clerk, done) {
@@ -47,6 +75,8 @@
     setText(document.querySelectorAll('[data-user-initials]'), initials || '—');
     setText(document.querySelectorAll('[data-user-email]'), email);
     document.querySelectorAll('[data-demo-tag]').forEach(function (el) { el.hidden = true; });
+    updateBanner();
+    render2fa(clerk);
 
     function setText(nodeList, value) {
       nodeList.forEach(function (el) {
@@ -78,12 +108,53 @@
         .then(function (resp) { return resp.ok ? resp.json() : null; })
         .then(function (dashboard) { if (dashboard) renderDashboard(dashboard); })
         .catch(function () {});
+    }).then(function () {
+      // Per-level module progress — see functions/_lib/student/study-plan.js.
+      // Deliberately NOT the same figure as the illustrative full-programme
+      // "units" tile it replaces: that count has no backing table (see
+      // functions/_lib/student/dashboard.js's own comment) and inventing a
+      // programme-wide total would be exactly the fabrication the rest of
+      // this file exists to avoid. This is real, just scoped to one level.
+      return fetch('/api/student/study-plan', { headers: { Authorization: 'Bearer ' + token } })
+        .then(function (resp) { return resp.ok ? resp.json() : null; })
+        .then(function (plan) { if (plan) renderUnitsCompleted(plan); })
+        .catch(function () {});
     }).then(done, done);
   }
 
   function renderDashboard(dashboard) {
     renderLevelProgress(dashboard);
     renderPaymentHistory(dashboard.payments);
+  }
+
+  var UNIT_STATE_COPY = {
+    no_enrolment: 'Not yet enrolled',
+    awaiting_content: 'Level being prepared',
+    programme_complete: 'Programme complete',
+  };
+
+  function renderUnitsCompleted(plan) {
+    var fill = document.querySelector('[data-progress-fill]');
+    var caption = document.querySelector('[data-progress-caption]');
+    var pctEl = document.querySelector('[data-progress-pct]');
+    var tileValue = document.querySelector('[data-units-value]');
+    var tileSub = document.querySelector('[data-units-sub]');
+
+    if (plan.totalCount) {
+      var pct = Math.round((plan.completedCount / plan.totalCount) * 100);
+      if (fill) fill.style.width = pct + '%';
+      if (pctEl) pctEl.textContent = pct + '%';
+      if (caption) caption.textContent = plan.completedCount + ' of ' + plan.totalCount + ' units completed';
+      if (tileValue) tileValue.textContent = plan.completedCount + ' / ' + plan.totalCount;
+      if (tileSub) tileSub.textContent = plan.level ? 'Level ' + plan.level.roman + ' · this level' : 'This level';
+    } else {
+      var msg = UNIT_STATE_COPY[plan.state] || 'No data yet';
+      if (fill) fill.style.width = '0%';
+      if (pctEl) pctEl.textContent = '';
+      if (caption) caption.textContent = msg;
+      if (tileValue) tileValue.textContent = '—';
+      if (tileSub) tileSub.textContent = msg;
+    }
   }
 
   function renderLevelProgress(dashboard) {
@@ -113,9 +184,15 @@
       setTextAll('[data-stepper-status]', 'In Progress · Level ' + activeEnrolment.roman);
       setTextAll('[data-current-level-value]', activeEnrolment.roman);
       setTextAll('[data-current-level-sub]', activeEnrolment.levelName + ' · CEFR ' + activeEnrolment.cefr);
+      setTextAll('[data-mini-level]', activeEnrolment.roman + ' · ' + activeEnrolment.levelName + ' (CEFR ' + activeEnrolment.cefr + ')');
+      var statusEl = document.querySelector('[data-mini-status]');
+      if (statusEl) { statusEl.textContent = 'Active'; statusEl.className = 'status-pill status-pill--good'; }
     } else if (!dashboard.enrolments.length) {
       setTextAll('[data-user-level]', 'Not yet enrolled');
       setTextAll('[data-stepper-status]', 'Not enrolled');
+      setTextAll('[data-mini-level]', 'Not yet enrolled');
+      var statusEl2 = document.querySelector('[data-mini-status]');
+      if (statusEl2) { statusEl2.textContent = 'Not enrolled'; statusEl2.className = 'status-pill status-pill--muted'; }
     }
   }
 
@@ -124,7 +201,7 @@
     if (!tbody) return;
     tbody.innerHTML = '';
     if (!payments.length) {
-      tbody.innerHTML = '<tr><td colspan="4" style="color:var(--ink-soft)">No payments on record yet.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="4"><div class="empty-state"><p>No payments on record yet.</p></div></td></tr>';
       return;
     }
     var statusPillClass = { succeeded: 'good', pending: 'progress', processing: 'progress', failed: 'critical', refunded: 'muted', partially_refunded: 'muted' };

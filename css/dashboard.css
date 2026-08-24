@@ -157,7 +157,10 @@ body.app { background: var(--ivory); }
 @media (prefers-reduced-motion: reduce) { .form-stepper__dot { transition-duration: .01ms !important; } .form-stepper__node.is-done .form-stepper__control:hover .form-stepper__dot { transform: none; } }
 
 /* ---------------- Stat tiles ---------------- */
-.stat-tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+/* auto-fit rather than a fixed 4 so a page with fewer real tiles (see
+   student-portal/preview/) fills the row instead of leaving empty
+   tracks — a page that still has 4 fills exactly as before. */
+.stat-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
 @media (max-width: 900px) { .stat-tiles { grid-template-columns: repeat(2, 1fr); } }
 /* A 2-column phone width still only leaves ~140-160px per tile after
    padding — tight for a value like "$56,999.86" at 1.7rem. Drop to a

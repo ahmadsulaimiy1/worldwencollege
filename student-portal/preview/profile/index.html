@@ -33,12 +33,12 @@
     </a>
     <ul class="app-nav">
       <li><a href="/student-portal/preview/"><span class="ic">&#9679;</span>Dashboard</a></li>
-      <li><a href="#" class="disabled-link" aria-disabled="true" tabindex="-1"><span class="ic">&#9737;</span>My Level</a></li>
+      <li><a href="/my-programme.html"><span class="ic">&#9737;</span>My Programme</a></li>
       <li><a href="#" class="disabled-link" aria-disabled="true" tabindex="-1"><span class="ic">&#9636;</span>Classes</a></li>
       <li><a href="#" class="disabled-link" aria-disabled="true" tabindex="-1"><span class="ic">&#9998;</span>Assignments</a></li>
       <li><a href="#" class="disabled-link" aria-disabled="true" tabindex="-1"><span class="ic">&#9733;</span>Digital Library</a></li>
       <li><a href="#" class="disabled-link" aria-disabled="true" tabindex="-1"><span class="ic">&#9993;</span>Messages</a></li>
-      <li><a href="#" class="disabled-link" aria-disabled="true" tabindex="-1"><span class="ic">&#127894;</span>Certificates</a></li>
+      <li><a href="/my-record.html"><span class="ic">&#127894;</span>My Record</a></li>
       <li class="active"><a href="#" aria-current="page"><span class="ic">&#9881;</span>Profile</a></li>
     </ul>
     <div class="app-sidebar__foot">
@@ -64,10 +64,10 @@
       <div>
         <div class="profile-header__name"><span data-user-name>A. Student</span> <span data-demo-tag style="color:var(--ink-soft);font-weight:400;font-size:.85rem">(demo)</span></div>
         <div class="profile-header__meta">
-          <span class="profile-header__id">Student ID: WEC-DEMO-000001</span>
-          <span>·</span>
+          <span class="profile-header__id" data-demo-tag>Student ID: WEC-DEMO-000001</span>
+          <span data-demo-tag>·</span>
           <span class="status-pill status-pill--good">Founding Cohort</span>
-          <span class="status-pill status-pill--progress">Level III · Intermediate</span>
+          <span class="status-pill status-pill--progress" data-user-level>Level III · Intermediate</span>
         </div>
       </div>
     </div>
@@ -106,7 +106,7 @@
               </select>
             </div>
           </div>
-          <p class="disabled-note" style="margin-top:16px">Editing activates once your real account is live. Preview fields are shown disabled on purpose.</p>
+          <p class="disabled-note" style="margin-top:16px" data-account-note>Editing activates once your real account is live. Preview fields are shown disabled on purpose.</p>
         </div>
 
         <div class="settings-group">
@@ -140,12 +140,12 @@
             <p>Keep your account protected.</p>
           </div>
           <div class="security-row">
-            <div><div class="pref-row__label">Password</div><div class="pref-row__desc">Last changed — not applicable in preview</div></div>
+            <div><div class="pref-row__label">Password</div><div class="pref-row__desc" data-password-note>Last changed — not applicable in preview</div></div>
             <button type="button" class="btn btn--outline" disabled data-open-account-security>Change</button>
           </div>
           <div class="security-row">
             <div><div class="pref-row__label">Two-factor authentication</div><div class="pref-row__desc">Add an extra layer of protection</div></div>
-            <span class="status-pill status-pill--muted">Not enabled</span>
+            <span class="status-pill status-pill--muted" data-twofactor-status>Not enabled</span>
           </div>
           <div class="security-row">
             <div><div class="pref-row__label">Active sessions</div><div class="pref-row__desc">Review devices signed in to your account</div></div>
@@ -160,9 +160,9 @@
           </div>
           <ul class="mini-list">
             <li>Programme <span>International English Fluency Course</span></li>
-            <li>Current Level <span>III · Intermediate (B1)</span></li>
+            <li>Current Level <span data-mini-level>III · Intermediate (B1)</span></li>
             <li>Study Mode <span>Online</span></li>
-            <li>Enrolment Status <span class="status-pill status-pill--good">Active</span></li>
+            <li>Enrolment Status <span class="status-pill status-pill--good" data-mini-status>Active</span></li>
           </ul>
         </div>
       </div>
