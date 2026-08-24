@@ -275,6 +275,31 @@ Re-read `/api/health/auth` afterwards. `providerReachable` and
 counts the signing keys it received, the second requests the exact
 `clerk.browser.js` URL the browser will.
 
+#### Can the deploy do this itself?
+
+Not with the token it has today. Every deploy runs
+`scripts/clerk-dns.mjs`, which reads the Cloudflare zone behind the
+Clerk host and prints each record with its proxy status; a run
+dispatched with **fix_clerk_dns** enabled switches the proxied ones to
+DNS only. It only ever touches CNAMEs whose target is a Clerk-owned
+host, so the site's own proxied records are never altered.
+
+On 24 August 2026 it reported:
+
+```
+This API token can be used, but it can see no DNS zones at all — which is
+what a token scoped to Pages, D1 and R2 looks like. That is a statement
+about the TOKEN, not about clerk.worldwencollege.co.uk.
+```
+
+`CLOUDFLARE_API_TOKEN` holds Pages, D1 and R2 permissions and no Zone
+permissions, and Cloudflare answers a zone query from such a token with
+an empty list rather than a refusal. To let the deploy do the repair,
+add **Zone → Zone → Read** and **Zone → DNS → Edit**, scoped to
+`worldwencollege.co.uk`, to that token — or leave the token as it is and
+make the change by hand. Both routes end in the same place; the manual
+one is faster once.
+
 Switching the site back to the Clerk **development** instance —
 `pk_test_`/`sk_test_` keys, a `*.clerk.accounts.dev` Frontend API that
 needs no DNS at all — is the other way out, and it works immediately.
