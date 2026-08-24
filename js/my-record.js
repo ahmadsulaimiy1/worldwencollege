@@ -219,6 +219,7 @@
   function wire() {
     $('#privacyForm').addEventListener('submit', function (e) {
       e.preventDefault();
+      $('#handleField').classList.remove('is-invalid');
       $('#handleError').textContent = '';
       $('#saved').textContent = '';
       var handle = $('#handle').value.trim();
@@ -235,6 +236,7 @@
           ? 'Your profile is published.'
           : 'Your profile is private.');
       }).catch(function (err) {
+        $('#handleField').classList.add('is-invalid');
         $('#handleError').textContent = (err && err.apiMessage) || 'Those settings could not be saved.';
       });
     });

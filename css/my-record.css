@@ -39,7 +39,10 @@
    affordances for free. */
 .rec-toggle input[type="checkbox"] {
   width: 28px; height: 28px;
-  accent-color: var(--royal, #14264A);
+  /* Matches dashboard.css's .toggle switch's checked colour — the
+     shape differs on purpose (a real checkbox here, see below) but
+     "on" should read as the same colour everywhere in the portal. */
+  accent-color: var(--gold, #C7A24A);
   cursor: pointer;
   /* The label is the target on a phone; this keeps the box itself a
      comfortable one too. */
@@ -52,11 +55,10 @@
   font: 400 .82rem/1 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   color: var(--ink-soft, #4B5768);
 }
+/* The URL-slug nature of a handle is worth keeping monospace even
+   after adopting .field's shared border/padding/focus-glow treatment. */
 .rec-handle input {
-  flex: 1 1 12rem; min-width: 0; min-height: 44px;
-  padding: .6rem .8rem;
-  border: 1px solid rgba(20, 38, 74, .22);
-  border-radius: 8px;
+  flex: 1 1 12rem; min-width: 0;
   font: 600 .95rem/1.2 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 }
 .rec-saved { margin: .4rem 0 0; font-size: .88rem; font-weight: 600; color: #1E6B3A; min-height: 1.2em; }
@@ -83,11 +85,6 @@
 .rec-fieldset input { width: 22px; height: 22px; accent-color: var(--royal, #14264A); }
 .rec-sharemeta { display: grid; gap: .8rem; margin: 1rem 0; }
 @media (min-width: 40rem) { .rec-sharemeta { grid-template-columns: 2fr 1fr; } }
-.rec-sharemeta input, .rec-sharemeta select {
-  width: 100%; min-height: 44px; padding: .6rem .8rem;
-  border: 1px solid rgba(20, 38, 74, .22); border-radius: 8px;
-  font: 400 .95rem/1.2 var(--font-body, Inter, sans-serif);
-}
 
 /* The link is shown once and cannot be shown again — the College keeps
    only a hash. The styling says "copy this now" rather than leaving it
