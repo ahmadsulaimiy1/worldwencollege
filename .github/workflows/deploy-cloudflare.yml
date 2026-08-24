@@ -713,6 +713,42 @@ jobs:
           echo "  $summary"
           [ -n "$verifies" ] && echo "  verifying against $verifies"
           [ -n "$instance" ] && echo "  $instance"
+
+          # THE WHOLE ANSWER, NOT A SUMMARY OF IT.
+          #
+          # Every line above is a `sed` extraction of one field. That is
+          # how a deployment reported "HTTP 200, prerequisites are
+          # configured" while nobody could sign in: the fields that were
+          # extracted were all healthy, and the endpoint had not been
+          # asked anything that could have said otherwise. Printing the
+          # entire body costs one screen and removes the possibility
+          # that the next fault is one this step forgot to grep for.
+          echo ""
+          echo "  --- full diagnosis ---"
+          python3 -m json.tool /tmp/health.json 2>/dev/null | sed 's/^/  /' || sed 's/^/  /' /tmp/health.json
+
+          # A Clerk PRODUCTION instance serves its Frontend API from a
+          # domain of the College's own, and that domain answers nothing
+          # until the DNS records Clerk asks for are added and verified.
+          # Every configuration check passes in that state and no one
+          # can sign in — so the endpoint now contacts the provider, and
+          # this names the result where an operator will read it.
+          unreachable=$(sed -n 's/.*"providerReachable":{"ok":false,"detail":"\([^"]*\)".*/\1/p' /tmp/health.json 2>/dev/null)
+          noform=$(sed -n 's/.*"browserSignIn":{"ok":false,"detail":"\([^"]*\)".*/\1/p' /tmp/health.json 2>/dev/null)
+          if [ -n "$unreachable" ]; then
+            echo "::warning::CLERK INSTANCE UNREACHABLE. $unreachable"
+            {
+              echo ""
+              echo "> **The Clerk instance is not answering.** $unreachable"
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+          if [ -n "$noform" ]; then
+            echo "::warning::NO SIGN-IN FORM CAN APPEAR. $noform"
+            {
+              echo ""
+              echo "> **No sign-in form can appear.** $noform"
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
           if [ -n "$mismatch" ]; then
             echo "::warning::WRONG CLERK ENVIRONMENT. $mismatch"
             {

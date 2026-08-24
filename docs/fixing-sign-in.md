@@ -182,8 +182,9 @@ button.
 }
 ```
 
-- `ready: true`, HTTP 200 — a session can be verified and the record read.
-- `ready: false`, HTTP 503 — `blocking` names what to set.
+- `ready: true`, HTTP 200 — a session can be verified, the provider
+  answers, and the record can be read.
+- `ready: false`, HTTP 503 — `blocking` names what is wrong.
 - HTTP 404 — Pages Functions are not running on this project at all.
   Check that `functions/` reached the deploy surface.
 
@@ -191,6 +192,58 @@ button.
 but never block. Provisioning has three routes and any one is enough;
 the webhook only degrades reconciliation; authorized parties is optional
 hardening.
+
+### Configured, and still nobody can sign in
+
+Two of the checks — `providerReachable` and `browserSignIn` — do not read
+the environment. They contact the Clerk instance this deployment names:
+one fetches its signing keys, the other requests the exact
+`clerk.browser.js` URL `js/clerk-loader.js` puts in the page.
+
+They exist because every other check on this endpoint can pass on a
+deployment where sign-in is completely dead. A Clerk **production**
+instance serves its Frontend API from a domain of the College's own —
+`clerk.worldwencollege.co.uk` — and that domain answers nothing until
+the DNS records Clerk asks for have been added at the registrar and
+verified in the Clerk dashboard. In that state:
+
+- the publishable key is valid,
+- the derived JWKS URL is correct,
+- the key prefixes match the instance,
+- **and no sign-in form appears on any page at all**, because the
+  browser's `<script>` for Clerk never loads.
+
+The symptom is not "sign-in refused". It is a page that does nothing,
+which reads to everybody as the site being broken.
+
+```json
+{
+  "ready": false,
+  "blocking": ["providerReachable", "browserSignIn"],
+  "summary": "Sign-in cannot work on this deployment. Everything is configured, but the Clerk instance it names is not answering (providerReachable, browserSignIn). The fix is at the provider, not here."
+}
+```
+
+**The fix is not in this repository and not in Cloudflare.** Open the
+Clerk dashboard → **Domains** (or **Configure → Domains**) for the
+**Production** instance and read the DNS records it lists. Each one has
+to exist at whoever hosts DNS for `worldwencollege.co.uk` — for a domain
+on Cloudflare that is Cloudflare → **DNS → Records** — and each must show
+as *verified* in Clerk. Records for `clerk`, `accounts`, `clkmail` and
+two `clk*._domainkey` subdomains are the usual set. Clerk verifies them
+itself once they resolve; nothing needs redeploying afterwards, though a
+redeploy is a quick way to make this endpoint say so.
+
+A CNAME on Cloudflare DNS must be **DNS only** (grey cloud), not
+proxied. A proxied record answers with Cloudflare's certificate rather
+than Clerk's and the browser refuses the script.
+
+Switching the site back to the Clerk **development** instance —
+`pk_test_`/`sk_test_` keys, a `*.clerk.accounts.dev` Frontend API that
+needs no DNS at all — is the other way out, and it works immediately.
+It is the right choice for a preview and the wrong one for a live
+admissions round: development instances are rate-limited and their
+sessions are not meant to carry real applicants.
 
 ---
 

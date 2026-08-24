@@ -29,7 +29,31 @@
 // once auth works cannot tell you why auth does not work.
 
 import { jsonResponse } from '../../_lib/db.js';
-import { resolveJwksUrl } from '../../_lib/auth/clerk-adapter.js';
+import { resolveJwksUrl, frontendApiFromPublishableKey } from '../../_lib/auth/clerk-adapter.js';
+
+// The exact URL js/clerk-loader.js asks the browser to fetch. Kept in
+// one place and pinned by a test, because a health check that probes a
+// DIFFERENT url than the browser uses proves nothing about the browser.
+export const CLERK_BROWSER_SDK_PATH = '/npm/@clerk/clerk-js@5/dist/clerk.browser.js';
+
+// Five seconds is long enough for a working endpoint and short enough
+// that a dead one answers the operator rather than hanging on them.
+const PROBE_TIMEOUT_MS = 5000;
+
+async function probe(url, headers) {
+  try {
+    const resp = await fetch(url, {
+      headers: headers || {},
+      signal: AbortSignal.timeout(PROBE_TIMEOUT_MS),
+    });
+    return { status: resp.status, resp };
+  } catch (cause) {
+    // The host, the DNS failure and the timeout are all public facts
+    // about a public endpoint. None of them is a secret, and the
+    // operator cannot fix what the check will not name.
+    return { status: 0, error: String((cause && cause.message) || cause) };
+  }
+}
 
 function jwksHost(url) {
   if (!url) return null;
@@ -37,6 +61,52 @@ function jwksHost(url) {
 }
 
 export async function onRequestGet({ env }) {
+  // MEASURE, DO NOT ASSERT.
+  //
+  // Every check below this endpoint's first version was a check on the
+  // CONTENTS OF THE ENVIRONMENT: is the variable set, do the prefixes
+  // agree, can a URL be built from the key. All of that can be true of
+  // a deployment on which nobody can sign in, because none of it ever
+  // contacted Clerk.
+  //
+  // That gap matters most on exactly the configuration this site now
+  // runs. A Clerk PRODUCTION instance serves its Frontend API from a
+  // domain of the College's own — clerk.worldwencollege.co.uk — and
+  // that domain only answers once the DNS records Clerk asks for have
+  // been added and verified. Until they are, the publishable key is
+  // valid, the derived URL is correct, the key prefixes match, and:
+  //
+  //   * the browser's <script> for clerk.browser.js never loads, so
+  //     there is no sign-in form at all; and
+  //   * the Functions cannot fetch the JWKS, so any token that did
+  //     exist could not be verified.
+  //
+  // "Everything is configured and nothing works" is the failure this
+  // endpoint was built to end, so it now asks the provider directly.
+  const jwks = resolveJwksUrl(env);
+  const fapi = frontendApiFromPublishableKey(env.CLERK_PUBLISHABLE_KEY);
+  const sdkUrl = fapi ? `https://${fapi}${CLERK_BROWSER_SDK_PATH}` : null;
+
+  const [jwksProbe, sdkProbe] = await Promise.all([
+    jwks.url ? probe(jwks.url) : Promise.resolve(null),
+    // Range-limited: this asks whether the file is SERVED, not for the
+    // half-megabyte of it. A HEAD would risk a 405 from a CDN that
+    // serves the GET perfectly well, which would report a working
+    // deployment as broken.
+    sdkUrl ? probe(sdkUrl, { Range: 'bytes=0-0' }) : Promise.resolve(null),
+  ]);
+
+  // A JWKS that answers 200 with no signing keys in it verifies nothing.
+  let jwksKeyCount = null;
+  if (jwksProbe && jwksProbe.resp && jwksProbe.resp.ok) {
+    try {
+      const body = await jwksProbe.resp.json();
+      jwksKeyCount = Array.isArray(body && body.keys) ? body.keys.length : 0;
+    } catch {
+      jwksKeyCount = 0;
+    }
+  }
+
   const checks = {
     // The record. Without it every endpoint 503s regardless of auth.
     database: {
@@ -59,6 +129,104 @@ export async function onRequestGet({ env }) {
             + 'No session token can be verified, so every signed-in page fails after '
             + 'sign-in succeeds. Setting the publishable key alone is enough.',
         source,
+      };
+    })(),
+    // Does the Clerk instance this deployment names actually answer?
+    //
+    // Blocking, and deliberately so. If the JWKS endpoint cannot be
+    // reached, no session token can be verified, and every signed-in
+    // request fails — which is indistinguishable, to the applicant,
+    // from the outage that started all of this. A health check that
+    // reports "ready" through that is worse than no health check,
+    // because it sends the operator to look somewhere else.
+    providerReachable: (() => {
+      if (!jwks.url) {
+        return {
+          ok: true,
+          detail: 'No Clerk instance is configured, so there was nothing to reach. '
+            + 'sessionVerification above is the check that matters.',
+          blocking: false,
+        };
+      }
+      const host = jwksHost(jwks.url);
+      if (!jwksProbe || jwksProbe.status === 0) {
+        return {
+          ok: false,
+          detail: `${host} could not be reached at all (${(jwksProbe && jwksProbe.error) || 'no response'}). `
+            + 'If this is a Clerk PRODUCTION instance, the usual cause is that the DNS '
+            + 'records Clerk asks for have not been added or have not finished verifying '
+            + 'yet: the key is right, the URL is right, and the domain is not serving. '
+            + 'Clerk dashboard > Domains shows which records are still outstanding.',
+          host,
+        };
+      }
+      if (jwksProbe.status !== 200) {
+        return {
+          ok: false,
+          detail: `${host} answered HTTP ${jwksProbe.status} instead of 200 for its signing keys. `
+            + 'The instance exists but is not serving this deployment. Check that the '
+            + 'publishable key belongs to the instance you intend to use.',
+          host,
+          status: jwksProbe.status,
+        };
+      }
+      if (!jwksKeyCount) {
+        return {
+          ok: false,
+          detail: `${host} answered, but published no signing keys. No session token can be verified.`,
+          host,
+        };
+      }
+      return {
+        ok: true,
+        detail: `${host} answered with ${jwksKeyCount} signing key${jwksKeyCount === 1 ? '' : 's'}. `
+          + 'Session tokens from it can be verified.',
+        host,
+        status: 200,
+      };
+    })(),
+    // Can a visitor's BROWSER load Clerk at all?
+    //
+    // This is the half of sign-in that no server-side check touches.
+    // js/clerk-loader.js loads clerk.browser.js from the same Frontend
+    // API host; if that request fails there is no sign-in form on the
+    // page, and the site's own symptom is not "sign-in refused" but
+    // "nothing happens" — which reads to everybody involved as the
+    // site being broken rather than the auth domain being unfinished.
+    //
+    // The exact URL the browser will request, not an approximation.
+    browserSignIn: (() => {
+      if (!sdkUrl) {
+        return {
+          ok: true,
+          detail: 'No publishable key is configured, so no sign-in form is expected.',
+          blocking: false,
+        };
+      }
+      if (!sdkProbe || sdkProbe.status === 0) {
+        return {
+          ok: false,
+          detail: `The browser would load Clerk from ${fapi}, and that host could not be reached `
+            + `(${(sdkProbe && sdkProbe.error) || 'no response'}). No sign-in form can appear on any `
+            + 'page: the visitor sees a page that does nothing rather than a sign-in that fails. '
+            + 'Same cause and same fix as providerReachable above.',
+          url: sdkUrl,
+        };
+      }
+      if (sdkProbe.status !== 200 && sdkProbe.status !== 206) {
+        return {
+          ok: false,
+          detail: `The browser would load Clerk from ${fapi}, and that request answers HTTP `
+            + `${sdkProbe.status}. No sign-in form can appear on any page.`,
+          url: sdkUrl,
+          status: sdkProbe.status,
+        };
+      }
+      return {
+        ok: true,
+        detail: `A browser can load Clerk from ${fapi}, so the sign-in form can appear.`,
+        url: sdkUrl,
+        status: sdkProbe.status,
       };
     })(),
     // Account reconciliation. Its absence degrades rather than blocks:
@@ -155,9 +323,19 @@ export async function onRequestGet({ env }) {
     service: 'authentication',
     ready: blocking.length === 0,
     blocking,
+    // The wording distinguishes the two failures, because the fix is
+    // different and the operator will act on this sentence. Something
+    // MISSING is fixed by setting it here; something UNREACHABLE is
+    // fixed at the provider, and telling an operator to "configure"
+    // a check that is already configured sends them to the wrong
+    // dashboard for the rest of the afternoon.
     summary: blocking.length === 0
-      ? 'This deployment can verify a session and read the record.'
-      : `Sign-in cannot work on this deployment until these are configured: ${blocking.join(', ')}.`,
+      ? 'This deployment can verify a session, reach its authentication provider, and read the record.'
+      : (blocking.every((n) => n === 'providerReachable' || n === 'browserSignIn')
+        ? `Sign-in cannot work on this deployment. Everything is configured, but the Clerk `
+          + `instance it names is not answering (${blocking.join(', ')}). The fix is at the `
+          + `provider, not here.`
+        : `Sign-in cannot work on this deployment until these are configured: ${blocking.join(', ')}.`),
     checks,
   }, { status: blocking.length === 0 ? 200 : 503 });
 }

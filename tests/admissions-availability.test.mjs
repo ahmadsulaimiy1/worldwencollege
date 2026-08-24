@@ -149,6 +149,30 @@ const req = (headers = {}) => new Request('https://wec.test/api/admissions/draft
 // 3 · The diagnostic endpoint
 // ---------------------------------------------------------------------
 {
+  // The endpoint now CONTACTS the Clerk instance rather than inferring
+  // that it must work, so these tests have to say what the instance
+  // answers. Everything that was asserted before is asserted against a
+  // provider that is up; the new assertions below are the ones that
+  // would have caught "every variable is set and nobody can sign in".
+  const realFetch = globalThis.fetch;
+  let provider = { jwks: { status: 200, keys: 2 }, sdk: { status: 200 } };
+  let requested = [];
+  globalThis.fetch = async (url) => {
+    const u = String(url);
+    requested.push(u);
+    const isJwks = u.includes('/.well-known/jwks.json');
+    const spec = isJwks ? provider.jwks : provider.sdk;
+    if (!spec || spec.status === 0) throw new Error('getaddrinfo ENOTFOUND ' + new URL(u).host);
+    const body = isJwks
+      ? JSON.stringify({ keys: Array.from({ length: spec.keys || 0 }, (_, i) => ({ kid: 'k' + i })) })
+      : 'clerk';
+    return new Response(body, { status: spec.status });
+  };
+  const reset = () => {
+    provider = { jwks: { status: 200, keys: 2 }, sdk: { status: 200 } };
+    requested = [];
+  };
+
   const empty = await healthGet({ env: {} });
   const body = await empty.json();
   check('Health: an unconfigured deployment is not ready', body.ready === false);
@@ -262,6 +286,119 @@ const req = (headers = {}) => new Request('https://wec.test/api/admissions/draft
   check('...even when it has just read that key\u2019s prefix',
     !pText.includes('THISPARTISSECRET') && /development key/.test(pText));
   check('...nor the full JWKS URL path', !text.includes('/.well-known/jwks.json'));
+
+  // -------------------------------------------------------------------
+  // The provider is actually contacted
+  // -------------------------------------------------------------------
+  // Every assertion above this line can hold on a deployment where
+  // nobody can sign in, because none of them ever left the process. A
+  // Clerk PRODUCTION instance serves from a domain of the College's
+  // own, and that domain answers nothing until the DNS records Clerk
+  // asks for have been added and verified. Key valid, URL correct,
+  // prefixes matched, no sign-in form on the page and no token
+  // verifiable. These are the assertions that see that.
+  reset();
+  const LIVE = 'pk_live_' + Buffer.from('clerk.worldwencollege.co.uk$').toString('base64');
+
+  const up = await healthGet({ env: { DB: {}, CLERK_PUBLISHABLE_KEY: LIVE, CLERK_SECRET_KEY: 'sk_live_x' } });
+  const upBody = await up.json();
+  check('Health: a reachable instance is reported reachable',
+    upBody.checks.providerReachable.ok === true, upBody.checks.providerReachable.detail);
+  check('...counting the signing keys it published',
+    /2 signing keys/.test(upBody.checks.providerReachable.detail),
+    upBody.checks.providerReachable.detail);
+  check('...and confirming a browser could load the sign-in form',
+    upBody.checks.browserSignIn.ok === true, upBody.checks.browserSignIn.detail);
+  check('...and the deployment is ready', upBody.ready === true && up.status === 200);
+  check('...having actually requested both, not assumed them',
+    requested.some((u) => u.includes('/.well-known/jwks.json'))
+      && requested.some((u) => u.includes('clerk.browser.js')),
+    requested.join(' '));
+
+  // The DNS case: the exact shape of an unfinished Clerk production
+  // domain. This is the one the operator cannot diagnose from the
+  // dashboard, because in the dashboard everything looks configured.
+  reset();
+  provider.jwks = { status: 0 };
+  provider.sdk = { status: 0 };
+  const down = await healthGet({ env: { DB: {}, CLERK_PUBLISHABLE_KEY: LIVE, CLERK_SECRET_KEY: 'sk_live_x' } });
+  const downBody = await down.json();
+  check('Health: an unreachable Clerk instance is NOT reported ready',
+    downBody.ready === false && down.status === 503, downBody.summary);
+  check('...naming provider reachability as the blocker',
+    downBody.blocking.includes('providerReachable'), downBody.blocking.join(', '));
+  check('...and the sign-in form as unreachable too',
+    downBody.blocking.includes('browserSignIn'), downBody.blocking.join(', '));
+  check('...telling the operator the likely cause is outstanding DNS',
+    /DNS records Clerk asks for/.test(downBody.checks.providerReachable.detail),
+    downBody.checks.providerReachable.detail);
+  check('...and where to look for it',
+    /Clerk dashboard > Domains/.test(downBody.checks.providerReachable.detail));
+  check('...and that the symptom is a page that does nothing',
+    /sees a page that does nothing/.test(downBody.checks.browserSignIn.detail),
+    downBody.checks.browserSignIn.detail);
+  // The old checks must NOT contradict the new ones by staying green in
+  // a way that reads as reassurance.
+  check('...while still reporting the keys as internally consistent',
+    downBody.checks.keyEnvironmentMatch.ok === true,
+    'a matched pair pointing at a dead host is still a matched pair');
+  // "Configure it" is the wrong instruction for something that IS
+  // configured, and it is the instruction that costs an afternoon in
+  // the wrong dashboard.
+  check('...and saying plainly that the fix is not here',
+    /Everything is configured, but the Clerk instance it names is not answering/
+      .test(downBody.summary) && /fix is at the provider, not here/.test(downBody.summary),
+    downBody.summary);
+
+  // An instance that answers, but not for us.
+  reset();
+  provider.jwks = { status: 404 };
+  const notFound = await healthGet({ env: { DB: {}, CLERK_PUBLISHABLE_KEY: LIVE } });
+  const nfBody = await notFound.json();
+  check('Health: a non-200 from the signing keys blocks',
+    nfBody.checks.providerReachable.ok === false && nfBody.ready === false,
+    nfBody.checks.providerReachable.detail);
+  check('...naming the status it actually got',
+    /HTTP 404/.test(nfBody.checks.providerReachable.detail));
+
+  // 200 with nothing in it verifies nothing, and is the one failure a
+  // status-code check would call healthy.
+  reset();
+  provider.jwks = { status: 200, keys: 0 };
+  const emptyKeys = await healthGet({ env: { DB: {}, CLERK_PUBLISHABLE_KEY: LIVE } });
+  const ekBody = await emptyKeys.json();
+  check('Health: a 200 with no signing keys is not healthy',
+    ekBody.checks.providerReachable.ok === false, ekBody.checks.providerReachable.detail);
+
+  // A CDN that serves the file but refuses the range request still
+  // serves the file. 206 is a success, not a fault.
+  reset();
+  provider.sdk = { status: 206 };
+  const partial = await healthGet({ env: { DB: {}, CLERK_PUBLISHABLE_KEY: LIVE } });
+  check('Health: a 206 for the browser SDK is a success',
+    (await partial.json()).checks.browserSignIn.ok === true);
+
+  // The probe must ask for the URL the BROWSER asks for. A probe of a
+  // different path proves nothing about the sign-in form, and the two
+  // live in different files, so they drift silently unless pinned.
+  reset();
+  await healthGet({ env: { DB: {}, CLERK_PUBLISHABLE_KEY: LIVE } });
+  const probedSdk = requested.find((u) => u.includes('clerk.browser.js'));
+  const loader = readFileSync(new URL('../js/clerk-loader.js', import.meta.url), 'utf8');
+  const loaderPath = (loader.match(/script\.src = 'https:\/\/' \+ fapi \+ '([^']+)'/) || [])[1];
+  check('The health probe requests the same SDK path the browser will',
+    !!loaderPath && probedSdk === 'https://clerk.worldwencollege.co.uk' + loaderPath,
+    `${probedSdk} vs ${loaderPath}`);
+
+  // With nothing configured there is nothing to contact, and a health
+  // check that makes outbound requests on an unconfigured deployment is
+  // a health check that times out instead of answering.
+  reset();
+  await healthGet({ env: {} });
+  check('Health: an unconfigured deployment contacts nobody', requested.length === 0,
+    requested.join(' '));
+
+  globalThis.fetch = realFetch;
 }
 
 // ---------------------------------------------------------------------
@@ -518,6 +655,22 @@ for (const page of ['admissions/apply/index.html', 'ar/admissions/apply/index.ht
     /only when Clerk reports it\s*verified/i.test(doc.replace(/\s+/g, ' ')));
   check('...and leads with the one-request check',
     doc.indexOf('/api/health/auth') < doc.indexOf('## What went wrong'));
+  // The failure that is invisible from every dashboard: a Clerk
+  // production instance whose DNS has not been finished. The doc has to
+  // carry the fix, because the endpoint can only say what is wrong.
+  {
+    const fix = readFileSync(`${ROOT}/docs/fixing-sign-in.md`, 'utf8');
+    check('docs/fixing-sign-in.md explains a configured deployment nobody can sign in to',
+      /Configured, and still nobody can sign in/.test(fix));
+    check('...naming DNS at the registrar as the cause', /DNS records Clerk asks for/.test(fix)
+      && /verified in the Clerk dashboard/.test(fix));
+    check('...and that the symptom is no sign-in form at all',
+      /no sign-in form appears on any page at all/.test(fix));
+    check('...and the proxied-CNAME trap', /DNS only\*\* \(grey cloud\)/.test(fix));
+    check('...and the immediate way out, with its cost stated',
+      /development instance/.test(fix) && /rate-limited/.test(fix));
+  }
+
   check('...and says a variable applies only to NEW deployments',
     /redeploy/i.test(doc));
 }
@@ -566,6 +719,25 @@ for (const page of ['admissions/apply/index.html', 'ar/admissions/apply/index.ht
   const health = readFileSync(`${ROOT}/functions/api/health/auth.js`, 'utf8');
   check('...against wording the health endpoint actually emits',
     /Session tokens are verified against \$\{jwksHost\(url\)\}/.test(health));
+
+  // Every line the step prints above this was one field pulled out with
+  // `sed`. A deployment reported "HTTP 200, prerequisites configured"
+  // while nobody could sign in, and the reason the log said nothing
+  // useful is that the fields it chose to extract were all healthy. The
+  // body is now printed whole, so the next fault does not have to be
+  // one somebody thought to grep for.
+  check('The deploy prints the whole health body, not selected fields',
+    /full diagnosis/.test(wf) && /json\.tool \/tmp\/health\.json/.test(wf));
+  check('...and warns when the Clerk instance itself is unreachable',
+    /CLERK INSTANCE UNREACHABLE/.test(wf) && /"providerReachable":\{"ok":false/.test(wf));
+  check('...and when no sign-in form can appear at all',
+    /NO SIGN-IN FORM CAN APPEAR/.test(wf) && /"browserSignIn":\{"ok":false/.test(wf));
+  // Those two parses read the endpoint's own JSON field order. A check
+  // renamed in one file and not the other yields nothing and warns
+  // about nothing, which is the failure mode this whole step exists to
+  // end — so the names are pinned across both files.
+  check('...naming checks the endpoint actually emits',
+    /providerReachable: \(\(\) =>/.test(health) && /browserSignIn: \(\(\) =>/.test(health));
 }
 
 function fakeJwt() {
