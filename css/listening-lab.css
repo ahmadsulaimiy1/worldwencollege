@@ -63,6 +63,9 @@
   align-items: start;
 }
 @media (max-width: 900px) { .lab-body { grid-template-columns: 1fr; } }
+/* Pages with no second column (My Programme has one action, not a
+   sidebar) — was an inline style on the .lab-body element itself. */
+.lab-body--single-col { grid-template-columns: minmax(0, 1fr); }
 
 .lab-card {
   background: var(--lab-surface);

@@ -6,45 +6,10 @@
    portal never feels they have changed institution. The three pages are
    one system seen from three sides. */
 
-.rec-nav {
-  display: flex;
-  gap: .4rem;
-  flex-wrap: wrap;
-  margin-top: 1.4rem;
-}
-.rec-nav a {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  padding: 0 1rem;
-  border-radius: 999px;
-  color: rgba(255, 255, 255, .8);
-  text-decoration: none;
-  font: 600 .88rem/1 var(--font-body, Inter, sans-serif);
-  border: 1px solid rgba(255, 255, 255, .18);
-  transition: background var(--dur-fast, .18s) var(--ease-premium, ease),
-              color var(--dur-fast, .18s) var(--ease-premium, ease);
-}
-.rec-nav a:hover { background: rgba(255, 255, 255, .1); color: #fff; }
-/* The current page is marked, not merely styled — aria-current carries
-   it to a screen reader, and the ring carries it to everyone else. */
-.rec-nav a[aria-current="page"] {
-  background: var(--gold, #C7A24A);
-  border-color: var(--gold, #C7A24A);
-  color: #14264A;
-}
-.rec-nav a:focus-visible { outline: 2px solid var(--gold-bright, #E7C97A); outline-offset: 3px; }
-
-.rec-state {
-  margin: 2.4rem 0;
-  padding: 2rem 1.4rem;
-  text-align: center;
-  border: 1px dashed rgba(20, 38, 74, .22);
-  border-radius: 12px;
-  color: var(--ink-soft, #4B5768);
-  line-height: 1.7;
-}
-.rec-state:empty { display: none; }
+/* The loading skeleton and the eventual #state (.empty-state, from
+   css/dashboard.css) message are mutually exclusive — see js/my-record.js's
+   load(). */
+.rec-loading { display: grid; gap: .5rem; margin: 2rem 0; }
 
 /* ---- Privacy --------------------------------------------------------- */
 .rec-privacy { display: grid; gap: .8rem; }
@@ -153,15 +118,6 @@
 .rec-share__meta, .rec-doc__meta { margin: 0; font-size: .83rem; color: var(--ink-soft, #4B5768); line-height: 1.55; }
 .rec-share.is-inactive, .rec-doc.is-inactive { opacity: .72; background: rgba(20, 38, 74, .02); }
 
-.rec-badge {
-  display: inline-block; padding: .1rem .5rem; border-radius: 999px;
-  font: 700 .7rem/1.6 var(--font-body, Inter, sans-serif); margin-right: .4rem;
-}
-.rec-badge--live { background: rgba(30, 107, 58, .12); color: #1E6B3A; }
-.rec-badge--ended { background: rgba(75, 87, 104, .12); color: var(--ink-soft, #4B5768); }
-.rec-badge--superseded { background: rgba(199, 162, 74, .18); color: #8A6B2E; }
-.rec-badge--withdrawn { background: rgba(163, 38, 56, .12); color: #8C1F2F; }
-
 .rec-revoke {
   min-height: 44px; padding: 0 1rem;
   border: 1px solid rgba(163, 38, 56, .35); border-radius: 8px;
@@ -185,5 +141,3 @@
 .rec-doclink:focus-visible { outline: 2px solid var(--gold, #C7A24A); outline-offset: 2px; }
 
 .rec-issue { display: flex; gap: .7rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
-.rec-empty { margin: 0; padding: 1.2rem; text-align: center; color: var(--ink-soft, #4B5768);
-  border: 1px dashed rgba(20,38,74,.2); border-radius: 10px; line-height: 1.6; }

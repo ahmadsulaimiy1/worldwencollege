@@ -58,11 +58,19 @@
     return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
   }
 
+  // Canonical .empty-state shape (css/dashboard.css, documented in
+  // docs/dashboard-design-system.md): a heading plus a sentence, the
+  // copy always supplied by the caller. Used here for every "there is
+  // nothing to show, and here is why" moment — not signed in, or a
+  // real load failure.
   function state(strong, rest) {
+    var loading = $('#loading');
+    if (loading) loading.hidden = true;
     var box = $('#state');
     box.textContent = '';
-    if (strong) box.appendChild(el('strong', null, strong + ' '));
-    box.appendChild(document.createTextNode(rest || ''));
+    box.hidden = false;
+    box.appendChild(el('h3', null, strong || ''));
+    box.appendChild(el('p', null, rest || ''));
   }
 
   // ---- record ---------------------------------------------------------
@@ -120,14 +128,18 @@
     var list = $('#shares');
     list.textContent = '';
     if (!shares.length) {
-      list.appendChild(el('li', 'rec-empty', 'You have not shared your record with anyone.'));
+      var li = document.createElement('li');
+      var box = el('div', 'empty-state');
+      box.appendChild(el('p', null, 'You have not shared your record with anyone.'));
+      li.appendChild(box);
+      list.appendChild(li);
     }
     shares.forEach(function (s) {
       var li = el('li', 'rec-share' + (s.active ? '' : ' is-inactive'));
       var main = el('div');
       main.appendChild(el('p', 'rec-share__label', s.label || 'Untitled link'));
       var meta = el('p', 'rec-share__meta');
-      meta.appendChild(el('span', 'rec-badge ' + (s.active ? 'rec-badge--live' : 'rec-badge--ended'),
+      meta.appendChild(el('span', 'status-pill ' + (s.active ? 'status-pill--good' : 'status-pill--muted'),
         s.active ? 'Live' : (s.revokedAt ? 'Withdrawn' : 'Expired')));
       meta.appendChild(document.createTextNode(
         'Shows ' + s.scope.join(', ')
@@ -167,7 +179,11 @@
     var list = $('#documents');
     list.textContent = '';
     if (!docs.length) {
-      list.appendChild(el('li', 'rec-empty', 'You have not issued any documents yet.'));
+      var li = document.createElement('li');
+      var box = el('div', 'empty-state');
+      box.appendChild(el('p', null, 'You have not issued any documents yet.'));
+      li.appendChild(box);
+      list.appendChild(li);
     }
     docs.forEach(function (d) {
       var li = el('li', 'rec-doc' + (d.status === 'issued' ? '' : ' is-inactive'));
@@ -175,7 +191,7 @@
       main.appendChild(el('p', 'rec-doc__title', DOC_NAME[d.documentType] || d.documentType));
       var meta = el('p', 'rec-doc__meta');
       if (d.status !== 'issued') {
-        meta.appendChild(el('span', 'rec-badge rec-badge--' + (d.status === 'withdrawn' ? 'withdrawn' : 'superseded'),
+        meta.appendChild(el('span', 'status-pill ' + (d.status === 'withdrawn' ? 'status-pill--critical' : 'status-pill--muted'),
           d.status === 'withdrawn' ? 'Withdrawn' : 'Superseded'));
       }
       meta.appendChild(document.createTextNode(
@@ -268,7 +284,9 @@
 
   function load() {
     window.WEC_LC_data.profile().then(function (data) {
-      $('#state').textContent = '';
+      var loading = $('#loading');
+      if (loading) loading.hidden = true;
+      $('#state').hidden = true;
       renderRecord(data);
       renderPrivacy(data);
       wire();

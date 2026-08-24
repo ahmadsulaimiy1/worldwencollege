@@ -1845,6 +1845,40 @@ section { position: relative; }
 .portal-shell .btn--ghost:hover { color: var(--royal-deep); border-color: var(--bronze); }
 .portal-shell .lede { text-align: center; margin: 0 auto 24px; font-size: .95rem; }
 
+/* -------------------- Learner tab-bar -------------------- */
+/* Shared by My Programme, My Record and Verify — moved here from
+   css/my-record.css, which was the only place it was defined even
+   though my-programme.html had to load that entire stylesheet just for
+   this one component. */
+.rec-nav {
+  display: flex;
+  gap: .4rem;
+  flex-wrap: wrap;
+  margin-top: 1.4rem;
+}
+.rec-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 1rem;
+  border-radius: 999px;
+  color: rgba(255, 255, 255, .8);
+  text-decoration: none;
+  font: 600 .88rem/1 var(--font-body, Inter, sans-serif);
+  border: 1px solid rgba(255, 255, 255, .18);
+  transition: background var(--dur-fast, .18s) var(--ease-premium, ease),
+              color var(--dur-fast, .18s) var(--ease-premium, ease);
+}
+.rec-nav a:hover { background: rgba(255, 255, 255, .1); color: #fff; }
+/* The current page is marked, not merely styled — aria-current carries
+   it to a screen reader, and the ring carries it to everyone else. */
+.rec-nav a[aria-current="page"] {
+  background: var(--gold, #C7A24A);
+  border-color: var(--gold, #C7A24A);
+  color: #14264A;
+}
+.rec-nav a:focus-visible { outline: 2px solid var(--gold-bright, #E7C97A); outline-offset: 3px; }
+
 /* -------------------- Footer -------------------- */
 /* Footer navigation is the largest single source of small tap targets
    on the marketing site — fifteen per page, on every page, because they

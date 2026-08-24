@@ -29,7 +29,13 @@
     not_started: 'Not started',
   };
 
+  function hideLoading() {
+    var loading = $('#planLoading');
+    if (loading) loading.hidden = true;
+  }
+
   function fail(err) {
+    hideLoading();
     $('#planError').textContent = err.status === 401
       ? 'Sign in to see your programme.'
       : window.WEC_LC_data.humanError(err, 'Could not load your programme. Please try again.');
@@ -65,6 +71,7 @@
   };
 
   function render(plan) {
+    hideLoading();
     $('#planError').textContent = '';
 
     if (plan.level) {
@@ -230,7 +237,7 @@
       var name = document.createElement('span');
       name.textContent = 'Level ' + l.roman + ' — ' + l.name;
       var tick = document.createElement('span');
-      tick.style.color = 'var(--ink-soft)';
+      tick.className = 'status-pill status-pill--good';
       tick.textContent = 'Completed';
       row.appendChild(name); row.appendChild(tick);
       box.appendChild(row);

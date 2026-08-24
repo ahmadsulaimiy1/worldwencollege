@@ -38,19 +38,6 @@
 .grad-note { margin: 0 0 1.1rem; color: var(--ink-soft, #4B5768); line-height: 1.7; font-size: .9rem; }
 .grad-bio { margin: 0; line-height: 1.8; max-width: 62ch; }
 
-/* ---- State ----------------------------------------------------------- */
-.grad-state:empty { display: none; }
-.grad-state {
-  margin: 2.4rem 0;
-  padding: 2.2rem 1.4rem;
-  text-align: center;
-  border: 1px dashed rgba(20, 38, 74, .22);
-  border-radius: 12px;
-  color: var(--ink-soft, #4B5768);
-  line-height: 1.7;
-}
-.grad-state strong { display: block; color: var(--ink, #16202E); margin-bottom: .35rem; font-size: 1.05rem; }
-
 /* ---- Awards ---------------------------------------------------------- */
 .grad-awards { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
 .grad-award {
@@ -78,15 +65,6 @@
 }
 .grad-award__meta { margin: 0; font-size: .84rem; color: var(--ink-soft, #4B5768); line-height: 1.6; }
 .grad-award__meta a { font-weight: 600; }
-.grad-badge {
-  display: inline-block; padding: .12rem .55rem; border-radius: 999px;
-  font: 700 .7rem/1.6 var(--font-body, Inter, sans-serif);
-  letter-spacing: .05em; margin-right: .4rem;
-}
-.grad-badge--honour { background: rgba(199, 162, 74, .18); color: #8A6B2E; }
-.grad-badge--revoked { background: rgba(163, 38, 56, .12); color: #8C1F2F; }
-.grad-badge--replaced { background: rgba(154, 122, 56, .15); color: #7A5A1E; }
-
 /* ---- Transcript ------------------------------------------------------ */
 .grad-totals {
   display: grid; gap: .9rem;
@@ -161,8 +139,6 @@
 }
 .grad-cpd__title { margin: 0; font-weight: 600; }
 .grad-cpd__meta { margin: .2rem 0 0; font-size: .83rem; color: var(--ink-soft, #4B5768); }
-.grad-badge--verified { background: rgba(20, 38, 74, .1); color: var(--royal, #14264A); }
-.grad-badge--declared { background: rgba(75, 87, 104, .12); color: var(--ink-soft, #4B5768); }
 
 .grad-hours { margin: 0; font: 600 1.6rem/1.2 var(--font-display, "Playfair Display", Georgia, serif); }
 .grad-hours small { display: block; font: 400 .85rem/1.6 var(--font-body, Inter, sans-serif); color: var(--ink-soft, #4B5768); margin-top: .3rem; }
@@ -341,8 +317,6 @@
   margin: .5rem 0 0; font-size: .84rem; line-height: 1.6;
   color: #8C1F2F; max-width: 62ch;
 }
-.grad-badge--withdrawn { background: rgba(163, 38, 56, .12); color: #8C1F2F; }
-
 /* The descriptor's own words, under its name. A band called
    "Proficient" means nothing to a reader who has not been told what the
    College means by it, and a legend elsewhere on the page is a legend

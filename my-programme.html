@@ -11,9 +11,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500..800;1,6..96,400..600&family=Cinzel:wght@500;600&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/brand.css">
+<link rel="stylesheet" href="/css/dashboard.css">
 <link rel="stylesheet" href="/css/listening-lab.css">
 <link rel="stylesheet" href="/css/my-programme.css">
-<link rel="stylesheet" href="/css/my-record.css">
 </head>
 <body class="lab">
 
@@ -38,9 +38,18 @@
   </div>
 </header>
 
-<main class="lab-body" id="main" style="grid-template-columns:minmax(0,1fr)">
+<main class="lab-body lab-body--single-col" id="main">
   <div>
-    <p id="planError" role="alert" style="color:var(--red);font-weight:600;margin:0 0 1rem"></p>
+    <p id="planError" class="mp-error" role="alert"></p>
+
+    <!-- Shown by default, hidden by js/my-programme.js the moment
+         studyPlan() resolves (success or a state page) — the page was
+         previously blank for the whole round trip. -->
+    <div id="planLoading" class="mp-loading" aria-hidden="true">
+      <div class="skeleton skeleton--title" style="max-width:16rem"></div>
+      <div class="skeleton skeleton--text" style="max-width:24rem"></div>
+      <div class="skeleton" style="height:8px;border-radius:999px;max-width:100%"></div>
+    </div>
 
     <!-- The single most important element on the page: one action, not
          a menu. A learner arriving with fifteen minutes should not have
@@ -60,15 +69,15 @@
     <section class="lab-card" id="stateCard" hidden>
       <div class="lab-card__body">
         <h2 class="lab-card__title" id="stateTitle">—</h2>
-        <p id="stateBody" style="margin:.5rem 0 0;color:var(--ink-soft)"></p>
-        <p id="stateAction" style="margin:.9rem 0 0"></p>
+        <p id="stateBody" class="mp-state__body"></p>
+        <p id="stateAction" class="mp-state__action"></p>
       </div>
     </section>
 
     <section class="lab-card" id="progressCard" hidden>
       <div class="lab-card__head">
         <h2 class="lab-card__title" id="progressTitle">Your current level</h2>
-        <span id="progressCount" style="font-size:.8rem;color:var(--ink-soft)"></span>
+        <span id="progressCount" class="mp-progress__count"></span>
       </div>
       <div class="lab-card__body">
         <div class="mp-bar" role="img" id="progressBar" aria-label="Progress through this level">

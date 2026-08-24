@@ -53,11 +53,13 @@
 
   function show(id) { $(id).hidden = false; }
 
+  // Canonical .empty-state shape (css/dashboard.css) — a heading plus a
+  // sentence, copy always supplied by the caller.
   function state(strongText, rest) {
     var box = $('#state');
     box.textContent = '';
-    box.appendChild(el('strong', null, strongText));
-    box.appendChild(document.createTextNode(rest));
+    box.appendChild(el('h3', null, strongText));
+    box.appendChild(el('p', null, rest));
   }
 
   // --- Awards ---------------------------------------------------------
@@ -74,10 +76,10 @@
       // Standing first when it is not "in good standing". A reader
       // skimming must not have to reach the end of a line to learn the
       // award was withdrawn.
-      if (a.standing === 'revoked') meta.appendChild(el('span', 'grad-badge grad-badge--revoked', 'Withdrawn'));
-      else if (a.standing === 'replaced') meta.appendChild(el('span', 'grad-badge grad-badge--replaced', 'Superseded'));
+      if (a.standing === 'revoked') meta.appendChild(el('span', 'status-pill status-pill--critical', 'Withdrawn'));
+      else if (a.standing === 'replaced') meta.appendChild(el('span', 'status-pill status-pill--muted', 'Superseded'));
       if (a.honourLabel && a.honour !== 'pass') {
-        meta.appendChild(el('span', 'grad-badge grad-badge--honour', a.honourLabel));
+        meta.appendChild(el('span', 'status-pill status-pill--honour', a.honourLabel));
       }
       meta.appendChild(document.createTextNode(
         'Level ' + a.roman + ' · CEFR ' + a.cefr
@@ -174,7 +176,7 @@
       // Declared and verified must never look the same. An unverified
       // entry rendered identically would be the graduate's word set in
       // the College's typeface.
-      meta.appendChild(el('span', 'grad-badge ' + (r.verified ? 'grad-badge--verified' : 'grad-badge--declared'),
+      meta.appendChild(el('span', 'status-pill ' + (r.verified ? 'status-pill--good' : 'status-pill--muted'),
         r.verified ? 'Verified' : 'Self-declared'));
       meta.appendChild(document.createTextNode(
         [r.provider, r.kind, r.hours ? r.hours + ' hours' : null, fmtDate(r.completedOn)]
@@ -240,7 +242,7 @@
         li.appendChild(el('p', 'grad-distinction__title', i.title));
         var meta = el('p', 'grad-distinction__meta');
         if (i.status === 'withdrawn') {
-          meta.appendChild(el('span', 'grad-badge grad-badge--withdrawn', 'Withdrawn'));
+          meta.appendChild(el('span', 'status-pill status-pill--critical', 'Withdrawn'));
         }
         meta.appendChild(document.createTextNode(
           [i.awardedBy, i.level ? 'Level ' + i.level.roman : null, fmtDate(i.awardedOn)]

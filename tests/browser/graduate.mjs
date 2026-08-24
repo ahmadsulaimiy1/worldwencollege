@@ -85,7 +85,7 @@ async function open(url, viewport) {
   check('...each linking to its own verification, so the claim is checkable',
     /verify\.html\?code=WEC-/.test(href || ''), href);
   check('...with the honour where one was awarded',
-    (await page.locator('.grad-badge--honour').count()) >= 1);
+    (await page.locator('.status-pill--honour').count()) >= 1);
 
   check('The transcript is shown, because this graduate published it',
     (await page.locator('#secTranscript').isVisible()) === true);
@@ -190,11 +190,11 @@ async function open(url, viewport) {
   await page.waitForTimeout(800);
 
   check('A College-verified entry is marked verified',
-    (await page.locator('.grad-badge--verified').count()) === 1);
+    (await page.locator('.status-pill--good').count()) === 1);
   // Without this distinction the list is the graduate's own word set in
   // the College's typeface.
   check('...and a self-declared entry is marked self-declared',
-    (await page.locator('.grad-badge--declared').count()) === 1);
+    (await page.locator('.status-pill--muted').count()) === 1);
   check('The page explains what the distinction means',
     /have not been checked/i.test(await textOf(page, '#secCpd')));
   await page.close();
@@ -219,7 +219,7 @@ async function open(url, viewport) {
   check('A withdrawn award still appears on the graduate\'s own record',
     (await page.locator('.grad-award').count()) >= 1);
   check('...marked WITHDRAWN in words, not by colour alone',
-    (await page.locator('.grad-badge--revoked').count()) >= 1);
+    (await page.locator('.status-pill--critical').count()) >= 1);
   check('...and marked on the transcript too',
     /Award withdrawn/.test(await textOf(page, '#transcript')));
   await page.close();

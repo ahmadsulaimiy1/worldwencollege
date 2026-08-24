@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500..800;1,6..96,400..600&family=Cinzel:wght@500;600&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/brand.css">
+<link rel="stylesheet" href="/css/dashboard.css">
 <link rel="stylesheet" href="/css/verify.css">
 <link rel="stylesheet" href="/css/graduate.css">
 <link rel="stylesheet" href="/css/my-record.css">
@@ -39,7 +40,12 @@
 <main id="main" class="rec-shell">
   <div class="vfy-wrap">
 
-    <p class="rec-state" id="state" aria-live="polite">Loading your record…</p>
+    <div class="empty-state" id="state" role="status" aria-live="polite" hidden></div>
+    <div class="rec-loading" id="loading" aria-hidden="true">
+      <div class="skeleton skeleton--title" style="max-width:14rem"></div>
+      <div class="skeleton skeleton--text" style="max-width:22rem"></div>
+      <div class="skeleton skeleton--text" style="max-width:18rem"></div>
+    </div>
 
     <!-- WHAT THE COLLEGE HOLDS ------------------------------------- -->
     <section class="grad-section" id="secRecord" hidden>

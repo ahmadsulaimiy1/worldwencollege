@@ -11,7 +11,10 @@
   background:
     linear-gradient(180deg, rgba(255, 255, 255, .96), rgba(255, 255, 255, .9)),
     radial-gradient(120% 140% at 0% 0%, rgba(20, 38, 74, .1), transparent 60%);
-  box-shadow: 0 18px 40px -28px rgba(20, 38, 74, .5);
+  /* Same elevation tier as every other hero-weight element in the
+     portal (.stat-tile:hover, .success-moment__mark) — token-driven
+     rather than a one-off hand-tuned shadow. */
+  box-shadow: var(--shadow-md);
 }
 .mp-next__eyebrow {
   margin: 0 0 .35rem;
@@ -63,6 +66,12 @@
   .mp-bar__fill { transition: none; }
 }
 
+.mp-error { color: var(--red); font-weight: 600; margin: 0 0 1rem; }
+.mp-state__body { margin: .5rem 0 0; color: var(--ink-soft); }
+.mp-state__action { margin: .9rem 0 0; }
+.mp-progress__count { font-size: .8rem; color: var(--ink-soft); }
+.mp-loading { display: grid; gap: .5rem; margin: 0 0 1.4rem; }
+
 .mp-units { display: flex; flex-direction: column; }
 
 .mp-unit {
@@ -92,7 +101,10 @@
   background: rgba(20, 38, 74, .07);
   color: var(--ink-soft);
 }
-.mp-unit.is-done .mp-unit__seq { background: var(--royal, #14264A); color: #fff; }
+/* --status-good (green), not --royal — every other "complete/good"
+   indicator across the portal (payment history, my-record shares and
+   documents) uses the same green for "done." */
+.mp-unit.is-done .mp-unit__seq { background: var(--status-good, #3F6B52); color: #fff; }
 .mp-unit.is-current .mp-unit__seq {
   background: var(--gold, #C6A15B);
   color: #1a1206;
@@ -122,7 +134,7 @@
 }
 
 .mp-done-level {
-  display: flex; justify-content: space-between; gap: 1rem;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
   padding: .5rem .25rem;
   border-bottom: 1px solid rgba(20, 38, 74, .06);
   font-size: .9rem;
