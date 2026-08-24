@@ -262,7 +262,15 @@ for (const v of VOLUMES) {
     rows.push({
       ...v,
       bytes: was.bytes,
-      mb: was.mb,
+      // DERIVED HERE, NEVER CARRIED. `mb` is nothing but a rendering of
+      // `bytes`, and carrying the two forward as independent values let
+      // them drift apart and then preserved the drift for ever: the two
+      // excluded volumes reached the register saying 26,847,354 bytes
+      // and "25.5 MB" — figures that describe different files, one of
+      // them printed on the download button a reader presses. The
+      // measured branch below has always computed it this way; this is
+      // the same line, so the two branches can no longer disagree.
+      mb: (was.bytes / 1048576).toFixed(1),
       extent: was.extent,
       oversize: was.bytes > MAX_BYTES,
       excluded: true,
@@ -732,14 +740,31 @@ ${licenceLeaf(lang)}
 `;
 }
 
-// Through the guard, like every other generator: these two pages carry
-// hand-edited prose between the generated catalogue rows, and a bare
-// write would revert it. See scripts/lib/emit-page.js.
-const emitted = [['press-library.html', page('en')], ['press-library.ar.html', page('ar')]]
+/* --registry-only: REFRESH THE MEASUREMENTS WITHOUT TOUCHING THE PAGES.
+   This script does two jobs — it re-measures the volumes into
+   data/library.json, and it re-scaffolds the two Library pages. They
+   used to be inseparable, which meant that refreshing a stale byte
+   count required WEC_REGENERATE=1, which meant reaching for the one
+   flag that discards hand-edited pages in order to do the safest thing
+   in the file. That is a trap, and it caught somebody: ten volumes had
+   recorded sizes describing files that no longer existed, and the
+   obvious way to fix them published 345 lines of scaffold over the
+   presentation-page work on /press/library/.
+
+   The measurement is the part that goes stale on every re-print. The
+   pages are the part a person has edited since. Separating them means
+   the routine job no longer runs through the destructive one. */
+const REGISTRY_ONLY = process.argv.includes('--registry-only');
+
+const emitted = REGISTRY_ONLY ? [] : [['press-library.html', page('en')], ['press-library.ar.html', page('ar')]]
   .map(([file, body]) => {
     const target = path.join(ROOT, 'pages', file);
     return { file: target, result: emitPage(target, body) };
   });
+
+if (REGISTRY_ONLY) {
+  console.log('build-library: --registry-only — data/library.json refreshed, pages untouched.');
+}
 
 // ── THE MANIFEST ENTRIES ─────────────────────────────────────────────
 const MAN = path.join(ROOT, 'pages', 'manifest.json');
