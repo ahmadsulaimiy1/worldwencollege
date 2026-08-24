@@ -92,6 +92,11 @@ on:
         type: boolean
         required: true
         default: true
+      fix_clerk_dns:
+        description: 'Switch the Clerk DNS records in this domain’s Cloudflare zone from proxied to DNS only. Off by default: every run REPORTS them, and only a run with this enabled changes anything. Only CNAMEs pointing at a Clerk-owned host are touched — the site’s own proxied records are never altered. Needs a token with Zone > Zone > Read and Zone > DNS > Edit.'
+        type: boolean
+        required: true
+        default: false
 
 permissions:
   contents: read
@@ -794,4 +799,72 @@ jobs:
           else
             echo "::warning::Could not read /api/health/auth (HTTP $code). Authentication readiness is unknown for this deployment."
             echo "Could not reach \`/api/health/auth\` (HTTP \`$code\`). Readiness unknown." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      # ─────────────────────────────────────────────────────────────
+      # THE DNS BEHIND THE CLERK DOMAIN
+      # ─────────────────────────────────────────────────────────────
+      # The probe above found the live site answering HTTP 530 from
+      # clerk.worldwencollege.co.uk — Cloudflare's "Origin DNS error"
+      # (1016), a record pointing at Cloudflare whose target Cloudflare
+      # cannot resolve. On a Clerk custom domain that is a CNAME left
+      # PROXIED where Clerk requires DNS only, and it takes the whole of
+      # sign-in down: no signing keys for the Functions, and no
+      # clerk.browser.js for the browser, so no sign-in form at all.
+      #
+      # The endpoint can say that. It cannot reach into the zone. This
+      # can, with the token the deploy already holds.
+      #
+      # READ-ONLY unless fix_clerk_dns is enabled. A run that quietly
+      # rewrote a live DNS zone because somebody re-ran a deploy would
+      # be a worse fault than the one it repairs, so every ordinary run
+      # reports and changes nothing.
+      #
+      # Records are chosen by their CONTENT — a CNAME pointing at a
+      # Clerk-owned host — never by their name. The site's own proxied
+      # records are proxied on purpose and are never touched.
+      # scripts/clerk-dns.mjs holds the rule; tests/clerk-dns.test.mjs
+      # holds the assertions that keep it honest.
+      - name: Read the DNS behind the Clerk domain
+        if: always() && steps.publish.outcome == 'success'
+        continue-on-error: true
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          PK: ${{ secrets.CLERK_PUBLISHABLE_KEY || vars.CLERK_PUBLISHABLE_KEY }}
+          MODE: ${{ inputs.fix_clerk_dns && 'fix' || 'report' }}
+        run: |
+          # The Clerk host is encoded in the publishable key — base64 of
+          # "<host>$" after the last underscore. One source of truth,
+          # the same one the browser and the Functions both use.
+          CLERK_HOST=$(node -e '
+            const k = process.env.PK || "";
+            const enc = k.split("_").pop();
+            if (!enc) process.exit(0);
+            try {
+              const h = Buffer.from(enc, "base64").toString("utf8").replace(/\$+$/, "").trim();
+              if (/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(h)) process.stdout.write(h);
+            } catch {}
+          ')
+          export CLERK_HOST
+          if [ -z "$CLERK_HOST" ]; then
+            echo "No Clerk host could be derived from the publishable key, so there is no zone to read."
+            exit 0
+          fi
+          echo "Clerk host: $CLERK_HOST   (mode: $MODE)"
+          node scripts/clerk-dns.mjs | tee /tmp/clerk-dns.txt || true
+
+          {
+            echo ""
+            echo "### DNS behind the Clerk domain"
+            echo ""
+            echo '```'
+            cat /tmp/clerk-dns.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if grep -q 'PROXIED' /tmp/clerk-dns.txt; then
+            echo "::warning::A Clerk DNS record is PROXIED and must be DNS only. This is what returns HTTP 530 and takes sign-in down. Re-run this workflow with fix_clerk_dns enabled, or switch the orange cloud to grey in Cloudflare -> DNS -> Records."
+          fi
+          if grep -q 'switched' /tmp/clerk-dns.txt; then
+            echo "::notice::Clerk DNS records switched to DNS only. Cloudflare propagates this within a minute or two; re-run the deploy to confirm /api/health/auth turns green."
           fi

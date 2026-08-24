@@ -809,6 +809,30 @@ for (const page of ['admissions/apply/index.html', 'ar/admissions/apply/index.ht
   // end — so the names are pinned across both files.
   check('...naming checks the endpoint actually emits',
     /providerReachable: \(\(\) =>/.test(health) && /browserSignIn: \(\(\) =>/.test(health));
+
+  // The endpoint can say the Clerk domain is not answering. It cannot
+  // reach into the DNS zone and fix it. The deploy can, with the token
+  // it already holds — and the whole risk of that is whether it can be
+  // made to write when nobody asked it to.
+  check('The deploy reads the DNS behind the Clerk domain',
+    /Read the DNS behind the Clerk domain/.test(wf)
+      && /node scripts\/clerk-dns\.mjs/.test(wf));
+  check('...reporting by default and repairing only when asked',
+    /inputs\.fix_clerk_dns && 'fix' \|\| 'report'/.test(wf));
+  check('...with the repair switch defaulting to off',
+    /fix_clerk_dns:[\s\S]{0,900}?default: false/.test(wf));
+  check('...deriving the host from the publishable key, not a second variable',
+    /CLERK_HOST=\$\(node -e/.test(wf) && /PK: \$\{\{ secrets\.CLERK_PUBLISHABLE_KEY/.test(wf));
+  check('...and never failing the build over a DNS zone it does not own',
+    /Read the DNS behind the Clerk domain[\s\S]{0,300}?continue-on-error: true/.test(wf));
+  check('...warning when a Clerk record is still proxied',
+    /A Clerk DNS record is PROXIED and must be DNS only/.test(wf));
+  // The warning greps the script's own output. Reword one and the
+  // other stops firing, silently — which is the failure mode this
+  // whole step exists to end.
+  const dns = readFileSync(`${ROOT}/scripts/clerk-dns.mjs`, 'utf8');
+  check('...against wording the script actually emits',
+    /'PROXIED  <- must be DNS only'/.test(dns) && /switched \$\{r\.name\} to DNS only/.test(dns));
 }
 
 function fakeJwt() {
