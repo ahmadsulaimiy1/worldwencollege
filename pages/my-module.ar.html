@@ -1,0 +1,114 @@
+<!--
+  وحدتي — النسخة العربية. البنية مطابقة لـ pages/my-module.html:
+  كل معرّف وكل سمة data- هنا يخاطبها js/my-module.js نفسه.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></p>
+    <p class="masthead__eyebrow" data-level-eyebrow>وحدتك</p>
+    <h1 data-module-title>وحدتي</h1>
+    <p class="lede">الوحدة نفسها &mdash; دروسُها وتقييماتُها، وما سلّمتَه منها، وما تُبقيه لك اللائحة &mdash; ومن تحتها ساعاتُ الكلّية الحيّة لهذا المستوى.</p>
+    <nav class="rec-nav" aria-label="المتعلّم">
+      <a href="/ar/my-programme.html">برنامجي</a>
+      <a href="/ar/my-week.html">أسبوعي</a>
+      <a href="/ar/my-desk.html">مكتبي</a>
+      <a href="/ar/my-examination.html">امتحاني</a>
+      <a href="/ar/my-cases.html">قضاياي</a>
+      <a href="/ar/my-standing.html">أين أقف</a>
+      <a href="/ar/my-award.html">شهاداتي</a>
+      <a href="/ar/my-engagement.html">مشاركتي</a>
+      <a href="/ar/my-record.html">سجلّي</a>
+      <a href="/ar/my-downloads.html">ملفّاتي</a>
+      <a href="/ar/my-account.html">حسابي</a>
+    </nav>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container">
+    <div class="vfy-wrap app-shell">
+
+      <p class="rec-state state-plate edge-lit edge-lit--light aurum" id="state" aria-live="polite">جارٍ تحميل الوحدة…</p>
+
+      <div class="mod-picker" id="secPicker" hidden>
+        <label class="mod-picker__label" for="module">الوحدة</label>
+        <select id="module" data-module-pick></select>
+        <p class="mod-picker__state" data-picker-state></p>
+      </div>
+
+      <section class="acc-block" id="secItems" hidden>
+        <h2><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg> <span data-items-head>ما في هذه الوحدة</span></h2>
+        <ol class="mod-items" data-items></ol>
+        <p class="acc-block__note" data-items-empty hidden></p>
+      </section>
+
+      <section class="acc-block" id="secLive" hidden>
+        <h2><svg class="icon" aria-hidden="true"><use href="#i-lectern"/></svg> <span data-live-head>ساعاتٌ حيّةٌ لهذا المستوى</span></h2>
+        <p class="acc-block__lede" data-live-lede></p>
+        <ul class="mod-live" data-live></ul>
+        <p class="acc-block__note" data-live-empty hidden></p>
+      </section>
+
+      <p class="vfy-scope" id="scope" hidden>
+        لا تُفتح الوحدة إلّا لمستوًى أنت مسجَّلٌ فيه. وكلُّ ما تسلّمه هنا يُصحَّح على معيارٍ منشورٍ قبل المهمّة، وكلُّ درجةٍ عليه تُصحَّح مرّتين.
+      </p>
+
+    </div>
+  </div>
+</section>
+
+<section class="leaf section--paper grain" id="about" data-contents="ماذا تكلّفك الجلسة">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/three-sittings.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١</span>
+      <span class="leaf__label">المخصَّص</span>
+      <p class="leaf__rubric">أربع قواعد في إعادة الجلوس للتقييم، كلُّها منشورةٌ قبل أن تجلس له أوّل مرّة.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
+        <h2>لا ينبغي أن تُنفِق محاولةً لتعرف ما تكلّفه المحاولة.</h2>
+      </div>
+      <figure class="diagram diagram--wide diagram--fluid reveal">
+        {{SVG:assets/art/three-sittings.ar.svg}}
+        <figcaption class="diagram__caption">
+          <svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg>
+          ثلاث جلسات، وأسبوعان بينها، وما يكون بعد الثالثة
+        </figcaption>
+      </figure>
+
+      <div class="grid grid--2 grid--close">
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg></span>
+          <h3>ثلاث جلسات، والثالثة ليست هاويةً</h3>
+          <p>جلسةٌ أولى وإعادتان. فإن أُنفقت الثلاث وبقي التقييم غيرَ مجتاز، أُعيد المستوى ووُضع التقييم من جديد &mdash; تقول اللائحة ذلك بدل أن تترك المتعلّم أمام جدارٍ لا بابَ فيه.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg></span>
+          <h3>أسبوعان بين الجلستين، وسببُهما</h3>
+          <p>الأربعة عشر يومًا ليست تأخيرًا إداريًّا. هي المدّة التي يُعالَج فيها ما اختلّ أوّل مرّة، وتسمّي الصفحةُ اليومَ الذي تُفتح فيه الجلسة التالية بدل أن ترفضها وتتركك تحزر.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+          <h3>ودرجةُ الإعادة مسقوفةٌ، والسقفُ منشور</h3>
+          <p>الدرجة المكتسَبة في إعادةٍ تُحتسَب إلى سبعين. وذلك قرارٌ في المقارنة بين جلسةٍ أولى وشهرٍ رابعٍ من التحضير، وهو مطبوعٌ على الورقة لا يُطبَّق بعدها صمتًا.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-accord"/></svg></span>
+          <h3>ولا رسمَ على الإعادة</h3>
+          <p>لا يُتقاضى شيءٌ على الجلوس ثانيةً، ولا على إعادة مستوًى. والكلّية التي تُفوتِر المحاولة الثانية تبيع النتيجة بدل أن تُعلِّم إليها.</p>
+        </div>
+      </div>
+      <div class="callout">
+        <span class="callout__label">والرقم المُنفَق لا يُعاد إصداره</span>
+        <p>كلُّ جلسةٍ تأخذ الرقم التالي وتحتفظ به. والجلسةُ التي تُشطَب في تظلّمٍ تردُّ المحاولة ولا تردُّ الرقم، فيبقى سجلُّ ما جُلس له وترتيبُه مقروءًا مهما تغيّرت الدرجات عليه.</p>
+      </div>
+    </div>
+  </div>
+</section>

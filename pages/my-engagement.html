@@ -1,0 +1,223 @@
+<!--
+  MY ENGAGEMENT — what reached the College, week by week.
+
+  FOURTH IN THE INTERFACE BACKLOG. "Their engagement record. The
+  week-by-week grid, the evidence behind every state, and the platform's
+  own reading beside any staff correction."
+
+  ─────────────────────────────────────────────────────────────────────
+  ABSENT IS NOT RED
+  ─────────────────────────────────────────────────────────────────────
+  The single most consequential decision on this page is a colour. The
+  instrument says it in as many words — "This is a description, not a
+  penalty", "Never a penalty", "Not a condition of any award" — and a
+  grid that painted an empty window in the red every other interface
+  reserves for failure would contradict the sentence printed above it.
+  So `absent` is drawn in the quietest ink on the page. What is EMPHASIS
+  here is what the College did see, not what it did not.
+
+  ─────────────────────────────────────────────────────────────────────
+  A CORRECTION NEVER CONCEALS WHAT IT CORRECTED
+  ─────────────────────────────────────────────────────────────────────
+  Where a member of staff has written a state, the payload carries the
+  platform's own current reading beside it under `derived`, always. Both
+  are rendered, and the corrections are gathered into a section of their
+  own — because a record that quietly replaced a machine's reading with
+  a person's would be unarguable, and this one is meant to be argued
+  with.
+
+  ─────────────────────────────────────────────────────────────────────
+  THE LIMITS ARE PUBLISHED BESIDE THE MEASUREMENT
+  ─────────────────────────────────────────────────────────────────────
+  `limitations` names what the platform cannot see: study time it cannot
+  attribute to a window, live sessions nothing observes, and work done
+  away from it. All three are rendered. A measurement whose limits are
+  private is a measurement the reader cannot argue with.
+
+  Every id and data- attribute below is addressed by js/my-engagement.js.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></p>
+    <p class="masthead__eyebrow">What reached the College</p>
+    <h1>My Engagement</h1>
+    <p class="lede">Week by week, module by module, what the College measured &mdash; the evidence behind every state, its own reading beside anything a person has corrected, and what it cannot see at all.</p>
+    <nav class="rec-nav" aria-label="Learner">
+      <a href="/my-programme.html">My Programme</a>
+      <a href="/my-week.html">My Week</a>
+      <a href="/my-desk.html">My Desk</a>
+      <a href="/my-examination.html">My Examination</a>
+      <a href="/my-cases.html">My Cases</a>
+      <a href="/my-standing.html">Where I Stand</a>
+      <a href="/my-award.html">My Awards</a>
+      <a href="/my-engagement.html" aria-current="page">My Engagement</a>
+      <a href="/my-record.html">My Record</a>
+      <a href="/my-downloads.html">My Files</a>
+      <a href="/my-account.html">My Account</a>
+    </nav>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container">
+    <div class="vfy-wrap app-shell">
+
+      <p class="rec-state state-plate edge-lit edge-lit--light aurum" id="state" aria-live="polite">Loading your engagement record&hellip;</p>
+
+      <!-- THE NOTICE, FIRST AND ENTIRE -------------------------------- -->
+      <!-- A required field of every payload this module produces, and it
+           is rendered in full before any state is shown. A grid read
+           without it is a grid a learner will read as attendance. -->
+      <div class="eng-notice" id="secNotice" hidden>
+        <!-- A HEADING, not a styled paragraph. The two lists below it
+             are h3s, and without an h2 here the document jumped
+             h1 → h3, which is a real fault for anyone reading by
+             structure rather than by sight. -->
+        <h2 class="eng-notice__label" data-notice-label></h2>
+        <p class="eng-notice__statement" data-notice-statement></p>
+        <div class="eng-notice__cols">
+          <div>
+            <h3 data-measured-head></h3>
+            <ul class="eng-notice__list" data-measured></ul>
+          </div>
+          <div>
+            <h3 data-isnot-head></h3>
+            <ul class="eng-notice__list eng-notice__list--not" data-isnot></ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- THE GRID ---------------------------------------------------- -->
+      <section class="acc-block" id="secGrid" hidden>
+        <div class="eng-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg> Week by week</h2>
+          <div class="eng-head__tools">
+            <label class="eng-weeks" for="weeks">Looking back</label>
+            <select id="weeks" data-weeks>
+              <option value="4">4 weeks</option>
+              <option value="8" selected>8 weeks</option>
+              <option value="12">12 weeks</option>
+              <option value="26">26 weeks</option>
+            </select>
+          </div>
+        </div>
+        <p class="acc-block__lede" data-window-note></p>
+        <ul class="eng-key" data-key></ul>
+        <div class="eng-gridwrap">
+          <ol class="eng-grid" data-grid></ol>
+        </div>
+        <p class="acc-block__note" data-grid-empty hidden></p>
+      </section>
+
+      <!-- ONE CELL, IN FULL ------------------------------------------- -->
+      <section class="eng-cell-detail card plate-dark card--dark edge-lit aurum" id="secCell" hidden aria-live="polite">
+        <button type="button" class="acc-invoice__close" data-cell-close aria-label="Close">
+          <svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>
+        </button>
+        <p class="acc-invoice__eyebrow" data-cell-window>&mdash;</p>
+        <h2 data-cell-module>&mdash;</h2>
+        <p class="eng-cell-detail__state" data-cell-state></p>
+        <p class="eng-cell-detail__meaning" data-cell-meaning></p>
+        <p class="eng-cell-detail__provisional" data-cell-provisional hidden></p>
+
+        <!-- THE CORRECTION, WITH WHAT IT CORRECTED STILL BESIDE IT -->
+        <div class="eng-override" data-cell-override hidden>
+          <h3 data-override-head></h3>
+          <p class="eng-override__line" data-override-line></p>
+          <p class="eng-override__reason" data-override-reason></p>
+          <p class="eng-override__derived" data-override-derived></p>
+        </div>
+
+        <h3 class="eng-cell-detail__evhead" data-evidence-head></h3>
+        <ul class="eng-evidence" data-evidence></ul>
+        <p class="acc-block__note" data-evidence-empty hidden></p>
+      </section>
+
+      <!-- WHERE A PERSON HAS WRITTEN A STATE --------------------------- -->
+      <section class="acc-block" id="secCorrections" hidden>
+        <h2><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg> Where the College has written a state</h2>
+        <p class="acc-block__lede" data-corrections-lede></p>
+        <!-- Why a reason written by a person is in the language it is
+             in: the College publishes its own sentences in both, and
+             a record that translated somebody’s words would be a
+             worse record. -->
+        <p class="acc-block__note" data-corrections-note></p>
+        <ul class="eng-corrections" data-corrections></ul>
+      </section>
+
+      <!-- LIVE SESSIONS ------------------------------------------------ -->
+      <section class="acc-block" id="secLive" hidden>
+        <h2><svg class="icon" aria-hidden="true"><use href="#i-lectern"/></svg> Live sessions</h2>
+        <p class="acc-block__lede" data-live-note></p>
+        <ul class="eng-live" data-live></ul>
+      </section>
+
+      <!-- WHAT THE PLATFORM CANNOT SEE --------------------------------- -->
+      <section class="acc-block" id="secLimits" hidden>
+        <h2><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg> What this cannot see</h2>
+        <ul class="eng-limits" data-limits></ul>
+      </section>
+
+      <p class="vfy-scope" id="scope" hidden>
+        This record is yours and is bound to your session. It describes what reached the College; it is not a mark, not a condition of any award, and never a penalty.
+      </p>
+
+    </div>
+  </div>
+</section>
+
+<section class="leaf section--paper grain" id="about" data-contents="How a week gets its state">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/one-cell.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">I</span>
+      <span class="leaf__label">The measure</span>
+      <p class="leaf__rubric">Four decisions about measuring a learner, each of them a limit the College put on itself.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
+        <h2>A correction that hides what it corrected is not a record.</h2>
+      </div>
+      <figure class="diagram diagram--wide diagram--fluid reveal">
+        {{SVG:assets/art/one-cell.svg}}
+        <figcaption class="diagram__caption">
+          <svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg>
+          Evidence, a reading, and a correction that leaves the reading visible under it
+        </figcaption>
+      </figure>
+
+      <div class="grid grid--2 grid--close">
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg></span>
+          <h3>The week is yours, not the calendar&rsquo;s</h3>
+          <p>A window is seven days anchored to the day your own enrolment started, so a learner who began on a Wednesday is measured Wednesday to Wednesday. Weeks that start on Monday for everybody would penalise whoever enrolled on a Friday.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span>
+          <h3>Nothing is inferred from a tab left open</h3>
+          <p>Every state names the evidence it was read from: minutes the server measured, an assessment attempted, laboratory practice submitted, a lesson completed, or a live session a host confirmed. An issued join link is not a person in a room.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+          <h3>A quiet week is a description</h3>
+          <p>Engagement is not a mark, not a participation grade, not a measure of learning and not a condition of any award. A window with nothing in it says what reached the College, and the College says so rather than colouring it as a failure.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
+          <h3>A person may write a state, and be seen doing it</h3>
+          <p>A tutor can record something the platform could not see, and the platform&rsquo;s own reading of that same window stays on the record beside it with the reason given. That is what makes the correction checkable rather than simply final.</p>
+        </div>
+      </div>
+      <div class="callout">
+        <span class="callout__label">The limits are published with the measurement</span>
+        <p>Study time is held as one running total per module rather than a ledger, nothing observes who joins a live session, and work done away from the platform is invisible to it. All three are printed on this page beside your own record, because a measurement whose limits are private is one you cannot argue with.</p>
+      </div>
+    </div>
+  </div>
+</section>

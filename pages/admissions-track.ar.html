@@ -1,0 +1,171 @@
+<!--
+  تتبّع طلبك — النسخة العربية.
+
+  كل مُعرِّف (id) أدناه محمولٌ عليه العمل: js/admissions-track.js
+  يخاطبها بأسمائها، فلا تُترجَم الأسماء وإنما يُترجَم النص وحده.
+  والحجّة الكاملة لهذه الصفحة في النسخة الإنجليزية.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></p>
+    <p class="masthead__eyebrow">القبول</p>
+    <h1>تتبّع طلبك</h1>
+    <p class="masthead__stake">عُرض عليك رقم طلبك حين أرسلت النموذج، وأُرسل إليك كتابةً. <strong>أدخِله أدناه</strong> لترى كل ما لدى الكلية: في أي المراحل الخمس أنت، وكل ما جرى، وما بقي ولمن هو، وعرضك إن كُتب لك عرض.</p>
+    <p class="lede">بلا حساب ولا تسجيل دخول. فالحساب يُنشأ عند القيد لا عند تقديم الطلب.</p>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container">
+    <div class="vfy-wrap">
+
+      <form class="vfy-form vfy-form--reference reveal" id="trackForm" novalidate>
+        <label class="vfy-label" for="ref">رقم الطلب</label>
+        <div class="vfy-field">
+          <input id="ref" name="ref" type="text" inputmode="latin" autocomplete="off"
+                 spellcheck="false" dir="ltr" placeholder="app_XXXXXXXXXXXX"
+                 aria-describedby="refHelp refError">
+          <button class="vfy-submit" type="submit">تتبّع</button>
+        </div>
+        <p class="vfy-help" id="refHelp">الصقه كما أُرسل إليك. فالمسافات والنقطة الزائدة وحال الحروف يُصلَح كلُّه عنك. ولا تُفصح الكلية عن طلبٍ لمن لا يحمل رقمه &mdash; ولو كان يعرف بريدك.</p>
+        <p class="vfy-error" id="refError" role="alert"></p>
+      </form>
+
+      <section class="trk" id="result" hidden aria-live="polite">
+
+        <!-- المراحل الخمس، بالترتيب نفسه والألفاظ نفسها المنشورة في صفحة القبول. -->
+        <ol class="trk-rail" id="rail" aria-label="مراحل الطلب الخمس"></ol>
+
+        <div class="trk-head card tilt gold-live edge-lit edge-lit--light aurum reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
+          <p class="trk-head__eyebrow" id="stageLabel">&mdash;</p>
+          <h2 id="stageTitle">&mdash;</h2>
+          <p class="trk-head__what" id="stageWhat"></p>
+          <dl class="trk-facts">
+            <div><dt>الرقم</dt><dd id="fRef">&mdash;</dd></div>
+            <div><dt>تاريخ الإرسال</dt><dd id="fSubmitted">&mdash;</dd></div>
+            <div><dt>آخر حركة</dt><dd id="fUpdated">&mdash;</dd></div>
+            <div><dt>عند من هو</dt><dd id="fWho">&mdash;</dd></div>
+          </dl>
+        </div>
+
+        <!-- ما بقي، ولمن هو — فالمتقدّم الذي لا يُقال له إلا «قيد النظر» لا
+             يميّز خطوةً عليه من خطوةٍ على الكلية، والثانية هي التي له أن
+             يسأل عنها. -->
+        <section class="trk-block" id="secOutstanding" hidden>
+          <h3><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg> ما الذي بقي</h3>
+          <ul class="trk-owed" id="outstanding"></ul>
+        </section>
+
+        <section class="trk-offer plate-dark card card--dark edge-lit aurum reveal" id="secOffer" hidden>
+          <span class="badge-dome badge-dome--lg badge-dome--dark" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
+          <p class="trk-offer__eyebrow" id="offerKind">&mdash;</p>
+          <h3 id="offerTitle">عرضك</h3>
+          <dl class="trk-facts trk-facts--dark">
+            <div><dt>مستوى الدخول</dt><dd id="offerLevel">&mdash;</dd></div>
+            <div><dt>تاريخ الكتابة</dt><dd id="offerIssued">&mdash;</dd></div>
+            <div><dt>آخر موعد للردّ</dt><dd id="offerExpires">&mdash;</dd></div>
+            <div><dt>الحال</dt><dd id="offerStatus">&mdash;</dd></div>
+          </dl>
+          <blockquote class="trk-offer__conditions" id="offerConditions" hidden></blockquote>
+
+          <div class="trk-answer" id="offerAnswer" hidden>
+            <p class="trk-answer__note">الردّ فعلك أنت ويُسجَّل باسمك. والرفض يغلق هذا الطلب ولا يأخذ معه شيئًا آخر &mdash; وبابُ التقدّم من جديد مفتوح لك في أي وقت.</p>
+            <label class="vfy-label" for="answerReason">إن أردتَ بيان السبب (اختياري)</label>
+            <textarea id="answerReason" rows="2"></textarea>
+            <div class="btn-row">
+              <button type="button" class="btn btn--gold magnetic aurum aurum--twin" id="btnAccept">أقبل هذا العرض</button>
+              <button type="button" class="btn btn--outline magnetic" id="btnDecline">أرفض</button>
+            </div>
+            <p class="vfy-error" id="answerError" role="alert"></p>
+          </div>
+          <p class="trk-offer__closed" id="offerClosed" hidden></p>
+        </section>
+
+        <!-- السجل الكامل للحركات، ولا يُذكر فيه اسم شخص: الكلية مؤسسة في
+             نظر المتقدّم، ولا يُنشَر هنا أحدٌ في منصب. -->
+        <section class="trk-block">
+          <h3><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg> كل ما جرى</h3>
+          <ol class="trk-timeline" id="timeline"></ol>
+        </section>
+
+        <div class="callout" id="nextCallout">
+          <span class="callout__label">ما يأتي بعد</span>
+          <p id="nextWhat">&mdash;</p>
+        </div>
+
+        <p class="vfy-scope">
+          تُخبر هذه الصفحة حاملَ رقم الطلب بحال ذلك الطلب وحده. تذكر المرحلة وسجل الحركات وما بقي والعرض &mdash; ولا تذكر اسمًا ولا بريدًا ولا طلبًا آخر. فاحفظ الرقم لنفسك يبقَ الأمر كذلك.
+        </p>
+      </section>
+
+    </div>
+  </div>
+</section>
+
+<section class="leaf section--paper grain" id="about" data-contents="عن رقم الطلب">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/portico.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١</span>
+      <span class="leaf__label">رقم الطلب</span>
+      <p class="leaf__rubric">لِمَ هو المفتاح الوحيد، وماذا تفعل الكلية إن ضاع من صاحبه.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
+        <h2>مفتاح واحد، عند شخص واحد.</h2>
+      </div>
+      <figure class="diagram diagram--wide diagram--fluid reveal">
+        {{SVG:assets/art/passage-of-an-application.ar.svg}}
+        <figcaption class="diagram__caption">
+          <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg>
+          نصف الطلب ليس بيد المتقدّم، والنصف الذي ليس بيده هو الذي له أن يسأل عنه
+        </figcaption>
+      </figure>
+
+      <div class="grid grid--2 grid--close">
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
+          <h3>لا حساب، وهذا هو التصميم</h3>
+          <p>يُنشأ الحساب عند القيد لا عند تقديم الطلب، فليس ثمّ كلمة مرور تُنسى بين إرسال النموذج وسماع الجواب. ورقم الطلب يقوم بالأمر كلّه في هذه المدة.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-lock"/></svg></span>
+          <h3>البريد الإلكتروني لا يفتح شيئًا</h3>
+          <p>ليس في هذه الصفحة حقلٌ له، والخدمة التي وراءها ترفضه صراحةً لا تتجاهله. فمن عرف اسمك وعنوانك ولم يعرف رقمك لا يعلم من هنا شيئًا.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+          <h3>شقّا الجواب كلاهما</h3>
+          <p>كل بندٍ باقٍ يقول لمن هو. فالخطوة التي على الكلية لك أن تسأل عنها، وهذه الصفحة تقول لك أيّها هي بدل أن تجمعهما كلمة «قيد النظر».</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg></span>
+          <h3>تحديد المستوى في ثلاثة أيام عمل</h3>
+          <p>هذا ما تلتزم به الكلية لكل متقدّم، منشورًا في صفحة <a href="/ar/admissions/">القبول</a> ومعادًا هنا حيث يُستحقّ. فإن فات، فاكتب إلى القبول وقل ذلك.</p>
+        </div>
+      </div>
+      <div class="callout">
+        <span class="callout__label">إن لم يعد رقم الطلب عندك</span>
+        <p>اكتب إلى القبول من العنوان الذي تقدّمت به واطلب إرساله ثانية. فيُعاد إلى ذلك العنوان لا إلى غيره، وهي القاعدة نفسها من الجهة الأخرى: <a href="/ar/contact/">مراسلة الكلية</a>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section--dark cta-band">
+  <div class="container reveal">
+    <h2>ألم تتقدّم بعد؟</h2>
+    <div class="btn-row u-center">
+      <a href="/ar/admissions/apply/" class="btn btn--gold magnetic aurum aurum--twin">ابدأ طلبًا</a>
+      <a href="/ar/admissions/" class="btn btn--outline magnetic">اقرأ المسار كلّه أولًا</a>
+    </div>
+  </div>
+</section>

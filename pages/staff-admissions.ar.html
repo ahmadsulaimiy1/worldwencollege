@@ -1,0 +1,76 @@
+<!--
+  القبول — النسخة العربية.
+
+  المقابل العربيّ لـ pages/staff-admissions.html، والعللُ مذكورةٌ هناك:
+  طلبٌ يُكتب في قاعدة البيانات ولا يُخبَر به أحد، وطابورٌ ترتيبُه
+  بالأحدث يجعل أطولَ انتظارٍ أخفى ما فيه، وأزرارٌ تقرّرها الصفحةُ
+  لنفسها فتخالف الخادمَ أمام موظّفٍ ومعه صاحبُ طلبٍ ينتظر.
+
+  وكلُّ سببٍ يُكتب ههنا يقرؤه صاحبُ الطلب على صفحة تتبّعه؛ ولا حقلَ
+  للملاحظات الداخلية أصلًا.
+
+  وكلُّ مُعرِّفٍ وسمةِ data هنا هي التي يخاطبها js/staff-admissions.js.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-portcullis"/></svg></p>
+    <p class="masthead__eyebrow">مكتب المسجِّل</p>
+    <h1>القبول</h1>
+    <p class="lede">كلُّ مَن طلب الالتحاق، بترتيب طلبه &mdash; وما ينتظره كلُّ طلب، وما يجوز أن يجري عليه بعدُ، والعرضُ المكتوب الذي يجيبه.</p>
+    <nav class="rec-nav" aria-label="الهيئة الأكاديمية">
+      <a href="/ar/staff-desk.html">المكتب</a>
+      <a href="/ar/staff-marking.html">التصحيح</a>
+      <a href="/ar/staff-examinations.html">الامتحانات</a>
+      <a href="/ar/staff-papers.html">أوراق الامتحان</a>
+      <a href="/ar/staff-conferral.html">المنح</a>
+      <a href="/ar/staff-learners.html">متعلّموك</a>
+      <a href="/ar/staff-hours.html">ساعاتك</a>
+      <a href="/ar/staff-notices.html">الإعلانات</a>
+      <a href="/ar/staff-cases.html">القضايا</a>
+      <a href="/ar/staff-admissions.html" aria-current="page">القبول</a>
+      <a href="/ar/staff-enrolments.html">التسجيلات</a>
+      <a href="/ar/staff-finance.html">المالية</a>
+      <a href="/ar/staff-administration.html">الإدارة</a>
+    </nav>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container">
+    <div class="stf-shell">
+
+      <p class="rec-state state-plate edge-lit edge-lit--light aurum" id="state" aria-live="polite">جارٍ تحميل طابور القبول&hellip;</p>
+
+      <div class="stf-counts" id="secCounts" hidden></div>
+
+      <section class="acc-block reveal" id="secJourney" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg> <span data-journey-head></span></h2>
+        </div>
+        <p class="stf-basis" data-journey-note></p>
+        <ul class="stf-queue" data-journey></ul>
+      </section>
+
+      <section class="acc-block reveal" id="secQueue" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg> <span data-queue-head></span></h2>
+          <div class="desk-head__tools stf-filters">
+            <label for="aStatus" data-queue-status-label></label>
+            <select id="aStatus" data-queue-status></select>
+          </div>
+        </div>
+
+        <ul class="stf-queue" data-queue></ul>
+
+        <div class="stf-clear" data-queue-empty hidden>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg></span>
+          <p class="stf-clear__head" data-queue-empty-head></p>
+          <p class="stf-clear__note" data-queue-empty-note></p>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

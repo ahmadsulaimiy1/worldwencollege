@@ -1,0 +1,168 @@
+<!--
+  MY HOURS — the time a member of staff publishes for learners to
+  book, who is in it, and the withdrawal of an hour that cannot happen.
+
+  ─────────────────────────────────────────────────────────────────────
+  THE FAULT THIS PAGE EXISTS TO CORRECT
+  ─────────────────────────────────────────────────────────────────────
+  `tutorial_slots` shipped with a booking surface on the learner's side
+  and no writer anywhere — which made every bookable hour on this
+  platform a row somebody would have had to type into the database by
+  hand. A booking system whose supply side is a SQL console has no
+  supply side.
+
+  ─────────────────────────────────────────────────────────────────────
+  NOTHING IS DELETED, AND WITHDRAWAL CARRIES A REASON
+  ─────────────────────────────────────────────────────────────────────
+  An hour that cannot happen is withdrawn, not removed: it survives
+  carrying the moment and the reason, and every learner holding a place
+  in it is released with that same reason on their own record. A
+  learner shown "cancelled" with no hand on it cannot tell whether they
+  did it themselves.
+
+  So the reason is required, and this page says plainly who will read
+  it before it is written.
+
+  ─────────────────────────────────────────────────────────────────────
+  THE DIARY IS YOURS
+  ─────────────────────────────────────────────────────────────────────
+  A tutor reads the hours they published and the learners in them, and
+  nothing else. There is no parameter on this page naming a colleague:
+  a member of staff publishing hours into somebody else's diary would
+  put a stranger's name over an appointment a learner then books.
+
+  ─────────────────────────────────────────────────────────────────────
+  AND EVERY TIME IS SHOWN IN A NAMED ZONE
+  ─────────────────────────────────────────────────────────────────────
+  The College teaches across every meridian it admits from. An hour
+  printed without its zone is an hour half the room reads wrongly, so
+  the zone the platform rendered in is named on the page and the
+  instant is carried in UTC underneath.
+
+  Every id and data- attribute below is addressed by js/staff-hours.js.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg></p>
+    <p class="masthead__eyebrow">Academic staff</p>
+    <h1>My Hours</h1>
+    <p class="lede">The time you have opened for learners to book, who is in each hour, and the withdrawal of one that cannot happen &mdash; with the reason travelling to everybody it affects.</p>
+    <nav class="rec-nav" aria-label="Academic staff">
+      <a href="/staff-desk.html">The Desk</a>
+      <a href="/staff-marking.html">Marking</a>
+      <a href="/staff-examinations.html">Examinations</a>
+      <a href="/staff-papers.html">Papers</a>
+      <a href="/staff-conferral.html">Conferral</a>
+      <a href="/staff-learners.html">My Learners</a>
+      <a href="/staff-hours.html" aria-current="page">My Hours</a>
+      <a href="/staff-notices.html">Notices</a>
+      <a href="/staff-cases.html">Cases</a>
+      <a href="/staff-admissions.html">Admissions</a>
+      <a href="/staff-enrolments.html">Enrolments</a>
+      <a href="/staff-finance.html">Finance</a>
+      <a href="/staff-administration.html">Administration</a>
+    </nav>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container">
+    <div class="stf-shell">
+
+      <p class="rec-state state-plate edge-lit edge-lit--light aurum" id="state" aria-live="polite">Loading your diary&hellip;</p>
+
+      <!-- THE COUNTS ---------------------------------------------------- -->
+      <div class="stf-counts" id="secCounts" hidden>
+        <div class="stf-count plate-dark card card--dark edge-lit aurum tilt gold-live reveal" data-tile="published">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span>
+          <p class="stf-count__num" data-count>&mdash;</p>
+          <p class="stf-count__label" data-label>Hours published</p>
+          <p class="stf-count__foot" data-foot></p>
+        </div>
+        <div class="stf-count plate-dark card card--dark edge-lit aurum tilt gold-live reveal" data-tile="open">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg></span>
+          <p class="stf-count__num" data-count>&mdash;</p>
+          <p class="stf-count__label" data-label>Still open</p>
+          <p class="stf-count__foot" data-foot></p>
+        </div>
+        <div class="stf-count plate-dark card card--dark edge-lit aurum tilt gold-live reveal" data-tile="taken">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
+          <p class="stf-count__num" data-count>&mdash;</p>
+          <p class="stf-count__label" data-label>Places taken</p>
+          <p class="stf-count__foot" data-foot></p>
+        </div>
+      </div>
+
+      <!-- PUBLISH AN HOUR ----------------------------------------------- -->
+      <section class="acc-block reveal" id="secPublish" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg> <span data-publish-head></span></h2>
+        </div>
+
+        <div class="stf-act">
+          <p class="stf-field__note" data-publish-why></p>
+
+          <div class="stf-field">
+            <label for="hTitle" data-publish-title-label></label>
+            <input id="hTitle" type="text" maxlength="120" data-publish-title>
+          </div>
+          <div class="stf-field">
+            <label for="hKind" data-publish-kind-label></label>
+            <select id="hKind" data-publish-kind></select>
+            <p class="stf-field__note" data-publish-kind-note></p>
+          </div>
+          <div class="stf-field">
+            <label for="hStart" data-publish-start-label></label>
+            <input id="hStart" type="datetime-local" data-publish-start>
+            <p class="stf-field__note" data-publish-zone></p>
+          </div>
+          <div class="stf-field">
+            <label for="hMinutes" data-publish-minutes-label></label>
+            <input id="hMinutes" type="number" min="5" max="480" step="5" value="30" data-publish-minutes>
+          </div>
+          <div class="stf-field">
+            <label for="hCapacity" data-publish-capacity-label></label>
+            <input id="hCapacity" type="number" min="1" max="200" step="1" value="1" data-publish-capacity>
+            <p class="stf-field__note" data-publish-capacity-note></p>
+          </div>
+          <div class="stf-field">
+            <label for="hLevel" data-publish-level-label></label>
+            <select id="hLevel" data-publish-level></select>
+            <p class="stf-field__note" data-publish-level-note></p>
+          </div>
+          <div class="stf-buttons">
+            <button class="btn btn--gold aurum" type="button" data-publish-send></button>
+            <span class="stf-said" data-publish-said aria-live="polite"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- THE DIARY ----------------------------------------------------- -->
+      <section class="acc-block reveal" id="secDiary" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg> <span data-diary-head></span></h2>
+          <div class="desk-head__tools stf-filters">
+            <label for="hPast" data-diary-past-label></label>
+            <select id="hPast" data-diary-past></select>
+          </div>
+        </div>
+
+        <p class="stf-basis" data-diary-zone></p>
+
+        <ul class="stf-queue" data-diary></ul>
+
+        <div class="stf-clear" data-diary-empty hidden>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg></span>
+          <p class="stf-clear__head" data-diary-empty-head></p>
+          <p class="stf-clear__note" data-diary-empty-note></p>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

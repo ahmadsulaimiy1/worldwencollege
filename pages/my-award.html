@@ -1,0 +1,132 @@
+<!--
+  MY AWARDS — the certificate the College sells, finally reachable by
+  the person who paid for it.
+
+  ─────────────────────────────────────────────────────────────────────
+  THE FAULT THIS PAGE EXISTS TO CORRECT
+  ─────────────────────────────────────────────────────────────────────
+  The digital certificate is itemised on /admissions/tuition/ at five
+  per cent of every level fee &mdash; $158.33 &mdash; and described there as
+  "the award itself: the digital certificate, the cryptographic
+  signature on it, and a verification service anyone can use". It is
+  promised on /admissions/international/ as "reissued free for life",
+  and on /faq/ as following successful completion.
+
+  Everything behind that promise existed. `awards` holds the conferral,
+  conferAward() signs it, /verify/ checks the signature, and
+  awardHistory() could always list a learner's own. What did not exist
+  was any route by which the person who paid for it could obtain it:
+  awardHistory() was exported and called from nowhere. A learner could
+  be verified by a stranger and could not see their own certificate.
+
+  ─────────────────────────────────────────────────────────────────────
+  IT IS DRAWN AS A CERTIFICATE, NOT AS A ROW
+  ─────────────────────────────────────────────────────────────────────
+  A conferral is the most ceremonial thing this College does, and the
+  house standard is explicit that the register a graduate reads their
+  award in is the register everything else is drawn in. So each award is
+  a struck plate with the crest above it, the citation set as a
+  citation, the seal struck at its foot, and the verification code and
+  its QR carried on the face &mdash; the same two things a stranger uses to
+  check it.
+
+  ─────────────────────────────────────────────────────────────────────
+  AND IT PRINTS
+  ─────────────────────────────────────────────────────────────────────
+  "Printed copies" is a published service, and a page whose print output
+  was a screenshot of a web page with navigation down the side would
+  make that sentence embarrassing. css/award.css carries a print block
+  that drops the chrome and sets one certificate to a page.
+
+  ─────────────────────────────────────────────────────────────────────
+  WHAT IT WILL NOT DO
+  ─────────────────────────────────────────────────────────────────────
+  It will not draw a certificate for an award nobody has been given. A
+  learner with no conferral gets the register's own sentence about what
+  confers one and a route to Where I Stand, because an empty page under
+  a masthead reads as a fault rather than as an accurate statement about
+  where somebody has got to.
+
+  Every id and data- attribute below is addressed by js/my-award.js.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></p>
+    <p class="masthead__eyebrow">Learner</p>
+    <h1>My Awards</h1>
+    <p class="lede">Every award the College has conferred on you, as the certificate itself &mdash; with the code and the signature a stranger checks it by.</p>
+    <nav class="rec-nav" aria-label="Learner">
+      <a href="/my-programme.html">My Programme</a>
+      <a href="/my-week.html">My Week</a>
+      <a href="/my-desk.html">My Desk</a>
+      <a href="/my-module.html">My Module</a>
+      <a href="/my-examination.html">My Examination</a>
+      <a href="/my-cases.html">My Cases</a>
+      <a href="/my-standing.html">Where I Stand</a>
+      <a href="/my-award.html" aria-current="page">My Awards</a>
+      <a href="/my-engagement.html">My Engagement</a>
+      <a href="/my-record.html">My Record</a>
+      <a href="/my-downloads.html">My Files</a>
+      <a href="/my-account.html">My Account</a>
+      <a href="/listening-lab.html">Listening Lab</a>
+    </nav>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container">
+    <div class="stf-shell">
+
+      <p class="rec-state state-plate edge-lit edge-lit--light aurum" id="state" aria-live="polite">Loading your awards&hellip;</p>
+
+      <!-- WHAT IS HELD, IN ONE LINE ------------------------------------- -->
+      <div class="stf-counts" id="secTotals" hidden>
+        <div class="stf-count plate-dark card card--dark edge-lit aurum tilt gold-live reveal" data-tile="awards">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span>
+          <p class="stf-count__num" data-count>&mdash;</p>
+          <p class="stf-count__label" data-label>Awards conferred</p>
+          <p class="stf-count__foot" data-foot></p>
+        </div>
+        <div class="stf-count plate-dark card card--dark edge-lit aurum tilt gold-live reveal" data-tile="credits">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
+          <p class="stf-count__num" data-count>&mdash;</p>
+          <p class="stf-count__label" data-label>Credits held</p>
+          <p class="stf-count__foot" data-foot></p>
+        </div>
+      </div>
+
+      <!-- THE CERTIFICATES ---------------------------------------------- -->
+      <section class="acc-block reveal" id="secAwards" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg> <span data-awards-head>Your certificates</span></h2>
+        </div>
+        <div class="awd-list" data-awards></div>
+      </section>
+
+      <!-- NOTHING CONFERRED YET ------------------------------------------ -->
+      <!-- The register's own sentence about what confers an award, and a
+           route to the page that says what remains. Never a blank. -->
+      <section class="acc-block reveal" id="secNone" hidden>
+        <div class="stf-clear">
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
+          <p class="stf-clear__head" data-none-head></p>
+          <p class="stf-clear__note" data-none-note></p>
+          <p><a class="btn btn--outline" data-none-link href="/my-standing.html">Where I Stand</a></p>
+        </div>
+      </section>
+
+      <!-- WHAT THE CERTIFICATE IS, AND WHAT IT COSTS ---------------------- -->
+      <section class="acc-block reveal" id="secTerms" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg> <span data-terms-head>What this certificate is</span></h2>
+        </div>
+        <div class="grid grid--2" data-terms></div>
+      </section>
+
+    </div>
+  </div>
+</section>

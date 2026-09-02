@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11 594"
+  width="11" height="594" aria-hidden="true" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="steacherscompanionlevel1-foil" x1="0" y1="0" x2="0.9" y2="1">
+      <stop offset="0%" stop-color="#8A6A3B"/>
+      <stop offset="20%" stop-color="#C7A24A"/>
+      <stop offset="44%" stop-color="#F3E3B3"/>
+      <stop offset="58%" stop-color="#C7A24A"/>
+      <stop offset="80%" stop-color="#F3E3B3"/>
+      <stop offset="100%" stop-color="#8A6A3B"/>
+    </linearGradient>
+    <linearGradient id="steacherscompanionlevel1-ground" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0%" stop-color="#154237"/>
+      <stop offset="62%" stop-color="#0C2A24"/>
+      <stop offset="100%" stop-color="#061A16"/>
+    </linearGradient>
+    <radialGradient id="steacherscompanionlevel1-light" cx="24%" cy="8%" r="86%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity=".16"/>
+      <stop offset="55%" stop-color="#FFFFFF" stop-opacity=".03"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity=".26"/>
+    </radialGradient>
+    <linearGradient id="steacherscompanionlevel1-hinge" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#000000" stop-opacity=".42"/>
+      <stop offset="7%" stop-color="#000000" stop-opacity=".14"/>
+      <stop offset="13%" stop-color="#FFFFFF" stop-opacity=".05"/>
+      <stop offset="20%" stop-color="#000000" stop-opacity="0"/>
+    </linearGradient>
+    <pattern id="steacherscompanionlevel1-girih" width="210" height="210" patternUnits="userSpaceOnUse"
+      patternTransform="translate(-105 -105)">
+      <g>
+    <g fill="none" stroke="#FFFFFF" stroke-width="0.5" opacity="1"
+       stroke-linejoin="round">
+      <circle cx="105" cy="105" r="96.6"/>
+      <circle cx="105" cy="105" r="69.552" opacity="0.6"/>
+      <path d="M105 8.4L173.307 36.693L201.6 105L173.307 173.307L105 201.6L36.693 173.307L8.4 105L36.693 36.693Z"/>
+      <path d="M131.616 40.742L169.258 78.384L169.258 131.616L131.616 169.258L78.384 169.258L40.742 131.616L40.742 78.384L78.384 40.742Z" opacity="0.7"/>
+      <path d="M105 8.4L120.526 67.516L173.307 36.693L142.484 89.474L201.6 105L142.484 120.526L173.307 173.307L120.526 142.484L105 201.6L89.474 142.484L36.693 173.307L67.516 120.526L8.4 105L67.516 89.474L36.693 36.693L89.474 67.516Z" stroke-width="0.7"/>
+      <path d="M120.526 67.516L139.749 21.108M142.484 89.474L188.892 70.251M142.484 120.526L188.892 139.749M120.526 142.484L139.749 188.892M89.474 142.484L70.251 188.892M67.516 120.526L21.108 139.749M67.516 89.474L21.108 70.251M89.474 67.516L70.251 21.108" opacity="0.5"/>
+      <circle cx="105" cy="105" r="15.456"/>
+    </g></g>
+    </pattern>
+  </defs>
+  <rect width="11" height="594" fill="url(#steacherscompanionlevel1-ground)"/>
+  <rect width="3.7" height="594" fill="#000" opacity=".22"/>
+  <rect x="9.4" width="1.6" height="594" fill="#FFF" opacity=".07"/>
+  <path d="M5.5 26 V568.0" stroke="#E4D5A8" stroke-width=".4" opacity=".2"/>
+  <path d="M6 34 H5.0 M6 560.0 H5.0"
+    stroke="#E4D5A8" stroke-width=".7" opacity=".6"/>
+  
+  <g transform="translate(5.5 542.0)">
+    <circle r="2.9" fill="none" stroke="#E4D5A8"
+      stroke-width=".7" opacity=".7"/>
+  </g>
+</svg>

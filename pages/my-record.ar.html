@@ -1,0 +1,196 @@
+<!--
+  سجلّي الأكاديمي — النسخة العربية.
+  كل مُعرِّف أدناه يخاطبه js/my-record.js باسمه، فلا تُترجَم الأسماء.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></p>
+    <p class="masthead__eyebrow">سجلّك</p>
+    <h1>سجلّي الأكاديمي</h1>
+    <p class="lede">كل ما تحفظه الكلية عن دراستك، والتحكّم فيمن يراه غيرك.</p>
+    <nav class="rec-nav" aria-label="المتعلّم">
+      <a href="/ar/my-programme.html">برنامجي</a>
+      <a href="/ar/my-week.html">أسبوعي</a>
+      <a href="/ar/my-desk.html">مكتبي</a>
+      <a href="/ar/my-examination.html">امتحاني</a>
+      <a href="/ar/my-cases.html">قضاياي</a>
+      <a href="/ar/my-standing.html">أين أقف</a>
+      <a href="/ar/my-award.html">شهاداتي</a>
+      <a href="/ar/my-engagement.html">مشاركتي</a>
+      <a href="/ar/my-record.html" aria-current="page">سجلّي</a>
+      <a href="/ar/my-downloads.html">ملفّاتي</a>
+      <a href="/ar/my-account.html">حسابي</a>
+      <a href="/ar/listening-lab.html">معمل الاستماع</a>
+      <a href="/ar/verify.html">التحقّق من شهادة</a>
+    </nav>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg></p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container">
+    <div class="vfy-wrap">
+
+      <p class="rec-state state-plate edge-lit edge-lit--light aurum" id="state" aria-live="polite">جارٍ تحميل سجلّك&hellip;</p>
+
+      <!-- ما تحفظه الكلية ------------------------------------------- -->
+      <section class="grad-section" id="secRecord" hidden>
+        <h2>ما تحفظه الكلية</h2>
+        <div class="grad-totals" id="totals"></div>
+        <div class="grad-tablewrap">
+          <table class="grad-table">
+            <caption class="sr-only">مستويات دورة الطلاقة الإنجليزية الدولية التي دخلتَها، ونتيجة كلٍّ منها</caption>
+            <thead>
+              <tr>
+                <th scope="col">المستوى</th><th scope="col">الإطار الأوروبي</th>
+                <th scope="col">تاريخ الدخول</th><th scope="col">الوحدات</th><th scope="col">النتيجة</th>
+              </tr>
+            </thead>
+            <tbody id="transcript"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- الخصوصية --------------------------------------------------- -->
+      <section class="grad-section" id="secPrivacy" hidden>
+        <h2>ما يراه الآخرون</h2>
+        <p class="grad-note">
+          كل جزء من سجلّك يبدأ خاصًّا. ولا يُنشر شيء مما تحت حتى تشغّله بنفسك،
+          وإطفاء أيٍّ منه يزيله من كل رابط شاركتَه من قبل.
+        </p>
+
+        <form id="privacyForm" class="rec-privacy">
+          <div class="rec-toggle">
+            <label for="isPublic">
+              <span class="rec-toggle__name">انشر ملفي</span>
+              <span class="rec-toggle__what">يستطيع كل من يملك عنوان ملفك رؤيته. وبدون هذا لا يكون شيء مما تحت علنيًّا.</span>
+            </label>
+            <input type="checkbox" id="isPublic" name="isPublic">
+          </div>
+
+          <div class="rec-handle">
+            <label class="vfy-label" for="handle">عنوان ملفك</label>
+            <div class="rec-handle__row">
+              <!-- النسخة العربية من العنوان: السجل نفسه متاح على العنوانين،
+                   والخرّيج الذي يقرأ هذه الصفحة بالعربية يسلّم عنوانًا
+                   يفتح النسخة العربية. -->
+              <span class="rec-handle__prefix" dir="ltr">/ar/graduate.html?handle=</span>
+              <input id="handle" name="handle" type="text" autocomplete="off" spellcheck="false"
+                     dir="ltr" placeholder="your-name" aria-describedby="handleHelp handleError">
+            </div>
+            <p class="grad-note" id="handleHelp">حروف لاتينية صغيرة وأرقام وشرطات. من ٤ إلى ٣٢ حرفًا. <a href="/ar/graduate.html">انظر كيف يبدو سجلٌّ منشور</a>.</p>
+            <p class="vfy-error" id="handleError" role="alert"></p>
+          </div>
+
+          <div class="rec-toggle">
+            <label for="showTranscript">
+              <span class="rec-toggle__name">كشف الدرجات</span>
+              <span class="rec-toggle__what">كل مستوى دخلتَه، بما فيه ما لا يزال جاريًا.</span>
+            </label>
+            <input type="checkbox" id="showTranscript" name="transcript">
+          </div>
+          <div class="rec-toggle">
+            <label for="showCompetencies">
+              <span class="rec-toggle__name">ملفّ الكفايات</span>
+              <span class="rec-toggle__what">تحصيلك في كفايات الكلية الست.</span>
+            </label>
+            <input type="checkbox" id="showCompetencies" name="competencies">
+          </div>
+          <div class="rec-toggle">
+            <label for="showCpd">
+              <span class="rec-toggle__name">التطوير المهني</span>
+              <span class="rec-toggle__what">الدورات وورش العمل والمؤتمرات التي سجّلتها.</span>
+            </label>
+            <input type="checkbox" id="showCpd" name="cpd">
+          </div>
+          <div class="rec-toggle">
+            <label for="showStudyTime">
+              <span class="rec-toggle__name">زمن الدراسة المقيس</span>
+              <!-- يُذكر عند لحظة القرار لا في سياسة لا يفتحها أحد. وهذا
+                   أشدّ أرقام السجل خصوصية. -->
+              <span class="rec-toggle__what">كم من الوقت عملتَ فعلًا. وهذا ليس جزءًا من مؤهّلك، ومعظم الخريجين يبقونه خاصًّا.</span>
+            </label>
+            <input type="checkbox" id="showStudyTime" name="studyTime">
+          </div>
+
+          <button class="vfy-submit" type="submit">احفظ هذه الإعدادات</button>
+          <p class="rec-saved" id="saved" role="status"></p>
+        </form>
+      </section>
+
+      <!-- المشاركة --------------------------------------------------- -->
+      <section class="grad-section" id="secShares" hidden>
+        <h2>الروابط التي شاركتها</h2>
+        <p class="grad-note">
+          رابط المشاركة يُظهر جزءًا متّفقًا عليه من سجلّك لمن لا حساب له &mdash; صاحب عمل،
+          أو مكتب قبول في جامعة. وكل رابط ينتهي، ويمكنك سحبه في أي وقت.
+          ولا يُظهر الرابط أكثر مما تسمح به إعداداتك أعلاه، ولو وافقتَ على أكثر حين أنشأتَه.
+        </p>
+
+        <details class="rec-newshare">
+          <summary>أنشئ رابط مشاركة</summary>
+          <form id="shareForm">
+            <fieldset class="rec-fieldset">
+              <legend>ما يجوز لهذا الرابط إظهاره</legend>
+              <label><input type="checkbox" name="sections" value="awards" checked> الشهادات</label>
+              <label><input type="checkbox" name="sections" value="transcript"> كشف الدرجات</label>
+              <label><input type="checkbox" name="sections" value="competencies"> الكفايات</label>
+              <label><input type="checkbox" name="sections" value="cpd"> التطوير المهني</label>
+              <label><input type="checkbox" name="sections" value="studyTime"> زمن الدراسة المقيس</label>
+            </fieldset>
+            <div class="rec-sharemeta">
+              <div>
+                <label class="vfy-label" for="shareLabel">ملاحظتك</label>
+                <input id="shareLabel" type="text" placeholder="تقديم إلى &hellip;" maxlength="80">
+              </div>
+              <div>
+                <label class="vfy-label" for="shareDays">ينتهي بعد</label>
+                <select id="shareDays">
+                  <option value="7">٧ أيام</option>
+                  <option value="30" selected>٣٠ يومًا</option>
+                  <option value="90">٩٠ يومًا</option>
+                  <option value="365">سنة</option>
+                </select>
+              </div>
+            </div>
+            <button class="vfy-submit" type="submit">أنشئ الرابط</button>
+          </form>
+          <!-- يُعرض مرة واحدة. فالكلية لا تحفظ إلا بصمته ولا تستطيع
+               إعادة إنتاجه، وهذا ما يمنع أن يصير كشفُ قاعدة بيانات كشفًا
+               لوصولٍ حيٍّ إلى كل سجل. -->
+          <div class="rec-newlink" id="newLink" hidden></div>
+        </details>
+
+        <ul class="rec-shares" id="shares"></ul>
+      </section>
+
+      <!-- الوثائق ---------------------------------------------------- -->
+      <section class="grad-section" id="secDocuments" hidden>
+        <h2>الوثائق الصادرة</h2>
+        <p class="grad-note">
+          كشف الدرجات أو ملحق الشهادة لقطةٌ موقَّعة ودائمة. تظل تقول ما قالته
+          يوم صدورها، فتستطيع جامعة أن تفحصها بعد سنوات. وإصدار وثيقة جديدة يَنسخ
+          السابقة &mdash; والوثيقة الأقدم تظل قابلة للتحقّق، وتذكر أنها نُسخت.
+        </p>
+        <div class="rec-issue">
+          <button class="vfy-submit" type="button" data-issue="transcript">أصدِر كشف درجات</button>
+          <button class="vfy-submit" type="button" data-issue="diploma_supplement">أصدِر ملحق شهادة</button>
+        </div>
+        <p class="vfy-error" id="docError" role="alert"></p>
+        <ul class="rec-docs" id="documents"></ul>
+      </section>
+
+    </div>
+  </div>
+</section>
+
+<section class="section--dark cta-band">
+  <div class="container reveal">
+    <h2>سجلّك لك، تعرضه كما تشاء.</h2>
+    <div class="btn-row u-center">
+      <a href="/ar/my-programme.html" class="btn btn--gold magnetic aurum aurum--twin">عد إلى برنامجي</a>
+      <a href="/ar/students/academic-record/" class="btn btn--outline magnetic">كيف يُحفَظ السجل</a>
+    </div>
+  </div>
+</section>

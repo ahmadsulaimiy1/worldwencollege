@@ -1,0 +1,222 @@
+/* ═══════════════════════════════════════════════════════════════════
+   MY FILES — the identity card, and the shelves.
+
+   Loaded after css/console.css. Two objects are new here.
+
+   ─────────────────────────────────────────────────────────────────
+   THE CARD IS A CARD, AND THAT IS THE RISK
+   ─────────────────────────────────────────────────────────────────
+   An identity block drawn to look like a driving licence would invite
+   somebody to present it as one, and the College does not issue
+   identity documents. So it is drawn as an institutional record: the
+   College's own materials, no photograph frame, no holographic
+   flourish, and the caveat set as prominently as the name. What makes
+   it trustworthy is the verification statement behind it, not the
+   styling in front of it.
+
+   ─────────────────────────────────────────────────────────────────
+   AND A SHELF SAYS WHAT WOULD FILL IT
+   ─────────────────────────────────────────────────────────────────
+   Every empty state on this page carries a sentence. An empty shelf
+   with nothing under it reads as a page that failed to load, which is
+   the one impression a portal for somebody's academic record must
+   never give.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── THE IDENTITY CARD ───────────────────────────────────────────── */
+
+.dl-id {
+  position: relative;
+  padding: 1.9rem 1.9rem 1.7rem;
+  border-radius: 16px;
+  background: var(--paper, #FCFAF4);
+  border: 1px solid color-mix(in oklab, var(--gold, #C7A24A) 40%, transparent);
+  box-shadow: var(--relief-raised, 0 16px 40px -20px rgba(16, 32, 58, .42));
+  display: grid;
+  gap: 1.2rem;
+}
+
+.dl-id__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.3rem;
+}
+.dl-id__names { min-width: 0; }
+.dl-id__name {
+  margin: 0;
+  font: 600 clamp(1.3rem, 1.05rem + .9vw, 1.75rem)/1.25 var(--font-display, Georgia, serif);
+  color: var(--ink, #16202E);
+}
+.dl-id__level {
+  margin: .2rem 0 0;
+  font: 400 .95rem/1.6 var(--font-body, Georgia, serif);
+  color: color-mix(in oklab, var(--ink, #16202E) 68%, transparent);
+}
+
+.dl-id__facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: .9rem 1.6rem;
+  margin: 0;
+  padding: 1.2rem 0 0;
+  border-top: 1px solid color-mix(in oklab, var(--gold, #C7A24A) 32%, transparent);
+}
+.dl-fact { display: grid; gap: .15rem; min-width: 0; }
+.dl-fact dt {
+  font: 600 .68rem/1.4 var(--font-body, Georgia, serif);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--gold-deep, #795A32);
+}
+[lang="ar"] .dl-fact dt { letter-spacing: normal; text-transform: none; font-size: .8rem; }
+.dl-fact dd {
+  margin: 0;
+  font: 500 1rem/1.5 var(--font-body, Georgia, serif);
+  color: var(--ink, #16202E);
+  overflow-wrap: anywhere;
+}
+.dl-fact--flag dd { color: var(--gold-deep, #795A32); }
+
+.dl-id__differs {
+  margin: 0;
+  padding: .85rem 1.1rem;
+  border-radius: 10px;
+  border-inline-start: 3px solid var(--amber, #C98A16);
+  background: color-mix(in oklab, var(--amber, #C98A16) 8%, transparent);
+  font: 400 .92rem/1.75 var(--font-body, Georgia, serif);
+  color: color-mix(in oklab, var(--ink, #16202E) 82%, transparent);
+}
+
+.dl-enrolments { list-style: none; margin: 0; padding: 0; display: grid; gap: .45rem; }
+.dl-enrolments li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .5rem .8rem;
+  font: 400 .95rem/1.6 var(--font-body, Georgia, serif);
+  color: color-mix(in oklab, var(--ink, #16202E) 76%, transparent);
+}
+
+.dl-id__statement {
+  margin: 0;
+  padding-inline-start: 1rem;
+  border-inline-start: 2px solid color-mix(in oklab, var(--gold, #C7A24A) 55%, transparent);
+}
+.dl-id__statement p {
+  margin: 0;
+  font: 400 1rem/1.8 var(--font-body, Georgia, serif);
+  font-style: italic;
+  color: color-mix(in oklab, var(--ink, #16202E) 80%, transparent);
+}
+.dl-id__source { margin: .4rem 0 0 !important; font-style: normal !important; font-size: .88rem !important; }
+
+/* The caveat is set as prominently as the name it sits under. See the
+   head of this file. */
+.dl-id__caveat {
+  margin: 0;
+  padding: .85rem 1.1rem;
+  border-radius: 10px;
+  background: color-mix(in oklab, var(--ink, #16202E) 6%, transparent);
+  font: 400 .93rem/1.7 var(--font-body, Georgia, serif);
+  color: color-mix(in oklab, var(--ink, #16202E) 84%, transparent);
+}
+.dl-id__caveat strong { color: var(--gold-deep, #795A32); }
+
+/* ── THE SHELVES ─────────────────────────────────────────────────── */
+
+/* TWO COLUMNS, NOT THREE, and the reason is the count.
+   There are four shelves. A three-column auto-fit puts three on the
+   first row and leaves the fourth alone beside two columns of nothing
+   — the dead-space failure the render audit exists to catch, and one
+   that is invisible in the source. Two columns give a 2x2 block at
+   every width the grid holds, and a single column below that. */
+.dl-shelves {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+  gap: 1.2rem;
+  align-items: stretch;
+}
+
+.dl-shelf {
+  position: relative;
+  padding: 1.6rem 1.5rem 1.4rem;
+  border-radius: 14px;
+  background: var(--paper, #FCFAF4);
+  border: 1px solid color-mix(in oklab, var(--ink, #16202E) 12%, transparent);
+  box-shadow: var(--relief-raised, 0 14px 34px -18px rgba(16, 32, 58, .42));
+  display: grid;
+  gap: .7rem;
+  align-content: start;
+}
+.dl-shelf h3 {
+  margin: 0;
+  font: 600 1.14rem/1.3 var(--font-display, Georgia, serif);
+  color: var(--ink, #16202E);
+}
+.dl-shelf__count {
+  margin: 0;
+  font: 600 .92rem/1.5 var(--font-body, Georgia, serif);
+  color: var(--gold-deep, #795A32);
+}
+.dl-shelf__note,
+.dl-shelf__more,
+.dl-shelf__issuable {
+  margin: 0;
+  font: 400 .9rem/1.7 var(--font-body, Georgia, serif);
+  color: color-mix(in oklab, var(--ink, #16202E) 70%, transparent);
+}
+.dl-shelf__issuable-label {
+  font-weight: 600;
+  color: var(--gold-deep, #795A32);
+}
+
+.dl-items { list-style: none; margin: 0; padding: 0; display: grid; gap: .55rem; }
+.dl-items li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .4rem .7rem;
+  padding: .55rem .7rem;
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--pearl, #F1EDE3) 60%, transparent);
+  font: 400 .92rem/1.55 var(--font-body, Georgia, serif);
+  color: var(--ink, #16202E);
+}
+.dl-items__at { color: color-mix(in oklab, var(--ink, #16202E) 60%, transparent); }
+.dl-items code {
+  font: 600 .84rem/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+  overflow-wrap: anywhere;
+}
+
+.dl-shelf .btn { justify-self: start; margin-top: .3rem; }
+
+/* ── DARK GROUNDS ────────────────────────────────────────────────────
+   Stated, never inherited — the 1.04:1 failure the render audit caught
+   on a cream plate inside a dark section is the reason this block
+   exists on every stylesheet in this portal. */
+.section--dark .dl-id, .section--deep .dl-id,
+.section--dark .dl-shelf, .section--deep .dl-shelf {
+  background: color-mix(in oklab, var(--midnight, #0E1B33) 90%, transparent);
+  border-color: color-mix(in oklab, var(--gold, #C7A24A) 36%, transparent);
+}
+.section--dark .dl-id__name, .section--deep .dl-id__name,
+.section--dark .dl-shelf h3, .section--deep .dl-shelf h3 { color: var(--gold-champagne, #F2E3C0); }
+.section--dark .dl-fact dd, .section--deep .dl-fact dd,
+.section--dark .dl-items li, .section--deep .dl-items li,
+.section--dark .dl-id__caveat, .section--deep .dl-id__caveat { color: var(--pearl, #F1EDE3); }
+
+/* ── HIGH CONTRAST ───────────────────────────────────────────────────
+   Doubled so it outranks the page stylesheets, which load after this
+   file — the lesson css/brand.css records from the first forced-colors
+   block written for this site, which lost on source order. */
+@media (forced-colors: active) {
+  .dl-id.dl-id, .dl-shelf.dl-shelf { border: 1px solid CanvasText; }
+  .dl-items li { border: 1px solid CanvasText; }
+}
+
+/* ── 640px AND BELOW ─────────────────────────────────────────────── */
+@media (max-width: 40rem) {
+  .dl-id { padding: 1.4rem 1.2rem 1.3rem; }
+  .dl-shelf { padding: 1.3rem 1.15rem 1.2rem; }
+}

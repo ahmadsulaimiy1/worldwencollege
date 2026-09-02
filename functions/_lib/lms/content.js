@@ -16,6 +16,7 @@
 import { db, newId, nowIso, NotFoundError, ValidationError } from '../db.js';
 import { AuthorizationError } from '../auth/session.js';
 import { getConfigJson } from '../config.js';
+import { GRADE_SCALE, SCALE } from '../academic/marks.js';
 
 export async function assertLevelAccess(env, userId, levelId) {
   const enrolment = await db(env)
@@ -488,4 +489,127 @@ export async function listLiveSessions(env, { userId, levelId }) {
     .bind(levelId)
     .all();
   return results;
+}
+
+/**
+ * THE WORK WAITING TO BE MARKED, oldest first.
+ *
+ * ─────────────────────────────────────────────────────────────────────
+ * THE FAULT THIS CORRECTS
+ * ─────────────────────────────────────────────────────────────────────
+ * `gradeAssignment()` takes a `submissionId` and nothing anywhere
+ * produced one. A tutor could mark a piece of work only if somebody
+ * handed them its id — so on a platform where learners submit
+ * assignments through /my-module.html, no member of staff could find
+ * one to mark. The submissions arrived and sat there.
+ *
+ * `listRecordingsForReview()` is the model, deliberately: the
+ * pronunciation queue solved the same problem for audio and this is
+ * that solution applied to written work, down to the ordering.
+ *
+ * ─────────────────────────────────────────────────────────────────────
+ * OLDEST FIRST, AND THAT IS THE WHOLE POINT OF A QUEUE
+ * ─────────────────────────────────────────────────────────────────────
+ * A queue sorted newest-first starves the learners who have waited
+ * longest — the recording queue says exactly this about recordings,
+ * and it is no less true of an essay. The wait is returned with every
+ * row so a marker can see it rather than infer it.
+ *
+ * ─────────────────────────────────────────────────────────────────────
+ * STAFF-WIDE, AND WHY IT IS NOT BOUNDED BY THE TEACHING RELATION
+ * ─────────────────────────────────────────────────────────────────────
+ * `assertMayReadLearner()` bounds a tutor to the learners they teach,
+ * and the relation is COMPOSED from teaching acts — a thread, a
+ * booking, a register, a mark already given. Bounding this queue the
+ * same way would mean a learner's FIRST submission is invisible to
+ * every tutor who has not already marked something of theirs, which is
+ * every tutor. The first piece of work anybody submits would wait for
+ * an administrator.
+ *
+ * That is the gap docs/platform-capabilities.md § 10 names: there is no
+ * teaching-assignment table, so the platform cannot say which tutor
+ * owns which level. Until it can, the queue is the College's rather
+ * than any one tutor's — which is also how marking actually works here:
+ * every award is set, marked and second-marked against a rubric
+ * published before the work. `graded_by` records who marked, on every
+ * row, and `requireStaff` is the gate.
+ *
+ * The payload says all of this in `basis`, so a surface renders the
+ * arrangement rather than implying a different one.
+ *
+ * NOTE ON `attempt`: `sql/migrations/021-attempt-ordinals.sql` added
+ * the column this queries; submitAssignment() here does not populate it
+ * yet (that lands with the resit-allowance engine, tracked separately),
+ * so `attempt`/`previousAttempt` read null for every row until it does.
+ * Degrading to null rather than erroring is deliberate — this queue is
+ * useful the day it ships, not only once resits are enforced.
+ */
+export async function listSubmissionsForMarking(env, {
+  levelId = null, status = 'submitted', limit = 50,
+} = {}) {
+  let sql = `SELECT s.id, s.content, s.status, s.attempt, s.grade, s.feedback,
+                    s.submitted_at AS submittedAt, s.graded_at AS gradedAt,
+                    u.id AS userId, u.email, u.preferred_name AS preferredName,
+                    i.id AS learningItemId, i.title AS itemTitle, i.body AS itemBody,
+                    un.id AS unitId, un.title AS unitTitle, un.sequence AS unitSequence,
+                    c.level_id AS levelId
+               FROM assignment_submissions s
+               JOIN users u ON u.id = s.user_id
+               JOIN learning_items i ON i.id = s.learning_item_id
+               JOIN units un ON un.id = i.unit_id
+               JOIN courses c ON c.id = un.course_id
+              WHERE i.kind = 'assignment'`;
+  const binds = [];
+  if (status) { sql += ' AND s.status = ?'; binds.push(status); }
+  if (levelId !== null) { sql += ' AND c.level_id = ?'; binds.push(levelId); }
+  sql += ' ORDER BY s.submitted_at ASC LIMIT ?';
+  binds.push(limit);
+  const { results } = await db(env).prepare(sql).bind(...binds).all();
+
+  const now = Date.now();
+  for (const row of results) {
+    // How long the learner has been waiting, computed once here rather
+    // than in whatever surface renders it. Two surfaces working it out
+    // separately is two surfaces that can disagree about whether a
+    // piece of work is overdue.
+    const at = Date.parse(row.submittedAt);
+    row.waitingDays = Number.isFinite(at) ? Math.floor((now - at) / 86400000) : null;
+    // What the learner was marked against LAST time, where there was a
+    // last time. A second attempt marked without sight of the first is
+    // a second attempt marked as though it were a first.
+    const prior = await db(env)
+      .prepare(`SELECT attempt, grade, feedback, graded_at AS gradedAt
+                  FROM assignment_submissions
+                 WHERE learning_item_id = ? AND user_id = ? AND attempt < ?
+                 ORDER BY attempt DESC LIMIT 1`)
+      .bind(row.learningItemId, row.userId, row.attempt ?? 1).first();
+    row.previousAttempt = prior || null;
+  }
+
+  return {
+    basis: 'college',
+    // Named in the payload rather than left for a page to assert. See
+    // this function's header: the teaching relation cannot bound this
+    // queue without hiding every learner's first submission.
+    note: 'The marking queue is the College\'s, not one tutor\'s: until a teaching '
+      + 'assignment is recorded against a level, the platform cannot say whose work is '
+      + 'whose to mark. Every mark records who gave it.',
+    status,
+    levelId,
+    // THE SCALE THE MARK WILL BE READ ON, sent with the queue rather
+    // than restated by whatever screen renders it. A marker who cannot
+    // see the pass line is a marker guessing where it is, and a marking
+    // screen carrying its own copy of the number is a second source of
+    // truth about the most consequential figure this institution
+    // produces about a person. Both come from
+    // functions/_lib/academic/marks.js, the one implementation.
+    scale: {
+      name: GRADE_SCALE,
+      passMark: SCALE.passMark,
+      bands: SCALE.bands.map((b) => ({
+        letter: b.letter, from: b.from, toExclusive: b.toExclusive, gradePoint: b.gradePoint,
+      })),
+    },
+    submissions: results,
+  };
 }

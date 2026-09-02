@@ -1,0 +1,132 @@
+<!--
+  السجل العلني للخريج — النسخة العربية.
+  كل مُعرِّف أدناه يخاطبه js/graduate.js باسمه، فلا تُترجَم الأسماء.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></p>
+    <p class="masthead__eyebrow" id="eyebrow">سجل خرّيج</p>
+    <h1 id="name">&mdash;</h1>
+    <p class="lede" id="headline"></p>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container">
+    <div class="vfy-wrap">
+
+      <!-- يُذكر حيث يكوّن القارئ حكمه، لا في تذييل. فسجلٌّ لا يقول كم
+           أُظهر منه يُقرأ على أنه السجل كله. وموضعه هنا — إلى جانب
+           السجل لا في الترويسة — قرارٌ في التخطيط أيضًا: كان يملأ في
+           الترويسة بعد وصول السجل فيزيدها سطرين ويدفع الصفحة كلها
+           أسفلها. -->
+      <p class="grad-scope" id="scopeNote"></p>
+
+      <!-- رسالة الانتظار مكتوبة في الصفحة لا يضعها النص البرمجي، حتى
+           يكون لهذا الصندوق ارتفاعه من أول رسم فلا تقفز الصفحة عند
+           وصول الجواب. -->
+      <section class="grad-state state-plate edge-lit edge-lit--light aurum" id="state" aria-live="polite"><strong>جارٍ تحميل هذا السجل&hellip;</strong></section>
+
+      <section class="grad-section" id="secBiography" hidden>
+        <h2>سيرة أكاديمية</h2>
+        <p class="grad-bio" id="biography"></p>
+      </section>
+
+      <section class="grad-section" id="secAwards" hidden>
+        <h2>الشهادات الممنوحة</h2>
+        <ol class="grad-awards" id="awards"></ol>
+      </section>
+
+      <!-- لوحة التحقّق: هي ما يجعل هذه الصفحة وثيقةً لا صفحةَ وِب. وكل ما
+           فيها يستطيع القارئ فحصه دون أن يأخذ بكلام الكلية: رقم سجلٍّ
+           يراجعه، ورمز يفتح الفحص العلني، وحال التوقيع وسلسلة السجل.
+           ولا تُعرض إلا إذا كانت هناك شهادة يُتحقَّق منها؛ فلوحة تحقّق
+           لا شيء وراءها تمثيل. -->
+      <section class="grad-verify" id="secVerify" hidden>
+        <h2>التحقّق</h2>
+        <div class="grad-verify__grid">
+          <div class="grad-verify__facts">
+            <dl class="grad-facts" id="verifyFacts"></dl>
+            <p class="grad-note" id="verifyNote"></p>
+          </div>
+          <figure class="grad-qr" id="qrBox">
+            <div id="qr"></div>
+            <figcaption id="qrCaption"></figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="grad-section" id="secTranscript" hidden>
+        <h2>كشف الدرجات</h2>
+        <div class="grad-totals" id="totals"></div>
+        <div class="grad-tablewrap">
+          <table class="grad-table">
+            <caption class="sr-only">مستويات دورة الطلاقة الإنجليزية الدولية التي دخلها هذا الخرّيج، ونتيجة كلٍّ منها</caption>
+            <thead>
+              <tr>
+                <th scope="col">المستوى</th>
+                <th scope="col">الإطار الأوروبي</th>
+                <th scope="col">تاريخ الدخول</th>
+                <th scope="col">الوحدات</th>
+                <th scope="col">النتيجة</th>
+              </tr>
+            </thead>
+            <tbody id="transcript"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- الإطار الأوروبي يُعرَّف مهارةً مهارة، فسجلٌّ يعطي مستوًى واحدًا
+           دون بيان موضع كل مهارة يُخفي أنفع ما يعرفه. -->
+      <section class="grad-section" id="secSkills" hidden>
+        <h2>المهارات اللغوية</h2>
+        <p class="grad-note" id="skillNote"></p>
+        <ul class="grad-skills" id="skills"></ul>
+      </section>
+
+      <section class="grad-section" id="secCompetencies" hidden>
+        <h2>إطار الكفايات</h2>
+        <p class="grad-note" id="competencyNote"></p>
+        <ul class="grad-competencies" id="competencies"></ul>
+      </section>
+
+      <!-- القيادة والعرض والبحث والخدمة والجوائز: الجزء من السجل الذي
+           ليس درجة. ولا يظهر هنا إلا ما أقرّته الكلية؛ فالدعوى المقترحة
+           كلام الخرّيج نفسه، ونشرها يجعل الكلية تقرّها. -->
+      <section class="grad-section" id="secDistinctions" hidden>
+        <h2>التميّز والإسهام</h2>
+        <div id="distinctions"></div>
+      </section>
+
+      <section class="grad-section" id="secCpd" hidden>
+        <h2>التطوير المهني المستمر</h2>
+        <p class="grad-note">القيود الموسومة بـ<strong>مُثبَتة</strong> قُدِّم عليها دليل إلى الكلية. أما القيود بلا هذا الوسم فيصرّح بها الخرّيج ولم تُفحَص.</p>
+        <ul class="grad-cpd" id="cpd"></ul>
+      </section>
+
+      <section class="grad-section" id="secStudyTime" hidden>
+        <h2>زمن الدراسة المقيس</h2>
+        <p class="grad-note">الوقت الذي عمله هذا الخرّيج، بقياس المنصّة. وهو <strong>ليس</strong> الزمن الكلي للمؤهّل، فذاك رقم الكلية التصميمي للشهادة وهو واحد لكل حاملٍ لها.</p>
+        <p class="grad-hours" id="studyTime"></p>
+      </section>
+
+      <section class="grad-withheld" id="withheldBox" hidden>
+        <h2>ما لا يُعرَض هنا</h2>
+        <p id="withheld"></p>
+      </section>
+
+    </div>
+  </div>
+</section>
+
+<section class="section--dark cta-band">
+  <div class="container reveal">
+    <h2>افحص أيًّا من ذلك في سجل الكلية نفسه.</h2>
+    <div class="btn-row u-center">
+      <a href="/ar/verify.html" class="btn btn--gold magnetic aurum aurum--twin">التحقّق من شهادة برمزها</a>
+      <a href="/ar/register.html" class="btn btn--outline magnetic">سجل الخريجين</a>
+    </div>
+  </div>
+</section>

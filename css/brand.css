@@ -1468,6 +1468,18 @@ section { position: relative; }
 @media (max-width: 900px) { .grid--3, .grid--4 { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 620px) { .grid--2, .grid--3, .grid--4 { grid-template-columns: 1fr; } }
 
+/* AN ODD LAST CARD CLOSES THE ROW RATHER THAN SITTING BESIDE A VOID.
+   Five councils and seven subcommittees are both odd numbers, and in a
+   two-column grid an odd number ends with one card alone against an
+   empty half — on the dark Councils ground that empty half is the
+   largest single area in the section, and the eye reads it as a card
+   that failed to render rather than as a grid that ran out.
+   `.grid--close` lets the last card take the full measure and finish
+   the block. It is opt-in: a grid of tiles where every cell must stay
+   the same size does not want this. */
+.grid--close > :last-child:nth-child(odd) { grid-column: 1 / -1; }
+@media (max-width: 620px) { .grid--close > :last-child:nth-child(odd) { grid-column: auto; } }
+
 .card {
   background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-md);
   padding: 32px; position: relative; overflow: hidden;

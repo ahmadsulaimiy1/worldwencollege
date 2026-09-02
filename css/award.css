@@ -1,0 +1,326 @@
+/* ═══════════════════════════════════════════════════════════════════
+   THE CERTIFICATE — the material for a conferral the holder can see.
+
+   Loaded after css/console.css, whose masthead, block heads, chips and
+   dark count tiles this page reuses. What is new here is one object:
+   the certificate itself.
+
+   ─────────────────────────────────────────────────────────────────
+   IT IS A DOCUMENT, AND IT IS DRAWN AS ONE
+   ─────────────────────────────────────────────────────────────────
+   Everything else in this portal is a card — a container for facts a
+   reader scans. A certificate is not scanned; it is READ, once,
+   carefully, and then shown to somebody else. So it is set centred, on
+   a warm ground, with a gold rule under the crest and another over the
+   seal, and the holder's name is the largest thing on the page after
+   the award itself. That is the arrangement every certificate a
+   graduate has ever held uses, and departing from it would make the
+   College's most ceremonial object look like a receipt.
+
+   ─────────────────────────────────────────────────────────────────
+   AND THE CODE IS AS PROMINENT AS THE NAME
+   ─────────────────────────────────────────────────────────────────
+   The whole of this College's public position is that its claims are
+   checkable. A certificate that buried the verification code in six
+   point grey would be making the claim and hiding the check. The code,
+   its square, and the key that signed it sit together at the foot, in
+   tabular figures, at a size somebody reads across a desk.
+   ═══════════════════════════════════════════════════════════════════ */
+
+.awd-list { display: grid; gap: 2rem; }
+
+.awd {
+  position: relative;
+  padding: 2.6rem 2.4rem 2.2rem;
+  border-radius: 16px;
+  text-align: center;
+  background:
+    radial-gradient(120% 90% at 50% 0%,
+      color-mix(in oklab, var(--gold, #C7A24A) 7%, transparent), transparent 60%),
+    var(--warm-white, #FDFBF6);
+  border: 1px solid color-mix(in oklab, var(--gold, #C7A24A) 42%, transparent);
+  box-shadow: var(--relief-raised, 0 18px 44px -22px rgba(16, 32, 58, .45));
+}
+
+/* An award the College has withdrawn is drawn, never hidden — see
+   js/my-award.js. It is quietened rather than struck through: the
+   record is still the holder's, and a certificate defaced on their own
+   screen is a punishment the register does not impose. */
+.awd--withdrawn {
+  background: var(--pearl, #F1EDE3);
+  border-color: color-mix(in oklab, var(--ink, #16202E) 22%, transparent);
+}
+.awd--withdrawn .awd__title,
+.awd--withdrawn .awd__holder { color: color-mix(in oklab, var(--ink, #16202E) 62%, transparent); }
+
+/* ── THE HEAD ────────────────────────────────────────────────────── */
+
+.awd__head { display: grid; justify-items: center; gap: .6rem; }
+
+.awd-crest {
+  width: 58px;
+  height: 58px;
+  fill: none;
+  stroke: var(--gold-royal, #C7A24A);
+  stroke-width: 1.2;
+}
+.awd__college {
+  margin: 0 0 1.1rem;
+  padding-bottom: 1.1rem;
+  font: 600 .74rem/1.5 var(--font-body, Georgia, serif);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--gold-deep, #795A32);
+  border-bottom: 1px solid color-mix(in oklab, var(--gold, #C7A24A) 45%, transparent);
+  width: min(100%, 30rem);
+}
+[lang="ar"] .awd__college { letter-spacing: normal; text-transform: none; }
+
+/* ── THE AWARD ───────────────────────────────────────────────────── */
+
+.awd__title {
+  margin: 0;
+  font: 600 clamp(1.35rem, 1.05rem + 1.1vw, 1.95rem)/1.25 var(--font-display, Georgia, serif);
+  color: var(--ink, #16202E);
+}
+.awd__post {
+  margin: .3rem 0 0;
+  font: 600 .92rem/1.4 var(--font-body, Georgia, serif);
+  letter-spacing: .1em;
+  color: var(--gold-deep, #795A32);
+}
+[lang="ar"] .awd__post { letter-spacing: normal; }
+
+.awd__conferredOn {
+  margin: 1.4rem 0 .35rem;
+  font: 400 .82rem/1.4 var(--font-body, Georgia, serif);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--ink, #16202E) 55%, transparent);
+}
+[lang="ar"] .awd__conferredOn { letter-spacing: normal; text-transform: none; font-size: .9rem; }
+
+.awd__holder {
+  margin: 0;
+  font: 600 clamp(1.5rem, 1.1rem + 1.6vw, 2.3rem)/1.2 var(--font-display, Georgia, serif);
+  color: var(--royal-blue, #1F3D7A);
+}
+
+.awd__citation {
+  margin: 1.2rem auto 0;
+  max-width: 34rem;
+  font: 400 1rem/1.85 var(--font-body, Georgia, serif);
+  font-style: italic;
+  color: color-mix(in oklab, var(--ink, #16202E) 78%, transparent);
+}
+
+/* ── THE FACTS ───────────────────────────────────────────────────── */
+
+.awd__facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 1rem 1.6rem;
+  margin: 1.8rem auto 0;
+  padding: 1.4rem 0 0;
+  max-width: 40rem;
+  border-top: 1px solid color-mix(in oklab, var(--gold, #C7A24A) 35%, transparent);
+}
+.awd-line { display: grid; gap: .2rem; }
+.awd-line dt {
+  font: 600 .7rem/1.4 var(--font-body, Georgia, serif);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--gold-deep, #795A32);
+}
+[lang="ar"] .awd-line dt { letter-spacing: normal; text-transform: none; font-size: .82rem; }
+.awd-line dd {
+  margin: 0;
+  font: 500 1.02rem/1.45 var(--font-display, Georgia, serif);
+  color: var(--ink, #16202E);
+}
+
+/* ── WITHDRAWN ───────────────────────────────────────────────────── */
+
+.awd__withdrawn {
+  margin: 1.5rem auto 0;
+  max-width: 36rem;
+  padding: 1rem 1.2rem;
+  border-radius: 10px;
+  border: 1px solid color-mix(in oklab, var(--amber, #C98A16) 55%, transparent);
+  background: color-mix(in oklab, var(--amber, #C98A16) 9%, transparent);
+  display: grid;
+  gap: .4rem;
+  justify-items: center;
+}
+.awd__withdrawn p {
+  margin: 0;
+  font: 400 .93rem/1.7 var(--font-body, Georgia, serif);
+  color: color-mix(in oklab, var(--ink, #16202E) 82%, transparent);
+}
+
+/* ── THE FOOT ────────────────────────────────────────────────────── */
+
+.awd__foot {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1.4rem 1.8rem;
+  margin: 2rem 0 0;
+  padding: 1.6rem 0 0;
+  text-align: start;
+  border-top: 1px solid color-mix(in oklab, var(--gold, #C7A24A) 35%, transparent);
+}
+
+.awd__seal { display: grid; justify-items: center; gap: .4rem; }
+.awd-seal {
+  width: 62px;
+  height: 62px;
+  fill: none;
+  stroke: var(--gold-royal, #C7A24A);
+  stroke-width: 1.2;
+}
+.awd__seal-label {
+  margin: 0;
+  max-width: 7rem;
+  text-align: center;
+  font: 600 .64rem/1.4 var(--font-body, Georgia, serif);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--gold-deep, #795A32);
+}
+[lang="ar"] .awd__seal-label { letter-spacing: normal; text-transform: none; font-size: .76rem; }
+
+.awd__code { display: grid; gap: .3rem; min-width: 0; }
+.awd__code-label {
+  margin: 0;
+  font: 600 .68rem/1.4 var(--font-body, Georgia, serif);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--gold-deep, #795A32);
+}
+[lang="ar"] .awd__code-label { letter-spacing: normal; text-transform: none; font-size: .8rem; }
+.awd__code-value {
+  margin: 0;
+  font: 600 1.16rem/1.35 ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .04em;
+  color: var(--ink, #16202E);
+  overflow-wrap: anywhere;
+}
+.awd__code-note,
+.awd__sig {
+  margin: 0;
+  font: 400 .84rem/1.65 var(--font-body, Georgia, serif);
+  color: color-mix(in oklab, var(--ink, #16202E) 66%, transparent);
+}
+.awd__sig-mode { font-variant: small-caps; }
+.awd__sig--none { color: var(--gold-deep, #795A32); }
+
+.awd__qr {
+  width: 132px;
+  height: 132px;
+  /* Reserved before the image arrives, so a certificate never jumps
+     when the square loads. The render audit measures layout shift on
+     every route and this is the one element on this page that could
+     produce any. */
+  aspect-ratio: 1 / 1;
+  border-radius: 8px;
+  background: #fff;
+  padding: 6px;
+  border: 1px solid color-mix(in oklab, var(--ink, #16202E) 14%, transparent);
+}
+
+/* ── WHAT A HOLDER DOES WITH IT ──────────────────────────────────── */
+
+.awd__acts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .7rem;
+  margin: 1.8rem 0 0;
+}
+
+/* ── PRINTING ────────────────────────────────────────────────────────
+   "Printed copies" is a service the College sells, and a print output
+   that was a screenshot of a web page with a navigation rail down the
+   side would make that sentence embarrassing.
+
+   js/my-award.js stamps data-printing with the code of the one
+   certificate being printed, so a holder with four awards prints the
+   one they meant rather than four pages they did not ask for. */
+@media print {
+  body { background: #fff; }
+  .site-header, .site-footer, .utilrail, .topbar, .page-hero,
+  .rec-nav, .quicknav, .desk-head, .stf-counts,
+  #secTerms, #secNone, #state, .awd__acts { display: none !important; }
+
+  .awd {
+    box-shadow: none;
+    border: 1px solid #B99A4E;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    margin: 0;
+  }
+  .awd-list { gap: 0; }
+  .awd + .awd { page-break-before: always; }
+
+  /* ONE CERTIFICATE TO A PAGE when a holder asked for one.
+     The chosen card carries .awd--printing; CSS cannot compare one
+     element's attribute against another's, so the selection is made in
+     script and expressed as a class rather than by matching
+     data-printing against data-code. */
+  body[data-printing] .awd { display: none; }
+  body[data-printing] .awd--printing { display: block; }
+}
+
+/* ── DARK GROUNDS ────────────────────────────────────────────────────
+   Stated rather than inherited. A certificate placed on a dark section
+   with its ground set and its ink not is the 1.04:1 contrast failure
+   the render audit caught on a cream plate once already. */
+.section--dark .awd,
+.section--deep .awd {
+  background: linear-gradient(160deg,
+    color-mix(in oklab, var(--midnight, #0E1B33) 92%, transparent),
+    color-mix(in oklab, var(--oxford, #0A1428) 96%, transparent));
+  border-color: color-mix(in oklab, var(--gold, #C7A24A) 46%, transparent);
+}
+.section--dark .awd__title,
+.section--deep .awd__title { color: var(--gold-champagne, #F2E3C0); }
+.section--dark .awd__holder,
+.section--deep .awd__holder { color: var(--gold-soft, #E7C97A); }
+.section--dark .awd__citation,
+.section--deep .awd__citation,
+.section--dark .awd-line dd,
+.section--deep .awd-line dd,
+.section--dark .awd__code-value,
+.section--deep .awd__code-value { color: var(--pearl, #F1EDE3); }
+
+/* ── HIGH CONTRAST ───────────────────────────────────────────────────
+   Doubled selectors so they outrank the page stylesheets, which load
+   after this file — the lesson css/brand.css records from the first
+   forced-colors block written for this site, which lost on source
+   order and did nothing at all. */
+@media (forced-colors: active) {
+  .awd.awd { border: 1px solid CanvasText; }
+  .awd__qr.awd__qr { border: 1px solid CanvasText; }
+  .awd-crest, .awd-seal { forced-color-adjust: auto; }
+}
+
+/* ── REDUCED MOTION ──────────────────────────────────────────────────
+   The certificate's only motion is the site's own entrance, and
+   .reveal already carves out. Nothing is added here that would need a
+   second carve-out; this block exists to say that deliberately rather
+   than by omission. */
+
+/* ── 640px AND BELOW ─────────────────────────────────────────────── */
+@media (max-width: 44rem) {
+  .awd { padding: 2rem 1.3rem 1.8rem; }
+  .awd__foot {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+    gap: 1.2rem;
+  }
+  .awd__code { justify-items: center; }
+  .awd__code-value { font-size: 1.02rem; }
+}
