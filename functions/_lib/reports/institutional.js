@@ -13,13 +13,33 @@
  *   not_instrumented  — the College does not collect this at all
  *
  * `not_instrumented` is the reason this file is shaped like a register.
- * Three of the metrics the Executive named — attendance, academic
- * integrity, student feedback — have no table anywhere in the platform.
- * A dashboard would simply not show them, and their absence would read
- * as "nothing to report". Here they appear with the same weight as
- * everything else, saying plainly what is missing and what would close
- * it. An accreditation reviewer asking "how do you monitor attendance"
- * gets an honest answer instead of a silence.
+ * Metrics the Executive named have had no table anywhere in the
+ * platform. A dashboard would simply not show them, and their absence
+ * would read as "nothing to report". Here they appear with the same
+ * weight as everything else, saying plainly what is missing and what
+ * would close it. An accreditation reviewer asking "how do you monitor
+ * attendance" gets an honest answer instead of a silence.
+ *
+ * ────────────────────────────────────────────────────────────────
+ * A REGISTER OF GAPS GOES STALE WHEN A GAP IS CLOSED
+ * ────────────────────────────────────────────────────────────────
+ * That is the failure this section now guards against, because it
+ * happened. This file declared attendance `not_instrumented` with the
+ * words "`live_sessions` exists; nothing records who was there", and
+ * academic misconduct as having neither a register nor a documented
+ * procedure. Both were exactly true when written. Then migration 020
+ * created `attendance_records`, `functions/api/staff/attendance.js`
+ * began writing registers into it and
+ * `functions/_lib/academic/attendance.js` began reading it; and
+ * governance decision C9 adopted the misconduct procedure on
+ * 14 August 2026, published at /students/integrity/.
+ *
+ * A register that keeps reporting a gap the College has closed is
+ * making a false statement about itself in the safe-sounding direction,
+ * and CLAUDE.md § 5 does not have an exemption for understatement. Both
+ * entries below are re-stated to what is true on 20 August 2026, and
+ * each says precisely which half is instrumented and which half is not
+ * — because for both of them, one half still is not.
  *
  * ────────────────────────────────────────────────────────────────
  * SMALL COHORTS ARE SUPPRESSED, NOT ROUNDED
@@ -163,6 +183,48 @@ async function engagementMetrics(env) {
     closes: recordings.n ? null : 'The first learner recording.',
   });
 
+  // ATTENDANCE — instrumented since migration 020, and still only half
+  // of what the name promises.
+  //
+  // This metric stood in `uninstrumentedMetrics()` for as long as there
+  // was no table, saying "`live_sessions` exists; nothing records who
+  // was there". That is no longer true: `attendance_records` exists,
+  // POST /api/staff/attendance writes a tutor's register into it, and
+  // functions/_lib/academic/attendance.js derives states from study
+  // evidence. It is computed here now, and it reports the state its own
+  // vocabulary already had for "the instrument exists, nothing has used
+  // it yet".
+  //
+  // WHAT IS STILL NOT INSTRUMENTED, and it is named on the metric
+  // rather than hidden by a measured-looking number: nothing observes
+  // who JOINS a live session. `engage.counts.live_session` in
+  // data/academic-regulations.json is `instrumented: false,
+  // requires_host_confirmation: true`, so every live-session row in
+  // this table is a person's register, taken by hand. A percentage of
+  // the cohort attending, computed over hand-taken registers, would
+  // report tutor diligence as learner behaviour.
+  const attendance = await db(env)
+    .prepare(`SELECT COUNT(*) AS rows, COUNT(DISTINCT user_id) AS learners,
+                     SUM(CASE WHEN basis = 'live_session' THEN 1 ELSE 0 END) AS sessions,
+                     SUM(CASE WHEN recorded_via = 'staff_register' THEN 1 ELSE 0 END) AS byRegister
+                FROM attendance_records`).first();
+  out.push({
+    id: 'engagement.attendance',
+    name: 'Attendance and engagement',
+    question: 'Who was present — at a live session, or in the week\'s work — and how is that known?',
+    ...(attendance.rows === 0
+      ? { state: 'insufficient_data', value: null,
+        closes: 'The first register taken, or the first window in which a learner\'s own study evidence reaches the published measure.' }
+      : attendance.learners < MIN_COHORT
+        ? { state: 'suppressed', value: null, cohort: attendance.learners,
+          closes: `${MIN_COHORT - attendance.learners} more learners. A presence rate over a handful of people names them.` }
+        : { state: 'measured', closes: null,
+          value: { records: attendance.rows, learners: attendance.learners,
+            liveSessionRecords: attendance.sessions, takenByAPerson: attendance.byRegister } }),
+    requires: 'attendance_records',
+    note: 'Engagement is instrumented; live-session attendance is not. Nothing observes who joins a session, so every live-session row here was written by a member of staff — see engage.counts.live_session, which is recorded as not instrumented and requiring host confirmation. No proportion-of-cohort figure is published, and none should be until joining is observed rather than attested.',
+  });
+
   return out;
 }
 
@@ -261,14 +323,8 @@ function uninstrumentedMetrics() {
     gap(
       'integrity.misconduct', 'Academic misconduct',
       'How many academic-integrity cases has the College opened, and how were they resolved?',
-      'A misconduct case record: allegation, evidence, process, outcome, appeal.',
-      'A misconduct register and a documented procedure. The College currently has neither, so it cannot answer this and must not imply a zero — "no cases recorded" and "no cases occurred" are different statements, and only the first is true.',
-    ),
-    gap(
-      'engagement.attendance', 'Live session attendance',
-      'Who attended which live sessions, and what proportion of the cohort attends?',
-      'An attendance record per learner per session. `live_sessions` exists; nothing records who was there.',
-      'An attendance table written by the live-session workflow. Until then attendance is unmeasured, and an attendance figure would have to be invented.',
+      'A misconduct case record: allegation, evidence, process, outcome, appeal. The procedure exists — governance decision C9, adopted 14 August 2026 and published at /students/integrity/ — and no table holds a case under it. `registrar_cases` hears appeals, complaints, withdrawals, deferrals and transfers, and excludes misconduct from its kinds deliberately, because a matter that can end a learner\'s enrolment should not share a queue with a request to defer.',
+      'A misconduct case register the adopted procedure can be recorded in. The College has the procedure and not the register, so it still cannot answer this and must not imply a zero — "no cases recorded" and "no cases occurred" are different statements, and only the first is true.',
     ),
     gap(
       'experience.studentFeedback', 'Student feedback',

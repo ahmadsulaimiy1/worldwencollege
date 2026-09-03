@@ -34,6 +34,21 @@
   "hours_per_level": 200,
   "instalments_per_level": 4,
   "absorbs_rounding": "teaching",
+  "refund_window_days": 14,
+  "_refund_window": [
+    "EXECUTIVE DECISION E1, adopted 17 August 2026 and published in full",
+    "at /admissions/tuition/#refunds: any payment — an instalment, a",
+    "level, or the full programme — is refunded in full, no reason",
+    "required, if asked for within fourteen days of making it AND before",
+    "any assessed work in the level it paid for has been opened.",
+    "",
+    "The figure lives here because three surfaces now state it: the fee",
+    "schedule's own prose, the plate drawn for the payment-confirmation",
+    "page, and that page's copy. A number stated in three places and",
+    "held in none is a number that drifts, and this one is a promise",
+    "about somebody's money. tests/commercial-model.test.mjs fails the",
+    "build if the fee schedule and this file disagree."
+  ],
 
   "_rounding": [
     "Six levels at $3,166.67 sum to $19,000.02, because 19,000 does not",

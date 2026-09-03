@@ -57,6 +57,13 @@ const files = readdirSync(PLATES).filter((f) => /\.(jpe?g|png|webp|avif)$/i.test
 {
   const PAGES = path.join(ROOT, 'pages');
   const offenders = [];
+  const samplesFile = path.join(ROOT, 'data/samples.json');
+  const SAMPLED = new Set(
+    existsSync(samplesFile)
+      ? Object.values(JSON.parse(readFileSync(samplesFile, 'utf8')).volumes || {})
+        .flat().map((r) => r.src)
+      : [],
+  );
   for (const f of readdirSync(PAGES).filter((x) => x.endsWith('.html'))) {
     const body = readFileSync(path.join(PAGES, f), 'utf8');
     for (const m of body.matchAll(/<img\b[^>]*\bsrc="([^"]+)"/gi)) {
@@ -64,6 +71,25 @@ const files = readdirSync(PLATES).filter((f) => /\.(jpe?g|png|webp|avif)$/i.test
       if (/\.svg(\?|$)/i.test(src)) continue;
       if (src.startsWith('/assets/images/')) continue; // registered tree
       if (src.startsWith('data:')) continue;           // inline, generated
+      // THE COLLEGE'S OWN PAGES ARE NOT PHOTOGRAPHS.
+      //
+      // assets/pages/ holds sample pages of the Press's own volumes,
+      // rendered out of the Press's own PDFs by
+      // scripts/publication/page-images.mjs. They are rasters, so the
+      // rule above would treat each one as a photograph needing a
+      // licence line — but there is no third party in them and nothing
+      // to credit: they are the College photographing its own book.
+      //
+      // The exemption is narrow on purpose. It holds only for a file
+      // that data/samples.json actually names, so the directory cannot
+      // become a back door for an unlicensed photograph dropped in
+      // beside the generated ones. A path under /assets/pages/ that
+      // the generator did not write still fails.
+      if (src.startsWith('/assets/pages/')) {
+        if (SAMPLED.has(src.split('?')[0])) continue;
+        offenders.push(`${f}: ${src} — under /assets/pages/ but not in data/samples.json`);
+        continue;
+      }
       offenders.push(`${f}: ${src}`);
     }
   }

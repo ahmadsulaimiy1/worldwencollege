@@ -141,7 +141,15 @@ ${reliefType()}
   <rect width="${W}" height="${H}" fill="url(#${ID}-deep)"/>
 
 ${text(L.eyebrow, {
-    x: PAD, y: 56, anchor: RTL ? 'end' : 'start', family: SANS, size: 12.5, weight: 700, cls: 't-eyeb',
+    // MIRRORED BY COORDINATE, which is the rule lib/plate.mjs states and
+    // this was the one place breaking it: the anchor was flipped to
+    // 'end' for Arabic and the x left at the LEFT margin, so the label
+    // ran outwards from 92 and off the canvas. This plate does not
+    // mirror its composition — the bars stay left, the ring stays right
+    // — so an Arabic margin label belongs at the right margin, where an
+    // Arabic reader starts.
+    x: RTL ? W - PAD : PAD, y: 56, anchor: RTL ? 'end' : 'start',
+    family: SANS, size: 12.5, weight: 700, cls: 't-eyeb',
     fill: INK.goldRoyal, tracking: 0.2, lang: LANG,
   })}
     <path d="M ${PAD} 76 H ${W - PAD}" stroke="${INK.goldRoyal}" stroke-opacity="0.28" stroke-width="0.9"/>
@@ -195,7 +203,7 @@ ${text(L.cohortsNote, {
 
     <path d="M ${PAD} ${H - 56} H ${W - PAD}" stroke="${INK.goldRoyal}" stroke-opacity="0.26" stroke-width="0.9"/>
 ${text(L.attested, {
-    x: PAD, y: H - 28, anchor: RTL ? 'end' : 'start', family: SANS, size: 12,
+    x: RTL ? W - PAD : PAD, y: H - 28, anchor: RTL ? 'end' : 'start', family: SANS, size: 12,
     weight: 600, cls: 't-mini', fill: INK.bronze, tracking: 0.08, lang: LANG,
   })}`;
 

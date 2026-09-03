@@ -35,8 +35,19 @@
    another lacks.
    ========================================================= */
 (function () {
-  var root = document.querySelector('[data-worldclock]');
-  if (!root) return;
+  /* EVERY root, not the first one.
+     This said `querySelector`, singular, and the header carries TWO
+     elements marked `data-worldclock`: the utility bar at the top of
+     the page and the compact LON/YOU clock that appears under the
+     navigation on a phone. Only the first was ever painted. The second
+     went out on every mobile page of the site still showing the
+     placeholder numerals its markup was authored with — 13:36, and a
+     date five days stale — beside a bar showing the correct time, which
+     is a worse failure than showing no clock at all: one of the two
+     clocks on the screen was lying and there was no way to tell which.
+     Invisible in the source, obvious in a 390px screenshot. */
+  var roots = document.querySelectorAll('[data-worldclock]');
+  if (!roots.length) return;
 
   var isAr = document.documentElement.lang === 'ar';
   var locale = isAr ? 'ar-u-ca-gregory-nu-latn' : 'en-GB';
@@ -131,8 +142,10 @@
   var here = whereAmI();
 
   function paint(sel, value) {
-    var els = root.querySelectorAll(sel);
-    for (var i = 0; i < els.length; i += 1) els[i].textContent = value;
+    for (var r = 0; r < roots.length; r += 1) {
+      var els = roots[r].querySelectorAll(sel);
+      for (var i = 0; i < els.length; i += 1) els[i].textContent = value;
+    }
   }
 
   function tick() {
@@ -148,8 +161,10 @@
   if (here.name) {
     paint('[data-here-name]', here.name);
     paint('[data-here-flag]', here.flag);
-    var block = root.querySelector('[data-here]');
-    if (block) block.hidden = false;
+    for (var r = 0; r < roots.length; r += 1) {
+      var blocks = roots[r].querySelectorAll('[data-here]');
+      for (var b = 0; b < blocks.length; b += 1) blocks[b].hidden = false;
+    }
   }
 
   tick();

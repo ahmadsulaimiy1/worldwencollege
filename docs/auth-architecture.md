@@ -84,7 +84,7 @@ build on rather than reimplement:
    the one part every portal actually differs on.
 
 A new portal's own script (`js/portal-auth.js` for the Student Portal,
-`js/finance-dashboard.js` for Finance — see
+`js/staff-finance.js` for Finance — see
 `docs/payments-architecture.md` § Financial reporting &
 reconciliation) is only ever the `onAuthenticated` callback: what
 identity/role check to run and what data to fetch and render. Nothing
@@ -95,7 +95,7 @@ portals inherit."
 **Role-gating is opt-in per portal, not part of the shared shell.**
 The Student Portal's callback (`js/portal-auth.js`) trusts any signed-in
 Clerk user (it's the student's own account). The Finance dashboard's
-callback (`js/finance-dashboard.js`) additionally calls `/api/auth/me`
+callback (`js/staff-finance.js`) additionally calls `/api/auth/me`
 and checks `role`, showing an access-denied state for a non-staff
 account — because *that* page's data is sensitive across users, not
 because the shared guard enforces it. A future Faculty or Executive

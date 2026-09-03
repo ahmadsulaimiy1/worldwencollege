@@ -1,0 +1,168 @@
+<!--
+  NOTICES AND CORRESPONDENCE — the desk the College speaks from, and
+  the letters a member of staff owes an answer to.
+
+  ─────────────────────────────────────────────────────────────────────
+  TWO REGISTERS, KEPT APART
+  ─────────────────────────────────────────────────────────────────────
+  A notice is the College speaking to a room. A thread is two people
+  speaking. They are different acts and they are drawn differently on
+  this page — but they arrive at one place, because a member of staff
+  asking "is anybody waiting on me" is asking one question.
+
+  ─────────────────────────────────────────────────────────────────────
+  WHAT THE FOUR VERBS REFUSE
+  ─────────────────────────────────────────────────────────────────────
+  A notice is authored, amended, and withdrawn, and each verb refuses
+  something on purpose:
+
+    · The author is the account signed in. There is no field naming
+      somebody else, because a notice addressed to the whole College
+      under a colleague's name is an unrecorded forgery.
+
+    · The audience of a PUBLISHED notice is frozen. Re-scoping one that
+      went to everybody down to a single learner would be a rewrite of
+      what the College told the room, with nothing on the record to
+      show it happened.
+
+    · Withdrawal deletes nothing and requires a reason. What the
+      College said and then took back is exactly what a reviewer asks
+      about, and a withdrawal with no reason answers them with a blank.
+
+  ─────────────────────────────────────────────────────────────────────
+  BOTH EDITIONS, OR ONE, AND THE PAGE SAYS WHICH
+  ─────────────────────────────────────────────────────────────────────
+  A notice may be published in English, in Arabic, or in both. Where a
+  reader's language is not among them the College says so rather than
+  showing an Arabic notice under an English heading. The form here
+  takes the second edition beside the first, so writing both is the
+  ordinary act rather than the diligent one.
+
+  ─────────────────────────────────────────────────────────────────────
+  AND REACH IS A FACT ABOUT THE NOTICE
+  ─────────────────────────────────────────────────────────────────────
+  The number of people who have read a notice is published here. Who
+  has NOT read it is a fact about named learners and is not the notice
+  board's to publish, so it is not here and cannot be asked for.
+
+  Every id and data- attribute below is addressed by js/staff-notices.js.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg></p>
+    <p class="masthead__eyebrow">Academic staff</p>
+    <h1>Notices</h1>
+    <p class="lede">What the College is saying to your learners, and what your learners have said to you &mdash; a notice drafted, published, amended or withdrawn with the reason on the record, and every thread you are a party to.</p>
+    <nav class="rec-nav" aria-label="Academic staff">
+      <a href="/staff-desk.html">The Desk</a>
+      <a href="/staff-marking.html">Marking</a>
+      <a href="/staff-examinations.html">Examinations</a>
+      <a href="/staff-papers.html">Papers</a>
+      <a href="/staff-conferral.html">Conferral</a>
+      <a href="/staff-learners.html">My Learners</a>
+      <a href="/staff-hours.html">My Hours</a>
+      <a href="/staff-notices.html" aria-current="page">Notices</a>
+      <a href="/staff-cases.html">Cases</a>
+      <a href="/staff-admissions.html">Admissions</a>
+      <a href="/staff-enrolments.html">Enrolments</a>
+      <a href="/staff-finance.html">Finance</a>
+      <a href="/staff-administration.html">Administration</a>
+    </nav>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container">
+    <div class="stf-shell">
+
+      <p class="rec-state state-plate edge-lit edge-lit--light aurum" id="state" aria-live="polite">Loading the board&hellip;</p>
+
+      <!-- WRITE A NOTICE ------------------------------------------------ -->
+      <section class="acc-block reveal" id="secWrite" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg> <span data-write-head></span></h2>
+        </div>
+
+        <div class="stf-act">
+          <p class="stf-field__note" data-write-why></p>
+
+          <div class="stf-field">
+            <label for="nScope" data-write-scope-label></label>
+            <select id="nScope" data-write-scope></select>
+            <p class="stf-field__note" data-write-scope-note></p>
+          </div>
+          <div class="stf-field" data-write-level-field hidden>
+            <label for="nLevel" data-write-level-label></label>
+            <select id="nLevel" data-write-level></select>
+          </div>
+          <div class="stf-field">
+            <label for="nTitle" data-write-title-label></label>
+            <input id="nTitle" type="text" maxlength="160" data-write-title>
+          </div>
+          <div class="stf-field">
+            <label for="nBody" data-write-body-label></label>
+            <textarea id="nBody" data-write-body></textarea>
+          </div>
+
+          <!-- The second edition, beside the first. -->
+          <div class="stf-field">
+            <label for="nTitleAr" data-write-title-ar-label></label>
+            <input id="nTitleAr" type="text" maxlength="160" dir="auto" data-write-title-ar>
+          </div>
+          <div class="stf-field">
+            <label for="nBodyAr" data-write-body-ar-label></label>
+            <textarea id="nBodyAr" dir="auto" data-write-body-ar></textarea>
+            <p class="stf-field__note" data-write-translation-note></p>
+          </div>
+
+          <div class="stf-buttons">
+            <button class="btn btn--gold aurum" type="button" data-write-publish></button>
+            <button class="btn btn--outline" type="button" data-write-draft></button>
+            <span class="stf-said" data-write-said aria-live="polite"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- THE BOARD ----------------------------------------------------- -->
+      <section class="acc-block reveal" id="secBoard" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg> <span data-board-head></span></h2>
+          <div class="desk-head__tools stf-filters">
+            <label for="nStatus" data-board-status-label></label>
+            <select id="nStatus" data-board-status></select>
+          </div>
+        </div>
+
+        <p class="stf-basis" data-board-basis></p>
+
+        <ul class="stf-queue" data-board></ul>
+
+        <div class="stf-clear" data-board-empty hidden>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg></span>
+          <p class="stf-clear__head" data-board-empty-head></p>
+          <p class="stf-clear__note" data-board-empty-note></p>
+        </div>
+      </section>
+
+      <!-- CORRESPONDENCE ------------------------------------------------ -->
+      <section class="acc-block reveal" id="secThreads" hidden>
+        <div class="desk-head">
+          <h2 id="threads"><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg> <span data-threads-head></span></h2>
+        </div>
+
+        <p class="stf-basis" data-threads-note></p>
+
+        <ul class="stf-queue" data-threads></ul>
+
+        <div class="stf-clear" data-threads-empty hidden>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg></span>
+          <p class="stf-clear__head" data-threads-empty-head></p>
+          <p class="stf-clear__note" data-threads-empty-note></p>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

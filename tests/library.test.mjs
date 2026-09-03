@@ -105,6 +105,44 @@ check(`The register holds volumes — ${reg.total} listed, ${reg.downloadable} d
   });
   check('...and no volume has crossed the size ceiling since the register was built',
     misjudged.length === 0, misjudged.map((v) => v.slug).join(', '));
+
+  /* AND `mb` IS DERIVED FROM `bytes`, NOT STORED BESIDE IT.
+
+     The check above compares the FILE against `mb`, which is the right
+     comparison and is also why the register was able to rot for months
+     without anyone seeing it: `bytes` was never compared with anything.
+     Ten of the sixteen volumes had a recorded byte count describing a
+     file that no longer existed, `total_bytes` was 255,622 bytes out,
+     and two volumes carried a `bytes` and an `mb` that described
+     different files — the figure printed on the download button a
+     reader presses.
+
+     scripts/build-library.mjs carried the two forward as independent
+     values for excluded volumes, so once they diverged the generator
+     faithfully preserved the divergence. It derives `mb` now. This is
+     the assertion that keeps it derived, and unlike the one above it
+     needs no file on disk: it holds on a fresh clone where the two
+     oversize volumes are not carried at all. */
+  const drifted = reg.volumes.filter((v) => (v.bytes / 1048576).toFixed(1) !== String(v.mb));
+  check('Every published size is a rendering of the byte count recorded beside it',
+    drifted.length === 0,
+    drifted.map((v) => `${v.slug}: says ${v.mb} MB, its own bytes are `
+      + `${(v.bytes / 1048576).toFixed(1)} MB`).join(', '));
+
+  check('...and the register\'s total is the sum of its volumes',
+    reg.total_bytes === reg.volumes.reduce((n, v) => n + v.bytes, 0),
+    `${reg.total_bytes} recorded, ${reg.volumes.reduce((n, v) => n + v.bytes, 0)} summed`);
+
+  /* THE BYTE COUNT ITSELF, WHERE THE FILE IS THERE TO ASK.
+     And it says how many it could not ask about, because a run that
+     skipped every volume would otherwise print the same PASS as one
+     that checked all sixteen. */
+  const present = reg.volumes.filter((v) => existsSync(path.join(ROOT, 'publication', v.file)));
+  const stale = present.filter((v) => statSync(path.join(ROOT, 'publication', v.file)).size !== v.bytes);
+  check(`Every recorded byte count is the file's own (${present.length} of ${reg.volumes.length} present to check)`,
+    present.length > 0 && stale.length === 0,
+    stale.map((v) => `${v.slug}: recorded ${v.bytes}, file `
+      + `${statSync(path.join(ROOT, 'publication', v.file)).size}`).join(', '));
 }
 
 // ── 3 · EVERY DOWNLOADABLE VOLUME HAS A SERVING RULE ─────────────────

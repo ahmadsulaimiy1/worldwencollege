@@ -37,6 +37,23 @@ export const SERIF = "'EB Garamond', Georgia, serif";
 export const sansFor = (lang) => (lang === 'ar' ? 'Cairo, Inter, sans-serif' : 'Inter, sans-serif');
 export const isRtl = (lang) => lang === 'ar';
 
+/**
+ * The vertical gap between two stacked label lines.
+ *
+ * Arabic needs more of it than English at the same size, and it is not
+ * a matter of taste: the script carries diacritics above the baseline
+ * and descenders below it, so a glyph box is taller than a Latin one
+ * set at the same point size. Two lines fifteen units apart read
+ * correctly in English and TOUCH in Arabic —
+ * tests/browser/diagram-fit.mjs measured the overlap on the reader
+ * plate and on the six gates and reported both as collisions, which is
+ * exactly what they were.
+ *
+ * A quarter more, rounded. Enough to clear the descenders without
+ * opening a gap that reads as two separate labels.
+ */
+export const lineGap = (lang, base = 15) => (isRtl(lang) ? Math.round(base * 1.25) : base);
+
 // One decimal is a tenth of a unit on the viewBoxes used here — well
 // under a device pixel at any rendered size, and it roughly halves the
 // path data against three.

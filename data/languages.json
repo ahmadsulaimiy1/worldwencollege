@@ -16,7 +16,19 @@
     "after English, ahead of every other language, because more than 7,000",
     "of the College's learners are in the Gulf and more than 3,000 in Saudi",
     "Arabia alone. It is a principal working language of the College, not a",
-    "translation of it."
+    "translation of it.",
+    "",
+    "THE UNPUBLISHED EDITIONS ARE NOT RENDERED, and there is no label for",
+    "them any more. The picker used to list all ten, the eight unpublished",
+    "ones marked \"In preparation\" — in the chrome of every page, in both",
+    "editions. WEC Press had already settled the principle for its own",
+    "catalogue: \"nothing planned, in preparation or forthcoming appears",
+    "here — a catalogue that lists intentions is a prospectus wearing a",
+    "catalogue's clothes\". The same is true of a language menu, and the",
+    "picker had simply never been held to it.",
+    "",
+    "The plan stays here because this is where the College knows what it",
+    "intends. It is not published because an intention is not an edition."
   ],
   "languages": [
     { "code": "en", "prefix": "",    "published": true,  "endonym": "English",    "english": "English",    "dir": "ltr", "flag": "🇬🇧" },
@@ -31,7 +43,7 @@
     { "code": "zh", "prefix": null,  "published": false, "endonym": "中文",        "english": "Chinese",    "dir": "ltr", "flag": "🇨🇳" }
   ],
   "labels": {
-    "en": { "heading": "Editions", "forthcoming": "In preparation", "current": "Current edition" },
-    "ar": { "heading": "الطبعات",  "forthcoming": "قيد الإعداد",    "current": "الطبعة الحالية" }
+    "en": { "heading": "Editions", "current": "Current edition" },
+    "ar": { "heading": "الطبعات",  "current": "الطبعة الحالية" }
   }
 }

@@ -14,6 +14,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>المستوى الأول: برنامج التأسيس (A1) — الكلية العالمية للغة الإنجليزية</title>
 <meta name="description" content="المستوى الأول من برنامج IEFC: 10 وحدات، و120 درسًا مصمَّمًا على مدى 4 أشهر، وفق مستوى A1 في الإطار الأوروبي. الوحدات والتقييم وطرائق التدريس والشهادة.">
+<!-- INDEXABLE, OR THE LEARNER'S OWN. A page that mounts
+     js/portal-guard.js is a page behind a sign-in — a statement of
+     account, a set of marks, a payment confirmation — and it belonged
+     in neither a search index nor the sitemap. Eleven of them were in
+     both. scripts/build.js decides this from the guard rather than from
+     a flag somebody has to remember to set: a page that guards itself
+     is private, and there is no case where it is not. -->
+<meta name="robots" content="index, follow">
 <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/assets/images/icon-512.png" sizes="512x512" type="image/png">
 <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
@@ -27,9 +35,9 @@
      fold and swap covers it. -->
 <link rel="preload" href="/assets/fonts/fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Inter:wght@400;600;700;800&family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/brand.css?v=e2db2ede">
-<link rel="stylesheet" href="/css/atelier.css?v=4f3abf82">
-<link rel="stylesheet" href="/css/pages.css?v=0e3b128d">
+<link rel="stylesheet" href="/css/brand.css?v=3dff6ea9">
+<link rel="stylesheet" href="/css/atelier.css?v=9eadec1f">
+<link rel="stylesheet" href="/css/pages.css?v=e0f4b722">
 <link rel="stylesheet" href="/css/pillar.css?v=661126ed">
 <link rel="stylesheet" href="/css/academics.css?v=c6a54844">
 <!-- LAST, and that ordering is load-bearing. Script-specific typography
@@ -37,7 +45,7 @@
      set tracking and leading tuned to Latin faces and Arabic inherits
      it. Putting this first — which is where it started — left 951 of
      1,049 violations standing. See the header of css/arabic.css. -->
-<link rel="stylesheet" href="/css/arabic.css?v=1c47e5a2">
+<link rel="stylesheet" href="/css/arabic.css?v=8eca8911">
 <noscript><style>
 /* Several entrance effects are authored hidden and revealed by script:
    .reveal (js/site.js), .split-word and .rule-draw (js/motion.js),
@@ -632,21 +640,9 @@
       <p class="langswitch__head">الطبعات</p>
         <a class="lang__row" href="/study/level-1/" hreflang="en" lang="en"><span class="lang__flag" aria-hidden="true">🇬🇧</span><span class="lang__endonym" lang="en">English</span><span class="lang__english">English</span></a>
         <span class="lang__row lang__row--current" aria-current="true"><span class="lang__flag" aria-hidden="true">🇸🇦</span><span class="lang__endonym" dir="rtl" lang="ar">العربية</span><span class="lang__english">Arabic</span><span class="lang__state"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg></span></span>
-        <span class="lang__row lang__row--soon"><span class="lang__flag" aria-hidden="true">🇫🇷</span><span class="lang__endonym" lang="fr">Français</span><span class="lang__english">French</span><span class="lang__state">قيد الإعداد</span></span>
-        <span class="lang__row lang__row--soon"><span class="lang__flag" aria-hidden="true">🇵🇰</span><span class="lang__endonym" dir="rtl" lang="ur">اردو</span><span class="lang__english">Urdu</span><span class="lang__state">قيد الإعداد</span></span>
-        <span class="lang__row lang__row--soon"><span class="lang__flag" aria-hidden="true">🇮🇳</span><span class="lang__endonym" lang="hi">हिन्दी</span><span class="lang__english">Hindi</span><span class="lang__state">قيد الإعداد</span></span>
-        <span class="lang__row lang__row--soon"><span class="lang__flag" aria-hidden="true">🇹🇷</span><span class="lang__endonym" lang="tr">Türkçe</span><span class="lang__english">Turkish</span><span class="lang__state">قيد الإعداد</span></span>
-        <span class="lang__row lang__row--soon"><span class="lang__flag" aria-hidden="true">🇮🇩</span><span class="lang__endonym" lang="id">Indonesia</span><span class="lang__english">Indonesian</span><span class="lang__state">قيد الإعداد</span></span>
-        <span class="lang__row lang__row--soon"><span class="lang__flag" aria-hidden="true">🇰🇪</span><span class="lang__endonym" lang="sw">Kiswahili</span><span class="lang__english">Swahili</span><span class="lang__state">قيد الإعداد</span></span>
-        <span class="lang__row lang__row--soon"><span class="lang__flag" aria-hidden="true">🇪🇸</span><span class="lang__endonym" lang="es">Español</span><span class="lang__english">Spanish</span><span class="lang__state">قيد الإعداد</span></span>
-        <span class="lang__row lang__row--soon"><span class="lang__flag" aria-hidden="true">🇨🇳</span><span class="lang__endonym" lang="zh">中文</span><span class="lang__english">Chinese</span><span class="lang__state">قيد الإعداد</span></span>
     </div>
   </div>
-      <div class="topbar__social" aria-label="روابط التواصل الاجتماعي">
-        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
-        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
-        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
-      </div>
+      
     </div>
   </div>
 </div>
@@ -750,6 +746,7 @@
             <div class="mega__col">
               <p class="mega__label">التدريس وهيئته</p>
               <a href="/ar/academics/teaching/">ممارسة التدريس</a>
+              <a href="/ar/academics/tutor-handbook/">دليل المدرّس</a>
               <a href="/ar/faculty/">هيئة التدريس</a>
             </div>
           </div>
@@ -774,6 +771,7 @@
               <a href="/ar/admissions/tuition/">الرسوم والتمويل</a>
               <a href="/ar/admissions/tuition/#routes">الدراسة المستقلة</a>
               <a href="/ar/admissions/policy/">سياسة القبول</a>
+              <a href="/ar/admissions/international/">الدراسة من بلدك</a>
             </div>
           </div>
           <a class="mega__feature" href="/ar/admissions/apply/">
@@ -796,6 +794,9 @@
               <a href="/ar/students/academic-record/">سجلك الأكاديمي</a>
               <a href="/ar/students/awards/">الشهادات والمراتب</a>
               <a href="/ar/students/regulations/">اللوائح الأكاديمية</a>
+              <a href="/ar/students/examinations/">لوائح الامتحان</a>
+              <a href="/ar/students/handbook/">دليل الطالب</a>
+              <a href="/ar/support/complaints/">الشكاوى</a>
             </div>
           </div>
           <a class="mega__feature" href="/ar/student-portal/">
@@ -818,8 +819,10 @@
               <a href="/ar/governance/#quality">ضمان الجودة</a>
               <a href="/ar/governance/evidence/">سجل الأدلة</a>
               <a href="/ar/governance/decisions/">سجل القرارات</a>
-          <a href="/ar/governance/quality/">بنية الجودة</a>
               <a href="/ar/governance/quality/">بنية الجودة</a>
+              <a href="/ar/governance/quality-manual/">دليل ضمان الجودة</a>
+          <a href="/ar/governance/instruments/">سجلّ الأدوات النظامية</a>
+              <a href="/ar/governance/instruments/">سجلّ الأدوات النظامية</a>
             </div>
           </div>
           <a class="mega__feature" href="/ar/governance/evidence/">
@@ -885,36 +888,22 @@
         <svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg><span>الرسوم الدراسية</span></a>
       <a class="utilrail__item" href="/ar/admissions/tuition/#scholarships">
         <svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg><span>المنح</span></a>
+      <a class="utilrail__item" href="/ar/press/library/">
+        <svg class="icon" aria-hidden="true"><use href="#i-book"/></svg><span>المطبوعات</span></a>
       <div class="utilrail__item utilrail__item--has-menu">
         <button type="button" class="utilrail__btn" aria-expanded="false" aria-haspopup="true">
           <svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg><span>التحقّق</span>
           <svg class="icon utilrail__chev" aria-hidden="true"><use href="#i-arrow"/></svg>
         </button>
         <div class="utilrail__menu crystal" role="menu">
-          <a href="/verify.html?type=certificate"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg>التحقّق من شهادة</a>
-          <a href="/verify.html?type=transcript"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg>التحقّق من كشف درجات</a>
-          <a href="/verify.html?type=identity"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg>التحقّق من هوية طالب</a>
-          <a href="/verify.html?type=receipt"><svg class="icon" aria-hidden="true"><use href="#i-countermark"/></svg>التحقّق من إيصال</a>
-          <a href="/verify.html"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg>التحقّق من أي وثيقة</a>
+          <a href="/ar/verify/?type=certificate"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg>التحقّق من شهادة</a>
+          <a href="/ar/verify/?type=transcript"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg>التحقّق من كشف درجات</a>
+          <a href="/ar/verify/?type=identity"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg>التحقّق من هوية طالب</a>
+          <a href="/ar/verify/?type=receipt"><svg class="icon" aria-hidden="true"><use href="#i-countermark"/></svg>التحقّق من إيصال</a>
+          <a href="/ar/verify/"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg>التحقّق من أي وثيقة</a>
         </div>
       </div>
-      <a class="utilrail__item" href="/ar/press/library/">
-        <svg class="icon" aria-hidden="true"><use href="#i-book"/></svg><span>التنزيلات</span></a>
-      <a class="utilrail__item" href="/ar/academics/#curriculum">
-        <svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg><span>المنهج</span></a>
-      <a class="utilrail__item" href="/ar/contact/">
-        <svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg><span>تواصل معنا</span></a>
     </div>
-  </div>
-
-  <div class="headerclock grain" data-worldclock>
-    <svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg>
-    <span class="headerclock__times" dir="ltr">
-      <span data-clock-london>13:36</span><span class="headerclock__tz">LON</span>
-      <span class="headerclock__sep">&middot;</span>
-      <span data-clock-local>13:36</span><span class="headerclock__tz">YOU</span>
-    </span>
-    <span class="headerclock__date" data-clock-date>Sat, 15 Aug</span>
   </div>
 
   <!-- شريط التنقّل السريع: للجوال فقط (يُخفى من 861px فصاعدًا، حيث
@@ -982,6 +971,7 @@
         <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span><span>التدريس وهيئته</span></span><span class="plus" aria-hidden="true">+</span></button>
         <div class="accordion__a"><div class="accordion__a-inner">
           <a href="/ar/academics/teaching/">ممارسة التدريس</a>
+          <a href="/ar/academics/tutor-handbook/">دليل المدرّس</a>
           <a href="/ar/faculty/">هيئة التدريس</a>
         </div></div>
       </div>
@@ -994,6 +984,7 @@
           <a href="/ar/admissions/tuition/">الرسوم والتمويل</a>
           <a href="/ar/admissions/tuition/#routes">الدراسة المستقلة</a>
           <a href="/ar/admissions/policy/">سياسة القبول</a>
+          <a href="/ar/admissions/international/">الدراسة من بلدك</a>
           <a href="/ar/faq/">أسئلة القبول</a>
         </div></div>
       </div>
@@ -1005,6 +996,9 @@
           <a href="/ar/students/academic-record/">سجلك الأكاديمي</a>
           <a href="/ar/students/awards/">الشهادات والمراتب</a>
           <a href="/ar/students/regulations/">اللوائح الأكاديمية</a>
+          <a href="/ar/students/examinations/">لوائح الامتحان</a>
+          <a href="/ar/students/handbook/">دليل الطالب</a>
+          <a href="/ar/support/complaints/">الشكاوى</a>
           <a href="/ar/student-portal/">بوابة الطالب</a>
         </div></div>
       </div>
@@ -1016,6 +1010,8 @@
           <a href="/ar/governance/#quality">ضمان الجودة</a>
           <a href="/ar/governance/evidence/">سجل الأدلة</a>
           <a href="/ar/governance/decisions/">سجل القرارات</a>
+          <a href="/ar/governance/quality/">بنية الجودة</a>
+          <a href="/ar/governance/quality-manual/">دليل ضمان الجودة</a>
         </div></div>
       </div>
       <div class="accordion__item">
@@ -1038,11 +1034,7 @@
         <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
         English
       </a>
-      <div class="topbar__social" aria-label="روابط التواصل الاجتماعي">
-        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
-        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
-        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
-      </div>
+      
     </div>
     <a href="/ar/admissions/apply/" class="btn btn--gold">قدّم الآن</a>
   </nav>
@@ -1191,7 +1183,7 @@
     </div>
     <div class="callout">
       <span class="callout__label">لماذا هذه النواتج مؤقتة</span>
-      <p>مجلس المعايير الأكاديمية وتميّز المناهج لم يُعيَّن له أعضاء بعد، ولا يمكن لهيئة لا تنعقد
+      <p>مجلس المعايير الأكاديمية والتميّز المنهجي لم يُعيَّن له أعضاء بعد، ولا يمكن لهيئة لا تنعقد
         أن تعتمد ناتجًا. كُتبت هذه النواتج بتفويض من دار النشر وسُجّلت مؤقتة إلى أن يُشكَّل المجلس
         ويراجعها. هي مستعملة، وهي غير مصادق عليها بعد — ونحن نقول ذلك بدل وصفها بالمستقرة.</p>
     </div>
@@ -1760,8 +1752,12 @@
         <span class="vessel vessel--sm" style="--halo-delay: 1.2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span></span>
         <span class="footergrid__label">مواعيد البدء والتقويم</span>
       </a>
+      <a href="/ar/admissions/track/" class="footergrid__tile">
+        <span class="vessel vessel--sm" style="--halo-delay: 1.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span></span>
+        <span class="footergrid__label">تتبّع طلب</span>
+      </a>
       <a href="/ar/faq/" class="footergrid__tile">
-        <span class="vessel vessel--sm" style="--halo-delay: 1.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span></span>
+        <span class="vessel vessel--sm" style="--halo-delay: 1.8s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span></span>
         <span class="footergrid__label">أسئلة القبول</span>
       </a>
     </div>
@@ -1807,7 +1803,7 @@
     </h2>
     <p class="footergrid__intro">
       <span dir="ltr">info@worldwencollege.co.uk</span><br>
-      تعليم رقمي حول العالم &middot; المقر الإداري في لندن — عنوان المقر قيد التأكيد، راجع التواصل أدناه.
+      يُدرَّس عبر الإنترنت في كلِّ مكان &middot; ويُحكَم من لندن.
     </p>
     <div class="footergrid__row">
       <a href="/ar/contact/" class="footergrid__tile">
@@ -1884,7 +1880,7 @@
       <div class="footerband__item">
         <span class="footerband__label">لغتا العمل</span>
         <p class="footerband__fact"><span lang="ar">العربية</span> &middot; <span dir="ltr">English</span></p>
-        <p class="footerband__note">كل صفحة في هذا الموقع منشورة بهما. والقبول والدعم التعليمي والاستشارات تُجرى بأيّهما شئت. وثماني طبعات أخرى قيد الإعداد.</p>
+        <p class="footerband__note">كلُّ صفحةٍ في هذا الموقع منشورةٌ بهما كاملةً. والقبولُ والدعمُ التعليميُّ والاستشاراتُ تُجرى بأيِّهما شئت.</p>
       </div>
       <div class="footerband__item">
         <span class="footerband__label">الانتشار</span>
@@ -1921,11 +1917,7 @@
         <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
         English
       </a>
-      <div class="topbar__social" aria-label="روابط التواصل الاجتماعي">
-        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
-        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
-        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
-      </div>
+      
     </div>
   </div>
   <div class="trim-metal" aria-hidden="true"></div>
@@ -1934,8 +1926,8 @@
 <script src="/js/site.js?v=4332eab8"></script>
 <script src="/js/motion.js?v=fbe1640a"></script>
 <script src="/js/atelier.js?v=989e1ca8" defer></script>
-<script src="/js/worldclock.js?v=dc32fbb1" defer></script>
+<script src="/js/worldclock.js?v=99a644de" defer></script>
 <script src="/js/intake.js?v=5238c58f" defer></script>
-<script src="/js/sonics.js?v=f926fe22" defer></script>
+<script src="/js/sonics.js?v=64a04468" defer></script>
 </body>
 </html>

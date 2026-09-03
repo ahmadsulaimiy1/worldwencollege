@@ -653,7 +653,13 @@ html { scroll-behavior: smooth; }
 .application-plate .field input:focus,
 .application-plate .field select:focus,
 .application-plate .field textarea:focus {
-  outline: none;
+  /* Transparent rather than none: High Contrast Mode forces an
+     outline's colour but cannot invent one that was never declared,
+     and the gold ring below is a box-shadow, which that mode removes.
+     Without this line a reader in High Contrast has no focus indicator
+     at all on the longest form the College asks anyone to fill in. */
+  outline: 2px solid transparent;
+  outline-offset: 2px;
   border-color: var(--gold-rich);
   background: linear-gradient(180deg, rgba(3,8,20,.4), rgba(31,61,122,.2));
   box-shadow: var(--relief-inset), 0 0 0 3px rgba(199,162,74,.22);

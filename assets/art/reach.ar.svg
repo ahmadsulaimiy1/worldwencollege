@@ -117,7 +117,7 @@
   </style>
   <rect width="980" height="600" fill="url(#rc-deep)"/>
 
-<text class="t-eyeb" x="92.0" y="56.0" text-anchor="end" font-family="Cairo, Inter, sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.2" fill="#C7A24A">⁧الكلية بأرقامٍ لها في سجلّها سند⁩</text>
+<text class="t-eyeb" x="888.0" y="56.0" text-anchor="end" font-family="Cairo, Inter, sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.2" fill="#C7A24A">⁧الكلية بأرقامٍ لها في سجلّها سند⁩</text>
     <path d="M 92 76 H 888" stroke="#C7A24A" stroke-opacity="0.28" stroke-width="0.9"/>
 
     <path d="M 738.0 143.0
@@ -258,5 +258,5 @@
 <text x="814.0" y="532.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="11" font-weight="500" fill="#4A6491">⁧الثامنة تدرس الآن⁩</text>
 
     <path d="M 92 544 H 888" stroke="#C7A24A" stroke-opacity="0.26" stroke-width="0.9"/>
-<text class="t-mini" x="92.0" y="572.0" text-anchor="end" font-family="Cairo, Inter, sans-serif" font-size="12" font-weight="600" letter-spacing="0.08" fill="#795A32">⁧مُصدَّقة في 18 August 2026⁩</text>
+<text class="t-mini" x="888.0" y="572.0" text-anchor="end" font-family="Cairo, Inter, sans-serif" font-size="12" font-weight="600" letter-spacing="0.08" fill="#795A32">⁧مُصدَّقة في 18 August 2026⁩</text>
 </svg>

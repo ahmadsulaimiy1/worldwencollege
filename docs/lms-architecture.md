@@ -118,12 +118,15 @@ Milestone 2 below, which is where the first real content landed).
 progression.js`): list units + a student's own progress; full unit
 detail (ordered items; quiz items carry questions with choices but
 never the correct answer — scoring is server-side only); submit a
-quiz attempt (scored immediately, append-only, unit marked completed
-at `platform_config.lms_pass_threshold`, default 0.7 — a mechanism
-default, not a published academic standard, see the schema's own
-comment); submit an assignment (marks the unit `in_progress`); grade
-an assignment (staff-only, marks the unit `completed` once the grade
-clears the same threshold); list a level's scheduled live sessions;
+quiz attempt (scored immediately, append-only); submit an assignment
+(marks the unit `in_progress`); grade an assignment (staff-only). None
+of those three decides completion for itself any more: each re-reads
+the module through `moduleMarkForUnit()` in
+`functions/_lib/academic/standing.js`, and a unit is `completed` only
+when both components are marked and the adopted 30/70 composite
+reaches the pass mark. `platform_config.lms_pass_threshold` is now a
+mirror of the instrument's pass mark rather than a second rule; list a
+level's scheduled live sessions;
 progressive full-programme unlock (`completeLevel()`, Executive
 Decision #1).
 
