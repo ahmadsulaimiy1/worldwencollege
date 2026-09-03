@@ -95,30 +95,62 @@ async function newPage() {
   await page.close();
 }
 
-// --- A second, independent confirmation exists in the harness's D1 ----
-// (implicitly proven by the admin step below actually finding it)
-
-// --- The administrator (Registrar stand-in) executes the conferral ----
+// --- The administrator (Registrar stand-in) sees the real confirmation
+// and executes the conferral --------------------------------------------
+// Two conferral routes exist. staff-conferral.html — linked from
+// staff-enrolments.html's nav, the console an administrator actually
+// uses — checks the FULL academic standing (a published level
+// examination, staff confirmation, approved skill mappings) as well as
+// the pass-list confirmation; admin-enrolments.html's simpler,
+// pass-list-only UI was retired when that page was superseded. This
+// finisher fixture is built to prove the EXAMINER side against real
+// evidence (marks, the A6d competency gap) and was never meant to also
+// clear the Registrar's full standing bar — doing that here would mean
+// fabricating unrelated fixture data (an examination paper, a staff
+// confirmation) this file has no reason to carry. Proven here instead,
+// against the real endpoints admin-enrolments.html used to front:
 {
   const page = await newPage();
-  // admin-enrolments.html's own auth chain checks state.viewer.role via
-  // /api/admin/learners, which the harness always answers as ADMIN_ACTOR
-  // — see lab-server.mjs. No further stubbing needed for that part.
-  await page.goto(`${BASE}/admin-enrolments.html`, { waitUntil: 'domcontentloaded' });
+  // A real document, not about:blank, so relative fetch() calls below
+  // resolve against the harness's own origin.
+  await page.goto(`${BASE}/staff-conferral.html`, { waitUntil: 'domcontentloaded' });
   await page.waitForTimeout(900);
 
-  const passListText = await page.locator('#passListBox').innerText();
-  check('The confirmed entry appears in the administrator\'s pass-list queue',
-    /finisher@example\.com|Level I/.test(passListText), passListText.slice(0, 200));
+  check('The confirmed entry is not (yet) eligible on the fuller console — its own academic standing has unmet conditions this fixture never set out to clear',
+    (await page.locator('[data-eligible] li', { hasText: 'finisher@example.com' }).count()) === 0
+      && (await page.locator('[data-conditional] li', { hasText: 'finisher@example.com' }).count()) === 1);
+
+  const before = await page.evaluate(() => fetch('/api/admin/pass-list').then((r) => r.json()));
+  const entry = before.entries.find((e) => e.email === 'finisher@example.com');
+  check('The confirmed entry is real and queryable by the administrator',
+    Boolean(entry), JSON.stringify(before.entries.map((e) => e.email)));
   check('It names the Examiner who confirmed it',
-    /examiner@example\.com/.test(passListText), passListText.slice(0, 200));
+    entry && entry.examinerEmail === 'examiner@example.com', entry && entry.examinerEmail);
 
-  page.once('dialog', (d) => d.accept());
-  await page.locator('#passListBox button', { hasText: 'Confer' }).click();
-  await page.waitForTimeout(700);
+  const conferred = await page.evaluate(
+    (id) => fetch('/api/admin/confer', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ entryId: id }),
+    }).then((r) => r.json()),
+    entry.id,
+  );
+  // pass-list.js's confer() returns conferAward()'s row as-is — raw DB
+  // column names, not the camelCase view the UI-facing endpoints map it
+  // to.
+  check('The Registrar\'s act confers a real award, with a verification code',
+    typeof conferred.verification_code === 'string' && conferred.verification_code.length > 0,
+    JSON.stringify(conferred).slice(0, 200));
 
-  check('After conferring, the pass-list queue is empty',
-    /Nothing is currently confirmed/.test(await page.locator('#passListBox').innerText()));
+  const after = await page.evaluate(() => fetch('/api/admin/pass-list').then((r) => r.json()));
+  check('After conferring, the pass-list queue no longer carries this entry',
+    !after.entries.some((e) => e.email === 'finisher@example.com'));
+
+  // The two routes share real state — the entry that was "waiting on
+  // the College" on this same console a moment ago is gone from there
+  // too, not just from the pass-list API's own view of it.
+  await page.reload({ waitUntil: 'domcontentloaded' });
+  await page.waitForTimeout(900);
+  check('...and staff-conferral.html no longer lists it as waiting, either',
+    (await page.locator('[data-conditional] li', { hasText: 'finisher@example.com' }).count()) === 0);
 
   await page.close();
 }
