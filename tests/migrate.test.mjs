@@ -334,11 +334,11 @@ for (const f of files) {
   // whole `kyc_documents` table.
   db.exec(`DROP INDEX IF EXISTS idx_kyc_documents_user;
     DROP TABLE IF EXISTS kyc_documents;`);
-  // 020 adds the whole `editions` table — the Editions Register, so a
+  // 024 adds the whole `editions` table — the Editions Register, so a
   // book's printed Document ID resolves to something.
   db.exec(`DROP INDEX IF EXISTS idx_editions_digest;
     DROP TABLE IF EXISTS editions;`);
-  // 021 adds 'examiner' to users.role's CHECK (a table rebuild, since
+  // 025 adds 'examiner' to users.role's CHECK (a table rebuild, since
   // SQLite cannot ALTER a CHECK constraint directly) and the whole
   // `pass_list_entries` table. Undoing it means rebuilding `users` back
   // to the narrower three-value CHECK — safe here because no row in
@@ -349,7 +349,7 @@ for (const f of files) {
     DROP TABLE IF EXISTS pass_list_entries;
     DROP INDEX IF EXISTS idx_users_email;
     DROP INDEX IF EXISTS idx_users_role;
-    CREATE TABLE users_pre021 (
+    CREATE TABLE users_pre025 (
       id TEXT PRIMARY KEY, auth_provider TEXT NOT NULL DEFAULT 'clerk',
       auth_provider_id TEXT NOT NULL, email TEXT NOT NULL, email_verified INTEGER NOT NULL DEFAULT 0,
       role TEXT NOT NULL DEFAULT 'student' CHECK (role IN ('student','staff','admin')),
@@ -358,11 +358,61 @@ for (const f of files) {
       updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
       UNIQUE(auth_provider, auth_provider_id)
     );
-    INSERT INTO users_pre021 SELECT * FROM users;
+    INSERT INTO users_pre025 SELECT * FROM users;
     DROP TABLE users;
-    ALTER TABLE users_pre021 RENAME TO users;
+    ALTER TABLE users_pre025 RENAME TO users;
     CREATE INDEX idx_users_email ON users(email);
     CREATE INDEX idx_users_role ON users(role);`);
+  // 023 adds six tables and no columns. CHILDREN FIRST again: the
+  // events, the marks and the reconciliations all point at
+  // level_examinations, which points at examination_papers, which the
+  // criteria also point at. Dropped in declaration order this fails on
+  // a constraint rather than on anything worth reading.
+  db.exec(`DROP TABLE IF EXISTS examination_events;
+    DROP TABLE IF EXISTS examination_reconciliations;
+    DROP TABLE IF EXISTS examination_marks;
+    DROP TABLE IF EXISTS level_examinations;
+    DROP TABLE IF EXISTS examination_criteria;
+    DROP TABLE IF EXISTS examination_papers;`);
+  // 020 adds twenty-two tables and no columns, so dropping the tables is
+  // the whole reversal — SQLite takes each table's indexes with it.
+  // CHILDREN FIRST, and the order below is the foreign-key order rather
+  // than the order the migration declares them: orientation_progress
+  // points at offers, graduation_list at graduation_eligibility, and
+  // reconstructing a pre-020 database in declaration order fails on a
+  // constraint instead of on anything interesting — the same trap 016
+  // and 013 documented above.
+  db.exec(`DROP TABLE IF EXISTS notification_preferences;
+    DROP TABLE IF EXISTS student_settings;
+    DROP TABLE IF EXISTS graduation_list;
+    DROP TABLE IF EXISTS graduation_eligibility;
+    DROP TABLE IF EXISTS graduation_ceremonies;
+    DROP TABLE IF EXISTS academic_standing_reviews;
+    DROP TABLE IF EXISTS learner_milestones;
+    DROP TABLE IF EXISTS milestone_definitions;
+    DROP TABLE IF EXISTS registrar_case_events;
+    DROP TABLE IF EXISTS registrar_cases;
+    DROP TABLE IF EXISTS orientation_progress;
+    DROP TABLE IF EXISTS orientation_steps;
+    DROP TABLE IF EXISTS offers;
+    DROP TABLE IF EXISTS application_events;
+    DROP TABLE IF EXISTS slot_bookings;
+    DROP TABLE IF EXISTS tutorial_slots;
+    DROP TABLE IF EXISTS messages;
+    DROP TABLE IF EXISTS message_participants;
+    DROP TABLE IF EXISTS message_threads;
+    DROP TABLE IF EXISTS announcement_receipts;
+    DROP TABLE IF EXISTS announcements;
+    DROP TABLE IF EXISTS attendance_records;`);
+  // 021 adds an attempt ordinal to the two summative tables and a unique
+  // index over it. Reversing it is a column drop rather than a table
+  // drop — the first migration in this file that touches a column
+  // SQLite can remove outright, which it has been able to do since
+  // 3.35 and which is why 021 could be written as an ALTER at all.
+  db.exec(`DROP INDEX IF EXISTS idx_quiz_attempts_attempt;
+    DROP INDEX IF EXISTS idx_assignment_submissions_attempt;
+    ALTER TABLE quiz_attempts DROP COLUMN attempt;
+    ALTER TABLE assignment_submissions DROP COLUMN attempt;`);
 
   db.exec('DROP TABLE schema_migrations');
 

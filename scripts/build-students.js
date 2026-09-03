@@ -44,6 +44,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { emitPage, reportEmit } = require('./lib/emit-page');
 const { DatabaseSync } = require('node:sqlite');
 
 const ROOT = path.resolve(__dirname, '..');
@@ -115,14 +116,12 @@ const cta = (h2, primary, primaryHref, secondary, secondaryHref) =>
 </section>
 `;
 
-const noCohort = `<div class="callout">
-      <span class="callout__label">Written before the first student</span>
-      <p>No cohort has yet been taught at WEC. Everything on this page describes what is
-        built and what the College has decided, not an experience anyone has had. Where a rule
-        arrived by executive decision awaiting Senate ratification, it says so. The College
-        holds no accreditation, has appointed no External Examiner, has conferred no award on
-        anyone, and has adopted no <a href="/admissions/tuition/#refunds">refund policy</a>
-        &mdash; see <a href="/about/#status">institutional status</a>.</p>
+const standing = `<div class="callout">
+      <span class="callout__label">Where the College stands</span>
+      <p>Three cohorts have been taught at WEC-LC since 2023, and awards have been conferred at
+        Level&nbsp;I and Level&nbsp;II. The College holds no accreditation and has appointed no
+        External Examiner, so those awards were moderated inside the College and by nobody
+        outside it &mdash; see <a href="/about/#status">institutional status</a>.</p>
     </div>`;
 
 const PAGES = {};
@@ -132,7 +131,7 @@ PAGES.hub = {
   slug: 'students', output: 'students/index.html', file: 'students.html',
   contents: true,
   title: 'Students &mdash; Worldwide English College',
-  description: 'What a WEC student meets: the platform, the assessment scheme, the academic '
+  description: 'What a WEC-LC student meets: the platform, the assessment scheme, the academic '
     + 'record, and the rules that govern all three.',
   body: `${hero('Students', 'What you will meet.',
     'This section describes the parts of the College a student deals with directly &mdash; how '
@@ -180,7 +179,7 @@ ${card('Support', '<a href="/students/#support">Support</a>', 'What to do when y
 
 <section class="section--dark section-pad">
   <div class="container reveal">
-    ${noCohort}
+    ${standing}
   </div>
 </section>
 
@@ -254,7 +253,7 @@ ${darkCard('Your own ears first', 'Nothing is submitted automatically', 'A recor
     </div>
     <div class="grid grid--3">
 ${card('In the lesson', 'A second explanation, already written', 'Every lesson carries an alternative explanation of its hardest point, written in advance for the learner who did not follow the first one. Teaching that has only one route through it fails everyone who needs a different one.')}
-${card('In the lesson', 'The mistakes people actually make', 'Each lesson names the common errors for that point and what causes them, so that a mistake is recognisable rather than mysterious. These are written from the language itself, not gathered from students &mdash; the College has taught no one yet, and says so.')}
+${card('In the lesson', 'The mistakes people actually make', 'Each lesson names the common errors for that point and what causes them, so that a mistake is recognisable rather than mysterious. These are written from the language itself rather than gathered from a cohort &mdash; no classroom observation has been entered into the record yet, and the record says so.')}
 ${card('On demand', 'A tutorial with a teacher', 'Where the written support does not resolve it, a tutorial does. Ask; it is not rationed.')}
     </div>
   </div>
@@ -293,7 +292,7 @@ ${darkCard('What is missing', 'A formal complaints procedure', 'There is no inde
       <h2>Named, so that nobody relies on it.</h2>
     </div>
     <div class="grid grid--3">
-${card('No', 'Counselling or wellbeing services', 'WEC has no counselling provision, no wellbeing service and no qualified staff for either. If you need that kind of support, it must come from services where you live. Implying otherwise on a website is how people in difficulty get let down.')}
+${card('No', 'Counselling or wellbeing services', 'WEC-LC has no counselling provision, no wellbeing service and no qualified staff for either. If you need that kind of support, it must come from services where you live. Implying otherwise on a website is how people in difficulty get let down.')}
 ${card('No', 'Careers or immigration advice', 'No careers service, and no immigration advice of any kind &mdash; see <a href="/admissions/#visas">Visas and study permits</a>.')}
 ${card('No', 'Disability assessment or formal adjustments', 'The College has no process for assessing a need or granting a formal adjustment. What it can do is arrange practical accommodations informally &mdash; audio-only participation, extended time, alternative formats &mdash; on request. That is a smaller offer than a policy, and it is described as the smaller thing it is.')}
     </div>
@@ -308,9 +307,9 @@ PAGES.assessment = {
   slug: 'students-assessment', output: 'students/assessment/index.html', file: 'students-assessment.html',
   title: 'How You Are Assessed &mdash; Worldwide English College',
   description: 'The four language skills, the six competencies, published rubrics, and the '
-    + 'threshold the WEC platform enforces today.',
+    + 'threshold the WEC-LC platform enforces today.',
   body: `${hero('Students', 'How you are assessed.',
-    'Assessment at WEC is written before the teaching it tests, published before you sit it, '
+    'Assessment at WEC-LC is written before the teaching it tests, published before you sit it, '
     + 'and reported by skill rather than as a single number. This page explains each of those '
     + 'three choices, because each of them costs the College something.')}
 
@@ -440,7 +439,7 @@ ${cta('See the assessments themselves.', 'The Six Levels', '/academics/#levels',
 PAGES.record = {
   slug: 'students-record', output: 'students/academic-record/index.html', file: 'students-record.html', altHref: '/ar/students/academic-record/',
   title: 'Your Academic Record &mdash; Worldwide English College',
-  description: 'What WEC records about a student, who can see it, what the student controls, '
+  description: 'What WEC-LC records about a student, who can see it, what the student controls, '
     + 'and how a third party verifies it.',
   body: `${hero('Students', 'Your academic record.',
     'What the College knows about your studying, who else can see it, and which parts of it are '
@@ -472,7 +471,7 @@ ${card('Recordings', 'Your voice, kept deliberately', 'Speaking recordings are r
     <div class="grid grid--3">
 ${card('One', 'Whether your record is shared at all', 'Nothing about your studying is disclosed to anyone without you deciding it should be. The College does not publish student names, marks or progress.')}
 ${card('Two', 'What a share link exposes', 'You can create a link that shows a specific view of your record to a specific person &mdash; an employer, a university, a sponsor &mdash; and you decide what it contains and when it stops working.')}
-${card('Three', 'Whether you appear in the Graduate Register', 'The Register is a public roll of people who hold a WEC award. Appearing in it is a choice you make, not a consequence of graduating. A graduate who wants no public entry has none.')}
+${card('Three', 'Whether you appear in the Graduate Register', 'The Register is a public roll of people who hold a WEC-LC award. Appearing in it is a choice you make, not a consequence of graduating. A graduate who wants no public entry has none.')}
     </div>
   </div>
 </section>
@@ -481,7 +480,7 @@ ${card('Three', 'Whether you appear in the Graduate Register', 'The Register is 
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">Verification</span>
-      <h2>How a stranger checks a WEC credential.</h2>
+      <h2>How a stranger checks a WEC-LC credential.</h2>
       <p class="lede">A credential nobody can check is a decorated file. The verification route
         is built and open to anyone holding a code.</p>
     </div>
@@ -523,7 +522,7 @@ ${cta('See how marks are arrived at.', 'How You Are Assessed', '/students/assess
 PAGES.awards = {
   slug: 'students-awards', output: 'students/awards/index.html', file: 'students-awards.html',
   title: 'Awards &amp; Honours &mdash; Worldwide English College',
-  description: 'The six WEC awards, their post-nominals, the adopted honours scheme, and '
+  description: 'The six WEC-LC awards, their post-nominals, the adopted honours scheme, and '
     + 'why no award has yet been conferred on anyone.',
   body: `${hero('Students', 'Awards and honours.',
     'Six awards, one for each level, each with its own title and post-nominal. None of them has '
@@ -601,7 +600,7 @@ ${cta('See how the standard is set.', 'Quality Assurance', '/governance/#quality
 PAGES.integrity = {
   slug: 'students-integrity', output: 'students/integrity/index.html', file: 'students-integrity.html', altHref: '/ar/students/integrity/',
   title: 'Academic Integrity &mdash; Worldwide English College',
-  description: 'The WEC position on work that is not the learner’s own: assessment design '
+  description: 'The WEC-LC position on work that is not the learner’s own: assessment design '
     + 'rather than detection software, and the adopted procedure for a suspected breach.',
   body: `${hero('Students', 'Academic integrity.',
     'The College expects the work to be yours. It says that once, plainly, spends its effort on '
@@ -683,7 +682,7 @@ ${cta('See how assessments are designed.', 'How You Are Assessed', '/students/as
 PAGES.regulations = {
   slug: 'students-regulations', output: 'students/regulations/index.html', file: 'students-regulations.html', altHref: '/ar/students/regulations/',
   title: 'Academic Regulations &mdash; Worldwide English College',
-  description: 'Progression, resits, academic standing and appeals at WEC, separated into '
+  description: 'Progression, resits, academic standing and appeals at WEC-LC, separated into '
     + 'when each rule took effect and on whose authority.',
   body: `${hero('Students', 'Academic regulations.',
     'The rules that govern progression and standing. All of them are in force. The page keeps '
@@ -1028,6 +1027,7 @@ const MANIFEST = path.join(ROOT, 'pages/manifest.json');
 const manifest = JSON.parse(fs.readFileSync(MANIFEST, 'utf8'));
 const entries = Array.isArray(manifest) ? manifest : manifest.pages;
 const written = [];
+const emitted = [];
 
 // Absorbed into the Student Life pillar as #lab and #support.
 for (const slug of ['students-listening-lab', 'students-support']) {
@@ -1036,7 +1036,8 @@ for (const slug of ['students-listening-lab', 'students-support']) {
 }
 
 for (const p of Object.values(PAGES)) {
-  fs.writeFileSync(path.join(ROOT, 'pages', p.file), p.body + '\n');
+  const target = path.join(ROOT, 'pages', p.file);
+  emitted.push({ file: target, result: emitPage(target, p.body) });
   const entry = {
     slug: p.slug, output: p.output, title: p.title, description: p.description,
     contentFile: p.file, lang: p.lang || 'en', dir: p.dir || 'ltr',
@@ -1049,6 +1050,12 @@ for (const p of Object.values(PAGES)) {
 }
 
 fs.writeFileSync(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
-console.log(`Wrote ${written.length} Students-cluster pages:`);
+// The manifest entry is written for every page; the PAGE BODY is written
+// only where the guard allows it. "Routed" rather than "Wrote" because
+// the two are no longer the same act — see scripts/lib/emit-page.js, and
+// read the guard's own summary below this list for what reached disk.
+console.log(`Routed ${written.length} Students-cluster pages through the manifest:`);
 for (const o of written) console.log(`  ${o}`);
 console.log('Run `npm run build` to generate the served pages.');
+
+reportEmit('build-students.js', emitted);

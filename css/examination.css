@@ -1,0 +1,586 @@
+/* ═══════════════════════════════════════════════════════════════════
+   THE LEVEL EXAMINATION — the material for the three surfaces it has.
+
+   Loaded after css/console.css (staff) or css/standing.css (learner),
+   whose mastheads, navigation rails, block heads, chips, waits and
+   struck plates these screens reuse without restating. What is new
+   here is the shape those files have no reason to know about: a
+   rubric being marked, two readings side by side, a reconciliation
+   awaiting a written statement, and a candidate's own clock.
+
+   ─────────────────────────────────────────────────────────────────
+   THE RUBRIC IS THE FORM, AND IT IS DRAWN AS A DOCUMENT
+   ─────────────────────────────────────────────────────────────────
+   A criterion is not a row in a settings panel. It carries a name, a
+   published descriptor a marker has to read before scoring, a weight,
+   the skill it measures, and only then a field. Drawn as a form it
+   would read as data entry; drawn as this it reads as what it is — a
+   published standard being applied to a person's work, in the order
+   the handbook says to apply it.
+
+   The number input is deliberately large and set apart from the
+   descriptor. A mark typed without the eye passing over the
+   descriptor is a mark made on impression, which is the failure the
+   whole second-marking apparatus exists to catch.
+
+   ─────────────────────────────────────────────────────────────────
+   AND THE WITHHOLDING IS DRAWN AS A DELIBERATE ACT
+   ─────────────────────────────────────────────────────────────────
+   Where the endpoint refuses to hand a second marker the first
+   reading, the page says so in a struck notice rather than leaving a
+   blank. A blank reads as a bug; a bug sends a marker looking for the
+   number somewhere else, which is precisely what the rule prevents.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── THE SITTING REFERENCE ───────────────────────────────────────────
+   Read aloud at the start of a recorded task, so it is set in tabular
+   figures at a size a person can read off a screen and speak. It is
+   always LTR: the reference is a code, and a code mirrored in an RTL
+   run is a code somebody reads back wrong. */
+.stf-item__ref {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .55rem;
+  margin: .85rem 0 0;
+}
+.stf-item__ref-label {
+  font: 600 .7rem/1 var(--font-body, Georgia, serif);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--gold-deep, #795A32);
+}
+.stf-item__ref code {
+  font: 600 .96rem/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink, #16202E);
+  background: color-mix(in oklab, var(--gold, #C7A24A) 10%, transparent);
+  padding: .2rem .5rem;
+  border-radius: 6px;
+}
+
+.stf-item__chips,
+.stf-item__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem .8rem;
+  margin: .6rem 0 0;
+  font: 400 .9rem/1.6 var(--font-body, Georgia, serif);
+  color: color-mix(in oklab, var(--ink, #16202E) 68%, transparent);
+}
+
+/* ── THE SCRIPT ──────────────────────────────────────────────────── */
+
+.exm-script { display: grid; gap: 1.6rem; }
+
+.exm-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45rem .6rem;
+  margin: 0;
+}
+
+/* ── WHAT IS WITHHELD, AND WHY ───────────────────────────────────── */
+
+.exm-withheld {
+  position: relative;
+  padding: 1.3rem 1.5rem;
+  border-radius: 14px;
+  border: 1px solid color-mix(in oklab, var(--gold, #C7A24A) 46%, transparent);
+  background: color-mix(in oklab, var(--gold, #C7A24A) 9%, var(--paper, #FCFAF4));
+  box-shadow: var(--relief-raised, 0 14px 34px -18px rgba(16, 32, 58, .42));
+}
+.exm-withheld__head {
+  margin: 0 0 .4rem;
+  font: 600 1.02rem/1.4 var(--font-display, Georgia, serif);
+  color: var(--gold-deep, #795A32);
+}
+.exm-withheld p:last-child {
+  margin: 0;
+  font: 400 .95rem/1.75 var(--font-body, Georgia, serif);
+  color: color-mix(in oklab, var(--ink, #16202E) 80%, transparent);
+}
+
+/* ── THE MARKING FORM ────────────────────────────────────────────── */
+
+.exm-form { display: grid; gap: 1.4rem; }
+
+.exm-form__head { display: grid; gap: .4rem; }
+.exm-form__head h3 {
+  margin: 0;
+  font: 600 1.24rem/1.3 var(--font-display, Georgia, serif);
+  color: var(--ink, #16202E);
+}
+.exm-form__note,
+.exm-close__note {
+  margin: 0;
+  font: 400 .9rem/1.7 var(--font-body, Georgia, serif);
+  color: color-mix(in oklab, var(--ink, #16202E) 64%, transparent);
+}
+.exm-form__says {
+  margin: 0;
+  min-height: 1.6em;
+  font: 400 .93rem/1.65 var(--font-body, Georgia, serif);
+  color: var(--gold-deep, #795A32);
+}
+
+/* One criterion. A document, not a table row — see the head. */
+.exm-crit {
+  position: relative;
+  padding: 1.35rem 1.5rem 1.4rem;
+  border-radius: 14px;
+  background: var(--paper, #FCFAF4);
+  border: 1px solid color-mix(in oklab, var(--ink, #16202E) 12%, transparent);
+  box-shadow: var(--relief-raised, 0 14px 34px -18px rgba(16, 32, 58, .42));
+  display: grid;
+  gap: .55rem;
+}
+.exm-crit__name {
+  margin: 0;
+  font: 600 1.08rem/1.35 var(--font-display, Georgia, serif);
+  color: var(--ink, #16202E);
+}
+.exm-crit__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+  margin: 0;
+}
+.exm-crit__descriptor {
+  margin: 0;
+  padding-inline-start: .9rem;
+  border-inline-start: 2px solid color-mix(in oklab, var(--gold, #C7A24A) 55%, transparent);
+  font: 400 .95rem/1.75 var(--font-body, Georgia, serif);
+  color: color-mix(in oklab, var(--ink, #16202E) 78%, transparent);
+}
+.exm-crit__mark {
+  display: flex;
+  align-items: baseline;
+  gap: .6rem;
+  margin: .35rem 0 0;
+}
+.exm-crit__mark input {
+  width: 6.5rem;
+  padding: .6rem .75rem;
+  font: 600 1.3rem/1.2 var(--font-display, Georgia, serif);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  color: var(--ink, #16202E);
+  background: var(--warm-white, #FDFBF6);
+  border: 1px solid color-mix(in oklab, var(--ink, #16202E) 24%, transparent);
+  border-radius: 10px;
+}
+.exm-crit__of {
+  font: 400 1rem/1.2 var(--font-body, Georgia, serif);
+  color: color-mix(in oklab, var(--ink, #16202E) 55%, transparent);
+}
+.exm-crit__comment-label,
+.exm-rec__form label {
+  font: 600 .8rem/1.5 var(--font-body, Georgia, serif);
+  letter-spacing: .04em;
+  color: var(--gold-deep, #795A32);
+}
+.exm-crit textarea,
+.exm-rec__form textarea,
+.exm-rec__form input,
+.exm-rec__form select {
+  width: 100%;
+  padding: .65rem .8rem;
+  font: 400 .96rem/1.65 var(--font-body, Georgia, serif);
+  color: var(--ink, #16202E);
+  background: var(--warm-white, #FDFBF6);
+  border: 1px solid color-mix(in oklab, var(--ink, #16202E) 24%, transparent);
+  border-radius: 10px;
+}
+
+/* ── THE RUNNING OVERALL ─────────────────────────────────────────────
+   An <output>, never an input, and drawn so that is legible at a
+   glance: it sits on the dark ground the site reserves for a figure
+   the College has computed rather than a figure a person typed. */
+.exm-running {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .6rem 1.2rem;
+  padding: 1.1rem 1.4rem;
+  border-radius: 14px;
+  background: linear-gradient(160deg, var(--midnight, #0E1B33), var(--oxford, #0A1428));
+  border: 1px solid color-mix(in oklab, var(--gold, #C7A24A) 40%, transparent);
+  box-shadow: var(--relief-raised, 0 14px 34px -18px rgba(16, 32, 58, .42));
+}
+.exm-running__label {
+  margin: 0;
+  font: 600 .78rem/1.4 var(--font-body, Georgia, serif);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--gold-soft, #E7C97A);
+}
+.exm-running__value {
+  margin: 0;
+  font: 600 1.9rem/1 var(--font-display, Georgia, serif);
+  font-variant-numeric: tabular-nums;
+  color: var(--gold-champagne, #F2E3C0);
+}
+
+/* ── THE READINGS ON THE RECORD ──────────────────────────────────── */
+
+.exm-panel { display: grid; gap: 1.1rem; }
+.exm-panel > h3 {
+  margin: 0;
+  font: 600 1.18rem/1.3 var(--font-display, Georgia, serif);
+  color: var(--ink, #16202E);
+}
+
+/* Wide content scrolls INSIDE its own box; the page body never
+   scrolls sideways. */
+.exm-scroll { overflow-x: auto; }
+
+.exm-table {
+  width: 100%;
+  min-width: 30rem;
+  border-collapse: collapse;
+  font: 400 .95rem/1.6 var(--font-body, Georgia, serif);
+}
+.exm-table th,
+.exm-table td {
+  padding: .7rem .9rem;
+  text-align: start;
+  border-bottom: 1px solid color-mix(in oklab, var(--ink, #16202E) 12%, transparent);
+}
+.exm-table thead th {
+  font: 600 .78rem/1.4 var(--font-body, Georgia, serif);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--gold-deep, #795A32);
+}
+.exm-table tbody th { font-weight: 600; color: var(--ink, #16202E); }
+.exm-table tbody td { font-variant-numeric: tabular-nums; }
+.exm-table tbody tr:nth-child(even) {
+  background: color-mix(in oklab, var(--pearl, #F1EDE3) 55%, transparent);
+}
+
+/* ── A RECONCILIATION ────────────────────────────────────────────── */
+
+.exm-rec { display: grid; gap: .7rem; }
+.exm-rec h4 {
+  margin: 0;
+  font: 600 1.04rem/1.4 var(--font-display, Georgia, serif);
+  color: var(--ink, #16202E);
+}
+.exm-rec__due {
+  margin: 0;
+  font: 400 .9rem/1.6 var(--font-body, Georgia, serif);
+  color: var(--gold-deep, #795A32);
+}
+.exm-rec__settled {
+  margin: 0;
+  font: 600 1.5rem/1.1 var(--font-display, Georgia, serif);
+  font-variant-numeric: tabular-nums;
+  color: var(--emerald, #1E6A4F);
+}
+.exm-rec__statement {
+  margin: 0;
+  padding-inline-start: .9rem;
+  border-inline-start: 2px solid color-mix(in oklab, var(--emerald, #1E6A4F) 45%, transparent);
+  font: 400 .95rem/1.75 var(--font-body, Georgia, serif);
+  color: color-mix(in oklab, var(--ink, #16202E) 78%, transparent);
+}
+.exm-rec__form { display: grid; gap: .5rem; margin: .4rem 0 0; }
+
+/* ── CLOSING: THE SPOKEN PAPER AND THE RELEASE ───────────────────── */
+
+.exm-close { display: grid; gap: .7rem; }
+.exm-close h4 {
+  margin: 0;
+  font: 600 1.06rem/1.4 var(--font-display, Georgia, serif);
+  color: var(--ink, #16202E);
+}
+.exm-close__mark {
+  margin: 0;
+  font: 600 1.3rem/1.35 var(--font-display, Georgia, serif);
+  color: var(--emerald, #1E6A4F);
+}
+.exm-close__blocked {
+  padding: .9rem 1.1rem;
+  border-radius: 10px;
+  border-inline-start: 3px solid var(--amber, #C98A16);
+  background: color-mix(in oklab, var(--amber, #C98A16) 8%, transparent);
+}
+.exm-close__blocked-head {
+  margin: 0 0 .3rem;
+  font: 600 .82rem/1.4 var(--font-body, Georgia, serif);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--gold-deep, #795A32);
+}
+.exm-close__blocked ul {
+  margin: 0;
+  padding-inline-start: 1.2rem;
+  font: 400 .93rem/1.7 var(--font-body, Georgia, serif);
+  color: color-mix(in oklab, var(--ink, #16202E) 76%, transparent);
+}
+
+/* ── THE CANDIDATE'S OWN PAGE ────────────────────────────────────── */
+
+.exm-sittings { display: grid; gap: 1.3rem; }
+
+.exm-clock {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .5rem 1rem;
+  margin: .8rem 0 0;
+  padding: .95rem 1.2rem;
+  border-radius: 12px;
+  background: linear-gradient(160deg, var(--midnight, #0E1B33), var(--oxford, #0A1428));
+  border: 1px solid color-mix(in oklab, var(--gold, #C7A24A) 40%, transparent);
+}
+.exm-clock__label {
+  margin: 0;
+  font: 600 .74rem/1.4 var(--font-body, Georgia, serif);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--gold-soft, #E7C97A);
+}
+.exm-clock__value {
+  margin: 0;
+  font: 600 1.35rem/1.1 var(--font-display, Georgia, serif);
+  font-variant-numeric: tabular-nums;
+  /* Reserved so a ticking clock never reflows the plate under it. */
+  min-width: 8ch;
+  color: var(--gold-champagne, #F2E3C0);
+}
+
+.exm-rule { display: grid; gap: .45rem; margin: .8rem 0 0; padding: 0; list-style: none; }
+.exm-rule li {
+  padding-inline-start: 1.1rem;
+  position: relative;
+  font: 400 .94rem/1.75 var(--font-body, Georgia, serif);
+  color: color-mix(in oklab, var(--ink, #16202E) 78%, transparent);
+}
+.exm-rule li::marker { content: none; }
+
+/* ── THE PAPER-SETTING CONSOLE ───────────────────────────────────── */
+
+.exm-levels { display: grid; gap: 1.1rem; }
+.exm-level__state {
+  margin: .5rem 0 0;
+  font: 400 .94rem/1.7 var(--font-body, Georgia, serif);
+  color: color-mix(in oklab, var(--ink, #16202E) 74%, transparent);
+}
+.exm-level__none {
+  color: var(--gold-deep, #795A32);
+  font-weight: 600;
+}
+.exm-versions { list-style: none; margin: .7rem 0 0; padding: 0; display: grid; gap: .45rem; }
+.exm-versions li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem .8rem;
+  font: 400 .9rem/1.6 var(--font-body, Georgia, serif);
+  color: color-mix(in oklab, var(--ink, #16202E) 70%, transparent);
+}
+
+/* ── DARK GROUNDS ────────────────────────────────────────────────────
+   Where any of these plates is placed on a dark section, the ink
+   inverts. Stated here rather than left to inherit, because a card
+   whose ground is set and whose ink is not is the 1.04:1 contrast
+   failure the render audit caught once already. */
+.section--dark .exm-crit,
+.section--deep .exm-crit,
+.section--dark .exm-withheld,
+.section--deep .exm-withheld {
+  background: color-mix(in oklab, var(--midnight, #0E1B33) 88%, transparent);
+  border-color: color-mix(in oklab, var(--gold, #C7A24A) 34%, transparent);
+}
+.section--dark .exm-crit__name,
+.section--deep .exm-crit__name,
+.section--dark .exm-withheld__head,
+.section--deep .exm-withheld__head { color: var(--gold-soft, #E7C97A); }
+.section--dark .exm-crit__descriptor,
+.section--deep .exm-crit__descriptor,
+.section--dark .exm-withheld p,
+.section--deep .exm-withheld p { color: var(--pearl, #F1EDE3); }
+
+/* ── MOTION ──────────────────────────────────────────────────────────
+   The only animation here is the running overall settling when it
+   changes. Its reduced-motion carve-out resolves to the FINISHED
+   state — the value visible and in place — never to a hidden or
+   half-drawn one. */
+@keyframes exm-settle {
+  from { transform: translateY(.18em); opacity: .55; }
+  to   { transform: none; opacity: 1; }
+}
+.exm-running__value { animation: exm-settle .28s ease-out; }
+
+@media (prefers-reduced-motion: reduce) {
+  .exm-running__value { animation: none; transform: none; opacity: 1; }
+}
+
+/* ── HIGH CONTRAST ───────────────────────────────────────────────────
+   Selectors are doubled so they outrank the page stylesheets, which
+   load after this file. The lesson is recorded in css/brand.css: the
+   first forced-colors block written for this site lost on source
+   order and did nothing at all. */
+@media (forced-colors: active) {
+  .exm-crit.exm-crit,
+  .exm-withheld.exm-withheld,
+  .exm-running.exm-running,
+  .exm-rec.exm-rec,
+  .exm-close.exm-close,
+  .exm-clock.exm-clock { border: 1px solid CanvasText; }
+  .exm-crit__mark input.exm-crit__mark input,
+  .exm-crit textarea,
+  .exm-rec__form input,
+  .exm-rec__form select,
+  .exm-rec__form textarea { border: 1px solid ButtonBorder; }
+}
+
+/* ── 390px ───────────────────────────────────────────────────────── */
+@media (max-width: 40rem) {
+  .exm-crit { padding: 1.1rem 1.15rem 1.2rem; }
+  .exm-running { padding: .95rem 1.1rem; }
+  .exm-running__value { font-size: 1.6rem; }
+  .exm-crit__mark input { width: 5.5rem; font-size: 1.15rem; }
+
+  /* THE CRITERION BUILDER'S OWN CONTROLS, at a thumb's size.
+     Every field and the two actions below it (Remove this criterion /
+     Add a criterion) render under 44px here — a level select, a weight
+     input, a mark input and a remove button, repeated per criterion —
+     which the route audit counts honestly rather than sampling: a form
+     a marker fills in on their phone between two other things is
+     exactly where a target too small to hit reliably matters most.
+     Scoped to the builder rather than widening `.exm-crit textarea`'s
+     shared rule (also used by `.exm-rec__form`, unrelated) or
+     `.acc-open` globally (its underlined-text style is correct
+     elsewhere — a row-disclosure toggle, not a thumb target). */
+  .exm-crit textarea,
+  .exm-crit input,
+  .exm-crit select { min-height: 44px; }
+  .exm-form .acc-open,
+  .exm-crit .acc-open {
+    display: inline-flex; align-items: center;
+    min-height: 44px; padding-inline: .15rem;
+  }
+}
+
+/* ── WHAT THE PLATFORM JUST DID ──────────────────────────────────────
+   The confirmation after a reading is recorded. It is rendered INTO
+   the panel that replaces the form, because the act of recording
+   re-renders the script and would otherwise take its own confirmation
+   with it — see js/staff-examinations.js. Struck rather than a line of
+   grey text: a person has just made a judgement about somebody's
+   degree, and the acknowledgement should look like one. */
+.exm-said {
+  margin: 0;
+  padding: .9rem 1.2rem;
+  border-radius: 12px;
+  border-inline-start: 3px solid var(--emerald, #1E6A4F);
+  background: color-mix(in oklab, var(--emerald, #1E6A4F) 9%, transparent);
+  font: 600 .96rem/1.7 var(--font-body, Georgia, serif);
+  color: color-mix(in oklab, var(--ink, #16202E) 84%, transparent);
+}
+@media (forced-colors: active) {
+  .exm-said.exm-said { border: 1px solid CanvasText; }
+}
+
+/* ── A MARKER'S OWN RELIABILITY ──────────────────────────────────────
+   /academics/tutor-handbook/ § VI: "A marker told only that a standard
+   drifted can do nothing; one shown where and by how much corrects it
+   in the next batch."
+
+   That sentence is the whole layout brief. The four summary figures
+   are set SMALL and in a row — they are context, not the finding — and
+   the divergences are the body of the section, one case to a line with
+   both marks on it. A design that made the agreement percentage the
+   largest thing here would be a design that delivered the half of the
+   promise the handbook says is useless. */
+
+.agr { display: grid; gap: 1.2rem; }
+
+.agr-none {
+  margin: 0;
+  padding: 1rem 1.2rem;
+  border-radius: 10px;
+  border-inline-start: 3px solid var(--gold, #C7A24A);
+  background: color-mix(in oklab, var(--gold, #C7A24A) 7%, transparent);
+  font: 400 .95rem/1.75 var(--font-body, Georgia, serif);
+  color: color-mix(in oklab, var(--ink, #16202E) 78%, transparent);
+}
+
+.agr-figures {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: .8rem;
+}
+.agr-figure {
+  padding: .9rem 1rem;
+  border-radius: 10px;
+  background: color-mix(in oklab, var(--pearl, #F1EDE3) 60%, transparent);
+  border: 1px solid color-mix(in oklab, var(--ink, #16202E) 10%, transparent);
+}
+.agr-figure__label {
+  margin: 0;
+  font: 600 .66rem/1.4 var(--font-body, Georgia, serif);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--gold-deep, #795A32);
+}
+[lang="ar"] .agr-figure__label { letter-spacing: normal; text-transform: none; font-size: .8rem; }
+.agr-figure__value {
+  margin: .2rem 0 0;
+  font: 600 1.06rem/1.4 var(--font-display, Georgia, serif);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink, #16202E);
+}
+
+.agr-bands {
+  margin: 0;
+  font: 400 .92rem/1.7 var(--font-body, Georgia, serif);
+  color: var(--gold-deep, #795A32);
+}
+
+.agr-diverged {
+  margin: 0;
+  font: 600 1.08rem/1.35 var(--font-display, Georgia, serif);
+  color: var(--ink, #16202E);
+}
+
+.agr-list { list-style: none; margin: 0; padding: 0; display: grid; gap: .7rem; }
+.agr-case {
+  padding: .9rem 1.1rem;
+  border-radius: 10px;
+  background: var(--paper, #FCFAF4);
+  border: 1px solid color-mix(in oklab, var(--ink, #16202E) 12%, transparent);
+  display: grid;
+  gap: .4rem;
+}
+.agr-case__name {
+  margin: 0;
+  font: 600 .98rem/1.45 var(--font-body, Georgia, serif);
+  color: var(--ink, #16202E);
+}
+.agr-case__name code {
+  font: 500 .84rem/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: color-mix(in oklab, var(--ink, #16202E) 66%, transparent);
+}
+.agr-case__marks { display: flex; flex-wrap: wrap; gap: .4rem; margin: 0; }
+.agr-case__settled {
+  margin: 0;
+  font: 400 .9rem/1.6 var(--font-body, Georgia, serif);
+  color: color-mix(in oklab, var(--ink, #16202E) 68%, transparent);
+}
+.agr-case__settled--open { color: var(--gold-deep, #795A32); font-weight: 600; }
+
+.section--dark .agr-case, .section--deep .agr-case,
+.section--dark .agr-figure, .section--deep .agr-figure {
+  background: color-mix(in oklab, var(--midnight, #0E1B33) 88%, transparent);
+  border-color: color-mix(in oklab, var(--gold, #C7A24A) 30%, transparent);
+}
+.section--dark .agr-case__name, .section--deep .agr-case__name,
+.section--dark .agr-figure__value, .section--deep .agr-figure__value { color: var(--pearl, #F1EDE3); }
+
+@media (forced-colors: active) {
+  .agr-case.agr-case, .agr-figure.agr-figure { border: 1px solid CanvasText; }
+}

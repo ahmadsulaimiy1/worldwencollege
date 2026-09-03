@@ -179,16 +179,173 @@
     if (live && idx >= 0) live.textContent = state.audio.cues[idx].speaker + ': ' + state.audio.cues[idx].text;
   }
 
+  /* ── THE LABORATORY, IN THE EDITION IT WAS OPENED IN ────────────────
+   *
+   * /ar/listening-lab.html served an Arabic page and ran an English
+   * laboratory inside it: "Script mode.", "No bookmarks yet.",
+   * "Recording unsupported", "Microphone permission was refused.",
+   * "Uploading your take…", "Keep offline", "not attempted". Forty
+   * sentences, on the surface a learner spends the most time inside.
+   *
+   * Same rules as the rest of the site: the page's own words are here
+   * in both languages; the transcript, the pronunciation targets and
+   * the questions are curriculum content and come from the platform, so
+   * each takes its own direction rather than the page's. */
+  var AR = document.documentElement.lang === 'ar';
+  var LOCALE = AR ? 'ar' : 'en-GB';
+
+  var T = AR ? {
+    scriptModeLead: 'وضع النصّ.',
+    scriptModeRest: ' لم يُسجَّل تسجيل الاستوديو لهذا الاستماع بعد، فالتشغيل غير متاح. وكلُّ ما عدا ذلك في هذه الصفحة يعمل: اقرأ النصّ، وعلِّم السطور، ودوِّن ملاحظاتك، وسجِّل صوتك وأرسله، وأجب عن أسئلة الفهم. وحين تُضاف الرواية تصير هذه الصفحة مشغّلًا كاملًا دون أن يتغيّر شيء ممّا حفظته.',
+    bookmarkLine: function (n) { return 'علِّم السطر ' + n; },
+    removeBookmark: 'احذف العلامة',
+    noBookmarks: 'لا علامات بعد. استعمل الرايةَ على أيّ سطر لتعليمه للمراجعة.',
+    noTargets: 'لا أهداف نطق لهذه المادة.',
+    replayLine: 'أعد السطر الذي يختبره هذا السؤال',
+    showLine: 'أظهر السطر الذي يختبره هذا السؤال',
+    noTakes: 'لا تسجيلات بعد. سجّل صوتك ثم استمع إليه — تلك هي الخطوة التي تنفع.',
+    dims: [['intelligibility', 'وضوح الفهم'], ['wordStress', 'نبر الكلمة'],
+      ['sentenceStress', 'نبر الجملة'], ['individualSounds', 'الأصوات المفردة'], ['fluency', 'الطلاقة']],
+    scriptOnly: '— نصٌّ فقط',
+    setB: 'حدّد ب', clearAB: 'امسح أ–ب', setAB: 'حدّد أ–ب',
+    pause: 'إيقاف مؤقّت', play: 'تشغيل',
+    recUnsupported: 'التسجيل غير مدعوم',
+    recUnsupportedNote: 'لا يدعم هذا المتصفّح التسجيل داخل الصفحة. سجّل بأيّ جهاز واطلب من مدرّسك رفع الملف.',
+    stop: 'أوقف', record: 'سجّل',
+    micRefused: 'رُفض إذن الميكروفون. امنح الإذن من إعدادات متصفّحك لتسجّل.',
+    uploading: 'جارٍ رفع تسجيلك…',
+    uploadingPct: function (n) { return 'جارٍ رفع تسجيلك… ' + n + '%'; },
+    uploaded: function (n) { return 'رُفع التسجيل ' + n + ' وأُرسل للمراجعة. استمع إليه قبل أن تسجّل مرّة أخرى.'; },
+    signInToSave: 'سجّل الدخول لحفظ هذا التسجيل. وهو ما زال قابلًا للتشغيل على هذا الجهاز حتى تُحدِّث الصفحة.',
+    uploadFailed: function (m) {
+      return 'تعذّر رفع التسجيل: ' + m + ' وهو ما زال قابلًا للتشغيل على هذا الجهاز حتى تُحدِّث الصفحة — اضغط «سجّل» لتعيد المحاولة.';
+    },
+    notUploaded: 'لم يُرفع',
+    answerAllLead: 'أجب عن كل سؤال أولًا.',
+    answerAllRest: function (n) { return ' بقي ' + n + ' بلا إجابة.'; },
+    marking: 'جارٍ تصحيح إجاباتك…',
+    passed: 'ناجح. ', notPassed: 'لم تنجح بعد. ',
+    quizRest: 'استعمل روابط الإعادة للرجوع إلى السطور التي فاتتك، ثم أعد المحاولة.',
+    couldNotSubmit: function (m) { return 'تعذّر الإرسال: ' + m; },
+    unsaved: 'لم يُحفظ بعد…',
+    savedHere: 'محفوظ على هذا الجهاز',
+    couldNotSave: 'تعذّر الحفظ — التخزين غير متاح',
+    notesPrivate: 'ملاحظاتك خاصّة وتبقى على هذا الجهاز',
+    noOfflineStorage: 'التخزين دون اتصال غير مدعوم في هذا المتصفّح',
+    nothingToDownload: 'لا شيء للتنزيل بعد — لم يُسجَّل التسجيل',
+    availableOffline: 'متاح دون اتصال', notDownloaded: 'غير مُنزَّل',
+    removeDownload: 'احذف التنزيل', keepOffline: 'احفظه دون اتصال',
+    downloadFailed: 'فشل التنزيل — أعد المحاولة على اتصال أفضل',
+    moduleShort: function (n) { return 'و' + n; },
+    notAttempted: 'لم تُحاوَل',
+    recordingsSuffix: function (n) { return ' — ' + n + ' تسجيل'; },
+    attemptedOf: function (a, b) { return a + ' من ' + b + ' حوولت'; },
+    nothingAttempted: 'لم تُحاوَل أيٌّ بعد',
+    noUnit: 'لم تُحدَّد وحدة. افتح هذه الصفحة من وحدة دراسية.',
+    noListening: 'لا مادة استماع في هذه الوحدة.',
+    progressUnavailable: 'التقدّم غير متاح.',
+    profileUnavailable: 'الملفّ غير متاح.',
+    signInToOpen: 'سجّل الدخول لفتح مختبر الاستماع.',
+    couldNotLoad: function (m) { return 'تعذّر تحميل هذا الاستماع: ' + m; },
+    varieties: { BrE: 'إنجليزية بريطانية', AmE: 'إنجليزية أمريكية' },
+    wpm: function (n) { return n + ' كلمة في الدقيقة'; },
+    takeN: function (n) { return 'التسجيل ' + n; },
+    newTake: 'تسجيل جديد',
+    takeStates: {
+      reviewed: 'رُوجع',
+      uploading: 'جارٍ الرفع…',
+      notUploaded: 'على هذا الجهاز فقط — غير محفوظ',
+      awaiting: 'بانتظار المراجعة',
+    },
+    automated: 'تحليل آلي', instructor: 'المدرّس',
+    fbDims: ['وضوح الفهم', 'نبر الكلمة', 'نبر الجملة', 'الأصوات', 'الطلاقة'],
+    notYetAssessed: 'لم يُقيَّم بعد',
+    reviewedCount: function (n) { return n + ' تسجيلًا مُراجَعًا'; },
+    noneReviewed: 'لا تسجيلات مُراجَعة بعد',
+    lpSummary: ['استماعات حوولت', 'متوسّط أفضل درجة', 'تسجيلات سُجِّلت'],
+  } : {
+    scriptModeLead: 'Script mode.',
+    scriptModeRest: ' The studio recording for this listening has not been made yet, so playback is unavailable. Everything else on this page works: read the transcript, bookmark lines, take notes, record and submit your own voice, and answer the comprehension questions. When narration is added, this page becomes a full player with no change to your saved work.',
+    bookmarkLine: function (n) { return 'Bookmark line ' + n; },
+    removeBookmark: 'Remove bookmark',
+    noBookmarks: 'No bookmarks yet. Use the flag on any line to mark it for revision.',
+    noTargets: 'No pronunciation targets for this item.',
+    replayLine: 'Replay the line this tests',
+    showLine: 'Show the line this tests',
+    noTakes: 'No recordings yet. Record yourself, then listen back — that is the step that works.',
+    dims: [['intelligibility', 'Intelligibility'], ['wordStress', 'Word stress'],
+      ['sentenceStress', 'Sentence stress'], ['individualSounds', 'Individual sounds'], ['fluency', 'Fluency']],
+    scriptOnly: '— script only',
+    setB: 'Set B', clearAB: 'Clear A–B', setAB: 'Set A–B',
+    pause: 'Pause', play: 'Play',
+    recUnsupported: 'Recording unsupported',
+    recUnsupportedNote: 'This browser does not support in-page recording. Record with any device and ask your instructor to upload the file.',
+    stop: 'Stop', record: 'Record',
+    micRefused: 'Microphone permission was refused. Grant access in your browser settings to record.',
+    uploading: 'Uploading your take…',
+    uploadingPct: function (n) { return 'Uploading your take… ' + n + '%'; },
+    uploaded: function (n) { return 'Take ' + n + ' uploaded and sent for review. Listen back before you record again.'; },
+    signInToSave: 'Sign in to save this take. It is still playable on this device until you reload.',
+    uploadFailed: function (m) {
+      return 'Could not upload the take: ' + m + ' It is still playable on this device until you reload — press Record to try again.';
+    },
+    notUploaded: 'not uploaded',
+    answerAllLead: 'Answer every question first.',
+    answerAllRest: function (n) { return ' ' + n + ' still unanswered.'; },
+    marking: 'Marking your answers…',
+    passed: 'passed. ', notPassed: 'not yet passed. ',
+    quizRest: 'Use the replay links to go back to the lines you missed, then try again.',
+    couldNotSubmit: function (m) { return 'Could not submit: ' + m; },
+    unsaved: 'unsaved…',
+    savedHere: 'saved on this device',
+    couldNotSave: 'could not save — storage unavailable',
+    notesPrivate: 'notes are private and stay on this device',
+    noOfflineStorage: 'Offline storage is not supported in this browser',
+    nothingToDownload: 'Nothing to download yet — the recording has not been made',
+    availableOffline: 'Available offline', notDownloaded: 'Not downloaded',
+    removeDownload: 'Remove download', keepOffline: 'Keep offline',
+    downloadFailed: 'Download failed — try again on a better connection',
+    moduleShort: function (n) { return 'M' + n; },
+    notAttempted: 'not attempted',
+    recordingsSuffix: function (n) { return ' — ' + n + ' recording(s)'; },
+    attemptedOf: function (a, b) { return a + ' of ' + b + ' attempted'; },
+    nothingAttempted: 'nothing attempted yet',
+    noUnit: 'No unit specified. Open this page from a module.',
+    noListening: 'This module has no listening item.',
+    progressUnavailable: 'Progress unavailable.',
+    profileUnavailable: 'Profile unavailable.',
+    signInToOpen: 'Sign in to open the Listening Lab.',
+    couldNotLoad: function (m) { return 'Could not load this listening: ' + m; },
+    varieties: { BrE: 'British English', AmE: 'American English' },
+    wpm: function (n) { return n + ' words per minute'; },
+    takeN: function (n) { return 'Take ' + n; },
+    newTake: 'New take',
+    takeStates: {
+      reviewed: 'reviewed',
+      uploading: 'uploading…',
+      notUploaded: 'on this device only — not saved',
+      awaiting: 'awaiting review',
+    },
+    automated: 'Automated analysis', instructor: 'Instructor',
+    fbDims: ['Intelligibility', 'Word stress', 'Sentence stress', 'Sounds', 'Fluency'],
+    notYetAssessed: 'not yet assessed',
+    reviewedCount: function (n) { return n + ' reviewed recording' + (n === 1 ? '' : 's'); },
+    noneReviewed: 'no reviewed recordings yet',
+    lpSummary: ['listenings attempted', 'average best score', 'recordings made'],
+  };
+
   // ---- Rendering -------------------------------------------------------
   function renderStatus() {
     var box = $('#labStatus');
     if (!box) return;
     if (state.audio.isRecorded) { box.hidden = true; return; }
     box.hidden = false;
-    $('#labStatusText').innerHTML =
-      '<strong>Script mode.</strong> The studio recording for this listening has not been made yet, so playback is unavailable. ' +
-      'Everything else on this page works: read the transcript, bookmark lines, take notes, record and submit your own voice, and answer the comprehension questions. ' +
-      'When narration is added, this page becomes a full player with no change to your saved work.';
+    var st = $('#labStatusText');
+    st.textContent = '';
+    var lead = document.createElement('strong');
+    lead.textContent = T.scriptModeLead;
+    st.appendChild(lead);
+    st.appendChild(document.createTextNode(T.scriptModeRest));
   }
 
   function renderTranscript() {
@@ -205,16 +362,22 @@
       var sp = document.createElement('span');
       sp.className = 'cue__speaker';
       sp.textContent = cue.speaker || '';
+      sp.setAttribute('dir', 'auto');
 
+      // The transcript is the curriculum's own text and is English on
+      // both editions: it is the thing being listened to. dir="auto"
+      // lays it out as English inside the Arabic page rather than
+      // reversing its punctuation.
       var tx = document.createElement('span');
       tx.className = 'cue__text';
       tx.textContent = cue.text;
+      tx.setAttribute('dir', 'auto');
 
       var mk = document.createElement('button');
       mk.className = 'cue__mark';
       mk.type = 'button';
       mk.setAttribute('aria-pressed', state.marks.indexOf(cue.sequence) >= 0 ? 'true' : 'false');
-      mk.setAttribute('aria-label', 'Bookmark line ' + cue.sequence);
+      mk.setAttribute('aria-label', T.bookmarkLine(cue.sequence));
       mk.textContent = '⚑';
       mk.addEventListener('click', function (ev) { ev.stopPropagation(); toggleMark(cue.sequence, mk); });
 
@@ -251,7 +414,7 @@
     if (!state.marks.length) {
       var li = document.createElement('li');
       li.className = 'drop';
-      li.textContent = 'No bookmarks yet. Use the flag on any line to mark it for revision.';
+      li.textContent = T.noBookmarks;
       ul.appendChild(li);
       return;
     }
@@ -262,10 +425,11 @@
       var b = document.createElement('button');
       b.type = 'button';
       b.textContent = '⚑ ' + (cue.text.length > 58 ? cue.text.slice(0, 58) + '…' : cue.text);
+      b.setAttribute('dir', 'auto');
       b.addEventListener('click', function () { seekToCue(state.audio.cues.indexOf(cue)); });
       var x = document.createElement('button');
       x.type = 'button'; x.className = 'drop'; x.textContent = '×';
-      x.setAttribute('aria-label', 'Remove bookmark');
+      x.setAttribute('aria-label', T.removeBookmark);
       x.addEventListener('click', function () { toggleMark(seq); renderTranscript(); });
       li.appendChild(b); li.appendChild(x);
       ul.appendChild(li);
@@ -275,7 +439,7 @@
   function renderTargets(targets) {
     var box = $('#targets');
     if (!box) return;
-    if (!targets || !targets.length) { box.textContent = 'No pronunciation targets for this item.'; return; }
+    if (!targets || !targets.length) { box.textContent = T.noTargets; return; }
     box.innerHTML = '';
     targets.forEach(function (t) {
       var d = document.createElement('div');
@@ -283,10 +447,15 @@
       d.innerHTML =
         '<span class="target__focus"></span>' +
         '<p class="target__t"></p><p class="target__e"></p><p class="target__g"></p>';
+      // The focus is a phonetic category name from the curriculum.
       $('.target__focus', d).textContent = t.focus.replace(/_/g, ' ');
+      $('.target__focus', d).setAttribute('dir', 'auto');
       $('.target__t', d).textContent = t.target;
       $('.target__e', d).textContent = '“' + t.example + '”';
+      $('.target__e', d).setAttribute('dir', 'auto');
+      $('.target__t', d).setAttribute('dir', 'auto');
       $('.target__g', d).textContent = t.guidance || '';
+      $('.target__g', d).setAttribute('dir', 'auto');
       box.appendChild(d);
     });
   }
@@ -298,9 +467,14 @@
       var wrap = document.createElement('fieldset');
       wrap.className = 'q';
       wrap.dataset.qid = q.id;
+      // The question is the curriculum's English, and the number is
+      // part of the same run: without dir="auto" an Arabic page pushes
+      // "1." to the far end of the line, away from the question it
+      // numbers.
       var lg = document.createElement('legend');
       lg.className = 'q__p';
       lg.textContent = (qi + 1) + '. ' + q.prompt;
+      lg.setAttribute('dir', 'auto');
       wrap.appendChild(lg);
 
       var opts = document.createElement('div');
@@ -312,6 +486,7 @@
         input.type = 'radio'; input.name = q.id; input.value = String(ci);
         var span = document.createElement('span');
         span.textContent = c;
+        span.setAttribute('dir', 'auto');
         lab.appendChild(input); lab.appendChild(span);
         opts.appendChild(lab);
       });
@@ -324,7 +499,7 @@
         if (idx >= 0) {
           var r = document.createElement('button');
           r.type = 'button'; r.className = 'q__replay';
-          r.textContent = state.audio.isRecorded ? 'Replay the line this tests' : 'Show the line this tests';
+          r.textContent = state.audio.isRecorded ? T.replayLine : T.showLine;
           r.addEventListener('click', function () { seekToCue(idx); });
           wrap.appendChild(r);
         }
@@ -340,7 +515,7 @@
       var li = document.createElement('li');
       li.className = 'drop';
       li.style.color = 'var(--ink-soft)';
-      li.textContent = 'No recordings yet. Record yourself, then listen back — that is the step that works.';
+      li.textContent = T.noTakes;
       ul.appendChild(li);
       return;
     }
@@ -349,7 +524,7 @@
       var n = document.createElement('span');
       // A take being uploaded has no attempt number yet — the server
       // assigns it. "Take null" would be worse than saying so.
-      n.className = 'n'; n.textContent = t.attempt ? 'Take ' + t.attempt : 'New take';
+      n.className = 'n'; n.textContent = t.attempt ? T.takeN(t.attempt) : T.newTake;
       li.appendChild(n);
       if (t.mediaUrl) {
         var a = document.createElement('audio');
@@ -362,10 +537,10 @@
       // uploaded" is the one that matters: the audio is playable right
       // now and will be gone on reload, and the learner has to know
       // that rather than assume it was saved.
-      st.textContent = t.status === 'reviewed' ? 'reviewed'
-        : t.status === 'uploading' ? 'uploading…'
-          : t.status === 'not uploaded' ? 'on this device only — not saved'
-            : 'awaiting review';
+      st.textContent = t.status === 'reviewed' ? T.takeStates.reviewed
+        : t.status === 'uploading' ? T.takeStates.uploading
+          : t.status === T.notUploaded ? T.takeStates.notUploaded
+            : T.takeStates.awaiting;
       li.appendChild(st);
 
       (t.feedback || []).forEach(function (f) {
@@ -373,11 +548,19 @@
         fb.className = 'fb';
         var who = document.createElement('span');
         who.className = 'who';
-        who.textContent = f.source === 'automated' ? 'Automated analysis' : 'Instructor';
+        who.textContent = f.source === 'automated' ? T.automated : T.instructor;
         fb.appendChild(who);
-        if (f.comment) { var c = document.createElement('div'); c.textContent = f.comment; fb.appendChild(c); }
-        var dims = [['Intelligibility', f.intelligibility], ['Word stress', f.wordStress],
-                    ['Sentence stress', f.sentenceStress], ['Sounds', f.individualSounds], ['Fluency', f.fluency]]
+        // A tutor's comment is written by a person, in whichever
+        // language they teach in.
+        if (f.comment) {
+          var c = document.createElement('div');
+          c.textContent = f.comment;
+          c.setAttribute('dir', 'auto');
+          fb.appendChild(c);
+        }
+        var dims = [[T.fbDims[0], f.intelligibility], [T.fbDims[1], f.wordStress],
+                    [T.fbDims[2], f.sentenceStress], [T.fbDims[3], f.individualSounds],
+                    [T.fbDims[4], f.fluency]]
                    .filter(function (d) { return d[1] !== null && d[1] !== undefined; });
         if (dims.length) {
           var s = document.createElement('div');
@@ -394,8 +577,7 @@
   function renderProfile(p) {
     var box = $('#dims');
     box.innerHTML = '';
-    var dims = [['intelligibility', 'Intelligibility'], ['wordStress', 'Word stress'],
-                ['sentenceStress', 'Sentence stress'], ['individualSounds', 'Individual sounds'], ['fluency', 'Fluency']];
+    var dims = T.dims;
     dims.forEach(function (d) {
       var v = p[d[0]];
       var row = document.createElement('div');
@@ -403,13 +585,13 @@
       row.innerHTML = '<span class="dim__n"></span><span class="dim__bar"><i></i></span><span class="dim__v"></span>';
       $('.dim__n', row).textContent = d[1];
       // Not yet assessed is shown as such. A 0% bar would be a lie.
-      $('.dim__v', row).textContent = v === null ? 'not yet assessed' : Math.round(v * 100) + '%';
+      $('.dim__v', row).textContent = v === null ? T.notYetAssessed : Math.round(v * 100) + '%';
       box.appendChild(row);
       requestAnimationFrame(function () { $('.dim__bar i', row).style.width = v === null ? '0%' : (v * 100) + '%'; });
     });
     $('#profileMeta').textContent = p.reviewedRecordings
-      ? p.reviewedRecordings + ' reviewed recording' + (p.reviewedRecordings === 1 ? '' : 's')
-      : 'no reviewed recordings yet';
+      ? T.reviewedCount(p.reviewedRecordings)
+      : T.noneReviewed;
   }
 
   // ---- Transport -------------------------------------------------------
@@ -420,7 +602,7 @@
 
     [play, back, fwd, ab, loop].forEach(function (b) { if (b) b.disabled = !recorded; });
     if (speed) speed.disabled = !recorded;
-    if (!recorded) { time.textContent = '— script only'; return; }
+    if (!recorded) { time.textContent = T.scriptOnly; return; }
 
     play.addEventListener('click', function () {
       if (state.el.paused) state.el.play(); else state.el.pause();
@@ -435,14 +617,14 @@
       var now = state.el.currentTime * 1000;
       if (!state.region) {
         state.region = { startMs: now, endMs: null };
-        ab.setAttribute('aria-pressed', 'true'); ab.textContent = 'Set B';
+        ab.setAttribute('aria-pressed', 'true'); ab.textContent = T.setB;
       } else if (state.region.endMs === null) {
         state.region.endMs = Math.max(now, state.region.startMs + 400);
-        ab.textContent = 'Clear A–B';
+        ab.textContent = T.clearAB;
         drawRegion();
       } else {
         state.region = null;
-        ab.setAttribute('aria-pressed', 'false'); ab.textContent = 'Set A–B';
+        ab.setAttribute('aria-pressed', 'false'); ab.textContent = T.setAB;
         drawRegion();
       }
     });
@@ -451,8 +633,8 @@
       loop.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
 
-    state.el.addEventListener('play', function () { play.textContent = 'Pause'; });
-    state.el.addEventListener('pause', function () { play.textContent = 'Play'; });
+    state.el.addEventListener('play', function () { play.textContent = T.pause; });
+    state.el.addEventListener('pause', function () { play.textContent = T.play; });
     state.el.addEventListener('timeupdate', function () {
       var ms = state.el.currentTime * 1000;
       if (state.region && state.region.endMs !== null && ms >= state.region.endMs) {
@@ -488,8 +670,8 @@
     var btn = $('#rec'), meter = $('#recMeter i'), t = $('#recTime');
     if (!navigator.mediaDevices || !window.MediaRecorder) {
       btn.disabled = true;
-      btn.textContent = 'Recording unsupported';
-      $('#recNote').textContent = 'This browser does not support in-page recording. Record with any device and ask your instructor to upload the file.';
+      btn.textContent = T.recUnsupported;
+      $('#recNote').textContent = T.recUnsupportedNote;
       return;
     }
     btn.addEventListener('click', function () {
@@ -505,7 +687,7 @@
         };
         state.recorder.start();
         state.recStart = Date.now();
-        btn.textContent = 'Stop';
+        btn.textContent = T.stop;
         btn.setAttribute('aria-pressed', 'true');
 
         // Level meter from a real analyser, so the learner can see they
@@ -527,7 +709,7 @@
 
         state.recTimer = setInterval(function () { t.textContent = fmt(Date.now() - state.recStart); }, 200);
       }).catch(function () {
-        $('#recNote').textContent = 'Microphone permission was refused. Grant access in your browser settings to record.';
+        $('#recNote').textContent = T.micRefused;
       });
     });
 
@@ -536,7 +718,7 @@
       clearInterval(state.recTimer);
       cancelAnimationFrame(state.meterRaf);
       meter.style.width = '0%';
-      btn.textContent = 'Record';
+      btn.textContent = T.record;
       btn.setAttribute('aria-pressed', 'false');
     }
   }
@@ -559,10 +741,10 @@
     var take = { attempt: null, mediaUrl: localUrl, status: 'uploading', local: true, feedback: [] };
     state.takes.unshift(take);
     renderTakes();
-    note.textContent = 'Uploading your take…';
+    note.textContent = T.uploading;
 
     uploadRecording(blob, durationMs, function (sent, total) {
-      note.textContent = 'Uploading your take… ' + Math.round((sent / total) * 100) + '%';
+      note.textContent = T.uploadingPct(Math.round((sent / total) * 100));
     }).then(function (res) {
       take.attempt = res.attempt;
       take.status = res.status;
@@ -571,14 +753,11 @@
       // reload and plays on the learner's other devices.
       take.mediaUrl = res.mediaUrl;
       renderTakes();
-      note.textContent = 'Take ' + res.attempt + ' uploaded and sent for review. Listen back before you record again.';
+      note.textContent = T.uploaded(res.attempt);
     }).catch(function (err) {
-      take.status = 'not uploaded';
+      take.status = T.notUploaded;
       renderTakes();
-      note.textContent = err.status === 401
-        ? 'Sign in to save this take. It is still playable on this device until you reload.'
-        : window.WEC_LC_data.humanError(err, 'The take could not be uploaded.')
-          + ' It is still playable on this device until you reload — press Record to try again.';
+      note.textContent = err.status === 401 ? T.signInToSave : T.uploadFailed(err.message);
     });
   }
 
@@ -666,23 +845,32 @@
         return picked ? Number(picked.value) : -1;
       });
       if (answers.indexOf(-1) >= 0) {
-        $('#quizResult').innerHTML = '<strong>Answer every question first.</strong> ' +
-          (answers.filter(function (a) { return a === -1; }).length) + ' still unanswered.';
+        var qr = $('#quizResult');
+        qr.textContent = '';
+        var lead0 = document.createElement('strong');
+        lead0.textContent = T.answerAllLead;
+        qr.appendChild(lead0);
+        qr.appendChild(document.createTextNode(
+          T.answerAllRest(answers.filter(function (a) { return a === -1; }).length)));
         showResult();
         return;
       }
-      $('#quizResult').textContent = 'Marking your answers…';
+      $('#quizResult').textContent = T.marking;
       api('/api/lms/quiz-attempt', {
         method: 'POST',
         body: JSON.stringify({ learningItemId: state.item.id, answers: answers }),
       }).then(function (res) {
         var pct = Math.round(res.score * 100);
-        $('#quizResult').innerHTML = '<strong>' + pct + '%</strong> — ' +
-          (res.passed ? 'passed. ' : 'not yet passed. ') +
-          'Use the replay links to go back to the lines you missed, then try again.';
+        var qr2 = $('#quizResult');
+        qr2.textContent = '';
+        var score = document.createElement('strong');
+        score.textContent = pct + '%';
+        qr2.appendChild(score);
+        qr2.appendChild(document.createTextNode(
+          ' — ' + (res.passed ? T.passed : T.notPassed) + T.quizRest));
         showResult();
       }).catch(function (err) {
-        $('#quizResult').textContent = window.WEC_LC_data.humanError(err, 'Your answers could not be submitted.');
+        $('#quizResult').textContent = T.couldNotSubmit(err.message);
         showResult();
       });
     });
@@ -694,14 +882,12 @@
     ta.value = load('notes', '');
     ta.addEventListener('input', function () {
       clearTimeout(timer);
-      saved.textContent = 'unsaved…';
+      saved.textContent = T.unsaved;
       timer = setTimeout(function () {
-        saved.textContent = save('notes', ta.value)
-          ? 'saved on this device'
-          : 'could not save — storage unavailable';
+        saved.textContent = save('notes', ta.value) ? T.savedHere : T.couldNotSave;
       }, 450);
     });
-    saved.textContent = ta.value ? 'saved on this device' : 'notes are private and stay on this device';
+    saved.textContent = ta.value ? T.savedHere : T.notesPrivate;
   }
 
   // ---- Keyboard --------------------------------------------------------
@@ -727,7 +913,7 @@
 
     if (!('serviceWorker' in navigator)) {
       btn.disabled = true;
-      state.textContent = 'Offline storage is not supported in this browser';
+      state.textContent = T.noOfflineStorage;
       return;
     }
 
@@ -738,7 +924,7 @@
       if (!url) {
         btn.disabled = true;
         state.dataset.on = 'false';
-        state.textContent = 'Nothing to download yet — the recording has not been made';
+        state.textContent = T.nothingToDownload;
         return;
       }
       btn.disabled = false;
@@ -749,9 +935,9 @@
           navigator.serviceWorker.removeEventListener('message', onMsg);
           var held = ev.data.urls.some(function (u) { return u.indexOf(url) >= 0 || url.indexOf(u) >= 0; });
           state.dataset.on = held ? 'true' : 'false';
-          state.textContent = held ? 'Available offline' : 'Not downloaded';
+          state.textContent = held ? T.availableOffline : T.notDownloaded;
           btn.setAttribute('aria-pressed', held ? 'true' : 'false');
-          btn.textContent = held ? 'Remove download' : 'Keep offline';
+          btn.textContent = held ? T.removeDownload : T.keepOffline;
         };
         navigator.serviceWorker.addEventListener('message', onMsg);
         reg.active.postMessage({ type: 'AUDIO_STATUS' });
@@ -768,7 +954,7 @@
           if (!ev.data || (ev.data.type !== 'AUDIO_CACHED' && ev.data.type !== 'AUDIO_DROPPED')) return;
           navigator.serviceWorker.removeEventListener('message', onMsg);
           if (ev.data.type === 'AUDIO_CACHED' && !ev.data.ok) {
-            state.textContent = 'Download failed — try again on a better connection';
+            state.textContent = T.downloadFailed;
             return;
           }
           refresh();
@@ -785,9 +971,9 @@
   function renderAnalytics(a) {
     var sum = $('#lpSummary');
     sum.innerHTML = '';
-    [[a.attempted + ' / ' + a.totalListenings, 'listenings attempted'],
-     [a.averageBest === null ? '—' : Math.round(a.averageBest * 100) + '%', 'average best score'],
-     [String(a.recordingsMade), 'recordings made']].forEach(function (pair) {
+    [[a.attempted + ' / ' + a.totalListenings, T.lpSummary[0]],
+     [a.averageBest === null ? '—' : Math.round(a.averageBest * 100) + '%', T.lpSummary[1]],
+     [String(a.recordingsMade), T.lpSummary[2]]].forEach(function (pair) {
       var d = document.createElement('div');
       d.innerHTML = '<b></b><span></span>';
       $('b', d).textContent = pair[0];
@@ -801,19 +987,19 @@
       var row = document.createElement('div');
       row.className = 'prog__row';
       row.innerHTML = '<span class="prog__n"></span><span class="prog__bar"><i></i></span><span class="prog__v"></span>';
-      $('.prog__n', row).textContent = 'M' + m.moduleSeq;
+      $('.prog__n', row).textContent = T.moduleShort(m.moduleSeq);
       var none = m.bestScore === null;
-      $('.prog__v', row).textContent = none ? 'not attempted' : Math.round(m.bestScore * 100) + '%';
+      $('.prog__v', row).textContent = none ? T.notAttempted : Math.round(m.bestScore * 100) + '%';
       $('.prog__v', row).dataset.none = none ? 'true' : 'false';
-      row.title = m.title + (m.recordings ? ' — ' + m.recordings + ' recording(s)' : '');
+      row.title = m.title + (m.recordings ? T.recordingsSuffix(m.recordings) : '');
       box.appendChild(row);
       requestAnimationFrame(function () {
         $('.prog__bar i', row).style.width = none ? '0%' : (m.bestScore * 100) + '%';
       });
     });
     $('#lpMeta').textContent = a.attempted
-      ? a.attempted + ' of ' + a.totalListenings + ' attempted'
-      : 'nothing attempted yet';
+      ? T.attemptedOf(a.attempted, a.totalListenings)
+      : T.nothingAttempted;
   }
 
   // ---- Boot ------------------------------------------------------------
@@ -821,7 +1007,7 @@
     var params = new URLSearchParams(location.search);
     var unitId = params.get('unit');
     var itemId = params.get('item');
-    if (!unitId) { $('#labError').textContent = 'No unit specified. Open this page from a module.'; return; }
+    if (!unitId) { $('#labError').textContent = T.noUnit; return; }
 
     // Start measuring. This is the College's measured-hours commitment
     // in practice (docs/academic-framework.md § I) — it begins the
@@ -834,7 +1020,7 @@
       var item = itemId
         ? unit.items.filter(function (i) { return i.id === itemId; })[0]
         : unit.items.filter(function (i) { return i.kind === 'listening'; })[0];
-      if (!item) throw new Error('This module has no listening item.');
+      if (!item) throw new Error(T.noListening);
       var pron = unit.items.filter(function (i) { return i.kind === 'pronunciation'; })[0];
 
       state.item = item;
@@ -842,19 +1028,29 @@
       state.marks = load('marks', []);
       state.takes = (item.myRecordings || []).map(function (r) { return r; });
 
-      $('#labUnit').textContent = unit.title;
+      // The module's name, the listening's title and its objectives are
+      // the curriculum's own English — the thing being listened to. They
+      // take their own direction so an Arabic page lays them out as
+      // English rather than reversing their punctuation.
+      $('#labModule').textContent = unit.title;
+      $('#labModule').setAttribute('dir', 'auto');
       $('#labTitle').textContent = item.title;
-      $('#labVariety').textContent = state.audio.variety === 'BrE' ? 'British English'
-        : state.audio.variety === 'AmE' ? 'American English' : (state.audio.variety || '');
-      $('#labWpm').textContent = state.audio.targetWpm ? state.audio.targetWpm + ' words per minute' : '';
+      $('#labTitle').setAttribute('dir', 'auto');
+      $('#labVariety').textContent = T.varieties[state.audio.variety] || state.audio.variety || '';
+      $('#labWpm').textContent = state.audio.targetWpm ? T.wpm(state.audio.targetWpm) : '';
       $('#labSub').textContent = (item.body || '').split('\n')[0].replace(/^LISTENING OBJECTIVES:\s*/, '');
+      $('#labSub').setAttribute('dir', 'auto');
 
       renderStatus();
       renderTranscript();
       renderMarks();
       renderQuestions(item.questions || []);
       renderTakes();
-      if (pron) { renderTargets(pron.targets); $('#pronTitle').textContent = pron.title; }
+      if (pron) {
+        renderTargets(pron.targets);
+        $('#pronTitle').textContent = pron.title;
+        $('#pronTitle').setAttribute('dir', 'auto');
+      }
 
       // Waveform: real peaks when there is audio, structural peaks when
       // there is only a script.
@@ -894,17 +1090,17 @@
       if (lvl) {
         api('/api/lms/listening-analytics?levelId=' + encodeURIComponent(lvl))
           .then(renderAnalytics)
-          .catch(function () { $('#lpModules').textContent = 'Progress unavailable.'; });
+          .catch(function () { $('#lpModules').textContent = T.progressUnavailable; });
       }
       api('/api/lms/pronunciation-profile' + (lvl ? '?levelId=' + encodeURIComponent(lvl) : ''))
         .then(renderProfile)
-        .catch(function () { $('#dims').textContent = 'Profile unavailable.'; });
+        .catch(function () { $('#dims').textContent = T.profileUnavailable; });
 
       document.body.classList.add('is-ready');
     }).catch(function (err) {
       $('#labError').textContent = err.status === 401
-        ? 'Sign in to open the Listening Lab.'
-        : window.WEC_LC_data.humanError(err, 'This listening could not be loaded.');
+        ? T.signInToOpen
+        : T.couldNotLoad(err.message);
     });
   }
 

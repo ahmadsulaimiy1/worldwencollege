@@ -164,14 +164,38 @@ const ARABIC = /[؀-ۿ]/;
   check('Every Arabic level page prints its award\'s official title unaltered',
     missing.length === 0, missing.map((n) => `level-${n}`).join(', '));
 
-  // And says, in Arabic, that nothing has been conferred.
+  // And says, in Arabic, what nobody outside the College has confirmed
+  // about that award.
+  //
+  // This demanded the words "لم تُمنح لأحد" — conferred on nobody —
+  // until the College's own record made that false: it has taught three
+  // cohorts since 2023 and conferred awards at Level I and Level II.
+  // The obligation moves rather than lifts, exactly as in
+  // tests/adopted-decisions.test.mjs. What an Arabic reader must still
+  // be told is that these awards were moderated INSIDE the College and
+  // by nobody outside it, which is the one fact about the credential
+  // they are paying for and cannot discover for themselves.
+  //
   // Whitespace-normalised: the sentence wraps across a line in the
   // generated HTML, and the first version of this check failed on all
   // six pages for a newline between "ولم" and "تُمنح".
   const flat = (h) => h.replace(/\s+/g, ' ');
-  const silent = LEVELS.filter((n) => !/لم تُمنح لأحد|لم تمنح لأحد/.test(flat(ar[n])));
-  check('...and each says in Arabic that the award has been conferred on nobody',
+  const silent = LEVELS.filter((n) =>
+    !/(وُضِع|وُضِعت) وصُحِّح|معدَّلة داخليًا|داخل الكلية/.test(flat(ar[n])));
+  check('...and each says in Arabic that nobody outside the College moderated the award',
     silent.length === 0, silent.map((n) => `level-${n}`).join(', '));
+
+  // The examiner vacancy itself has to stay on the page: it is the
+  // reason the sentence above is true.
+  // Matched on the FACT, not on one phrasing of it. The page moved from
+  // "the College has not appointed an examiner" to "no external examiner
+  // is appointed" — the same vacancy, stated without narrating what the
+  // College has failed to do — and a check pinned to the old wording
+  // would have forced the sentence back.
+  const VACANCY = /لم تُعيّن ممتحنًا خارجيًا|لا ممتحن خارجي معيَّن|ممتحن خارجي.{0,12}(?:شاغر|غير معيَّن)/;
+  const noVacancy = LEVELS.filter((n) => !VACANCY.test(flat(ar[n])));
+  check('...and that the External Examiner post is named as unfilled',
+    noVacancy.length === 0, noVacancy.map((n) => `level-${n}`).join(', '));
 }
 
 console.log(`\n${pass} passed, ${fail} failed.`);

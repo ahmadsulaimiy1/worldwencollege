@@ -60,7 +60,25 @@ on:
   push:
     branches:
       - main
-      - claude/worldwide-english-college-site-ezy1zo
+      # ── WHY THIS LIST CHANGED ON 18 AUGUST 2026 ──────────────────────
+      # It named `claude/worldwide-english-college-site-ezy1zo`, which
+      # has since been rebranded to Albalagh International Premium
+      # College — a separate institution that happens to share this
+      # repository's history (CLAUDE.md §7, ruled by the owner). Leaving
+      # it here meant one green test run on that branch would publish
+      # another college to worldwencollege.co.uk. Its last three deploys
+      # failed on their own verify job, which is the only reason that
+      # did not already happen.
+      #
+      # The consequence of nobody noticing was the other half: this
+      # College's work went to a branch that deploys nothing, and the
+      # live site stayed at 940c5e30 from 16 August while ninety-six
+      # commits accumulated behind it — the Library, the tuition ladder,
+      # the commercial model, the Record of Standing, nine drawn plates.
+      # That is the failure the header above warned about, in the exact
+      # words it used: work described as live when nothing had been
+      # published.
+      - claude/world-wen-college-audit-ft3mls
     # A change that cannot affect what is served should not spend a
     # deploy. Everything else should.
     paths-ignore:
@@ -102,6 +120,20 @@ jobs:
   # here stops the deploy.
   verify:
     runs-on: ubuntu-latest
+    # A CEILING, BECAUSE A HUNG STEP IS INVISIBLE WITHOUT ONE.
+    #
+    # On 19 August 2026 the Chromium install stalled and the job sat
+    # `in_progress` for over an hour. GitHub's default is SIX HOURS, so
+    # nothing failed, nothing alerted, and the only symptom was a live
+    # domain quietly serving the previous commit — which is the exact
+    # class of fault tests/deploy-reach.test.mjs exists for, arriving
+    # from the one direction that test cannot see.
+    #
+    # 30 minutes is roughly three times the eight-minute run this job
+    # takes when it is healthy. A verify that needs longer than that has
+    # something wrong with it, and finding out in half an hour is worth
+    # more than finishing in five.
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -125,8 +157,92 @@ jobs:
       # It went unseen because it cannot reproduce locally: a developer
       # machine already has the browser, so the ordering only matters on
       # a clean runner.
+      # THE BROWSER, CACHED — AND BOUNDED WHEN IT IS NOT.
+      #
+      # This step takes about eighty seconds on a healthy runner and it
+      # is pure download: the same browser build, fetched again, on
+      # every push. Keyed on the Playwright version, so a version bump
+      # invalidates it and nothing else does.
+      - name: Cache the Playwright browsers
+        id: pw-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      # The system libraries are NOT cached — they are apt packages
+      # installed outside the home directory, and they are cheap. Only
+      # the browser download is skipped on a hit.
+      # The system libraries, separately and allowed to fail.
+      #
+      # `--with-deps` bundles an apt install into the browser download,
+      # so a stall in either looks identical from outside and neither can
+      # be timed on its own. Split, each is diagnosable. And on
+      # ubuntu-latest the libraries Chrome needs are already present —
+      # this step is belt and braces, so it must not be able to fail the
+      # build on its own.
+      - name: Install the browser's system libraries
+        timeout-minutes: 5
+        continue-on-error: true
+        run: npx playwright install-deps chromium
+
+      # THE BROWSER, AND A REAL FALLBACK WHEN IT CANNOT BE FETCHED.
+      #
+      # WHAT SPLITTING THE STEP REVEALED, AND IT WAS NOT WHAT I EXPECTED.
+      # Three runs on 19 August 2026 died in `playwright install
+      # --with-deps chromium` — the first hung for over an hour before
+      # the timeout above existed, the next two failed at eight minutes
+      # with a retry. Every comment written during that hunt blamed the
+      # browser CDN, because that is the half of `--with-deps` anybody
+      # thinks about.
+      #
+      # The first run after the split settled it: the apt step took
+      # 5m13s and hit its own cap, and the browser download took TEN
+      # SECONDS. The stall was entirely in the system libraries. The CDN
+      # was never slow.
+      #
+      # That is why the two are separate and why the apt half is the one
+      # marked continue-on-error: ubuntu-latest already carries what
+      # Chrome needs, so it is belt and braces, and belt and braces must
+      # never be able to stop a verified commit from reaching the domain.
+      #
+      # The fallback below stays regardless. The download is still an
+      # external dependency, it is still the last thing in this job that
+      # can block a deploy, and a diagnosis that turned out wrong once is
+      # a good reason to keep the safety net rather than to trust the
+      # new one completely.
+      #
+      # ubuntu-latest ships Google Chrome. Every browser suite in this
+      # repository already resolves its executable through PW_CHROMIUM
+      # (tests/browser/*.mjs, scripts/publication/render-*.mjs), so
+      # pointing that at the preinstalled binary runs the SAME tests
+      # against a real Chrome rather than skipping them.
+      #
+      # Skipping was considered and refused. A verify job that quietly
+      # drops its browser suites when a download fails is a verify job
+      # that publishes unverified work on exactly the days something is
+      # wrong with the network — and the whole reason `deploy` needs
+      # `verify` is to make that impossible.
       - name: Install Chromium — needed by the PDF suites as well as the browser ones
-        run: npx playwright install --with-deps chromium
+        id: browser
+        timeout-minutes: 8
+        continue-on-error: true
+        run: npx playwright install chromium
+
+      - name: Fall back to the runner's Chrome if the download failed
+        if: steps.browser.outcome != 'success'
+        run: |
+          set -e
+          for candidate in /usr/bin/google-chrome /usr/bin/google-chrome-stable /usr/bin/chromium-browser /usr/bin/chromium; do
+            if [ -x "$candidate" ]; then
+              echo "Playwright's download failed; using $candidate instead."
+              echo "PW_CHROMIUM=$candidate" >> "$GITHUB_ENV"
+              exit 0
+            fi
+          done
+          echo "::error::Playwright could not fetch Chromium and this runner has no Chrome to fall back on."
+          echo "The browser suites cannot run, so nothing is verified and nothing may be published."
+          exit 1
       - name: Backend suite
         run: npm test
       - name: Programme-wide curriculum consistency
@@ -139,8 +255,8 @@ jobs:
         run: node tests/browser/lab-auth.mjs
       - name: Recording upload, end to end
         run: node tests/browser/recording-upload.mjs
-      - name: Enrolment administration
-        run: node tests/browser/admin-enrolments.mjs
+      - name: The staff consoles — the desk, the Registry, the Administration
+        run: node tests/browser/staff-consoles.mjs
       - name: My Programme — the route from signing in to a lesson
         run: node tests/browser/my-programme.mjs
       - name: Award verification — the portal a stranger opens
@@ -151,6 +267,50 @@ jobs:
         run: node tests/browser/graduate.mjs
       - name: My Academic Record — what the learner controls
         run: node tests/browser/my-record.mjs
+      - name: Track your application — the surface a person reaches before they are a learner
+        run: node tests/browser/admissions-track.mjs
+      - name: My Account — the statement of account, and the arithmetic under it
+        run: node tests/browser/my-account.mjs
+      - name: Where I Stand — and that no condition of the College's is charged to the learner
+        run: node tests/browser/my-standing.mjs
+      - name: My Week — times on the account's clock, and a list that agrees with the booking route
+        run: node tests/browser/my-week.mjs
+      - name: My Desk — that a notice addressed to somebody else never reaches the document
+        run: node tests/browser/my-desk.mjs
+      - name: My Cases — the appeal ladder, its clock, and the two acts that are the learner's
+        run: node tests/browser/my-cases.mjs
+      - name: My Engagement — that an empty window is never drawn as a failure
+        run: node tests/browser/my-engagement.mjs
+      - name: My Module — the study surface, and that the allowance is read before it is spent
+        run: node tests/browser/my-module.mjs
+      - name: Paying — the journey from an offer to an open level, and the screen a bank returns to
+        run: node tests/browser/payment-complete.mjs
+      # THREE AUDITS THAT WERE NOT RUNNING ANYWHERE.
+      #
+      # diagram-fit measures the rendered geometry of every plate in the
+      # page that ships it — the only place a label drawn off its own
+      # canvas is visible. It was excluded because it took fourteen
+      # minutes: a fresh page per route, each waiting on a font host
+      # that does not resolve on a build machine. Both fixed, and it
+      # found four escaped labels the first time it ran.
+      #
+      # typography-audit measures the real faces over every text-bearing
+      # element on every route. It was reporting twenty-three runs of
+      # Arabic set in a stack with no Arabic-capable family in it, and a
+      # font token used fifty-four times and declared nowhere, to
+      # nobody.
+      #
+      # An audit that is not in CI is not an audit.
+      #
+      # tests/browser/gallery.mjs is deliberately NOT here. It asserts
+      # nothing — it captures sixty-six screenshots at three widths and
+      # exits 0 whatever they show. It is a tool for looking, and a
+      # ten-minute step that cannot fail is a step that only slows the
+      # pipeline down.
+      - name: Every label inside its own canvas, and no two overlapping
+        run: node tests/browser/diagram-fit.mjs
+      - name: Every run set in a face that can carry it, with leading that clears its ink
+        run: node tests/browser/typography-audit.mjs
 
   deploy:
     needs: verify
@@ -403,6 +563,7 @@ jobs:
           rm -rf .deploy && mkdir -p .deploy
           rsync -a --delete \
             --exclude='.deploy/' \
+            --exclude='.render-audit/' \
             --exclude='.git/' \
             --exclude='node_modules/' \
             --exclude='docs/' \
@@ -410,18 +571,39 @@ jobs:
             --exclude='sql/' \
             --exclude='scripts/' \
             --exclude='.github/' \
-            --exclude='publication/' \
+            --exclude='publication/*.docx' \
+            --exclude='publication/.*' \
+            --exclude='publication/IEFC Complete Curriculum.pdf' \
+            --exclude='publication/IEFC Complete Curriculum (Student Edition).pdf' \
+            --exclude='CLAUDE.md' \
             ./ .deploy/
           echo "Uploading $(find .deploy -type f | wc -l) files."
           if [ -d .deploy/docs ] || [ -d .deploy/sql ] || [ -d .deploy/tests ]; then
             echo "::error::Internal directories reached the deploy surface."; exit 1
           fi
+          # THE LIBRARY IS NOW PART OF THE DEPLOY SURFACE.
+          #
+          # publication/ used to be excluded wholesale, on the reasoning
+          # that the PDFs were "not linked from any page". That argument
+          # sealed itself shut: nothing linked them because nothing
+          # served them, so nothing could link them, so fourteen
+          # finished volumes of the College's own academic work existed
+          # only on the build machine. A college whose library is not
+          # reachable has no library.
+          #
+          # Now excluded, precisely and for stated reasons:
+          #   *.docx        editable masters, not publications
+          #   .*            the staged HTML the PDFs are printed from
+          #   two volumes   over Cloudflare's 25 MiB per-file ceiling
+          #
           # Cloudflare Pages rejects any file over 25 MiB and fails the
-          # WHOLE upload, not just that file. Three Press PDFs are over
-          # it — the Complete Curriculum is 26.7 MiB — and they are not
-          # linked from any page, so publication/ is excluded above.
-          # This catches the next oversized file before wrangler does,
-          # and names it.
+          # WHOLE upload, not just that file, so the two oversized
+          # curriculum editions stay off the surface and the Library
+          # page says so in those words and offers them on request.
+          # scripts/build-library.mjs computes that list from measured
+          # file sizes, so this cannot drift from what the page claims.
+          # The check below catches the next oversized file before
+          # wrangler does, and names it.
           big=$(find .deploy -type f -size +25M)
           if [ -n "$big" ]; then
             echo "::error::Files over Cloudflare's 25 MiB limit would fail the upload:"

@@ -1,0 +1,161 @@
+<!--
+  CASES — what the College has been asked to answer, in the order each
+  answer falls due.
+
+  ─────────────────────────────────────────────────────────────────────
+  TWO FAULTS THIS PAGE EXISTS TO CORRECT
+  ─────────────────────────────────────────────────────────────────────
+  The database was built with an index for one question — what is still
+  live, in the order it falls due — and nothing ever asked it. An
+  institution that cannot see its own caseload answers the cases it
+  remembers.
+
+  And the conflict rule was published and unenforced. The regulations
+  say that at every stage the decision passes to somebody who was not
+  part of the last one; the column recording who decided would have
+  taken the id of the very person whose decision was under appeal. A
+  rule enforced only by whoever is looking at the screen is not
+  enforced. It is enforced on the server now, before any other check on
+  an answer, and there is no field on this page naming a decider —
+  the decider is always the account signed in.
+
+  ─────────────────────────────────────────────────────────────────────
+  THE CONFLICT LIST TRAVELS WITH THE QUEUE
+  ─────────────────────────────────────────────────────────────────────
+  A rule that only refuses work already done is a rule the Registrar
+  meets as an obstruction. So each case is listed with the accounts
+  that may not hear it — the case reaches the right person the first
+  time, and the refusal is the backstop rather than the mechanism.
+  Where the account reading this page is one of them, the page says so
+  and offers no answer form at all.
+
+  ─────────────────────────────────────────────────────────────────────
+  THE CLOCK IS SHOWN RUNNING
+  ─────────────────────────────────────────────────────────────────────
+  Every case carries the date its answer is owed, whether that date has
+  passed, and how the College counts a working day. A deadline nobody
+  can see is not a deadline, and one counted by an unpublished
+  calendar is not one either.
+
+  ─────────────────────────────────────────────────────────────────────
+  AND TWO ACTS ARE ABSENT ON PURPOSE
+  ─────────────────────────────────────────────────────────────────────
+  Escalation and withdrawal are the appellant's, recorded through the
+  learner's own route. An escalation entered by the College is the
+  College appealing to itself, and the trail would not show that the
+  learner ever asked.
+
+  Every id and data- attribute below is addressed by js/staff-cases.js.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></p>
+    <p class="masthead__eyebrow">Academic staff</p>
+    <h1>Cases</h1>
+    <p class="lede">Every appeal, complaint, withdrawal, deferral and transfer the College has open &mdash; in the order each answer falls due, with the accounts that may not hear each one named beside it.</p>
+    <nav class="rec-nav" aria-label="Academic staff">
+      <a href="/staff-desk.html">The Desk</a>
+      <a href="/staff-marking.html">Marking</a>
+      <a href="/staff-examinations.html">Examinations</a>
+      <a href="/staff-papers.html">Papers</a>
+      <a href="/staff-conferral.html">Conferral</a>
+      <a href="/staff-learners.html">My Learners</a>
+      <a href="/staff-hours.html">My Hours</a>
+      <a href="/staff-notices.html">Notices</a>
+      <a href="/staff-cases.html" aria-current="page">Cases</a>
+      <a href="/staff-admissions.html">Admissions</a>
+      <a href="/staff-enrolments.html">Enrolments</a>
+      <a href="/staff-finance.html">Finance</a>
+      <a href="/staff-administration.html">Administration</a>
+    </nav>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container">
+    <div class="stf-shell">
+
+      <p class="rec-state state-plate edge-lit edge-lit--light aurum" id="state" aria-live="polite">Loading the caseload&hellip;</p>
+
+      <!-- THE COUNTS ---------------------------------------------------- -->
+      <div class="stf-counts" id="secCounts" hidden>
+        <div class="stf-count plate-dark card card--dark edge-lit aurum tilt gold-live reveal" data-tile="live">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+          <p class="stf-count__num" data-count>&mdash;</p>
+          <p class="stf-count__label" data-label>Cases live</p>
+          <p class="stf-count__foot" data-foot></p>
+        </div>
+        <div class="stf-count plate-dark card card--dark edge-lit aurum tilt gold-live reveal" data-tile="overdue">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg></span>
+          <p class="stf-count__num" data-count>&mdash;</p>
+          <p class="stf-count__label" data-label>Past their answer date</p>
+          <p class="stf-count__foot" data-foot></p>
+        </div>
+        <div class="stf-count plate-dark card card--dark edge-lit aurum tilt gold-live reveal" data-tile="yours">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
+          <p class="stf-count__num" data-count>&mdash;</p>
+          <p class="stf-count__label" data-label>You may answer</p>
+          <p class="stf-count__foot" data-foot></p>
+        </div>
+      </div>
+
+      <!-- THE PROCEDURE ------------------------------------------------- -->
+      <!-- The College's own published words, rendered from the payload
+           rather than restated here, so that the interface a member of
+           staff reads and the rule the server enforces are one text. -->
+      <section class="acc-block reveal" id="secProcedure" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-accord"/></svg> <span data-procedure-head></span></h2>
+        </div>
+        <p class="stf-basis" data-procedure-principle></p>
+        <div class="grid grid--3">
+          <article class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+            <span class="tilt__sheen" aria-hidden="true"></span>
+            <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-accord"/></svg></span>
+            <h3 data-procedure-instrument-head></h3>
+            <p data-procedure-instrument></p>
+          </article>
+          <article class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+            <span class="tilt__sheen" aria-hidden="true"></span>
+            <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span>
+            <h3 data-procedure-skip-head></h3>
+            <p data-procedure-skip></p>
+          </article>
+          <article class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+            <span class="tilt__sheen" aria-hidden="true"></span>
+            <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg></span>
+            <h3 data-procedure-days-head></h3>
+            <p data-procedure-days></p>
+          </article>
+        </div>
+      </section>
+
+      <!-- THE QUEUE ----------------------------------------------------- -->
+      <section class="acc-block reveal" id="secQueue" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg> <span data-queue-head></span></h2>
+          <div class="desk-head__tools stf-filters">
+            <label for="cStage" data-queue-stage-label></label>
+            <select id="cStage" data-queue-stage></select>
+            <label for="cOverdue" data-queue-overdue-label></label>
+            <select id="cOverdue" data-queue-overdue></select>
+          </div>
+        </div>
+
+        <ul class="stf-queue" data-queue></ul>
+
+        <div class="stf-clear" data-queue-empty hidden>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg></span>
+          <p class="stf-clear__head" data-queue-empty-head></p>
+          <p class="stf-clear__note" data-queue-empty-note></p>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

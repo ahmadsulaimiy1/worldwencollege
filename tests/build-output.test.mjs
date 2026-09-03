@@ -183,5 +183,48 @@ check('Every page source is reachable through the manifest', orphans.length === 
     served.length === 0, served.slice(0, 6).join(', '));
 }
 
+// ---------------------------------------------------------------------
+// NO PAGE PRINTS ITS OWN MARKUP AT THE READER
+// ---------------------------------------------------------------------
+// Fifteen headings across five Arabic pages rendered as literal source:
+// a reader on /ar/press/ saw the characters
+//
+//     <span dir="ltr">11</span> مجلدًا
+//
+// where the page meant "11 volumes". Every one was a bidirectional
+// isolation span — the wrapper Arabic copy needs so a Latin numeral or
+// an English title does not reverse itself mid-sentence — escaped at
+// some point in authoring and never rendered since.
+//
+// It is the same class of defect CLAUDE.md §6 records from the
+// navigation: invisible in review, obvious the moment anyone looks at
+// the page. The sweep runs on the BUILT output, because that is what a
+// reader receives, and skips comments, <code> and <pre>, which quote
+// markup on purpose.
+{
+  const stripped = (html) => html
+    .replace(/<!--[\s\S]*?-->/g, ' ')
+    .replace(/<(code|pre|script|style)\b[\s\S]*?<\/\1>/gi, ' ');
+
+  // A real tag that has been escaped, rather than a stray < in prose.
+  const LITERAL = /&lt;\/?(span|a|div|p|h[1-6]|strong|em|ul|li|svg|section)\b[^&]{0,120}?&gt;/i;
+
+  const offenders = [];
+  for (const page of manifest) {
+    const full = path.join(ROOT, page.output);
+    if (!existsSync(full)) continue;
+    const body = stripped(readFileSync(full, 'utf8'));
+    const hit = body.match(LITERAL);
+    if (hit) offenders.push(`${page.output}: ${hit[0]}`);
+  }
+  check(`No built page renders escaped markup as text — ${manifest.length} pages swept`,
+    offenders.length === 0,
+    offenders.slice(0, 8).join(' · '));
+
+  check('...and the sweep does catch the shape it exists for',
+    LITERAL.test('<h3>&lt;span dir="ltr"&gt;11&lt;/span&gt; مجلدًا</h3>')
+    && !LITERAL.test('<p>a &lt; b, and 3 &lt; 4</p>'));
+}
+
 console.log(`\n${pass} passed, ${fail} failed.`);
 process.exit(fail ? 1 : 0);

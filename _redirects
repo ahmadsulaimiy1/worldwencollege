@@ -36,30 +36,56 @@ https://worldwencollege.co.uk/*  https://www.worldwencollege.co.uk/:splat  301!
 /levels    /academics/#levels                     301
 /privacy   /support/privacy/           301
 
-# /verify is deliberately NOT redirected. The real verification URL is
-# /verify.html?code=<code> (js/verify.js), and a wildcard rule pointing
-# /verify/* at /verify.html would drop whatever followed the slash — so
-# a credential link that someone had mistyped or a QR code that had
-# been re-encoded would resolve to an empty verification page rather
-# than an error. An empty verification page is the one failure mode
-# this route must never produce: it looks like a check that ran.
+# /verify: an EXACT rewrite, and never a wildcard one.
+#
+# The real verification URL is /verify.html?code=<code> (js/verify.js).
+# A wildcard rule pointing /verify/* at /verify.html would drop whatever
+# followed the slash — so a credential link that someone had mistyped or
+# a QR code that had been re-encoded would resolve to an empty
+# verification page rather than an error. An empty verification page is
+# the one failure mode this route must never produce: it looks like a
+# check that ran.
+#
+# The two rules below are exact paths, not patterns. Nothing can follow
+# the slash for them to swallow, and a 200 rewrite carries the query
+# string through unchanged, so /verify/?code=WEC-… arrives at the page
+# with its code intact. What they buy is a clean URL for the header's
+# Verify menu: a college that prints /verify.html in its own navigation
+# is showing the reader its filenames.
+# THE FILENAME IS THE CANONICAL URL HERE, AND ON PURPOSE.
+#
+# /verify.html?code=… is what js/verify.js writes into every permalink
+# and what functions/_lib/registry/qr.js encodes into the QR square
+# printed on the certificate itself. A printed artefact cannot be
+# re-issued because a website tidied its URLs, so the page stays at that
+# path and the pretty URL rewrites onto it rather than the other way
+# round. The header's Verify menu can still say /verify/, which is what
+# a college should print in its own navigation.
+#
+# Exact paths, never a wildcard: /verify/* would swallow whatever
+# followed the slash, and a mistyped credential link would then resolve
+# to an empty verification page rather than to an error. An empty
+# verification page is the one failure mode this route must never
+# produce, because it looks like a check that ran.
+/verify/      /verify.html      200
+/verify       /verify.html      200
+/ar/verify/   /ar/verify.html   200
+/ar/verify    /ar/verify.html   200
 
 # >>> GENERATED FROM scripts/lib/route-map.js — DO NOT EDIT BY HAND
 #
 # The architecture in docs/information-architecture.html retires these
 # URLs. Each one is indexed, may be printed in a published volume, and
-# must never return 404. 72 of 72 planned routes have moved
+# must never return 404. 70 of 70 planned routes have moved
 # so far; the rest keep serving their own page until their phase lands.
 #
 /ar/admissions/entry-requirements/  /ar/admissions/#requirements  301
 /admissions/entry-requirements/     /admissions/#requirements  301
-/ar/admissions/international/       /ar/admissions/#international  301
 /ar/about/quality-assurance/        /ar/governance/#quality  301
 /ar/admissions/scholarships/        /ar/admissions/tuition/#funding  301
 /ar/standards/verification/         /ar/governance/#verification  301
 /ar/teaching/lesson-design/         /ar/academics/teaching/  301
 /ar/students/listening-lab/         /ar/students/#lab  301
-/admissions/international/          /admissions/#international  301
 /ar/about/academic-senate/          /ar/governance/#senate  301
 /about/quality-assurance/           /governance/#quality  301
 /admissions/scholarships/           /admissions/tuition/#funding  301
@@ -124,3 +150,27 @@ https://worldwencollege.co.uk/*  https://www.worldwencollege.co.uk/:splat  301!
 /library/                           /press/#library  301
 /study/                             /academics/#levels  301
 # <<< END GENERATED
+
+# >>> GENERATED FROM scripts/build-library.mjs — DO NOT EDIT BY HAND
+#
+# The Library's citable URLs. Each one maps a stable slug onto the file
+# the publication pipeline writes, so a volume rebuilt under its own
+# name is live immediately and no PDF is duplicated into this repo.
+#
+# 200 rather than 301: the slug IS the address the College publishes and
+# prints. A redirect would make the ugly path the real one.
+#
+/library/flagship-curriculum.pdf         /publication/IEFC%20Flagship%20Curriculum.pdf  200
+/library/programme-architecture.pdf      /publication/IEFC%20Programme%20Architecture%20(Institutional%20Edition).pdf  200
+/library/assessment-handbook.pdf         /publication/IEFC%20Assessment%20Handbook.pdf  200
+/library/teachers-companion-level-1.pdf  /publication/IEFC%20Level%20I%20Teacher's%20Companion.pdf  200
+/library/pronunciation-handbook.pdf      /publication/IEFC%20Pronunciation%20Handbook.pdf  200
+/library/listening-scripts.pdf           /publication/IEFC%20Listening%20Scripts.pdf  200
+/library/student-workbook-level-1.pdf    /publication/IEFC%20Level%20I%20Student%20Workbook.pdf  200
+/library/publishing-constitution.pdf     /publication/WEC%20Press%20%E2%80%94%20The%20Publishing%20Constitution.pdf  200
+/library/canon-index.pdf                 /publication/WEC%20Canon%20Index.pdf  200
+/library/editorial-bible.pdf             /publication/IEFC%20Internal%20Editorial%20Bible.pdf  200
+/library/production-specifications.pdf   /publication/IEFC%20Production%20Specifications.pdf  200
+/library/cover-artwork-curriculum.pdf    /publication/IEFC%20Cover%20Artwork.pdf  200
+/library/cover-artwork-architecture.pdf  /publication/IEFC%20Programme%20Architecture%20(Institutional%20Edition)%20%E2%80%94%20Cover%20Artwork.pdf  200
+# <<< END LIBRARY

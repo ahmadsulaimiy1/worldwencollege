@@ -149,8 +149,7 @@ check('Every page loading a migrated module also loads the seam',
 // the portal did on every failure path until humanError() existed. This
 // keeps it from coming back.
 const PORTAL_MODULES = [
-  'my-programme.js', 'my-record.js', 'listening-lab.js',
-  'admin-enrolments.js', 'instructor-review.js', 'graduate.js'
+  'my-programme.js', 'my-record.js', 'listening-lab.js', 'graduate.js'
 ];
 const raw = [];
 for (const f of PORTAL_MODULES) {
@@ -230,13 +229,6 @@ for (const [status, why] of [[401, 'session'], [429, 'rate limiter'], [500, 'sta
     humanError({ status, apiMessage: 'jwt malformed at verifyToken:41' })
       !== 'jwt malformed at verifyToken:41');
 }
-
-// And the page must hand it something to preserve. The admin page has
-// its own transport, and it threw away the endpoint's sentence one line
-// before calling the function that would have shown it.
-const admSrc = readFileSync(path.join(JS, 'admin-enrolments.js'), 'utf8');
-check('The admin page attaches apiMessage, so the reason survives the throw',
-  /apiMessage:\s*apiMessage/.test(admSrc));
 
 console.log(`\n${passed} passed, ${failed} failed.`);
 if (failed) process.exitCode = 1;

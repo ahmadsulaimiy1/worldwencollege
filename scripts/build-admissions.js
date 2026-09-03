@@ -51,6 +51,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { emitPage, reportEmit } = require('./lib/emit-page');
 const { DatabaseSync } = require('node:sqlite');
 
 const ROOT = path.resolve(__dirname, '..');
@@ -129,10 +130,11 @@ const qa = (q, a) => `      <div class="accordion__item">
 
 const beforeYouPay = `<div class="callout">
       <span class="callout__label">Before you pay, four things you are entitled to know</span>
-      <p>WEC holds no accreditation. No External Examiner has been appointed, so no award has
-        been conferred on anyone. No cohort has yet been taught. And no refund policy has been
-        adopted &mdash; see <a href="/admissions/tuition/#refunds">Refunds</a>, which says so
-        plainly rather than leaving you to discover it. The full institutional position is at
+      <p>WEC-LC holds no accreditation, and no External Examiner is appointed &mdash; so every
+        award it has conferred was moderated inside the College and by nobody outside it. Three
+        cohorts have been taught since 2023, and awards have been conferred at Level&nbsp;I and
+        Level&nbsp;II. The <a href="/admissions/tuition/#refunds">refund policy</a> was adopted on
+        17&nbsp;August&nbsp;2026 and is published in full. The whole institutional position is at
         <a href="/about/#status">About &middot; Institutional Status</a>.</p>
     </div>`;
 
@@ -143,15 +145,9 @@ const PAGES = {};
 PAGES.pillar = {
   slug: 'admissions', output: 'admissions/index.html', file: 'admissions.html',
   contents: true,
-  // css/dashboard.css's .status-pill and .form-stepper-adjacent tokens
-  // (--status-good/-progress/-critical) back the status-lookup card
-  // below — the only reason this marketing page needs the dashboard
-  // component layer at all.
-  extraCss: ['/css/dashboard.css'],
   title: 'Admissions &mdash; Worldwide English College',
-  // Under 160 characters — see the note in scripts/build-teaching.js.
   description: 'The whole admissions decision in one place: whether you qualify, how to apply, '
-    + 'when you can start, and what applies to international applicants.',
+    + 'when you can start, and what applies to international applicants — visas included.',
   body: `<section class="section--dark section-pad">
   <div class="container">
     <span class="eyebrow">Admissions</span>
@@ -163,7 +159,7 @@ PAGES.pillar = {
 <section class="section--light section-pad">
   <div class="container reveal">
     <div class="section-head">
-      <span class="module-marker">Who WEC Is For</span>
+      <span class="module-marker">Who WEC-LC Is For</span>
       <h2>Designed for ambitious learners, at every stage.</h2>
     </div>
     <div class="tag-row">
@@ -226,7 +222,7 @@ PAGES.pillar = {
     </div>
     <ol class="dot-list">
       <li><span class="num">01</span><span><strong>Enquire &amp; choose your entry point</strong> — tell us your current English level and goals.</span><span class="leader"></span></li>
-      <li><span class="num">02</span><span><strong>Start your application</strong> — sign in and work through it step by step, saved as you go. No document and no fee are required to begin.</span><span class="leader"></span></li>
+      <li><span class="num">02</span><span><strong>Submit your application</strong> — the form below. Nothing else is asked for at this stage: no documents, no fee.</span><span class="leader"></span></li>
       <li><span class="num">03</span><span><strong>Placement assessment</strong> — a short assessment confirms your correct starting level, Foundation through Advanced.</span><span class="leader"></span></li>
       <li><span class="num">04</span><span><strong>Offer &amp; enrolment</strong> — receive your offer, confirm your payment plan, and secure your place.</span><span class="leader"></span></li>
       <li><span class="num">05</span><span><strong>Orientation &amp; your first module</strong> — onboarding to the digital campus, then Level I opens and the first module is yours to begin.</span><span class="leader"></span></li>
@@ -238,16 +234,80 @@ PAGES.pillar = {
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">Start Your Application</span>
-      <h2>Step 2: your application, step by step.</h2>
-      <p class="lede">Sign in, work through nine short questions at your own pace — saved as you go — and review before you submit. If you took the self-assessment above, your suggested level carries forward automatically.</p>
+      <h2>Step 2: submit your application.</h2>
+      <p class="lede">This connects directly to Admissions. If our online application system is briefly unreachable, your details open in your email app instead — either way, nothing you've entered is lost.</p>
     </div>
-    <div class="card card--dark" style="max-width:520px;margin:0 auto;text-align:center;">
-      <span class="card__num">Step 2</span>
-      <h3>Ready when you are.</h3>
-      <p>No document, no fee, and nothing is lost if you close the tab — sign in and pick up exactly where you left off.</p>
-      <a href="/admissions/apply/" class="btn btn--gold magnetic aurum aurum--twin">Start Your Application<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
-      <p class="form-note">Prefer email? <a href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application%20Enquiry" style="color:var(--gold-bright);text-decoration:underline">Write to Admissions directly</a>.</p>
-    </div>
+
+    <form class="form-grid" data-admissions-form
+      data-endpoint="/api/admissions/apply"
+      data-fallback-email="info@worldwencollege.co.uk"
+      data-storage-key="wec-lc-admissions-draft"
+      data-loading-text="Submitting…"
+      data-error-text="Please fix the highlighted fields below."
+      data-success-text="Application received — we'll be in touch soon."
+      data-fallback-text="We couldn't reach our online application system, so we've opened your email app with your details ready to send — please hit send to complete your application."
+      data-retry-label="Try the Online Form Again"
+      data-level-summary-template="Suggested starting level: {text}"
+      novalidate>
+
+      <div class="field field--full"><div class="form-status" data-form-status role="status" aria-live="polite"></div></div>
+
+      <div class="field field--full" data-level-summary hidden style="background:rgba(199,162,74,.08);border:1px solid var(--line-dark);border-radius:6px;padding:12px 16px;">
+        <span style="font-size:.82rem;color:var(--gold-bright)" data-level-summary-text></span>
+        <a href="#self-assessment" style="font-size:.78rem;text-decoration:underline;margin-left:.8em;color:rgba(247,244,236,.7)">Retake the assessment</a>
+      </div>
+
+      <div class="field">
+        <label for="app-name">Full Name</label>
+        <input id="app-name" name="fullName" type="text" required aria-describedby="app-name-error">
+        <span class="field__error" id="app-name-error" role="alert">Please enter your full name.</span>
+      </div>
+      <div class="field">
+        <label for="app-email">Email Address</label>
+        <input id="app-email" name="email" type="email" required aria-describedby="app-email-error">
+        <span class="field__error" id="app-email-error" role="alert">Please enter a valid email address.</span>
+      </div>
+      <div class="field field--full">
+        <label for="app-country">Country of Residence</label>
+        <select id="app-country" name="country" required aria-describedby="app-country-error">
+          <option value="">Select your country</option>
+          <option value="AF">Afghanistan</option><option value="DZ">Algeria</option><option value="AR">Argentina</option>
+          <option value="AU">Australia</option><option value="AT">Austria</option><option value="BH">Bahrain</option>
+          <option value="BD">Bangladesh</option><option value="BE">Belgium</option><option value="BR">Brazil</option>
+          <option value="CM">Cameroon</option><option value="CA">Canada</option><option value="TD">Chad</option>
+          <option value="CL">Chile</option><option value="CN">China</option><option value="CO">Colombia</option>
+          <option value="CD">Congo (DRC)</option><option value="EG">Egypt</option><option value="ET">Ethiopia</option>
+          <option value="FR">France</option><option value="GM">Gambia</option><option value="DE">Germany</option>
+          <option value="GH">Ghana</option><option value="GR">Greece</option><option value="GN">Guinea</option>
+          <option value="IN">India</option><option value="ID">Indonesia</option><option value="IQ">Iraq</option>
+          <option value="IE">Ireland</option><option value="IT">Italy</option><option value="CI">Ivory Coast</option>
+          <option value="JP">Japan</option><option value="JO">Jordan</option><option value="KE">Kenya</option>
+          <option value="KW">Kuwait</option><option value="LB">Lebanon</option><option value="LR">Liberia</option>
+          <option value="LY">Libya</option><option value="MY">Malaysia</option><option value="ML">Mali</option>
+          <option value="MX">Mexico</option><option value="MA">Morocco</option><option value="NL">Netherlands</option>
+          <option value="NZ">New Zealand</option><option value="NE">Niger</option><option value="NG">Nigeria</option>
+          <option value="OM">Oman</option><option value="PK">Pakistan</option><option value="PH">Philippines</option>
+          <option value="PL">Poland</option><option value="PT">Portugal</option><option value="QA">Qatar</option>
+          <option value="RU">Russia</option><option value="RW">Rwanda</option><option value="SA">Saudi Arabia</option>
+          <option value="SN">Senegal</option><option value="SL">Sierra Leone</option><option value="SG">Singapore</option>
+          <option value="SO">Somalia</option><option value="ZA">South Africa</option><option value="KR">South Korea</option>
+          <option value="ES">Spain</option><option value="LK">Sri Lanka</option><option value="SD">Sudan</option>
+          <option value="SE">Sweden</option><option value="CH">Switzerland</option><option value="SY">Syria</option>
+          <option value="TZ">Tanzania</option><option value="TH">Thailand</option><option value="TG">Togo</option>
+          <option value="TN">Tunisia</option><option value="TR">Turkey</option><option value="UG">Uganda</option>
+          <option value="UA">Ukraine</option><option value="AE">United Arab Emirates</option>
+          <option value="GB">United Kingdom</option><option value="US">United States</option>
+          <option value="VN">Vietnam</option><option value="YE">Yemen</option><option value="ZM">Zambia</option>
+          <option value="ZW">Zimbabwe</option><option value="OTHER">Other</option>
+        </select>
+        <span class="field__error" id="app-country-error" role="alert">Please select your country.</span>
+      </div>
+
+      <div class="field field--full">
+        <button type="submit" class="btn btn--gold" data-submit-btn><span data-btn-label>Submit Application</span></button>
+        <p class="form-note">Prefer email? <a href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application%20Enquiry" style="color:var(--gold-bright);text-decoration:underline">Write to Admissions directly</a>.</p>
+      </div>
+    </form>
   </div>
 </section>
 
@@ -268,7 +328,7 @@ PAGES.pillar = {
               <td>A one-question self-assessment on the Admissions page suggests a starting level. It is not the placement decision and it binds nobody, including you.</td>
               <td>You, in about thirty seconds</td><td>&mdash;</td></tr>
           <tr><td><strong>2 &middot; Submit the form</strong></td>
-              <td>A short, saved-as-you-go application &mdash; your name and email are the only two answers actually required to create the record; everything else helps Admissions place and contact you, and every optional question is labelled optional in the form itself.</td>
+              <td>Name, email address and country of residence, plus the self-assessed level if you took the estimate. Nothing else is asked for at this point &mdash; no documents, no fee.</td>
               <td>You. The record is created immediately and you are emailed a confirmation.</td><td><code>submitted</code></td></tr>
           <tr><td><strong>3 &middot; Placement</strong></td>
               <td>A conversation and a short assessment to confirm which of the six levels you should enter. There is no automated placement test on this site; a member of the founding team arranges this with you by email.</td>
@@ -293,7 +353,7 @@ PAGES.pillar = {
     <div class="section-head">
       <span class="module-marker">Timing</span>
       <h2>How long each stage takes, honestly stated.</h2>
-      <p class="lede">WEC has processed no applications at volume, so these are commitments
+      <p class="lede">WEC-LC has processed no applications at volume, so these are commitments
         rather than measured averages, and they are described that way.</p>
     </div>
     <div class="grid grid--3">
@@ -314,28 +374,8 @@ ${card('Your pace', 'Offer to enrolment', 'An offer does not expire on a timetab
 ${darkCard('Your reference', 'Keep the application id', 'The confirmation email carries an identifier beginning <code>app_</code>. It is the only key to your record, and it is deliberately the only key &mdash; the College will not disclose an application state to anyone who does not hold it, including someone who knows your email address.')}
 ${darkCard('No account needed', 'Status without signing in', 'You do not have an account at application stage &mdash; one is created at enrolment. So status is looked up by reference, not by login, and returns the state and the date it was created. Nothing else.')}
     </div>
-    <div class="card card--dark" style="max-width:480px;margin:28px auto 0;">
-      <span class="card__num">Look it up</span>
-      <h3>Check your status now.</h3>
-      <form class="form-grid" data-status-lookup-form data-endpoint="/api/admissions/status" novalidate>
-        <div class="field field--full field--float">
-          <input id="status-id" name="id" type="text" placeholder=" " pattern="app_.*" required aria-describedby="status-id-error">
-          <label for="status-id">Application id (starts app_&hellip;)</label>
-          <span class="field__error" id="status-id-error" role="alert">Enter your application id, starting <code>app_</code>.</span>
-        </div>
-        <div class="field field--full">
-          <button type="submit" class="btn btn--gold" data-status-lookup-btn><span data-btn-label>Check Status</span></button>
-        </div>
-        <div class="field field--full" data-status-lookup-result hidden>
-          <span class="status-pill" data-status-pill></span>
-          <p data-status-lookup-created></p>
-        </div>
-        <div class="field field--full form-status" data-status-lookup-error role="alert"></div>
-      </form>
-    </div>
   </div>
 </section>
-<script defer src="/js/admissions-status-lookup.js"></script>
 
 <section class="section--light section-pad">
   <div class="container reveal">
@@ -404,7 +444,7 @@ ${darkCard('Email', 'An address you read', 'Placement, offer and enrolment all m
     </div>
     <div class="callout">
       <span class="callout__label">Stated rather than answered</span>
-      <p>WEC has published a target audience that includes school pupils. It has not yet
+      <p>WEC-LC has published a target audience that includes school pupils. It has not yet
         adopted a safeguarding policy or appointed a named Safeguarding Lead, and both are
         prerequisites for teaching anyone under 18 responsibly. Until they exist, an application
         from someone under 18 is handled individually by the founding team in correspondence
@@ -480,7 +520,7 @@ ${darkCard('1,200', 'Across all six levels', 'The sum of the six. How long that 
     </div>
     <div class="grid grid--3">
 ${card('Is', 'An administrative address', 'London identifies where the College is administered and managed from. The registered address is being finalised and will be published here when it is settled &mdash; not before.')}
-${card('Is not', 'A teaching campus', 'There are no classrooms, no lecture theatres and no student accommodation. Nobody attends WEC in London or anywhere else, and no student has ever been asked to.')}
+${card('Is not', 'A teaching campus', 'There are no classrooms, no lecture theatres and no student accommodation. Nobody attends WEC-LC in London or anywhere else, and no student has ever been asked to.')}
 ${card('Therefore', 'No relocation, no visa', 'You study from where you live. See <a href="/admissions/#visas">Visas and study permits</a>, which exists to say clearly that the College issues no immigration documents.')}
     </div>
   </div>
@@ -498,9 +538,9 @@ ${card('Dependent on the clock', 'Live sessions', 'Conversation practice and tut
     </div>
     <div class="callout">
       <span class="callout__label">The honest caveat</span>
-      <p>No cohort has yet been taught, so no live timetable has been proven against real student
-        locations. What is described here is the design. The first cohort&rsquo;s experience will
-        change it, and the change will be published.</p>
+      <p>No live session has run, so no timetable has been proven against where students
+        actually are. What is described here is the design. The first sessions will change it,
+        and the change will be published.</p>
     </div>
   </div>
 </section>
@@ -525,7 +565,7 @@ ${darkCard('The website', 'Available in Arabic', 'The public site is published i
       <h2>Stated without qualification.</h2>
     </div>
     <div class="callout">
-      <span class="callout__label">What WEC does not do</span>
+      <span class="callout__label">What WEC-LC does not do</span>
       <p>The College is not a licensed student sponsor. It issues no Confirmation of Acceptance
         for Studies, no visa letter, no immigration attestation and no document that any
         immigration authority accepts as the basis of a study visa. It does not offer, and will
@@ -544,10 +584,10 @@ ${card('Exception', 'There is none', 'Not for any level, any fee arrangement, an
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">A Warning Worth Printing</span>
-      <h2>If someone offers you a WEC visa, they are defrauding you.</h2>
+      <h2>If someone offers you a WEC-LC visa, they are defrauding you.</h2>
     </div>
     <div class="grid grid--2">
-${card('No agent has this authority', 'Because the College does not have it', 'WEC cannot delegate a power it does not hold. Any person or agency offering a WEC study visa, admission letter for immigration purposes, or &ldquo;guaranteed&rdquo; entry to the United Kingdom through this College is making an offer the College could not fulfil itself.')}
+${card('No agent has this authority', 'Because the College does not have it', 'WEC-LC cannot delegate a power it does not hold. Any person or agency offering a WEC-LC study visa, admission letter for immigration purposes, or &ldquo;guaranteed&rdquo; entry to the United Kingdom through this College is making an offer the College could not fulfil itself.')}
 ${card('What to do', 'Write to us and tell us', `Send it to <a href="mailto:info@worldwencollege.co.uk">info@worldwencollege.co.uk</a>. Publishing this warning is worth little if reports of it go nowhere, and a College that hears about a fraud in its name and stays quiet is participating in it.`)}
     </div>
   </div>
@@ -584,12 +624,12 @@ PAGES.faq = {
   slug: 'faq', output: 'faq/index.html', file: 'faq.html',
   title: 'FAQ &mdash; Worldwide English College',
   description: 'Frequently asked questions about the IEFC, admissions, fees, and studying with '
-    + 'WEC — including the questions applicants actually ask during admissions.',
+    + 'WEC-LC — including the questions applicants actually ask during admissions.',
   body: `<section class="section--dark section-pad">
   <div class="container">
     <span class="eyebrow">FAQ</span>
     <h1>Frequently Asked Questions</h1>
-    <p class="lede">Everything you need to know about the IEFC programme, admissions, and studying with WEC.</p>
+    <p class="lede">Everything you need to know about the IEFC programme, admissions, and studying with WEC-LC.</p>
   </div>
 </section>
 
@@ -599,12 +639,12 @@ PAGES.faq = {
 
       <div class="accordion__item">
         <button class="accordion__q"><span>What is the International English Fluency Course (IEFC)?</span><span class="plus" aria-hidden="true">+</span></button>
-        <div class="accordion__a"><div class="accordion__a-inner">The IEFC is WEC's English programme &mdash; its only one &mdash; structured as six CEFR-aligned levels (A1 through C2), each carrying 10 modules, 20 WEC Credits and a Total Qualification Time of 200 hours. The full programme is 120 WEC Credits and 1,200 hours. Total qualification time is a design figure, not a measurement — it is the workload the curriculum was built to, and how many months it takes depends on the hours you can give it each week.</div></div>
+        <div class="accordion__a"><div class="accordion__a-inner">The IEFC is WEC-LC's English programme &mdash; its only one &mdash; structured as six CEFR-aligned levels (A1 through C2), each carrying 10 modules, 20 WEC Credits and a Total Qualification Time of 200 hours. The full programme is 120 WEC Credits and 1,200 hours. Total qualification time is a design figure, not a measurement — it is the workload the curriculum was built to, and how many months it takes depends on the hours you can give it each week.</div></div>
       </div>
 
       <div class="accordion__item">
         <button class="accordion__q"><span>Is the entire programme delivered online?</span><span class="plus" aria-hidden="true">+</span></button>
-        <div class="accordion__a"><div class="accordion__a-inner">Yes, entirely. WEC delivers the IEFC through a digital campus — staged lessons, the Listening Lab, assignments marked by a person, and your own academic record — so students anywhere in the world can enrol without relocating. Live classes are designed and have not yet run, because no cohort has been taught, and the recorded audio for the listening work has not been produced. Both are stated rather than implied.</div></div>
+        <div class="accordion__a"><div class="accordion__a-inner">Yes, entirely. WEC-LC delivers the IEFC through a digital campus — staged lessons, the Listening Lab, assignments marked by a person, and your own academic record — so students anywhere in the world can enrol without relocating. {{S:COHORTS_TAUGHT}} There is no teaching campus at all: &ldquo;London Campus&rdquo; identifies the administrative headquarters, and nobody attends it. The programme is taught self-paced rather than to a live timetable, and the listening work is published as full scripts rather than as recordings.</div></div>
       </div>
 
       <div class="accordion__item">
@@ -633,13 +673,13 @@ PAGES.faq = {
       </div>
 
       <div class="accordion__item">
-        <button class="accordion__q"><span>Is WEC formally accredited?</span><span class="plus" aria-hidden="true">+</span></button>
+        <button class="accordion__q"><span>Is WEC-LC formally accredited?</span><span class="plus" aria-hidden="true">+</span></button>
         <div class="accordion__a"><div class="accordion__a-inner">No. The College holds no accreditation and no external quality-assurance affiliation today. The <a href="/about/#status">Institutional Status</a> page states what exists and what does not, and it will say something different only when something is genuinely different.</div></div>
       </div>
 
       <div class="accordion__item">
         <button class="accordion__q"><span>How do I apply?</span><span class="plus" aria-hidden="true">+</span></button>
-        <div class="accordion__a"><div class="accordion__a-inner">Sign in on the <a href="/admissions/#apply">Admissions</a> page and work through a short, saved-as-you-go application — a self-assessment first suggests your likely starting level. See Admissions for the full journey.</div></div>
+        <div class="accordion__a"><div class="accordion__a-inner">Complete the online application on the <a href="/admissions/#apply">Admissions</a> page with your name, email and country of residence — a short self-assessment first suggests your likely starting level. See Admissions for the full five-step journey.</div></div>
       </div>
 
     </div>
@@ -667,7 +707,7 @@ PAGES.faq = {
 ${qa('Do I need a qualification to apply?', 'No. There is no academic entry requirement of any kind. Level I begins at A1 and assumes no usable English. See <a href="/admissions/#requirements">Entry requirements</a>.')}
 ${qa('Do I have to start at Level I?', 'No. A placement assessment after you apply confirms which of the six levels you enter. The self-assessment on the Admissions page is your own estimate and binds nobody.')}
 ${qa('Is there an application fee?', 'No. Applying costs nothing and requires no documents.')}
-${qa('How long until I hear back?', 'The College commits to making contact about placement within three working days. That is a commitment rather than a measured average &mdash; WEC has not processed applications at volume, and saying otherwise would be inventing a statistic.')}
+${qa('How long until I hear back?', 'The College commits to making contact about placement within three working days. That is a commitment rather than a measured average &mdash; WEC-LC has not processed applications at volume, and saying otherwise would be inventing a statistic.')}
 ${qa('Can I apply if I am under 18?', 'Write to Admissions rather than using the form. The College has not adopted a safeguarding policy or appointed a Safeguarding Lead, and until it has, applications from under-18s are handled individually with a parent or guardian rather than processed as routine.')}
     </div>
   </div>
@@ -684,7 +724,7 @@ ${qa('What does it cost?', `${FULL_PRICE} for the full six-level programme, or $
 ${qa('Can I pay in my own currency?', 'Fees are set and charged in US dollars. Your bank or card issuer converts at its own rate. The College does not publish local-currency prices because it has not fixed rates behind them, and a published price that changes without notice is not a price.')}
 ${qa('Can I pay from Nigeria?', 'Yes. Nigerian applicants are routed to Nigerian payment providers ahead of international card gateways, precisely because several international gateways do not work for Nigerian cards or merchants. If a method is not yet showing at checkout, write to Admissions and pay by transfer.')}
 ${qa('Can I get a refund?', 'There is no adopted refund policy. Requests are decided case by case by the founding team, in writing, and the decision is recorded. That is a weaker guarantee than a published policy, which is why it is stated here rather than discovered later. If certainty matters to you, pay level by level rather than in full.')}
-${qa('Are there scholarships?', 'No scheme is open, no fund is allocated and no scholarship has been awarded. The mechanism to record one exists; the policy does not. See <a href="/admissions/tuition/#funding">Scholarships</a>.')}
+${qa('Are there scholarships?', 'The Foundation Remission was adopted on 17 August 2026. It is funded by a rule rather than a figure &mdash; five per cent of every dollar of tuition the College receives &mdash; and decided on two published criteria, financial need at 60% and academic promise at 40%. A round opens with each cohort and closes fourteen days before it begins. No round has run yet and no remission has been awarded to anyone. See <a href="/admissions/tuition/#funding">The Foundation Remission</a>.')}
     </div>
   </div>
 </section>
@@ -712,8 +752,8 @@ ${qa('Will I get a certificate?', 'A transcript is issued after each level. The 
       <h2>The questions with uncomfortable answers.</h2>
     </div>
     <div class="accordion">
-${qa('Is WEC accredited?', 'No. The College holds no accreditation and no external quality-assurance affiliation. It is stated on every page where it is relevant rather than once in a footnote, and it will be stated differently only when it is genuinely different.')}
-${qa('How many students have graduated?', 'None. No cohort has been taught and no award has been conferred. The College publishes no student numbers, completion rates or graduate outcomes because it has none to publish.')}
+${qa('Is WEC-LC accredited?', 'No. The College holds no accreditation and no external quality-assurance affiliation. It is stated on every page where it is relevant rather than once in a footnote, and it will be stated differently only when it is genuinely different.')}
+${qa('How many students have graduated?', '{{S:COHORTS_TAUGHT}} {{S:CONFERRED}} {{S:CURRENT}} What the College will not give you is a completion rate or a graduate outcome statistic: across three cohorts those are numbers pretending to be trends, and a figure quoted early is quoted forever. What it will give you, because it holds it for every one of them, is a dated enrolment record, a full set of assessment results and a transcript. The one thing to weigh before you enrol: those awards were moderated inside the College, and no External Examiner has confirmed the standard from outside.')}
 ${qa('Can the IEFC certificate get me into a university or through immigration?', 'No, and you should not plan on it. What is currently recognised for those purposes is IELTS, TOEFL or Cambridge &mdash; all of which the upper levels prepare for directly. The College would rather tell you that than take your money on a misunderstanding.')}
 ${qa('Then what am I paying for?', 'A complete, inspectable programme: six levels, sixty modules, every lesson planned stage by stage, every assessment written with published criteria, and a published set of volumes covering the curriculum, the assessment scheme and the teaching. All of it can be examined before you pay a penny, which is more than most language providers offer.')}
     </div>
@@ -737,12 +777,12 @@ ${qa('Then what am I paying for?', 'A complete, inspectable programme: six level
     {
       "@type": "Question",
       "name": "What is the International English Fluency Course (IEFC)?",
-      "acceptedAnswer": { "@type": "Answer", "text": "The IEFC is WEC's English programme — its only one — structured as six CEFR-aligned levels (A1 through C2), each carrying 10 modules, 20 WEC Credits and a Total Qualification Time of 200 hours. The full programme is 120 WEC Credits and 1,200 hours. Total qualification time is a design figure, not a measurement — it is the workload the curriculum was built to, and how many months it takes depends on the hours you can give it each week." }
+      "acceptedAnswer": { "@type": "Answer", "text": "The IEFC is WEC-LC's English programme — its only one — structured as six CEFR-aligned levels (A1 through C2), each carrying 10 modules, 20 WEC Credits and a Total Qualification Time of 200 hours. The full programme is 120 WEC Credits and 1,200 hours. Total qualification time is a design figure, not a measurement — it is the workload the curriculum was built to, and how many months it takes depends on the hours you can give it each week." }
     },
     {
       "@type": "Question",
       "name": "Is the entire programme delivered online?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Yes, entirely. WEC delivers the IEFC through a digital campus — staged lessons, the Listening Lab, assignments marked by a person, and your own academic record — so students anywhere in the world can enrol without relocating. Live classes are designed and have not yet run, because no cohort has been taught, and the recorded audio for the listening work has not been produced. Both are stated rather than implied." }
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes, entirely. WEC-LC delivers the IEFC through a digital campus — staged lessons, the Listening Lab, assignments marked by a person, and your own academic record — so students anywhere in the world can enrol without relocating. {{S:COHORTS_TAUGHT}} The programme is taught self-paced rather than to a live timetable, and the listening work is published as full scripts rather than as recordings." }
     },
     {
       "@type": "Question",
@@ -771,13 +811,13 @@ ${qa('Then what am I paying for?', 'A complete, inspectable programme: six level
     },
     {
       "@type": "Question",
-      "name": "Is WEC formally accredited?",
+      "name": "Is WEC-LC formally accredited?",
       "acceptedAnswer": { "@type": "Answer", "text": "No. The College holds no accreditation and no external quality-assurance affiliation today. The Institutional Status page states what exists and what does not, and it will say something different only when something is genuinely different." }
     },
     {
       "@type": "Question",
       "name": "How do I apply?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Sign in on the Admissions page and work through a short, saved-as-you-go application — a self-assessment helps suggest your likely starting level before you apply." }
+      "acceptedAnswer": { "@type": "Answer", "text": "Complete the online application on the Admissions page with your name, email, and country of residence — a short self-assessment helps suggest your likely starting level before you apply." }
     }
   ]
 }
@@ -839,7 +879,7 @@ PAGES.tuition = {
       <span class="module-marker">Tuition Includes</span>
       <ul class="check-list">
         <li>All modules and lessons for the level</li>
-        <li>Live classes and tutorials once they begin running &mdash; none has run yet, because no cohort has been taught</li>
+        <li>Live classes and tutorials once they begin running &mdash; the three cohorts taught so far studied self-paced, and no live session has run</li>
         <li>Learning resources and digital library access</li>
         <li>Assessments and examinations</li>
         <li>Progress reports and academic advising</li>
@@ -875,7 +915,7 @@ PAGES.tuition = {
           <tr><td><strong>USD &mdash; US dollar</strong></td><td>Settled</td>
               <td>Every fee is set and charged in dollars. ${FULL_PRICE} means ${FULL_PRICE}.</td></tr>
 ${inactiveCurrencies.map((c) => `          <tr><td><strong>${esc(c.code)} &mdash; ${esc(currencyName(c.code))}</strong></td><td>Recognised, not settled</td>
-              <td>Your bank or card issuer converts at its own rate on the day. WEC does not publish a ${esc(c.code)} price, because publishing one without a fixed rate behind it would be publishing a number that changes without notice.</td></tr>`).join('\n')}
+              <td>Your bank or card issuer converts at its own rate on the day. WEC-LC does not publish a ${esc(c.code)} price, because publishing one without a fixed rate behind it would be publishing a number that changes without notice.</td></tr>`).join('\n')}
         </tbody>
       </table>
     </div>
@@ -927,27 +967,17 @@ ${darkCard('Instalments', `${INSTALMENTS} payments per level`, `A level&rsquo;s 
   </div>
 </section>
 
-<section class="section--light section-pad" id="refunds">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Refunds</span>
-      <h2>There is no refund policy yet, and you should know that before you pay.</h2>
-    </div>
-    <div class="callout">
-      <span class="callout__label">What is true</span>
-      <p>The College can process a refund technically &mdash; the mechanism is built and tested
-        against the payment gateways. What does not exist is a <em>policy</em>: who authorises a
-        refund, on what grounds, within what window, and at what proportion. Those are executive
-        decisions and none of them has been taken. Until they are, a refund request is decided
-        case by case by the founding team, in writing, and the decision is recorded against the
-        payment. That is a weaker guarantee than a published policy and it is stated as one.</p>
-    </div>
-    <div class="grid grid--2">
-${card('If you want certainty first', 'Pay by level, not in full', `The exposure of a per-level payment is ${PER_LEVEL}; the exposure of a full-programme payment is ${FULL_PRICE}. Until a refund policy exists, that difference is the practical protection available to you, and the College would rather tell you that than sell the larger package.`)}
-${card('What the College commits to now', 'A written answer, and a record of it', 'Every refund request is answered in writing with a reason. Whatever policy is eventually adopted, decisions taken before it will remain on the record and will not be quietly reinterpreted afterwards.')}
-    </div>
-  </div>
-</section>
+<!-- THE REFUNDS SECTION THAT USED TO SIT HERE IS RETIRED.
+     It said "there is no refund policy yet" — true when written, and
+     false since the policy was adopted on 17 August 2026 (E1 in
+     docs/governance-decisions.md). The live page carries the adopted
+     policy: fourteen days, refunded in full, before assessed work is
+     opened, with the statutory-rights carve-out beside it.
+
+     Cut rather than rewritten, for the same reason as the scholarship
+     section above: two answers to one question is how a fee schedule
+     stops being believed, and the surviving answer is the one a reader
+     can act on. -->
 
 <section class="section--paper section-pad">
   <div class="container reveal">
@@ -962,27 +992,21 @@ ${card('Not issued yet', 'A downloadable PDF receipt', 'The receipt exists as a 
   </div>
 </section>
 
-<section class="section--light section-pad" id="funding" data-contents="Scholarships &amp; Funding">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">The Position</span>
-      <h2>A mechanism exists. A scheme does not.</h2>
-      <p class="lede">The distinction matters, so it is drawn plainly rather than blurred.</p>
-    </div>
-    <div class="grid grid--2">
-${card('Exists', 'The award mechanism', 'The College can record a scholarship against a named person, as a percentage, a fixed sum or a full remission, with the approving officer recorded alongside it. It applies automatically at checkout for the person it was awarded to, and for nobody else. This is built and tested.')}
-${card('Does not exist', 'Eligibility, criteria, a fund, a deadline', 'No criteria have been adopted, no budget has been allocated, no round has opened and no scholarship has been awarded to anyone. Publishing criteria the College could not fund would be worse than publishing nothing.')}
-    </div>
-    <div class="callout">
-      <span class="callout__label">Why this is not simply written and published</span>
-      <p>A scholarship scheme is a spending commitment and an equity commitment at once. Deciding
-        it requires a fund, a set of criteria that can be applied consistently to strangers, and
-        someone accountable for applying them &mdash; the same three things that are missing from
-        every other unfilled post at the College. It is an executive decision, and it has not
-        been taken.</p>
-    </div>
-  </div>
-</section>
+<!-- THE SCHOLARSHIP SECTION THAT USED TO SIT HERE IS RETIRED.
+     It said "a mechanism exists, a scheme does not" — true until the
+     Foundation Remission was adopted on 17 August 2026 (F3 in
+     docs/governance-decisions.md). scripts/build-commercial.mjs now owns
+     the #funding leaf and renders the adopted scheme from
+     data/commercial.json, so the copy below would be a second, stale
+     answer to the same question.
+
+     Removed rather than rewritten. scripts/lib/emit-page.js already
+     stops this generator overwriting the live page, so the old copy
+     could never have reached a reader — but a false sentence sitting in
+     a source file is one WEC_REGENERATE=1 away from being published,
+     and this repository has been bitten by exactly that. See the note at
+     the top of emit-page.js. -->
+
 
 <section class="section--paper section-pad">
   <div class="container reveal">
@@ -1025,7 +1049,7 @@ ${darkCard('Not built', 'Organisational invoicing and seats', 'A corporate accou
 PAGES.policy = {
   slug: 'admissions-policy', output: 'admissions/policy/index.html', file: 'admissions-policy.html',
   title: 'Admissions Policy &mdash; Worldwide English College',
-  description: 'The rules WEC applies to admissions decisions, the data it collects from '
+  description: 'The rules WEC-LC applies to admissions decisions, the data it collects from '
     + 'applicants, and the policies that have not yet been adopted.',
   body: `${hero('Admissions', 'Admissions policy.',
     'The rules the College applies when deciding an application, written so that a decision can '
@@ -1042,7 +1066,7 @@ PAGES.policy = {
 ${card('One', 'Admission is on placement, not on merit', 'The IEFC is not selective. The question at admission is which of the six levels you belong in, not whether you are good enough to be admitted. There is no ranking, no quota and no competitive round.')}
 ${card('Two', 'The same fee for everyone', `${PER_LEVEL} per level and ${FULL_PRICE} for the programme, regardless of nationality, residence or how the application arrived. There is no international rate and no negotiated rate.`)}
 ${card('Three', 'A decision is recorded with a reason', 'Applications that are declined or withdrawn stay on the record with their state, so that a decision can be looked up by whoever made it. Nothing is deleted to tidy the numbers.')}
-${card('Four', 'Nothing is required that is not used', 'Only a name and an email are actually required to create the record. Everything else the application asks for &mdash; contact details, programme and funding questions, an optional identity document &mdash; is asked because a real admissions and placement decision needs it, and every optional field is labelled optional in the form itself. No fee is ever asked for at this stage.')}
+${card('Four', 'Nothing is required that is not used', 'The application asks for a name, an email address and a country. It asks for no documents, no photographs, no identity papers and no fee, because none of those is needed to place a learner in a language level.')}
     </div>
   </div>
 </section>
@@ -1071,16 +1095,14 @@ ${card('Four', 'Nothing is required that is not used', 'Only a name and an email
     </div>
     <div class="table-scroll">
       <table class="ledger">
-        <thead><tr><th>Stage</th><th>What&rsquo;s asked</th><th>Why</th></tr></thead>
+        <thead><tr><th>What</th><th>Why</th><th>Where it is held</th></tr></thead>
         <tbody>
-          <tr><td><strong>Who you are</strong></td><td>Full name, nationality, country of residence. Optional: an identity document.</td><td>The name on your record, and the two facts that shape your residency options later. A document is stored, not verified &mdash; nothing checks it against an official record at this stage.</td></tr>
-          <tr><td><strong>Contact &amp; safety</strong></td><td>Email, phone, city, address. Optional: an emergency contact.</td><td>How Admissions reaches you, and where you are today. An emergency contact is someone the College can reach if it genuinely needs to &mdash; not shared or used for anything else.</td></tr>
-          <tr><td><strong>Your programme</strong></td><td>Self-assessed level, purpose, start preference. Optional: education background.</td><td>What the English is for, where you expect to begin, and context for the placement conversation &mdash; all non-binding.</td></tr>
-          <tr><td><strong>Funding</strong></td><td>How tuition will be paid. Optional: sponsor details.</td><td>Asked now so an employer-sponsored applicant does not lose a week discovering it after an offer. No payment is taken here, and the College never asks for card or bank details by email.</td></tr>
-          <tr><td><strong>Declaration</strong></td><td>How you heard about WEC, and confirmation you are 18 or the application is made with a parent/guardian.</td><td>The last details Admissions needs before review.</td></tr>
+          <tr><td>Full name</td><td>To address you, and to place the application on the record</td><td>The College&rsquo;s database, hosted by Cloudflare</td></tr>
+          <tr><td>Email address</td><td>The only channel by which placement, offer and enrolment move</td><td>The same database, plus the email service that delivers the messages</td></tr>
+          <tr><td>Country of residence</td><td>To offer payment methods that work where you are</td><td>The same database</td></tr>
+          <tr><td>Self-assessed level</td><td>Context for the placement conversation. Non-binding.</td><td>The same database</td></tr>
         </tbody>
       </table>
-      <p class="form-note">Held in the College&rsquo;s database, hosted by Cloudflare, plus the email service that delivers placement/offer/enrolment messages. An identity document, if uploaded, is held separately and never made public.</p>
     </div>
     <div class="callout">
       <span class="callout__label">Accountability &mdash; an outstanding appointment</span>
@@ -1140,6 +1162,7 @@ const MANIFEST = path.join(ROOT, 'pages/manifest.json');
 const manifest = JSON.parse(fs.readFileSync(MANIFEST, 'utf8'));
 const entries = Array.isArray(manifest) ? manifest : manifest.pages;
 const written = [];
+const emitted = [];
 
 // Absorbed by the Admissions pillar, Tuition Fees & Funding, and the FAQ.
 for (const slug of ['admissions-apply', 'admissions-entry', 'admissions-dates',
@@ -1150,19 +1173,25 @@ for (const slug of ['admissions-apply', 'admissions-entry', 'admissions-dates',
 }
 
 for (const p of Object.values(PAGES)) {
-  fs.writeFileSync(path.join(ROOT, 'pages', p.file), p.body + '\n');
+  const target = path.join(ROOT, 'pages', p.file);
+  emitted.push({ file: target, result: emitPage(target, p.body) });
   const entry = {
     slug: p.slug, output: p.output, title: p.title, description: p.description,
     contentFile: p.file, lang: 'en', dir: 'ltr',
   };
   if (p.contents) entry.contents = true;
-  if (p.extraCss) entry.extraCss = p.extraCss;
   const i = entries.findIndex((e) => e.slug === p.slug);
   if (i >= 0) entries[i] = { ...entries[i], ...entry }; else entries.push(entry);
   written.push(p.output);
 }
 
 fs.writeFileSync(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
-console.log(`Wrote ${written.length} Admissions-cluster pages:`);
+// The manifest entry is written for every page; the PAGE BODY is written
+// only where the guard allows it. "Routed" rather than "Wrote" because
+// the two are no longer the same act — see scripts/lib/emit-page.js, and
+// read the guard's own summary below this list for what reached disk.
+console.log(`Routed ${written.length} Admissions-cluster pages through the manifest:`);
 for (const o of written) console.log(`  ${o}`);
 console.log('Run `npm run build` to generate the served pages.');
+
+reportEmit('build-admissions.js', emitted);

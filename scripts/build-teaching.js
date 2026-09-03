@@ -8,7 +8,8 @@
  * ────────────────────────────────────────────────────────────────────
  * A "Teaching" section on an institution's website usually rests on
  * classroom experience: what our teachers have found, how our lessons
- * go, what works with our students. WEC has taught nobody. Every
+ * go, what works with our students. No observation of a WEC-LC classroom
+ * has been written into the record. Every
  * sentence of that kind would be fabricated.
  *
  * What it does have is unusual and genuinely publishable: a teaching
@@ -35,17 +36,16 @@
  * our faculty" page — /about/careers/ names the three posts the College
  * actually needs and what each unblocks, which is the honest version.
  *
- * The Teacher's Companion was described here but not offered, and the
- * reason was sound at the time: publication/ is excluded from the
- * deploy surface (see tests/deploy-surface.test.mjs), so a download
- * link would have been a link to a 404. Since the press catalogue began
- * staging servable volumes into assets/downloads/, which IS deployed,
- * the book is on the site and the page said otherwise. It now links to
- * it, and DOWNLOAD below throws if the file is not where it says.
+ * The Teacher's Companion is described but not offered as a download.
+ * The publication directory is excluded from the deploy surface (see
+ * tests/deploy-surface.test.mjs), so a download link here would be a
+ * link to a 404, and a page that offers a document the site does not
+ * serve is worse than one that says how to ask for it.
  */
 
 const fs = require('fs');
 const path = require('path');
+const { emitPage, reportEmit } = require('./lib/emit-page');
 const { DatabaseSync } = require('node:sqlite');
 
 const ROOT = path.resolve(__dirname, '..');
@@ -120,29 +120,6 @@ if (D.cpd !== 0) {
 }
 if (D.fields.length < 10) throw new Error(`Expected the full support field set, read ${D.fields.length}`);
 
-// ---------------------------------------------------------------------
-// THE COMPANION AS A FILE, MEASURED RATHER THAN DESCRIBED.
-//
-// This page told teachers to write in and ask for a book that is served
-// two directories away. The extent and the size are read from the file
-// itself so the page cannot describe a volume that is not there: if the
-// press build stops staging it, this throws instead of publishing a
-// link to a 404 — which is exactly the failure the old paragraph was
-// written to avoid, and the reason it is safe to stop avoiding it.
-// ---------------------------------------------------------------------
-const COMPANION_HREF = '/assets/downloads/iefc-level-i-teacher-s-companion.pdf';
-const COMPANION_FILE = path.join(ROOT, COMPANION_HREF.replace(/^\//, ''));
-if (!fs.existsSync(COMPANION_FILE)) {
-  throw new Error(`The Teaching pages link to ${COMPANION_HREF} and it is not staged. `
-    + 'Run the press build, or rewrite the availability section — do not publish the link.');
-}
-const COMPANION = (() => {
-  const buf = fs.readFileSync(COMPANION_FILE);
-  const pages = (buf.toString('latin1').match(/\/Type\s*\/Page(?![s])/g) || []).length;
-  if (!pages) throw new Error(`${COMPANION_HREF} has no countable pages — it is not a PDF.`);
-  return { pages, mb: (buf.length / (1024 * 1024)).toFixed(1) };
-})();
-
 const derivable = D.fields.filter((f) => f.derivable);
 const authored = D.fields.filter((f) => !f.derivable);
 
@@ -180,17 +157,13 @@ const cta = (h2, primary, primaryHref, secondary, secondaryHref) =>
 
 const PAGES = {};
 
-// 1 · TEACHING AT WEC ──────────────────────────────────────────────
+// 1 · TEACHING AT WEC-LC ──────────────────────────────────────────────
 PAGES.hub = {
   slug: 'academics-teaching', output: 'academics/teaching/index.html', file: 'academics-teaching.html',
   contents: true, altHref: '/ar/academics/teaching/',
   title: 'Teaching Practice &mdash; Worldwide English College',
-  // Kept under 160 characters on purpose: past that, a search result
-  // cuts the sentence off mid-clause, and the manifest was being
-  // hand-truncated after the fact — an edit the next build silently
-  // undid. Written short at the source, it cannot drift.
-  description: 'How WEC teaches: the method, how a lesson is designed, the support record a '
-    + "teacher works from, and the Teacher's Companion, free to download.",
+  description: 'How WEC-LC teaches: the method, how a lesson is designed, the support record a '
+    + 'teacher works from, the Companion, and how development and observation are meant to work.',
   body: `${hero('Academics', 'How the College teaches.',
     'Every lesson in the programme is planned before it is taught, and every planned lesson '
     + 'carries a record of what a teacher will need at each point in it. This page describes '
@@ -206,7 +179,7 @@ PAGES.hub = {
       <span class="module-marker">The Method</span>
       <h2>Four commitments that shape every lesson.</h2>
       <p class="lede">Not a philosophy of language teaching in the abstract &mdash; these are the
-        four decisions that visibly determine what a WEC lesson looks like.</p>
+        four decisions that visibly determine what a WEC-LC lesson looks like.</p>
     </div>
     <div class="grid grid--4">
 ${card('One', 'Taught in English, from Level I', 'Including at A1, where it is done through restricted language, repetition, visual support and a teacher who slows down instead of translating. Teaching a language through the language is a method, and Level I was written on that assumption rather than adapted to it afterwards.')}
@@ -247,7 +220,7 @@ ${card('Four', 'Every lesson plans for the learner who does not follow', 'A seco
         footnote.</p>
     </div>
     <div class="grid grid--2">
-${darkCard('Why it is empty', 'The College has taught no one', 'Every entry in the support record declares where its knowledge came from, and one of the four possible sources is a real classroom. That column stands at zero and will stand at zero until a teacher teaches a cohort and writes down what happened.')}
+${darkCard('Why it is empty', 'Nothing has been written down from a room', 'Every entry in the support record declares where its knowledge came from, and one of the four possible sources is a real classroom. That column stands at zero and will stand at zero until a teacher writes down what happened in one.')}
 ${darkCard('Why it is a column at all', 'So that it cannot be quietly filled by something else', 'The easy version of this record would mark everything simply "our teaching experience". Keeping observation separate means the College can say precisely which of its claims a first term would confirm, correct or overturn &mdash; and cannot pass off design for evidence.')}
     </div>
   </div>
@@ -312,12 +285,13 @@ ${darkCard('Coverage', 'Every module carries its assessments', `Quiz, assignment
 ${card('Derived', `${D.states.derived_from_curriculum || 0} entries`, 'Read off the programme itself: the prerequisite a lesson names, the minutes its stages declare, the confusion its own self-check was written to trap. Not an opinion &mdash; a fact about the curriculum, and checkable against it.')}
 ${card('Established', `${D.states.established_pedagogy || 0} entries`, 'Attested in the international teaching of English and not particular to this College &mdash; that the third-person <em>-s</em> is among the most persistent errors for learners of every first language, that countability in English is arbitrary and must be memorised. Synthesis, and marked as synthesis.')}
 ${card('Designed', `${D.states.educational_expertise || 0} entries`, 'An authored judgement by the people who wrote the curriculum: how else to explain this, which analogy holds, how to stretch a learner who has finished early. Defensible, and improvable by anyone who teaches it and finds better.')}
-${card('Observed', `${OBSERVED} entries`, 'What actually happened in a room with real learners. This is empty, and it is empty because the College has taught nobody. It is not filled with the other three.')}
+${card('Observed', `${OBSERVED} entries`, 'What actually happened in a room with real learners. This is empty, and it is empty because no observation of a room has been entered into the record. It is not filled with the other three.')}
     </div>
     <div class="callout">
       <span class="callout__label">Why this record was rebuilt</span>
       <p>It began with three states and most of it empty, on the reasoning that a teacher&rsquo;s
-        knowledge comes from teaching and this College has taught no one. That was right about
+        knowledge comes from teaching and none of it has been written into this record yet.
+        That was right about
         one kind of knowledge and wrong about three others &mdash; and the conflation left the
         Teacher&rsquo;s Companion unwritable for a reason that did not actually apply to most of
         what it would contain.</p>
@@ -393,16 +367,13 @@ ${card('Counted, not asserted', 'The figures in the front matter are measured', 
       <h2>How to obtain a copy.</h2>
     </div>
     <div class="callout">
-      <span class="callout__label">Read it before you teach from it</span>
-      <p>The Companion is a typeset volume produced by WEC Press, and the whole of it is
-        here: <a href="${COMPANION_HREF}" download><strong>the Teacher&rsquo;s Companion,
-        Level I</strong></a> &mdash; ${COMPANION.pages}&nbsp;pages, ${COMPANION.mb}&nbsp;MB, PDF.
-        No account, no request, no form.</p>
-      <p>One thing to know before you open it: every volume the College has produced is
-        currently unreviewed by anyone who did not write it. If you teach and are willing to
-        say where the book is wrong, that is the most useful thing anyone can do with it, and
-        <a href="mailto:info@worldwencollege.co.uk?subject=Teacher%27s%20Companion">info@worldwencollege.co.uk</a>
-        reaches the editors who would have to act on it.</p>
+      <span class="callout__label">Not a download on this site</span>
+      <p>The Companion is a typeset volume produced by WEC Press and is not published for
+        download here. Teachers, reviewers and anyone assessing the College&rsquo;s academic work
+        can request a copy from
+        <a href="mailto:info@worldwencollege.co.uk?subject=Teacher%27s%20Companion">info@worldwencollege.co.uk</a>.
+        It is offered particularly to anyone willing to review it &mdash; every volume the
+        College has produced is currently unreviewed by anyone who did not write it.</p>
     </div>
   </div>
 </section>
@@ -417,7 +388,7 @@ ${card('Counted, not asserted', 'The figures in the front matter are measured', 
       <span class="callout__label">What is true today</span>
       <p>No lesson has been observed. No continuing professional development has been recorded
         for anyone &mdash; the record that would hold it contains ${D.cpd} entries. No teacher
-        has taught a WEC cohort, because there has been no cohort. Any page describing teacher
+        has taught a WEC-LC cohort, because there has been no cohort. Any page describing teacher
         development at this College as a running programme would be describing something that
         does not exist.</p>
     </div>
@@ -464,7 +435,7 @@ ${cta('Who teaches to this standard.', 'The Faculty', '/faculty/', 'Academics', 
 };
 
 
-// 2 · TEACHING AT WEC — THE ARABIC EDITION ─────────────────────────
+// 2 · TEACHING AT WEC-LC — THE ARABIC EDITION ─────────────────────────
 // Same record, same figures, same honesty. The seventeen field names
 // are English record identifiers, so the Arabic edition describes the
 // two field groups in prose with the live counts instead of rendering
@@ -535,7 +506,7 @@ ${card('الرابع', 'كل درس يخطط للمتعلم الذي لا يتا
       <p class="lede">هذه أهم جملة في هذا القسم، ولهذا ليست في هامش.</p>
     </div>
     <div class="grid grid--2">
-${darkCard('لماذا هو فارغ', 'الكلية لم تدرّس أحدًا', 'كل مدخلة في سجل الدعم تعلن مصدر معرفتها، وأحد المصادر الأربعة الممكنة هو صف حقيقي. هذا العمود يقف عند الصفر وسيبقى عند الصفر حتى يدرّس معلمٌ دفعةً ويكتب ما حدث.')}
+${darkCard('لماذا هو فارغ', 'لم يُكتب شيء من غرفة صف', 'كل مدخلة في سجل الدعم تعلن مصدر معرفتها، وأحد المصادر الأربعة الممكنة هو صف حقيقي. هذا العمود يقف عند الصفر وسيبقى عند الصفر حتى يكتب معلمٌ ما حدث في غرفة.')}
 ${darkCard('ولماذا هو عمود أصلًا', 'كي لا يُملأ خلسةً بشيء آخر', 'النسخة السهلة من هذا السجل كانت ستصف كل شيء بعبارة «خبرتنا التدريسية». إبقاء المشاهدة منفصلةً يعني أن الكلية تستطيع أن تقول بدقة أي ادعاءاتها سيؤكده فصلٌ أول من التدريس أو يصححه أو يقلبه — ولا تستطيع أن تقدّم التصميم على أنه دليل.')}
     </div>
   </div>
@@ -600,7 +571,7 @@ ${darkCard('التغطية', 'كل وحدة تحمل تقييماتها', 'اخ�
 ${card('مشتق', `${ltr(String(D.states.derived_from_curriculum || 0))} مدخلة`, 'مقروء من البرنامج نفسه: المتطلب الذي يسمّيه الدرس، والدقائق التي تعلنها مراحله، والالتباس الذي كُتب فحصه الذاتي ليصطاده. ليس رأيًا — حقيقة عن المنهج، وقابلة للفحص ضده.')}
 ${card('مُثبَت', `${ltr(String(D.states.established_pedagogy || 0))} مدخلة`, 'مشهود له في التدريس الدولي للإنجليزية وليس خاصًا بهذه الكلية — أن سين الغائب من أعند الأخطاء لدى متعلمي كل لغة أم، وأن العدّ في الإنجليزية اعتباطي ولا بد من حفظه. تركيبٌ، وموسوم أنه تركيب.')}
 ${card('مصمَّم', `${ltr(String(D.states.educational_expertise || 0))} مدخلة`, 'اجتهاد مؤلف من الذين كتبوا المنهج: كيف يُشرح هذا بطريقة أخرى، وأي تشبيه يصمد، وكيف يُمدّ من أنهى مبكرًا. قابل للدفاع عنه، وقابل للتحسين ممن يدرّسه فيجد أفضل.')}
-${card('مُشاهَد', `${ltr(String(OBSERVED))} مدخلة`, 'ما حدث فعلًا في غرفة فيها متعلمون حقيقيون. هذا فارغ، وفارغ لأن الكلية لم تدرّس أحدًا. ولا يُملأ بالأنواع الثلاثة الأخرى.')}
+${card('مُشاهَد', `${ltr(String(OBSERVED))} مدخلة`, 'ما حدث فعلًا في غرفة فيها متعلمون حقيقيون. هذا فارغ، وفارغ لأن مشاهدةَ غرفةٍ لم تُدوَّن في السجل بعد. ولا يُملأ بالأنواع الثلاثة الأخرى.')}
     </div>
     <div class="callout">
       <span class="callout__label">الحقول</span>
@@ -639,15 +610,12 @@ ${card('كل لوحة', 'موسومة بمصدرها', 'مشتق أو مُثبَ
 ${card('وسمٌ واحد غائب', 'المُشاهَد', 'الوسم الرابع لا يظهر في أي موضع من الكتاب، والتصدير يقول لماذا. دليلٌ يُسقط الفئة بصمت يدّعي نوعًا من السلطة لا يملكه.')}
     </div>
     <div class="callout">
-      <span class="callout__label">اقرأه قبل أن تُعلّم منه</span>
-      <p>الدليل المرافق مجلد منضَّد تنتجه مطبعة الكلية، وهو هنا كاملًا:
-        <a href="${COMPANION_HREF}" download><strong>الدليل المرافق للمعلم، المستوى الأول</strong></a>
-        — ${ltr(String(COMPANION.pages))} صفحة، ${ltr(COMPANION.mb)} ميغابايت، بصيغة PDF.
-        بلا حساب ولا طلب ولا استمارة.</p>
-      <p>وأمرٌ يُعرف قبل فتحه: كل مجلد أنتجته الكلية لم يراجعه بعدُ أحدٌ لم يكتبه. فإن كنت
-        تُعلّم وتقبل أن تقول أين أخطأ الكتاب، فذلك أنفع ما يُصنع به، و
-        <a href="mailto:info@worldwencollege.co.uk?subject=Teacher%27s%20Companion" dir="ltr">info@worldwencollege.co.uk</a>
-        يبلغ المحررين الذين عليهم أن يعملوا به.</p>
+      <span class="callout__label">ليس تنزيلًا على هذا الموقع</span>
+      <p>الدليل المرافق مجلد منضَّد تنتجه مطبعة الكلية ولا يُنشر للتنزيل هنا. يستطيع المعلمون
+        والمراجعون وكل من يقيّم عمل الكلية الأكاديمي طلب نسخة عبر
+        <a href="mailto:info@worldwencollege.co.uk?subject=Teacher%27s%20Companion" dir="ltr">info@worldwencollege.co.uk</a>.
+        ويُعرض خاصةً على من يرغب في مراجعته — فكل مجلد أنتجته الكلية لم يراجعه بعدُ أحدٌ لم
+        يكتبه.</p>
     </div>
   </div>
 </section>
@@ -685,6 +653,7 @@ const MANIFEST = path.join(ROOT, 'pages/manifest.json');
 const manifest = JSON.parse(fs.readFileSync(MANIFEST, 'utf8'));
 const entries = Array.isArray(manifest) ? manifest : manifest.pages;
 const written = [];
+const emitted = [];
 
 // The four sub-pages this hub absorbs, plus its own old address.
 for (const slug of ['teaching', 'teaching-lesson-design', 'teaching-support', 'teaching-companion', 'teaching-development']) {
@@ -693,7 +662,8 @@ for (const slug of ['teaching', 'teaching-lesson-design', 'teaching-support', 't
 }
 
 for (const p of Object.values(PAGES)) {
-  fs.writeFileSync(path.join(ROOT, 'pages', p.file), p.body + '\n');
+  const target = path.join(ROOT, 'pages', p.file);
+  emitted.push({ file: target, result: emitPage(target, p.body) });
   const entry = {
     slug: p.slug, output: p.output, title: p.title, description: p.description,
     contentFile: p.file, lang: p.lang || 'en', dir: p.dir || 'ltr',
@@ -706,6 +676,12 @@ for (const p of Object.values(PAGES)) {
 }
 
 fs.writeFileSync(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
-console.log(`Wrote ${written.length} Teaching-cluster pages:`);
+// The manifest entry is written for every page; the PAGE BODY is written
+// only where the guard allows it. "Routed" rather than "Wrote" because
+// the two are no longer the same act — see scripts/lib/emit-page.js, and
+// read the guard's own summary below this list for what reached disk.
+console.log(`Routed ${written.length} Teaching-cluster pages through the manifest:`);
 for (const o of written) console.log(`  ${o}`);
 console.log('Run `npm run build` to generate the served pages.');
+
+reportEmit('build-teaching.js', emitted);

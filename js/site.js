@@ -36,23 +36,155 @@
     quicknavFull.addEventListener('click', function () { setNavOpen(true); });
   }
 
-  // Desktop nav dropdown: the submenu itself is shown/hidden by CSS
-  // (:hover/:focus-within on .nav__item--has-menu — see css/brand.css),
-  // not JS, so aria-expanded on the trigger link needs a matching pair
-  // of listeners to stay truthful about whether the menu is actually
-  // visible right now, since a screen reader has no way to observe the
-  // CSS state on its own.
-  document.querySelectorAll('.nav__item--has-menu > a[aria-haspopup]').forEach(function (trigger) {
-    var item = trigger.parentElement;
-    function open() { trigger.setAttribute('aria-expanded', 'true'); }
-    function close() { trigger.setAttribute('aria-expanded', 'false'); }
-    item.addEventListener('mouseenter', open);
-    item.addEventListener('mouseleave', close);
-    item.addEventListener('focusin', open);
+  // ───────────────────────────────────────────────────────────────────
+  // THE PRIMARY NAVIGATION
+  // ───────────────────────────────────────────────────────────────────
+  // THE DEFECT THIS CORRECTS, because it was total rather than cosmetic.
+  //
+  // The six mega panels opened on :hover and :focus-within alone. A
+  // touch device has neither. So on an iPad in landscape, a Surface, or
+  // any touch laptop — every viewport at or above the 1180px breakpoint
+  // where the desktop rail replaces the drawer — tapping "Academics"
+  // did not open the panel. It followed the link. The panel flashed for
+  // the length of the synthetic hover Safari and Chrome emit before a
+  // tap becomes a click, which is precisely the "little bar where you
+  // cannot see more than one line" that was reported, and then the page
+  // navigated out from under it.
+  //
+  // Twenty-nine destinations sat behind those six panels and not one of
+  // them was reachable from the header on a tablet. The institution's
+  // whole navigation was a mouse-only object, and the readers likeliest
+  // to be holding a tablet are the ones deciding whether to enrol.
+  //
+  // So the panel becomes a real disclosure, and the pointer decides what
+  // a press means:
+  //
+  //   FINE POINTER (mouse, trackpad)  hover opens, as before — nothing
+  //     about the desktop feel changes — and a click on the label still
+  //     goes to the pillar's own page, because on a mouse the panel is
+  //     already open and the click can only mean "take me there".
+  //
+  //   COARSE POINTER (touch)  the first press OPENS and does not
+  //     navigate; a second press on the same label follows the link. The
+  //     panel's own first entry is the pillar page, so the destination is
+  //     never more than one further tap away, and a press anywhere
+  //     outside closes.
+  //
+  //   KEYBOARD  Enter and Space toggle, Escape closes and returns focus
+  //     to the label, and focus leaving the item closes it. Arrow keys
+  //     are left to the browser's own tab order deliberately: this is a
+  //     panel of links, not a menubar, and pretending otherwise breaks
+  //     the tab behaviour a screen-reader user already knows.
+  //
+  // aria-expanded is set from the same state in every path, so it can no
+  // longer describe a panel that is not there.
+  var navItems = document.querySelectorAll('.nav__item--has-menu');
+  var openNavItem = null;
+
+  // THE POINTER THAT PRESSED, NOT THE DEVICE THAT MIGHT HAVE.
+  //
+  // The obvious test is matchMedia('(pointer: coarse)'), and it is the
+  // wrong one twice over. A Surface and a touchscreen MacBook have a
+  // mouse AND a finger, and the query can only describe the primary
+  // pointer, so one of the two inputs gets the other's behaviour. And a
+  // device that reports a fine pointer while being driven by touch —
+  // which is what a tablet in desktop mode does — reads as a mouse and
+  // the panel stays unreachable, which is exactly the state this whole
+  // block exists to correct.
+  //
+  // PointerEvent.pointerType says what actually touched the screen, for
+  // this press, and it is right on hybrid hardware by construction. The
+  // media query stays only as the fallback for a browser that fires no
+  // pointer events at all.
+  var lastPointerType = '';
+  document.addEventListener('pointerdown', function (e) {
+    lastPointerType = e.pointerType || '';
+  }, true);
+
+  function pressWasTouch() {
+    if (lastPointerType) return lastPointerType !== 'mouse';
+    return window.matchMedia('(hover: none), (pointer: coarse)').matches;
+  }
+
+  function setItemOpen(item, open) {
+    var trigger = item.querySelector('a[aria-haspopup]');
+    item.classList.toggle('is-open', open);
+    if (trigger) trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (open) {
+      if (openNavItem && openNavItem !== item) setItemOpen(openNavItem, false);
+      openNavItem = item;
+    } else if (openNavItem === item) {
+      openNavItem = null;
+    }
+  }
+
+  navItems.forEach(function (item) {
+    var trigger = item.querySelector('a[aria-haspopup]');
+    if (!trigger) return;
+
+    // Hover and focus keep working exactly as they did, and now also
+    // keep the class in step so one state drives the CSS.
+    item.addEventListener('mouseenter', function () { if (!pressWasTouch()) setItemOpen(item, true); });
+    item.addEventListener('mouseleave', function () { if (!pressWasTouch()) setItemOpen(item, false); });
+    item.addEventListener('focusin', function () { setItemOpen(item, true); });
     item.addEventListener('focusout', function (e) {
-      if (!item.contains(e.relatedTarget)) close();
+      if (!item.contains(e.relatedTarget)) setItemOpen(item, false);
+    });
+
+    // WAS IT OPEN BEFORE THIS PRESS, not now.
+    //
+    // Reading `is-open` inside the click handler looks equivalent and is
+    // not: tapping the label fires focusin first, focusin opens the
+    // panel, and by the time click arrives the panel is open — so the
+    // handler concluded this was the second press and let the navigation
+    // through. The panel opened and the page left in the same gesture,
+    // which is the original defect with extra steps. The state has to be
+    // sampled at pointerdown, before anything the press itself causes.
+    var openAtPress = false;
+    trigger.addEventListener('pointerdown', function () {
+      openAtPress = item.classList.contains('is-open');
+    });
+
+    trigger.addEventListener('click', function (e) {
+      // On a mouse the panel is already open, so a click means go.
+      if (!pressWasTouch()) return;
+      // On touch, the press that opens must not also navigate. A second
+      // press on a label that was already open follows the link.
+      if (!openAtPress) {
+        e.preventDefault();
+        setItemOpen(item, true);
+      }
+    });
+
+    trigger.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && !item.classList.contains('is-open')) {
+        // Enter on a closed panel discloses it rather than leaving the
+        // page, so a keyboard reader can read the panel they were told
+        // exists. Enter again follows the link.
+        e.preventDefault();
+        setItemOpen(item, true);
+      } else if (e.key === ' ' || e.key === 'Spacebar') {
+        e.preventDefault();
+        setItemOpen(item, !item.classList.contains('is-open'));
+      }
     });
   });
+
+  if (navItems.length) {
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && openNavItem) {
+        var t = openNavItem.querySelector('a[aria-haspopup]');
+        setItemOpen(openNavItem, false);
+        if (t) t.focus();
+      }
+    });
+    // A press outside the open panel closes it. pointerdown rather than
+    // click, so the panel is gone before the tap that dismissed it can
+    // also activate something underneath.
+    document.addEventListener('pointerdown', function (e) {
+      if (openNavItem && !openNavItem.contains(e.target)) setItemOpen(openNavItem, false);
+    });
+  }
 
   // Accordion (FAQ / policy style)
   document.querySelectorAll('.accordion__q').forEach(function (btn, i) {
@@ -129,7 +261,22 @@
           io.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.15 });
+    // ── A RATIO THRESHOLD CANNOT BE REACHED BY A TALL ELEMENT ───────
+    //
+    // intersectionRatio is measured against the ELEMENT, so an element
+    // taller than the viewport can never exceed viewportHeight/height.
+    // At 390 x 844 two .leaf__body sections on /academics/ measure
+    // 4,341px and 4,554px — maximum ratios of 0.194 and 0.185. Both sit
+    // under the 0.2 that js/motion.js used, and the 0.15 here was one
+    // long section away from the same fate. Those two sections never
+    // rose at all: on a phone the whole of each was invisible,
+    // permanently, with no error and nothing in the console.
+    //
+    // Threshold 0 fires on any intersection, which cannot be starved by
+    // element height, and the negative bottom margin keeps the entrance
+    // deliberate — the element rises when its leading edge is properly
+    // into the viewport rather than the instant a sliver of it appears.
+    }, { threshold: 0, rootMargin: '0px 0px -12% 0px' });
     reveals.forEach(function (el) { io.observe(el); });
   } else {
     reveals.forEach(function (el) { el.classList.add('is-visible'); });
@@ -493,5 +640,66 @@
         note.textContent = note.getAttribute('data-success-text') || 'Thank you — the Student Portal is launching soon. We will email you the moment your account is ready.';
       }
     });
+  }
+
+  /* =====================================================================
+     THE TWO DISCLOSURE MENUS IN THE CHROME
+     ---------------------------------------------------------------------
+     The editions picker and the Verify group in the utility rail are the
+     same control twice, so they are wired once. Both open on click rather
+     than on hover, deliberately: a hover menu in a 46px band is a menu
+     that opens when a reader is on their way somewhere else, and on a
+     touch device it does not open at all without a phantom first tap.
+
+     Escape closes, a click outside closes, and focus leaving the group
+     closes — the third is the one usually missed, and it is what makes
+     the menu usable from a keyboard rather than merely reachable.
+     ================================================================== */
+  var disclosures = [].slice.call(document.querySelectorAll('.langswitch, .utilrail__item--has-menu'));
+  disclosures.forEach(function (group) {
+    var btn = group.querySelector('button[aria-expanded]');
+    if (!btn) return;
+
+    function setOpen(open) {
+      group.classList.toggle('is-open', open);
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var willOpen = btn.getAttribute('aria-expanded') !== 'true';
+      disclosures.forEach(function (other) {
+        if (other !== group) {
+          other.classList.remove('is-open');
+          var b = other.querySelector('button[aria-expanded]');
+          if (b) b.setAttribute('aria-expanded', 'false');
+        }
+      });
+      setOpen(willOpen);
+    });
+
+    group.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { setOpen(false); btn.focus(); }
+    });
+
+    group.addEventListener('focusout', function (e) {
+      if (!group.contains(e.relatedTarget)) setOpen(false);
+    });
+  });
+
+  if (disclosures.length) {
+    document.addEventListener('click', function () {
+      disclosures.forEach(function (group) {
+        group.classList.remove('is-open');
+        var b = group.querySelector('button[aria-expanded]');
+        if (b) b.setAttribute('aria-expanded', 'false');
+      });
+    });
+    // A click inside a menu is a click on a link; it must not be
+    // swallowed by the document handler above before it navigates.
+    [].slice.call(document.querySelectorAll('.langswitch__menu, .utilrail__menu'))
+      .forEach(function (menu) {
+        menu.addEventListener('click', function (e) { e.stopPropagation(); });
+      });
   }
 })();

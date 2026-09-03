@@ -1,0 +1,181 @@
+<!--
+  EXAMINATIONS — the marking side of the level examination.
+
+  ─────────────────────────────────────────────────────────────────────
+  WHY THIS IS A SEPARATE SCREEN FROM /staff-marking.html
+  ─────────────────────────────────────────────────────────────────────
+  They look like the same act and they are not. Marking an assignment
+  is one reader against one rubric, and the mark reaches the learner.
+  Marking a level examination is TWO readers who must not see each
+  other, a written reconciliation where they differ, sometimes a third
+  reader, and a mark that reaches nobody until all of that has closed.
+
+  Putting the second on the first screen would mean one queue whose
+  rows behave differently, and the difference that would be lost is
+  precisely the one the College publishes as its guarantee.
+
+  ─────────────────────────────────────────────────────────────────────
+  THE ONE THING THIS PAGE IS BUILT TO MAKE IMPOSSIBLE
+  ─────────────────────────────────────────────────────────────────────
+  A SECOND MARKER SEEING THE FIRST MARK. The withholding is in the
+  endpoint, not here — GET /api/staff/examinations returns no other
+  reading until the caller's own is recorded — because a rule enforced
+  only by a screen is a rule anybody with a browser console can lift.
+
+  What the page adds is the sentence. An empty marks panel with no
+  explanation reads as a bug, and a marker who thinks the screen is
+  broken goes looking for the numbers somewhere else.
+
+  ─────────────────────────────────────────────────────────────────────
+  THE RUBRIC IS THE FORM
+  ─────────────────────────────────────────────────────────────────────
+  There is no free "overall mark" field on this page, deliberately. The
+  criteria are the inputs, each with its published descriptor above it,
+  and the overall is arithmetic the platform does afterwards. A marker
+  who can type an overall is a marker who can mark on impression and
+  fit the criteria to it, which is the failure the handbook names as
+  "the commonest error a careful tutor makes".
+
+  ─────────────────────────────────────────────────────────────────────
+  AND THE TOLERANCE IS ON THE SCREEN BEFORE IT IS HIT
+  ─────────────────────────────────────────────────────────────────────
+  Three points, and the two absolute cases, are printed where a second
+  marker can read them while their own numbers are still open. A rule
+  discovered by triggering it teaches distrust of the screen.
+
+  Every id and data- attribute below is addressed by
+  js/staff-examinations.js.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-nib"/></svg></p>
+    <p class="masthead__eyebrow">Academic staff</p>
+    <h1>Examinations</h1>
+    <p class="lede">The level examination: scripts waiting for a first reading, scripts waiting for a second, and the reconciliations that have to be settled in writing before any of them reaches a candidate.</p>
+    <nav class="rec-nav" aria-label="Academic staff">
+      <a href="/staff-desk.html">The Desk</a>
+      <a href="/staff-marking.html">Marking</a>
+      <a href="/staff-examinations.html" aria-current="page">Examinations</a>
+      <a href="/staff-papers.html">Papers</a>
+      <a href="/staff-conferral.html">Conferral</a>
+      <a href="/staff-learners.html">My Learners</a>
+      <a href="/staff-hours.html">My Hours</a>
+      <a href="/staff-notices.html">Notices</a>
+      <a href="/staff-cases.html">Cases</a>
+      <a href="/staff-admissions.html">Admissions</a>
+      <a href="/staff-enrolments.html">Enrolments</a>
+      <a href="/staff-finance.html">Finance</a>
+      <a href="/staff-administration.html">Administration</a>
+    </nav>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container">
+    <div class="stf-shell">
+
+      <p class="rec-state state-plate edge-lit edge-lit--light aurum" id="state" aria-live="polite">Loading the examination queues&hellip;</p>
+
+      <!-- THE TWO QUEUES, COUNTED --------------------------------------- -->
+      <div class="stf-counts" id="secCounts" hidden>
+        <div class="stf-count plate-dark card card--dark edge-lit aurum tilt gold-live reveal" data-tile="first">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
+          <p class="stf-count__num" data-count>&mdash;</p>
+          <p class="stf-count__label" data-label>Awaiting a first reading</p>
+          <p class="stf-count__foot" data-foot></p>
+        </div>
+        <div class="stf-count plate-dark card card--dark edge-lit aurum tilt gold-live reveal" data-tile="second">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+          <p class="stf-count__num" data-count>&mdash;</p>
+          <p class="stf-count__label" data-label>Awaiting a second reading</p>
+          <p class="stf-count__foot" data-foot></p>
+        </div>
+      </div>
+
+      <!-- THE QUEUE ------------------------------------------------------ -->
+      <section class="acc-block reveal" id="secQueue" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg> <span data-queue-head>Scripts waiting</span></h2>
+          <div class="desk-head__tools stf-filters">
+            <label for="qRole" data-role-label>Reading</label>
+            <select id="qRole" data-role></select>
+          </div>
+        </div>
+
+        <!-- The endpoint's own sentence about how the queue was drawn,
+             printed rather than paraphrased. -->
+        <p class="stf-basis" data-queue-basis></p>
+
+        <ul class="stf-queue" data-queue></ul>
+
+        <div class="stf-clear" data-queue-empty hidden>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg></span>
+          <p class="stf-clear__head" data-queue-empty-head></p>
+          <p class="stf-clear__note" data-queue-empty-note></p>
+        </div>
+      </section>
+
+      <!-- ONE SCRIPT ----------------------------------------------------- -->
+      <section class="acc-block reveal" id="secScript" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-nib"/></svg> <span data-script-head>The script</span></h2>
+          <button type="button" class="acc-open" data-script-close></button>
+        </div>
+
+        <div class="exm-script" data-script></div>
+      </section>
+
+      <!-- YOUR OWN RELIABILITY -------------------------------------------- -->
+      <!-- /academics/tutor-handbook/ § VI publishes this as an
+           undertaking to every member of academic staff: "Each term a
+           tutor is shown the agreement between their own marks and
+           their second markers', with the cases that diverged."
+
+           It lives HERE rather than on a page of its own because it is
+           about this marker's marking, and a reliability figure a tutor
+           has to go somewhere else to read is a reliability figure they
+           read once. -->
+      <section class="acc-block reveal" id="secAgreement" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-target"/></svg> <span data-agreement-head>Your own reliability</span></h2>
+        </div>
+        <p class="stf-basis" data-agreement-basis></p>
+        <div class="agr" data-agreement></div>
+      </section>
+
+      <!-- HOW A LEVEL EXAMINATION IS MARKED HERE ------------------------- -->
+      <!-- The published rule, on the screen where the marking happens,
+           and BEFORE it is hit rather than after. -->
+      <section class="acc-block reveal" id="secRule">
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg> Two readers, one published standard</h2>
+        </div>
+        <div class="grid grid--3">
+          <article class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+            <span class="tilt__sheen" aria-hidden="true"></span>
+            <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
+            <h3>Mark the criterion, not the impression</h3>
+            <p>Each criterion is scored on its own descriptor, printed above the field it is scored in. There is no overall mark to type: the overall is the weighted arithmetic of what you enter, so it can never be a figure the criteria were fitted to afterwards.</p>
+          </article>
+          <article class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+            <span class="tilt__sheen" aria-hidden="true"></span>
+            <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span>
+            <h3>Three points, and two absolute cases</h3>
+            <p>Where the two readings fall within three percentage points, the first stands. Beyond that the markers reconcile in writing. A disagreement crossing an honours threshold or the fifty per cent floor is reconciled whatever its size &mdash; a point either side of a floor is no small thing to the candidate. <a href="/academics/tutor-handbook/#second-marking">The marking standard</a>.</p>
+          </article>
+          <article class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+            <span class="tilt__sheen" aria-hidden="true"></span>
+            <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-quote"/></svg></span>
+            <h3>Nothing is released from one pair of hands</h3>
+            <p>A mark reaches a candidate only when every criterion carries two readings, every reconciliation is settled in writing, and the spoken paper has been marked by a person. Both original readings stay on the record whatever the outcome. <a href="/students/examinations/">The examination regulations</a>.</p>
+          </article>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

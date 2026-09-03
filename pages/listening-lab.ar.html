@@ -1,0 +1,183 @@
+<!--
+  معمل الاستماع — النسخة العربية.
+  كل مُعرِّف أدناه يخاطبه js/listening-lab.js باسمه، فلا تُترجَم الأسماء.
+-->
+<section class="page-hero labband section--dark grain">
+  <div class="container">
+    <p class="lab-eyebrow">
+      <span id="labModule">معمل الاستماع</span>
+      <span data-sep id="labVariety"></span>
+      <span data-sep id="labWpm"></span>
+      <span class="lab-offline" data-sep>غير متصل &mdash; ستنتظر عمليات الإرسال</span>
+    </p>
+    <h1 class="lab-title" id="labTitle">معمل الاستماع</h1>
+    <p class="lab-sub" id="labSub">جارٍ التحميل&hellip;</p>
+    <!-- الدرس الذي لا مخرج له طريق مسدود. -->
+    <p class="lab-back"><a href="/ar/my-programme.html">&rarr; كل وحدات هذا المستوى</a></p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container">
+<div class="lab-body" id="labMain">
+
+  <!-- ============ Left column ============ -->
+  <div>
+    <p id="labError" role="alert" style="color:var(--red);font-weight:600;margin:0 0 1rem"></p>
+
+    <section class="lab-card" aria-labelledby="playerH">
+      <div class="lab-card__head">
+        <h2 class="lab-card__title" id="playerH">التسجيل</h2>
+        <span class="lab-card__meta" id="time">--:-- / --:--</span>
+      </div>
+      <div class="lab-card__body">
+
+        <div class="lab-status" id="labStatus" hidden>
+          <span class="lab-status__dot" aria-hidden="true"></span>
+          <p class="lab-status__text" id="labStatusText"></p>
+        </div>
+
+        <div class="wave" id="wave" role="slider" tabindex="0"
+             aria-label="موضع الصوت" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <canvas id="waveCanvas" aria-hidden="true"></canvas>
+          <div class="wave__region" id="region" hidden></div>
+          <div class="wave__playhead" id="playhead" style="left:0"></div>
+        </div>
+
+        <div class="transport">
+          <button class="tbtn tbtn--primary" id="play" type="button">تشغيل</button>
+          <button class="tbtn" id="back" type="button" aria-label="إلى الخلف خمس ثوانٍ">↺ ٥ث</button>
+          <button class="tbtn" id="fwd" type="button" aria-label="إلى الأمام خمس ثوانٍ">٥ث ↻</button>
+          <button class="tbtn" id="ab" type="button" aria-pressed="false">حدّد أ–ب</button>
+          <button class="tbtn" id="loop" type="button" aria-pressed="false">تكرار</button>
+          <span class="speed">
+            <label for="speed">السرعة</label>
+            <select id="speed">
+              <option value="0.6">0.6×</option>
+              <option value="0.75">0.75×</option>
+              <option value="0.9">0.9×</option>
+              <option value="1" selected>1×</option>
+              <option value="1.25">1.25×</option>
+              <option value="1.5">1.5×</option>
+            </select>
+          </span>
+        </div>
+
+        <div class="dl">
+          <button class="tbtn" id="dl" type="button" aria-pressed="false">احفظه دون اتصال</button>
+          <span class="dl__state" id="dlState" data-on="false">غير مُنزَّل</span>
+        </div>
+
+        <p class="lab-note">
+          لوحة المفاتيح: <strong>المسافة</strong> تشغيل/إيقاف، و<strong>←</strong>/<strong>→</strong> تخطّي خمس ثوانٍ.
+          والسرعات الأبطأ لفكّ سطرٍ لا تلتقطه — فعُد إلى ١× قبل أن تحكم هل فهمتَه.
+        </p>
+      </div>
+    </section>
+
+    <section class="lab-card" aria-labelledby="tsH" style="margin-top:1.35rem">
+      <div class="lab-card__head">
+        <h2 class="lab-card__title" id="tsH">النص المتزامن</h2>
+        <span class="lab-card__meta">اختر أي سطر للانتقال إليه</span>
+      </div>
+      <div class="lab-card__body">
+        <ol class="cues" id="cues"><li class="lab-skel cue-skel"></li><li class="lab-skel cue-skel"></li><li class="lab-skel cue-skel"></li><li class="lab-skel cue-skel"></li></ol>
+        <p class="sr-only" id="cueLive" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section class="lab-card" aria-labelledby="qH" style="margin-top:1.35rem">
+      <div class="lab-card__head">
+        <h2 class="lab-card__title" id="qH">الاستيعاب</h2>
+        <span class="lab-card__meta">يُصحَّح على الخادم</span>
+      </div>
+      <div class="lab-card__body">
+        <div id="questions"><div class="lab-skel" style="height:88px;margin-bottom:.6rem"></div><div class="lab-skel" style="height:88px"></div></div>
+        <button class="tbtn tbtn--primary" id="submitQuiz" type="button" style="margin-top:.9rem">أرسل الإجابات</button>
+        <div class="result" id="quizResult" role="status">أجب عن كل سؤال ثم أرسل. وكل سؤال يعود بك إلى السطر الذي يختبره بعينه.</div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============ Right column ============ -->
+  <div>
+    <section class="lab-card" aria-labelledby="recH">
+      <div class="lab-card__head">
+        <h2 class="lab-card__title" id="recH">صوتك</h2>
+        <span class="lab-card__meta">كل محاولة محفوظة</span>
+      </div>
+      <div class="lab-card__body">
+        <div class="rec">
+          <button class="tbtn tbtn--rec" id="rec" type="button" aria-pressed="false">سجِّل</button>
+          <span class="rec__meter" id="recMeter" aria-hidden="true"><i></i></span>
+          <span class="rec__time" id="recTime">00:00</span>
+        </div>
+        <p class="lab-note" id="recNote">
+          سجِّل ثم استمع إلى نفسك. والاستماع إلى النفس هو الخطوة التي يتخطاها المتعلمون وهي التي تنفع — فأنت لا تصحّح صوتًا لم تسمع نفسك تنطقه.
+        </p>
+        <ul class="takes" id="takes"></ul>
+      </div>
+    </section>
+
+    <section class="lab-card" aria-labelledby="pronH" style="margin-top:1.35rem">
+      <div class="lab-card__head">
+        <h2 class="lab-card__title" id="pronH">معمل النطق</h2>
+        <span class="lab-card__meta" id="pronTitle"></span>
+      </div>
+      <div class="lab-card__body"><div id="targets"><div class="lab-skel" style="height:120px"></div></div></div>
+    </section>
+
+    <section class="lab-card" aria-labelledby="lpH" style="margin-top:1.35rem">
+      <div class="lab-card__head">
+        <h2 class="lab-card__title" id="lpH">تقدّم الاستماع</h2>
+        <span class="lab-card__meta" id="lpMeta"></span>
+      </div>
+      <div class="lab-card__body">
+        <div class="summary" id="lpSummary"></div>
+        <div class="prog" id="lpModules"></div>
+        <p class="lab-note">التغطية والنتيجة يُذكران منفصلين عن قصد. فـ«حاولتَ ٨ من ١٠» و«متوسطك ٧٢٪» يجيبان عن سؤالين مختلفين، ورقمٌ واحد ممزوج يُخفي متعلّمًا يُحسن في القليل الذي يحاوله وحده.</p>
+      </div>
+    </section>
+
+    <section class="lab-card" aria-labelledby="profH" style="margin-top:1.35rem">
+      <div class="lab-card__head">
+        <h2 class="lab-card__title" id="profH">ملفّ النطق</h2>
+        <span class="lab-card__meta" id="profileMeta"></span>
+      </div>
+      <div class="lab-card__body">
+        <div class="dims" id="dims"><div class="lab-skel" style="height:96px"></div></div>
+        <p class="lab-note">يُذكر بحسب البُعد لا بحسب الوحدة، لأن «نبرك على الكلمة متأخر عن أصواتك المفردة» شيء تستطيع العمل به. والبُعد الذي لم يقيّمه أحد يظهر «غير مقيَّم»، لا صفرًا أبدًا.</p>
+      </div>
+    </section>
+
+    <section class="lab-card" aria-labelledby="markH" style="margin-top:1.35rem">
+      <div class="lab-card__head">
+        <h2 class="lab-card__title" id="markH">العلامات</h2>
+      </div>
+      <div class="lab-card__body"><ul class="marks" id="marks"></ul></div>
+    </section>
+
+    <section class="lab-card notes" aria-labelledby="noteH" style="margin-top:1.35rem">
+      <div class="lab-card__head">
+        <h2 class="lab-card__title" id="noteH">ملاحظات</h2>
+      </div>
+      <div class="lab-card__body">
+        <label class="sr-only" for="notes">ملاحظاتك على هذا الاستماع</label>
+        <textarea id="notes" placeholder="ما الذي فاجأك بين ما سمعتَه وما هو مكتوب؟ تلك الفجوة هي هدفك في النطق."></textarea>
+        <div class="notes__row"><span class="notes__saved" id="notesSaved"></span></div>
+      </div>
+    </section>
+  </div>
+</div>
+  </div>
+</section>
+
+<section class="section--dark cta-band">
+  <div class="container reveal">
+    <h2>كل هدف نطقي، باسمه.</h2>
+    <div class="btn-row u-center">
+      <a href="/ar/press/pronunciation-handbook/" class="btn btn--gold magnetic aurum aurum--twin">دليل النطق</a>
+      <a href="/ar/my-programme.html" class="btn btn--outline magnetic">عد إلى برنامجي</a>
+    </div>
+  </div>
+</section>

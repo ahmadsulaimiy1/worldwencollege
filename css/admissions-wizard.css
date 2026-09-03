@@ -153,3 +153,21 @@
   max-width: 640px; margin: 40px auto; text-align: center;
   color: var(--ink-soft);
 }
+
+/* --- The anonymous application ------------------------------------
+   [data-wizard-unavailable] is centred, and that is right for the two
+   sentences it used to hold. It now holds a nine-field form, and a
+   centred label over a full-width input reads as a certificate rather
+   than as something to fill in — every eye-tracking study of forms
+   says the same thing and the screenshot said it too. The heading and
+   the lede keep the centre; the form takes the reading axis back. */
+.apply-anon { text-align: start; margin-top: 26px; }
+.apply-anon .field { margin-bottom: 18px; }
+.apply-anon label { display: block; margin-bottom: 6px; }
+.apply-anon input[type="text"], .apply-anon input[type="email"],
+.apply-anon input[type="tel"], .apply-anon select, .apply-anon textarea { width: 100%; }
+.apply-anon .field__hint { margin: 6px 0 0; }
+.apply-anon .declaration { margin-top: 22px; }
+.apply-anon .declaration__line { margin-bottom: 0; }
+.apply-anon > p:last-child { margin-top: 22px; }
+[data-wizard-unavailable] { max-width: 680px; }

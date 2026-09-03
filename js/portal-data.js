@@ -188,8 +188,8 @@ window.WEC_LC_data = (function () {
     // response as JSON and would turn the College's QR into {} — the
     // caller would then render nothing and report no error. Typed here
     // rather than left for the caller to discover.
-    credentialQr: function (code) {
-      return fetch('/api/credentials/qr?code=' + seg(code)).then(function (r) {
+    credentialQr: function (code, ar) {
+      return fetch('/api/credentials/qr?code=' + seg(code) + (ar ? '&lang=ar' : '')).then(function (r) {
         if (!r.ok) throw Object.assign(new Error(String(r.status)), { status: r.status });
         return r.text();
       });

@@ -38,6 +38,31 @@
 .grad-note { margin: 0 0 1.1rem; color: var(--ink-soft, #4B5768); line-height: 1.7; font-size: .9rem; }
 .grad-bio { margin: 0; line-height: 1.8; max-width: 62ch; }
 
+/* ---- Scope of the record --------------------------------------------
+   The sentence that tells a reader how much of the record they are
+   looking at. It sits with the record rather than in the masthead —
+   both because it qualifies the record and because filling it into the
+   masthead grew the masthead and moved the whole page.
+
+   Empty until there is a record, and it must take no space until then:
+   a served-empty paragraph that reserved a box would be a hole in the
+   page on the three paths where no record ever arrives. */
+.grad-scope:empty { display: none; }
+.grad-scope {
+  margin: 0 0 1.8rem;
+  padding-inline-start: .95rem;
+  border-inline-start: 2px solid var(--gold, #C7A24A);
+  max-width: 68ch;
+  font-size: .86rem;
+  line-height: 1.75;
+  color: var(--ink-soft, #4B5768);
+}
+
+/* ---- State ----------------------------------------------------------- */
+/* `.state-plate`, in css/brand.css, is the whole of this component —
+   the same plate the portal state line and the public register speak
+   from. Nothing here is specific to a shared record. */
+
 /* ---- Awards ---------------------------------------------------------- */
 .grad-awards { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
 .grad-award {
@@ -65,6 +90,7 @@
 }
 .grad-award__meta { margin: 0; font-size: .84rem; color: var(--ink-soft, #4B5768); line-height: 1.6; }
 .grad-award__meta a { font-weight: 600; }
+
 /* ---- Transcript ------------------------------------------------------ */
 .grad-totals {
   display: grid; gap: .9rem;

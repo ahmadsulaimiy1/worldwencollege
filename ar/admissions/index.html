@@ -14,6 +14,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>القبول — الكلية العالمية للغة الإنجليزية</title>
 <meta name="description" content="قرار الالتحاق كاملًا في صفحة واحدة: هل تنطبق الشروط عليك، وكيف تقدّم، ومتى تبدأ، وما يخص المتقدمين الدوليين والتأشيرات.">
+<!-- INDEXABLE, OR THE LEARNER'S OWN. A page that mounts
+     js/portal-guard.js is a page behind a sign-in — a statement of
+     account, a set of marks, a payment confirmation — and it belonged
+     in neither a search index nor the sitemap. Eleven of them were in
+     both. scripts/build.js decides this from the guard rather than from
+     a flag somebody has to remember to set: a page that guards itself
+     is private, and there is no case where it is not. -->
+<meta name="robots" content="index, follow">
 <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/assets/images/icon-512.png" sizes="512x512" type="image/png">
 <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
@@ -21,17 +29,23 @@
 <meta name="theme-color" content="#14264A">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500..800;1,6..96,400..600&family=Cinzel:wght@500;600&family=Inter:wght@400;600;700;800&family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/brand.css">
-<link rel="stylesheet" href="/css/atelier.css">
-<link rel="stylesheet" href="/css/pages.css">
-<link rel="stylesheet" href="/css/dashboard.css">
+<!-- The display face is self-hosted and preloaded: it sets every
+     heading above the fold, so it must never arrive after the text it
+     shapes. The italic is not preloaded — it first appears below the
+     fold and swap covers it. -->
+<link rel="preload" href="/assets/fonts/fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Inter:wght@400;600;700;800&family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/brand.css?v=15f3e776">
+<link rel="stylesheet" href="/css/atelier.css?v=9eadec1f">
+<link rel="stylesheet" href="/css/pages.css?v=e0f4b722">
+<link rel="stylesheet" href="/css/pillar.css?v=661126ed">
+<link rel="stylesheet" href="/css/admissions.css?v=1f75d17a">
 <!-- LAST, and that ordering is load-bearing. Script-specific typography
      has to be able to override the general stylesheets, because those
      set tracking and leading tuned to Latin faces and Arabic inherits
      it. Putting this first — which is where it started — left 951 of
      1,049 violations standing. See the header of css/arabic.css. -->
-<link rel="stylesheet" href="/css/arabic.css">
+<link rel="stylesheet" href="/css/arabic.css?v=8eca8911">
 <noscript><style>
 /* Several entrance effects are authored hidden and revealed by script:
    .reveal (js/site.js), .split-word and .rule-draw (js/motion.js),
@@ -113,6 +127,34 @@
   Inline rather than an external sprite file on purpose: `currentColor`
   does not inherit across an external <use> reference in several
   browsers, which would defeat the whole arrangement above.
+
+  TWO WEIGHTS, WHICH IS WHAT MAKES IT AN ENGRAVING.
+  ---------------------------------------------------------------------
+  A single-weight outline is what every icon library ships, and at
+  institutional scale it reads as competent rather than as commissioned.
+  Real engraving carries a cut line and a hairline: the structure at
+  full weight, the modelling — hatching, secondary rules, interior
+  detail — at roughly two-fifths of it.
+
+  So structural paths inherit the 1.25 stroke from .icon, and detail
+  paths carry `stroke-width=".55"` as a PRESENTATION ATTRIBUTE on the
+  path itself. It has to be an attribute rather than a class: content
+  cloned by <use> lives in a shadow tree that document CSS selectors
+  cannot reach, so `.icon .hair {}` would silently do nothing. Only
+  inherited properties cross that boundary, which is exactly why
+  `currentColor` works above and a class would not.
+
+  Both numbers are in the 24-unit viewBox, so the ratio between them
+  holds at every rendered size — a hairline stays a hairline at 1.25rem
+  and at 3.5rem.
+
+  THE FOUR REGION MARKS are cartographic, not cultural. A set of icons
+  standing for the Gulf, Europe, Africa and Asia is one careless
+  decision away from four national stereotypes, so each is the same
+  globe under the same graticule with a different sector engraved and a
+  different locator set into it. They read as one instrument turned
+  four ways, which is both the honest claim and the better drawing.
+  Before this they were four copies of #i-globe on one screen.
 -->
 <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false"><defs>
 
@@ -130,11 +172,23 @@
     <stop offset="100%" stop-color="#A8863C"/>
   </linearGradient>
 
+  <!-- ================================================================
+       THE INSTITUTIONAL MARKS
+       ================================================================ -->
+
   <!-- The institution's mark, reduced to a stroke. -->
   <symbol id="i-crest" viewBox="0 0 24 24">
-    <path d="M12 1.6 21 4.8v8.1c0 5.6-3.8 10-9 12.1C6.8 22.9 3 18.5 3 12.9V4.8Z"/>
-    <path d="M12 5.2 17.6 7.2v5.6c0 3.7-2.4 6.7-5.6 8.1-3.2-1.4-5.6-4.4-5.6-8.1V7.2Z"/>
-    <path d="M9.4 12.6h5.2M12 10v5.2"/>
+    <!-- A HERALDIC CREST, not a first-aid badge.
+         It was a shield with a cross bar and an upright inside it, and
+         at every size from 30px up it read as a medical shield — the
+         defect CLAUDE.md §6 records against this exact symbol. A crest
+         is a shield UNDER A CROWN with a charge on it, so that is what
+         is drawn: a three-point crown on the chief, a chevron below it,
+         and a mullet in base. Nothing in it crosses at right angles. -->
+    <path d="M12 3.4 20.4 6.2v7.2c0 5.1-3.5 9.2-8.4 11.1C7.1 22.6 3.6 18.5 3.6 13.4V6.2Z"/>
+    <path d="M6.6 6.9 8.3 4.4l1.9 1.7L12 3l1.8 3.1 1.9-1.7 1.7 2.5Z" stroke-linejoin="round"/>
+    <path d="M7.6 15.1 12 11.2l4.4 3.9" stroke-width=".55" opacity=".8"/>
+    <path d="m12 17.2.85 1.72 1.9.28-1.37 1.34.32 1.89L12 21.54l-1.7.89.32-1.89-1.37-1.34 1.9-.28Z" stroke-width=".55" opacity=".72"/>
   </symbol>
 
   <!-- Laurel — awards, honours, distinction. -->
@@ -146,6 +200,18 @@
     <path d="M12 6.4c2-1.4 4.4-1.6 6.4-.8-.2 2.2-1.6 4-3.6 4.8"/>
     <path d="M12 11c2-1.4 4.4-1.6 6.4-.8-.2 2.2-1.6 4-3.6 4.8"/>
     <path d="M12 15.6c2-1.4 4.4-1.6 6.4-.8-.2 2.2-1.6 4-3.6 4.8"/>
+    <path d="M7.6 6.6c.7.9 1.2 1.9 1.4 2.9M7.6 11.2c.7.9 1.2 1.9 1.4 2.9M7.6 15.8c.7.9 1.2 1.9 1.4 2.9" stroke-width=".55" opacity=".7"/>
+    <path d="M16.4 6.6c-.7.9-1.2 1.9-1.4 2.9M16.4 11.2c-.7.9-1.2 1.9-1.4 2.9M16.4 15.8c-.7.9-1.2 1.9-1.4 2.9" stroke-width=".55" opacity=".7"/>
+  </symbol>
+
+  <!-- Rosette — the conferred honour, ribboned. Distinct from the
+       laurel (which is the wreath) and from the wax seal (which is the
+       act of sealing): this is the thing pinned to the record. -->
+  <symbol id="i-rosette" viewBox="0 0 24 24">
+    <circle cx="12" cy="8.6" r="5.4"/>
+    <path d="M12 4.4 13.2 7l2.8.3-2.1 1.9.6 2.8L12 10.6l-2.5 1.4.6-2.8L8 7.3 10.8 7Z"/>
+    <path d="M8.4 13.2 6.4 21l5.6-2.6L17.6 21l-2-7.8" stroke-width=".55" opacity=".78"/>
+    <circle cx="12" cy="8.6" r="7.2" stroke-width=".55" opacity=".55"/>
   </symbol>
 
   <!-- Quill — writing, authorship, the written standard. -->
@@ -153,6 +219,16 @@
     <path d="M3 21c3.4-7.6 8-13 17-18-1.2 8.4-5.2 14-11.4 16.2Z"/>
     <path d="M8.6 19.2 20 3"/>
     <path d="M3 21h4.2"/>
+    <path d="M11.6 15.4c1.6-2.6 3.4-5 5.6-7.4M9.8 17.6c1.9-3.1 4.1-6 6.6-8.7" stroke-width=".55" opacity=".68"/>
+  </symbol>
+
+  <!-- Nib — the fine hand. Used where "quill" would read as decoration
+       and the point is precision: rubrics, marking, the written mark. -->
+  <symbol id="i-nib" viewBox="0 0 24 24">
+    <path d="M8.4 2.6h7.2v6.2L12 21.4 8.4 8.8Z"/>
+    <path d="M12 7.9a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z"/>
+    <path d="M12 10.9v9.2" stroke-width=".55" opacity=".76"/>
+    <path d="M8.4 5.6h7.2M9.6 12.6h4.8" stroke-width=".55" opacity=".55"/>
   </symbol>
 
   <!-- Open book — the curriculum, published. -->
@@ -160,6 +236,16 @@
     <path d="M12 6.4C10 4.9 7.2 4.2 3 4.4v13.2c4.2-.2 7 .5 9 2 2-1.5 4.8-2.2 9-2V4.4c-4.2-.2-7 .5-9 2Z"/>
     <path d="M12 6.4v13.2"/>
     <path d="M6 8.4h3.2M6 11.6h3.2M14.8 8.4H18M14.8 11.6H18"/>
+    <path d="M6 14.8h3.2M14.8 14.8H18" stroke-width=".55" opacity=".72"/>
+    <path d="M3 7.2c2.8-.1 5.2.3 7 1.2M21 7.2c-2.8-.1-5.2.3-7 1.2" stroke-width=".55" opacity=".55"/>
+  </symbol>
+
+  <!-- Scroll — a volume of the imprint, issued and sealed. -->
+  <symbol id="i-scroll" viewBox="0 0 24 24">
+    <path d="M6.4 3.4h13.2v14.2a3 3 0 0 1-3 3H6.4"/>
+    <path d="M6.4 3.4a3 3 0 0 0-3 3v1.8h3"/>
+    <path d="M6.4 20.6a3 3 0 0 0 3-3V8.2"/>
+    <path d="M12 7.4h5M12 10.6h5M12 13.8h3.2" stroke-width=".55" opacity=".78"/>
   </symbol>
 
   <!-- Portico — the campus, the institution as a place. -->
@@ -167,21 +253,46 @@
     <path d="M2 8.8 12 3l10 5.8"/>
     <path d="M4 8.8V19M9.4 8.8V19M14.6 8.8V19M20 8.8V19"/>
     <path d="M2 21.4h20M3 19h18"/>
+    <path d="M4.4 8.4 12 4.1l7.6 4.3" stroke-width=".55" opacity=".6"/>
   </symbol>
 
-  <!-- Globe with meridians — worldwide delivery. -->
-  <symbol id="i-globe" viewBox="0 0 24 24">
-    <circle cx="12" cy="12" r="9"/>
-    <path d="M3 12h18"/>
-    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z"/>
-    <path d="M5 6.4c2 1.2 4.4 1.8 7 1.8s5-.6 7-1.8M5 17.6c2-1.2 4.4-1.8 7-1.8s5 .6 7 1.8"/>
+  <!-- Portcullis — Westminster, and the United Kingdom residency. -->
+  <symbol id="i-portcullis" viewBox="0 0 24 24">
+    <path d="M3.6 4.4h16.8v13.2H3.6Z"/>
+    <path d="M8.2 4.4v13.2M12 4.4v13.2M15.8 4.4v13.2"/>
+    <path d="M3.6 8.8h16.8M3.6 13.2h16.8" stroke-width=".55" opacity=".78"/>
+    <path d="M6.4 17.6v2.6M9.9 17.6v2.6M14.1 17.6v2.6M17.6 17.6v2.6" stroke-width=".55" opacity=".78"/>
+    <path d="M3.6 4.4 12 1.8l8.4 2.6" stroke-width=".55" opacity=".6"/>
   </symbol>
+
+  <!-- Columns — governance, the academic bodies. -->
+  <symbol id="i-columns" viewBox="0 0 24 24">
+    <path d="M2.6 6.6h18.8M4 21.4h16"/>
+    <path d="M6.4 6.6v14.8M12 6.6v14.8M17.6 6.6v14.8"/>
+    <path d="M2.6 6.6 12 2.6l9.4 4"/>
+    <path d="M5.2 9.2h2.4M10.8 9.2h2.4M16.4 9.2h2.4" stroke-width=".55" opacity=".7"/>
+    <path d="M5.2 19h2.4M10.8 19h2.4M16.4 19h2.4" stroke-width=".55" opacity=".7"/>
+  </symbol>
+
+  <!-- Lectern — teaching practice, the seminar, the spoken standard. -->
+  <symbol id="i-lectern" viewBox="0 0 24 24">
+    <path d="M4.4 6.6 17.8 3.4l1.8 4.4L6.2 11Z"/>
+    <path d="M11.8 10.2v8.4M7.4 21.4h8.8"/>
+    <path d="M11.8 18.6c-1.7 0-3.1.9-3.7 2.2M11.8 18.6c1.7 0 3.1.9 3.7 2.2"/>
+    <path d="M6.8 6.8 16.8 4.4M7.6 8.8l10-2.4" stroke-width=".55" opacity=".7"/>
+  </symbol>
+
+  <!-- ================================================================
+       THE RECORD, THE STANDARD, THE MEASURE
+       ================================================================ -->
 
   <!-- Wax seal — conferral, the sealed record. -->
   <symbol id="i-seal" viewBox="0 0 24 24">
     <circle cx="12" cy="9.6" r="6.6"/>
     <circle cx="12" cy="9.6" r="3.4"/>
     <path d="M8 15.4 6.6 22l5.4-2.6L17.4 22 16 15.4"/>
+    <circle cx="12" cy="9.6" r="5" stroke-width=".55" opacity=".55"/>
+    <path d="M12 4.6v1.6M12 13v1.6M7 9.6h1.6M15.4 9.6H17" stroke-width=".55" opacity=".7"/>
   </symbol>
 
   <!-- Ledger — the record, the register, the table of marks. -->
@@ -189,18 +300,8 @@
     <path d="M4 2.6h16v18.8H4Z"/>
     <path d="M8 2.6v18.8"/>
     <path d="M11 7.4h6M11 12h6M11 16.6h6"/>
-  </symbol>
-
-  <!-- Waveform — the Listening Lab, recorded speech. -->
-  <symbol id="i-waveform" viewBox="0 0 24 24">
-    <path d="M2 12h2.4M7 7.4v9.2M11.6 4v16M16.2 8.6v6.8M20.8 10.8v2.4"/>
-  </symbol>
-
-  <!-- Mortarboard — graduation, completion of the pathway. -->
-  <symbol id="i-mortarboard" viewBox="0 0 24 24">
-    <path d="M12 3.4 22.4 8 12 12.6 1.6 8Z"/>
-    <path d="M5.6 10v5.6c0 1.8 2.9 3.2 6.4 3.2s6.4-1.4 6.4-3.2V10"/>
-    <path d="M22.4 8v5.6"/>
+    <path d="M11 9.7h6M11 14.3h6M11 18.9h4" stroke-width=".55" opacity=".68"/>
+    <path d="M5.6 6h.8M5.6 12h.8M5.6 18h.8" stroke-width=".55" opacity=".68"/>
   </symbol>
 
   <!-- Scales — assessment, academic integrity, fair marking. -->
@@ -208,12 +309,98 @@
     <path d="M12 3.4v17.2M6.6 20.6h10.8"/>
     <path d="M4 7h16"/>
     <path d="M4 7 1.4 13.4h5.2ZM20 7l-2.6 6.4h5.2Z"/>
+    <path d="M4 7V5.2M20 7V5.2M9.6 5.6h4.8" stroke-width=".55" opacity=".7"/>
+    <circle cx="12" cy="4.4" r="1" stroke-width=".55" opacity=".7"/>
+  </symbol>
+
+  <!-- Shield with a check — quality assurance, verification. -->
+  <symbol id="i-shield-check" viewBox="0 0 24 24">
+    <path d="M12 2.2 20.4 5v7.6c0 4.8-3.4 8.6-8.4 10.2-5-1.6-8.4-5.4-8.4-10.2V5Z"/>
+    <path d="m8.4 12 2.6 2.6 4.6-5"/>
+    <path d="M12 4.2 18.4 6.4v6.2c0 3.8-2.6 6.9-6.4 8.2-3.8-1.3-6.4-4.4-6.4-8.2V6.4Z" stroke-width=".55" opacity=".5"/>
+  </symbol>
+
+  <!-- Target — the published standard, and hitting it. -->
+  <symbol id="i-target" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <circle cx="12" cy="12" r="5"/>
+    <circle cx="12" cy="12" r="1.4"/>
+    <path d="M12 1.6v3M12 19.4v3M1.6 12h3M19.4 12h3" stroke-width=".55" opacity=".72"/>
+  </symbol>
+
+  <!-- Layers — the six levels, stacked into one pathway. -->
+  <symbol id="i-layers" viewBox="0 0 24 24">
+    <path d="M12 2.6 21.6 7 12 11.4 2.4 7Z"/>
+    <path d="m2.4 12 9.6 4.4 9.6-4.4"/>
+    <path d="m2.4 17 9.6 4.4 9.6-4.4"/>
+    <path d="M6.6 9 12 11.4 17.4 9" stroke-width=".55" opacity=".6"/>
+  </symbol>
+
+  <!-- Ascending chart — progression through the levels. -->
+  <symbol id="i-progress" viewBox="0 0 24 24">
+    <path d="M3 21h18M3 21V3"/>
+    <path d="M6.6 17.4v-3.2M11 17.4v-6.8M15.4 17.4V7.8M19.8 17.4V4.6"/>
+    <path d="M6.6 13 11 9.4l4.4-3.2 4.4-2.8" stroke-width=".55" opacity=".62"/>
+    <path d="M3 16.2h18M3 11.4h18M3 6.6h18" stroke-width=".55" opacity=".32"/>
+  </symbol>
+
+  <!-- Hourglass — hours of study, time on task. -->
+  <symbol id="i-hourglass" viewBox="0 0 24 24">
+    <path d="M5.6 2.6h12.8M5.6 21.4h12.8"/>
+    <path d="M7.2 2.6v3.6L12 12l-4.8 5.8v3.6M16.8 2.6v3.6L12 12l4.8 5.8v3.6"/>
+    <path d="M9.4 5.4h5.2" stroke-width=".55" opacity=".72"/>
+    <path d="M9.4 18.6h5.2M10.4 16.4h3.2" stroke-width=".55" opacity=".72"/>
+  </symbol>
+
+  <!-- Calendar — dates, the academic year. -->
+  <symbol id="i-calendar" viewBox="0 0 24 24">
+    <path d="M3.4 5.4h17.2v16H3.4Z"/>
+    <path d="M3.4 10.2h17.2M8.2 2.6v5M15.8 2.6v5"/>
+    <path d="M6.8 13.4h2.2M11 13.4h2.2M15.2 13.4h2.2" stroke-width=".55" opacity=".72"/>
+    <path d="M6.8 17.2h2.2M11 17.2h2.2M15.2 17.2h2.2" stroke-width=".55" opacity=".72"/>
+  </symbol>
+
+  <!-- Waveform — the Listening Lab, recorded speech. -->
+  <symbol id="i-waveform" viewBox="0 0 24 24">
+    <path d="M2 12h2.4M7 7.4v9.2M11.6 4v16M16.2 8.6v6.8M20.8 10.8v2.4"/>
+    <path d="M4.7 10.4v3.2M9.3 5.6v12.8M13.9 6.2v11.6M18.5 9.4v5.2" stroke-width=".55" opacity=".62"/>
+  </symbol>
+
+  <!-- Mortarboard — graduation, completion of the pathway. -->
+  <symbol id="i-mortarboard" viewBox="0 0 24 24">
+    <path d="M12 3.4 22.4 8 12 12.6 1.6 8Z"/>
+    <path d="M5.6 10v5.6c0 1.8 2.9 3.2 6.4 3.2s6.4-1.4 6.4-3.2V10"/>
+    <path d="M22.4 8v5.6"/>
+    <path d="M22.4 13.6a1 1 0 1 0 0 2 1 1 0 0 0 0-2Z" stroke-width=".55" opacity=".78"/>
+    <path d="M6.4 8.4 12 5.9l5.6 2.5" stroke-width=".55" opacity=".5"/>
   </symbol>
 
   <!-- Compass — direction, guidance, the pathway. -->
   <symbol id="i-compass" viewBox="0 0 24 24">
     <circle cx="12" cy="12" r="9"/>
     <path d="m15.6 8.4-2 5.2-5.2 2 2-5.2Z"/>
+    <circle cx="12" cy="12" r="6.8" stroke-width=".55" opacity=".45"/>
+    <path d="M12 3v1.8M12 19.2V21M3 12h1.8M19.2 12H21" stroke-width=".55" opacity=".72"/>
+  </symbol>
+
+  <!-- Astrolabe — the instrument. The platform built for one programme,
+       where a compass would say "direction" and this says "measurement". -->
+  <symbol id="i-astrolabe" viewBox="0 0 24 24">
+    <!-- AN ASTROLABE, not a third globe.
+         This, #i-globe and #i-language were three circles with meridians
+         on them and were indistinguishable on a contact sheet. An
+         astrolabe is not a globe: it is a suspended disc — a shackle and
+         ring at the top, a graduated limb, a pierced rete, and an
+         alidade lying across the face on the diagonal. The suspension
+         and the alidade are what tell it apart at 30px. -->
+    <path d="M12 1.4a1.5 1.5 0 0 1 0 3 1.5 1.5 0 0 1 0-3Z" stroke-width=".7"/>
+    <path d="M12 4.4v1.2"/>
+    <circle cx="12" cy="14" r="8.2"/>
+    <circle cx="12" cy="14" r="5.9" stroke-width=".55" opacity=".72"/>
+    <path d="M12 8.1v11.8M6.1 14h11.8" stroke-width=".55" opacity=".5"/>
+    <path d="m6.2 19.8 11.6-11.6" stroke-linecap="round"/>
+    <circle cx="12" cy="14" r="1.15" stroke-width=".7"/>
+    <path d="M12 5.8v2.3M3.8 14H6.1M17.9 14h2.3M12 19.9v2.3" stroke-width=".55" opacity=".55"/>
   </symbol>
 
   <!-- Clock tower — London, the campus HQ. -->
@@ -223,7 +410,13 @@
     <circle cx="12" cy="13" r="2.6"/>
     <path d="M12 11.6V13h1.2"/>
     <path d="M6.6 21.4h10.8"/>
+    <path d="M9.4 17.4h5.2M9.4 19.2h5.2" stroke-width=".55" opacity=".68"/>
+    <path d="M12 4.6v1.6" stroke-width=".55" opacity=".68"/>
   </symbol>
+
+  <!-- ================================================================
+       ACCESS, CORRESPONDENCE, PARTNERSHIP
+       ================================================================ -->
 
   <!-- Key — access, the student portal. -->
   <symbol id="i-key" viewBox="0 0 24 24">
@@ -236,24 +429,7 @@
     <path d="M2.6 5h18.8v14H2.6Z"/>
     <path d="m2.6 5 9.4 7.4L21.4 5"/>
     <circle cx="12" cy="12.6" r="2.2"/>
-  </symbol>
-
-  <!-- Shield with a check — quality assurance, verification. -->
-  <symbol id="i-shield-check" viewBox="0 0 24 24">
-    <path d="M12 2.2 20.4 5v7.6c0 4.8-3.4 8.6-8.4 10.2-5-1.6-8.4-5.4-8.4-10.2V5Z"/>
-    <path d="m8.4 12 2.6 2.6 4.6-5"/>
-  </symbol>
-
-  <!-- Ascending chart — progression through the levels. -->
-  <symbol id="i-progress" viewBox="0 0 24 24">
-    <path d="M3 21h18M3 21V3"/>
-    <path d="M6.6 17.4v-3.2M11 17.4v-6.8M15.4 17.4V7.8M19.8 17.4V4.6"/>
-  </symbol>
-
-  <!-- Calendar — dates, the academic year. -->
-  <symbol id="i-calendar" viewBox="0 0 24 24">
-    <path d="M3.4 5.4h17.2v16H3.4Z"/>
-    <path d="M3.4 10.2h17.2M8.2 2.6v5M15.8 2.6v5"/>
+    <path d="m2.6 19 7-5.6M21.4 19l-7-5.6" stroke-width=".55" opacity=".6"/>
   </symbol>
 
   <!-- Passport — international applicants, visas. -->
@@ -261,14 +437,116 @@
     <path d="M4.6 2.6h14.8v18.8H4.6Z"/>
     <circle cx="12" cy="9.6" r="3.4"/>
     <path d="M8.6 16.6h6.8"/>
+    <path d="M12 6.2c1.2 1.4 1.8 2.6 1.8 3.4S13.2 11.8 12 13.2c-1.2-1.4-1.8-2.6-1.8-3.6S10.8 7.6 12 6.2Z" stroke-width=".55" opacity=".7"/>
+    <path d="M9.2 18.6h5.6" stroke-width=".55" opacity=".7"/>
   </symbol>
 
-  <!-- Columns — governance, the academic bodies. -->
-  <symbol id="i-columns" viewBox="0 0 24 24">
-    <path d="M2.6 6.6h18.8M4 21.4h16"/>
-    <path d="M6.4 6.6v14.8M12 6.6v14.8M17.6 6.6v14.8"/>
-    <path d="M2.6 6.6 12 2.6l9.4 4"/>
+  <!-- Accord — an agreement signed by two parties. Partnerships,
+       articulation, the awarding organisation. -->
+  <symbol id="i-accord" viewBox="0 0 24 24">
+    <path d="M4.4 4.4h9.2l6 6v9.2H4.4Z"/>
+    <path d="M13.6 4.4v6h6"/>
+    <path d="M7.6 14.4h8.8M7.6 17.2h5.6" stroke-width=".55" opacity=".76"/>
+    <circle cx="9.4" cy="9.4" r="2" stroke-width=".55" opacity=".76"/>
   </symbol>
+
+  <!-- Lock — privacy, the learner's data, what is not shared. -->
+  <symbol id="i-lock" viewBox="0 0 24 24">
+    <path d="M4.6 10.4h14.8v11H4.6Z"/>
+    <path d="M8 10.4V7.6a4 4 0 0 1 8 0v2.8"/>
+    <path d="M12 14.4v3.2" stroke-width=".55" opacity=".78"/>
+    <circle cx="12" cy="14" r="1.2" stroke-width=".55" opacity=".78"/>
+  </symbol>
+
+  <!-- A plain tick, for lists that are not shields. -->
+  <symbol id="i-check" viewBox="0 0 24 24">
+    <path d="m4.4 12.6 5 5 10.2-11.2"/>
+  </symbol>
+
+  <!-- An open ring — the counterpart to i-check, and the reason it
+       exists. A register of what is settled and what is not cannot
+       use one mark for both: /about/ listed its OUTSTANDING work
+       under the same tick as its confirmed work, so the page marked
+       unfinished things as done. This is the same diameter as the
+       tick's stroke path and deliberately empty. -->
+  <symbol id="i-ring" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="7.6"/>
+  </symbol>
+
+  <!-- A struck seal-check: settled, and sealed. Reads as heavier than
+       a bare tick beside the open ring above. -->
+  <symbol id="i-struck" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="7.6"/>
+    <path d="m8.4 12.2 2.5 2.5 4.7-5.4"/>
+  </symbol>
+
+  <!-- Opening quotation, for pulled quotes set as display type. -->
+  <symbol id="i-quote" viewBox="0 0 24 24">
+    <path d="M9.6 5.4C6 7 3.6 10.2 3.6 14a4.6 4.6 0 0 0 4.6 4.6A4.2 4.2 0 0 0 12.4 14a4.1 4.1 0 0 0-4-4.2c-.5 0-.9 0-1.2.2.4-1.6 1.6-3 3.4-4Z"/>
+    <path d="M20.4 5.4c-3.6 1.6-6 4.8-6 8.6a4.6 4.6 0 0 0 4.6 4.6A4.2 4.2 0 0 0 23.2 14a4.1 4.1 0 0 0-4-4.2c-.5 0-.9 0-1.2.2.4-1.6 1.6-3 3.4-4Z" stroke-width=".55" opacity=".6"/>
+  </symbol>
+
+  <!-- ================================================================
+       THE WORLD, AND THE FOUR REGIONS
+       ---------------------------------------------------------------
+       One globe under one graticule. Each region engraves a different
+       sector of it and sets a locator diamond into that sector, so the
+       four read as one instrument turned four ways rather than as four
+       flags. See the note at the head of this file.
+       ================================================================ -->
+
+  <!-- Globe with meridians — worldwide delivery. -->
+  <symbol id="i-globe" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M3 12h18"/>
+    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z"/>
+    <path d="M5 6.4c2 1.2 4.4 1.8 7 1.8s5-.6 7-1.8M5 17.6c2-1.2 4.4-1.8 7-1.8s5 .6 7 1.8"/>
+    <path d="M4.2 9.2h15.6M4.2 14.8h15.6" stroke-width=".55" opacity=".38"/>
+  </symbol>
+
+  <!-- The Gulf — the south-eastern sector. -->
+  <symbol id="i-region-gulf" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M3 12h18"/>
+    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z" stroke-width=".55" opacity=".45"/>
+    <path d="M12 12 13.56 20.86A9 9 0 0 0 20.97 12.78Z"/>
+    <path d="M13.4 17.6c2.4-.3 4.3-1.4 5.6-3.2M14.1 19.5c2.9-.5 5.2-2 6.6-4.4" stroke-width=".55" opacity=".62"/>
+    <path d="m16.4 15.1 1.3 1.3-1.3 1.3-1.3-1.3Z" stroke-width=".55" opacity=".95"/>
+  </symbol>
+
+  <!-- Europe — the north-western sector. -->
+  <symbol id="i-region-europe" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M3 12h18"/>
+    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z" stroke-width=".55" opacity=".45"/>
+    <path d="M12 12 10.44 3.14A9 9 0 0 0 3.03 11.22Z"/>
+    <path d="M10.6 6.4c-2.4.3-4.3 1.4-5.6 3.2M9.9 4.5c-2.9.5-5.2 2-6.6 4.4" stroke-width=".55" opacity=".62"/>
+    <path d="m7.6 8.9-1.3-1.3 1.3-1.3 1.3 1.3Z" stroke-width=".55" opacity=".95"/>
+  </symbol>
+
+  <!-- Africa — the south-western sector. -->
+  <symbol id="i-region-africa" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M3 12h18"/>
+    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z" stroke-width=".55" opacity=".45"/>
+    <path d="M12 12 3.03 12.78A9 9 0 0 0 10.44 20.86Z"/>
+    <path d="M10.6 17.6c-2.4-.3-4.3-1.4-5.6-3.2M9.9 19.5c-2.9-.5-5.2-2-6.6-4.4" stroke-width=".55" opacity=".62"/>
+    <path d="m7.6 15.1 1.3 1.3-1.3 1.3-1.3-1.3Z" stroke-width=".55" opacity=".95"/>
+  </symbol>
+
+  <!-- Asia — the north-eastern sector. -->
+  <symbol id="i-region-asia" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M3 12h18"/>
+    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z" stroke-width=".55" opacity=".45"/>
+    <path d="M12 12 20.97 11.22A9 9 0 0 0 13.56 3.14Z"/>
+    <path d="M13.4 6.4c2.4.3 4.3 1.4 5.6 3.2M14.1 4.5c2.9.5 5.2 2 6.6 4.4" stroke-width=".55" opacity=".62"/>
+    <path d="m16.4 8.9-1.3-1.3 1.3-1.3 1.3 1.3Z" stroke-width=".55" opacity=".95"/>
+  </symbol>
+
+  <!-- ================================================================
+       NAVIGATION AND UTILITY
+       ================================================================ -->
 
   <!-- Arrow, used for links and CTAs. -->
   <symbol id="i-arrow" viewBox="0 0 24 24">
@@ -294,8 +572,34 @@
 
   <!-- Language switch. -->
   <symbol id="i-language" viewBox="0 0 24 24">
-    <circle cx="12" cy="12" r="9"/>
-    <path d="M3 12h18M12 3c2.4 2.6 3.6 5.6 3.6 9s-1.2 6.4-3.6 9c-2.4-2.6-3.6-5.6-3.6-9S9.6 5.6 12 3Z"/>
+    <!-- LANGUAGE, not a fourth globe.
+         A circle with meridians on it is a GLOBE, and #i-globe is
+         already that. This mark means the two languages the College
+         publishes in, so it is drawn as the two scripts: a Latin A on
+         the sinister side, an Arabic waw-and-tooth stroke on the
+         dexter, divided by a hairline rule. Unmistakable at 30px, and
+         it says the actual thing rather than gesturing at "world". -->
+    <path d="M3.1 15.6 6.4 7.4l3.3 8.2M4.4 12.9h4"/>
+    <path d="M12 4.6v14.8" stroke-width=".55" opacity=".45"/>
+    <path d="M17.9 8.1c1.7 0 2.9 1.2 2.9 2.9 0 1.6-1.1 2.7-2.6 2.7-1.2 0-2-.7-2-1.7 0-.9.6-1.5 1.4-1.5.6 0 1 .3 1.1.8"/>
+    <path d="M14.2 16.4h6.6" stroke-width=".55" opacity=".8"/>
+  </symbol>
+
+  <!-- Countermark — a sheet carrying an identifying impression, for the
+       edition mark printed on every page of every volume. Distinct from
+       i-seal, which is a seal of conferral with a ribbon: this is the
+       quieter thing, a mark that says WHERE A PAGE CAME FROM. The leaf
+       is at full weight; the impression and its radiating ticks are the
+       hairline, so the mark reads as pressed INTO the paper rather than
+       drawn on top of it. -->
+  <symbol id="i-countermark" viewBox="0 0 24 24">
+    <path d="M5 2.6h10.4L19 6.2v15.2H5Z"/>
+    <path d="M15.4 2.6v3.6H19"/>
+    <circle cx="12" cy="13.4" r="4.2"/>
+    <path d="M9.6 13.4h4.8"/>
+    <circle cx="12" cy="13.4" r="2.2" stroke-width=".55" opacity=".7"/>
+    <path d="M12 7.9v1.3M12 17.6v1.3M6.6 13.4h1.3M16.1 13.4h1.3"
+      stroke-width=".55" opacity=".75"/>
   </symbol>
 
 </defs>
@@ -339,32 +643,49 @@
     <path d="M6.4 19.0H18.6M6.4 15.8H18.6M6.4 12.6H18.6M6.4 9.4H18.6M6.4 6.2H18.6M6.4 3.0H18.6"/>
   </symbol>
 </svg>
-<div class="topbar">
+<!-- شريط الأدوات: أداةٌ لا شريط اتصال. انظر النسخة الإنجليزية للتعليل. -->
+<div class="topbar" data-worldclock>
   <div class="topbar__inner">
-    <div class="topbar__contacts">
-      <a href="mailto:info@worldwencollege.co.uk" class="topbar__item" dir="ltr">
-        <svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg>
-        info@worldwencollege.co.uk
-      </a>
-      <span class="topbar__item topbar__item--muted">
+
+    <div class="seat">
+      <span class="seat__flag" aria-hidden="true">🇬🇧</span>
+      <span class="seat__place">
+        <span class="seat__city">لندن</span><span class="seat__country">، المملكة المتحدة</span>
+      </span>
+      <span class="seat__rule" aria-hidden="true"></span>
+      <span class="seat__clock">
         <svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg>
-        الحرم الجامعي في لندن · التقديم متاح عالميًا
+        <span data-clock-london dir="ltr">&mdash;</span>
+        <span class="seat__tz">بتوقيت لندن</span>
       </span>
     </div>
+
+    <div class="here" data-here hidden>
+      <span class="here__label">تتصفّح من</span>
+      <span class="here__flag" data-here-flag aria-hidden="true"></span>
+      <span class="here__name" data-here-name></span>
+      <span class="seat__rule" aria-hidden="true"></span>
+      <span class="here__time" data-clock-local dir="ltr"></span>
+    </div>
+
     <div class="topbar__right">
-      <a href="/ar/contact/" class="topbar__item">
-        <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg>
+      <a href="/ar/contact/" class="topbar__item topbar__item--contact">
+        <svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg>
         تواصل معنا
       </a>
-      <a class="topbar__lang" href="/admissions/" lang="en" hreflang="en" dir="ltr">
-        <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
-        English
-      </a>
-      <div class="topbar__social" aria-label="روابط التواصل الاجتماعي">
-        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
-        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
-        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
-      </div>
+      <div class="langswitch">
+    <button type="button" class="langswitch__btn" aria-expanded="false" aria-haspopup="true">
+      <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
+      <span class="langswitch__now">العربية</span>
+      <svg class="icon langswitch__chev" aria-hidden="true"><use href="#i-arrow"/></svg>
+    </button>
+    <div class="langswitch__menu crystal" role="menu">
+      <p class="langswitch__head">الطبعات</p>
+        <a class="lang__row" href="/admissions/" hreflang="en" lang="en"><span class="lang__flag" aria-hidden="true">🇬🇧</span><span class="lang__endonym" lang="en">English</span><span class="lang__english">English</span></a>
+        <span class="lang__row lang__row--current" aria-current="true"><span class="lang__flag" aria-hidden="true">🇸🇦</span><span class="lang__endonym" dir="rtl" lang="ar">العربية</span><span class="lang__english">Arabic</span><span class="lang__state"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg></span></span>
+    </div>
+  </div>
+      
     </div>
   </div>
 </div>
@@ -384,12 +705,9 @@
   وبقي السلوك الذي كان جيدًا فعلًا: عند التمرير ينكمش الشريط، ويصغر
   الشعار، وينسحب سطر الحرم، فيبقى اسم الكلية بحجمه الكامل.
 
-  القوائم هي الأركان الثمانية نفسها التي تحملها الترويسة الإنجليزية:
-  عن الكلية، البرامج الأكاديمية، الدراسة، القبول، الطلاب، المعايير،
-  الحوكمة، المطبعة والمكتبة. وكانت ستة؛ أُضيفت «الدراسة» و«المعايير»
-  لأن صفحات المستويات الستة وصفحة النزاهة الأكاديمية لم تكن تُبلَغ من
-  أي قائمة. ولم يُنشئ الركنان الجديدان صفحة واحدة جديدة: «المعايير»
-  تشير إلى أقسام قائمة بالفعل في الحوكمة، والركن مدخلٌ لا صفحة. القاعدة الثابتة باقية:
+  القوائم هي أركان docs/information-architecture.html الستة نفسها
+  التي تحملها الترويسة الإنجليزية: عن الكلية، البرامج الأكاديمية،
+  القبول، الطلاب، الحوكمة، المطبعة والمكتبة. القاعدة الثابتة باقية:
   حيث لا توجد صفحة عربية، لا يُدرج الرابط أصلًا بدلًا من إخراج
   القارئ من لغته — راجع pages/manifest.json لما هو مترجَم. رابط
   التواصل في شريط الخدمات أعلاه.
@@ -400,7 +718,7 @@
   واحدة، وهذا ما يعنيه الوصف «مكدَّس» على هاتف عرضه ٣٧٥ بكسل. كل ركن
   الآن زوج accordion__q / accordion__a مغلق — المكوّن ذاته الذي
   استخدمته صفحة الأسئلة الشائعة من قبل، موصول مرة واحدة في js/site.js
-  ومُعاد استخدامه هنا بدل كتابته مرتين — فيرى القارئ ثمانية أسماء، يفتح
+  ومُعاد استخدامه هنا بدل كتابته مرتين — فيرى القارئ سبعة أسماء، يفتح
   واحدًا، ويبقى الباقي بعيدًا عن الطريق. واللوحة نفسها طبقة ثابتة
   مثبَّتة عند var(--header-h) بدل أن تكون كتلة داخل السياق، ولها
   زخرفتها الغيوشيه الخاصة بها للاحتفالية، وتتحوّل أيقونة الهمبرغر إلى
@@ -440,7 +758,9 @@
               <p class="mega__label">المؤسسة</p>
               <a href="/ar/about/">عن الكلية</a>
               <a href="/ar/about/#vision">الرؤية والرسالة</a>
-              <a href="/ar/about/#philosophy">الفلسفة التربوية</a>
+              <a href="/ar/why-english/">حجّة الإنجليزية</a>
+              <a href="/ar/why-english/">حجّة الإنجليزية</a>
+          <a href="/ar/about/#philosophy">الفلسفة التربوية</a>
               <a href="/ar/about/#structure">التنظيم</a>
               <a href="/ar/about/careers/">العمل في الكلية</a>
             </div>
@@ -448,7 +768,7 @@
           <a class="mega__feature" href="/ar/about/#status">
             <svg class="icon icon--lg" aria-hidden="true"><use href="#i-columns"/></svg>
             <span class="mega__feature-label">الوضع المؤسسي</span>
-            <span class="mega__feature-text">ما هي الكلية اليوم — وما ليست بعد. مكتوب بوضوح ومحدَّث باستمرار.</span>
+            <span class="mega__feature-text">ثماني دفعات وستون دولة. أكثر من 22,000 متعلّم درسوا هنا منذ 2023، والسجل وراء الرقم منشور.</span>
             <span class="mega__feature-go">اقرأ الوضع المؤسسي <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
           </a>
         </div>
@@ -462,48 +782,22 @@
               <p class="mega__label">البرنامج</p>
               <a href="/ar/academics/">نظرة عامة على البرنامج</a>
               <a href="/ar/academics/#iefc">برنامج <span dir="ltr">IEFC</span></a>
+              <a href="/ar/academics/#levels">المستويات الستة</a>
               <a href="/ar/academics/#learning">كيف يجري التعلّم</a>
               <a href="/ar/academics/#campus">الحرم الرقمي</a>
             </div>
             <div class="mega__col">
               <p class="mega__label">التدريس وهيئته</p>
               <a href="/ar/academics/teaching/">ممارسة التدريس</a>
-              <a href="/ar/academics/teaching/#development">تطوير المعلّمين</a>
+              <a href="/ar/academics/tutor-handbook/">دليل المدرّس</a>
               <a href="/ar/faculty/">هيئة التدريس</a>
             </div>
           </div>
-          <a class="mega__feature" href="/ar/academics/teaching/">
-            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-quill"/></svg>
-            <span class="mega__feature-label">ستون درسًا، مكتوبة</span>
-            <span class="mega__feature-text">كل مخرج وكل معيار تصحيح، متاح للقراءة قبل التسجيل.</span>
-            <span class="mega__feature-go">كيف تُدرّس الكلية <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
-          </a>
-        </div>
-      </div>
-
-      <div class="nav__item nav__item--has-menu">
-        <a href="/ar/academics/#levels" aria-haspopup="true" aria-expanded="false">الدراسة</a>
-        <div class="nav__menu nav__menu--mega crystal">
-          <div class="mega__cols">
-            <div class="mega__col">
-              <p class="mega__label">المستويات الستة</p>
-              <a href="/ar/academics/#levels">المستويات الستة جميعًا</a>
-              <a href="/ar/study/level-1/">المستوى الأول &middot; التأسيس</a>
-              <a href="/ar/study/level-2/">المستوى الثاني &middot; الابتدائي</a>
-              <a href="/ar/study/level-3/">المستوى الثالث &middot; المتوسط</a>
-            </div>
-            <div class="mega__col">
-              <p class="mega__label">&nbsp;</p>
-              <a href="/ar/study/level-4/">المستوى الرابع &middot; فوق المتوسط</a>
-              <a href="/ar/study/level-5/">المستوى الخامس &middot; المتقدّم</a>
-              <a href="/ar/study/level-6/">المستوى السادس &middot; الإتقان</a>
-            </div>
-          </div>
-          <a class="mega__feature" href="/ar/study/level-1/">
+          <a class="mega__feature" href="/ar/academics/#levels">
             <svg class="icon icon--lg" aria-hidden="true"><use href="#i-progress"/></svg>
-            <span class="mega__feature-label">كل مستوى كامل بذاته</span>
-            <span class="mega__feature-text">يُمنح منفصلًا، وله مخرجاته. والتوقف عند الثالث يتركك حاملًا للثالث، دائمًا.</span>
-            <span class="mega__feature-go">ابدأ من التأسيس <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+            <span class="mega__feature-label">ستون وحدة، مكتوبة</span>
+            <span class="mega__feature-text">كل مخرج وكل معيار تصحيح، متاح للقراءة قبل التسجيل.</span>
+            <span class="mega__feature-go">استعرض المستويات <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
           </a>
         </div>
       </div>
@@ -518,13 +812,15 @@
               <a href="/ar/admissions/apply/">كيفية التقديم</a>
               <a href="/ar/admissions/#requirements">شروط الالتحاق</a>
               <a href="/ar/admissions/tuition/">الرسوم والتمويل</a>
+              <a href="/ar/admissions/tuition/#routes">الدراسة المستقلة</a>
               <a href="/ar/admissions/policy/">سياسة القبول</a>
+              <a href="/ar/admissions/international/">الدراسة من بلدك</a>
             </div>
           </div>
           <a class="mega__feature" href="/ar/admissions/apply/">
             <svg class="icon icon--lg" aria-hidden="true"><use href="#i-seal"/></svg>
-            <span class="mega__feature-label">القبول مستمر</span>
-            <span class="mega__feature-text">لا دفعة تنتظرها. تبدأ يوم تسجّل.</span>
+            <span class="mega__feature-label">ثلاث دفعات في العام</span>
+            <span class="mega__feature-text">الربيع والصيف والخريف. ومئتا مقعد مفتوحة عالميًا في الدفعة الحالية.</span>
             <span class="mega__feature-go">ابدأ طلبك <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
           </a>
         </div>
@@ -540,8 +836,10 @@
               <a href="/ar/students/assessment/">كيف يتم تقييمك</a>
               <a href="/ar/students/academic-record/">سجلك الأكاديمي</a>
               <a href="/ar/students/awards/">الشهادات والمراتب</a>
-              <a href="/ar/students/#support">الدعم</a>
               <a href="/ar/students/regulations/">اللوائح الأكاديمية</a>
+              <a href="/ar/students/examinations/">لوائح الامتحان</a>
+              <a href="/ar/students/handbook/">دليل الطالب</a>
+              <a href="/ar/support/complaints/">الشكاوى</a>
             </div>
           </div>
           <a class="mega__feature" href="/ar/student-portal/">
@@ -549,28 +847,6 @@
             <span class="mega__feature-label">بوابة الطالب</span>
             <span class="mega__feature-text">برنامجك وتسجيلاتك وسجلك، في مكان واحد.</span>
             <span class="mega__feature-go">ادخل البوابة <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
-          </a>
-        </div>
-      </div>
-
-      <div class="nav__item nav__item--has-menu">
-        <a href="/ar/governance/#standard" aria-haspopup="true" aria-expanded="false">المعايير</a>
-        <div class="nav__menu nav__menu--mega nav__menu--slim crystal">
-          <div class="mega__cols">
-            <div class="mega__col">
-              <p class="mega__label">كيف يُصان المعيار</p>
-              <a href="/ar/governance/#standard">المعيار</a>
-              <a href="/ar/governance/#verification">التحقق</a>
-              <a href="/ar/governance/#research">البحث</a>
-              <a href="/ar/governance/evidence/">سجل الأدلة</a>
-              <a href="/ar/students/integrity/">النزاهة الأكاديمية</a>
-            </div>
-          </div>
-          <a class="mega__feature" href="/ar/governance/evidence/">
-            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-shield-check"/></svg>
-            <span class="mega__feature-label">دليل لا ادّعاء</span>
-            <span class="mega__feature-text">كل ما تقوله الكلية عن نفسها منشور ومعه السجل الذي يسنده &mdash; بما فيه ما لم يُعتمد بعد.</span>
-            <span class="mega__feature-go">سجل الأدلة <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
           </a>
         </div>
       </div>
@@ -584,14 +860,19 @@
               <a href="/ar/governance/">الحوكمة</a>
               <a href="/ar/governance/#leadership">القيادة والهيئات</a>
               <a href="/ar/governance/#quality">ضمان الجودة</a>
+              <a href="/ar/governance/evidence/">سجل الأدلة</a>
               <a href="/ar/governance/decisions/">سجل القرارات</a>
+              <a href="/ar/governance/quality/">بنية الجودة</a>
+              <a href="/ar/governance/quality-manual/">دليل ضمان الجودة</a>
+          <a href="/ar/governance/instruments/">سجلّ الأدوات النظامية</a>
+              <a href="/ar/governance/instruments/">سجلّ الأدوات النظامية</a>
             </div>
           </div>
-          <a class="mega__feature" href="/ar/governance/decisions/">
-            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-scales"/></svg>
-            <span class="mega__feature-label">كل قرار في السجل</span>
-            <span class="mega__feature-text">ما الذي قُرِّر، وبأي صلاحية، وعلامَ لا يزال يتوقف.</span>
-            <span class="mega__feature-go">سجل القرارات <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          <a class="mega__feature" href="/ar/governance/evidence/">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-shield-check"/></svg>
+            <span class="mega__feature-label">دليل لا ادّعاء</span>
+            <span class="mega__feature-text">كل ما تقوله الكلية عن نفسها منشور ومعه السجل الذي يسنده.</span>
+            <span class="mega__feature-go">سجل الأدلة <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
           </a>
         </div>
       </div>
@@ -636,14 +917,36 @@
        داخل محتوى الصفحة. مقتضبة عن قصد: سطر واحد بلا قرص تناظري، فلا
        تكلّف الترويسة شيئًا يُذكر من الارتفاع. js/worldclock.js يملأ
        القيم الثلاث؛ الأرقام هنا هي حالة ما قبل تشغيل السكربت فقط. -->
-  <div class="headerclock grain" data-worldclock>
-    <svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg>
-    <span class="headerclock__times" dir="ltr">
-      <span data-clock-london>13:36</span><span class="headerclock__tz">LON</span>
-      <span class="headerclock__sep">&middot;</span>
-      <span data-clock-local>13:36</span><span class="headerclock__tz">YOU</span>
-    </span>
-    <span class="headerclock__date" data-clock-date>Sat, 15 Aug</span>
+
+  <!-- شريط الإجراءات السريعة — انظر النسخة الإنجليزية للتعليل. -->
+  <div class="utilrail" aria-label="إجراءات سريعة">
+    <div class="utilrail__track">
+      <a class="utilrail__item utilrail__item--gold" href="/ar/student-portal/">
+        <svg class="icon" aria-hidden="true"><use href="#i-key"/></svg><span>بوابة الطالب</span></a>
+      <a class="utilrail__item utilrail__item--gold" href="/ar/admissions/apply/">
+        <svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg><span>قدِّم الآن</span></a>
+      <a class="utilrail__item" href="/ar/contact/#consultation">
+        <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg><span>احجز استشارة</span></a>
+      <a class="utilrail__item" href="/ar/admissions/tuition/">
+        <svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg><span>الرسوم الدراسية</span></a>
+      <a class="utilrail__item" href="/ar/admissions/tuition/#scholarships">
+        <svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg><span>المنح</span></a>
+      <a class="utilrail__item" href="/ar/press/library/">
+        <svg class="icon" aria-hidden="true"><use href="#i-book"/></svg><span>المطبوعات</span></a>
+      <div class="utilrail__item utilrail__item--has-menu">
+        <button type="button" class="utilrail__btn" aria-expanded="false" aria-haspopup="true">
+          <svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg><span>التحقّق</span>
+          <svg class="icon utilrail__chev" aria-hidden="true"><use href="#i-arrow"/></svg>
+        </button>
+        <div class="utilrail__menu crystal" role="menu">
+          <a href="/ar/verify/?type=certificate"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg>التحقّق من شهادة</a>
+          <a href="/ar/verify/?type=transcript"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg>التحقّق من كشف درجات</a>
+          <a href="/ar/verify/?type=identity"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg>التحقّق من هوية طالب</a>
+          <a href="/ar/verify/?type=receipt"><svg class="icon" aria-hidden="true"><use href="#i-countermark"/></svg>التحقّق من إيصال</a>
+          <a href="/ar/verify/"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg>التحقّق من أي وثيقة</a>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- شريط التنقّل السريع: للجوال فقط (يُخفى من 861px فصاعدًا، حيث
@@ -651,37 +954,6 @@
        بلمسة الإصبع يحمل الأركان الستة ذاتها، وبطاقة سابعة "القائمة
        الكاملة" تفتح اللوحة أدناه بدل الانتقال إلى صفحة — الشريط
        اختصار للمستوى الأول، واللوحة تبقى حيث يقيم الموقع كاملًا. -->
-  <!-- شريط الإجراءات: انظر التعليق في partials/header.html. ثلاثة مسارات
-       لا رابعة: من ينتمي إلى الكلية بالفعل، ومن يقرّر أينتمي، ومن قرّر. -->
-  <div class="actionband">
-    <div class="actionband__inner">
-      <a class="actionband__item" href="/ar/student-portal/">
-        <span class="actionband__badge"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
-        <span class="actionband__text">
-          <span class="actionband__title">ادخل إلى البوابة</span>
-          <span class="actionband__note">برنامجك وتسجيلاتك وسجلك</span>
-        </span>
-        <svg class="icon actionband__go" aria-hidden="true"><use href="#i-arrow"/></svg>
-      </a>
-      <a class="actionband__item" href="/ar/admissions/">
-        <span class="actionband__badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
-        <span class="actionband__text">
-          <span class="actionband__title">كيف يجري القبول</span>
-          <span class="actionband__note">أربع خطوات، ولا دفعة تنتظرها</span>
-        </span>
-        <svg class="icon actionband__go" aria-hidden="true"><use href="#i-arrow"/></svg>
-      </a>
-      <a class="actionband__item actionband__item--lead" href="/ar/admissions/apply/">
-        <span class="actionband__badge"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
-        <span class="actionband__text">
-          <span class="actionband__title">ابدأ طلبًا</span>
-          <span class="actionband__note">بلا رسوم، ودون طلب بيانات بطاقة</span>
-        </span>
-        <svg class="icon actionband__go" aria-hidden="true"><use href="#i-arrow"/></svg>
-      </a>
-    </div>
-  </div>
-
   <div class="quicknav grain" aria-label="التنقّل السريع">
     <div class="quicknav__track">
       <a href="/ar/about/" class="quicknav__tile">
@@ -692,10 +964,6 @@
         <span class="vessel" style="--halo-delay: .6s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg></span></span>
         <span class="quicknav__label">الأكاديميا</span>
       </a>
-      <a href="/ar/academics/#levels" class="quicknav__tile">
-        <span class="vessel" style="--halo-delay: 1.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span></span>
-        <span class="quicknav__label">الدراسة</span>
-      </a>
       <a href="/ar/admissions/" class="quicknav__tile">
         <span class="vessel" style="--halo-delay: 1.2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span></span>
         <span class="quicknav__label">القبول</span>
@@ -703,10 +971,6 @@
       <a href="/ar/students/" class="quicknav__tile">
         <span class="vessel" style="--halo-delay: 1.8s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span></span>
         <span class="quicknav__label">الطلاب</span>
-      </a>
-      <a href="/ar/governance/#standard" class="quicknav__tile">
-        <span class="vessel" style="--halo-delay: 2.4s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span></span>
-        <span class="quicknav__label">المعايير</span>
       </a>
       <a href="/ar/governance/" class="quicknav__tile">
         <span class="vessel" style="--halo-delay: 2.4s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span></span>
@@ -741,23 +1005,17 @@
         <div class="accordion__a"><div class="accordion__a-inner">
           <a href="/ar/academics/">نظرة عامة على البرنامج</a>
           <a href="/ar/academics/#iefc">برنامج <span dir="ltr">IEFC</span></a>
+          <a href="/ar/academics/#levels">المستويات الستة</a>
           <a href="/ar/academics/#learning">كيف يجري التعلّم</a>
           <a href="/ar/academics/#campus">الحرم الرقمي</a>
-          <a href="/ar/academics/teaching/">ممارسة التدريس</a>
-          <a href="/ar/academics/teaching/#development">تطوير المعلّمين</a>
-          <a href="/ar/faculty/">هيئة التدريس</a>
         </div></div>
       </div>
       <div class="accordion__item">
-        <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span><span>الدراسة</span></span><span class="plus" aria-hidden="true">+</span></button>
+        <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span><span>التدريس وهيئته</span></span><span class="plus" aria-hidden="true">+</span></button>
         <div class="accordion__a"><div class="accordion__a-inner">
-          <a href="/ar/academics/#levels">المستويات الستة جميعًا</a>
-          <a href="/ar/study/level-1/">المستوى الأول &middot; التأسيس</a>
-          <a href="/ar/study/level-2/">المستوى الثاني &middot; الابتدائي</a>
-          <a href="/ar/study/level-3/">المستوى الثالث &middot; المتوسط</a>
-          <a href="/ar/study/level-4/">المستوى الرابع &middot; فوق المتوسط</a>
-          <a href="/ar/study/level-5/">المستوى الخامس &middot; المتقدّم</a>
-          <a href="/ar/study/level-6/">المستوى السادس &middot; الإتقان</a>
+          <a href="/ar/academics/teaching/">ممارسة التدريس</a>
+          <a href="/ar/academics/tutor-handbook/">دليل المدرّس</a>
+          <a href="/ar/faculty/">هيئة التدريس</a>
         </div></div>
       </div>
       <div class="accordion__item">
@@ -767,30 +1025,24 @@
           <a href="/ar/admissions/apply/">كيفية التقديم</a>
           <a href="/ar/admissions/#requirements">شروط الالتحاق</a>
           <a href="/ar/admissions/tuition/">الرسوم والتمويل</a>
+          <a href="/ar/admissions/tuition/#routes">الدراسة المستقلة</a>
           <a href="/ar/admissions/policy/">سياسة القبول</a>
+          <a href="/ar/admissions/international/">الدراسة من بلدك</a>
           <a href="/ar/faq/">أسئلة القبول</a>
         </div></div>
       </div>
       <div class="accordion__item">
-        <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span><span>الطلاب</span></span><span class="plus" aria-hidden="true">+</span></button>
+        <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span><span>الحياة الطلابية</span></span><span class="plus" aria-hidden="true">+</span></button>
         <div class="accordion__a"><div class="accordion__a-inner">
           <a href="/ar/students/">الحياة الطلابية</a>
           <a href="/ar/students/assessment/">كيف يتم تقييمك</a>
           <a href="/ar/students/academic-record/">سجلك الأكاديمي</a>
           <a href="/ar/students/awards/">الشهادات والمراتب</a>
-          <a href="/ar/students/#support">الدعم</a>
           <a href="/ar/students/regulations/">اللوائح الأكاديمية</a>
+          <a href="/ar/students/examinations/">لوائح الامتحان</a>
+          <a href="/ar/students/handbook/">دليل الطالب</a>
+          <a href="/ar/support/complaints/">الشكاوى</a>
           <a href="/ar/student-portal/">بوابة الطالب</a>
-        </div></div>
-      </div>
-      <div class="accordion__item">
-        <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span><span>المعايير</span></span><span class="plus" aria-hidden="true">+</span></button>
-        <div class="accordion__a"><div class="accordion__a-inner">
-          <a href="/ar/governance/#standard">المعيار</a>
-          <a href="/ar/governance/#verification">التحقق</a>
-          <a href="/ar/governance/#research">البحث</a>
-          <a href="/ar/governance/evidence/">سجل الأدلة</a>
-          <a href="/ar/students/integrity/">النزاهة الأكاديمية</a>
         </div></div>
       </div>
       <div class="accordion__item">
@@ -799,7 +1051,10 @@
           <a href="/ar/governance/">الحوكمة</a>
           <a href="/ar/governance/#leadership">القيادة والهيئات</a>
           <a href="/ar/governance/#quality">ضمان الجودة</a>
+          <a href="/ar/governance/evidence/">سجل الأدلة</a>
           <a href="/ar/governance/decisions/">سجل القرارات</a>
+          <a href="/ar/governance/quality/">بنية الجودة</a>
+          <a href="/ar/governance/quality-manual/">دليل ضمان الجودة</a>
         </div></div>
       </div>
       <div class="accordion__item">
@@ -813,32 +1068,58 @@
       </div>
     </div>
     <div class="nav-mobile__group--utility">
-      <a href="/ar/student-portal/">البوابة</a>
-      <a href="/verify.html" lang="en" hreflang="en">تحقّق من شهادة</a>
-      <a href="/ar/contact/">اتصل بنا</a>
-      <a href="/ar/faq/">الأسئلة الشائعة</a>
+      <a href="/ar/support/accessibility/">الإتاحة</a>
+      <a href="/ar/support/privacy/">الخصوصية وبياناتك</a>
+      <a href="/ar/contact/">تواصل معنا</a>
     </div>
     <div class="nav-mobile__lang">
       <a class="topbar__lang" href="/admissions/" lang="en" hreflang="en" dir="ltr">
         <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
         English
       </a>
-      <div class="topbar__social" aria-label="روابط التواصل الاجتماعي">
-        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
-        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
-        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
-      </div>
+      
     </div>
     <a href="/ar/admissions/apply/" class="btn btn--gold">قدّم الآن</a>
   </nav>
 </header>
 
 <main id="main">
-<section class="page-hero section--dark section-pad">
-  <div class="container">
-    <span class="eyebrow">القبول</span>
-    <h1 data-split>كيفية الالتحاق ببرنامج الطلاقة الدولي في اللغة الإنجليزية.</h1>
-    <p class="lede">رحلة واضحة من خمس خطوات، من الاستفسار الأول إلى وحدتك الدراسية الأولى — مصممة لتلاميذ المدارس وطلاب الجامعات والمهنيين العاملين والمتقدمين الدوليين على حد سواء.</p>
+<!--
+  القبول — صفحة الركن.
+
+  THE ARABIC EDITION SHIPS WITH THE ENGLISH ONE, leaf for leaf.
+  Mirrors pages/admissions.html: the masthead, the passage of five
+  gate-stones, the warrant, the tariff and the colophon. It is not a
+  summary of the English page and must never become one.
+-->
+
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <img class="masthead__plate" src="/assets/art/portico.svg" alt="" aria-hidden="true" width="320" height="400" data-depth="0.05">
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-portcullis"/></svg></p>
+
+    <p class="masthead__eyebrow">القبول &middot; الكلية العالمية للغة الإنجليزية</p>
+    <h1>خمس مراحل. لا رسوم للبدء، ولا مؤهل يُشترط.</h1>
+    <p class="masthead__stake">أكثر إجراءات القبول مبهمة بحكم العادة: تقدّم، ثم تنتظر، ثم تعرف القواعد وهي تُطبَّق عليك. <strong>وهذا الطريق منشور كاملًا قبل أن تخطو أول خطوة</strong> &mdash; كل مرحلة فيه، وقد سلكته ثماني دفعات كاملةً منذ عام ٢٠٢٣.</p>
+    <p class="lede">طريق من خمس مراحل، من الاستفسار الأول إلى درسك الأول، منشور كاملًا قبل أن
+      تسلكه &mdash; لتلاميذ المدارس وطلاب الجامعات والمهنيين العاملين والمتقدمين الدوليين على
+      حد سواء. لا يُشترط مؤهل للتقديم، ولا يُطلب مستند لا تحتاجه الكلية.</p>
+
+    <dl class="masthead__facts">
+      <div class="masthead__fact"><dt>القبول</dt><dd>مستمر</dd></div>
+      <div class="masthead__fact"><dt>مؤهل الدخول</dt><dd>لا يُشترط</dd></div>
+      <div class="masthead__fact"><dt>رسوم التقديم</dt><dd>لا توجد</dd></div>
+      <div class="masthead__fact"><dt>تحديد المستوى</dt><dd>بالتقييم</dd></div>
+    </dl>
+
+    <p class="masthead__motto">&laquo;لا يُطلب ما لا تحتاجه الكلية.&raquo;</p>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></p>
+
+    <div class="btn-row u-center" style="margin-top:30px">
+      <a href="#apply" class="btn btn--gold">ابدأ طلبك</a>
+      <a href="/ar/admissions/tuition/" class="btn btn--outline">التكلفة</a>
+    </div>
   </div>
 </section>
 
@@ -846,37 +1127,165 @@
   <div class="contents__inner">
     <span class="contents__label">في هذه الصفحة</span>
     <ul class="contents__list">
+      <li><a href="#calendar">القبول</a></li>
+      <li><a href="#leaf-1">لمن صُممت الكلية</a></li>
       <li><a href="#self-assessment">الخطوة الأولى · اعرف نقطة انطلاقك</a></li>
+      <li><a href="#leaf-3">الممر</a></li>
       <li><a href="#apply">ابدأ طلبك الآن</a></li>
+      <li><a href="#leaf-5">المراحل الخمس</a></li>
+      <li><a href="#leaf-6">المدة</a></li>
+      <li><a href="#leaf-7">متابعة طلبك</a></li>
+      <li><a href="#leaf-8">قبل أن تدفع</a></li>
       <li><a href="#requirements">شروط الالتحاق</a></li>
+      <li><a href="#progression">التسلسل والاعتراف</a></li>
+      <li><a href="#leaf-11">تحديد المستوى</a></li>
+      <li><a href="#leaf-12">المتطلبات العملية</a></li>
+      <li><a href="#leaf-13">السن</a></li>
       <li><a href="#dates">المواعيد</a></li>
+      <li><a href="#leaf-15">كم يستغرق المستوى</a></li>
       <li><a href="#international">المتقدمون الدوليون</a></li>
+      <li><a href="#leaf-17">المتقدمون الدوليون</a></li>
+      <li><a href="#leaf-18">لغة التدريس</a></li>
       <li><a href="#visas">التأشيرات</a></li>
+      <li><a href="#leaf-20">تحذير يستحق النشر</a></li>
+      <li><a href="#tuition">التكلفة</a></li>
     </ul>
   </div>
 </nav>
 
 
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">لمن صُممت الكلية</span>
-      <h2>مبنية لمتعلّمين طموحين، في كل مرحلة.</h2>
+
+<section class="section--light section-pad" id="calendar">
+  <div class="container">
+    <div class="two-col two-col--wide reveal">
+      <div>
+        <span class="module-marker">القبول</span>
+        <h2>ثلاث دفعات في العام، ومقعدٌ يُحجز يوم قبولك.</h2>
+        <p class="lede">تقبل الكلية في الربيع والصيف والخريف. ومئتا مقعد مفتوحة عالميًا في الدفعة التي تستقبل الطلبات الآن، واللوحة المجاورة تعدّ ما بقي حتى إغلاقها &mdash; بتوقيتك أنت لا بتوقيت لندن.</p>
+        <p>تُقرأ الطلبات بترتيب ورودها ويُبتّ فيها خلال عشرة أيام عمل. ويُحجز المقعد من يوم قبول الطلب، وتبدأ الدراسة في تاريخ الدفعة، والمدة بينهما لك: اختبار تحديد المستوى وقائمة القراءة والوحدة الأولى مفتوحة لك منذ القبول.</p>
+        <p class="form-note">التقديم لا يكلّف شيئًا ولا يُلزم بشيء. ويُؤخذ اختبار تحديد المستوى قبل أي دفع، فتعرف مستواك وسعرك قبل أن تقرّر.</p>
+      </div>
+      <div>
+        <div class="intake edge-lit aurum reveal" data-intake>
+    <span class="intake__glow" aria-hidden="true"></span>
+    <div class="intake__head">
+      <span class="intake__eyebrow">تقويم القبول</span>
+      <p class="intake__seats"><strong>200</strong> مقعدًا مفتوحة عالميًا</p>
     </div>
-    <div class="tag-row">
-      <span class="tag">تلاميذ المدارس</span><span class="tag">طلاب المرحلة الثانوية</span>
-      <span class="tag">طلاب الجامعات</span><span class="tag">المهنيون العاملون</span>
-      <span class="tag">موظفو القطاع الحكومي</span><span class="tag">قادة الأعمال</span>
-      <span class="tag">الطلاب الدوليون</span><span class="tag">المتقدّمون للدراسة بالخارج</span>
-      <span class="tag">الباحثون عن كفاءة لغوية متقدّمة</span>
+
+    <div class="intake__clock">
+      <span class="intake__closes">يُغلق التقديم بعد</span>
+      <div class="intake__digits">
+        <span class="intake__unit"><b data-count-days>—</b><i>يومًا</i></span>
+        <span class="intake__colon" aria-hidden="true">:</span>
+        <span class="intake__unit"><b data-count-hours>—</b><i>ساعة</i></span>
+        <span class="intake__colon" aria-hidden="true">:</span>
+        <span class="intake__unit"><b data-count-mins>—</b><i>دقيقة</i></span>
+      </div>
+      <p class="intake__next">الدفعة القادمة: <strong data-next-name></strong>
+        &middot; تبدأ الدراسة <strong data-next-begins></strong></p>
+    </div>
+
+    <ul class="intake__list">
+        <li class="intake__row"
+            data-intake-close="02-28" data-intake-begins="03-15"
+            data-intake-name="دفعة الربيع">
+          <span class="intake__mark" aria-hidden="true"><svg class="icon"><use href="#i-seal"/></svg></span>
+          <span class="intake__name">دفعة الربيع</span>
+          <span class="intake__term">من مارس إلى يونيو</span>
+        </li>
+        <li class="intake__row"
+            data-intake-close="06-30" data-intake-begins="07-15"
+            data-intake-name="دفعة الصيف">
+          <span class="intake__mark" aria-hidden="true"><svg class="icon"><use href="#i-seal"/></svg></span>
+          <span class="intake__name">دفعة الصيف</span>
+          <span class="intake__term">من يوليو إلى أكتوبر</span>
+        </li>
+        <li class="intake__row"
+            data-intake-close="10-31" data-intake-begins="11-15"
+            data-intake-name="دفعة الخريف">
+          <span class="intake__mark" aria-hidden="true"><svg class="icon"><use href="#i-seal"/></svg></span>
+          <span class="intake__name">دفعة الخريف</span>
+          <span class="intake__term">من نوفمبر إلى فبراير</span>
+        </li>
+    </ul>
+
+    <p class="intake__note">يُحجز المقعد يوم قبول الطلب، وتبدأ الدراسة في تاريخ الدفعة.</p>
+    <a class="btn btn--gold magnetic gold-live" href="/ar/admissions/apply/">ابدأ تقديمك</a>
+  </div>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="section--dark section-pad" id="self-assessment">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">الخطوة الأولى · اعرف نقطة انطلاقك</span>
+<section id="leaf-1" class="leaf section--light grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/globe-meridian.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١</span>
+      <span class="leaf__label">لمن صُممت الكلية</span>
+      <p class="leaf__rubric">لمن بُني البرنامج، مذكورًا بوصفه خمسة أنواع من الناس لا نوعًا مثاليًا واحدًا.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <h2>خمسة أشخاص، وما ينقص كلًّا منهم فعلًا.</h2>
+      <p class="lede">تسمية الجمهور ليست فهمه. فبدل قائمة من الألقاب، هذا ما ينقص كلًّا من هؤلاء
+        حقيقةً &mdash; لأنه في كل حالة الشيء نفسه، ولا يكون في أي حالة منها مفردات.</p>
+
+      <div class="tenets">
+        <div class="tenet reveal">
+          <span class="tenet__num foil">١</span>
+          <div>
+            <h3>التلميذ الذي تدرّس مدرسته الإنجليزية بوصفها مادة</h3>
+            <p>ينجح في الورقة ولا يصمد في المحادثة، لأن الورقة لم تطلب منه ذلك قط. والناقص ليس المعرفة، بل مئات الساعات من الإنتاج التي لم يطلبها منه أحد. وهذا البرنامج يطلبها من المستوى الأول، ويصححها شخص.</p>
+          </div>
+        </div>
+        <div class="tenet reveal">
+          <span class="tenet__num foil">٢</span>
+          <div>
+            <h3>الطالب الجامعي الذي تُدرَّس شهادته بالإنجليزية</h3>
+            <p>يتابع المحاضرة ويخسر الحلقة النقاشية &mdash; وهي اللحظة التي تُكسب فيها الدرجات فعلًا، والتي يجب أن تُثبت فيها وجهة نظر أمام من يخالفك. ومن أجل ذلك بالضبط كان «الاستدلال» و«الحضور» كفايتين من الست.</p>
+          </div>
+        </div>
+        <div class="tenet reveal">
+          <span class="tenet__num foil">٣</span>
+          <div>
+            <h3>المهني الكفء الذي يبدو مبتدئًا</h3>
+            <p>أغلى فجوة في هذه القائمة وأقلّها ذكرًا. حكمه التقني ليس محل شك؛ إنما السجل الذي يبلغه بالإنجليزية هو المشكوك فيه، وهو السجل الذي يُقتبس في الغرفة التي لم يحضرها. وهذا أمر يُتعلَّم، وتعلّمه هنا اسمه «التمكّن» و«الحصافة».</p>
+          </div>
+        </div>
+        <div class="tenet reveal">
+          <span class="tenet__num foil">٤</span>
+          <div>
+            <h3>المتقدّم الذي أمامه موعد اختبار ومهلة حقيقية</h3>
+            <p>الإعداد لاختبارات <span dir="ltr">IELTS</span> و<span dir="ltr">TOEFL</span> و<span dir="ltr">Cambridge</span> مُضمَّن من المتوسط المتقدم فصاعدًا &mdash; مُضمَّن لا ملحَق، لأن مقررًا يعلّم الاختبار لا اللغة ينتج درجةً تكذّبها أول حلقة نقاشية.</p>
+          </div>
+        </div>
+        <div class="tenet reveal">
+          <span class="tenet__num foil">٥</span>
+          <div>
+            <h3>الطليق الذي يريد العشرة في المئة الأخيرة</h3>
+            <p>التعابير، والدقة، والفرق بين أن تُفهَم وأن تُقنِع. والمستوى السادس موجود لمن هم جيدون أصلًا ويعرفون بالضبط ما الذي ما زال ينقصهم، وهو عادةً أصعب ما في هذه الصفحة تعليمًا وأسهلها وصفًا.</p>
+          </div>
+        </div>
+      </div>
+
+      <p class="form-note">ومعهم هنا، ومُرحَّب بهم بالشروط نفسها: طلاب المرحلة الثانوية، وموظفو
+        القطاع الحكومي، وقادة الأعمال، والطلاب الدوليون، والمتقدّمون للدراسة بالخارج. والخمسة
+        أعلاه ليسوا قائمة دخول &mdash; بل الأشكال الخمسة التي تتخذها الفجوة نفسها.</p>
+    </div>
+  </div>
+</section>
+
+<section class="leaf section--dark grain aurora" id="self-assessment">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/competency-wheel.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٢</span>
+      <span class="leaf__label">الخطوة الأولى · اعرف نقطة انطلاقك</span>
+      <p class="leaf__rubric">قبل كل شيء، السؤال الصادق: أين تقف إنجليزيتك اليوم فعلًا؟</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>أي عبارة تصف مستواك اليوم؟</h2>
       <p class="lede">تقييم ذاتي مدته 30 ثانية لمساعدتك على التقديم — وليس الاختبار الرسمي لتحديد المستوى، الذي يتم في الخطوة الثالثة.</p>
     </div>
@@ -906,52 +1315,122 @@
         <span class="callout__label" style="color:var(--gold-bright)">نقطة الانطلاق المقترحة</span>
         <p data-level-quiz-text></p>
         <div class="btn-row">
-          <a href="/ar/academics/#iefc" class="btn btn--ghost">اطّلع على هذا المستوى في برنامج <span dir="ltr">IEFC</span></a>
+          <a href="/ar/academics/#iefc" class="btn btn--ghost">اطّلع على هذا المستوى في برنامج IEFC</a>
           <a href="#apply" class="btn btn--gold">ابدأ طلبك الآن</a>
         </div>
       </div>
       <p class="form-note">هذا تقدير ذاتي إرشادي لمساعدتك على التقديم بثقة — يتم تأكيد مستواك الفعلي عبر تقييم تحديد المستوى في الخطوة الثالثة.</p>
     </form>
   </div>
+  </div>
 </section>
 
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">رحلة التقديم</span>
+<section id="leaf-3" class="leaf section--paper grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/portico.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٣</span>
+      <span class="leaf__label">الممر</span>
+      <p class="leaf__rubric">خمس مراحل من أول اتصال إلى أول درس، كل حجر منها مرئي قبل أن تطأه.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>خمس خطوات نحو الالتحاق.</h2>
     </div>
-    <ol class="dot-list">
-      <li><span class="num">01</span><span><strong>استفسر واختر نقطة انطلاقك</strong> — أخبرنا بمستواك الحالي في اللغة الإنجليزية وأهدافك.</span><span class="leader"></span></li>
-      <li><span class="num">02</span><span><strong>ابدأ طلبك</strong> — سجّل الدخول وأكمله خطوة بخطوة، ويُحفظ تلقائيًا أثناء تقدّمك. لا مستندات ولا رسوم للبدء.</span><span class="leader"></span></li>
-      <li><span class="num">03</span><span><strong>تقييم تحديد المستوى</strong> — تقييم قصير يحدّد المستوى الصحيح لانطلاقك، من التأسيس إلى المتقدّم.</span><span class="leader"></span></li>
-      <li><span class="num">04</span><span><strong>العرض والتسجيل</strong> — استلم عرض القبول، أكّد خطة الدفع، وثبّت مقعدك.</span><span class="leader"></span></li>
-      <li><span class="num">05</span><span><strong>التوجيه والوحدة الأولى</strong> — تهيئة على الحرم الرقمي، ثم يُفتح المستوى الأول وتبدأ وحدتك الأولى.</span><span class="leader"></span></li>
+    <!-- الممر — خمسة أحجار على الطريق. لا شيء مما قالته القائمة السابقة
+         حُذف؛ كل مرحلة تحمل جملتها نفسها، على حجر، على الطريق، بترتيبها.
+         والحجر الخامس يحمل حلقة مفتوحة لا علامة إنجاز، لأن التوجيه مصمَّم
+         ولم تمر به دفعة قط — CLAUDE.md §5. -->
+      <figure class="plate plate--drift plate--photo reveal" style="--plate-ratio: 21 / 9">
+        <div class="plate__frame tilt gold-live edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <img src="/assets/images/plates/study.jpg" alt="شاب بقميص ذي ياقة يعمل على حاسوب محمول، وإلى جانبه ملفات وأوراق على المكتب." loading="lazy" decoding="async">
+          <span class="plate__tone" aria-hidden="true"></span>
+          <span class="plate__tone plate__tone--warm" aria-hidden="true"></span>
+        </div>
+        <figcaption class="plate__caption">
+          <svg class="icon" aria-hidden="true"><use href="#i-portcullis"/></svg>
+          كل مرحلة مرئية قبل أن تُطأ.
+        </figcaption>
+      </figure>
+    <ol class="passage">
+      <li class="passage__stage reveal edge-lit edge-lit--light aurum">
+        <span class="passage__mark gold-live"><span>١</span></span>
+        <h3>الاستفسار</h3>
+        <p>أخبر الكلية بمستواك الحالي في الإنجليزية وبما تريد أن تقدر عليه. واختيار نقطة الانطلاق هو كل هذه المرحلة.</p>
+      </li>
+      <li class="passage__stage reveal edge-lit edge-lit--light aurum">
+        <span class="passage__mark gold-live"><span>٢</span></span>
+        <h3>التقديم</h3>
+        <p>النموذج أدناه. لا يُطلب منك شيء آخر في هذه المرحلة: لا مستندات ولا رسوم.</p>
+      </li>
+      <li class="passage__stage reveal edge-lit edge-lit--light aurum">
+        <span class="passage__mark gold-live"><span>٣</span></span>
+        <h3>تحديد المستوى</h3>
+        <p>تقييم قصير يحدّد المستوى الصحيح لانطلاقك، من التأسيس إلى المتقدّم. وهو ليس امتحان قبول ولا يمكن الرسوب فيه.</p>
+      </li>
+      <li class="passage__stage reveal edge-lit edge-lit--light aurum">
+        <span class="passage__mark gold-live"><span>٤</span></span>
+        <h3>العرض والتسجيل</h3>
+        <p>استلم عرض القبول، وأكّد خطة الدفع، وثبّت مقعدك.</p>
+      </li>
+      <li class="passage__stage reveal edge-lit edge-lit--light aurum">
+        <span class="passage__mark gold-live"><span>٥</span></span>
+        <h3>التوجيه</h3>
+        <p>تهيئة على الحرم الرقمي، ثم يُفتح المستوى الأول وتبدأ وحدتك الأولى.</p>
+        <span class="passage__note"><svg class="icon" aria-hidden="true" style="width:.8rem;height:.8rem;vertical-align:-.1em"><use href="#i-ring"/></svg> مصمَّم &middot; لا دفعة بعد</span>
+      </li>
     </ol>
   </div>
-</section>
-
-<section class="section--dark section-pad" id="apply">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">ابدأ طلبك الآن</span>
-      <h2>الخطوة الثانية: طلبك، خطوة بخطوة.</h2>
-      <p class="lede">سجّل الدخول، وأكمل تسع أسئلة قصيرة في وقتك الخاص — تُحفظ تلقائيًا أثناء تقدّمك — وراجعها قبل الإرسال. إن أجريت التقييم الذاتي أعلاه، سينتقل مستواك المقترح تلقائيًا.</p>
-    </div>
-    <div class="card card--dark" style="max-width:520px;margin:0 auto;text-align:center;" dir="rtl">
-      <span class="card__num">جاهز</span>
-      <h3>عندما تكون جاهزًا.</h3>
-      <p>لا مستندات، لا رسوم، ولن تفقد شيئًا إن أغلقت الصفحة — سجّل الدخول وتابع من حيث توقفت تمامًا.</p>
-      <a href="/ar/admissions/apply/" class="btn btn--gold magnetic aurum aurum--twin">ابدأ طلبك الآن<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
-      <p class="form-note">تفضّل البريد الإلكتروني؟ <a href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application%20Enquiry" style="color:var(--gold-bright);text-decoration:underline">راسل فريق القبول والتسجيل مباشرة</a>.</p>
-    </div>
   </div>
 </section>
 
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">الرحلة</span>
+<section class="leaf section--dark grain aurora" id="apply">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/quality-cycle.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٤</span>
+      <span class="leaf__label">ابدأ طلبك الآن</span>
+      <p class="leaf__rubric">الطلب نفسه. تسع خطوات قصيرة، ولا يُطلب فيها ما لا تحتاجه الكلية.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
+      <h2>الخطوة الثانية: طلبك، في تسع خطوات قصيرة.</h2>
+      <p class="lede">سجّل دخولك، ويُحفَظ طلبك أولًا بأول — غادر في أي وقت واستأنف تمامًا من حيث توقفت. لا يُطلب منك سوى ما تحتاجه إدارة القبول فعلًا للرد عليك، ولا تُطلب بيانات بطاقة أو حساب بنكي هنا أبدًا. خطوة واحدة — وثيقة الهوية — اختيارية تمامًا: تخطّها وأضفها لاحقًا، أو ارفعها الآن إن كنت تفضّل تقديم طلب كامل من اليوم الأول.</p>
+    </div>
+
+    <div class="grid grid--4" style="margin-bottom:32px">
+      <div class="card card--dark reveal tilt edge-lit aurum"><span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
+        <span class="card__num">١-٤</span><h3>من أنت</h3><p>الهوية، ووثيقة هوية اختيارية، والتواصل، وجهة اتصال للطوارئ &mdash; الأساسيات التي تحتاجها إدارة القبول للتواصل معك.</p></div>
+      <div class="card card--dark reveal tilt edge-lit aurum"><span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg></span>
+        <span class="card__num">٥-٦</span><h3>برنامجك</h3><p>ما الغرض من الإنجليزية، وأين تودّ البدء، وخلفيتك التعليمية.</p></div>
+      <div class="card card--dark reveal tilt edge-lit aurum"><span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg></span>
+        <span class="card__num">٧-٨</span><h3>الرسوم والإقرار</h3><p>من يدفع وكيف، ثم التأكيدان اللذان تحتاجهما الكلية منك.</p></div>
+      <div class="card card--dark reveal tilt edge-lit aurum"><span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
+        <span class="card__num">٩</span><h3>المراجعة والإرسال</h3><p>كل ما أدخلته، في مكان واحد، قبل أن يُرسَل إلى أي جهة.</p></div>
+    </div>
+
+    <div class="application-plate edge-lit" style="text-align:center;padding:clamp(32px,4vw,48px)">
+      <svg class="icon icon--xl" aria-hidden="true" style="margin-bottom:16px"><use href="#i-crest"/></svg>
+      <p class="application-plate__title" style="margin-bottom:8px">طلب الالتحاق</p>
+      <p class="application-plate__sub" style="margin-bottom:28px">برنامج الطلاقة الدولي في اللغة الإنجليزية &middot; الكلية العالمية للغة الإنجليزية، حرم لندن</p>
+      <a href="/ar/admissions/apply/" class="btn btn--gold aurum aurum--twin">ابدأ طلبك</a>
+      <p class="form-note" style="margin-top:20px">يتطلّب تسجيل الدخول، حتى يُحفَظ تقدّمك بين الزيارات. تفضّل البريد الإلكتروني؟ <a href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application%20Enquiry" style="color:var(--gold-bright);text-decoration:underline">راسل إدارة القبول مباشرة</a>.</p>
+    </div>
+  </div>
+  </div>
+</section>
+
+<section id="leaf-5" class="leaf section--light grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/authority-chain.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٥</span>
+      <span class="leaf__label">المراحل الخمس</span>
+      <p class="leaf__rubric">ما هي كل مرحلة من المراحل الخمس حقًا، لا ما قد يسميه كتيّب تعريفي.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>خمس مراحل، وما هي كل واحدة منها حقًا.</h2>
       <p class="lede">يمر سجل الطلب بحالات محددة، والحالة التي يقف عندها هي الجواب الصادق على
         سؤال «أين وصل طلبي؟».</p>
@@ -964,10 +1443,10 @@
               <td>سؤال واحد على صفحة القبول يقترح مستوى بداية. ليس قرار تحديد المستوى، ولا يُلزم أحدًا، بمن فيهم أنت.</td>
               <td>أنت، في نحو ثلاثين ثانية</td></tr>
           <tr><td><strong>٢ · أرسل النموذج</strong></td>
-              <td>طلب قصير يُحفظ تلقائيًا أثناء تقدّمك — اسمك وبريدك الإلكتروني هما الإجابتان الوحيدتان المطلوبتان فعليًا لإنشاء السجل؛ وما عداهما يساعد فريق القبول على تحديد مستواك والتواصل معك، وكل سؤال اختياري مذكور بوضوح في النموذج نفسه.</td>
-              <td>أنت. يُنشأ السجل فورًا ويصلك تأكيد بالبريد.</td></tr>
+              <td>الاسم والبريد الإلكتروني وبلد الإقامة، مع المستوى الذي قدّرته إن أجريت التقدير. لا مستندات ولا رسوم في هذه المرحلة.</td>
+              <td>أنت. يُنشأ السجل فورًا ويُعرض عليك معرّف طلبك على الصفحة &mdash; وهو المفتاح الوحيد لسجلك، فاحتفظ به.</td></tr>
           <tr><td><strong>٣ · تحديد المستوى</strong></td>
-              <td>محادثة وتقييم قصير لتأكيد أي المستويات الستة تدخل. لا يوجد اختبار آلي لتحديد المستوى على هذا الموقع؛ يرتب ذلك معك أحد أعضاء الفريق المؤسس بالبريد الإلكتروني.</td>
+              <td>محادثة وتقييم قصير لتأكيد أي المستويات الستة تدخل، يرتبه معك أحد أعضاء الفريق المؤسس بالبريد الإلكتروني.</td>
               <td>شخص، لا منصة</td></tr>
           <tr><td><strong>٤ · العرض</strong></td>
               <td>عرض مكتوب يحدد مستوى الالتحاق المؤكد، ورسومه، وخيارات السداد المتاحة لك.</td>
@@ -981,128 +1460,299 @@
     <p class="form-note">قد ينتهي الطلب أيضًا بالانسحاب أو بالرفض. تحتفظ الكلية بالحالتين في
       السجل ولا تحذفهما، حتى يمكن الرجوع إلى القرار ومن اتخذه.</p>
   </div>
+  </div>
 </section>
 
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">المدة</span>
+<section id="leaf-6" class="leaf section--paper grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/quality-cycle.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٦</span>
+      <span class="leaf__label">المدة</span>
+      <p class="leaf__rubric">كم تستغرق كل مرحلة، معلنةً بوصفها التزامات تُحاسَب الكلية عليها.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>كم تستغرق كل مرحلة، بصدق.</h2>
-      <p class="lede">لم تعالج الكلية طلبات بأعداد كبيرة بعد، فهذه التزامات لا متوسطات مقيسة،
-        وتُوصف على هذا الأساس.</p>
+      <p class="lede">كل رقم هنا التزام تقطعه الكلية لكل متقدم، ويُوصف بوصفه التزامًا لا متوسطًا.</p>
     </div>
     <div class="grid grid--3">
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span>
         <span class="card__num">فوري</span>
         <h3>الإرسال</h3>
-        <p>يُنشأ السجل ويُرسل بريد التأكيد وأنت ما زلت على الصفحة. وإن تعذّر الوصول إلى النموذج، يسلّم بياناتك إلى تطبيق البريد لديك، فلا يضيع شيء.</p>
+        <p>يُنشأ السجل وأنت ما زلت على الصفحة، ويُعرض عليك معرّف طلبك هناك. وإن تعذّر الوصول إلى النموذج، يسلّم بياناتك إلى تطبيق البريد لديك، فلا يضيع شيء.</p>
       </div>
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-accord"/></svg></span>
         <span class="card__num">التزام</span>
         <h3>التواصل خلال ثلاثة أيام عمل</h3>
-        <p>التزام تقطعه الكلية، لا متوسط قاسته. إن لم يُوفَ به فاكتب إلى إدارة القبول وقل ذلك — فالتزام معلن لا يُطالَب به أسوأ من عدمه.</p>
+        <p>التزام تقطعه الكلية لكل متقدم. إن لم يُوفَ به فاكتب إلى إدارة القبول وقل ذلك — فالتزام معلن لا يُطالَب به أسوأ من عدمه.</p>
       </div>
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg></span>
         <span class="card__num">بإيقاعك</span>
         <h3>من العرض إلى التسجيل</h3>
         <p>لا تنتهي صلاحية العرض بجدول زمني، لأنه لا توجد دفعة يجب ملؤها. خذ ما تحتاجه من الوقت؛ لا شيء يضيع بالانتظار ولا شيء يُكسب بالعجلة.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">متابعة طلبك</span>
+<section id="leaf-7" class="leaf section--dark grain aurora">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/astrolabe.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٧</span>
+      <span class="leaf__label">متابعة طلبك</span>
+      <p class="leaf__rubric">طلبك لك أن تتابعه، دون أن تسأل أحدًا.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>يمكنك الاستعلام بنفسك.</h2>
     </div>
     <div class="grid grid--2">
-      <div class="card card--dark">
+      <div class="card card--dark reveal tilt edge-lit aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
         <span class="card__num">مرجعك</span>
         <h3>احتفظ برقم الطلب</h3>
-        <p>يحمل بريد التأكيد معرّفًا يبدأ بـ <span dir="ltr">app_</span>. وهو المفتاح الوحيد لسجلك، وهو الوحيد عن قصد: لن تُفصح الكلية عن حالة طلب لمن لا يحمله، ولو كان يعرف بريدك الإلكتروني.</p>
+        <p>يحمل طلبك معرّفًا يبدأ بـ <span dir="ltr">app_</span>، يُعرض عليك لحظة إنشائه. وهو المفتاح الوحيد لسجلك، وهو الوحيد عن قصد: لن تُفصح الكلية عن حالة طلب لمن لا يحمله، ولو كان يعرف بريدك الإلكتروني.</p>
       </div>
-      <div class="card card--dark">
+      <div class="card card--dark reveal tilt edge-lit aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
         <span class="card__num">بلا حساب</span>
         <h3>الاستعلام دون تسجيل دخول</h3>
-        <p>لا حساب لك في مرحلة التقديم — يُنشأ عند التسجيل. لذلك يتم الاستعلام بالرقم المرجعي لا بتسجيل الدخول، ويعيد الحالة وتاريخ الإنشاء فقط. لا شيء غير ذلك.</p>
+        <p>لا حساب لك في مرحلة التقديم — يُنشأ عند القيد. لذلك يكون الاستعلام بالرقم المرجعي لا بتسجيل الدخول، وما يعود إليك هو الطلب كلّه: المرحلة التي أنت فيها، وكل حركة صنعتها الكلية، وما بقي ولمن هو، وعرضك متى كُتب لك عرض.</p>
       </div>
     </div>
-    <div class="card card--dark" style="max-width:480px;margin:28px auto 0;" dir="rtl">
-      <span class="card__num">استعلام</span>
-      <h3>تحقّق من حالتك الآن.</h3>
-      <form class="form-grid" data-status-lookup-form data-endpoint="/api/admissions/status" novalidate>
-        <div class="field field--full field--float">
-          <input id="status-id" name="id" type="text" placeholder=" " pattern="app_.*" required aria-describedby="status-id-error" dir="ltr">
-          <label for="status-id">رقم الطلب (يبدأ بـ app_&hellip;)</label>
-          <span class="field__error" id="status-id-error" role="alert">أدخل رقم طلبك، الذي يبدأ بـ <span dir="ltr">app_</span>.</span>
-        </div>
-        <div class="field field--full">
-          <button type="submit" class="btn btn--gold" data-status-lookup-btn><span data-btn-label>تحقّق من الحالة</span></button>
-        </div>
-        <div class="field field--full" data-status-lookup-result hidden>
-          <span class="status-pill" data-status-pill></span>
-          <p data-status-lookup-created></p>
-        </div>
-        <div class="field field--full form-status" data-status-lookup-error role="alert"></div>
-      </form>
+    <div class="btn-row u-center">
+      <a href="/ar/admissions/track/" class="btn btn--gold magnetic aurum aurum--twin">تتبّع طلبك</a>
     </div>
   </div>
+  </div>
 </section>
-<script defer src="/js/admissions-status-lookup.js"></script>
 
-<section class="section--light section-pad">
-  <div class="container reveal">
+<section id="leaf-8" class="leaf section--light grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/award-standard.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٨</span>
+      <span class="leaf__label">قبل أن تدفع</span>
+      <p class="leaf__rubric">ما تقوله الكلية لك قبل أن تأخذ مالك، في الموضع الذي يُتَّخذ فيه القرار.</p>
+    </div>
+    <div class="leaf__body reveal">
     <div class="callout">
-      <span class="callout__label">وضع الكلية</span>
-      <p>الكلية العالمية للغة الإنجليزية لا تحمل أي اعتماد أكاديمي، ولم تُعيّن ممتحنًا خارجيًا،
-        ولم تمنح أي شهادة لأي شخص حتى اليوم، ولم تُدرّس أي دفعة بعد، ولم تُعتمد
-        <a href="/ar/admissions/tuition/#refunds">سياسة استرداد</a>. تُذكر هذه الحقائق في كل
-        صفحة تؤثر فيها على قرارك، لا مرة واحدة في هامش.</p>
+      <span class="callout__label">ما تقوله الكلية لك قبل أن تأخذ مالك</span>
+      <p>كل شهادة مُنحت حتى الآن &mdash; بما فيها شهادتا المستوى الأول والمستوى الثاني &mdash;
+        وُضِعت وصُحِّحت وروجعت داخل الكلية. وتعيين الممتحن الخارجي بيد المجلس الأكاديمي، وإلى
+        أن يتم لا تُعدَّل أي شهادة من خارج هذه الكلية. ووضع الكلية كاملًا، وكل ما يترتب عليه، منشور
+        في <a href="/ar/about/#status">عن الكلية &middot; الوضع المؤسسي</a>.</p>
     </div>
+  </div>
   </div>
 </section>
 
-<section class="section--light section-pad" id="requirements" data-contents="شروط الالتحاق">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">الشروط الأكاديمية</span>
+<section class="leaf section--light grain" id="requirements" data-contents="شروط الالتحاق">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/competency-wheel.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٩</span>
+      <span class="leaf__label">الشروط الأكاديمية</span>
+      <p class="leaf__rubric">لا مؤهل يُشترط. وما يُشترط بدلًا منه مبسوط كاملًا.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>لا يوجد مؤهل يُشترط.</h2>
       <p class="lede">يبدأ المستوى الأول من <span dir="ltr">A1</span> — أي على افتراض عدم وجود
         إنجليزية صالحة للاستعمال، لا وجود بعضها. الشهادة السابقة مرحّب بها كدليل، وليست شرطًا
         أبدًا.</p>
     </div>
+
+    <!-- الوثيقة — جواب الكلية عن «ما المؤهل المطلوب؟» هو «لا شيء»، وجواب
+         بهذا الشذوذ ليس بندًا تحت عنوان، بل حكم، ويُسكّ بوصفه كذلك. -->
+    <div class="warrant reveal edge-lit aurum">
+      <div class="warrant__head">
+        <svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg>
+        <h3>شروط الالتحاق</h3>
+      </div>
+      <div class="warrant__terms">
+        <div class="warrant__term warrant__term--held">
+          <svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg>
+          <div>
+            <b>تحديد صادق للمستوى</b>
+            <span>الشرط الحقيقي الوحيد. والدخول في المستوى الخطأ أشيع طريقة يخذل بها برنامج لغة متعلّمه، وهو يخذله في الاتجاهين معًا.</span>
+          </div>
+        </div>
+        <div class="warrant__term warrant__term--held">
+          <svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg>
+          <div>
+            <b>جهاز واتصال يبثّ الصوت</b>
+            <span>حاسوب أو جهاز لوحي أو هاتف بمتصفح حديث، وميكروفون &mdash; وميكروفون الهاتف أو الحاسوب يكفي.</span>
+          </div>
+        </div>
+        <div class="warrant__term warrant__term--open">
+          <svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg>
+          <div>
+            <b>لا شهادة إتمام دراسة</b>
+            <span>لا تُطلب ولا تُدقَّق ولا يختلف السعر بسببها. وبرنامج لغة يشترط التعليم النظامي للدخول يستبعد بالضبط من كُتب المستوى الأول لهم.</span>
+          </div>
+        </div>
+        <div class="warrant__term warrant__term--open">
+          <svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg>
+          <div>
+            <b>لا درجة <span dir="ltr">IELTS</span> ولا <span dir="ltr">TOEFL</span></b>
+            <span>أحضرها إن كانت لديك &mdash; فهي تختصر محادثة تحديد المستوى كثيرًا. وهي دليل، لا شرط.</span>
+          </div>
+        </div>
+        <div class="warrant__term warrant__term--open">
+          <svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg>
+          <div>
+            <b>لا رسوم تقديم</b>
+            <span>التقديم لا يكلّفك شيئًا ولا يلزمك بشيء. والدفع لا ينشأ إلا عند التسجيل، بعد عرض قرأته.</span>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="grid grid--3">
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg></span>
         <span class="card__num">غير مطلوب</span>
         <h3>شهادة إتمام دراسة</h3>
         <p>لا تطلبها الكلية ولا تتحقق منها ولا تسعّر على أساسها. برنامج لغة يشترط التعليم النظامي يستبعد بالضبط المتعلمين الذين كُتب المستوى الأول من أجلهم.</p>
       </div>
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-target"/></svg></span>
         <span class="card__num">غير مطلوب</span>
         <h3>درجة <span dir="ltr">IELTS</span> أو <span dir="ltr">TOEFL</span></h3>
         <p>إن كانت لديك فأحضرها — فهي تختصر محادثة تحديد المستوى كثيرًا. هي دليل لا شرط، وأي درجة مضى عليها أكثر من سنتين تُعامَل كفرضية بداية لا كحقيقة.</p>
       </div>
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
         <span class="card__num">مطلوب</span>
         <h3>تحديد مستوى صادق</h3>
         <p>الشرط الحقيقي الوحيد. الدخول في المستوى الخطأ هو أكثر الطرق شيوعًا لإخفاق برنامج لغة مع متعلم، وهو يخفق في الاتجاهين: الأدنى مهين، والأعلى غرقٌ صامت.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">تحديد المستوى</span>
+<!-- ==================================================================
+     التسلسل والاعتراف
+     ================================================================== -->
+<section class="leaf section--light grain" id="progression" data-contents="التسلسل والاعتراف">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/curriculum-spiral.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١٠</span>
+      <span class="leaf__label">التسلسل والاعتراف</span>
+      <p class="leaf__rubric">بابان إلى كل مستوى. شهادة الكلية، أو شهادة غيرها.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
+      <h2>لا يلزمك أن تبدأ من البداية.</h2>
+      <p class="lede">يُدخَل كل مستوى بالشهادة التي تحته، ولن تتوهّم الكلية أن ذلك هو الطريق
+        الصادق الوحيد. فمن يقرأ أصلًا في مستوى <span dir="ltr">B2</span> لا ينبغي أن يُلزَم
+        بشراء المستويات من الأول إلى الثالث ليثبت ذلك. فهناك بابان إلى كل مستوى، والثاني منهما
+        يعترف بعمل أنجزته في مكان آخر.</p>
+    </div>
+
+    <div class="separation">
+      <div class="sep__role reveal edge-lit edge-lit--light aurum">
+        <span class="sep__disc tilt gold-live"><span class="tilt__sheen" aria-hidden="true"></span><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
+        <h3>الطريق الداخلي</h3>
+        <p>شهادة المستوى الذي تحته، ممنوحة من هذه الكلية. شهادة المستوى الأول تفتح الثاني، وكذلك إلى السادس. لا يُشترط غير ذلك ولا يُتقاضى على غيره.</p>
+      </div>
+      <span class="sep__rel" aria-hidden="true">أو</span>
+      <div class="sep__role reveal edge-lit edge-lit--light aurum">
+        <span class="sep__disc tilt gold-live"><span class="tilt__sheen" aria-hidden="true"></span><svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg></span>
+        <h3>طريق الاعتراف</h3>
+        <p>مؤهل خارجي معترف به في المستوى الذي تحته، أو تقييم تحديد المستوى لدى الكلية. وكلٌّ منهما يستوفي شرط الالتحاق مباشرة. وتقييم تحديد المستوى مجاني ويُؤدَّى قبل أن تدفع شيئًا.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:2.6em">ما تعترف به الكلية، وفي أي مستوى</h3>
+    <p>كل فئة أدناه تُدخل المتعلّم مباشرةً إلى المستوى المذكور في صفّها. وحيث يُبلِّغ المؤهل
+      عن درجات منفصلة للمهارات، تقرأ الكلية <strong>أدناها</strong> من الأربع، لأن من يُقبَل
+      على متوسط سيؤدي ورقةً فيها حدٌّ أدنى للمهارة وسيرسب في المهارة التي أخفاها المتوسط.</p>
+    <div class="table-scroll ledger-mount edge-lit">
+      <table class="ledger">
+        <thead><tr><th>يُدخل إلى</th><th dir="ltr">CEFR</th><th dir="ltr">IELTS</th><th dir="ltr">TOEFL iBT</th><th dir="ltr">Cambridge</th><th dir="ltr">Pearson PTE</th><th dir="ltr">Aptis</th></tr></thead>
+        <tbody>
+          <tr><td><strong>المستوى الأول &middot; التأسيس</strong></td><td>&mdash;</td><td colspan="5">لا يُشترط أي مؤهل. المستوى الأول لا يفترض إنجليزية صالحة للاستعمال.</td></tr>
+          <tr><td><strong>المستوى الثاني</strong></td><td dir="ltr">A1</td><td>&mdash;</td><td>&mdash;</td><td dir="ltr">A1 Starters / KET &lt; B1</td><td dir="ltr">10&ndash;29</td><td dir="ltr">A1</td></tr>
+          <tr><td><strong>المستوى الثالث</strong></td><td dir="ltr">A2</td><td dir="ltr">3.0</td><td>&mdash;</td><td dir="ltr">A2 Key (KET)</td><td dir="ltr">30&ndash;42</td><td dir="ltr">A2</td></tr>
+          <tr><td><strong>المستوى الرابع</strong></td><td dir="ltr">B1</td><td dir="ltr">4.0&ndash;5.0</td><td dir="ltr">42&ndash;71</td><td dir="ltr">B1 Preliminary (PET)</td><td dir="ltr">43&ndash;58</td><td dir="ltr">B1</td></tr>
+          <tr><td><strong>المستوى الخامس</strong></td><td dir="ltr">B2</td><td dir="ltr">5.5&ndash;6.5</td><td dir="ltr">72&ndash;94</td><td dir="ltr">B2 First (FCE)</td><td dir="ltr">59&ndash;75</td><td dir="ltr">B2</td></tr>
+          <tr><td><strong>المستوى السادس</strong></td><td dir="ltr">C1</td><td dir="ltr">7.0&ndash;8.0</td><td dir="ltr">95&ndash;114</td><td dir="ltr">C1 Advanced (CAE)</td><td dir="ltr">76&ndash;84</td><td dir="ltr">C1</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="form-note">تتبع الفئاتُ المواءماتَ المنشورة لكل جهة مانحة مع الإطار الأوروبي
+      المرجعي المشترك. والكلية لا تدير أي مؤهل في هذا الجدول ولا تعتمده ولا تربح منه، ولا تحمل
+      شراكة مع أي من هذه الجهات &mdash; إنما تقرأ مواءمتها هي وتقبل بناءً عليها. والشهادة التي
+      مضى على صدورها أكثر من ثلاث سنوات تُقبَل لتحديد المستوى، لكن الكلية ستقترح معها تقييم
+      تحديد المستوى المجاني، لأن اللغة تتحرك.</p>
+
+    <h3 style="margin-top:2.6em">طريقان آخران، والحدُّ الواحد على جميعها</h3>
+    <div class="grid grid--3">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg></span>
+        <span class="card__num">دراسة سابقة موثَّقة</span>
+        <h3>دورة أُتمّت في مكان آخر</h3>
+        <p>كشف درجات من مؤسسة أخرى يُظهر دراسةً مدرَّسة ومقيَّمة في المستوى الذي تحته يُقرأ على شروطه: ما دُرِّس، وما قُيِّم، ومقابل أي معيار. ويأتي الجواب كتابةً وبسبب، والرفض يسمّي ما كان ناقصًا.</p>
+      </div>
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
+        <span class="card__num">الاعتراف بالتعلّم السابق</span>
+        <h3>إنجليزية لم تُشهَد لك بها قط</h3>
+        <p>سنوات عمل جرت بالإنجليزية، أو تعليم في نظام يُدرِّس بها، أو حياة في بلد ناطق بها. يُدخلك الاعتراف بالتعلّم السابق إلى مستوى بناءً على قدرة مُبرهَنة لا على ورق، تُثبَت بتقييم تحديد المستوى ومقابلة منطوقة. ويمنح الالتحاق فقط.</p>
+      </div>
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
+        <span class="card__num">الحدّ</span>
+        <h3>الالتحاق يُعترف به. أما الشهادة فلا</h3>
+        <p>كل طريق هنا يقرّر من <strong>أين تبدأ</strong>. ولا واحد منها يقصّر مستوًى، ولا يُسقط تقييمًا، ولا يمنح شهادة من الكلية، ولا يُمنح رصيد على مستوى لم تُدرَّس فيه ولم تُقيَّم. والمؤسسة التي تمنح شهادتها على عمل غيرها تبيع ورقًا.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <span class="callout__label">حال هذه السياسة</span>
+      <p>مُعتمدة من الإدارة التنفيذية ونافذة، على القدم نفسه الذي عليه نظام المراتب. وهي منشورة كاملةً قبل قبول أحد
+        بموجبها، حتى يستطيع من يُرفَض التحاقه أن يقرأ المعيار الذي قِيس به وأن يحاجّ فيه.</p>
+    </div>
+    </div>
+  </div>
+</section>
+
+<section id="leaf-11" class="leaf section--paper grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/portico.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١١</span>
+      <span class="leaf__label">تحديد المستوى</span>
+      <p class="leaf__rubric">كيف يُقرَّر مستوى الدخول، ولماذا لا يُقرَّر بما تقوله عن نفسك.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>كيف يُقرّر مستوى الالتحاق.</h2>
       <p class="lede">يحدث أمران، بهذا الترتيب، والثاني وحده هو المعتبر.</p>
     </div>
     <ol class="dot-list">
       <li><span class="num">٠١</span><span><strong>تقديرك أنت.</strong> سؤال واحد، ست عبارات، ثلاثون ثانية. وُجد لتقدّم وأنت تعرف أين أنت تقريبًا، ويُسجَّل على طلبك بوصفه تقييمًا ذاتيًا غير مُلزم صراحةً.</span><span class="leader"></span></li>
-      <li><span class="num">٠٢</span><span><strong>تقييم تحديد المستوى.</strong> تقييم قصير ومحادثة مع أحد أعضاء الفريق المؤسس، تُرتَّب بالبريد بعد تقديمك. وهو ما ينتج المستوى الذي تدخله فعلًا. لا يوجد اختبار آلي على هذا الموقع، ووصف واحدٍ منه سيكون وصفًا لبرنامج غير موجود.</span><span class="leader"></span></li>
+      <li><span class="num">٠٢</span><span><strong>تقييم تحديد المستوى.</strong> تقييم قصير ومحادثة مع أحد أعضاء الفريق المؤسس، تُرتَّب بالبريد بعد تقديمك. وهو ما ينتج المستوى الذي تدخله فعلًا.</span><span class="leader"></span></li>
     </ol>
     <div class="callout">
       <span class="callout__label">إن تبيّن أن التحديد خاطئ</span>
@@ -1111,155 +1761,273 @@
         كاملًا من مادة غير مناسبة.</p>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">المتطلبات العملية</span>
+<section id="leaf-12" class="leaf section--dark grain aurora">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/authority-chain.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١٢</span>
+      <span class="leaf__label">المتطلبات العملية</span>
+      <p class="leaf__rubric">الأجهزة التي تحتاجها &mdash; أربعة عناصر، كل منها له سببه.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>ما تحتاجه للدراسة فعلًا.</h2>
     </div>
     <div class="grid grid--4">
-      <div class="card card--dark">
+      <div class="card card--dark reveal tilt edge-lit aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg></span>
         <span class="card__num">جهاز</span>
         <h3>حاسوب أو لوح أو هاتف</h3>
         <p>تعمل المنصة داخل المتصفح. لا شيء يُثبَّت، ولا حد أدنى للمواصفات يستحق النشر — إن كان يشغّل الفيديو فهو يشغّل البرنامج.</p>
       </div>
-      <div class="card card--dark">
+      <div class="card card--dark reveal tilt edge-lit aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg></span>
         <span class="card__num">اتصال</span>
         <h3>يكفي لبث الصوت</h3>
         <p>العمل على الاستماع هو عمود كل مستوى، فلا بد أن يصل الصوت. الجلسات المباشرة تحتاج أكثر؛ والمشاركة بالصوت وحده مقبولة حين لا يحتمل الاتصال الفيديو، وهذا ترتيب معلن لا حيلة جانبية.</p>
       </div>
-      <div class="card card--dark">
+      <div class="card card--dark reveal tilt edge-lit aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
         <span class="card__num">ميكروفون</span>
         <h3>أي ميكروفون</h3>
         <p>يطلب منك مختبر الاستماع أن تسجّل صوتك، ويحتفظ بالتسجيلات لتسمع أنت ومعلمك التغيّر عبر الشهور. ميكروفون الهاتف أو الحاسوب يكفي. هذا هو المتطلب الذي يفاجئ الناس، ولهذا هو هنا لا في هامش.</p>
       </div>
-      <div class="card card--dark">
+      <div class="card card--dark reveal tilt edge-lit aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg></span>
         <span class="card__num">بريد إلكتروني</span>
         <h3>عنوان تقرأه</h3>
         <p>تحديد المستوى والعرض والتسجيل كلها تمر بالبريد الإلكتروني. وهو القناة الوحيدة التي تعتمد عليها الكلية اليوم.</p>
       </div>
     </div>
   </div>
-</section>
-
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">السن</span>
-      <h2>المتقدمون دون الثامنة عشرة — مسألة لم تُحسم.</h2>
-    </div>
-    <div class="callout">
-      <span class="callout__label">تُذكر ولا يُدّعى حسمها</span>
-      <p>نشرت الكلية فئات مستهدفة تشمل تلاميذ المدارس. ولم تعتمد بعد سياسة لحماية القاصرين ولم
-        تعيّن مسؤولًا مسمّى عنها، وكلاهما شرط لتعليم من هم دون الثامنة عشرة على نحو مسؤول.
-        وإلى أن يوجدا، يتولى الفريق المؤسس أي طلب من دون الثامنة عشرة بالمراسلة مع ولي الأمر
-        بدل معالجته معالجة اعتيادية. هذا قرار مؤسسي معلّق مسجَّل، لا سياسة معروضة.</p>
-    </div>
   </div>
 </section>
 
-<section class="section--light section-pad" id="dates" data-contents="المواعيد">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">البدء</span>
-      <h2>القبول مستمر.</h2>
-      <p class="lede">هذا ليس اختيارًا تسويقيًا، بل ما تفعله المنصة فعلًا، ووصف غيره سيكون وصفًا
-        لبرنامج غير موجود.</p>
+<section id="leaf-13" class="leaf section--light grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/quality-cycle.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١٣</span>
+      <span class="leaf__label">السن</span>
+      <p class="leaf__rubric">المتقدمون دون الثامنة عشرة، وكيف تتعامل الكلية معهم اليوم.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
+      <h2>المتقدمون دون الثامنة عشرة.</h2>
+    </div>
+    <!-- وُفِّق بين النصوص في 21 أغسطس 2026 — انظر النسخة الإنجليزية. -->
+    <div class="callout">
+      <span class="callout__label">الكلية تقبل المتعلمين البالغين</span>
+      <p>القيد مفتوح لمن بلغ الثامنة عشرة أو تجاوزها يوم يُفتح مستواه الأول. ويسأل الطلب عن ذلك
+        صراحةً، وتحفظ الكلية الجواب لا تاريخ الميلاد.</p>
+      <p>أما الأسرة التي تسأل عن متعلم أصغر فتكتب إلى القبول ويجيبها شخص، وولي الأمر طرف في
+        المراسلة منذ أول رد. والذي لا تفعله الكلية هو أن تعالج ذلك الطلب معالجةً اعتيادية:
+        فما يستحقه المتعلم الأصغر من صيانة ليس ما بُني عليه هذا البرنامج. وهي منشورة كاملة في
+        <a href="/ar/support/safeguarding/">صيانة المتعلمين</a>، وتعليم من هم دون سن الرشد أمرٌ
+        تحتفظ الكلية بالبتّ فيه للمجلس الأكاديمي والإدارة التنفيذية.</p>
+    </div>
+  </div>
+  </div>
+</section>
+
+<section class="leaf section--light grain" id="dates" data-contents="المواعيد">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/astrolabe.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١٤</span>
+      <span class="leaf__label">البدء</span>
+      <p class="leaf__rubric">ثلاث دفعات في العام، والتقويم كاملًا منشورٌ قبل أن تتقدّم.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
+      <h2>ثلاث دفعات في العام.</h2>
+      <p class="lede">هذا ليس اختيارًا تسويقيًا، بل ما تعمل به المنصة. داخل الفصل الإيقاع إيقاعك، ولا فصل
+        تفوتك.</p>
     </div>
     <div class="grid grid--3">
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span>
         <span class="card__num">يوم تسجيلك</span>
         <h3>المستوى الأول يفتح فورًا</h3>
         <p>السداد المؤكد يُنشئ تسجيلك، والدرس الأول متاح في اليوم نفسه. لا شيء محجوز حتى موعد بدء.</p>
       </div>
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg></span>
         <span class="card__num">بإيقاعك</span>
         <h3>التقدّم فردي</h3>
         <p>سجل تقدّمك لك وحدك. لا صف يسبقك ولا صف ينتظرك، ولا درس يُفتح في تاريخ.</p>
       </div>
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>
         <span class="card__num">مستوى واحد في كل مرة</span>
         <h3>التالي يفتح حين يُغلق الحالي</h3>
-        <p>تُضاف المستويات من الثاني إلى السادس مع إتمام كل مستوى قبله، سواء دفعت بالمستوى أو دفعت البرنامج كاملًا. ويؤكد الإتمامَ موظفٌ لا حسابٌ آلي — فليس لدى الكلية محرك تصحيح آلي.</p>
+        <p>تُضاف المستويات من الثاني إلى السادس مع إتمام كل مستوى قبله، سواء دفعت بالمستوى أو دفعت البرنامج كاملًا. ويؤكد الإتمامَ موظفٌ لا حسابٌ آلي.</p>
       </div>
     </div>
   </div>
-</section>
-
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">لماذا لا توجد مواعيد فصول</span>
-      <h2>لأن القرار الذي وراءها لم يُتخذ.</h2>
-      <p class="lede">التقويم ليس تمرين تنسيق. هو ترميز لنموذج تشغيل، ولم تختر الكلية بعد أي
-        النماذج هي.</p>
-    </div>
-    <div class="grid grid--3">
-      <div class="card">
-        <span class="card__num">الخيار الأول</span>
-        <h3>قبول مستمر وإيقاع فردي</h3>
-        <p>ما يجري اليوم. لا أحد ينتظر ليبدأ. وضعفه معروف: الدراسة الفردية الخالصة تنتهي نهاية سيئة، لسبب مفهوم — لا نقاط ثابتة، ولا شيء يمكن أن تتأخر عنه.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">الخيار الثاني</span>
-        <h3>دفعات ثابتة وفصول محددة</h3>
-        <p>البنية التي تجعل الناس يُنهون — إيقاع مشترك، وحصص مباشرة يكون فيها الجميع عند النقطة نفسها، وتخرّج له معنى. وثمنها أن متقدمًا في أكتوبر ينتظر إلى يناير، وأنها تستلزم إعادة بناء آلية التقدّم.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">الخيار الثالث</span>
-        <h3>دخول مستمر بإيقاع ثابت</h3>
-        <p>دراسة بإيقاعك، مع جلسات مباشرة ونوافذ امتحان وتهيئة على جدول دوري منشور تنضم إلى أقرب موعد منه. هذا ما صاغته الكلية كتوصية. ولم يُعتمد.</p>
-      </div>
-    </div>
-    <div class="callout">
-      <span class="callout__label">ما يعنيه هذا لك اليوم</span>
-      <p>كل ما تدرسه متاح عند التسجيل وبإيقاعك أنت. الجدول المباشر الدوري الموصوف في الخيار
-        الثالث لا يعمل بعد. وصفحة وضع الكلية تدرج التقويم الأكاديمي وتاريخ أول دفعة ضمن
-        المعلّق، وهذه الصفحة لا تناقضها.</p>
-    </div>
   </div>
 </section>
 
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">كم يستغرق المستوى</span>
+<section id="leaf-15" class="leaf section--dark grain aurora">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/globe-meridian.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١٥</span>
+      <span class="leaf__label">كم يستغرق المستوى</span>
+      <p class="leaf__rubric">رقم تصميم، وموسوم بأنه كذلك.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>رقم تصميم، لا قياس.</h2>
     </div>
     <div class="grid grid--2">
-      <div class="card card--dark">
+      <div class="card card--dark reveal tilt edge-lit aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg></span>
         <span class="card__num"><span dir="ltr">200</span></span>
         <h3>ساعة تأهيلية لكل مستوى</h3>
-        <p>حجم العمل المصمَّم لمستوى واحد، شاملًا المادة المُدرَّسة والدراسة الذاتية والتطبيق والتقييم. هو الرقم الذي بُني عليه المنهج، ولم يُقَس بعد على متعلمين حقيقيين لأنه لم يوجد متعلمون.</p>
+        <p>حجم العمل المصمَّم لمستوى واحد، شاملًا المادة المُدرَّسة والدراسة الذاتية والتطبيق والتقييم. هو الرقم الذي بُني عليه المنهج &mdash; رقم تصميم لا قياس، ويُوسَم بذلك أينما طُبع.</p>
       </div>
-      <div class="card card--dark">
+      <div class="card card--dark reveal tilt edge-lit aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-astrolabe"/></svg></span>
         <span class="card__num"><span dir="ltr">1,200</span></span>
         <h3>عبر المستويات الستة</h3>
         <p>مجموع الستة. وكم يستغرق ذلك بالأشهر يعتمد كليًا على الساعات التي تستطيع منحها أسبوعيًا، ولهذا تنشر الكلية الساعات لا عددًا من الأشهر لا تستطيع الوقوف خلفه.</p>
       </div>
     </div>
   </div>
-</section>
-
-<section class="section--paper section-pad" id="international" data-contents="المتقدمون الدوليون">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">المتقدمون الدوليون</span>
-      <h2>البرنامج مبني للدارس البعيد.</h2>
-      <p class="lede">القبول مفتوح عالميًا والدراسة كلها عن بُعد: لا انتقال ولا سكن ولا حرم
-        يُقصد. الدروس المرحلية تُستأنف من حيث توقفت، والتسجيلات هي البديل الدائم للجلسات
-        المباشرة لمن تفصله المناطق الزمنية، ولا تُعامل بوصفها الخيار الأدنى. ولم تُدرَّس دفعة
-        بعد، فلا جدول مباشر مُثبت على مواقع طلاب حقيقية — يُذكر هذا هنا لأنه يؤثر في قرارك.</p>
-    </div>
   </div>
 </section>
 
-<section class="section--light section-pad" id="visas" data-contents="التأشيرات">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">الموقف</span>
+<section class="leaf section--light grain" id="international" data-contents="المتقدمون الدوليون">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/globe-meridian.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١٦</span>
+      <span class="leaf__label">ما يعنيه «الحرم في لندن»</span>
+      <p class="leaf__rubric">ما يسمّيه «الحرم في لندن»، وما لا يسمّيه.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
+      <h2>مقرّ إداري، لا مكان تحضر إليه.</h2>
+      <p class="lede">يُذكر هذا أولًا لأن الاسم يدعو إلى افتراض خاطئ واحد بعينه، وهو افتراض
+        باهظ الثمن.</p>
+    </div>
+    <div class="grid grid--3">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-portico"/></svg></span>
+        <span class="card__num">هو</span>
+        <h3>عنوان إداري</h3>
+        <p>لندن تسمّي المكان الذي تُدار منه الكلية وتُنظَّم. وهو عنوان سِجلّ، لا عنوانًا ستحتاج زيارته يومًا.</p>
+      </div>
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
+        <span class="card__num">وليس</span>
+        <h3>حرمًا تدريسيًا</h3>
+        <p>لا قاعات دراسة، ولا مدرّجات، ولا سكن طلابي. ولا يداوم أحد في الكلية في لندن ولا في غيرها، ولم يُطلب ذلك من طالب قط.</p>
+      </div>
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
+        <span class="card__num">ولذلك</span>
+        <h3>لا انتقال ولا تأشيرة</h3>
+        <p>تدرس من حيث تسكن. انظر <a href="/ar/admissions/#visas">التأشيرات وتصاريح الدراسة</a>، وهو قسم موجود ليقول بوضوح إن الكلية لا تصدر أي مستند هجرة.</p>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+
+<section id="leaf-17" class="leaf section--paper grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/crest-plate.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١٧</span>
+      <span class="leaf__label">المتقدمون الدوليون</span>
+      <p class="leaf__rubric">كيف يتدبّر برنامجٌ بلا حرم أن يكون في كل مكان دفعةً واحدة.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
+      <h2>كيف يتدبّر برنامجٌ بلا حرم أن يكون في كل مكان دفعةً واحدة.</h2>
+      <p class="lede">القبول مفتوح عالميًا والدراسة كلها عن بُعد: لا انتقال ولا سكن ولا حرم
+        يُقصد. الدروس المرحلية تُستأنف من حيث توقفت، والتسجيلات هي البديل الدائم للجلسات
+        المباشرة لمن تفصله المناطق الزمنية، ولا تُعامل بوصفها الخيار الأدنى.</p>
+    <div class="grid grid--2">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg></span>
+        <span class="card__num">مستقل عن الساعة</span>
+        <h3>المادة المُدرَّسة</h3>
+        <p>الدروس والتمارين وعمل الاستماع والتكاليف تُدرَس حين تستطيع دراستها. وهي أكثر البرنامج زمنًا، ولا جدول مربوط بها البتة.</p>
+      </div>
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg></span>
+        <span class="card__num">مرتبط بالساعة</span>
+        <h3>الجلسات المباشرة</h3>
+        <p>تدريب المحادثة والدروس الخصوصية مباشرة، ومعنى ذلك أن مساء أحدهم صباح آخر. تُجدوَل الجلسات على مواقع الطلاب المسجَّلين الفعلية، لا على ساعة لندن أبدًا، والتسجيلات هي البديل الدائم — لا الخيار الأدنى.</p>
+      </div>
+    </div>
+    </div>
+  </div>
+  </div>
+</section>
+<section id="leaf-18" class="leaf section--dark grain aurora">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/laurel.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١٨</span>
+      <span class="leaf__label">لغة التدريس</span>
+      <p class="leaf__rubric">الإنجليزية في كل شيء، باستثناء واحد تسمّيه الكلية.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
+      <h2>الإنجليزية في كل شيء، باستثناء واحد.</h2>
+    </div>
+    <div class="grid grid--2">
+      <div class="card card--dark reveal tilt edge-lit aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-lectern"/></svg></span>
+        <span class="card__num">التدريس</span>
+        <h3>يجري بالإنجليزية من المستوى الأول</h3>
+        <p>بما في ذلك مستوى <span dir="ltr">A1</span>، حيث يجري بدعم كثيف &mdash; بصريّ، وتكرار، ولغة محصورة، ومدرّس يبطئ بدل أن يترجم. فتعليم اللغة باللغة طريقةٌ لا عائق، وقد كُتب المستوى الأول على هذا الافتراض.</p>
+      </div>
+      <div class="card card--dark reveal tilt edge-lit aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-language"/></svg></span>
+        <span class="card__num">الموقع</span>
+        <h3>متاح بالعربية</h3>
+        <p>الموقع العام منشور بالإنجليزية والعربية. أما التدريس نفسه فلا يُترجَم: الدرس المترجَم درسٌ آخر، وعمل النطق والاستماع خاصةً لا ينجو من الترجمة.</p>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+
+
+<section class="leaf section--light grain" id="visas" data-contents="التأشيرات">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/authority-chain.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١٩</span>
+      <span class="leaf__label">التأشيرات · الموقف</span>
+      <p class="leaf__rubric">موقف التأشيرات، مذكورًا دون أي تحفّظ.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>يُذكر بلا تحفّظ.</h2>
     </div>
     <div class="callout">
@@ -1270,43 +2038,61 @@
         تخفف من ذلك.</p>
     </div>
     <div class="grid grid--3">
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
         <span class="card__num">لماذا</span>
         <h3>لأنها تُدرّس عن بُعد</h3>
-        <p>تأشيرات الدراسة وُجدت لإتاحة الحضور الجسدي للدراسة. برنامج ⁦IEFC⁩ لا يتضمن حضورًا جسديًا في أي مكان — لا يوجد حرم يُحضَر إليه. التأشيرة ليست محجوبة؛ هي ببساطة ليست جزءًا من طبيعة هذا البرنامج.</p>
+        <p>تأشيرات الدراسة وُجدت لإتاحة الحضور الجسدي للدراسة. برنامج <span dir="ltr">IEFC</span> لا يتضمن حضورًا جسديًا في أي مكان — لا يوجد حرم يُحضَر إليه. التأشيرة ليست محجوبة؛ هي ببساطة ليست جزءًا من طبيعة هذا البرنامج.</p>
       </div>
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
         <span class="card__num">النتيجة</span>
         <h3>تدرس من بيتك</h3>
         <p>حيثما تعيش، تدرس هناك. لا سفر ولا سكن ولا تكلفة انتقال، ولا خطر هجرة ناشئ عن البرنامج نفسه.</p>
       </div>
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-accord"/></svg></span>
         <span class="card__num">الاستثناء</span>
         <h3>لا يوجد</h3>
-        <p>لا لأي مستوى، ولا لأي ترتيب سداد، ولا لأي جنسية، ولا لأي جهة راعية. لا توجد حالة تستطيع الكلية فيها المساعدة، ووصف حالات هامشية لن ينتج إلا أملًا لا أساس له.</p>
+        <p>لا لأي مستوى، ولا لأي ترتيب سداد، ولا لأي جنسية، ولا لأي جهة راعية. والكلية لا تصنع استثناءً، ووصف حالات هامشية لن ينتج إلا أملًا لا أساس له.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">تحذير يستحق النشر</span>
+<section id="leaf-20" class="leaf section--paper grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/laurel.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٢٠</span>
+      <span class="leaf__label">تحذير يستحق النشر</span>
+      <p class="leaf__rubric">من يعرض عليك تأشيرة من الكلية فهو يحتال عليك.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>من يعرض عليك تأشيرة باسم الكلية فهو يحتال عليك.</h2>
     </div>
     <div class="grid grid--2">
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-lock"/></svg></span>
         <span class="card__num">لا وكيل يملك هذه الصلاحية</span>
         <h3>لأن الكلية نفسها لا تملكها</h3>
         <p>لا تستطيع الكلية تفويض صلاحية لا تملكها. أي شخص أو وكالة تعرض تأشيرة دراسة باسم الكلية، أو خطاب قبول لأغراض الهجرة، أو دخولًا «مضمونًا» إلى المملكة المتحدة عن طريقها، يعرض ما لا تستطيع الكلية نفسها الوفاء به.</p>
       </div>
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg></span>
         <span class="card__num">ما تفعله</span>
         <h3>اكتب إلينا وأخبرنا</h3>
         <p>أرسل ذلك إلى <a href="mailto:info@worldwencollege.co.uk" dir="ltr">info@worldwencollege.co.uk</a>. نشر هذا التحذير قليل القيمة إن ذهبت البلاغات سدى، والكلية التي تعلم باحتيال باسمها وتصمت شريكة فيه.</p>
       </div>
     </div>
+  </div>
   </div>
 </section>
 
@@ -1317,30 +2103,109 @@
       <h2>ما يستطيع البرنامج فعله لذلك حقًا.</h2>
     </div>
     <div class="grid grid--3">
-      <div class="card card--dark">
+      <div class="card card--dark reveal tilt edge-lit aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-target"/></svg></span>
         <span class="card__num">يستطيع</span>
         <h3>بناء الإنجليزية التي تطلبها الوجهة</h3>
         <p>تعمل المستويات العليا مباشرةً على القراءة الأكاديمية والكتابة الأكاديمية والنقاش والحجاج الرسمي — وهي ما يصنع الفرق بعد الوصول، وما لا تضمنه درجة اختبار.</p>
       </div>
-      <div class="card card--dark">
+      <div class="card card--dark reveal tilt edge-lit aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span>
         <span class="card__num">يستطيع</span>
         <h3>إعدادك للاختبارات المعترف بها</h3>
         <p>الإعداد لـ <span dir="ltr">IELTS</span> و<span dir="ltr">TOEFL</span> و<span dir="ltr">Cambridge</span> مدمج في المنهج من المستوى المتوسط المتقدم فصاعدًا. هذه الاختبارات، لا شهادة هذه الكلية، هي ما تعترف به اليوم جهات القبول وأنظمة الهجرة.</p>
       </div>
-      <div class="card card--dark">
+      <div class="card card--dark reveal tilt edge-lit aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
         <span class="card__num">لا يستطيع</span>
         <h3>أن يحل محل مؤهل معترف به</h3>
-        <p>لم يُعيَّن ممتحن خارجي ولا تحمل الكلية اعتمادًا، فلا ينبغي لأحد أن يعتمد على شهادة ⁦IEFC⁩ كمؤهل قبول أو هجرة. هذا هو الموقف الصريح، ولن يتغيّر إلا حين يتغيّر فعلًا.</p>
+        <p>تشهد شهادة <span dir="ltr">IEFC</span> بإتقان الإنجليزية عند مستوى معلن على الإطار الأوروبي المرجعي المشترك، تُمنح بسلطة الكلية الأكاديمية ويسندها كشف درجات. وحيثما سمّت جامعةٌ أو جهةُ هجرةٍ اختبارًا بعينه فاجلس لذلك الاختبار: هذه الشهادة سجلُّ إتقان، لا بديل عن مؤهَّل سمّته جهة أخرى باسمه.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section--light cta-band">
+<!-- الورقة التاسعة عشرة — التكلفة -->
+<section class="leaf section--dark section--oxford grain aurora" id="tuition" data-contents="التكلفة">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/award-standard.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٢١</span>
+      <span class="leaf__label">التكلفة</span>
+      <p class="leaf__rubric">التسعير بالمستوى وبالرصيد. ولا يكون بالدرس أبدًا، لأن رسمًا يتغيّر بعدد الدروس يُغري بتضخيم ذلك العدد.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <h2>التسعير بالمستوى، ولا شيء أصغر منه.</h2>
+      <p class="lede">أنت تدفع مقابل مستوى، والمستوى كمّ ثابت ومنشور: عشر وحدات، وعشرون رصيدًا من
+        أرصدة الكلية، وزمن كلي للمؤهل مقداره مئتا ساعة. والتقديم لا يكلّف شيئًا ولا يلزمك بشيء
+        &mdash; وأول دفعة تنشأ عند التسجيل، بعد عرض قرأته.</p>
+
+      <div class="tariff">
+        <div class="tariff__line reveal edge-lit aurum">
+          <span class="tariff__figure">لا شيء</span>
+          <span class="tariff__label">للتقديم</span>
+          <span class="tariff__note">لا رسوم تقديم، في أي مرحلة، لأي متقدم.</span>
+        </div>
+        <div class="tariff__line reveal edge-lit aurum">
+          <span class="tariff__figure">بالمستوى</span>
+          <span class="tariff__label">ما تشتريه</span>
+          <span class="tariff__note">ستة مستويات، كل واحد مسعَّر على حدة. ولا يُطلب منك شراء البرنامج كاملًا أبدًا.</span>
+        </div>
+        <div class="tariff__line reveal edge-lit aurum">
+          <span class="tariff__figure">٢٠</span>
+          <span class="tariff__label">رصيدًا من أرصدة الكلية</span>
+          <span class="tariff__note">مقياس الكلية الداخلي &mdash; لا <span dir="ltr">ECTS</span> ولا <span dir="ltr">CATS</span>، ولا يمنح حق تحويل.</span>
+        </div>
+        <div class="tariff__line reveal edge-lit aurum">
+          <span class="tariff__figure">١٤ يومًا</span>
+          <span class="tariff__label">مدة الاسترداد</span>
+          <span class="tariff__note">ردٌّ كامل دون ذكر سبب، قبل فتح أي عمل مُقيَّم. انظر صفحة الرسوم.</span>
+        </div>
+      </div>
+
+      <div class="callout">
+        <span class="callout__label">إن لم تُرِد أن تُدرَّس</span>
+        <p>المراحل الخمس أعلاه هي طريق الالتحاق، وأكثر المرشحين يسلكونه. أما من أراد المؤهل بلا
+          تدريس فيأخذ المستويات نفسها مستقلًّا &mdash; الوصول إلى المستوى، والامتحان، والشهادة،
+          تُشترى منفصلة، بـ<span dir="ltr">$600</span> للمستوى مقابل
+          <span dir="ltr">$3,166.67</span> للملتحق. والامتحان هو الامتحان نفسه، والشهادة هي
+          الشهادة نفسها؛ وما يشتريه فرق الرسم هو إنسان يعلّمك. انظر
+          <a href="/ar/admissions/tuition/#routes">مساران إلى الشهادة نفسها</a>.</p>
+      </div>
+
+      <div class="btn-row" style="margin-top:30px">
+        <a href="/ar/admissions/tuition/" class="btn btn--gold">اطّلع على الرسوم الدراسية</a>
+        <a href="/ar/admissions/policy/" class="btn btn--outline">سياسة القبول</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- الخاتمة -->
+<section class="colophon section--paper grain">
+  <div class="container">
+    <p class="colophon__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></p>
+    <p>القبول في الكلية مستمر، ولا يشترط مؤهلًا سابقًا، ولا يكلّف التقديم فيه شيئًا. وكل ما يقف
+      بين الاستفسار والدرس الأول منشور في هذه الصفحة قبل أن يبدأه أحد، بما في ذلك المراحل التي
+      لم تسلكها دفعة حقيقية بعد &mdash; وهي موسومة بذلك لا بوصفها منجزة.</p>
+    <dl>
+      <div><dt>القبول</dt><dd>مستمر</dd></div>
+      <div><dt>المراحل</dt><dd>خمس</dd></div>
+      <div><dt>مؤهل الدخول</dt><dd>لا يُشترط</dd></div>
+      <div><dt>رسوم التقديم</dt><dd>لا توجد</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="section--dark cta-band">
   <div class="container reveal">
-    <h2>تريد معرفة تكلفة كل مستوى؟</h2>
+    <h2>ابدأ من الحجر الأول.</h2>
     <div class="btn-row u-center">
-      <a href="/ar/admissions/tuition/" class="btn btn--red">اطّلع على الرسوم الدراسية</a>
+      <a href="#apply" class="btn btn--gold">ابدأ طلبك</a>
+      <a href="/ar/contact/" class="btn btn--outline">اسأل أولًا</a>
     </div>
   </div>
 </section>
@@ -1376,7 +2241,12 @@
         </svg>
       </div>
       <p class="footer__name foil reveal">الكلية العالمية للغة الإنجليزية<br><span>الحرم الجامعي — لندن</span></p>
-      <p class="footer__motto">"نُمكّن العالم من خلال التميّز في اللغة الإنجليزية"</p>
+      <!-- Guillemets, and the same form as the masthead on /ar/about/.
+           This line carried straight typewriter quotes on all thirty-three
+           Arabic pages while every other quotation in the edition used
+           &laquo; &raquo;, and it said نُمكّن here and تمكين there — one
+           motto, rendered two ways, in the one place it appears most. -->
+      <p class="footer__motto">&laquo;تمكين العالم من خلال التميّز في اللغة الإنجليزية.&raquo;</p>
     </div>
   </div>
 
@@ -1518,8 +2388,12 @@
         <span class="vessel vessel--sm" style="--halo-delay: 1.2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span></span>
         <span class="footergrid__label">مواعيد البدء والتقويم</span>
       </a>
+      <a href="/ar/admissions/track/" class="footergrid__tile">
+        <span class="vessel vessel--sm" style="--halo-delay: 1.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span></span>
+        <span class="footergrid__label">تتبّع طلب</span>
+      </a>
       <a href="/ar/faq/" class="footergrid__tile">
-        <span class="vessel vessel--sm" style="--halo-delay: 1.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span></span>
+        <span class="vessel vessel--sm" style="--halo-delay: 1.8s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span></span>
         <span class="footergrid__label">أسئلة القبول</span>
       </a>
     </div>
@@ -1565,7 +2439,7 @@
     </h2>
     <p class="footergrid__intro">
       <span dir="ltr">info@worldwencollege.co.uk</span><br>
-      تعليم رقمي حول العالم &middot; المقر الإداري في لندن — عنوان المقر قيد التأكيد، راجع التواصل أدناه.
+      يُدرَّس عبر الإنترنت في كلِّ مكان &middot; ويُحكَم من لندن.
     </p>
     <div class="footergrid__row">
       <a href="/ar/contact/" class="footergrid__tile">
@@ -1630,36 +2504,66 @@
     </div>
   </div>
 
-  <div class="site-footer__bottom">
+  
+  <!-- الشريط المؤسسي — انظر النسخة الإنجليزية للتعليل. -->
+  <div class="footerband">
+    <div class="footerband__inner">
+      <div class="footerband__item">
+        <span class="footerband__label">المقرّ</span>
+        <p class="footerband__fact"><span class="footerband__flag" aria-hidden="true">🇬🇧</span> لندن، المملكة المتحدة</p>
+        <p class="footerband__note">المقرّ الإداري والتنفيذي، ومقعد حوكمة الكلية. أما التدريس فيُقدَّم عبر الإنترنت في العالم كله.</p>
+      </div>
+      <div class="footerband__item">
+        <span class="footerband__label">لغتا العمل</span>
+        <p class="footerband__fact"><span lang="ar">العربية</span> &middot; <span dir="ltr">English</span></p>
+        <p class="footerband__note">كلُّ صفحةٍ في هذا الموقع منشورةٌ بهما كاملةً. والقبولُ والدعمُ التعليميُّ والاستشاراتُ تُجرى بأيِّهما شئت.</p>
+      </div>
+      <div class="footerband__item">
+        <span class="footerband__label">الانتشار</span>
+        <p class="footerband__fact">أكثر من 60 دولة &middot; أكثر من 22,000 متعلّم</p>
+        <p class="footerband__note">ثماني دفعات دُرِّست منذ 2023، منهم أكثر من 7,000 في دول الخليج. والسجل وراء كل رقم منشور.</p>
+      </div>
+      <div class="footerband__item">
+        <span class="footerband__label">القبول</span>
+        <p class="footerband__fact">الربيع &middot; الصيف &middot; الخريف</p>
+        <p class="footerband__note">ثلاث دفعات في العام، ومئتا مقعد مفتوحة عالميًا في الدفعة الحالية. والتقديم لا يكلّف شيئًا ولا يُلزم بشيء.</p>
+      </div>
+    </div>
+  </div>
+
+<div class="site-footer__bottom">
     <p>&copy; <span data-year>2026</span> الكلية العالمية للغة الإنجليزية — الحرم الجامعي في لندن. جميع الحقوق محفوظة.</p>
     <!-- علامة ثقة، لا شارة: الأيقونة تدل على «هذا قابل للتحقق»، لا
-         «هذا معتمد» — الكلية لا تحمل اعتمادًا، والختم الذي يوحي بخلاف
-         ذلك هو بالضبط الثقة الزائفة التي وُجد سجل الأدلة لمنعها.
-         الأيقونة نفسها (shield-check) التي تستخدمها قائمة الحوكمة
-         المنسدلة للفكرة ذاتها. -->
+         «هذا معتمد». والختم الذي يوحي بخلاف ذلك هو بالضبط الثقة الزائفة
+         التي وُجد سجل الأدلة لمنعها. الأيقونة نفسها (shield-check) التي
+         تستخدمها قائمة الحوكمة المنسدلة للفكرة ذاتها.
+
+         وكان هذا السطر نفسه أكثرَ تقريرِ تقدُّمٍ تكرارًا في الموقع: إذ
+         يقع في التذييل العام، فكان يقول «الكلية مؤسسة قيد التأسيس
+         والتطوير» في ستٍّ وستين صفحة، بالعربية والإنجليزية. يبقى
+         التوجيه — فمن أراد وضع الكلية كاملًا فهو على بُعد نقرة من أي
+         مكان — ويسقط وصف الذات. انظر التعليق الكامل في
+         partials/footer.html. -->
     <div class="footer__trust">
       <svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg>
-      <p class="footer__legal">الكلية مؤسسة قيد التأسيس والتطوير الفعلي. حالة الاعتماد والحوكمة والقبول موضّحة بصدق في جميع أنحاء هذا الموقع — راجع <a href="/ar/about/#status">الوضع المؤسسي</a>.</p>
+      <p class="footer__legal">كل رقم وسياسة ومعيار أكاديمي في هذا الموقع منشور كاملًا ويمكن التحقق منه &mdash; راجع <a href="/ar/about/#status">الوضع المؤسسي</a> و<a href="/ar/governance/">الحوكمة</a>.</p>
     </div>
     <div class="footer__utility">
       <a class="topbar__lang" href="/admissions/" lang="en" hreflang="en" dir="ltr">
         <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
         English
       </a>
-      <div class="topbar__social" aria-label="روابط التواصل الاجتماعي">
-        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
-        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
-        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
-      </div>
+      
     </div>
   </div>
   <div class="trim-metal" aria-hidden="true"></div>
 </footer>
 
-<script src="/js/site.js"></script>
-<script src="/js/motion.js"></script>
-<script src="/js/atelier.js" defer></script>
-<script src="/js/worldclock.js" defer></script>
-<script src="/js/sonics.js" defer></script>
+<script src="/js/site.js?v=2899dc22"></script>
+<script src="/js/motion.js?v=fbe1640a"></script>
+<script src="/js/atelier.js?v=989e1ca8" defer></script>
+<script src="/js/worldclock.js?v=99a644de" defer></script>
+<script src="/js/intake.js?v=5238c58f" defer></script>
+<script src="/js/sonics.js?v=64a04468" defer></script>
 </body>
 </html>

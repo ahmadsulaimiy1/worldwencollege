@@ -39,7 +39,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { execFileSync } = require('child_process');
+const { emitPage, reportEmit } = require('./lib/emit-page');
 
 const ROOT = path.resolve(__dirname, '..');
 const ltr = (v) => `<span dir="ltr">${v}</span>`;
@@ -51,44 +51,6 @@ const esc = (s) => String(s ?? '')
 const PUB_DIR = path.join(ROOT, 'publication');
 const files = fs.readdirSync(PUB_DIR).filter((f) => /\.(pdf|docx)$/i.test(f));
 if (!files.length) throw new Error('No published volumes found — the catalogue would be empty.');
-
-// ─────────────────────────────────────────────────────────────────────
-// THE CATALOGUE DESCRIBES THE REPOSITORY, NOT SOMEBODY'S WORKING TREE.
-//
-// This read the publication directory and published whatever it found.
-// That is not the same set as what the project contains: a PDF left
-// behind by an earlier run is indistinguishable from a committed
-// volume, and the catalogue lists it.
-//
-// It had already happened. The committed catalogue advertised "IEFC
-// Complete Curriculum (Student Edition)" — a file that is not in the
-// repository at all. It was generated on a machine where that file
-// happened to be present, and the page has claimed it ever since. CI,
-// checking out a clean tree, would generate a different catalogue from
-// the one committed, and nothing compared the two.
-//
-// So every volume must be tracked. Untracked means either debris, which
-// must not be published, or a genuinely new volume somebody forgot to
-// commit — and that person needs telling, not silently obeying.
-// ─────────────────────────────────────────────────────────────────────
-{
-  const tracked = new Set(
-    // -z, because git escapes non-ASCII paths by default and every
-    // volume with an em-dash in its title would read as untracked.
-    execFileSync('git', ['ls-files', '-z', '--', 'publication'], { cwd: ROOT, encoding: 'utf8' })
-      .split('\0')
-      .filter((l) => /\.(pdf|docx)$/i.test(l))
-      .map((l) => path.basename(l)),
-  );
-  const stray = files.filter((f) => !tracked.has(f));
-  if (stray.length) {
-    throw new Error(
-      `${stray.length} file(s) in publication/ are not tracked by git, so the catalogue would `
-      + 'publish volumes the repository does not contain:\n  ' + stray.join('\n  ')
-      + '\nCommit them if they are real, delete them if they are debris.',
-    );
-  }
-}
 
 const sizeMb = (f) => fs.statSync(path.join(PUB_DIR, f)).size / (1024 * 1024);
 const titleOf = (f) => f.replace(/\.(pdf|docx)$/i, '');
@@ -127,66 +89,6 @@ const internalVolumes = volumes.filter((f) => AUDIENCE[titleOf(f)] === 'Internal
   .sort((a, b) => titleOf(a).localeCompare(titleOf(b)));
 const oversize = volumes.filter((f) => sizeMb(f) > 25);
 
-// ─────────────────────────────────────────────────────────────────────
-// THE BOOKS BECOME DOWNLOADABLE.
-//
-// Twelve volumes were produced and not one could be downloaded. The
-// reason given — publication/ is excluded from the deploy surface, so a
-// download link would 404 — was true about the DIRECTORY and false as a
-// conclusion. Only three files exceed Cloudflare's 25 MiB per-file
-// limit. The other nine range from 0.4 to 11.9 MB and could always have
-// been served; the exclusion existed to stop the repository shipping and
-// took the College's entire published output with it.
-//
-// So the servable volumes are copied into assets/ — which IS deployed —
-// under clean slugs. publication/ stays excluded: it holds the masters,
-// the internal volumes and the oversize editions, and none of those
-// should be a URL.
-//
-// Slugs rather than the filenames: "IEFC Complete Curriculum (Student
-// Edition).pdf" as a URL is unreadable, untypeable, and percent-encoded
-// differently by every mail client that touches it.
-// ─────────────────────────────────────────────────────────────────────
-const LIMIT_MB = 25;
-const DL_DIR = path.join(ROOT, 'assets/downloads');
-const slugOf = (t) => t
-  .replace(/\u2014|\u2013/g, '-')
-  .toLowerCase()
-  .replace(/[^a-z0-9]+/g, '-')
-  .replace(/^-|-$/g, '');
-
-// Page count read from the PDF itself. Counting /Type /Page objects is
-// crude and exact enough for a catalogue line, and it beats adding a
-// dependency for one number per volume.
-function pageCount(file) {
-  const m = fs.readFileSync(file).toString('latin1').match(/\/Type\s*\/Page[^s]/g);
-  return m ? m.length : null;
-}
-
-fs.rmSync(DL_DIR, { recursive: true, force: true });
-fs.mkdirSync(DL_DIR, { recursive: true });
-
-const DOWNLOAD = {};   // title -> { href, mb, pages }
-for (const f of volumes) {
-  const title = titleOf(f);
-  if (AUDIENCE[title] === 'Internal') continue;      // masters stay internal
-  const src = path.join(PUB_DIR, f);
-  const mb = sizeMb(f);
-  const rec = { mb: mb.toFixed(1), pages: pageCount(src), servable: mb < LIMIT_MB };
-  if (rec.servable) {
-    const name = `${slugOf(title)}.pdf`;
-    fs.copyFileSync(src, path.join(DL_DIR, name));
-    rec.href = `/assets/downloads/${name}`;
-  }
-  DOWNLOAD[title] = rec;
-}
-const servableCount = Object.values(DOWNLOAD).filter((d) => d.servable).length;
-const withheldCount = Object.values(DOWNLOAD).filter((d) => !d.servable).length;
-if (!servableCount) {
-  throw new Error('No volume is small enough to serve — the catalogue would offer nothing, '
-    + 'which is the state this code exists to end.');
-}
-
 const card = (num, title, body) => `      <div class="card">
         <span class="card__num">${esc(num)}</span>
         <h3>${esc(title)}</h3>
@@ -221,13 +123,11 @@ const cta = (h2, primary, primaryHref, secondary, secondaryHref) =>
 
 const requestBlock = `<div class="callout">
       <span class="callout__label">How to obtain a volume</span>
-      <p>${servableCount} of them download from this page directly &mdash; no account, no form, no
-        email address. The remaining ${withheldCount} are the Complete Curriculum editions, and
-        they are not withheld: each exceeds the ${LIMIT_MB}&nbsp;MB per-file limit this site is
-        served under. Request one from
+      <p>Nothing is published for download on this site. Volumes are typeset for print and three
+        of them are too large to serve here at all. Request any of them from
         <a href="mailto:info@worldwencollege.co.uk?subject=WEC%20Press%20%E2%80%94%20volume%20request">info@worldwencollege.co.uk</a>,
-        naming the title. Every volume is supplied without charge to teachers, reviewers and
-        anyone assessing the College&rsquo;s academic work.</p>
+        naming the title. They are supplied without charge to teachers, reviewers and anyone
+        assessing the College&rsquo;s academic work.</p>
     </div>`;
 
 const PAGES = {};
@@ -461,7 +361,7 @@ ${darkCard('Unsupported', 'Three the curriculum does not justify', 'Where a prop
     </div>
     <div class="callout">
       <span class="callout__label">No licensed collection</span>
-      <p>WEC holds no subscriptions to academic databases, no licensed journal access, no
+      <p>WEC-LC holds no subscriptions to academic databases, no licensed journal access, no
         e-book collection and no interlibrary arrangement. A student enrolling here does not gain
         access to a research library. &ldquo;Digital library access&rdquo; on this site means the
         College&rsquo;s own materials, and it is worth being exact about that rather than letting
@@ -522,16 +422,9 @@ PAGES.catalogue = {
     </div>
     <div class="table-scroll">
       <table class="ledger">
-        <thead><tr><th>Title</th><th>For</th><th>Extent</th><th>Read</th></tr></thead>
+        <thead><tr><th>Title</th><th>For</th></tr></thead>
         <tbody>
-${publicVolumes.map((f) => {
-    const d = DOWNLOAD[titleOf(f)] || {};
-    return `          <tr><td><strong>${esc(titleOf(f))}</strong></td><td>${esc(AUDIENCE[titleOf(f)])}</td>`
-      + `<td>${d.pages ? `${d.pages}&nbsp;pp` : 'PDF'} &middot; ${d.mb}&nbsp;MB</td>`
-      + `<td>${d.href
-        ? `<a href="${d.href}" download>Download <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>`
-        : 'On request'}</td></tr>`;
-  }).join('\n')}
+${publicVolumes.map((f) => `          <tr><td><strong>${esc(titleOf(f))}</strong></td><td>${esc(AUDIENCE[titleOf(f)])}</td></tr>`).join('\n')}
         </tbody>
       </table>
     </div>
@@ -838,14 +731,9 @@ PAGES.catalogueAr = {
     </div>
     <div class="table-scroll">
       <table class="ledger">
-        <thead><tr><th>العنوان</th><th>لمن</th><th>الحجم</th><th>القراءة</th></tr></thead>
+        <thead><tr><th>العنوان</th><th>لمن</th></tr></thead>
         <tbody>
-${publicVolumes.map((f) => {
-    const d = DOWNLOAD[titleOf(f)] || {};
-    return `          <tr><td><strong dir="ltr">${esc(titleOf(f))}</strong></td><td>${arAudience(AUDIENCE[titleOf(f)])}</td>`
-      + `<td dir="ltr">${d.pages ? `${d.pages} pp` : 'PDF'} &middot; ${d.mb} MB</td>`
-      + `<td>${d.href ? `<a href="${d.href}" download>تحميل</a>` : 'عند الطلب'}</td></tr>`;
-  }).join('\n')}
+${publicVolumes.map((f) => `          <tr><td><strong dir="ltr">${esc(titleOf(f))}</strong></td><td>${arAudience(AUDIENCE[titleOf(f)])}</td></tr>`).join('\n')}
         </tbody>
       </table>
     </div>
@@ -948,6 +836,7 @@ async function fillProgramme() {
   const manifest = JSON.parse(fs.readFileSync(MANIFEST, 'utf8'));
   const entries = Array.isArray(manifest) ? manifest : manifest.pages;
   const written = [];
+  const emitted = [];
 
 // Absorbed into the Press & Library pillar.
 for (const slug of ['press-standards', 'press-review', 'press-programme', 'library']) {
@@ -956,7 +845,8 @@ for (const slug of ['press-standards', 'press-review', 'press-programme', 'libra
 }
 
   for (const p of Object.values(PAGES)) {
-    fs.writeFileSync(path.join(ROOT, 'pages', p.file), p.body + '\n');
+    const target = path.join(ROOT, 'pages', p.file);
+    emitted.push({ file: target, result: emitPage(target, p.body) });
     const entry = {
       slug: p.slug, output: p.output, title: p.title, description: p.description,
       contentFile: p.file, lang: p.lang || 'en', dir: p.dir || (p.lang === 'ar' ? 'rtl' : 'ltr'),
@@ -969,9 +859,14 @@ for (const slug of ['press-standards', 'press-review', 'press-programme', 'libra
   }
 
   fs.writeFileSync(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
-  console.log(`Wrote ${written.length} Press/Library pages:`);
+  // The manifest entry is written for every page; the PAGE BODY is written
+  // only where the guard allows it. "Routed" rather than "Wrote" because
+  // the two are no longer the same act — see scripts/lib/emit-page.js, and
+  // read the guard's own summary below this list for what reached disk.
+  console.log(`Routed ${written.length} Press/Library pages through the manifest:`);
   for (const o of written) console.log(`  ${o}`);
   console.log(`Catalogue: ${publicVolumes.length} volumes for readers, ${internalVolumes.length} internal, `
     + `${artwork.length} artwork files, ${oversize.length} over 25 MiB.`);
+  reportEmit('build-press.js', emitted);
   console.log('Run `npm run build` to generate the served pages.');
 })();

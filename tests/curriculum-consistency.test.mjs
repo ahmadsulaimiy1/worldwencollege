@@ -57,16 +57,22 @@ const DECLARED = new Set([...CORE, ...CORE_ALIASES['grammatical accuracy'], ...O
 
 // --- Parsing -------------------------------------------------------------
 // Mirrors the machine contract in the rubric policy: "GRADING RUBRIC:"
-// then a numbered list of "(n) Name -- description". The parser tolerates
+// then a numbered list of "(n) Name — description". The parser tolerates
 // a parenthetical qualifier inside a criterion name, because several
 // assignments legitimately write "Communicative quality (new emphasis at
-// this level) --". An earlier version of this parser did NOT, which is
+// this level) —". An earlier version of this parser did NOT, which is
 // how the programme review's first published rubric table came to be
 // wrong; the tolerance is deliberate and load-bearing.
 const canon = (s) => s.toLowerCase().replace(/\(.*?\)/g, '').replace(/[^a-z& ]/g, '').replace(/\s+/g, ' ').trim();
 
 function parseCriteria(body) {
-  const marks = [...body.matchAll(/\((\d)\)\s*([^-—]{3,70}?)\s+--\s/g)].map((m) => ({ n: +m[1], name: canon(m[2]) }));
+  // EITHER DASH. The separator between a criterion and its
+  // description is typography, not a machine contract, and the
+  // curriculum's double hyphens were set as em dashes once the
+  // study surface started rendering them to learners. A parser
+  // that admitted only the old spelling would make a typographic
+  // correction look like sixty missing rubrics.
+  const marks = [...body.matchAll(/\((\d)\)\s*([^-—]{3,70}?)\s+(?:--|—)\s/g)].map((m) => ({ n: +m[1], name: canon(m[2]) }));
   const out = [];
   let expect = 1;
   for (const m of marks) if (m.n === expect) { out.push(m.name); expect++; }
@@ -375,6 +381,27 @@ const AUDIO_MODULES = new Set(
     const bad = lessons.filter((l) => !l.body.includes(el));
     check(`Template element "${el}" present in all ${lessons.length} lesson items${bad.length ? ' — missing from: ' + bad.slice(0, 6).map((b) => b.id).join(', ') : ''}`, bad.length === 0);
   }
+}
+
+// --- Rule 0: the curriculum is set, not typed -----------------------------
+// A double hyphen is a typewriter's em dash, and for as long as nothing
+// on this site opened a module it was invisible: 924 of them sat in
+// titles and lesson prose that only a PDF renderer ever saw. The study
+// surface renders that prose to a learner, so the College's own teaching
+// materials are now set the way the College's own pages are.
+//
+// Guarded here because a correction of that size, unguarded, comes back
+// one authored lesson at a time.
+{
+  const authored = db.prepare(
+    `SELECT i.id AS id, i.title AS title, i.body AS body FROM learning_items i`,
+  ).all().results;
+  const typewriter = authored.filter(
+    (r) => / -- /.test(r.title || '') || / -- /.test(r.body || ''),
+  );
+  check('No authored curriculum text carries a typewriter dash',
+    typewriter.length === 0,
+    `${typewriter.length}: ` + typewriter.slice(0, 4).map((r) => r.id).join(', '));
 }
 
 console.log(`\n${pass} passed, ${fail} failed.`);

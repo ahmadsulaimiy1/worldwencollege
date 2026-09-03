@@ -11,6 +11,14 @@
    load(). */
 .rec-loading { display: grid; gap: .5rem; margin: 2rem 0; }
 
+/* .rec-nav (the learner tab-bar) lives in css/brand.css now, not here —
+   shared by My Programme, My Record and Verify, so my-programme.html
+   does not have to load this entire stylesheet just for one component. */
+
+/* The state line every portal page opens with is `.state-plate`, in
+   css/brand.css — one component, worn here, on /graduate/ and on the
+   public register. Nothing about it is specific to this file. */
+
 /* ---- Privacy --------------------------------------------------------- */
 .rec-privacy { display: grid; gap: .8rem; }
 

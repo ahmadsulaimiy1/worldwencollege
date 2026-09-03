@@ -262,6 +262,85 @@
   })();
 
   /* -------------------------------------------------------------------
+     2b · THE TYPEWRITER
+     -------------------------------------------------------------------
+     A line that types itself, for the two or three places on this site
+     where the sentence IS the event — the homepage's opening claim, the
+     covenant, a chapter that turns on one assertion.
+
+     IT IS NOT A DECORATION AND IT IS RATIONED. A page where several
+     headings type themselves is a page nobody can skim, and skimming is
+     what a reader does first. `.typeset` is applied by hand, never by a
+     rule, and tests/motion-budget.test.mjs holds the count.
+
+     THREE THINGS THAT MAKE IT SAFE, and each of them is the difference
+     between an effect and a fault:
+
+     1 · THE TEXT IS ALWAYS IN THE DOM. The element keeps its full text
+         in an aria-label and the typing happens in an aria-hidden span,
+         so a screen reader reads the finished sentence at once and
+         never hears it assembled one character at a time.
+
+     2 · THE BOX NEVER MOVES. The finished text is measured first and
+         held as a min-height, so the paragraph below does not walk up
+         the page while the line types. Layout shift caused by an
+         entrance effect is the most expensive kind: it happens exactly
+         when the reader is deciding whether to stay.
+
+     3 · REDUCED MOTION RESOLVES TO THE FINISHED STATE, not to a hidden
+         one and not to a half-typed one (CLAUDE.md §2).
+     ------------------------------------------------------------------- */
+  (function typewriter() {
+    var els = toArray('.typeset');
+    if (!els.length) return;
+
+    els.forEach(function (el) {
+      var text = (el.textContent || '').replace(/\s+/g, ' ').trim();
+      if (!text) return;
+
+      el.setAttribute('aria-label', text);
+
+      // Measured before anything is emptied: the height the finished
+      // line occupies is the height the box keeps for the whole effect.
+      var box = el.getBoundingClientRect();
+      if (box.height) el.style.minHeight = Math.ceil(box.height) + 'px';
+
+      if (prefersReduced()) return;   // the text is already correct
+
+      var ink = document.createElement('span');
+      ink.setAttribute('aria-hidden', 'true');
+      ink.className = 'typeset__ink';
+      el.textContent = '';
+      el.appendChild(ink);
+
+      var i = 0;
+      var timer = null;
+
+      function type() {
+        // A little faster than a person and a little uneven, because a
+        // metronome reads as a loading bar. The jitter is deterministic
+        // per index rather than random, so the same line types the same
+        // way twice — a caption that stutters differently on every
+        // reload reads as a fault.
+        ink.textContent = text.slice(0, i);
+        i += 1;
+        if (i > text.length) {
+          el.classList.add('is-typed');
+          window.clearTimeout(timer);
+          return;
+        }
+        var ch = text.charAt(i - 1);
+        var pause = ch === '.' || ch === '?' || ch === '!' ? 220
+          : ch === ',' || ch === ';' ? 120
+            : 18 + ((i * 7) % 22);
+        timer = window.setTimeout(type, pause);
+      }
+
+      observeOnce([el], function () { type(); }, 0.4);
+    });
+  })();
+
+  /* -------------------------------------------------------------------
      3 · DRAWN RULES AND 8 · FOIL / WAX SEAL
      -------------------------------------------------------------------
      All three are the same mechanism — add .is-visible on entry — and
@@ -345,81 +424,116 @@
   /* -------------------------------------------------------------------
      5 · TYPEWRITER
      -------------------------------------------------------------------
-     Exactly one line on the page does this, and it is not the h1 — the
-     headline is static, because a headline that types itself delays the
-     one sentence every visitor is there to read, and shifts layout
-     while they read it.
+     Never the h1 — a headline that types itself delays the one sentence
+     every visitor is there to read, and shifts layout while they read
+     it. Everything below a headline is fair game, and the page now
+     carries several: the hero's promise, the standard the College marks
+     against, the closing line before the application.
 
-     The phrases come from data-typeline (pipe-separated). The element
-     is given a fixed minimum height from its tallest phrase before
-     anything types, so the line below it never moves.
+     The phrases come from data-typeline (pipe-separated). Each host
+     reserves the width of its own longest phrase before anything types,
+     so the line below it never moves. A host may set its own pace with
+     data-typespeed="slow" where the phrase is long enough that the
+     default rate reads as hurried.
+
+     ONE TIMER PER HOST, and it only runs while the host is on screen.
+     A typewriter on the closing section that types continuously from
+     first paint has burned an hour of someone's battery arguing with
+     itself off-screen. IntersectionObserver gates every one of them.
      ------------------------------------------------------------------- */
   (function typewriter() {
-    var host = document.querySelector('[data-typeline]');
-    if (!host) return;
+    var hosts = toArray('[data-typeline]');
+    if (!hosts.length) return;
 
-    var phrases = (host.getAttribute('data-typeline') || '')
-      .split('|')
-      .map(function (s) { return s.trim(); })
-      .filter(Boolean);
-    if (!phrases.length) return;
+    hosts.forEach(function (host) {
+      var phrases = (host.getAttribute('data-typeline') || '')
+        .split('|')
+        .map(function (s) { return s.trim(); })
+        .filter(Boolean);
+      if (!phrases.length) return;
 
-    var out = document.createElement('span');
-    out.className = 'typeline__out';
-    var caret = document.createElement('span');
-    caret.className = 'typeline__caret';
-    caret.setAttribute('aria-hidden', 'true');
+      var out = document.createElement('span');
+      out.className = 'typeline__out';
+      var caret = document.createElement('span');
+      caret.className = 'typeline__caret';
+      caret.setAttribute('aria-hidden', 'true');
 
-    host.classList.add('typeline');
-    host.textContent = '';
-    host.appendChild(out);
-    host.appendChild(caret);
+      host.classList.add('typeline');
+      host.textContent = '';
+      host.appendChild(out);
+      host.appendChild(caret);
 
-    // A screen reader should get the whole set once, as a static
-    // phrase, rather than a character-by-character live region.
-    host.setAttribute('aria-label', phrases.join(', '));
-    out.setAttribute('aria-hidden', 'true');
+      // A screen reader should get the whole set once, as a static
+      // phrase, rather than a character-by-character live region.
+      host.setAttribute('aria-label', phrases.join(', '));
+      out.setAttribute('aria-hidden', 'true');
 
-    // Reserve the width of the longest phrase so the caret does not
-    // drag the layout back and forth as phrases change length.
-    var longest = phrases.reduce(function (a, b) { return b.length > a.length ? b : a; }, '');
-    out.textContent = longest;
-    host.style.minWidth = out.getBoundingClientRect().width + 'px';
-    out.textContent = '';
+      // Reserve the width of the longest phrase so the caret does not
+      // drag the layout back and forth as phrases change length.
+      var longest = phrases.reduce(function (a, b) { return b.length > a.length ? b : a; }, '');
+      out.textContent = longest;
+      host.style.minWidth = out.getBoundingClientRect().width + 'px';
+      out.textContent = '';
 
-    if (prefersReduced()) {
-      out.textContent = phrases[0];
-      caret.style.animation = 'none';
-      return;
-    }
-
-    var TYPE = 78, ERASE = 34, HOLD = 2100, BETWEEN = 420;
-    var pi = 0, ci = 0, erasing = false;
-
-    function tick() {
-      var phrase = phrases[pi];
-      if (!erasing) {
-        ci++;
-        out.textContent = phrase.slice(0, ci);
-        if (ci === phrase.length) {
-          erasing = true;
-          window.setTimeout(tick, HOLD);
-          return;
-        }
-        window.setTimeout(tick, TYPE);
-      } else {
-        ci--;
-        out.textContent = phrase.slice(0, ci);
-        if (ci === 0) {
-          erasing = false;
-          pi = (pi + 1) % phrases.length;
-          window.setTimeout(tick, BETWEEN);
-          return;
-        }
-        window.setTimeout(tick, ERASE);
+      if (prefersReduced()) {
+        out.textContent = phrases[0];
+        caret.style.animation = 'none';
+        return;
       }
-    }
-    window.setTimeout(tick, 700);
+
+      var slow = host.getAttribute('data-typespeed') === 'slow';
+      var TYPE = slow ? 116 : 78, ERASE = slow ? 46 : 34;
+      var HOLD = slow ? 3000 : 2100, BETWEEN = 420;
+      var pi = 0, ci = 0, erasing = false;
+      var timer = null, live = false, started = false;
+
+      function schedule(ms) {
+        window.clearTimeout(timer);
+        timer = window.setTimeout(tick, ms);
+      }
+
+      function tick() {
+        if (!live) return;
+        var phrase = phrases[pi];
+        if (!erasing) {
+          ci++;
+          out.textContent = phrase.slice(0, ci);
+          if (ci === phrase.length) { erasing = true; schedule(HOLD); return; }
+          schedule(TYPE);
+        } else {
+          ci--;
+          out.textContent = phrase.slice(0, ci);
+          if (ci === 0) {
+            erasing = false;
+            pi = (pi + 1) % phrases.length;
+            schedule(BETWEEN);
+            return;
+          }
+          schedule(ERASE);
+        }
+      }
+
+      function setLive(on) {
+        if (on === live) return;
+        live = on;
+        if (on) { schedule(started ? 240 : 700); started = true; }
+        else window.clearTimeout(timer);
+      }
+
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) { setLive(e.isIntersecting); });
+        }, { rootMargin: '0px 0px -10% 0px' }).observe(host);
+      } else {
+        setLive(true);
+      }
+
+      // A tab in the background should not be typing either.
+      document.addEventListener('visibilitychange', function () {
+        if (document.hidden) window.clearTimeout(timer);
+        else if (live) schedule(BETWEEN);
+      });
+    });
   })();
 
   /* -------------------------------------------------------------------
@@ -544,10 +658,18 @@
       el.style.transition = 'opacity .7s var(--ease-premium), transform .7s var(--ease-premium)';
     });
 
+    // Threshold 0, not 0.2. intersectionRatio is a fraction of the
+    // ELEMENT, so anything taller than five viewports can never reach
+    // 0.2 and never rises — which is exactly what happened to two
+    // .leaf__body sections on /academics/ at 390px wide (ratios 0.194
+    // and 0.185). observeOnce already carries a -8% bottom rootMargin,
+    // so the entrance still waits for the element to be properly in
+    // view rather than firing on the first pixel. See the same
+    // correction in js/site.js.
     observeOnce(els, function (el) {
       el.style.opacity = '';
       el.style.transform = '';
-    }, 0.2);
+    }, 0);
   })();
 
   /* -------------------------------------------------------------------
