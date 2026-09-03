@@ -1,16 +1,14 @@
 // Run with: node tests/browser/admissions-wizard.mjs
 //
 // The consolidated Admissions experience, in a real browser: the
-// pillar page's entry card + status-lookup card, and the application
-// wizard's shell. lab-server.mjs doesn't wire up functions/api/
-// admissions/*.js (only LMS/admin/registry are shimmed there), so this
-// can't drive a full authenticated walk through all five stages —
-// tests/admissions-wizard.test.mjs already covers the backend directly
-// and thoroughly. What THIS file is for: proving the actual served
-// HTML/CSS/JS for the redesigned pages loads cleanly, with no console
-// errors, no 404'd stylesheet, and the new components (floating
-// labels, the interactive stepper, the status-lookup form, the
-// no-Clerk-key gate) render and behave as built.
+// pillar page's entry card and its hand-off to the tracker, and the
+// application wizard's shell. tests/admissions-wizard.test.mjs already
+// covers the backend directly and thoroughly; admissions-track.mjs
+// covers /admissions/track/ itself. What THIS file is for: proving the
+// actual served HTML/CSS/JS for the redesigned pages loads cleanly,
+// with no console errors, no 404'd stylesheet, and the new components
+// (floating labels, the interactive stepper, the no-Clerk-key gate)
+// render and behave as built.
 import { chromium } from 'playwright';
 import { spawn } from 'node:child_process';
 import { existsSync } from 'node:fs';
@@ -75,26 +73,21 @@ await fetch(`${BASE}/__seed-application`, { method: 'POST' });
   const applyAnchorSection = await page.locator('#apply').count();
   check('The #apply anchor itself survives (footer/homepage CTAs deep-link here)', applyAnchorSection === 1);
 
-  // Status-lookup card
-  const lookupForm = page.locator('[data-status-lookup-form]');
-  check('The status-lookup form is present', (await lookupForm.count()) === 1);
-  await page.fill('#status-id', 'app_does_not_exist');
-  await page.locator('[data-status-lookup-btn]').click();
-  await page.waitForTimeout(500);
-  const errorText = (await page.textContent('[data-status-lookup-error]') || '').trim();
-  check('Looking up a bogus id shows the endpoint\'s own honest 404 text, not a generic error',
-    /No application found/i.test(errorText), errorText);
+  // Status checking. The inline [data-status-lookup-form] widget this
+  // file used to test was superseded by a richer, separately-tested
+  // page — /admissions/track/'s five-stage rail (see
+  // admissions-track.mjs) — before this branch merged main's admissions
+  // work. Keeping both would recreate exactly the "two parallel paths
+  // that contradict each other" problem the original consolidation
+  // (commit 53de35ad) was written to fix, so this checks today's actual
+  // architecture: the pillar page hands off to the tracker rather than
+  // looking status up itself.
+  const oldLookupForm = await page.locator('[data-status-lookup-form]').count();
+  check('The old inline status-lookup widget has not come back', oldLookupForm === 0);
 
-  // A real, existing application id — the success path.
-  await page.fill('#status-id', 'app_browser_test_fixture');
-  await page.locator('[data-status-lookup-btn]').click();
-  await page.waitForTimeout(500);
-  const pillText = (await page.textContent('[data-status-pill]') || '').trim();
-  const pillClass = await page.getAttribute('[data-status-pill]', 'class');
-  check('A real application id resolves to its actual status', pillText === 'submitted', pillText);
-  check('...styled with the correct semantic status-pill variant', pillClass === 'status-pill status-pill--progress', pillClass);
-  const createdText = (await page.textContent('[data-status-lookup-created]') || '').trim();
-  check('...and shows the real creation date, not a placeholder', /^Submitted /.test(createdText) && !/Invalid Date/.test(createdText), createdText);
+  const trackCta = page.locator('a[href="/admissions/track/"].btn--gold').first();
+  check('"Checking Your Application" hands off to the dedicated tracker',
+    (await trackCta.count()) > 0);
 
   await page.close();
 }
