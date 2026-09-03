@@ -162,6 +162,27 @@ export async function conferralFor(env, { userId, levelId }) {
     for (const c of position.graduation.outstandingConditions) {
       blockers.push({ id: c.id, detail: `${c.label} — ${c.detail}`, owner: c.owner });
     }
+  } else {
+    // Governance C5 (adopted 14 August 2026): conferral is "on the
+    // authority of the Registrar acting under a Board-approved pass
+    // list" — the review and the write are never the same act by the
+    // same person. Meeting the academic conditions is not, by itself,
+    // authority to confer; a Registrar also needs a real, recorded,
+    // independent confirmation on file. See registry/pass-list.js,
+    // whose own confer() enforces this same rule for its own callers.
+    const passListEntry = await db(env)
+      .prepare(`SELECT id FROM pass_list_entries
+                 WHERE user_id = ? AND level_id = ? AND decision = 'confirmed'
+                   AND superseded = 0 AND conferred_award_id IS NULL
+                 ORDER BY created_at DESC LIMIT 1`)
+      .bind(userId, level).first();
+    if (!passListEntry) {
+      blockers.push({
+        id: 'no_pass_list_confirmation',
+        detail: 'No Independent Examiner has confirmed this award on the pass list yet — see /examiner-review.html.',
+        owner: 'college',
+      });
+    }
   }
   if (!definition) {
     blockers.push({
@@ -376,6 +397,16 @@ export async function confer(env, {
         at.slice(0, 10), actor.id, view.regulationVersion)
       .run();
   }
+
+  // Closes the pass-list entry conferralFor() required above — the
+  // examiner's confirmation and this act are chained the same way
+  // registry/pass-list.js's own confer() chains them, whichever route
+  // wrote the award.
+  await db(env)
+    .prepare(`UPDATE pass_list_entries SET conferred_award_id = ?
+               WHERE user_id = ? AND level_id = ? AND decision = 'confirmed'
+                 AND superseded = 0 AND conferred_award_id IS NULL`)
+    .bind(result.id, userId, a.levelId).run();
 
   return { award: conferredView(result), conferredBy: actor.id, at };
 }

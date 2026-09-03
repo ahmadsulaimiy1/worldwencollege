@@ -118,6 +118,7 @@ const CAST = [
   ['usr_first', 'staff', 'First Marker', 'first@example.com'],
   ['usr_second', 'staff', 'Second Marker', 'second@example.com'],
   ['usr_registrar', 'admin', 'The Registrar', 'registrar@example.com'],
+  ['usr_examiner', 'examiner', 'The Independent Examiner', 'examiner@example.com'],
 ];
 for (const [id, role, name, email] of CAST) {
   await run(`INSERT INTO users (id, auth_provider, auth_provider_id, email, email_verified, role, preferred_name)
@@ -415,6 +416,13 @@ check('...which closes the enrolment the payment opened, and no other',
 // =====================================================================
 // ACT IV · THE ADMINISTRATOR
 // =====================================================================
+// Governance C5: meeting the academic conditions is not, by itself,
+// authority to confer — the Registrar also needs a real, independent
+// confirmation on file, the same fixture an examiner's own review
+// writes at /examiner-review.html.
+await run(`INSERT INTO pass_list_entries (id, user_id, level_id, examiner_id, decision, created_at)
+           VALUES ('ple_amara', 'usr_amara', ?, 'usr_examiner', 'confirmed', '2026-08-01T09:00:00Z')`, LEVEL);
+
 const queueRes = await conferralRoute.onRequestGet({
   request: req('GET', `${BASE}/api/admin/conferral`, { token: TOKENS.registrar }), env,
 });

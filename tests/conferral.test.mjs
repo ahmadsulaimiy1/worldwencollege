@@ -68,6 +68,7 @@ for (const [id, role, name] of [
   ['usr_reg', 'admin', 'The Registrar'],
   ['usr_first', 'staff', 'First Marker'],
   ['usr_second', 'staff', 'Second Marker'],
+  ['usr_examiner', 'examiner', 'The Independent Examiner'],
 ]) {
   await run(`INSERT INTO users (id, auth_provider, auth_provider_id, email, role, preferred_name)
              VALUES (?, 'clerk', ?, ?, ?, ?)`, id, `sub_${id}`, `${id}@example.com`, role, name);
@@ -214,6 +215,13 @@ for (const [skill, item] of [
 // opens the next level." It is performed on /staff-learners.html, and
 // conferral is downstream of it — which is the two consoles connecting.
 await completeLevel(env, { userId: 'usr_ready', levelId: LEVEL });
+
+// Governance C5: meeting the academic conditions is not, by itself,
+// authority to confer — the Registrar also needs a real, independent
+// confirmation on file. Same fixture an examiner's own review writes
+// (see registry/pass-list.js's confirm()).
+await run(`INSERT INTO pass_list_entries (id, user_id, level_id, examiner_id, decision, created_at)
+           VALUES ('ple_ready', 'usr_ready', ?, 'usr_examiner', 'confirmed', '2026-08-01T09:00:00Z')`, LEVEL);
 
 const nowReady = await C.conferralFor(env, { userId: 'usr_ready', levelId: LEVEL });
 check('with the mappings approved, the candidate is eligible',
