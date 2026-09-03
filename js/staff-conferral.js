@@ -81,6 +81,21 @@
     postNominal: 'اللقب',
     title: 'عنوان الشهادة',
     standing: 'ما تمنحه',
+    pendingHead: 'بانتظار توقيع ثانٍ',
+    pendingWhy: 'الحوكمة C5: لا يُنفَّذ سحبٌ أو استبدالٌ إلا بتوقيع ضابطٍ آخر غير الذي اقترحه — لا يجوز لحسابٍ واحد أن يفعل الاثنين.',
+    pendingEmpty: 'لا طلب ينتظر توقيعًا ثانيًا.',
+    proposedWithdraw: function (w) { return 'اقتُرح سحبها بواسطة ' + w; },
+    proposedReplace: function (w) { return 'اقتُرح استبدالها بواسطة ' + w; },
+    countersign: 'وقِّع توقيعًا ثانيًا ونفِّذ',
+    countersigning: 'جارٍ التنفيذ…',
+    selfProposed: 'أنت من اقترح هذا — بانتظار ضابطٍ آخر',
+    cancelRequest: 'ألغِ هذا الاقتراح',
+    cancelling: 'جارٍ الإلغاء…',
+    proposed: function (a) {
+      return a === 'withdraw'
+        ? 'اقتُرح السحب. لن يُنفَّذ إلا بتوقيع ضابطٍ آخر غير حسابك.'
+        : 'اقتُرح الاستبدال. لن يُنفَّذ إلا بتوقيع ضابطٍ آخر غير حسابك.';
+    },
   } : {
     loading: 'Loading the register…',
     eligibleHead: 'Ready to confer',
@@ -121,7 +136,24 @@
     postNominal: 'Post-nominal',
     title: 'Award title',
     standing: 'What it confers',
+    pendingHead: 'Awaiting a second officer',
+    pendingWhy: 'Governance C5: a withdrawal or replacement is not executed until a DIFFERENT officer than the one who proposed it countersigns it — one account may not do both.',
+    pendingEmpty: 'No request is waiting on a countersignature.',
+    proposedWithdraw: function (w) { return 'Withdrawal proposed by ' + w; },
+    proposedReplace: function (w) { return 'Replacement proposed by ' + w; },
+    countersign: 'Countersign and execute',
+    countersigning: 'Executing…',
+    selfProposed: 'You proposed this — awaiting a different officer',
+    cancelRequest: 'Cancel this request',
+    cancelling: 'Cancelling…',
+    proposed: function (a) {
+      return a === 'withdraw'
+        ? 'Withdrawal proposed. It will not take effect until a different officer than your own account countersigns it.'
+        : 'Replacement proposed. It will not take effect until a different officer than your own account countersigns it.';
+    },
   };
+
+  var me = null;
 
   function bdi(text) {
     var n = document.createElement('bdi');
@@ -333,11 +365,21 @@
     yes.addEventListener('click', function () {
       yes.disabled = true;
       says.textContent = T.withdrawing;
+      // 'action=withdraw' PROPOSES the withdrawal — it does not execute
+      // it. See registry/conferral.js's head comment: governance C5
+      // requires a different officer's countersignature before the
+      // award is actually touched.
       K.api('/api/admin/conferral?action=withdraw', {
         method: 'POST',
         body: JSON.stringify({ awardId: view.awardId, reason: reason.value }),
       }).then(function () {
-        loadCandidate(view.candidate.id, view.levelId);
+        // The note travels AS loadCandidate's argument, not as this
+        // element's own textContent: loadCandidate() calls
+        // drawCandidate(), which clears and rebuilds the whole host —
+        // including this paragraph — so a message set on it here would
+        // never be seen.
+        loadCandidate(view.candidate.id, view.levelId, T.proposed('withdraw'));
+        loadPending();
         load();
       }).catch(function (err) {
         yes.disabled = false;
@@ -419,6 +461,102 @@
       .catch(function (err) { $('#state').textContent = K.trouble(err); });
   }
 
+  /* ── THE SECOND OFFICER'S QUEUE ───────────────────────────────────
+   * Every withdrawal or replacement proposed and not yet countersigned
+   * or cancelled, per governance C5 — see the head of this file and
+   * registry/conferral.js. `me` (the signed-in Registrar, read once in
+   * K.boot) decides which control a row offers: countersign, if this
+   * account did not propose it, or cancel, if it did. Neither the
+   * server nor this page ever lets one account do both. */
+
+  function pendingRow(request) {
+    var li = K.plate('li');
+    li.appendChild(K.dome('i-hourglass'));
+
+    var head = el('div', 'stf-item__head');
+    var name = el('h3');
+    name.appendChild(bdi(request.holderName || request.verificationCode || request.awardId));
+    head.appendChild(name);
+    var chips = el('p', 'stf-item__chips');
+    chips.appendChild(K.chip(request.action === 'withdraw' ? T.proposedWithdraw(request.proposedByName || request.proposedByEmail)
+      : T.proposedReplace(request.proposedByName || request.proposedByEmail)));
+    head.appendChild(chips);
+    li.appendChild(head);
+
+    var meta = el('p', 'stf-item__meta');
+    meta.appendChild(el('span', null, K.when(request.proposedAt)));
+    li.appendChild(meta);
+
+    if (request.reason) {
+      var reasonP = el('p', 'cnf-note');
+      reasonP.appendChild(bdi(request.reason));
+      li.appendChild(reasonP);
+    }
+
+    var says = el('p', 'cnf-says');
+    says.setAttribute('aria-live', 'polite');
+
+    if (me && me.id !== request.proposedBy) {
+      var go = el('button', 'btn btn--gold seal', T.countersign);
+      go.type = 'button';
+      go.addEventListener('click', function () {
+        go.disabled = true;
+        says.textContent = T.countersigning;
+        K.api('/api/admin/conferral?action=countersign', {
+          method: 'POST',
+          body: JSON.stringify({ requestId: request.id }),
+        }).then(function () {
+          loadPending();
+          load();
+        }).catch(function (err) {
+          go.disabled = false;
+          says.textContent = K.trouble(err);
+        });
+      });
+      li.appendChild(go);
+    } else {
+      li.appendChild(el('p', 'cnf-note', T.selfProposed));
+      var cancel = el('button', 'btn btn--outline', T.cancelRequest);
+      cancel.type = 'button';
+      cancel.addEventListener('click', function () {
+        cancel.disabled = true;
+        says.textContent = T.cancelling;
+        K.api('/api/admin/conferral?action=cancel_request', {
+          method: 'POST',
+          body: JSON.stringify({ requestId: request.id }),
+        }).then(function () {
+          loadPending();
+        }).catch(function (err) {
+          cancel.disabled = false;
+          says.textContent = K.trouble(err);
+        });
+      });
+      li.appendChild(cancel);
+    }
+
+    li.appendChild(says);
+    return li;
+  }
+
+  function loadPending() {
+    return K.api('/api/admin/conferral?pending=1').then(function (payload) {
+      var requests = payload.requests || [];
+      $('[data-pending-head]').textContent = T.pendingHead;
+      $('[data-pending-why]').textContent = T.pendingWhy;
+
+      var host = $('[data-pending]');
+      host.textContent = '';
+      requests.forEach(function (r) { host.appendChild(pendingRow(r)); });
+
+      var empty = $('[data-pending-empty]');
+      empty.hidden = requests.length > 0;
+      if (!requests.length) $('[data-pending-empty-note]').textContent = T.pendingEmpty;
+
+      $('#secPending').hidden = false;
+      K.rise(host);
+    });
+  }
+
   /* ── LOAD ──────────────────────────────────────────────────────── */
 
   function fill(hostSel, entries, kind) {
@@ -470,6 +608,14 @@
     $('[data-candidate-close]').addEventListener('click', function () {
       $('#secCandidate').hidden = true;
     });
+    // The account is read FIRST: pendingRow() decides whether a row
+    // offers "countersign" or "cancel" by comparing it against `me`,
+    // and a queue drawn before that comparison is possible would have
+    // to guess.
+    K.api('/api/auth/me').then(function (u) {
+      me = u;
+      return loadPending();
+    }).catch(function (err) { $('#state').textContent = K.trouble(err); });
     load();
   });
 })();

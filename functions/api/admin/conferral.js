@@ -19,7 +19,12 @@
 //
 // Withdrawal and replacement are the same authority for a stronger
 // reason: a withdrawal is the College taking a qualification back from
-// somebody, and it is published to anybody who checks the code.
+// somebody, and it is published to anybody who checks the code. That is
+// also why they are PROPOSED and COUNTERSIGNED here rather than
+// executed by one requireAdmin call — governance C5 requires a second
+// officer, and countersignActionRequest() refuses a countersignature
+// from the same account that proposed the act. See
+// registry/conferral.js's head comment for the full shape.
 //
 // ─────────────────────────────────────────────────────────────────────
 // AND THERE IS NO OVERRIDE
@@ -34,10 +39,15 @@
 import { jsonResponse, errorResponse, readJsonBody, ValidationError, parseLimit } from '../../_lib/db.js';
 import { requireAdmin } from '../../_lib/auth/session.js';
 import {
-  conferralQueue, conferralFor, confer, withdraw, replace,
+  conferralQueue, conferralFor, confer,
+  requestWithdrawal, requestReplacement, countersignActionRequest, cancelActionRequest, pendingActionRequests,
 } from '../../_lib/registry/conferral.js';
 
-const ACTIONS = ['confer', 'withdraw', 'replace'];
+// Withdrawal and replacement are proposed and countersigned, never
+// executed in one call — see conferral.js's head comment for governance
+// C5. 'withdraw'/'replace' as an action name now means "propose"; the
+// second officer's act is 'countersign'.
+const ACTIONS = ['confer', 'withdraw', 'replace', 'countersign', 'cancel_request'];
 
 export async function onRequestGet({ request, env }) {
   try {
@@ -56,6 +66,14 @@ export async function onRequestGet({ request, env }) {
     }
 
     const limit = parseLimit(url.searchParams.get('limit'), { field: 'limit', fallback: 100, max: 500 });
+
+    // Every withdrawal/replacement proposal awaiting a second officer's
+    // countersignature — a Registrar's console reads this to know what
+    // needs a colleague, not just what needs the Registrar themself.
+    if (url.searchParams.get('pending') === '1') {
+      return jsonResponse({ requests: await pendingActionRequests(env, { limit }) });
+    }
+
     return jsonResponse(await conferralQueue(env, { limit }));
   } catch (err) {
     return errorResponse(err);
@@ -86,13 +104,32 @@ export async function onRequestPost({ request, env }) {
       return jsonResponse(result, { status: 201 });
     }
 
-    if (!body.awardId) throw new ValidationError('awardId is required.', { awardId: 'Required.' });
-
-    if (action === 'withdraw') {
-      return jsonResponse(await withdraw(env, { actor: admin, awardId: body.awardId, reason: body.reason }));
+    // The second officer's act — executes a proposal a DIFFERENT
+    // administrator opened. requestId, not awardId: the countersigning
+    // officer is acting on the proposal, not re-describing the award.
+    if (action === 'countersign') {
+      if (!body.requestId) throw new ValidationError('requestId is required.', { requestId: 'Required.' });
+      return jsonResponse(await countersignActionRequest(env, { actor: admin, requestId: body.requestId }));
     }
 
-    return jsonResponse(await replace(env, {
+    if (action === 'cancel_request') {
+      if (!body.requestId) throw new ValidationError('requestId is required.', { requestId: 'Required.' });
+      return jsonResponse(await cancelActionRequest(env, { actor: admin, requestId: body.requestId }));
+    }
+
+    if (!body.awardId) throw new ValidationError('awardId is required.', { awardId: 'Required.' });
+
+    // 'withdraw'/'replace' here PROPOSE the act — see conferral.js's
+    // head comment. Nothing on the awards table changes until a
+    // different officer countersigns.
+    if (action === 'withdraw') {
+      return jsonResponse(
+        await requestWithdrawal(env, { actor: admin, awardId: body.awardId, reason: body.reason }),
+        { status: 201 },
+      );
+    }
+
+    return jsonResponse(await requestReplacement(env, {
       actor: admin,
       awardId: body.awardId,
       reason: body.reason,

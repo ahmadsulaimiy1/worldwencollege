@@ -884,6 +884,28 @@ CREATE TABLE pass_list_entries (
 CREATE INDEX idx_pass_list_entries_user ON pass_list_entries(user_id, level_id);
 CREATE INDEX idx_pass_list_entries_level ON pass_list_entries(level_id, superseded);
 
+-- Withdrawal/replacement countersignature (migration 026) — governance
+-- C5's "countersigned by one other officer". One officer proposes the
+-- act with a reason; a DIFFERENT officer's countersignature is what
+-- actually executes it. Proposing alone changes nothing on awards.
+CREATE TABLE award_action_requests (
+  id                TEXT PRIMARY KEY,
+  award_id          TEXT NOT NULL REFERENCES awards(id),
+  action            TEXT NOT NULL CHECK (action IN ('withdraw','replace')),
+  reason            TEXT NOT NULL,
+  changes           TEXT,
+  proposed_by       TEXT NOT NULL REFERENCES users(id),
+  proposed_at       TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+  countersigned_by  TEXT REFERENCES users(id),
+  countersigned_at  TEXT,
+  executed          INTEGER NOT NULL DEFAULT 0,
+  cancelled         INTEGER NOT NULL DEFAULT 0,
+  cancelled_at      TEXT
+);
+CREATE INDEX idx_award_action_requests_award ON award_action_requests(award_id);
+CREATE INDEX idx_award_action_requests_pending
+  ON award_action_requests(countersigned_at, cancelled);
+
 -- Time on task — the measurement behind the College's measured-hours
 -- commitment (docs/academic-framework.md § I). One row per learner per
 -- module, holding a total: the least data that answers "how long does

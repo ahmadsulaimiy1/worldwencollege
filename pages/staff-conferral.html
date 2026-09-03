@@ -141,6 +141,23 @@
         <ul class="stf-queue" data-conferred></ul>
       </section>
 
+      <!-- AWAITING A SECOND OFFICER --------------------------------------- -->
+      <!-- Governance C5: a withdrawal or replacement does not touch the
+           award until a DIFFERENT officer than the one who proposed it
+           countersigns it. This is that officer's queue — see the head
+           of js/staff-conferral.js and registry/conferral.js. -->
+      <section class="acc-block reveal" id="secPending" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg> <span data-pending-head>Awaiting a second officer</span></h2>
+        </div>
+        <p class="stf-basis" data-pending-why></p>
+        <ul class="stf-queue" data-pending></ul>
+        <div class="stf-clear" data-pending-empty hidden>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg></span>
+          <p class="stf-clear__note" data-pending-empty-note></p>
+        </div>
+      </section>
+
       <!-- ONE CANDIDATE, IN FULL ------------------------------------------ -->
       <section class="acc-block reveal" id="secCandidate" hidden>
         <div class="desk-head">

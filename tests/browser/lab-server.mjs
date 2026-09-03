@@ -24,6 +24,12 @@ for (let n = 1; n <= 6; n++) { const p = `${ROOT}/sql/seed-audio-level-${n}.sql`
 sqlite.exec(`INSERT INTO users (id, auth_provider, auth_provider_id, email, role) VALUES ('usr_demo','clerk','sub_demo','demo@example.com','student')`);
 sqlite.exec(`INSERT INTO users (id, auth_provider, auth_provider_id, email, role) VALUES ('usr_tutor','clerk','sub_tutor','tutor@example.com','staff')`);
 sqlite.exec(`INSERT INTO users (id, auth_provider, auth_provider_id, email, role) VALUES ('usr_admin','clerk','sub_admin','admin@example.com','admin')`);
+// A second administrator, distinct from usr_admin — governance C5's
+// withdrawal/replacement countersignature (see /api/admin/conferral
+// below) requires a different officer than the one who proposed the
+// act, so a harness with only one admin fixture could never exercise
+// it.
+sqlite.exec(`INSERT INTO users (id, auth_provider, auth_provider_id, email, role) VALUES ('usr_admin2','clerk','sub_admin2','admin2@example.com','admin')`);
 // FIVE OF THE SIX, AND WHICH ONE IS LEFT OUT IS LOAD-BEARING.
 //
 // A learner enrolled on every level has nothing to buy, so the checkout
@@ -860,7 +866,14 @@ const REQUIRE_AUTH = process.env.LAB_REQUIRE_AUTH === '1';
 // them — the Registrar's moves on a case, reading a colleague's diary —
 // are visible only from an administrator account, and a harness that
 // could only be a tutor could not exercise either side of them.
-const STUB_TOKENS = { 'stub-demo': 'usr_demo', 'stub-tutor': 'usr_tutor', 'stub-admin': 'usr_admin' };
+const STUB_TOKENS = {
+  'stub-demo': 'usr_demo', 'stub-tutor': 'usr_tutor', 'stub-admin': 'usr_admin',
+  // A second administrator, distinct from 'stub-admin' — governance C5's
+  // countersignature check is precisely that the countersigning officer
+  // is NOT the proposing one, and a harness that could only ever be one
+  // admin account could not exercise that check from a real browser.
+  'stub-admin2': 'usr_admin2',
+};
 
 function identify(req) {
   const header = req.headers.authorization || '';
@@ -1398,17 +1411,40 @@ createServer(async (req, res) => {
               levelId: url.searchParams.get('levelId'),
             }));
           }
+          if (url.searchParams.get('pending') === '1') {
+            return json(res, { requests: await conferralLib.pendingActionRequests(env, {}) });
+          }
           return json(res, await conferralLib.conferralQueue(env, {}));
         }
         const body = JSON.parse(await read(req) || '{}');
         const action = url.searchParams.get('action') || body.action;
+        // Real bearer-token resolution, not a fixed actor: countersign
+        // is the one act on this endpoint where "which admin" is the
+        // whole point — the check being exercised is that the
+        // countersigning officer is NOT the proposing one — so a
+        // browser test distinguishes the two by sending a different
+        // stub token (stub-admin / stub-admin2), the same way it would
+        // against a real deployment. Falls back to ADMIN_ACTOR's id
+        // when no stub token is presented, matching every other
+        // no-Clerk-key preview route.
+        const who = actor(req, 'usr_admin');
+        const caller = { id: who.id, role: who.role, email: who.email };
         if (action === 'confer') {
-          return json(res, await conferralLib.confer(env, { actor: ADMIN_ACTOR, ...body }));
+          return json(res, await conferralLib.confer(env, { actor: caller, ...body }));
         }
         if (action === 'withdraw') {
-          return json(res, await conferralLib.withdraw(env, { actor: ADMIN_ACTOR, ...body }));
+          return json(res, await conferralLib.requestWithdrawal(env, { actor: caller, ...body }));
         }
-        return json(res, await conferralLib.replace(env, { actor: ADMIN_ACTOR, ...body }));
+        if (action === 'replace') {
+          return json(res, await conferralLib.requestReplacement(env, { actor: caller, ...body }));
+        }
+        if (action === 'countersign') {
+          return json(res, await conferralLib.countersignActionRequest(env, { actor: caller, ...body }));
+        }
+        if (action === 'cancel_request') {
+          return json(res, await conferralLib.cancelActionRequest(env, { actor: caller, ...body }));
+        }
+        throw new Error(`Unknown /api/admin/conferral action: ${action}`);
       } catch (err) {
         res.writeHead(err.httpStatus || 400, { 'Content-Type': 'application/json' });
         return res.end(JSON.stringify({ error: err.name, message: err.message, fields: err.fields }));
@@ -1739,10 +1775,25 @@ createServer(async (req, res) => {
     }
     // /api/auth/me and /api/student/dashboard — what js/portal-auth.js
     // calls once a real Clerk session exists (see tests/browser/
-    // student-portal-preview.mjs, the only suite that exercises them).
-    // Fixed to usr_demo like the other /api/student/* routes above.
+    // student-portal-preview.mjs) and what every staff console's own
+    // K.boot() calls to learn who is signed in (js/staff-cases.js,
+    // js/staff-conferral.js). Resolved from the real bearer token via
+    // STUB_TOKENS, falling back to usr_demo when none is presented —
+    // the no-Clerk-key preview state the site ships in. A second,
+    // hardcoded copy of this route used to sit later in this file and
+    // could never run (Node matches the first `if` for a path, and this
+    // one always came first) — every staff console's `me` was silently
+    // usr_demo/student in every browser test, which nothing here
+    // asserted on directly, so removing the countersignature queue's
+    // proposer/countersigner distinction from the browser's own reach
+    // to test would not have failed. It has been folded into this one
+    // handler instead of left duplicated.
     if (url.pathname === '/api/auth/me' && req.method === 'GET') {
-      return json(res, { id: 'usr_demo', email: 'demo@example.com', preferredName: null, preferredLanguage: 'en', role: 'student' });
+      const me = actor(req, 'usr_demo');
+      return json(res, {
+        id: me.id, email: me.email, preferredName: me.preferred_name,
+        preferredLanguage: me.preferred_language, role: me.role,
+      });
     }
     if (url.pathname === '/api/student/dashboard' && req.method === 'GET') {
       return json(res, await dashboard.buildStudentDashboard(env, 'usr_demo'));
@@ -1861,13 +1912,13 @@ createServer(async (req, res) => {
     // because an administrator is exempt from most of them.
     const staff = () => actor(req, 'usr_tutor');
 
-    if (url.pathname === '/api/auth/me' && req.method === 'GET') {
-      const me = staff();
-      return json(res, {
-        id: me.id, email: me.email, preferredName: me.preferred_name,
-        preferredLanguage: me.preferred_language, role: me.role,
-      });
-    }
+    // /api/auth/me for a staff console is served by the one handler
+    // above, near /api/student/dashboard — see its comment. It resolves
+    // from the same bearer token this section's other routes read via
+    // staff(), just with a different fallback (usr_demo, since that
+    // route is also portal-auth.js's), so a staff browser test that
+    // always sends a stub token gets the right identity from it either
+    // way.
     if (url.pathname === '/api/lms/marking-queue' && req.method === 'GET') {
       const lv = url.searchParams.get('levelId');
       return json(res, await content.listSubmissionsForMarking(env, {

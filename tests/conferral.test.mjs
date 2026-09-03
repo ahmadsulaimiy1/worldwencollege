@@ -66,6 +66,7 @@ for (const [id, role, name] of [
   ['usr_short', 'student', 'Short Candidate'],
   ['usr_nameless', 'student', ''],
   ['usr_reg', 'admin', 'The Registrar'],
+  ['usr_reg2', 'admin', 'A Second Officer'],
   ['usr_first', 'staff', 'First Marker'],
   ['usr_second', 'staff', 'Second Marker'],
   ['usr_examiner', 'examiner', 'The Independent Examiner'],
@@ -74,6 +75,10 @@ for (const [id, role, name] of [
              VALUES (?, 'clerk', ?, ?, ?, ?)`, id, `sub_${id}`, `${id}@example.com`, role, name);
 }
 const registrar = { id: 'usr_reg', role: 'admin' };
+// Governance C5's whole point: withdrawal/replacement must be
+// countersigned by a DIFFERENT officer than the one who proposed the
+// act. A single registrar fixture could never exercise the refusal.
+const registrar2 = { id: 'usr_reg2', role: 'admin' };
 const first = { id: 'usr_first', role: 'staff' };
 const second = { id: 'usr_second', role: 'staff' };
 
@@ -289,28 +294,43 @@ check('...and the queue says on what basis it was drawn',
   typeof queue.basis === 'string' && queue.basis.length > 40);
 
 // ═══════════════════════════════════════════════════════════════════
-// 5 · WITHDRAWAL AND REPLACEMENT
+// 5 · WITHDRAWAL AND REPLACEMENT — proposed, then countersigned
 // ═══════════════════════════════════════════════════════════════════
+// Governance C5: "countersigned by one other officer." Neither act
+// touches the awards table on the proposal alone — only
+// countersignActionRequest(), called by a DIFFERENT admin, does.
 
-await refuses('an award cannot be withdrawn without a reason',
-  () => C.withdraw(env, { actor: registrar, awardId: conferred.award.id, reason: 'x' }), 'reason');
+await refuses('a withdrawal cannot be proposed without a reason',
+  () => C.requestWithdrawal(env, { actor: registrar, awardId: conferred.award.id, reason: 'x' }), 'reason');
 
-await refuses('a replacement that changes nothing is refused',
-  () => C.replace(env, {
+await refuses('a replacement that changes nothing is refused at proposal',
+  () => C.requestReplacement(env, {
     actor: registrar, awardId: conferred.award.id,
     reason: 'The holder asked for a correction.', changes: {},
   }), 'changes');
 
-const replaced = await C.replace(env, {
+const replaceRequest = await C.requestReplacement(env, {
   actor: registrar, awardId: conferred.award.id,
   reason: 'Holder name corrected at the holder\'s written request.',
   changes: { holderName: 'Ready A. Candidate' },
 });
+check('proposing a replacement writes a request, not a new award',
+  replaceRequest.id && !replaceRequest.executed, JSON.stringify(replaceRequest));
+check('...and the award itself is untouched until countersigned',
+  (await A.verifyCode(env, { code: conferred.award.verificationCode, channel: 'public' })).outcome === 'valid');
+
+await refuses('the same officer cannot countersign their own proposal',
+  () => C.countersignActionRequest(env, { actor: registrar, requestId: replaceRequest.id }), 'actor');
+
+const replaced = await C.countersignActionRequest(env, { actor: registrar2, requestId: replaceRequest.id });
 check('a corrected name is issued as a NEW award, not an edit',
   replaced.replacement
   && replaced.replacement.verificationCode !== conferred.award.verificationCode
   && replaced.replacement.holderName === 'Ready A. Candidate',
   JSON.stringify(replaced.replacement && replaced.replacement.holderName));
+check('...and the countersignature is recorded as a different officer than the proposer',
+  replaced.proposedBy === registrar.id && replaced.countersignedBy === registrar2.id,
+  JSON.stringify([replaced.proposedBy, replaced.countersignedBy]));
 
 const oldOne = await A.verifyCode(env, { code: conferred.award.verificationCode, channel: 'public' });
 check('...and the earlier certificate still resolves, as the College promises',
@@ -321,11 +341,32 @@ check('...and naming the code that superseded it, so a holder is never stranded'
   oldOne.award.replacementCode === replaced.replacement.verificationCode,
   JSON.stringify([oldOne.award.replacementCode, replaced.replacement.verificationCode]));
 
+await refuses('an executed request cannot be countersigned twice',
+  () => C.countersignActionRequest(env, { actor: registrar2, requestId: replaceRequest.id }), 'requestId');
+
 await refuses('a replacement may not change a mark, a level or an honour',
-  () => C.replace(env, {
+  () => C.requestReplacement(env, {
     actor: registrar, awardId: replaced.replacement.id,
     reason: 'Trying to move the honour.', changes: { honour: 'distinction' },
   }), 'changes');
+
+// A proposal never countersigned changes nothing, and the proposer may
+// withdraw it themself.
+const withdrawRequest = await C.requestWithdrawal(env, {
+  actor: registrar, awardId: replaced.replacement.id,
+  reason: 'Testing that a cancelled proposal never reaches the register.',
+});
+check('a pending request appears in the queue awaiting a second officer',
+  (await C.pendingActionRequests(env, {})).some((r) => r.id === withdrawRequest.id));
+const cancelled = await C.cancelActionRequest(env, { actor: registrar, requestId: withdrawRequest.id });
+check('the proposer may cancel their own request before countersignature',
+  cancelled.cancelled === true);
+check('...and it no longer appears in the pending queue',
+  !(await C.pendingActionRequests(env, {})).some((r) => r.id === withdrawRequest.id));
+await refuses('a cancelled request cannot then be countersigned',
+  () => C.countersignActionRequest(env, { actor: registrar2, requestId: withdrawRequest.id }), 'requestId');
+check('...and the award it targeted was never touched',
+  (await A.verifyCode(env, { code: replaced.replacement.verificationCode, channel: 'public' })).outcome === 'valid');
 
 console.log(`\n${pass} passed, ${fail} failed.`);
 if (fail) process.exitCode = 1;

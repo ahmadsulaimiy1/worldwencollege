@@ -444,35 +444,32 @@ function conferredView(row) {
 }
 
 /**
- * Withdraw an award.
+ * Withdrawal and replacement, in two acts — governance C5.
  *
- * The reason is required and is not a formality: verification publishes
- * it, /my-award.html draws it on the holder's own screen, and a
- * withdrawal a person cannot find the reason for is a withdrawal they
- * cannot appeal.
- */
-export async function withdraw(env, { actor, awardId, reason, at = nowIso() } = {}) {
-  if (!actor || !actor.id) throw new ValidationError('A Registrar is required.', { actor: 'Required.' });
-  const result = await revokeAward(env, {
-    awardId, reason: reasonOf(reason), now: Date.parse(at),
-  });
-  return { award: result, withdrawnBy: actor.id, at };
-}
-
-/**
- * Replace an award — the corrected-name case, and the only one the
- * College publishes.
+ * ─────────────────────────────────────────────────────────────────────
+ * WHY THIS IS NOT A SINGLE FUNCTION, THE WAY confer() IS NOT EITHER
+ * ─────────────────────────────────────────────────────────────────────
+ * C5's rule for conferral is that the review and the write are never
+ * the same act by the same person — an Independent Examiner confirms,
+ * a different administrator executes. C5's rule for withdrawal and
+ * replacement is the same shape for a stronger reason: "withdrawing an
+ * award is the one operation in the system that destroys something a
+ * person owns, and it should not be within the unilateral power of any
+ * single account, including the founder's." So an administrator
+ * PROPOSES the act with a reason (requestWithdrawal / requestReplacement)
+ * and a DIFFERENT administrator's countersignature is what actually
+ * executes it (countersignActionRequest). Proposing alone writes only
+ * to award_action_requests (migration 026); the awards table is
+ * untouched until countersignature.
  *
- * /admissions/international/ promises that "a misspelt, mis-ordered or
- * changed name is corrected by writing to the Registrar, and digital
- * certificates and transcripts are reissued free for life", and that
- * "the earlier form is kept, so an old certificate still verifies".
- * replaceAward() already does exactly that; this wrapper is what makes
- * the promise reachable, and it requires the reason for the same
- * reason withdraw() does.
+ * validateReplacementChanges() is called at BOTH proposal and
+ * countersignature — at proposal so a bad request is refused
+ * immediately rather than discovered by the second officer, and again
+ * at countersignature as the actual gate before the write, since a
+ * request is data at rest between the two acts and is re-validated
+ * rather than trusted.
  */
-export async function replace(env, { actor, awardId, reason, changes = {}, at = nowIso() } = {}) {
-  if (!actor || !actor.id) throw new ValidationError('A Registrar is required.', { actor: 'Required.' });
+function validateReplacementChanges(changes) {
   const allowed = {};
   if (changes.holderName !== undefined) {
     const name = String(changes.holderName || '').trim();
@@ -488,13 +485,137 @@ export async function replace(env, { actor, awardId, reason, changes = {}, at = 
       { changes: 'Nothing to change.' },
     );
   }
-  const result = await replaceAward(env, {
-    awardId, reason: reasonOf(reason), changes: allowed, now: Date.parse(at),
-  });
+  return allowed;
+}
+
+async function insertActionRequest(env, { awardId, action, reason, changes, actor }) {
+  if (!actor || !actor.id) throw new ValidationError('A Registrar is required.', { actor: 'Required.' });
+  const award = await db(env).prepare('SELECT id FROM awards WHERE id = ?').bind(awardId).first();
+  if (!award) throw new NotFoundError('Unknown award.');
+  const id = newId('aar');
+  await db(env).prepare(
+    `INSERT INTO award_action_requests (id, award_id, action, reason, changes, proposed_by)
+     VALUES (?, ?, ?, ?, ?, ?)`,
+  ).bind(id, awardId, action, reasonOf(reason), changes ? JSON.stringify(changes) : null, actor.id).run();
+  return requestView(await loadActionRequest(env, id));
+}
+
+/**
+ * Propose withdrawing an award. Writes nothing to `awards` — see the
+ * head comment above. The reason is required and is not a formality:
+ * once executed, verification publishes it and /my-award.html draws it
+ * on the holder's own screen.
+ */
+export async function requestWithdrawal(env, { actor, awardId, reason } = {}) {
+  return insertActionRequest(env, { awardId, action: 'withdraw', reason, changes: null, actor });
+}
+
+/**
+ * Propose replacing an award — the corrected-name case, and the only
+ * one the College publishes. /admissions/international/ promises that
+ * "a misspelt, mis-ordered or changed name is corrected by writing to
+ * the Registrar, and digital certificates and transcripts are reissued
+ * free for life", and that "the earlier form is kept, so an old
+ * certificate still verifies" — replaceAward() already does exactly
+ * that; countersignActionRequest() is the act that reaches it.
+ */
+export async function requestReplacement(env, { actor, awardId, reason, changes = {} } = {}) {
+  const allowed = validateReplacementChanges(changes);
+  return insertActionRequest(env, { awardId, action: 'replace', reason, changes: allowed, actor });
+}
+
+async function loadActionRequest(env, requestId) {
+  const row = await db(env).prepare('SELECT * FROM award_action_requests WHERE id = ?').bind(requestId).first();
+  if (!row) throw new NotFoundError('Unknown request.');
+  return row;
+}
+
+function requestView(row) {
   return {
-    replaced: result.replaced,
-    replacement: conferredView(result.replacement),
-    replacedBy: actor.id,
-    at,
+    id: row.id,
+    awardId: row.award_id,
+    action: row.action,
+    reason: row.reason,
+    changes: row.changes ? JSON.parse(row.changes) : null,
+    proposedBy: row.proposed_by,
+    proposedAt: row.proposed_at,
+    countersignedBy: row.countersigned_by,
+    countersignedAt: row.countersigned_at,
+    executed: Boolean(row.executed),
+    cancelled: Boolean(row.cancelled),
   };
+}
+
+/**
+ * The countersignature — the act that actually executes a proposed
+ * withdrawal or replacement. Refuses if the countersigning officer IS
+ * the proposing officer: that is the entire control C5 asks for, and
+ * it is enforced here rather than trusted to the UI, which is the only
+ * place "one account, including the founder's" is actually stopped.
+ */
+export async function countersignActionRequest(env, { actor, requestId, at = nowIso() } = {}) {
+  if (!actor || !actor.id) throw new ValidationError('A Registrar is required.', { actor: 'Required.' });
+  const row = await loadActionRequest(env, requestId);
+  if (row.cancelled) throw new ValidationError('This request was cancelled.', { requestId: 'Cancelled.' });
+  if (row.executed) throw new ValidationError('This request has already been executed.', { requestId: 'Already executed.' });
+  if (row.proposed_by === actor.id) {
+    throw new ValidationError(
+      'A withdrawal or replacement must be countersigned by a different officer than the one who proposed it.',
+      { actor: 'Cannot countersign your own request.' },
+    );
+  }
+
+  let result;
+  if (row.action === 'withdraw') {
+    result = { award: await revokeAward(env, { awardId: row.award_id, reason: row.reason, now: Date.parse(at) }) };
+  } else {
+    const changes = validateReplacementChanges(row.changes ? JSON.parse(row.changes) : {});
+    const replaced = await replaceAward(env, {
+      awardId: row.award_id, reason: row.reason, changes, now: Date.parse(at),
+    });
+    result = { replaced: replaced.replaced, replacement: conferredView(replaced.replacement) };
+  }
+
+  await db(env).prepare(
+    `UPDATE award_action_requests SET countersigned_by = ?, countersigned_at = ?, executed = 1
+     WHERE id = ?`,
+  ).bind(actor.id, at, requestId).run();
+
+  return { ...result, action: row.action, proposedBy: row.proposed_by, countersignedBy: actor.id, at };
+}
+
+/**
+ * The proposer's own way out before a second officer acts. Never
+ * available once countersigned — withdrawing a proposal after the
+ * award has already been touched would be a second, undocumented
+ * change to the register.
+ */
+export async function cancelActionRequest(env, { actor, requestId, at = nowIso() } = {}) {
+  if (!actor || !actor.id) throw new ValidationError('A Registrar is required.', { actor: 'Required.' });
+  const row = await loadActionRequest(env, requestId);
+  if (row.executed) throw new ValidationError('This request has already been executed.', { requestId: 'Already executed.' });
+  if (row.cancelled) return requestView(row);
+  await db(env).prepare(
+    'UPDATE award_action_requests SET cancelled = 1, cancelled_at = ? WHERE id = ?',
+  ).bind(at, requestId).run();
+  return requestView(await loadActionRequest(env, requestId));
+}
+
+/**
+ * Every request awaiting a second officer — what a Registrar's console
+ * shows as "awaiting countersignature", across every proposer.
+ */
+export async function pendingActionRequests(env, { limit = 100 } = {}) {
+  const { results } = await db(env).prepare(
+    `SELECT r.id, r.award_id AS awardId, r.action, r.reason, r.changes,
+            r.proposed_by AS proposedBy, r.proposed_at AS proposedAt,
+            a.holder_name AS holderName, a.verification_code AS verificationCode,
+            u.email AS proposedByEmail, u.preferred_name AS proposedByName
+       FROM award_action_requests r
+       JOIN awards a ON a.id = r.award_id
+       JOIN users u ON u.id = r.proposed_by
+      WHERE r.executed = 0 AND r.cancelled = 0
+      ORDER BY r.proposed_at ASC LIMIT ?`,
+  ).bind(Math.max(1, Math.min(500, Number(limit) || 100))).all();
+  return results.map((r) => ({ ...r, changes: r.changes ? JSON.parse(r.changes) : null }));
 }
