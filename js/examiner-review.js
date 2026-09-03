@@ -75,6 +75,7 @@
     form.style.cssText = 'display:flex;gap:.6rem;align-items:flex-start;margin-top:.9rem;flex-wrap:wrap';
     var ta = document.createElement('textarea');
     ta.placeholder = 'Notes for the record (optional).';
+    ta.setAttribute('aria-label', 'Notes for the record (optional)');
     ta.style.cssText = 'flex:1 1 16rem;min-height:60px;font:400 .88rem/1.5 var(--font-body);border:1px solid var(--line);border-radius:8px;padding:.6rem .7rem;background:var(--paper)';
     form.appendChild(ta);
 

@@ -81,9 +81,17 @@ const arabicFiles = files.filter((f) => {
 });
 for (const f of arabicFiles) {
   const src = readFileSync(f, 'utf8');
+  const isJs = f.endsWith('.js');
   for (const m of src.matchAll(/>([^<>]{0,400}?)</g)) {
     const text = m[1];
     if (!ARABIC.test(text) || !TOKENS.test(text)) continue;
+    // Template-literal source, not rendered output: `${ltr('IEFC')}` is
+    // scripts/lib/arabic-kit.js's own isolation helper — it expands to
+    // exactly <span dir="ltr">IEFC</span> at build time, which the
+    // matching rendered pages confirm. Scanning unevaluated .js source
+    // for a literal `>...<` cannot see that expansion, so a call to the
+    // real isolation helper reads here as though the token were bare.
+    if (isJs && /ltr\(\s*['"`]/.test(text)) continue;
     bare.push(`${rel(f)}: "${text.trim().slice(0, 56)}"`);
     if (bare.length > 40) break;
   }
