@@ -119,6 +119,10 @@
       ' روابط المشاركة تنتهي صلاحيتها، وللخرّيج أن يسحب رابطه متى شاء. اطلب منه رابطًا جديدًا، أو تحقّق من الشهادة برمزها مباشرة.'],
     noRecord: ['لا سجلَّ منشورًا على هذا العنوان.',
       ' ينشر الخرّيجون سجلّاتهم اختيارًا، وأكثرهم لا ينشر. وسجلٌّ غير منشور ليس سجلًّا غير موثَّق — فكلّ شهادة يمكن التحقّق منها برمزها.'],
+    // Same wording as the two buttons at the foot of this page — see
+    // pages/graduate.ar.html — so a reader who reaches the empty state
+    // and the reader who scrolls past it are offered the same words.
+    registerLink: 'سجل الخريجين', verifyLink: 'التحقّق من شهادة برمزها',
     failed: ['تعذّر تحميل السجل.',
       ' هذا خللٌ عندنا، لا قولٌ في أيّ خرّيج. أعد المحاولة بعد قليل.'],
   } : {
@@ -176,6 +180,10 @@
       ' Shared records expire, and a graduate can withdraw one at any time. Ask them for a new link, or verify an award directly by its code.'],
     noRecord: ['No published record at that address.',
       ' Graduates publish their record by choice, and most do not. An unpublished record is not an unverified one — any award can still be checked by its code.'],
+    // Same wording as the two buttons at the foot of this page — see
+    // pages/graduate.html — so a reader who reaches the empty state
+    // and the reader who scrolls past it are offered the same words.
+    registerLink: 'The Graduate Register', verifyLink: 'Verify an award by code',
     failed: ['The record could not be loaded.',
       ' This is a fault on our side, not a statement about any graduate. Please try again shortly.'],
   };
@@ -273,11 +281,29 @@
   // documented default h3: this box is the page's own top-level
   // state, standing directly under the single page h1 with no other
   // h2 before it — h3 here would skip a level.
-  function state(strongText, rest) {
+  var REGISTER_HREF = AR ? '/ar/register.html' : '/register.html';
+  var VERIFY_HREF = AR ? '/ar/verify.html' : '/verify.html';
+  var REGISTER_LINK = { href: REGISTER_HREF, text: T.registerLink };
+  var VERIFY_LINK = { href: VERIFY_HREF, text: T.verifyLink };
+
+  function state(strongText, rest, links) {
     var box = $('#state');
     box.textContent = '';
     box.appendChild(el('h2', null, strongText));
     box.appendChild(el('p', null, rest));
+    // The copy above names an action ("search the Graduate Register",
+    // "verify … by its code") — a state that only ever explained
+    // itself and never let the reader take the action it just
+    // described was a dead end wearing an apology.
+    if (links && links.length) {
+      var row = el('div', 'btn-row');
+      links.forEach(function (l) {
+        var a = el('a', 'btn btn--outline magnetic', l.text);
+        a.href = l.href;
+        row.appendChild(a);
+      });
+      box.appendChild(row);
+    }
   }
 
   // --- Awards ---------------------------------------------------------
@@ -609,7 +635,7 @@
 
     if (!handle && !share) {
       $('#scopeNote').textContent = '';
-      state(T.noneRequested[0], T.noneRequested[1]);
+      state(T.noneRequested[0], T.noneRequested[1], [REGISTER_LINK, VERIFY_LINK]);
       return;
     }
 
@@ -626,14 +652,14 @@
           // deliberately — telling the holder which would tell them
           // whether the graduate revoked it.
           if (!res.d.ok) {
-            state(T.linkGone[0], T.linkGone[1]);
+            state(T.linkGone[0], T.linkGone[1], [VERIFY_LINK]);
             return;
           }
           render(res.d.profile);
           return;
         }
         if (!res.ok) {
-          state(T.noRecord[0], T.noRecord[1]);
+          state(T.noRecord[0], T.noRecord[1], [VERIFY_LINK]);
           return;
         }
         render(res.d);
