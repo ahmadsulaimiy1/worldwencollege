@@ -120,7 +120,13 @@ async function withClerkStub(page) {
       `,
     });
   });
-  await page.route('**/js/auth-config.js', (route) => {
+  // '**' after '.js' matters: build.js fingerprints the script tag
+  // ('?v=<hash>'), and a pattern with no wildcard after '.js' does not
+  // match a URL carrying a query string — the interception would
+  // silently miss every request and the real (empty-key) file would
+  // load instead, leaving the page in its unauthenticated preview state
+  // no matter what this stub provides.
+  await page.route('**/js/auth-config.js**', (route) => {
     route.fulfill({
       contentType: 'application/javascript',
       body: `window.WEC_LC_AUTH = { clerkPublishableKey: '${FAKE_KEY}' };`,
@@ -145,9 +151,17 @@ async function withClerkStub(page) {
       && (await page.locator('[data-units-value]').innerText()).trim() !== '4 / 10');
   check('Current Level tile reflects usr_demo\'s real active enrolment (Level I)',
     (await page.locator('[data-current-level-value]').innerText()).trim() === 'I');
-  check('Payment History renders a real, honest empty state (usr_demo has no payments seeded)',
-    (await page.locator('[data-payment-history] .empty-state').count()) === 1);
-  check('Payment History empty state does not use the old raw inline-styled row',
+  // usr_demo carries four seeded payments in this harness (see
+  // lab-server.mjs) — real rows, not the illustrative placeholder, are
+  // the honest render here; an empty state would be a different lie
+  // (understating what the account actually holds).
+  const paymentRows = page.locator('[data-payment-history] tr');
+  check('Payment History renders the real seeded payments, not an empty state',
+    (await paymentRows.count()) === 4);
+  check('...with a real amount and status pill, not fabricated placeholder text',
+    /USD 791\.67/.test(await paymentRows.first().innerText())
+      && (await page.locator('[data-payment-history] .status-pill').count()) === 4);
+  check('Payment History does not use the old raw inline-styled row',
     !(await page.locator('[data-payment-history] td[style]').count()));
 
   await page.close();

@@ -75,7 +75,14 @@ await page.route(`**://${FAKE_HOST}/**`, (route) => {
 // script tag loads — intercept the request itself instead, so
 // js/portal-guard.js sees a real key and takes the authenticated branch
 // instead of the no-op one every other suite exercises.
-await page.route('**/js/auth-config.js', (route) => {
+//
+// The trailing '**' matters: build.js fingerprints every script tag
+// ('/js/auth-config.js?v=<hash>'), and a pattern ending in '.js' with
+// no wildcard after it does not match a URL with a query string —
+// the interception silently missed every request, the real (empty-key)
+// file loaded instead, and the whole "keyed" path this file exists to
+// exercise never actually ran.
+await page.route('**/js/auth-config.js**', (route) => {
   route.fulfill({
     contentType: 'application/javascript',
     body: `window.WEC_LC_AUTH = { clerkPublishableKey: '${FAKE_KEY}' };`,

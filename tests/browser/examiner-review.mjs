@@ -56,7 +56,12 @@ async function newPage() {
       };`,
     });
   });
-  await page.route('**/js/auth-config.js', (route) => {
+  // '**' after '.js' matters: build.js fingerprints the script tag
+  // ('?v=<hash>'), and a pattern with no wildcard after '.js' does not
+  // match a URL carrying a query string — the interception would
+  // silently miss every request and the real (empty-key) file would
+  // load instead.
+  await page.route('**/js/auth-config.js**', (route) => {
     route.fulfill({ contentType: 'application/javascript', body: `window.WEC_LC_AUTH = { clerkPublishableKey: '${FAKE_KEY}' };` });
   });
   return page;
