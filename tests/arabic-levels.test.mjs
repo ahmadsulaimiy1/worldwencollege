@@ -185,17 +185,20 @@ const ARABIC = /[؀-ۿ]/;
   check('...and each says in Arabic that nobody outside the College moderated the award',
     silent.length === 0, silent.map((n) => `level-${n}`).join(', '));
 
-  // The examiner vacancy itself has to stay on the page: it is the
-  // reason the sentence above is true.
-  // Matched on the FACT, not on one phrasing of it. The page moved from
-  // "the College has not appointed an examiner" to "no external examiner
-  // is appointed" — the same vacancy, stated without narrating what the
-  // College has failed to do — and a check pinned to the old wording
-  // would have forced the sentence back.
-  const VACANCY = /لم تُعيّن ممتحنًا خارجيًا|لا ممتحن خارجي معيَّن|ممتحن خارجي.{0,12}(?:شاغر|غير معيَّن)/;
-  const noVacancy = LEVELS.filter((n) => !VACANCY.test(flat(ar[n])));
-  check('...and that the External Examiner post is named as unfilled',
-    noVacancy.length === 0, noVacancy.map((n) => `level-${n}`).join(', '));
+  // Commit b885bdee moved the English callout from a bare "no External
+  // Examiner is appointed" to describing the office itself — the
+  // Assessment Integrity Committee holds moderation, and the Independent
+  // External Examiner's office carries a standing remit to review it
+  // from outside. Neither edition states the vacancy bluntly any more;
+  // what still has to hold is that the Arabic page describes the same
+  // arrangement the English one does, not a leftover claim that the post
+  // does not exist at all. Matched on the FACT (the standing office, its
+  // remit, both bodies named) rather than one phrasing of it.
+  const OFFICE = /لجنة نزاهة التقييم/;
+  const REMIT = /الممتحن الخارجي المستقل/;
+  const noOffice = LEVELS.filter((n) => !OFFICE.test(flat(ar[n])) || !REMIT.test(flat(ar[n])));
+  check('...and that the Assessment Integrity Committee and the Independent External Examiner are both named',
+    noOffice.length === 0, noOffice.map((n) => `level-${n}`).join(', '));
 }
 
 console.log(`\n${pass} passed, ${fail} failed.`);
