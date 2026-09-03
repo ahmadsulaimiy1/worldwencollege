@@ -217,8 +217,9 @@
     uploadingPct: function (n) { return 'جارٍ رفع تسجيلك… ' + n + '%'; },
     uploaded: function (n) { return 'رُفع التسجيل ' + n + ' وأُرسل للمراجعة. استمع إليه قبل أن تسجّل مرّة أخرى.'; },
     signInToSave: 'سجّل الدخول لحفظ هذا التسجيل. وهو ما زال قابلًا للتشغيل على هذا الجهاز حتى تُحدِّث الصفحة.',
-    uploadFailed: function (m) {
-      return 'تعذّر رفع التسجيل: ' + m + ' وهو ما زال قابلًا للتشغيل على هذا الجهاز حتى تُحدِّث الصفحة — اضغط «سجّل» لتعيد المحاولة.';
+    uploadFailed: function (err) {
+      var reason = (err && err.body && err.body.message) || 'خطأ في الخادم';
+      return 'تعذّر رفع التسجيل: ' + reason + ' وهو ما زال قابلًا للتشغيل على هذا الجهاز حتى تُحدِّث الصفحة — اضغط «سجّل» لتعيد المحاولة.';
     },
     notUploaded: 'لم يُرفع',
     answerAllLead: 'أجب عن كل سؤال أولًا.',
@@ -226,7 +227,10 @@
     marking: 'جارٍ تصحيح إجاباتك…',
     passed: 'ناجح. ', notPassed: 'لم تنجح بعد. ',
     quizRest: 'استعمل روابط الإعادة للرجوع إلى السطور التي فاتتك، ثم أعد المحاولة.',
-    couldNotSubmit: function (m) { return 'تعذّر الإرسال: ' + m; },
+    couldNotSubmit: function (err) {
+      var reason = (err && err.body && err.body.message) || 'خطأ في الخادم';
+      return 'تعذّر الإرسال: ' + reason;
+    },
     unsaved: 'لم يُحفظ بعد…',
     savedHere: 'محفوظ على هذا الجهاز',
     couldNotSave: 'تعذّر الحفظ — التخزين غير متاح',
@@ -246,7 +250,10 @@
     progressUnavailable: 'التقدّم غير متاح.',
     profileUnavailable: 'الملفّ غير متاح.',
     signInToOpen: 'سجّل الدخول لفتح مختبر الاستماع.',
-    couldNotLoad: function (m) { return 'تعذّر تحميل هذا الاستماع: ' + m; },
+    couldNotLoad: function (err) {
+      var reason = (err && err.body && err.body.message) || 'خطأ في الخادم';
+      return 'تعذّر تحميل هذا الاستماع: ' + reason;
+    },
     varieties: { BrE: 'إنجليزية بريطانية', AmE: 'إنجليزية أمريكية' },
     wpm: function (n) { return n + ' كلمة في الدقيقة'; },
     takeN: function (n) { return 'التسجيل ' + n; },
@@ -286,8 +293,9 @@
     uploadingPct: function (n) { return 'Uploading your take… ' + n + '%'; },
     uploaded: function (n) { return 'Take ' + n + ' uploaded and sent for review. Listen back before you record again.'; },
     signInToSave: 'Sign in to save this take. It is still playable on this device until you reload.',
-    uploadFailed: function (m) {
-      return 'Could not upload the take: ' + m + ' It is still playable on this device until you reload — press Record to try again.';
+    uploadFailed: function (err) {
+      var reason = (err && err.body && err.body.message) || 'a server error';
+      return 'Could not upload the take: ' + reason + ' It is still playable on this device until you reload — press Record to try again.';
     },
     notUploaded: 'not uploaded',
     answerAllLead: 'Answer every question first.',
@@ -295,7 +303,10 @@
     marking: 'Marking your answers…',
     passed: 'passed. ', notPassed: 'not yet passed. ',
     quizRest: 'Use the replay links to go back to the lines you missed, then try again.',
-    couldNotSubmit: function (m) { return 'Could not submit: ' + m; },
+    couldNotSubmit: function (err) {
+      var reason = (err && err.body && err.body.message) || 'a server error';
+      return 'Could not submit: ' + reason;
+    },
     unsaved: 'unsaved…',
     savedHere: 'saved on this device',
     couldNotSave: 'could not save — storage unavailable',
@@ -315,7 +326,10 @@
     progressUnavailable: 'Progress unavailable.',
     profileUnavailable: 'Profile unavailable.',
     signInToOpen: 'Sign in to open the Listening Lab.',
-    couldNotLoad: function (m) { return 'Could not load this listening: ' + m; },
+    couldNotLoad: function (err) {
+      var reason = (err && err.body && err.body.message) || 'a server error';
+      return 'Could not load this listening: ' + reason;
+    },
     varieties: { BrE: 'British English', AmE: 'American English' },
     wpm: function (n) { return n + ' words per minute'; },
     takeN: function (n) { return 'Take ' + n; },
@@ -757,7 +771,7 @@
     }).catch(function (err) {
       take.status = T.notUploaded;
       renderTakes();
-      note.textContent = err.status === 401 ? T.signInToSave : T.uploadFailed(err.message);
+      note.textContent = err.status === 401 ? T.signInToSave : T.uploadFailed(err);
     });
   }
 
@@ -870,7 +884,7 @@
           ' — ' + (res.passed ? T.passed : T.notPassed) + T.quizRest));
         showResult();
       }).catch(function (err) {
-        $('#quizResult').textContent = T.couldNotSubmit(err.message);
+        $('#quizResult').textContent = T.couldNotSubmit(err);
         showResult();
       });
     });
@@ -1100,7 +1114,7 @@
     }).catch(function (err) {
       $('#labError').textContent = err.status === 401
         ? T.signInToOpen
-        : T.couldNotLoad(err.message);
+        : T.couldNotLoad(err);
     });
   }
 

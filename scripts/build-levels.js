@@ -699,8 +699,8 @@ levels.forEach((lv, i) => {
     output: `study/${SLUG[lv.roman]}/index.html`,
     title: `Level ${lv.roman}: ${lv.name} (${lv.cefr}) &mdash; Worldwide English College`,
     description: `Level ${lv.roman} of the IEFC: ${lv.modules.length} modules, ${lv.units} `
-      + `designed lessons over ${lv.duration_months} months, aligned to CEFR ${lv.cefr}. Modules, `
-      + 'learning outcomes, assessment, teaching methods and the award.',
+      + `designed lessons over ${lv.duration_months} months, aligned to CEFR ${lv.cefr} — modules, `
+      + 'outcomes, assessment, teaching methods and the award.',
     contentFile: `study-${SLUG[lv.roman]}.html`,
     lang: 'en', dir: 'ltr',
     // Ten sections and 1,300 words. scripts/build.js turns this into a
