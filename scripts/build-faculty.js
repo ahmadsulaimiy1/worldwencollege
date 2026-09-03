@@ -19,6 +19,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { emitPage, reportEmit } = require('./lib/emit-page');
 
 const ROOT = path.resolve(__dirname, '..');
 const REGISTER = path.join(ROOT, 'docs/faculty-register.md');
@@ -165,7 +166,15 @@ ${arRows}
 
 // --- splice into the page sources --------------------------------------
 // The roster replaces the old "#status" recruiting section and stops at
-// the closing CTA band, which both language sources share.
+// the closing CTA band, which both language sources share. The result
+// goes through emitPage() rather than a bare writeFileSync: this
+// generator's template does not know about hand-added presentation
+// (the atelier material-law classes on each card, a rewritten callout,
+// per-person icons) and must not silently strip it the next time
+// somebody edits docs/faculty-register.md. If the page has drifted from
+// what this generator last produced, the guard refuses and the page —
+// not the template — stays the source of record. See
+// scripts/lib/emit-page.js.
 function splice(rel, section) {
   const p = path.join(ROOT, rel);
   const src = fs.readFileSync(p, 'utf8');
@@ -175,16 +184,16 @@ function splice(rel, section) {
   if (from < 0) throw new Error(`${rel}: found neither the #status section nor a previous #roster to replace`);
   const end = src.indexOf('<section class="section--dark cta-band">', from);
   if (end < 0) throw new Error(`${rel}: no closing cta-band section after the roster`);
-  const next = src.slice(0, from) + section + '\n\n' + src.slice(end);
-  if (next === src) return false;
-  fs.writeFileSync(p, next);
-  return true;
+  return src.slice(0, from) + section + '\n\n' + src.slice(end);
 }
 
-const changed = [
+const emitted = [
   ['pages/faculty.html', EN],
   ['pages/faculty.ar.html', AR_SECTION],
-].filter(([rel, s]) => splice(rel, s)).map(([rel]) => rel);
+].map(([rel, section]) => {
+  const file = path.join(ROOT, rel);
+  return { file, result: emitPage(file, splice(rel, section)) };
+});
 
 // --- manifest descriptions ---------------------------------------------
 // The generated pages take their <meta name="description"> from the
@@ -198,7 +207,7 @@ const DESCRIPTIONS = {
   // it. In the English one the wrapper was inert anyway; in the Arabic
   // one the direction still has to be stated, and the Unicode isolates
   // U+2066/U+2069 do it without markup.
-  faculty: 'The academic staff and tutors who deliver the IEFC programme at WEC, and the teaching standards they are appointed against.',
+  faculty: 'The academic staff and tutors who deliver the IEFC programme at WEC-LC, and the teaching standards they are appointed against.',
   'faculty-ar': 'أعضاء هيئة التدريس والمدرّسون الذين يقدّمون برنامج ⁦IEFC⁩ في الكلية، والمعايير التدريسية التي عُيّنوا وفقها.',
 };
 let manifestChanged = false;
@@ -210,9 +219,10 @@ for (const e of entries) {
 }
 if (manifestChanged) {
   fs.writeFileSync(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
-  changed.push('pages/manifest.json');
 }
 
 console.log(`Faculty roster: ${academic.length} academic, ${tutors.length} tutors.`);
-console.log(changed.length ? `Updated: ${changed.join(', ')}` : 'Already up to date.');
+console.log(manifestChanged ? 'Updated: pages/manifest.json' : 'pages/manifest.json already up to date.');
 console.log('Now run `npm run build` to regenerate the served pages.');
+
+reportEmit('build-faculty.js', emitted);

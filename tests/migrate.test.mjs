@@ -413,6 +413,13 @@ for (const f of files) {
     DROP INDEX IF EXISTS idx_assignment_submissions_attempt;
     ALTER TABLE quiz_attempts DROP COLUMN attempt;
     ALTER TABLE assignment_submissions DROP COLUMN attempt;`);
+  // 026 adds the whole `award_action_requests` table (the withdrawal/
+  // replacement countersignature queue) and nothing else, so it is
+  // already present in a schema.sql-derived database like this one —
+  // dropping it here is what forces the migration to actually run
+  // rather than being silently satisfied already.
+  db.exec(`DROP INDEX IF EXISTS idx_award_action_requests_award;
+    DROP TABLE IF EXISTS award_action_requests;`);
 
   db.exec('DROP TABLE schema_migrations');
 
