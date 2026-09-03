@@ -236,17 +236,27 @@ for (const route of routes) {
     // kept six — the level cards, each titled `<h3><a>` and 21px tall,
     // with nothing around them. Those are targets, they were too small,
     // and they were invisible in a number fifteen false positives deep.
+    //
+    // A SECOND FALSE POSITIVE: a <label> wrapping its <input> is the
+    // real hit target — clicking anywhere in the label activates the
+    // control — so my-record.html's deliberately small (22px, styled
+    // that way on purpose) share-scope checkboxes were being measured
+    // on the visible box instead of the 44px label around it. Measure
+    // the wrapping label's box when the element has one; the raw
+    // element's own box otherwise.
     smallTaps: [...document.querySelectorAll('a, button, input, select, [role="button"]')]
       .filter((e) => {
-        const r = e.getBoundingClientRect();
+        const label = e.closest('label');
+        const target = label || e;
+        const r = target.getBoundingClientRect();
         if (!(r.height > 0 && r.width > 0 && r.height < 44)) return false;
         // "In a sentence or block of text": laid out inline, and sitting
         // inside more text than its own. A heading that IS the link has
         // no surrounding text and stays counted.
         const own = (e.textContent || '').trim();
-        const parent = e.parentElement;
+        const parent = target.parentElement;
         const around = parent ? (parent.textContent || '').trim() : '';
-        const inline = getComputedStyle(e).display === 'inline';
+        const inline = getComputedStyle(target).display === 'inline';
         return !(inline && around.length > own.length + 2);
       }).length,
   })).catch(() => null);
