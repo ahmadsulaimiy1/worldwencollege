@@ -43,7 +43,6 @@ const check = (label, cond, detail) => {
 // session.
 const PUBLIC = {
   'admissions/apply.js': 'An applicant has no account yet — that is what applying is for.',
-  'admissions/status.js': 'Looked up by application id, a capability the applicant was given. Returns id, status and date only; no name, no email, no decision detail.',
   'auth/webhook-clerk.js': 'Called by Clerk, not by a person. Authenticated by webhook signature, asserted below.',
   'payments/webhook-stripe.js': 'Called by Stripe. Signature-authenticated, asserted below.',
   'payments/webhook-paystack.js': 'Called by Paystack. Signature-authenticated, asserted below.',
@@ -90,6 +89,35 @@ const PUBLIC = {
 // signature-authenticated. Both get their own assertions below.
 const KEY_AUTHENTICATED = {
   'institutional/verify.js': 'Verification for registered institutions. No session — an admissions office has no account — but never anonymous: the API key identifies the institution and every check is recorded against it. That asymmetry with the public portal is the consent argument, stated in the module.',
+};
+
+// A FOURTH CATEGORY, added 20 August 2026 for the same reason the third
+// was: the census was passing these routes for the wrong reason.
+//
+// An applicant has no account and cannot be given one — `applications`
+// is filled in by people who have not signed in, and the College's auth
+// provider cannot authenticate an applicant at all. What they hold is
+// their application reference, and pages/admissions.html publishes it as
+// "the only key to your record, and deliberately the only key". So these
+// routes authenticate by a bearer reference: no session, and never
+// anonymous.
+//
+// Filed as GUARDED they passed — they do answer 401 to a caller with no
+// credential — but the census would have been asserting they demand a
+// SESSION, which is a claim about a product the College does not have.
+// The distinction matters the day somebody reads the census to decide
+// whether a route is safe to open: "guarded by a session" and "opened by
+// a string an applicant was emailed" carry very different risks, and the
+// second one needs the constant-time compare and the lookup allowance
+// that the first does not.
+//
+// Both halves are asserted here, which is what the earlier arrangement
+// could not do: the refusal below in the main sweep, and the ADMISSION —
+// a caller who does hold a real reference gets through — in its own
+// block further down, next to the equivalent proof for an API key.
+const REFERENCE_AUTHENTICATED = {
+  'admissions/status.js': 'The short answer — id, status and date, no name and no email — to the holder of an application reference. Since 20 August 2026 it resolves the reference through the same applicationByReference() bearer check as track.js rather than a bare SELECT, so the two cannot disagree about who may read an application.',
+  'admissions/track.js': 'The whole of what the reference buys: the published stages with the applicant\'s position marked, the audited timeline, what is outstanding and whose it is, and the live offer. Constant-time compare against a same-length decoy, one identical refusal for malformed and unknown alike, and a fixed lookup allowance per client address.',
 };
 
 const WEBHOOKS = Object.keys(PUBLIC).filter((f) => /webhook/.test(f));
@@ -145,7 +173,7 @@ function request(method, url, body) {
   });
 }
 
-let guarded = 0, publicFound = 0, keyed = 0;
+let guarded = 0, publicFound = 0, keyed = 0, referenced = 0;
 const uncovered = [];
 
 for (const file of files) {
@@ -157,6 +185,7 @@ for (const file of files) {
 
   const isPublic = Object.prototype.hasOwnProperty.call(PUBLIC, file);
   const isKeyed = Object.prototype.hasOwnProperty.call(KEY_AUTHENTICATED, file);
+  const isReferenced = Object.prototype.hasOwnProperty.call(REFERENCE_AUTHENTICATED, file);
 
   for (const m of handlers) {
     const method = (m || 'Get').toUpperCase();
@@ -172,6 +201,12 @@ for (const file of files) {
       status = res && res.status;
     } catch (e) { threw = e; }
 
+    if (isReferenced) {
+      referenced++;
+      check(`REFERENCE ${file} ${method} — refuses a caller holding no application reference`,
+        threw === null && status === 401, threw ? `threw ${threw.message}` : `status ${status}`);
+      continue;
+    }
     if (isKeyed) {
       keyed++;
       // Refuses an anonymous caller — like a guarded route — but the
@@ -221,8 +256,48 @@ check('Every key-authenticated route is exercised', keyed >= 1, keyed);
   check('KEYED   institutional/verify.js — a valid key is admitted', res.status === 200, res.status);
 }
 
+// The other half of the reference category, and the half that makes it
+// a category rather than an excuse. A route that refuses everybody is
+// trivially "guarded"; what has to be true is that the credential the
+// applicant actually holds opens exactly their own record and no other.
+{
+  const { onRequestPost: apply } = await import(loadUrl('functions/api/admissions/apply.js'));
+  const env = freshEnv();
+  const made = await (await apply({
+    request: new Request('https://wec-lc.test/api/admissions/apply', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'CF-Connecting-IP': '203.0.113.77' },
+      body: JSON.stringify({ fullName: 'Census Applicant', email: 'census@example.com' }),
+    }),
+    env,
+    waitUntil: () => {},
+  })).json();
+
+  for (const [file, param] of [['admissions/status.js', 'id'], ['admissions/track.js', 'ref']]) {
+    const mod = await import(loadUrl(path.join('functions/api', file)));
+    const res = await mod.onRequestGet({
+      request: new Request(`https://wec-lc.test/api/${file.replace(/\.js$/, '')}?${param}=${made.applicationId}`, {
+        headers: { 'CF-Connecting-IP': '203.0.113.77' },
+      }),
+      env,
+      waitUntil: () => {},
+    });
+    check(`REFERENCE ${file} GET — the applicant's own reference is admitted`, res.status === 200, res.status);
+    const body = await res.json();
+    check(`REFERENCE ${file} GET — and answers about that application and no other`,
+      body.reference === made.applicationId || body.id === made.applicationId,
+      JSON.stringify(body).slice(0, 120));
+  }
+}
+
 const stale = Object.keys(PUBLIC).filter((f) => !files.includes(f));
 const staleKeyed = Object.keys(KEY_AUTHENTICATED).filter((f) => !files.includes(f));
+const staleRef = Object.keys(REFERENCE_AUTHENTICATED).filter((f) => !files.includes(f));
+check('Every reference-authenticated route is exercised', referenced >= 2, referenced);
+check('No reference-authenticated entry names a route that no longer exists',
+  staleRef.length === 0, staleRef.join(', '));
+check('Every reference exemption states why',
+  Object.entries(REFERENCE_AUTHENTICATED).every(([, why]) => why && why.length >= 30));
 check('No PUBLIC entry names a route that no longer exists', stale.length === 0, stale.join(', '));
 check('No key-authenticated entry names a route that no longer exists',
   staleKeyed.length === 0, staleKeyed.join(', '));

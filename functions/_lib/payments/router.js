@@ -38,6 +38,21 @@ export async function suggestGateway(env, countryCode) {
   };
 }
 
+/**
+ * The gateways that ARE configured, with no fallback in the answer.
+ *
+ * `suggestGateway()` above falls back to `['stripe']` when nothing is
+ * configured, because the create route needs a name to attempt. Its own
+ * comment says the list exists "so the checkout UI can offer real
+ * alternatives, not dead buttons" — and that fallback is exactly a dead
+ * button, which is why a surface asking what the College can take reads
+ * this instead. An empty array is a true answer and must be rendered as
+ * one.
+ */
+export function configuredGateways(env) {
+  return Object.keys(GATEWAYS).filter((name) => isConfigured(env, name));
+}
+
 function isConfigured(env, name) {
   switch (name) {
     case 'stripe': return Boolean(env.STRIPE_SECRET_KEY);

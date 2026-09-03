@@ -126,6 +126,16 @@ function contentsEntries(html) {
     if (!id) continue;
     // The masthead is where the reader already is; listing it is noise.
     if (/\bpage-hero\b/.test(attrs)) continue;
+    // A HIDDEN SECTION IS NOT ON THE PAGE.
+    //
+    // The verification instrument holds three sections that exist only
+    // once a code has resolved — the result, the three layers and what
+    // the qualification certifies — and they carry <h2>&mdash;</h2>
+    // placeholders that a script fills. The rail read those headings
+    // and offered the reader two entries both labelled "—", pointing at
+    // nothing they could see. A rail advertising a destination that is
+    // display:none is worse than a short rail.
+    if (/\shidden(?=[\s>=])/.test(attrs)) continue;
     const explicit = (attrs.match(/\bdata-contents="([^"]+)"/) || [])[1];
     const rest = html.slice(m.index, html.indexOf('</section>', m.index));
     // THE MODULE MARKER IS ALREADY THE SECTION'S SHORT NAME.
@@ -246,6 +256,52 @@ function inlineSvgIncludes(html, contentFile) {
 // ---------------------------------------------------------------------
 const STANDING = JSON.parse(read(path.join(ROOT, 'data', 'standing.json')));
 
+// ---------------------------------------------------------------------
+// WHERE THE COLLEGE PUBLICLY IS, AND NOWHERE IT IS NOT
+// ---------------------------------------------------------------------
+// Three social icons sat in the topbar, the mobile drawer and the
+// footer of every page, in both languages, each linking to `#`. Six
+// dead controls across 169 routes, invisible to the link census —
+// `#` resolves to the page you are already on — and invisible in the
+// source, because they looked exactly like the real thing.
+//
+// A dead social icon is an implied claim that the College keeps an
+// account there, placed in the chrome of every page. CLAUDE.md § 5:
+// silence about a thing the College does not have is fine; a claim is
+// not. So the row is rendered from data/contact.json and from nowhere
+// else, an empty object renders NOTHING, and a value that is empty or
+// `#` is REFUSED rather than drawn — that being the exact fault this
+// replaced.
+const CONTACT = JSON.parse(read(path.join(ROOT, 'data', 'contact.json')));
+
+const SOCIAL_MARKS = {
+  linkedin: { icon: 'i-linkedin', label: 'LinkedIn' },
+  instagram: { icon: 'i-instagram', label: 'Instagram' },
+  x: { icon: 'i-x', label: 'X / Twitter' },
+};
+
+function socialRow(lang) {
+  const entries = Object.entries(CONTACT.social || {});
+  for (const [key, url] of entries) {
+    if (!SOCIAL_MARKS[key]) {
+      throw new Error(`data/contact.json names "${key}", which has no mark in partials/icons.html. `
+        + 'An icon-less link in a row of icons is a worse answer than no link.');
+    }
+    if (!url || url === '#' || !/^https?:\/\//.test(url)) {
+      throw new Error(`data/contact.json gives "${key}" the address ${JSON.stringify(url)}. `
+        + 'A social icon that leads nowhere is the fault this file was written to close.');
+    }
+  }
+  if (!entries.length) return '';
+  const label = lang === 'ar' ? 'روابط التواصل الاجتماعي' : 'Social links';
+  const links = entries.map(([key, url]) => {
+    const mark = SOCIAL_MARKS[key];
+    return `<a href="${url}" aria-label="${mark.label}" rel="me noopener" target="_blank">`
+      + `<svg class="icon" aria-hidden="true"><use href="#${mark.icon}"/></svg></a>`;
+  }).join('\n        ');
+  return `<div class="topbar__social" aria-label="${label}">\n        ${links}\n      </div>`;
+}
+
 function standingValue(dotted) {
   return dotted.split('.').reduce((o, k) => (o == null ? o : o[k]), STANDING);
 }
@@ -276,22 +332,36 @@ function fillStanding(html, lang, contentFile) {
 }
 
 // ── THE EDITIONS PICKER ──────────────────────────────────────────────
-// Ten editions are planned and two are published, and data/languages.json
-// is the only place that distinction lives. The picker is generated from
-// it rather than typed into two partials, because a language list typed
-// twice is a language list that disagrees with itself on the first edit —
-// which is exactly what happened to the College's own figures before
-// data/standing.json existed.
+// data/languages.json records the editions the College plans and the
+// editions it publishes, and it is the only place that distinction
+// lives. The picker is generated from it rather than typed into two
+// partials, because a language list typed twice is a language list that
+// disagrees with itself on the first edit — which is exactly what
+// happened to the College's own figures before data/standing.json
+// existed.
 //
-// An unpublished edition is rendered as text, not as a link. A menu that
-// links to a page nobody can serve is worse than a menu that does not
-// link it: the reader clicks, gets a 404, and now doubts the rest of the
-// site rather than just that row.
+// THE PICKER OFFERS THE EDITIONS THAT EXIST, AND NOTHING ELSE.
+//
+// It used to render all ten, the eight unpublished ones as text marked
+// "In preparation" — deliberately not as links, so that nobody clicked
+// through to a 404. That reasoning was right about links and wrong
+// about claims: eight rows announcing work the College has not
+// finished, in the chrome of all 186 pages and in both editions, is the
+// site telling every reader what it has not managed to do. The house
+// standard rules that out in as many words — state what the College
+// does, not what it has not done — and the same ruling took "eight
+// further editions are in preparation" out of the footer band.
+//
+// The plan stays in the data file, where it belongs: it is how the
+// College knows what it intends, and `published` is still the one flag
+// that decides. Setting it true renders the row, links it, and announces
+// it in the alternate tags. Nothing here has to be edited to publish an
+// edition — which is the property the file was built for.
 const LANGUAGES = JSON.parse(read(path.join(ROOT, 'data', 'languages.json')));
 
 function languagePicker(lang, altHref) {
   const L = LANGUAGES.labels[lang === 'ar' ? 'ar' : 'en'];
-  const rows = LANGUAGES.languages.map((l) => {
+  const rows = LANGUAGES.languages.filter((l) => l.published).map((l) => {
     const current = l.code === lang;
     const label = `<span class="lang__flag" aria-hidden="true">${l.flag}</span>`
       + `<span class="lang__endonym"${l.dir === 'rtl' ? ` dir="rtl" lang="${l.code}"` : ` lang="${l.code}"`}>${l.endonym}</span>`
@@ -305,8 +375,11 @@ function languagePicker(lang, altHref) {
       // altHref is the page-specific twin rather than the front door.
       return `        <a class="lang__row" href="${altHref}" hreflang="${l.code}" lang="${l.code}">${label}</a>`;
     }
-    return `        <span class="lang__row lang__row--soon">${label}`
-      + `<span class="lang__state">${L.forthcoming}</span></span>`;
+    // Unreachable: the list is filtered to published editions above.
+    // Kept as a refusal rather than deleted, so that a future edition
+    // marked published without a prefix fails the build loudly instead
+    // of rendering a row that links to the site's own front door.
+    throw new Error(`data/languages.json marks ${l.code} published with no prefix.`);
   }).join('\n');
 
   return `<div class="langswitch">
@@ -774,15 +847,23 @@ function build() {
       EXTRA_CSS: extraCss,
       OG_LOCALE: lang === 'ar' ? 'ar_AR' : 'en_GB',
       OG_SITE_NAME: lang === 'ar' ? 'الكلية العالمية للغة الإنجليزية' : 'WorldWide English College',
+      // Emitted on every page so the tag is never simply absent, and
+      // the private ones say so in the head as well as by their absence
+      // from the sitemap — a crawler that reaches one by a link, a
+      // referrer or a pasted address must be told there too.
+      ROBOTS: isPrivate(entry)
+        ? '<meta name="robots" content="noindex, nofollow">'
+        : '<meta name="robots" content="index, follow">',
     }));
     const picker = languagePicker(lang, altHref);
-    const topbar = fill(partialFor('topbar', lang), { ALT_HREF: altHref, LANG_PICKER: picker });
+    const social = socialRow(lang);
+    const topbar = fill(partialFor('topbar', lang), { ALT_HREF: altHref, LANG_PICKER: picker, SOCIAL: social });
     // The mobile drawer and the footer each carry their own language
     // switch now, so they need the same per-page ALT_HREF the topbar's
     // gets — the page-specific Arabic/English twin, not a blanket link
     // to the other language's front door.
-    const header = fill(partialFor('header', lang), { ALT_HREF: altHref, LANG_PICKER: picker });
-    const footer = fill(partialFor('footer', lang), { ALT_HREF: altHref });
+    const header = fill(partialFor('header', lang), { ALT_HREF: altHref, LANG_PICKER: picker, SOCIAL: social });
+    const footer = fill(partialFor('footer', lang), { ALT_HREF: altHref, SOCIAL: social });
     const withIntake = (html) => html
       .split('{{INTAKE_PANEL}}').join(intakePanel(lang))
       .split('{{RESOURCES}}').join(resourcesShelf(lang));
@@ -883,8 +964,33 @@ ${fingerprintAssets(`<script src="/js/site.js"></script>
 // 404 is excluded because a sitemap is a list of pages worth indexing
 // and an error page is not one.
 // ---------------------------------------------------------------------
+/**
+ * A page behind a sign-in.
+ *
+ * Decided from the guard the page actually mounts, not from a flag in
+ * the manifest that somebody has to remember to set. A page carrying
+ * js/portal-guard.js is a learner's own — their marks, their statement
+ * of account, their payment confirmation — and there is no case where
+ * such a page should be indexed or listed in a public sitemap. Eleven
+ * of them were in both.
+ */
+function isPrivate(entry) {
+  // The guard implies it, so a page that gates itself can never be
+  // forgotten. `private: true` covers the one learner surface that does
+  // not gate — /my-record.html, which renders a transcript and a set of
+  // sharing controls behind an authenticated API rather than behind the
+  // shell guard — and any future page in the same position.
+  return entry.private === true || (entry.scripts || []).includes('/js/portal-guard.js');
+}
+
 function writeSitemap(manifest) {
-  const indexable = manifest.filter((e) => !/(^|\/)404\.html$/.test(e.output));
+  // 404 is excluded because a sitemap is a list of pages worth indexing
+  // and an error page is not one. A learner's own pages are excluded for
+  // the same reason from the other direction: they are worth reading,
+  // and they are nobody's to index.
+  const indexable = manifest
+    .filter((e) => !/(^|\/)404\.html$/.test(e.output))
+    .filter((e) => !isPrivate(e));
   const urls = indexable
     .map((e) => SITE_URL + urlPathFor(e.output))
     // Longest-lived convention on this site: the English page and its

@@ -152,12 +152,55 @@
      four lists that matches nothing in the built site, and on any major
      struck component that is missing from them. */
   var CHIME = '.btn--gold';
-  var SEAL  = '.wax-seal, .cta__seal, .vessel, .medallion, .honour, .honour__wreath, '
+  var SEAL  = '.vol__save, '
+            /* Adding a volume to a reader's own shelf is a conferral —
+               small, but the same kind of act as a medallion being
+               struck, and js/bookcase.js plays `seal` on the way on and
+               `tap` on the way off for exactly that reason. */
+            /* A learner's own certificate on /my-award.html. Conferral
+               is exactly what SEAL is for, and a page where the award
+               itself was the one silent struck object would read as a
+               fault. */
+            + '.awd, .cnf-plate, '
+            + '.wax-seal, .cta__seal, .vessel, .medallion, .honour, .honour__wreath, '
             + '.matricula, .case__medallion, .brand__crest, .masthead__rule, .colophon__rule, '
             /* The warrant is a ruling with a seal on it, so it takes
                the conferral voice rather than the tap every other
                struck surface gets. Ceremony is ranked, not uniform. */
-            + '.warrant, .article__seal, .imprint, .imprint__device';
+            + '.warrant, .article__seal, .imprint, .imprint__device, '
+            /* An offer of a place is a conferral — the College writing
+               somebody in — and the plate carries a wax seal. It lands
+               with the conferral voice rather than the tap the rest of
+               the tracking page gets, which is the whole point of
+               ranking ceremony instead of making everything alike. */
+            + '.trk-offer, .acc-invoice, .wk-form, '
+            /* Writing to the College is an act with a name on it,
+               not a search box. It takes the conferral voice for
+               the same reason the booking form does: what leaves
+               the plate is entered on a record somebody answers. */
+            + '.desk-form, '
+            /* Writing to the Registrar opens a case with a
+               reference, a clock and a record. If anything on
+               this site is a sealed act, that is. */
+            + '.cse-form, '
+            /* A payment confirmed is the College undertaking
+               something: a numbered receipt, a place on the
+               programme, and fourteen days in which the whole
+               sum comes back. The plate carries a wax seal for
+               the same reason the offer plate does, and it
+               takes the conferral voice rather than the tap the
+               rest of that page gets. */
+            + '.paycomp__plate, '
+            /* THE STAFF CONSOLES — css/console.css. `.stf-act` is
+               every plate on which a member of staff writes something
+               onto somebody else's record: a mark, a register, the
+               confirmation that a level is finished, a notice
+               published, an hour opened, a case answered. All six are
+               conferrals — the College doing something to a person —
+               and they take the conferral voice rather than the tap
+               the queues around them get. That is the ranking §3 asks
+               for: the queue is furniture, the act is ceremony. */
+            + '.stf-act';
   var OPEN  = 'details > summary, .accordion__q, .nav__toggle, [aria-expanded]';
   /* THE CHROME, and it is ranked BELOW open and ABOVE tap deliberately.
      The utility rail's Verify group and the editions picker both carry
@@ -180,6 +223,22 @@
                answers — which reads as a fault rather than as
                restraint (CLAUDE.md §3). */
             + '.domain, .shelf__item, '
+            /* THE REGISTER OF INSTRUMENTS. Twenty-four struck cards,
+               each one a rule the College operates under. A register
+               where the objects are silent reads as a table that has
+               been styled, rather than as a shelf of instruments. */
+            + '.inst, '
+            /* WEC Press — the publication pages. The tome is a struck
+               object with six lit faces and the leaves of the flip are
+               paper; both would be the only silent things on a page
+               where the marks that turn them already answer. The tome's
+               own attitude buttons take TAP through `button` above; the
+               faces are given a voice here so that dragging the volume
+               round lands with a sound rather than in silence. */
+            + '.tome__stage, .flip__leaf, .flip__nav, .relcard, .vol__panel, '
+            /* The reader's own shelf panel on the Library — a struck
+               card with a lit rim like every other. */
+            + '.yours, '
             + '.plate__frame, .ledger--flagship tbody tr, '
             /* The Academics pillar — css/academics.css. */
             + '.ascent__step, .ascent__band, .horarium__band, .discipline, '
@@ -187,12 +246,84 @@
                is a sealed instrument and takes SEAL, not TAP; it is in
                the list above. */
             + '.passage__stage, .passage__mark, .tariff__line, '
+            /* Track your application — css/track.css. The head plate and
+               each stage disc on the rail are struck surfaces with lit
+               rims; the offer plate above them is a conferral and takes
+               SEAL. */
+            + '.trk-head, .trk-stage__disc, .trk-owed li, '
+            /* My Account — css/account.css. The balance plate and the
+               instalment steps are struck surfaces with lit rims; the
+               invoice plate is the sealed instrument and takes SEAL. */
+            + '.acc-balance, .acc-relief li, .acc-plan, .acc-steps li, '
+            /* Where I Stand — css/standing.css. */
+            + '.std-head, .std-skills li, .std-conditions li, .std-milestones li, '
+            /* My Week — css/week.css. */
+            + '.wk-zone, .wk-event, .wk-slot, '
+            /* My Desk — css/desk.css. The two counts, each notice
+               plate, each line of correspondence and each message
+               in a thread. The compose plate is the sealed act and
+               takes SEAL; it is in the list above. */
+            + '.desk-count, .desk-notice, .desk-thread-row, .desk-message, '
+            /* My Cases — css/cases.css. The rungs of the published
+               ladder, each case on the list, the clock on a case, each
+               consequence an answer sets in motion, and the case plate
+               itself. The plate carries a lit rim and a travelling
+               light like every other struck surface here, so it takes
+               a voice: silence on a shape with relief on it reads as a
+               fault, not as restraint. Opening a NEW case is the sealed
+               act and takes SEAL; it is in the list above. */
+            + '.cse-rung, .cse-row, .cse-consequence, .cse-clock, .cse-file, '
+            /* My Engagement — css/engagement.css. Each cell of the
+               grid, each correction plate, and the detail plate a
+               cell opens onto. The notice above the grid is a
+               document rather than a struck surface and stays
+               silent, which is the distinction §3 asks for. */
+            + '.eng-cell, .eng-correction, .eng-cell-detail, .eng-live__item, '
+            /* My Module — css/module.css. Each item of a module, each
+               choice on a paper, the picker at the head, what was
+               submitted, and each live hour of the level. */
+            + '.mod-item, .mod-choice, .mod-picker, .mod-sub, .mod-live__item, '
             /* The Governance pillar — css/governance.css. The article
                is sealed, so it takes SEAL and is in the list above. */
             + '.docket__entry, .attest, '
             /* The Press pillar — css/press.css. The imprint is the
                press's own signature and takes SEAL; it is above. */
-            + '.folio, .shelf__title';
+            + '.folio, .shelf__title, '
+            /* The staff consoles — css/console.css. The medallion row
+               at the head of each desk, and every piece of work in a
+               queue: a submission, a recording, a learner on a roster,
+               a module, a gate, a notice, a thread, an hour, a case.
+               All of them are struck plates with a lit rim and a
+               travelling light, so all of them answer the ear. The
+               act inside them is sealed and is in the list above. */
+            + '.stf-count, .stf-item, '
+            /* THE LEVEL EXAMINATION — css/examination.css. A criterion
+               being marked, the reconciliation card, the two closing
+               plates and the candidate's own clock are all struck
+               surfaces with lit rims. The running overall is NOT here:
+               it is an <output> the platform computes and nothing
+               strikes it, and a figure that made a sound every time a
+               marker typed a digit would be a toy. */
+            + '.exm-crit, .exm-rec, .exm-close, .exm-clock, .exm-withheld, '
+            /* A marker's own reliability — the divergence cases are
+               struck plates a tutor works through one at a time. The
+               four summary figures stay silent: they are context, not
+               objects. */
+            + '.agr-case, '
+            /* THE CERTIFICATE — css/award.css. A conferral is the most
+               ceremonial object this College produces, so it takes SEAL
+               rather than TAP and is in the list above; the QR square
+               beside it is an image and stays silent. */
+            + '.awd__qr, '
+            /* MY FILES — css/downloads.css. The identity card and each
+               shelf are struck surfaces with lit rims; the items inside
+               a shelf are a list and stay silent, because a page where
+               every line of a list answered would be a toy. */
+            + '.dl-id, .dl-shelf';
+
+  /* THE CONFERRAL FACSIMILE takes SEAL and not TAP: it is the plate a
+     certificate is about to become, and the register ranks a conferral
+     above every other struck surface. It is in the SEAL list above. */
 
   function voiceFor(el) {
     if (el.closest(CHIME)) return 'chime';
@@ -246,6 +377,12 @@
       btn.setAttribute('aria-label', enabled
         ? 'Interface sound is on. Turn it off.'
         : 'Interface sound is off. Turn it on.');
+      // The visible word was costing the utility bar the 65px that the
+      // visitor's clock needed to sit on the page's own axis, so the
+      // control is the three bars and nothing else. A title says it in
+      // words to anyone who hovers; the aria-label above already said
+      // it to anyone listening.
+      btn.title = enabled ? 'Interface sound is on' : 'Interface sound is off';
     };
 
     btn.addEventListener('click', () => {

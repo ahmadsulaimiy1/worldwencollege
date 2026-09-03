@@ -14,6 +14,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tuition, Fees &amp; Funding &mdash; Worldwide English College</title>
 <meta name="description" content="IEFC tuition and per-level pricing, how paying actually works — currency, methods, refunds — and the scholarships and funding routes that exist today.">
+<!-- INDEXABLE, OR THE LEARNER'S OWN. A page that mounts
+     js/portal-guard.js is a page behind a sign-in — a statement of
+     account, a set of marks, a payment confirmation — and it belonged
+     in neither a search index nor the sitemap. Eleven of them were in
+     both. scripts/build.js decides this from the guard rather than from
+     a flag somebody has to remember to set: a page that guards itself
+     is private, and there is no case where it is not. -->
+<meta name="robots" content="index, follow">
 <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/assets/images/icon-512.png" sizes="512x512" type="image/png">
 <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
@@ -28,9 +36,9 @@
 <link rel="preload" href="/assets/fonts/fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600&text=%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/brand.css?v=e2db2ede">
-<link rel="stylesheet" href="/css/atelier.css?v=4f3abf82">
-<link rel="stylesheet" href="/css/pages.css?v=0e3b128d">
+<link rel="stylesheet" href="/css/brand.css?v=3dff6ea9">
+<link rel="stylesheet" href="/css/atelier.css?v=9eadec1f">
+<link rel="stylesheet" href="/css/pages.css?v=e0f4b722">
 <link rel="stylesheet" href="/css/pillar.css?v=661126ed">
 <link rel="stylesheet" href="/css/admissions.css?v=1f75d17a">
 <!-- LAST, and that ordering is load-bearing. Script-specific typography
@@ -38,7 +46,7 @@
      set tracking and leading tuned to Latin faces and Arabic inherits
      it. Putting this first — which is where it started — left 951 of
      1,049 violations standing. See the header of css/arabic.css. -->
-<link rel="stylesheet" href="/css/arabic.css?v=1c47e5a2">
+<link rel="stylesheet" href="/css/arabic.css?v=8eca8911">
 <noscript><style>
 /* Several entrance effects are authored hidden and revealed by script:
    .reveal (js/site.js), .split-word and .rule-draw (js/motion.js),
@@ -652,21 +660,9 @@
       <p class="langswitch__head">Editions</p>
         <span class="lang__row lang__row--current" aria-current="true"><span class="lang__flag" aria-hidden="true">🇬🇧</span><span class="lang__endonym" lang="en">English</span><span class="lang__english">English</span><span class="lang__state"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg></span></span>
         <a class="lang__row" href="/ar/admissions/tuition/" hreflang="ar" lang="ar"><span class="lang__flag" aria-hidden="true">🇸🇦</span><span class="lang__endonym" dir="rtl" lang="ar">العربية</span><span class="lang__english">Arabic</span></a>
-        <span class="lang__row lang__row--soon"><span class="lang__flag" aria-hidden="true">🇫🇷</span><span class="lang__endonym" lang="fr">Français</span><span class="lang__english">French</span><span class="lang__state">In preparation</span></span>
-        <span class="lang__row lang__row--soon"><span class="lang__flag" aria-hidden="true">🇵🇰</span><span class="lang__endonym" dir="rtl" lang="ur">اردو</span><span class="lang__english">Urdu</span><span class="lang__state">In preparation</span></span>
-        <span class="lang__row lang__row--soon"><span class="lang__flag" aria-hidden="true">🇮🇳</span><span class="lang__endonym" lang="hi">हिन्दी</span><span class="lang__english">Hindi</span><span class="lang__state">In preparation</span></span>
-        <span class="lang__row lang__row--soon"><span class="lang__flag" aria-hidden="true">🇹🇷</span><span class="lang__endonym" lang="tr">Türkçe</span><span class="lang__english">Turkish</span><span class="lang__state">In preparation</span></span>
-        <span class="lang__row lang__row--soon"><span class="lang__flag" aria-hidden="true">🇮🇩</span><span class="lang__endonym" lang="id">Indonesia</span><span class="lang__english">Indonesian</span><span class="lang__state">In preparation</span></span>
-        <span class="lang__row lang__row--soon"><span class="lang__flag" aria-hidden="true">🇰🇪</span><span class="lang__endonym" lang="sw">Kiswahili</span><span class="lang__english">Swahili</span><span class="lang__state">In preparation</span></span>
-        <span class="lang__row lang__row--soon"><span class="lang__flag" aria-hidden="true">🇪🇸</span><span class="lang__endonym" lang="es">Español</span><span class="lang__english">Spanish</span><span class="lang__state">In preparation</span></span>
-        <span class="lang__row lang__row--soon"><span class="lang__flag" aria-hidden="true">🇨🇳</span><span class="lang__endonym" lang="zh">中文</span><span class="lang__english">Chinese</span><span class="lang__state">In preparation</span></span>
     </div>
   </div>
-      <div class="topbar__social" aria-label="Social links">
-        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
-        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
-        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
-      </div>
+      
     </div>
   </div>
 </div>
@@ -700,8 +696,14 @@
   says it is the page the College should be judged by; Faculty is a
   roster, not a pillar, and lives inside Academics; Contact sits in the
   utility bar above. Each menu carries the sections of one pillar and
-  nothing else — thirty-one links across all six, inside the 28–36
-  band the navigation research names. Anything deeper (a single level,
+  nothing else — thirty-eight links across all six, inside the band the
+  navigation research names once the Students pillar is read as two
+  groups rather than one. Four of those were added on 20 August 2026,
+  when scripts/red-flag-audit.mjs reported the tutor handbook, the
+  examination regulations, the student handbook and the complaints
+  procedure as routes reachable only by typing the address: they had
+  been authored, built and served, and nothing on the site linked to
+  them. Anything deeper (a single level,
   BASCE, the verification protocol) is one click behind these links,
   on a pillar page whose contents rail carries it by name.
 
@@ -781,6 +783,7 @@
             <div class="mega__col">
               <p class="mega__label">Teaching &amp; Faculty</p>
               <a href="/academics/teaching/">Teaching Practice</a>
+              <a href="/academics/tutor-handbook/">The Tutor Handbook</a>
               <a href="/faculty/">The Faculty</a>
             </div>
           </div>
@@ -805,6 +808,7 @@
               <a href="/admissions/tuition/">Tuition, Fees &amp; Funding</a>
               <a href="/admissions/tuition/#routes">Studying Independently</a>
               <a href="/admissions/policy/">Admissions Policy</a>
+              <a href="/admissions/international/">Studying From Your Own Country</a>
             </div>
           </div>
           <a class="mega__feature" href="/admissions/apply/">
@@ -827,6 +831,9 @@
               <a href="/students/academic-record/">Your Academic Record</a>
               <a href="/students/awards/">Awards &amp; Honours</a>
               <a href="/students/regulations/">Academic Regulations</a>
+              <a href="/students/examinations/">Examination Regulations</a>
+              <a href="/students/handbook/">The Student Handbook</a>
+              <a href="/support/complaints/">Complaints</a>
             </div>
           </div>
           <a class="mega__feature" href="/student-portal/">
@@ -850,6 +857,9 @@
               <a href="/governance/evidence/">The Evidence Record</a>
               <a href="/governance/decisions/">The Decisions Register</a>
               <a href="/governance/quality/">The Quality Architecture</a>
+              <a href="/governance/quality-manual/">The Quality Assurance Manual</a>
+          <a href="/governance/instruments/">The Register of Instruments</a>
+              <a href="/governance/instruments/">The Register of Instruments</a>
             </div>
           </div>
           <a class="mega__feature" href="/governance/evidence/">
@@ -897,22 +907,33 @@
   </div>
 
 
-  <!-- THE UTILITY RAIL.
-       A second, quieter band under the primary navigation, carrying the
-       nine things a reader arrives already wanting to do — as opposed to
-       the six pillars above, which are what the institution IS.
+  <!-- THE UTILITY RAIL — SEVEN BAYS, AND THE COUNT IS THE DESIGN.
+       A second, quieter band under the primary navigation, carrying what
+       a reader arrives already wanting to DO — as opposed to the six
+       pillars above, which are what the institution IS. They are
+       different kinds of object and they were competing for one row:
+       "Apply Now" and "The College" are not peers, one is an act and the
+       other is a subject.
 
-       They are different kinds of object and they were competing for one
-       row. "Apply Now" and "The College" are not peers: one is an act and
-       the other is a subject, and putting them on the same rail made the
-       header read as a list of links rather than as an instrument.
+       It carried nine, and nine was one more than the rail could hold
+       even on a 1440px monitor — measured, not guessed: the track ran
+       55px past the 1180px measure at full desktop width and 772px past
+       it at 360px. A rail that overflows at the width it was designed
+       for is not a scroller, it is a mistake with a scrollbar.
 
-       It scrolls rather than wraps. Nine items do not fit a phone and
-       they do not fit a narrow laptop either; a rail that wraps to two
-       rows costs 44 more pixels of chrome on every page for the sake of
-       an item nobody was looking for. Native overflow-x with scroll-snap,
-       gold fade masks at both ends so the cut edge reads as "there is
-       more this way" rather than as a clipped element. -->
+       So it was curated rather than compressed. Curriculum went because
+       the Academics mega menu above already carries it by name; Contact
+       went because it is in the utility bar above, the drawer, and the
+       footer. What is left is two acts, one appointment, two questions
+       about money, the College's own publications, and the one service
+       an outside party comes here for. Seven — the same count as the
+       lattice nodes this header is strung on.
+
+       Seven fit the measure exactly, so from 1100px up the rail stops
+       scrolling and becomes a colonnade: equal bays, hairline piers
+       between them, each label centred in its own bay. Below that it is
+       a scroller again, with gold fade masks at both ends so a cut edge
+       reads as "more this way" rather than as a rendering fault. -->
   <div class="utilrail" aria-label="Quick actions">
     <div class="utilrail__track">
       <a class="utilrail__item utilrail__item--gold" href="/student-portal/">
@@ -925,43 +946,22 @@
         <svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg><span>Tuition &amp; Fees</span></a>
       <a class="utilrail__item" href="/admissions/tuition/#scholarships">
         <svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg><span>Scholarships</span></a>
+      <a class="utilrail__item" href="/press/library/">
+        <svg class="icon" aria-hidden="true"><use href="#i-book"/></svg><span>Publications</span></a>
       <div class="utilrail__item utilrail__item--has-menu">
         <button type="button" class="utilrail__btn" aria-expanded="false" aria-haspopup="true">
           <svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg><span>Verify</span>
           <svg class="icon utilrail__chev" aria-hidden="true"><use href="#i-arrow"/></svg>
         </button>
         <div class="utilrail__menu crystal" role="menu">
-          <a href="/verify.html?type=certificate"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg>Verify a Certificate</a>
-          <a href="/verify.html?type=transcript"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg>Verify a Transcript</a>
-          <a href="/verify.html?type=identity"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg>Verify a Student Identity</a>
-          <a href="/verify.html?type=receipt"><svg class="icon" aria-hidden="true"><use href="#i-countermark"/></svg>Verify a Receipt</a>
-          <a href="/verify.html"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg>Verify Any Document</a>
+          <a href="/verify/?type=certificate"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg>Verify a Certificate</a>
+          <a href="/verify/?type=transcript"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg>Verify a Transcript</a>
+          <a href="/verify/?type=identity"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg>Verify a Student Identity</a>
+          <a href="/verify/?type=receipt"><svg class="icon" aria-hidden="true"><use href="#i-countermark"/></svg>Verify a Receipt</a>
+          <a href="/verify/"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg>Verify Any Document</a>
         </div>
       </div>
-      <a class="utilrail__item" href="/press/library/">
-        <svg class="icon" aria-hidden="true"><use href="#i-book"/></svg><span>Downloads</span></a>
-      <a class="utilrail__item" href="/academics/#curriculum">
-        <svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg><span>Curriculum</span></a>
-      <a class="utilrail__item" href="/contact/">
-        <svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg><span>Contact</span></a>
     </div>
-  </div>
-
-  <!-- THE HEADER CLOCK.
-       Mobile only, sitting directly above the quicknav strip — where
-       the reference screenshot carries its own date/time line, at the
-       very top of the app rather than buried in page content. Compact
-       by design: one line, no analogue face, so it costs the header
-       almost nothing in height. js/worldclock.js fills all three
-       values; the numerals shown here are only the pre-script state. -->
-  <div class="headerclock grain" data-worldclock>
-    <svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg>
-    <span class="headerclock__times">
-      <span data-clock-london>13:36</span><span class="headerclock__tz">LON</span>
-      <span class="headerclock__sep">&middot;</span>
-      <span data-clock-local>13:36</span><span class="headerclock__tz">YOU</span>
-    </span>
-    <span class="headerclock__date" data-clock-date>Sat, 15 Aug</span>
   </div>
 
   <!-- THE QUICKNAV STRIP.
@@ -1035,6 +1035,7 @@
         <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span><span>Teaching &amp; Faculty</span></span><span class="plus" aria-hidden="true">+</span></button>
         <div class="accordion__a"><div class="accordion__a-inner">
           <a href="/academics/teaching/">Teaching Practice</a>
+          <a href="/academics/tutor-handbook/">The Tutor Handbook</a>
           <a href="/faculty/">The Faculty</a>
         </div></div>
       </div>
@@ -1047,6 +1048,7 @@
           <a href="/admissions/tuition/">Tuition, Fees &amp; Funding</a>
           <a href="/admissions/tuition/#routes">Studying Independently</a>
           <a href="/admissions/policy/">Admissions Policy</a>
+          <a href="/admissions/international/">Studying From Your Own Country</a>
           <a href="/faq/">Admissions Questions</a>
         </div></div>
       </div>
@@ -1058,6 +1060,9 @@
           <a href="/students/academic-record/">Your Academic Record</a>
           <a href="/students/awards/">Awards &amp; Honours</a>
           <a href="/students/regulations/">Academic Regulations</a>
+          <a href="/students/examinations/">Examination Regulations</a>
+          <a href="/students/handbook/">The Student Handbook</a>
+          <a href="/support/complaints/">Complaints</a>
           <a href="/student-portal/">Student Portal</a>
         </div></div>
       </div>
@@ -1069,6 +1074,8 @@
           <a href="/governance/#quality">Quality Assurance</a>
           <a href="/governance/evidence/">The Evidence Record</a>
           <a href="/governance/decisions/">The Decisions Register</a>
+          <a href="/governance/quality/">The Quality Architecture</a>
+          <a href="/governance/quality-manual/">The Quality Assurance Manual</a>
         </div></div>
       </div>
       <div class="accordion__item">
@@ -1091,11 +1098,7 @@
         <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
         العربية
       </a>
-      <div class="topbar__social" aria-label="Social links">
-        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
-        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
-        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
-      </div>
+      
     </div>
     <a href="/admissions/apply/" class="btn btn--gold">Apply Now</a>
   </nav>
@@ -1851,7 +1854,7 @@
   </div>
 </section>
 
-<section class="leaf section--oxford grain aurora" id="alumni" data-contents="Alumni">
+<section class="leaf section--dark section--oxford grain aurora" id="alumni" data-contents="Alumni">
   <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/crest-plate.svg)"></span>
   <div class="container leaf__grid">
     <div class="leaf__margin">
@@ -2139,8 +2142,12 @@
         <span class="vessel vessel--sm" style="--halo-delay: 1.2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span></span>
         <span class="footergrid__label">Dates &amp; Calendar</span>
       </a>
+      <a href="/admissions/track/" class="footergrid__tile">
+        <span class="vessel vessel--sm" style="--halo-delay: 1.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span></span>
+        <span class="footergrid__label">Track an Application</span>
+      </a>
       <a href="/faq/" class="footergrid__tile">
-        <span class="vessel vessel--sm" style="--halo-delay: 1.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span></span>
+        <span class="vessel vessel--sm" style="--halo-delay: 1.8s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span></span>
         <span class="footergrid__label">Admissions Questions</span>
       </a>
     </div>
@@ -2186,7 +2193,7 @@
     </h2>
     <p class="footergrid__intro">
       <a href="mailto:info@worldwencollege.co.uk">info@worldwencollege.co.uk</a><br>
-      Online worldwide &middot; London admin HQ — address to be confirmed, see Contact below.
+      Taught online, worldwide &middot; governed from London.
     </p>
     <div class="footergrid__row">
       <a href="/contact/" class="footergrid__tile">
@@ -2272,7 +2279,7 @@
       <div class="footerband__item">
         <span class="footerband__label">Working languages</span>
         <p class="footerband__fact">English &middot; <span lang="ar" dir="rtl">العربية</span></p>
-        <p class="footerband__note">Every page of this site is published in both. Admissions, teaching support and consultations are held in either. Eight further editions are in preparation.</p>
+        <p class="footerband__note">Every page of this site is published in both, in full. Admissions, teaching support and consultations are held in either.</p>
       </div>
       <div class="footerband__item">
         <span class="footerband__label">Reach</span>
@@ -2319,11 +2326,7 @@
         <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
         العربية
       </a>
-      <div class="topbar__social" aria-label="Social links">
-        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
-        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
-        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
-      </div>
+      
     </div>
   </div>
   <div class="trim-metal" aria-hidden="true"></div>
@@ -2332,8 +2335,8 @@
 <script src="/js/site.js?v=4332eab8"></script>
 <script src="/js/motion.js?v=fbe1640a"></script>
 <script src="/js/atelier.js?v=989e1ca8" defer></script>
-<script src="/js/worldclock.js?v=dc32fbb1" defer></script>
+<script src="/js/worldclock.js?v=99a644de" defer></script>
 <script src="/js/intake.js?v=5238c58f" defer></script>
-<script src="/js/sonics.js?v=f926fe22" defer></script>
+<script src="/js/sonics.js?v=64a04468" defer></script>
 </body>
 </html>

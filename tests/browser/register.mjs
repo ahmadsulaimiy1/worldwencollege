@@ -166,12 +166,28 @@ async function open(url, viewport) {
   await page.close();
 }
 
-// --- Honesty about what is not yet decided ---------------------------
+// --- What an absence from the roll does and does not mean ------------
+// This block used to require a "provisional — the award architecture
+// has not yet been approved" notice. That notice was struck when the
+// page was ported into pages/: it had stopped being true (awards HAVE
+// been conferred at Levels I and II), and the standard ruled on
+// 18 August 2026 is that the site states what the College does rather
+// than what it has not done.
+//
+// What must still hold is the thing that notice was standing in for —
+// that the roll never implies more than it is. It is a roll of the
+// award holders who CONSENTED to appear, so a reader must be told, on
+// the page, that an award missing from it is not an award that does not
+// exist.
 {
   const page = await open(`${BASE}/register.html`);
-  const notice = await textOf(page, '.reg-provisional');
-  check('The page states that the award architecture is not yet approved',
-    /provisional/i.test(notice) && /not yet been approved/i.test(notice), notice.slice(0, 90));
+  const lede = await textOf(page, '.masthead__inner .lede');
+  check('The roll says an award absent from it can still be checked by its code',
+    /not listed can still be checked/i.test(lede), lede.slice(0, 120));
+  check('...and links to the place it is checked',
+    (await page.locator('.masthead__inner .lede a[href="/verify.html"]').count()) === 1);
+  check('...and no page still carries the retired "provisional" notice',
+    (await page.locator('.reg-provisional').count()) === 0);
   await page.close();
 }
 
@@ -235,6 +251,90 @@ async function open(url, viewport) {
   check('Exactly one h1', (await page.locator('h1').count()) === 1);
   await page.screenshot({ path: join(HERE, 'screenshots', 'register-mobile.png'), fullPage: true }).catch(() => {});
   await page.close();
+}
+
+// --- THE ARABIC EDITION ----------------------------------------------
+//
+// The roll is published in both editions, and it was not: /ar/register.
+// html served an Arabic page and filled it with "4 awards listed",
+// "Level III · CEFR B1 · Conferred 22 August 2026" and "Verify this
+// award" — a list of Arabic names against English programmes.
+{
+  const page = await open(`${BASE}/ar/register.html`);
+  await page.waitForTimeout(700);
+
+  check('The Arabic roll lists the same awards',
+    (await page.locator('.reg-entry').count()) >= 1);
+  check('...and counts them in Arabic',
+    /مقيَّدة/.test(await textOf(page, '#count')), await textOf(page, '#count'));
+  check('...naming the level in Arabic and by its Arabic ordinal',
+    /المستوى الثالث/.test(await textOf(page, '#list')));
+  check('...and the rank in the words /ar/students/awards/ publishes',
+    /تميّز/.test(await textOf(page, '#list')));
+  check('...and offering the Arabic verification page, not the English one',
+    /\/ar\/verify\.html\?code=/.test(
+      (await page.getAttribute('.reg-entry__check a', 'href')) || ''));
+
+  // Same scoped sweep as the graduate record and the verification page.
+  // A graduate's name, the award's official English title and a
+  // register code are data or a published English fact, and each is
+  // isolated as such.
+  const stray = await page.evaluate(() => {
+    const host = document.querySelector('#results');
+    if (!host) return ['(no results region)'];
+    const own = new Set();
+    host.querySelectorAll('bdi, [dir="auto"], [lang="en"]').forEach((n) => own.add(n));
+    const out = [];
+    const walk = document.createTreeWalker(host, NodeFilter.SHOW_TEXT);
+    let n;
+    while ((n = walk.nextNode())) {
+      let p = n.parentElement, mine = false;
+      while (p && p !== host) { if (own.has(p)) { mine = true; break; } p = p.parentElement; }
+      if (mine) continue;
+      const t = n.nodeValue
+        .replace(/\b[ABC][12]\b/g, ' ')
+        .replace(/WEC-[A-Z0-9-]+/g, ' ')
+        .replace(/⁨[^⁩]*⁩/g, ' ');
+      (t.match(/[A-Za-z]{3,}/g) || []).forEach((w) => out.push(w));
+    }
+    return [...new Set(out)];
+  });
+  check('Nothing the page itself says is left in English on the Arabic roll',
+    stray.length === 0, stray.slice(0, 8).join(', '));
+
+  // The post-nominal follows the name, so on this edition it lands to
+  // the LEFT of it — where a physical margin-left put the gap on the
+  // wrong side and set "ApWEC" flush against a graduate's name.
+  const gap = await page.evaluate(() => {
+    const post = document.querySelector('.reg-entry__post');
+    if (!post) return null;
+    const cs = getComputedStyle(post);
+    return { start: cs.marginInlineStart, right: cs.marginRight, left: cs.marginLeft };
+  });
+  check('...and the post-nominal keeps its gap on the reading side',
+    gap && gap.start !== '0px', JSON.stringify(gap));
+
+  const overflow = await page.evaluate(() =>
+    document.documentElement.scrollWidth - document.documentElement.clientWidth);
+  check('...and the Arabic roll does not overflow its page', overflow <= 0, String(overflow));
+  await page.screenshot({ path: join(HERE, 'screenshots', 'register-arabic.png'), fullPage: true }).catch(() => {});
+  await page.close();
+
+  // The empty state is the one most visitors will ever see, and it was
+  // two English paragraphs under an Arabic heading.
+  // Searched through the form, not through the query string: `q` is
+  // read from the field, and only `level` is preset from the URL.
+  const none = await open(`${BASE}/ar/register.html`);
+  await none.waitForTimeout(700);
+  await none.fill('#q', 'nobodyatallwiththisname');
+  await none.click('.reg-form button[type="submit"], #registerForm button[type="submit"]');
+  await none.waitForTimeout(700);
+  check('An Arabic search that matches nothing says so in Arabic',
+    /لا شهادة مقيَّدة تطابق/.test(await textOf(none, '.reg-empty')),
+    (await textOf(none, '.reg-empty')).slice(0, 60));
+  check('...and still says an unlisted award can be checked by its code',
+    /برمزها/.test(await textOf(none, '.reg-empty')));
+  await none.close();
 }
 
 check('No uncaught script errors', errs.length === 0, errs.slice(0, 2).join(' | '));

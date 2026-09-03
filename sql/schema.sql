@@ -709,10 +709,20 @@ CREATE TABLE quiz_attempts (
   user_id           TEXT NOT NULL REFERENCES users(id),
   answers_json      TEXT NOT NULL,      -- JSON array of selected indices, aligned to question sequence
   score             REAL NOT NULL,      -- fraction correct, 0..1, computed server-side at submission
+  -- The sitting's ORDINAL — 1, 2, 3 — assigned once at submission and
+  -- never recomputed. `resit.attempts` allows three sittings and
+  -- `resit.interval` requires fourteen days between them, and both are
+  -- questions about a numbered attempt; ORDER BY submitted_at answers
+  -- them only while every row survives, so a sitting voided for
+  -- misconduct or struck out on appeal would silently renumber the rest
+  -- and hand the learner a fourth attempt. See migration 021 and
+  -- functions/_lib/academic/reassessment.js.
+  attempt           INTEGER,
   submitted_at      TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
 );
 CREATE INDEX idx_quiz_attempts_user ON quiz_attempts(user_id);
 CREATE INDEX idx_quiz_attempts_item ON quiz_attempts(learning_item_id);
+CREATE UNIQUE INDEX idx_quiz_attempts_attempt ON quiz_attempts(user_id, learning_item_id, attempt);
 
 CREATE TABLE assignment_submissions (
   id                TEXT PRIMARY KEY,   -- 'asub_' + uuid
@@ -722,12 +732,15 @@ CREATE TABLE assignment_submissions (
   status            TEXT NOT NULL DEFAULT 'submitted' CHECK (status IN ('submitted','graded','returned')),
   grade             REAL,
   feedback          TEXT,
+  -- The sitting's ordinal, by the same rule as quiz_attempts.attempt.
+  attempt           INTEGER,
   submitted_at      TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
   graded_at         TEXT,
   graded_by         TEXT REFERENCES users(id)
 );
 CREATE INDEX idx_assignment_submissions_user ON assignment_submissions(user_id);
 CREATE INDEX idx_assignment_submissions_item ON assignment_submissions(learning_item_id);
+CREATE UNIQUE INDEX idx_assignment_submissions_attempt ON assignment_submissions(user_id, learning_item_id, attempt);
 
 -- Materialized per-student completion, one row per (user, unit) —
 -- avoids recomputing "is this unit done" from quiz/assignment rows on
@@ -947,12 +960,26 @@ INSERT INTO platform_config (key, value) VALUES
   -- Number of instalments offered by default when an instalment plan
   -- is created, pending a real cadence policy decision.
   ('lms_pass_threshold', '0.7'),
-  -- Fraction (0..1) a quiz score or assignment grade must meet to mark
-  -- a unit "completed" (functions/_lib/lms/content.js). A mechanism
-  -- default, not a published WEC-LC academic standard — real
-  -- competency thresholds are an Academic Director decision (see
-  -- docs/master-roadmap.md § Decisions Needed, item 9), to be set here
-  -- once one exists.
+  -- THE ADOPTED PASS MARK, as a fraction of one: 0.7 is seventy per
+  -- cent. It is no longer "a mechanism default, not a published WEC-LC
+  -- academic standard", which is what this comment said until
+  -- 20 August 2026. data/academic-regulations.json § marking_scale
+  -- adopted seventy as the pass mark, and marks.js carries it as
+  -- SCALE.passMark.
+  --
+  -- WHAT READS IT, AND WHAT NO LONGER DOES.
+  -- functions/_lib/lms/content.js used to apply this key as its own
+  -- completion rule — either component reaching it completed a module,
+  -- with no composite. It does not any more; module completion is
+  -- marks.js's `module.formula` and this key decides nothing about it.
+  -- What still reads the key is scripts/build-students.js, which prints
+  -- the figure on /students/assessment/ and its Arabic edition at build
+  -- time.
+  --
+  -- So this is a MIRROR of the instrument, kept in configuration so
+  -- that changing the pass mark stays a recorded decision rather than a
+  -- code edit. tests/academic-standing.test.mjs fails the build if this
+  -- value and the instrument's ever disagree.
   ('recording_retention_days', 'null');
   -- How long a learner's voice recording may be kept. `null` means
   -- keep indefinitely and purge nothing, and it is null because this
@@ -1000,16 +1027,29 @@ CREATE TABLE competencies (
   sequence      INTEGER NOT NULL,
   name          TEXT NOT NULL,
   description   TEXT NOT NULL,
+  -- Adopted from /ar/about/, which is where the College already
+  -- publishes the framework in Arabic. See migration 022 and
+  -- tests/framework-arabic.test.mjs.
+  name_ar       TEXT,
+  description_ar TEXT,
   created_at    TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
 );
 
-INSERT INTO competencies (id, code, sequence, name, description) VALUES
-  ('cmp_clarity',   'CLARITY',   1, 'Clarity',   'Understood the first time, by the audience actually present'),
-  ('cmp_command',   'COMMAND',   2, 'Command',   'Controls the language rather than being carried by it'),
-  ('cmp_judgement', 'JUDGEMENT', 3, 'Judgement', 'Chooses register, channel and moment; knows what not to say'),
-  ('cmp_reason',    'REASON',    4, 'Reason',    'Constructs an argument, tests it, concedes what should be conceded'),
-  ('cmp_bearing',   'BEARING',   5, 'Bearing',   'Holds a room, a call, a difficult conversation'),
-  ('cmp_reach',     'REACH',     6, 'Reach',     'Communicates across cultures, and across the distance between expert and layperson');
+INSERT INTO competencies (id, code, sequence, name, description, name_ar, description_ar) VALUES
+  ('cmp_clarity',   'CLARITY',   1, 'Clarity',   'Understood the first time, by the audience actually present',
+   'الوضوح', 'يُفهَم من أول مرة، من الجمهور الحاضر فعلًا'),
+  ('cmp_command',   'COMMAND',   2, 'Command',   'Controls the language rather than being carried by it',
+   'التمكّن', 'يتحكم في اللغة بدل أن تحمله هي'),
+  ('cmp_judgement', 'JUDGEMENT', 3, 'Judgement', 'Chooses register, channel and moment; knows what not to say',
+   'الحصافة', 'يختار السجل والقناة واللحظة، ويعرف ما لا يُقال'),
+  ('cmp_reason',    'REASON',    4, 'Reason',    'Constructs an argument, tests it, concedes what should be conceded',
+   'الاستدلال', 'يبني حجة، ويختبرها، ويسلّم بما ينبغي التسليم به'),
+  ('cmp_bearing',   'BEARING',   5, 'Bearing',   'Holds a room, a call, a difficult conversation',
+   'الحضور', 'يمسك قاعةً، أو مكالمةً، أو محادثةً صعبة'),
+  ('cmp_reach',     'REACH',     6, 'Reach',     'Communicates across cultures, and across the distance between expert and layperson',
+   'البلوغ', 'يتواصل عبر الثقافات، وعبر المسافة بين المختص وغير المختص');
+
+CREATE INDEX IF NOT EXISTS idx_competencies_sequence ON competencies(sequence);
 
 -- Which competencies an assessment claims to assess. The framework's
 -- rule is counted over THIS table, so an unmapped curriculum reports as
@@ -1616,18 +1656,30 @@ CREATE TABLE IF NOT EXISTS language_skills (
   -- distinction that actually predicts difficulty, and a profile that
   -- groups them reads far better than four bars in a row.
   mode          TEXT NOT NULL CHECK (mode IN ('receptive','productive')),
-  description   TEXT NOT NULL
+  description   TEXT NOT NULL,
+  -- Adopted from /ar/students/assessment/, which is where the College
+  -- already publishes these four in Arabic. Nullable, and beside the
+  -- English rather than instead of it: an endpoint hands both back and
+  -- the page chooses. See sql/migrations/022-framework-arabic.sql, and
+  -- tests/framework-arabic.test.mjs, which fails the build if this
+  -- table and that page ever disagree.
+  name_ar       TEXT,
+  description_ar TEXT
 );
 
-INSERT OR IGNORE INTO language_skills (id, code, sequence, name, mode, description) VALUES
+INSERT OR IGNORE INTO language_skills (id, code, sequence, name, mode, description, name_ar, description_ar) VALUES
   ('skl_listening', 'LISTENING', 1, 'Listening', 'receptive',
-   'Understands speech at natural pace, including unfamiliar accents and imperfect conditions'),
+   'Understands speech at natural pace, including unfamiliar accents and imperfect conditions',
+   'الاستماع', 'فهم الكلام بسرعته الطبيعية، بما في ذلك اللهجات غير المألوفة والظروف غير المثالية'),
   ('skl_reading',   'READING',   2, 'Reading',   'receptive',
-   'Reads for argument and detail, not only for gist, across registers'),
+   'Reads for argument and detail, not only for gist, across registers',
+   'القراءة', 'القراءة للحجّة وللتفصيل، لا للفكرة العامة فقط، عبر مستويات لغوية مختلفة'),
   ('skl_speaking',  'SPEAKING',  3, 'Speaking',  'productive',
-   'Speaks with control of grammar, pronunciation and register, in real time'),
+   'Speaks with control of grammar, pronunciation and register, in real time',
+   'التحدّث', 'التحدّث بضبط للقواعد والنطق ومستوى اللغة، في الزمن الحقيقي'),
   ('skl_writing',   'WRITING',   4, 'Writing',   'productive',
-   'Writes to a purpose and an audience, and revises');
+   'Writes to a purpose and an audience, and revises',
+   'الكتابة', 'الكتابة لغرض ولقارئ، ثم المراجعة');
 
 -- ------------------------------------------------------------
 -- Which assessments evidence which skill — a reviewable claim
@@ -1810,6 +1862,11 @@ CREATE TABLE IF NOT EXISTS skill_descriptors (
   code          TEXT NOT NULL UNIQUE,
   name          TEXT NOT NULL UNIQUE,
   description   TEXT NOT NULL,
+  -- Written from the College's own English gloss, and published on no
+  -- page yet — because no descriptor can be reported until the Senate
+  -- sets the thresholds below. See migration 022.
+  name_ar       TEXT,
+  description_ar TEXT,
 
   -- The evidence threshold for this band, as a proportion of available
   -- marks on approved mapped assessments. NULL until the Senate sets it.
@@ -1821,17 +1878,22 @@ CREATE TABLE IF NOT EXISTS skill_descriptors (
   CHECK (threshold_min IS NULL OR (approved_by IS NOT NULL AND approved_at IS NOT NULL))
 );
 
-INSERT OR IGNORE INTO skill_descriptors (id, sequence, code, name, description) VALUES
+INSERT OR IGNORE INTO skill_descriptors (id, sequence, code, name, description, name_ar, description_ar) VALUES
   ('skd_emerging',      1, 'EMERGING',      'Emerging',
-   'Beginning to operate in the skill, with support and in familiar conditions.'),
+   'Beginning to operate in the skill, with support and in familiar conditions.',
+   'ناشئ', 'يبدأ العمل بالمهارة، بمساندة وفي ظروف مألوفة.'),
   ('skd_developing',    2, 'DEVELOPING',    'Developing',
-   'Operates independently in familiar conditions; still effortful in unfamiliar ones.'),
+   'Operates independently in familiar conditions; still effortful in unfamiliar ones.',
+   'نامٍ', 'يعمل مستقلًّا في الظروف المألوفة، ويجد المشقّة في غيرها.'),
   ('skd_proficient',    3, 'PROFICIENT',    'Proficient',
-   'Operates reliably across the range the level describes.'),
+   'Operates reliably across the range the level describes.',
+   'متمكّن', 'يعمل باطّراد عبر المدى الذي يصفه المستوى.'),
   ('skd_advanced',      4, 'ADVANCED',      'Advanced',
-   'Operates with control and range beyond what the level requires.'),
+   'Operates with control and range beyond what the level requires.',
+   'متقدّم', 'يعمل بضبطٍ ومدًى يجاوزان ما يطلبه المستوى.'),
   ('skd_distinguished', 5, 'DISTINGUISHED', 'Distinguished',
-   'Operates at a standard that would be recognised well outside the College.');
+   'Operates at a standard that would be recognised well outside the College.',
+   'متميّز', 'يعمل على مستوًى يُعترف به خارج الكلية.');
 
 -- ============================================================
 -- 4. BOARD OF ACADEMIC STANDARDS AND CURRICULUM EXCELLENCE
@@ -2507,3 +2569,1496 @@ UPDATE academic_bodies
 
 CREATE INDEX IF NOT EXISTS idx_academic_body_events
   ON academic_body_events(body_code, event);
+
+-- ============================================================
+-- 020 — THE INSTITUTION'S WORKING DAY
+-- Mirrored from sql/migrations/020-institution.sql.
+-- ============================================================
+-- Seventy-six tables above could describe a curriculum, mark it, confer
+-- an award for it and let a stranger verify the award. None of them
+-- could answer a question a learner asks in their first week: what did
+-- the College say to me, when can I speak to a tutor, who hears me if I
+-- think a mark is wrong, am I on track, and when do I graduate.
+--
+-- The migration this mirrors carries the measured evidence for each gap
+-- and the governance decisions the shapes below are taken from —
+-- principally A7 (attendance, adopted 14 August 2026, with the
+-- live-session/module-engagement question left OPEN and carried here in
+-- `attendance_records.basis`) and E2 (complaints and appeals, adopted
+-- 17 August 2026, whose three stages and working-day clock are the whole
+-- shape of `registrar_cases`).
+--
+-- Nothing here is seeded. Milestones, orientation steps and graduation
+-- ceremonies are institutional decisions, and the tables ship empty for
+-- the same reason the competency mapping did.
+
+-- ┌──────────────────────────────────────────────────────────────────┐
+-- │ 1 · ATTENDANCE — engagement, recorded descriptively              │
+-- └──────────────────────────────────────────────────────────────────┘
+--
+-- docs/academic-framework.md § XI is unambiguous: "The College is
+-- asynchronous, so attendance is the wrong measure", and engagement is
+-- measured instead — "descriptive, never punitive... Engagement data
+-- exists to trigger support — a tutorial, a message, an offer — and
+-- never a penalty."
+--
+-- That sentence is why this table has no consequence column. There is no
+-- threshold, no penalty, no flag that withholds anything. What it holds
+-- is a state, the evidence the state was read from, and who or what read
+-- it — three facts a tutor can act on and none that a policy can be
+-- built on without somebody adopting one first.
+--
+-- The four evidence kinds drawn from the platform are the four measures
+-- § XI names: lessons completed against the published pace, laboratory
+-- practice submitted, live sessions attended, assessments attempted on
+-- schedule. Two more exist for the two occasions a human supplies the
+-- fact instead.
+CREATE TABLE attendance_records (
+  id                TEXT PRIMARY KEY,   -- 'att_' + uuid
+  user_id           TEXT NOT NULL REFERENCES users(id),
+
+  -- THE OPEN QUESTION, CARRIED RATHER THAN ANSWERED. Decision A7 asks
+  -- whether attendance means presence at a live session or engagement
+  -- with the module, and says the platform can measure both. It measures
+  -- both, and says which — so neither is ever silently counted as the
+  -- other, and the eventual decision is made against real figures.
+  basis             TEXT NOT NULL CHECK (basis IN ('live_session','module_engagement')),
+  live_session_id   TEXT REFERENCES live_sessions(id),
+  unit_id           TEXT REFERENCES units(id),   -- a MODULE in framework terms
+
+  -- The period the state describes. A live session's window is the
+  -- session; a module's is whatever period the reader asked about, and
+  -- storing both ends means a figure can be recomputed for a different
+  -- period without pretending this row covered it.
+  window_start      TEXT NOT NULL,
+  window_end        TEXT NOT NULL,
+
+  state             TEXT NOT NULL CHECK (state IN ('attended','partial','absent','excused')),
+  -- Present only where it was actually measured. A live session that
+  -- reports join and leave times has this; a module engagement window
+  -- inferred from a completed lesson does not, and inventing a duration
+  -- for it would put a number on the College's engagement reporting that
+  -- nothing observed.
+  minutes_present   INTEGER CHECK (minutes_present IS NULL OR minutes_present >= 0),
+
+  -- WHAT THE STATE WAS READ FROM. The first four are the four engagement
+  -- measures of § XI; the last two are the two ways a person supplies
+  -- the fact instead of the platform observing it.
+  evidence_kind     TEXT NOT NULL CHECK (evidence_kind IN
+                      ('lesson_completion','laboratory_practice','live_session_join',
+                       'assessment_attempt','staff_register','learner_declaration')),
+  -- The id of the row the evidence is: a unit_progress id, a
+  -- learner_recordings id, a quiz_attempts id. Not a foreign key,
+  -- because it points into six different tables — the same reasoning
+  -- academic_relations records for its endpoints, and with the same
+  -- consequence: integrity here is the application's job.
+  evidence_ref      TEXT,
+
+  -- WHO OR WHAT. NULL means the platform read a signal and no person
+  -- formed a view — the same honesty enrolment_events.actor_id carries,
+  -- where a nullable actor means a payment webhook did it.
+  recorded_by       TEXT REFERENCES users(id),
+  recorded_via      TEXT NOT NULL CHECK (recorded_via IN
+                      ('platform_signal','staff_register','learner_declaration')),
+
+  -- Why, where the state is not self-explanatory. Required for
+  -- 'excused': an excusal with no reason is an absence somebody quietly
+  -- forgave, and the learner is entitled to know on what grounds.
+  reason            TEXT,
+
+  created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+
+  CHECK (basis != 'live_session' OR (live_session_id IS NOT NULL AND unit_id IS NULL)),
+  CHECK (basis != 'module_engagement' OR (unit_id IS NOT NULL AND live_session_id IS NULL)),
+  CHECK (window_end > window_start),
+  CHECK (state != 'excused' OR reason IS NOT NULL),
+  -- 'partial' is a claim about how much, and a claim about how much
+  -- without the amount is just 'attended' hedged.
+  CHECK (state != 'partial' OR minutes_present IS NOT NULL),
+  -- Only the platform may record anonymously. A register mark and a
+  -- learner's own declaration are somebody's statement and are attributed.
+  CHECK (recorded_via = 'platform_signal' OR recorded_by IS NOT NULL)
+);
+CREATE INDEX idx_attendance_user ON attendance_records(user_id, window_start DESC);
+CREATE INDEX idx_attendance_session ON attendance_records(live_session_id)
+  WHERE live_session_id IS NOT NULL;
+CREATE INDEX idx_attendance_unit ON attendance_records(unit_id, window_start)
+  WHERE unit_id IS NOT NULL;
+-- One row per learner per session, and one per learner per module window.
+-- PARTIAL because the two halves of this table are keyed differently and
+-- a single unique constraint over nullable columns would enforce neither.
+CREATE UNIQUE INDEX idx_attendance_one_per_session
+  ON attendance_records(user_id, live_session_id) WHERE live_session_id IS NOT NULL;
+CREATE UNIQUE INDEX idx_attendance_one_per_window
+  ON attendance_records(user_id, unit_id, window_start) WHERE unit_id IS NOT NULL;
+
+-- ┌──────────────────────────────────────────────────────────────────┐
+-- │ 2 · ANNOUNCEMENTS — what the College said, and who has seen it   │
+-- └──────────────────────────────────────────────────────────────────┘
+--
+-- An announcement is the only thing on this list that the institution
+-- says rather than records, so it is the only one whose author must be a
+-- named account and never the platform. `author_id` is NOT NULL for the
+-- same reason role_events.actor_id is: nothing should address every
+-- learner in the College with no person behind it.
+--
+-- The publication window is two columns rather than a single "live"
+-- flag. An enrolment deadline announced on the 3rd and irrelevant after
+-- the 20th should stop being new on the 20th without anybody
+-- remembering to take it down, and a dashboard that shows a stale notice
+-- is how learners stop reading notices.
+CREATE TABLE announcements (
+  id                TEXT PRIMARY KEY,   -- 'ann_' + uuid
+  author_id         TEXT NOT NULL REFERENCES users(id),
+  title             TEXT NOT NULL,
+  body              TEXT NOT NULL,
+
+  -- THREE SCOPES, AND WHY THERE IS NO FOURTH. Under Executive Decision
+  -- #1 the College admits continuously and learners progress at their
+  -- own rate, so the people studying Level III together at any moment
+  -- ARE the Level III cohort — the level scope already addresses them.
+  -- A 'cohort' value would have to point at a table that
+  -- docs/academic-calendar.md has not been authorised to create.
+  audience_scope    TEXT NOT NULL CHECK (audience_scope IN ('institution','level','learner')),
+  level_id          INTEGER REFERENCES programme_levels(id),
+  audience_user_id  TEXT REFERENCES users(id),
+
+  pinned            INTEGER NOT NULL DEFAULT 0 CHECK (pinned IN (0,1)),
+
+  status            TEXT NOT NULL DEFAULT 'draft'
+                    CHECK (status IN ('draft','published','withdrawn')),
+  publish_from      TEXT NOT NULL,
+  -- NULL means it stands until withdrawn. Deliberately allowed, unlike
+  -- profile_shares.expires_at: a share is a bearer credential handed to
+  -- one employer, whereas a standing notice about how to reach the
+  -- Registrar should not expire on a date somebody had to guess.
+  publish_until     TEXT,
+  published_at      TEXT,
+  -- A withdrawn announcement is marked, never deleted. What the College
+  -- told its learners and then took back is precisely the thing a
+  -- reviewer will ask about.
+  withdrawn_at      TEXT,
+  withdrawn_reason  TEXT,
+
+  created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+
+  CHECK (audience_scope != 'institution' OR (level_id IS NULL AND audience_user_id IS NULL)),
+  CHECK (audience_scope != 'level'       OR (level_id IS NOT NULL AND audience_user_id IS NULL)),
+  CHECK (audience_scope != 'learner'     OR (audience_user_id IS NOT NULL AND level_id IS NULL)),
+  CHECK (publish_until IS NULL OR publish_until > publish_from),
+  CHECK (status != 'published' OR published_at IS NOT NULL),
+  CHECK (status != 'withdrawn' OR (withdrawn_at IS NOT NULL AND withdrawn_reason IS NOT NULL))
+);
+-- The dashboard's own query: live notices, pinned first, newest next.
+-- Equality predicate then the sort columns, so the planner seeks and
+-- never sorts — the shape idx_awards_roll was measured into.
+CREATE INDEX idx_announcements_live
+  ON announcements(status, pinned DESC, publish_from DESC);
+CREATE INDEX idx_announcements_level
+  ON announcements(level_id, publish_from DESC) WHERE level_id IS NOT NULL;
+CREATE INDEX idx_announcements_learner
+  ON announcements(audience_user_id, publish_from DESC) WHERE audience_user_id IS NOT NULL;
+
+-- The receipt is what makes "what is new" answerable. Its ABSENCE is the
+-- unread state, so no row is written when nothing has happened and the
+-- table stays proportional to what learners actually read rather than to
+-- announcements multiplied by learners.
+--
+-- `dismissed_at` is a second, separate act. A learner may read a notice
+-- and want it to stay on the dashboard; collapsing the two would make
+-- reading something the cost of losing it.
+CREATE TABLE announcement_receipts (
+  id                TEXT PRIMARY KEY,   -- 'anr_' + uuid
+  announcement_id   TEXT NOT NULL REFERENCES announcements(id),
+  user_id           TEXT NOT NULL REFERENCES users(id),
+  read_at           TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+  dismissed_at      TEXT,
+  UNIQUE (announcement_id, user_id)
+);
+CREATE INDEX idx_announcement_receipts_user ON announcement_receipts(user_id, read_at DESC);
+
+-- ┌──────────────────────────────────────────────────────────────────┐
+-- │ 3 · MESSAGING — a tutor sees their own learners, structurally     │
+-- └──────────────────────────────────────────────────────────────────┘
+--
+-- THE AUTHORISATION IS THE MEMBERSHIP ROW, AND THAT IS THE WHOLE DESIGN.
+--
+-- The obvious alternative — a tutor sees every thread at the levels they
+-- teach — needs a "levels they teach" fact the schema does not hold, and
+-- would grant a new tutor retrospective sight of every conversation a
+-- learner ever had at that level. So a thread is visible to exactly the
+-- people in `message_participants`, a query for a tutor's threads is a
+-- join through their own participant rows, and there is no query shape
+-- that can return a thread they were never added to. Widening access
+-- becomes an INSERT somebody performs and the trail records, rather than
+-- a WHERE clause nobody reviews.
+--
+-- `left_at` rather than deletion: a tutor who hands a learner on should
+-- stop seeing new messages without the record forgetting they were once
+-- party to the conversation.
+CREATE TABLE message_threads (
+  id                TEXT PRIMARY KEY,   -- 'mth_' + uuid
+  subject           TEXT NOT NULL,
+
+  -- Scoped to a level or a module, never floating. A message about
+  -- nothing in particular is a message no successor tutor can pick up.
+  scope             TEXT NOT NULL CHECK (scope IN ('level','module')),
+  level_id          INTEGER REFERENCES programme_levels(id),
+  -- A unit already knows its course and its level, so a module-scoped
+  -- thread does not repeat the level and cannot contradict it.
+  unit_id           TEXT REFERENCES units(id),
+
+  opened_by         TEXT NOT NULL REFERENCES users(id),
+  -- 'answered' is not 'closed'. A learner whose question has been
+  -- answered may still reply; a closed thread is one somebody decided is
+  -- finished, and the two must be distinguishable on a tutor's list.
+  status            TEXT NOT NULL DEFAULT 'open'
+                    CHECK (status IN ('open','answered','closed')),
+  closed_by         TEXT REFERENCES users(id),
+  closed_at         TEXT,
+  closed_reason     TEXT,
+
+  -- Denormalised so a thread list is one index seek instead of a
+  -- MAX(sent_at) per thread. Written by the same statement that inserts
+  -- a message, exactly as unit_progress is written by the code path that
+  -- records the attempt.
+  last_message_at   TEXT NOT NULL,
+
+  created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+
+  CHECK (scope != 'level'  OR (level_id IS NOT NULL AND unit_id IS NULL)),
+  CHECK (scope != 'module' OR unit_id IS NOT NULL),
+  CHECK (status != 'closed' OR (closed_at IS NOT NULL AND closed_by IS NOT NULL))
+);
+CREATE INDEX idx_message_threads_activity ON message_threads(status, last_message_at DESC);
+CREATE INDEX idx_message_threads_level
+  ON message_threads(level_id, last_message_at DESC) WHERE level_id IS NOT NULL;
+
+CREATE TABLE message_participants (
+  id                TEXT PRIMARY KEY,   -- 'mpt_' + uuid
+  thread_id         TEXT NOT NULL REFERENCES message_threads(id),
+  user_id           TEXT NOT NULL REFERENCES users(id),
+  -- What this person is to the thread, not what they are to the College.
+  -- A registrar joining an escalated thread is not thereby the learner's
+  -- tutor, and a list of "my learners" must not acquire them.
+  party             TEXT NOT NULL CHECK (party IN ('learner','tutor','registrar')),
+  added_by          TEXT REFERENCES users(id),
+
+  -- READ STATE, AS A WATERMARK RATHER THAN A RECEIPT PER MESSAGE. An
+  -- unread count is "messages after this timestamp", which is the same
+  -- answer at a fraction of the rows: per-message receipts would write
+  -- one row per participant per message for a conversation that is
+  -- almost always two people, to answer a question neither of them asks.
+  -- announcement_receipts is per-item because an announcement has no
+  -- ordering to watermark against.
+  last_read_at      TEXT,
+  left_at           TEXT,
+
+  created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+  UNIQUE (thread_id, user_id)
+);
+CREATE INDEX idx_message_participants_user ON message_participants(user_id, left_at);
+
+CREATE TABLE messages (
+  id                TEXT PRIMARY KEY,   -- 'msg_' + uuid
+  thread_id         TEXT NOT NULL REFERENCES message_threads(id),
+  sender_id         TEXT NOT NULL REFERENCES users(id),
+  body              TEXT NOT NULL,
+  sent_at           TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+  -- Withdrawn, not deleted, and never without a reason — the rule
+  -- academic_distinctions established. A message that can vanish without
+  -- trace is a message a learner cannot later prove was sent to them.
+  withdrawn_at      TEXT,
+  withdrawn_reason  TEXT,
+  CHECK (withdrawn_at IS NULL OR withdrawn_reason IS NOT NULL)
+);
+CREATE INDEX idx_messages_thread ON messages(thread_id, sent_at);
+
+-- ┌──────────────────────────────────────────────────────────────────┐
+-- │ 4 · TIMETABLE AND BOOKINGS — a seat, taken by a named learner     │
+-- └──────────────────────────────────────────────────────────────────┘
+--
+-- `live_sessions` is not replaced and not duplicated. It answers "what
+-- is scheduled"; these answer "who may take a place in it, and who did".
+-- A slot may point at a live session — the seat at a scheduled class —
+-- or stand alone as a tutor's own offered time, which is what a
+-- one-to-one tutorial and an oral defence are.
+--
+-- The alternative was columns on `live_sessions` for capacity and
+-- bookings. It was rejected because a live session is a broadcast
+-- everybody at a level may join and a tutorial is a place one person
+-- holds; giving one table both meanings would make "is this full" a
+-- question with two right answers.
+CREATE TABLE tutorial_slots (
+  id                TEXT PRIMARY KEY,   -- 'slt_' + uuid
+  tutor_id          TEXT NOT NULL REFERENCES users(id),
+  -- Set when the slot is a place at an already-scheduled class.
+  live_session_id   TEXT REFERENCES live_sessions(id),
+  -- NULL level means open to any level — a general office hour.
+  level_id          INTEGER REFERENCES programme_levels(id),
+  unit_id           TEXT REFERENCES units(id),
+
+  title             TEXT NOT NULL,
+  -- 'oral_defence' is here because the academic framework requires every
+  -- capstone to be defended live. A defence that has to be booked
+  -- through the same machinery as an office hour is a defence that
+  -- actually gets scheduled.
+  kind              TEXT NOT NULL DEFAULT 'tutorial'
+                    CHECK (kind IN ('tutorial','oral_defence','office_hour','workshop')),
+
+  starts_at         TEXT NOT NULL,
+  duration_minutes  INTEGER NOT NULL DEFAULT 30 CHECK (duration_minutes > 0),
+  -- Capacity is declared here and ENFORCED IN THE APPLICATION: SQLite
+  -- cannot count another table's rows in a CHECK, so the booking path
+  -- must count live bookings inside the same statement that inserts one.
+  -- Stated rather than assumed, in the manner of learner_recordings'
+  -- upload_status note — a constraint the schema cannot carry must say
+  -- where it is carried instead.
+  capacity          INTEGER NOT NULL DEFAULT 1 CHECK (capacity > 0),
+  join_url          TEXT,
+
+  status            TEXT NOT NULL DEFAULT 'open'
+                    CHECK (status IN ('open','closed','cancelled','held')),
+  cancelled_at      TEXT,
+  -- A tutor who cancels on a learner owes them the reason. This is the
+  -- one column that turns a cancellation from something that happened
+  -- into something somebody did.
+  cancelled_reason  TEXT,
+
+  created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+
+  CHECK (status != 'cancelled' OR (cancelled_at IS NOT NULL AND cancelled_reason IS NOT NULL))
+);
+CREATE INDEX idx_tutorial_slots_tutor ON tutorial_slots(tutor_id, starts_at);
+-- What a learner opening the timetable asks for, and nothing else.
+-- PARTIAL, because a slot is bookable for days and then never again.
+CREATE INDEX idx_tutorial_slots_open ON tutorial_slots(starts_at) WHERE status = 'open';
+CREATE INDEX idx_tutorial_slots_session
+  ON tutorial_slots(live_session_id) WHERE live_session_id IS NOT NULL;
+
+CREATE TABLE slot_bookings (
+  id                TEXT PRIMARY KEY,   -- 'bkg_' + uuid
+  slot_id           TEXT NOT NULL REFERENCES tutorial_slots(id),
+  user_id           TEXT NOT NULL REFERENCES users(id),
+
+  -- WHO CANCELLED IS PART OF THE STATE, not a separate flag. "The
+  -- learner did not come" and "the tutor called it off" are different
+  -- facts about different people, and a single 'cancelled' value would
+  -- let a tutor's cancellation read as a learner's on the learner's own
+  -- record.
+  status            TEXT NOT NULL DEFAULT 'booked'
+                    CHECK (status IN ('booked','attended','no_show',
+                                      'cancelled_by_learner','cancelled_by_tutor')),
+  -- What the learner wants to use the time for. A tutor who reads it
+  -- before the call spends the call on the problem.
+  learner_note      TEXT,
+
+  booked_at         TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+  cancelled_at      TEXT,
+  cancellation_reason TEXT,
+
+  CHECK (status NOT IN ('cancelled_by_learner','cancelled_by_tutor')
+         OR (cancelled_at IS NOT NULL AND cancellation_reason IS NOT NULL))
+);
+CREATE INDEX idx_slot_bookings_slot ON slot_bookings(slot_id, status);
+CREATE INDEX idx_slot_bookings_user ON slot_bookings(user_id, booked_at DESC);
+-- One LIVE booking per learner per slot. PARTIAL, excluding both
+-- cancelled states, because cancelling and rebooking the same slot is a
+-- normal thing a learner does and the earlier booking must survive —
+-- the reasoning idx_enrolments_one_live_per_level established.
+CREATE UNIQUE INDEX idx_slot_bookings_one_live
+  ON slot_bookings(slot_id, user_id)
+  WHERE status NOT IN ('cancelled_by_learner','cancelled_by_tutor');
+
+-- ┌──────────────────────────────────────────────────────────────────┐
+-- │ 5 · APPLICANT LIFECYCLE — the status column, finally reachable    │
+-- └──────────────────────────────────────────────────────────────────┘
+--
+-- `applications.status` has always had 'offer_sent' and 'accepted' in
+-- its CHECK constraint and nothing has ever written either. What was
+-- missing is not a status column; it is everything an offer needs to be
+-- an offer — conditions, an expiry, an acceptance, and a record of who
+-- moved the application and why.
+--
+-- application_events mirrors enrolment_events deliberately, down to the
+-- nullable actor. Two audit trails with two shapes would be two things
+-- to learn and two places to be inconsistent, and an admissions officer
+-- reading one after the other should not have to translate.
+CREATE TABLE application_events (
+  id                TEXT PRIMARY KEY,   -- 'aev_' + uuid
+  application_id    TEXT NOT NULL REFERENCES applications(id),
+  from_status       TEXT,               -- NULL when the application is first created
+  to_status         TEXT NOT NULL,
+  -- NULL means the platform did it — an expiry sweep lapsing an offer,
+  -- a payment webhook enrolling an accepted applicant. Honest, because
+  -- no person made that decision.
+  actor_id          TEXT REFERENCES users(id),
+  reason            TEXT,
+  created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+);
+CREATE INDEX idx_application_events_application
+  ON application_events(application_id, created_at);
+CREATE INDEX idx_application_events_actor ON application_events(actor_id, created_at);
+
+-- An offer is a promise with a date on it, and both halves are enforced.
+--
+-- `expires_at` is NOT NULL for the reason profile_shares.expires_at is:
+-- an offer with no expiry is a place held open for ever, which the
+-- College cannot honour and should therefore not be able to record. A
+-- conditional offer with no conditions is the same fault in the other
+-- direction — a condition nobody wrote down is a condition the applicant
+-- cannot meet.
+CREATE TABLE offers (
+  id                TEXT PRIMARY KEY,   -- 'ofr_' + uuid
+  application_id    TEXT NOT NULL REFERENCES applications(id),
+  -- The level offered, which is not necessarily the level applied for:
+  -- placement is confirmed by assessment, and the offer is made against
+  -- the confirmed level.
+  level_id          INTEGER NOT NULL REFERENCES programme_levels(id),
+
+  kind              TEXT NOT NULL CHECK (kind IN ('conditional','unconditional')),
+  conditions        TEXT,
+
+  -- A named officer, never the platform. Nothing should offer a person a
+  -- place with nobody behind it.
+  issued_by         TEXT NOT NULL REFERENCES users(id),
+  issued_at         TEXT NOT NULL,
+  expires_at        TEXT NOT NULL,
+
+  status            TEXT NOT NULL DEFAULT 'issued'
+                    CHECK (status IN ('issued','accepted','declined','withdrawn','lapsed')),
+  -- 'lapsed' is what an expiry sweep sets and 'withdrawn' is what the
+  -- College does. An applicant who ran out of time and one the College
+  -- changed its mind about are owed different letters.
+  conditions_met_at TEXT,
+  conditions_met_by TEXT REFERENCES users(id),
+  accepted_at       TEXT,
+  declined_at       TEXT,
+  declined_reason   TEXT,
+  withdrawn_at      TEXT,
+  withdrawn_reason  TEXT,
+
+  created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+
+  CHECK (kind != 'conditional'   OR conditions IS NOT NULL),
+  CHECK (kind != 'unconditional' OR conditions IS NULL),
+  CHECK (expires_at > issued_at),
+  CHECK (status != 'accepted'  OR accepted_at IS NOT NULL),
+  CHECK (status != 'declined'  OR declined_at IS NOT NULL),
+  CHECK (status != 'withdrawn' OR (withdrawn_at IS NOT NULL AND withdrawn_reason IS NOT NULL)),
+  -- Somebody decided the conditions were met. Not the platform.
+  CHECK (conditions_met_at IS NULL OR conditions_met_by IS NOT NULL)
+);
+CREATE INDEX idx_offers_application ON offers(application_id, issued_at DESC);
+-- The expiry sweep's own query: live offers, by the date they run out.
+CREATE INDEX idx_offers_expiry ON offers(expires_at) WHERE status = 'issued';
+-- One LIVE offer per application. PARTIAL, so a lapsed or declined offer
+-- can be followed by a fresh one — a re-offer after a deferral is a real
+-- thing an admissions office does — while two open offers to the same
+-- applicant, which is how a College ends up honouring the wrong one,
+-- cannot exist.
+CREATE UNIQUE INDEX idx_offers_one_live_per_application
+  ON offers(application_id) WHERE status IN ('issued','accepted');
+
+-- The orientation checklist. SHIPS EMPTY, and that is the point.
+--
+-- docs/academic-calendar.md, which would decide when orientation runs
+-- and what it contains, is marked NOT ADOPTED. Seeding four plausible
+-- steps here would put an institutional process into the database on the
+-- authority of whoever typed this file — the same fabrication the
+-- competency mapping refused, and for the same reason. The structure
+-- exists so the process has somewhere to land the day it is decided.
+CREATE TABLE orientation_steps (
+  id                TEXT PRIMARY KEY,   -- 'ost_' + uuid
+  code              TEXT NOT NULL UNIQUE,
+  sequence          INTEGER NOT NULL UNIQUE,
+  title             TEXT NOT NULL,
+  detail            TEXT NOT NULL,
+  -- Whose job it is. A checklist that does not say who acts is a
+  -- checklist where every outstanding item is the learner's fault.
+  owner             TEXT NOT NULL CHECK (owner IN ('learner','registrar','finance','tutor')),
+  required          INTEGER NOT NULL DEFAULT 1 CHECK (required IN (0,1)),
+  created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+);
+
+CREATE TABLE orientation_progress (
+  id                TEXT PRIMARY KEY,   -- 'orp_' + uuid
+  user_id           TEXT NOT NULL REFERENCES users(id),
+  step_id           TEXT NOT NULL REFERENCES orientation_steps(id),
+  -- Which acceptance this checklist belongs to. NULL for a learner who
+  -- reached the College by a route with no offer behind it.
+  offer_id          TEXT REFERENCES offers(id),
+  state             TEXT NOT NULL DEFAULT 'outstanding'
+                    CHECK (state IN ('outstanding','in_progress','complete','waived')),
+  -- What satisfied it: a kyc_documents id, a payments id, an
+  -- attendance_records id for the orientation session itself.
+  evidence_ref      TEXT,
+  completed_at      TEXT,
+  -- A waiver is somebody's decision and carries their name and their
+  -- grounds. Without both it is a step quietly skipped.
+  waived_by         TEXT REFERENCES users(id),
+  waived_reason     TEXT,
+  updated_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+
+  UNIQUE (user_id, step_id),
+  CHECK (state != 'complete' OR completed_at IS NOT NULL),
+  CHECK (state != 'waived'   OR (waived_by IS NOT NULL AND waived_reason IS NOT NULL))
+);
+CREATE INDEX idx_orientation_progress_user ON orientation_progress(user_id, state);
+
+-- ┌──────────────────────────────────────────────────────────────────┐
+-- │ 6 · REGISTRAR CASES — one table, and the reason it is one         │
+-- └──────────────────────────────────────────────────────────────────┘
+--
+-- THE DECISION: one `registrar_cases` table with a `kind` discriminator,
+-- not five near-identical tables.
+--
+-- The five differ in what the learner is asking for and are identical in
+-- what the institution does about it. Every one of them is: a person
+-- raises a matter, it is heard at a stage by somebody not party to the
+-- stage before, an answer is owed by a date, a decision is taken by a
+-- named officer, and the whole thing is auditable afterwards. That is
+-- one process, and governance decision E2 — ADOPTED 17 August 2026 —
+-- describes it once for complaints and appeals together rather than
+-- twice.
+--
+-- Five tables would mean five schemas to keep in step with one adopted
+-- procedure, five audit trails, and — the fault that decided it — a
+-- five-way UNION every time the Registrar asks the only question that
+-- matters day to day: what is open, and what is late. With one table
+-- that is one indexed query, and `idx_registrar_cases_due` below is it.
+--
+-- What the discriminator costs is honestly stated: a withdrawal has no
+-- three-stage appeal and an appeal has no refund arithmetic, so some
+-- columns are NULL for some kinds. That cost is a nullable column. The
+-- alternative's cost is an institution that cannot see its own caseload.
+--
+-- MISCONDUCT IS NOT A KIND HERE. Decision A7 rules that a register must
+-- not precede the procedure — "a misconduct register without an approved
+-- procedure would invite staff to record allegations against learners
+-- with no defined process, no right of reply and no appeal. That is
+-- worse than having neither." C9's procedure is adopted in principle and
+-- not yet written; until it is, this table cannot accept an allegation
+-- because the CHECK constraint does not contain the word.
+CREATE TABLE registrar_cases (
+  id                TEXT PRIMARY KEY,   -- 'rcs_' + uuid
+  -- The reference the learner is given and quotes back. Stable for the
+  -- life of the case, in the manner of evidence_items.reference — a
+  -- person chasing an appeal should not have to quote a UUID.
+  reference         TEXT NOT NULL UNIQUE,
+  user_id           TEXT NOT NULL REFERENCES users(id),
+
+  kind              TEXT NOT NULL
+                    CHECK (kind IN ('appeal','complaint','withdrawal','deferral','transfer')),
+  -- WHAT THE CASE IS ABOUT, which is not the same as what was asked for,
+  -- and which E2 makes load-bearing: stage three goes to the Governor
+  -- for Academic Affairs on academic matters and the Governor for Ethics
+  -- and Institutional Values on conduct, welfare or fair treatment. The
+  -- routing is a published rule, so the fact it routes on is a column.
+  matter            TEXT NOT NULL CHECK (matter IN
+                      ('academic','conduct','welfare','fair_treatment','administrative')),
+
+  enrolment_id      TEXT REFERENCES enrolments(id),
+  level_id          INTEGER REFERENCES programme_levels(id),
+  summary           TEXT NOT NULL,
+  detail            TEXT,
+
+  -- E2's three stages, named as it names them, plus the states either
+  -- side of them. 'awaiting_information' stops the clock honestly: a
+  -- case waiting on the learner is not a case the College is late on,
+  -- and without it every pause looks like a breach.
+  stage             TEXT NOT NULL DEFAULT 'received'
+                    CHECK (stage IN ('received','stage_one','stage_two','stage_three',
+                                     'awaiting_information','determined','closed')),
+  -- The post that hears the current stage, as a ROLE and never a name —
+  -- the rule evidence_items follows, because the post outlives whoever
+  -- holds it and naming a person who does not hold it would be
+  -- fabricating personnel.
+  heard_by_role     TEXT,
+  -- THE DEADLINE THE CURRENT STAGE IS BOUND BY. E2 sets them in working
+  -- days — ten for a stage one answer, twenty for a stage two — and the
+  -- working-day arithmetic belongs to the code that reads the published
+  -- procedure, not to a column that would have to encode a calendar.
+  answer_due        TEXT,
+
+  outcome           TEXT CHECK (outcome IS NULL OR outcome IN
+                      ('upheld','partly_upheld','not_upheld','substituted',
+                       'returned_for_fresh_assessment','granted','refused',
+                       'withdrawn_by_learner')),
+  -- 'substituted' and 'returned_for_fresh_assessment' are E2's own words
+  -- for what the Senate may do at stage two, and they are not the same
+  -- as 'upheld': one replaces the decision, the other sends the work to
+  -- a different marker, and a learner is entitled to know which happened.
+  decision          TEXT,
+  decided_by        TEXT REFERENCES users(id),
+  decided_on        TEXT,
+
+  opened_at         TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+  closed_at         TEXT,
+  created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+
+  -- A determination names its maker, its date, its outcome and its
+  -- reasons. A finding made without a documented process is not
+  -- defensible — C9's rationale, enforced here rather than trusted.
+  CHECK (stage != 'determined' OR (outcome IS NOT NULL AND decision IS NOT NULL
+         AND decided_by IS NOT NULL AND decided_on IS NOT NULL)),
+  CHECK (stage != 'closed' OR closed_at IS NOT NULL),
+  -- A stage that is being heard is a stage the College owes an answer on
+  -- by a date. Without this the clock E2 sets is optional.
+  CHECK (stage NOT IN ('stage_one','stage_two','stage_three') OR answer_due IS NOT NULL)
+);
+CREATE INDEX idx_registrar_cases_user ON registrar_cases(user_id, opened_at DESC);
+CREATE INDEX idx_registrar_cases_kind ON registrar_cases(kind, stage);
+-- The Registrar's morning question, as one seek: what is still live, in
+-- the order it falls due. PARTIAL, because a determined case has no
+-- deadline left to breach and closed cases are the majority in the end.
+CREATE INDEX idx_registrar_cases_due ON registrar_cases(answer_due)
+  WHERE stage NOT IN ('determined','closed');
+
+-- The trail, which is what makes E2's "no stage may be skipped by the
+-- College to reach a faster conclusion" checkable. from_stage/to_stage
+-- on every move means a skip is visible in the record rather than
+-- inferable from an absence.
+CREATE TABLE registrar_case_events (
+  id                TEXT PRIMARY KEY,   -- 'rce_' + uuid
+  case_id           TEXT NOT NULL REFERENCES registrar_cases(id),
+  from_stage        TEXT,               -- NULL when the case is opened
+  to_stage          TEXT NOT NULL,
+  actor_id          TEXT REFERENCES users(id),
+  -- The post the actor acted in. E2 rests on each stage being heard by
+  -- somebody not party to the one before, and that is a claim about
+  -- office as much as person.
+  actor_role        TEXT,
+  -- NOT NULL. A stage change with no note is the institution moving a
+  -- person's case without saying why, which is precisely the thing an
+  -- appeal procedure exists to prevent.
+  note              TEXT NOT NULL,
+  -- What the clock was reset to on entering the new stage, so a
+  -- reviewer can see the deadline as it stood then rather than only as
+  -- it stands now.
+  answer_due_after  TEXT,
+  created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+);
+CREATE INDEX idx_registrar_case_events_case ON registrar_case_events(case_id, created_at);
+
+-- ┌──────────────────────────────────────────────────────────────────┐
+-- │ 7 · ACHIEVEMENTS — a milestone that names the fact it marks       │
+-- └──────────────────────────────────────────────────────────────────┘
+--
+-- `academic_fact` is NOT NULL and it is the whole difference between
+-- this and a badge system. A definition must say what academic thing is
+-- true of a learner who holds it — "has completed every module of one
+-- level", "has been marked against all six competencies" — because a
+-- milestone that marks nothing is a decoration the College would then
+-- have to defend on a transcript.
+--
+-- `evidence_source` is constrained to tables that hold academic facts.
+-- Nothing can be earned from a login streak, because there is no table
+-- in the list that records one.
+--
+-- SHIPS EMPTY. Which achievements the College honours is an institution's
+-- decision about what it values, and the definitions carry a proposed /
+-- approved / retired life for the same reason every other claim in this
+-- schema does.
+CREATE TABLE milestone_definitions (
+  id                TEXT PRIMARY KEY,   -- 'mdf_' + uuid
+  code              TEXT NOT NULL UNIQUE,
+  sequence          INTEGER NOT NULL UNIQUE,
+  name              TEXT NOT NULL,
+  -- The academic fact this marks, stated as a fact and not as praise.
+  academic_fact     TEXT NOT NULL,
+  -- Where that fact is read from. A closed list of tables that hold
+  -- assessed or attested academic evidence.
+  evidence_source   TEXT NOT NULL CHECK (evidence_source IN
+                      ('unit_progress','quiz_attempts','assignment_submissions',
+                       'competency_marks','attendance_records','awards',
+                       'academic_distinctions','learner_recordings')),
+  level_id          INTEGER REFERENCES programme_levels(id),
+  -- Some facts are true once (finished Level I); some are true again
+  -- each time (defended a capstone). Declared, so a dashboard does not
+  -- have to guess which it is looking at.
+  repeatable        INTEGER NOT NULL DEFAULT 0 CHECK (repeatable IN (0,1)),
+  status            TEXT NOT NULL DEFAULT 'proposed'
+                    CHECK (status IN ('proposed','approved','retired')),
+  approved_by       TEXT REFERENCES users(id),
+  approved_at       TEXT,
+  created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+  CHECK (status != 'approved' OR (approved_by IS NOT NULL AND approved_at IS NOT NULL))
+);
+
+CREATE TABLE learner_milestones (
+  id                TEXT PRIMARY KEY,   -- 'mil_' + uuid
+  user_id           TEXT NOT NULL REFERENCES users(id),
+  definition_id     TEXT NOT NULL REFERENCES milestone_definitions(id),
+  earned_on         TEXT NOT NULL,      -- a date: earning one is a day
+
+  -- THE EVIDENCE THAT EARNED IT, carried on the row rather than
+  -- recomputed. A milestone whose evidence cannot be produced is an
+  -- assertion, and the first time a learner asks "why do I have this"
+  -- the answer must be a row somebody can open.
+  evidence_source   TEXT NOT NULL,
+  evidence_id       TEXT NOT NULL,
+
+  awarded_by        TEXT REFERENCES users(id),  -- NULL = the platform read the fact
+  revoked_at        TEXT,
+  revoked_reason    TEXT,
+  created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+
+  -- The same evidence cannot earn the same milestone twice. This is the
+  -- real integrity rule, and it is stricter than UNIQUE(user, definition)
+  -- where it should be and looser where it should be: a repeatable
+  -- milestone earned from a second capstone is a second fact, and a
+  -- re-run of the awarding sweep over the first one is not.
+  UNIQUE (user_id, definition_id, evidence_id),
+  CHECK (revoked_at IS NULL OR revoked_reason IS NOT NULL)
+);
+CREATE INDEX idx_learner_milestones_user ON learner_milestones(user_id, earned_on DESC);
+CREATE INDEX idx_learner_milestones_definition ON learner_milestones(definition_id);
+
+-- ┌──────────────────────────────────────────────────────────────────┐
+-- │ 8 · ACADEMIC STANDING — computed once, and explicable afterwards  │
+-- └──────────────────────────────────────────────────────────────────┘
+--
+-- The three standings are not invented here. docs/academic-framework.md
+-- names exactly three — In Good Standing, Under Review, Suspended
+-- Progression — and adds the constraint that gives this table its shape:
+-- "No standing removes access to learning. Nothing here expires, locks
+-- or withdraws." So there is no column here that anything could gate on.
+--
+-- STORED, NOT RECOMPUTED, and the reason is not performance. A standing
+-- is a statement the College made about a learner on a date, under a
+-- version of its regulations, from figures that have since moved. Recompute
+-- it on read and last quarter's Under Review silently becomes this
+-- quarter's Good Standing — which is the same fault issued_documents
+-- was built to close, where regenerating a transcript from live data
+-- would make an honest historical document fail verification.
+--
+-- `basis_json` is what makes the stored figure answerable a year later.
+CREATE TABLE academic_standing_reviews (
+  id                TEXT PRIMARY KEY,   -- 'asr_' + uuid
+  user_id           TEXT NOT NULL REFERENCES users(id),
+  enrolment_id      TEXT REFERENCES enrolments(id),
+  level_id          INTEGER NOT NULL REFERENCES programme_levels(id),
+  -- The review point this is the standing AT: '2027-Q1', 'level_midpoint'.
+  -- Named rather than dated so two learners reviewed a week apart under
+  -- the same review are comparable.
+  review_point      TEXT NOT NULL,
+
+  standing          TEXT NOT NULL CHECK (standing IN
+                      ('in_good_standing','under_review','suspended_progression')),
+
+  -- The College publishes honours first and a grade point average
+  -- second. A four-point scale WAS adopted on 20 August 2026 — see
+  -- data/academic-regulations.json § classification — so both columns
+  -- are now written, `grade_scale` holding 'WEC 4.00', by
+  -- functions/_lib/academic/standing.js for a learner who holds an
+  -- award. They stay NULL for everyone else, and that is the whole
+  -- point of them being nullable: a learner the College has certified
+  -- nothing about has no average, and 0.00 would say the opposite.
+  --
+  -- `grade_scale` is required alongside a figure (the CHECK below), so
+  -- a number can never outlive the scale that gives it meaning. This
+  -- comment previously said no scale had been adopted and that both
+  -- columns stayed NULL; that was true when it was written and stopped
+  -- being true the day the scale was adopted.
+  grade_point_average REAL,
+  grade_scale       TEXT,
+
+  -- Proportion of the level's modules completed at the review point,
+  -- 0..1 — the same convention competency_marks and quiz_attempts use,
+  -- so no reader has to ask whether a number is a fraction or a percent.
+  completion        REAL CHECK (completion IS NULL OR (completion >= 0 AND completion <= 1)),
+
+  -- WHICH RULES THIS WAS COMPUTED UNDER. Regulations change; a standing
+  -- that does not say which version it was decided by cannot be defended
+  -- to the learner it was decided about.
+  regulation_version TEXT NOT NULL,
+  -- The counts the standing was read from, frozen. Not a cache of the
+  -- current truth — the record of what was true on the day, exactly as
+  -- issued_documents.payload_json is.
+  basis_json        TEXT NOT NULL,
+
+  computed_at       TEXT NOT NULL,
+  computed_by       TEXT REFERENCES users(id),  -- NULL = the platform
+  -- Why, for anything other than good standing. Under Review "triggers a
+  -- tutorial, not a sanction", and a tutorial nobody can explain the
+  -- reason for is a summons.
+  note              TEXT,
+  created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+
+  UNIQUE (user_id, level_id, review_point),
+  CHECK (grade_point_average IS NULL OR grade_scale IS NOT NULL),
+  CHECK (standing = 'in_good_standing' OR note IS NOT NULL)
+);
+CREATE INDEX idx_academic_standing_user
+  ON academic_standing_reviews(user_id, computed_at DESC);
+-- Everyone who needs reaching, newest first. PARTIAL, because the
+-- overwhelming majority of rows are — and the College should want them
+-- to be — good standing.
+CREATE INDEX idx_academic_standing_attention
+  ON academic_standing_reviews(standing, computed_at DESC)
+  WHERE standing != 'in_good_standing';
+
+-- ┌──────────────────────────────────────────────────────────────────┐
+-- │ 9 · GRADUATION — eligibility, and the list for a ceremony         │
+-- └──────────────────────────────────────────────────────────────────┘
+--
+-- Two tables because they answer to two authorities. Eligibility is an
+-- academic judgement about one learner against one level and is true
+-- whether or not a ceremony is ever held; a graduation list is an
+-- operational roll for one occasion, with names to be read aloud and
+-- seats for guests. Merging them would make a learner's academic
+-- standing depend on whether they could travel.
+--
+-- No ceremony is seeded. None has been scheduled, and a row here would
+-- be a date the College had not committed to.
+CREATE TABLE graduation_ceremonies (
+  id                TEXT PRIMARY KEY,   -- 'gcy_' + uuid
+  code              TEXT NOT NULL UNIQUE,
+  name              TEXT NOT NULL,
+  -- The cycle it belongs to: '2027-spring'. Held separately from the
+  -- date because a ceremony can be moved without becoming a different
+  -- ceremony, and everyone who completed since the last one still
+  -- belongs to this one.
+  cycle             TEXT NOT NULL,
+  held_on           TEXT,               -- NULL until a date is committed to
+  venue             TEXT,
+  mode              TEXT NOT NULL DEFAULT 'undecided'
+                    CHECK (mode IN ('in_person','online','hybrid','undecided')),
+  status            TEXT NOT NULL DEFAULT 'planned'
+                    CHECK (status IN ('planned','open','closed','held','cancelled')),
+  -- When the roll closes. A graduand needs to know the date after which
+  -- their name cannot be added.
+  list_closes_at    TEXT,
+  cancelled_at      TEXT,
+  cancelled_reason  TEXT,
+  created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+
+  CHECK (status != 'held' OR held_on IS NOT NULL),
+  CHECK (status != 'cancelled' OR (cancelled_at IS NOT NULL AND cancelled_reason IS NOT NULL))
+);
+
+CREATE TABLE graduation_eligibility (
+  id                TEXT PRIMARY KEY,   -- 'gel_' + uuid
+  user_id           TEXT NOT NULL REFERENCES users(id),
+  level_id          INTEGER NOT NULL REFERENCES programme_levels(id),
+  enrolment_id      TEXT REFERENCES enrolments(id),
+
+  state             TEXT NOT NULL
+                    CHECK (state IN ('not_eligible','conditional','eligible','conferred')),
+  -- WHAT IS MISSING, required wherever anything is. A learner told only
+  -- "not eligible" cannot become eligible, and an institution that
+  -- cannot say what is outstanding is one nobody can finish at. The same
+  -- rule graduate_profiles applies to a rejected portrait.
+  outstanding       TEXT,
+  -- Set once the award is actually conferred, which is the Graduate
+  -- Register's act and not this table's. The FK means eligibility can
+  -- never claim a conferral the register does not hold.
+  award_id          TEXT REFERENCES awards(id),
+
+  assessed_on       TEXT NOT NULL,
+  assessed_by       TEXT REFERENCES users(id),  -- NULL = the platform's own check
+  regulation_version TEXT NOT NULL,
+  created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+
+  UNIQUE (user_id, level_id),
+  CHECK (state IN ('eligible','conferred') OR outstanding IS NOT NULL),
+  CHECK (state != 'conferred' OR award_id IS NOT NULL)
+);
+CREATE INDEX idx_graduation_eligibility_state ON graduation_eligibility(state, level_id);
+
+CREATE TABLE graduation_list (
+  id                TEXT PRIMARY KEY,   -- 'gls_' + uuid
+  ceremony_id       TEXT NOT NULL REFERENCES graduation_ceremonies(id),
+  user_id           TEXT NOT NULL REFERENCES users(id),
+  -- Keyed to the eligibility record, not merely to the learner: a person
+  -- may graduate at more than one level over the years, and a roll that
+  -- knew only who they were could not say which award was being
+  -- conferred on the day.
+  eligibility_id    TEXT NOT NULL REFERENCES graduation_eligibility(id),
+
+  attendance        TEXT NOT NULL DEFAULT 'undecided'
+                    CHECK (attendance IN ('undecided','in_person','in_absentia','deferred_to_next')),
+  guests            INTEGER NOT NULL DEFAULT 0 CHECK (guests >= 0),
+  -- How the name is to be read aloud. Distinct from awards.holder_name,
+  -- which is what the certificate says: a person may be certificated in
+  -- full and announced by the name they use.
+  name_as_read      TEXT,
+  confirmed_at      TEXT,
+  withdrawn_at      TEXT,
+  withdrawn_reason  TEXT,
+  created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+
+  UNIQUE (ceremony_id, eligibility_id),
+  CHECK (withdrawn_at IS NULL OR withdrawn_reason IS NOT NULL)
+);
+CREATE INDEX idx_graduation_list_ceremony ON graduation_list(ceremony_id, attendance);
+CREATE INDEX idx_graduation_list_user ON graduation_list(user_id);
+
+-- ┌──────────────────────────────────────────────────────────────────┐
+-- │ 10 · SETTINGS AND NOTIFICATION PREFERENCES                        │
+-- └──────────────────────────────────────────────────────────────────┘
+--
+-- Nothing suitable existed. `users` holds a preferred language and
+-- nothing else a learner would recognise as a setting, and
+-- `notification_log` is an outbound record — it says what was sent, and
+-- has never had anything to consult about whether to send it.
+--
+-- One row per person, keyed on user_id with no separate id, following
+-- graduate_profiles exactly: a table that can only ever hold one row per
+-- learner should say so in its primary key rather than needing a unique
+-- index to promise it.
+CREATE TABLE student_settings (
+  user_id           TEXT PRIMARY KEY REFERENCES users(id),
+
+  -- IANA zone. The single most useful setting the platform does not
+  -- have: every live session, tutorial slot and deadline in this
+  -- migration is stored in UTC and read by learners across the Gulf,
+  -- West Africa and the UK, and "10:00" means three different hours to
+  -- them.
+  time_zone         TEXT,
+
+  -- Where to write, when it is not the account address. An account is
+  -- created against whatever address the applicant used; a learner whose
+  -- employer sponsors them may want College mail elsewhere.
+  contact_email     TEXT,
+  contact_phone     TEXT,
+
+  digest            TEXT NOT NULL DEFAULT 'immediate'
+                    CHECK (digest IN ('immediate','daily','weekly','off')),
+  -- Both ends or neither. A quiet period with one end is a rule nothing
+  -- can apply, and the application would have to invent the other half.
+  quiet_hours_start TEXT,
+  quiet_hours_end   TEXT,
+
+  -- The learner's own intention, used to set the pace their engagement
+  -- is described against. Formative, never a commitment they can be held
+  -- to — the same footing measured study time sits on under decision C8.
+  study_days_per_week INTEGER CHECK (study_days_per_week IS NULL
+                        OR (study_days_per_week BETWEEN 1 AND 7)),
+  -- Default 0, opt IN. A sponsor paying the fee has bought tuition, not
+  -- sight of a person's marks, and the graduate profile's visibility
+  -- flags establish that a learner publishes their record deliberately
+  -- or not at all.
+  share_progress_with_sponsor INTEGER NOT NULL DEFAULT 0
+                        CHECK (share_progress_with_sponsor IN (0,1)),
+
+  created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+  updated_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+
+  CHECK ((quiet_hours_start IS NULL) = (quiet_hours_end IS NULL))
+);
+
+-- One decision per person per event type per channel.
+--
+-- THE ABSENCE OF A ROW IS THE DEFAULT, not a refusal. A learner who has
+-- never opened the settings page has no rows here, and the platform
+-- sends what the event catalog says to send. Materialising a row per
+-- learner per event per channel at signup would create thousands of
+-- rows recording that nobody has expressed a preference.
+--
+-- `event_type` carries no CHECK constraint, deliberately, and for the
+-- reason learner_recordings.upload_status carries none: the catalog is
+-- in functions/_lib/notifications/events.js, adding a template is an
+-- ordinary code change, and a constraint here would turn every new
+-- notification into a schema migration — with the certain outcome that
+-- the constraint and the catalog drift and the drift is invisible.
+--
+-- `channel` is restricted to what notification_log can actually record.
+-- A preference for a channel the platform cannot send on is a switch
+-- that does nothing, which is worse than no switch.
+--
+-- NOT EVERY EVENT IS SUPPRESSIBLE. A payment receipt and a decision on
+-- an appeal are things the College owes a person, not marketing it may
+-- withhold at their request. Which events those are belongs to the
+-- catalog, and the sending path — not this table — must refuse to honour
+-- a preference against one.
+CREATE TABLE notification_preferences (
+  id                TEXT PRIMARY KEY,   -- 'nprf_' + uuid
+  user_id           TEXT NOT NULL REFERENCES users(id),
+  event_type        TEXT NOT NULL,
+  channel           TEXT NOT NULL CHECK (channel IN ('email','sms')),
+  allowed           INTEGER NOT NULL CHECK (allowed IN (0,1)),
+  -- When the learner decided. A preference with no date cannot be shown
+  -- to have predated the message somebody complains about.
+  decided_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+  UNIQUE (user_id, event_type, channel)
+);
+-- Created LAST — this is the probe target migration 020 declares, so a
+-- partially applied run is never recorded as complete. See the ordering
+-- note in scripts/migrate.mjs.
+CREATE INDEX idx_notification_preferences_user
+  ON notification_preferences(user_id, event_type);
+
+-- ---------------------------------------------------------------------
+-- THE LEVEL EXAMINATION — sql/migrations/023-level-examination.sql
+-- ---------------------------------------------------------------------
+-- Mirrors that migration exactly. The DDL below and the DDL there are
+-- the same statements; tests/level-examination.test.mjs loads this file
+-- and asserts every table it needs is present, so the two cannot drift
+-- without the build saying so.
+-- ============================================================
+-- WHY THESE TABLES EXIST
+-- ============================================================
+--
+-- data/academic-regulations.json adopts the arithmetic of the award in
+-- full, and functions/_lib/academic/marks.js implements every line of
+-- it. Both have been correct and both have been unreachable, because
+-- the quantity they are written around — the level examination — had no
+-- table anywhere in the schema.
+--
+-- The consequence was not a missing feature. It was an institution
+-- whose every academic answer was null, and docs/platform-capabilities.md
+-- reported the chain in one row:
+--
+--   `levelMark()` is always `examination_not_recorded`; no honour can be
+--   computed; no GPA can grow; graduation reaches `conditional` and
+--   never `eligible`.
+--
+-- Read it forwards: nobody could pass a level. Not because a learner
+-- fell short — because the College had nowhere to write down that they
+-- sat the paper. Six of the eight conditions of the award reported
+-- "recorded nowhere", a transcript could carry no grade point average,
+-- and `graduation_eligibility` could reach `conditional` and stop
+-- there, permanently, for every learner the College will ever have.
+--
+-- Everything below is already published. Not one figure, band, window,
+-- clock or reason in this file was decided here:
+--
+--   /students/examinations/     entry, identity, conduct, interruption,
+--                               lateness, mitigation, release, resits
+--   /academics/tutor-handbook/  the second-marking tolerance, the two
+--                               absolute cases, the third reader
+--   data/academic-regulations.json § level_mark    the six gates
+--
+-- The schema's job here is to be able to hold what the College already
+-- says it does. Where the published rule is a number, the number is in
+-- a CHECK or a comment naming its source; where the published rule is a
+-- judgement, the schema records who made it and when.
+--
+-- ============================================================
+-- THE FOUR DECISIONS THIS SCHEMA MAKES, AND WHY
+-- ============================================================
+--
+-- 1 · A PAPER IS VERSIONED, AND A SITTING POINTS AT A VERSION.
+--
+-- "Marked against a rubric published before the work" is the College's
+-- central claim about every award it confers — it is on /faq/, on
+-- /admissions/, on /academics/ai-policy/, in the tuition itemisation
+-- and in the tutor handbook. A schema where the rubric a script was
+-- marked against can be edited afterwards makes that claim
+-- unverifiable, and an unverifiable claim about marking is the one kind
+-- of claim this College may not carry.
+--
+-- So `examination_papers` carries a version and a `rubric_published_on`
+-- date, criteria hang off the paper rather than off the level, and a
+-- sitting stores `paper_id`. Re-cutting a rubric produces a NEW version
+-- with a new publication date; the sittings already marked keep
+-- pointing at the one they were marked against, and can be re-read
+-- against it years later.
+--
+-- 2 · CRITERIA ARE MARKED AS PERCENTAGES AND CARRY A WEIGHT.
+--
+-- `level.gate.examination_criterion_floor` is published as fifty PER
+-- CENT on each rubric criterion. Marking out of raw points would put a
+-- conversion between the stored mark and the published floor, and a
+-- conversion is a place for the floor to be applied to the wrong
+-- quantity. A criterion is marked 0–100 and carries a weight; the
+-- weights of a paper sum to 1.
+--
+-- 3 · A CRITERION MAY NAME A SKILL, AND THAT IS WHAT MAKES THE FOUR
+--     SKILL SUB-MARKS EXIST AT ALL.
+--
+-- `level.gate.examination_skill_floor` is a floor on "each of the four
+-- skill sub-marks within the examination". That quantity does not
+-- follow from an overall mark; something has to say which criterion
+-- measures which skill. `examination_criteria.skill_id` says so, and
+-- the sub-mark is the weighted mean of the criteria carrying that
+-- skill. A criterion may carry none — an integrated criterion measures
+-- more than one thing and pretending otherwise would file its mark
+-- under a skill it only half measures.
+--
+-- 4 · EVERY MARK IS A MARKER'S MARK. NOTHING IS OVERWRITTEN.
+--
+-- The handbook: "Both original marks stay on the record, so the
+-- committee reads how the standard moved." `examination_marks` is
+-- therefore keyed by (sitting, criterion, ROLE) and a second marker
+-- writing 62 where the first wrote 71 adds a row. The mark that counts
+-- is derived — never stored over the top of the marks that produced it.
+--
+-- ============================================================
+-- WHAT THIS SECTION DELIBERATELY DOES NOT DO
+-- ============================================================
+--
+-- · NO PAPER IS SEEDED. Six levels and no published examination paper
+--   is the true state of the College today, and a seeded paper would
+--   be an academic instrument invented by a migration. A paper is
+--   authored and published by a person through
+--   functions/api/admin/examination-papers.js, and until one exists
+--   every sitting endpoint reports `no_published_paper` by name.
+--
+-- · IT DOES NOT HOLD THE MODERATION SAMPLE. The handbook publishes a
+--   five-part weighted sample and says a batch may be returned for
+--   re-marking while one learner's mark may not be moved alone. That is
+--   a second register about a cohort, not a column on a sitting, and
+--   building half of it here would put a `moderated` flag on a row with
+--   nothing behind it. `provisional` and `moderation_closed_at` record
+--   what the published release rule needs and no more.
+--
+-- · IT INVENTS NO CALENDAR. `window_opens_on` and `window_closes_on`
+--   are stored, not computed, because the ten-working-day window is
+--   published in working days and the College has adopted no academic
+--   calendar — docs/academic-calendar.md and /academics/#academic-year
+--   both say so. addWorkingDays() in functions/_lib/registrar/cases.js
+--   is the one place that counts them, and it counts Monday to Friday
+--   with no holiday table, and says so.
+-- ============================================================
+
+-- ------------------------------------------------------------
+-- The paper — set once, published with a date, never edited after
+-- ------------------------------------------------------------
+CREATE TABLE examination_papers (
+  id                TEXT PRIMARY KEY,   -- 'xpr_' + uuid
+  level_id          INTEGER NOT NULL REFERENCES programme_levels(id),
+  -- Monotonic per level. A re-cut rubric is version 2, not an edit.
+  version           INTEGER NOT NULL CHECK (version >= 1),
+
+  title             TEXT NOT NULL,
+  title_ar          TEXT,
+
+  -- III · CONDUCT: "Every paper states its own conditions first … A
+  -- condition announced afterwards is a rule invented to explain a
+  -- mark." The conditions are the paper's, not the platform's, so they
+  -- are text on the paper and not a settings screen.
+  conditions        TEXT NOT NULL,
+  conditions_ar     TEXT,
+
+  -- Published defaults, overridable per paper because the page states
+  -- them as this paper's conditions rather than as a global rule:
+  --   open book by default            (III · The default)
+  --   three hours from opening        (III · Three hours)
+  --   a spoken component of at least fifteen minutes (II · Fifteen minutes)
+  open_book         INTEGER NOT NULL DEFAULT 1 CHECK (open_book IN (0,1)),
+  duration_minutes  INTEGER NOT NULL DEFAULT 180 CHECK (duration_minutes > 0),
+  spoken_minutes    INTEGER NOT NULL DEFAULT 15 CHECK (spoken_minutes >= 0),
+  -- I · ENTRY: "A level examination window stays open for ten working
+  -- days and you choose your hour inside it."
+  window_working_days INTEGER NOT NULL DEFAULT 10 CHECK (window_working_days > 0),
+
+  -- THE DATE THE WHOLE MARKING CLAIM RESTS ON. Not nullable, and the
+  -- library refuses a sitting whose window opens before it.
+  rubric_published_on TEXT NOT NULL,
+
+  status            TEXT NOT NULL DEFAULT 'draft'
+                    CHECK (status IN ('draft','published','retired')),
+  authored_by       TEXT REFERENCES users(id),
+  published_by      TEXT REFERENCES users(id),
+  published_at      TEXT,
+  retired_at        TEXT,
+
+  -- Which version of the academic regulations composed this paper's
+  -- gates. A paper that cannot say which rules it was cut under cannot
+  -- be defended to a candidate who sat it under those rules.
+  regulation_version TEXT NOT NULL,
+  created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+
+  -- A published paper has been published BY somebody, ON a date. The
+  -- constraint is here rather than in the library because a row that
+  -- says "published" with no hand behind it is exactly the state the
+  -- rubric claim cannot survive.
+  CHECK (status <> 'published' OR (published_at IS NOT NULL AND published_by IS NOT NULL)),
+  UNIQUE (level_id, version)
+);
+
+-- At most one published paper per level, enforced by the database
+-- rather than by the code that reads it. Two published papers for one
+-- level is two rubrics a candidate could be marked against, and which
+-- one they got would depend on a sort order.
+CREATE UNIQUE INDEX idx_examination_papers_published
+  ON examination_papers(level_id) WHERE status = 'published';
+
+-- ------------------------------------------------------------
+-- The rubric — the criteria a script is scored against, one row each
+-- ------------------------------------------------------------
+CREATE TABLE examination_criteria (
+  id                TEXT PRIMARY KEY,   -- 'xcr_' + uuid
+  paper_id          TEXT NOT NULL REFERENCES examination_papers(id),
+  sequence          INTEGER NOT NULL CHECK (sequence >= 1),
+  code              TEXT NOT NULL,
+
+  name              TEXT NOT NULL,
+  name_ar           TEXT,
+  -- IV · SECOND MARKING: "Each criterion is scored on its own
+  -- descriptor, and the score written against the words that earned
+  -- it." The descriptor is not optional, because a criterion with no
+  -- descriptor is an impression with a number on it.
+  descriptor        TEXT NOT NULL,
+  descriptor_ar     TEXT,
+
+  -- Weights across a paper sum to 1.0. Not expressible as a CHECK on a
+  -- single row; asserted by publishPaper() and by
+  -- tests/level-examination.test.mjs.
+  weight            REAL NOT NULL CHECK (weight > 0 AND weight <= 1),
+
+  -- WHAT MAKES THE FOUR SKILL SUB-MARKS EXIST. NULL is a real answer
+  -- and means an integrated criterion — see decision 3 in the header.
+  skill_id          TEXT REFERENCES language_skills(id),
+
+  -- III · The exception: "The spoken components are closed." A criterion
+  -- marked from the spoken paper is flagged, so a paper can be shown to
+  -- carry one and the spoken gate has something to point at.
+  spoken            INTEGER NOT NULL DEFAULT 0 CHECK (spoken IN (0,1)),
+
+  UNIQUE (paper_id, code),
+  UNIQUE (paper_id, sequence)
+);
+CREATE INDEX idx_examination_criteria_paper ON examination_criteria(paper_id, sequence);
+CREATE INDEX idx_examination_criteria_skill ON examination_criteria(skill_id)
+  WHERE skill_id IS NOT NULL;
+
+-- ------------------------------------------------------------
+-- The sitting
+-- ------------------------------------------------------------
+CREATE TABLE level_examinations (
+  id                TEXT PRIMARY KEY,   -- 'lex_' + uuid
+  user_id           TEXT NOT NULL REFERENCES users(id),
+  level_id          INTEGER NOT NULL REFERENCES programme_levels(id),
+  paper_id          TEXT NOT NULL REFERENCES examination_papers(id),
+
+  -- VIII · RESITS: two resits for every summative assessment, so three
+  -- sittings in all. The fourth is refused by the library with the rule
+  -- named; the CHECK is the floor under that refusal.
+  -- THE ORDINAL, NOT THE COUNT, and the CHECK is deliberately only
+  -- that it is a positive whole number.
+  --
+  -- VIII allows two resits, so three SITTINGS THAT COUNT; IV says an
+  -- attempt set aside "is struck from the count of resits". Those are
+  -- different quantities, and this column is the first of them: a
+  -- total, never-reused number for this learner at this level. A
+  -- fourth row after two set-asides is attempt 4 and is still only the
+  -- second COUNTING sitting.
+  --
+  -- The cap therefore cannot live here. A CHECK on the ordinal would
+  -- refuse a candidate their second real attempt because their
+  -- connection dropped twice, which is the opposite of what the
+  -- published rule says. It is enforced against `counts_toward_resits`
+  -- in enterCandidate(), which names the rule in its refusal.
+  attempt           INTEGER NOT NULL CHECK (attempt >= 1),
+  -- IV · INTERRUPTION: an attempt set aside "is struck from the count of
+  -- resits". So the ordinal and the count are different quantities and
+  -- the schema keeps them apart.
+  counts_toward_resits INTEGER NOT NULL DEFAULT 1 CHECK (counts_toward_resits IN (0,1)),
+
+  -- I · ENTRY: the window. Stored rather than computed — see the note on
+  -- the calendar in the header.
+  window_opens_on   TEXT NOT NULL,
+  window_closes_on  TEXT NOT NULL,
+
+  -- II · IDENTITY: "Each attempt is issued a reference you speak before
+  -- a recorded task begins. It ties that recording to that attempt on
+  -- that date." Unique across the College, because a reference that
+  -- repeats ties a recording to two sittings.
+  sitting_reference TEXT NOT NULL UNIQUE,
+
+  -- III · CONDUCT: "A level examination runs for three hours from the
+  -- moment you open it." due_at is opened_at + the paper's duration,
+  -- written at opening so a later edit to a paper cannot move a clock
+  -- that has already run.
+  opened_at         TEXT,
+  due_at            TEXT,
+  submitted_at      TEXT,
+
+  status            TEXT NOT NULL DEFAULT 'entered' CHECK (status IN (
+                      'entered',        -- window issued, paper not opened
+                      'open',           -- clock running
+                      'submitted',      -- with the College, not yet marked
+                      'marking',        -- a first mark exists
+                      'reconciliation', -- two marks diverge; handbook IV
+                      'released',       -- the cohort's mark is out
+                      'set_aside',      -- IV · interruption or an upheld claim
+                      'void'            -- I · the three things that end an attempt
+                    )),
+
+  -- IV · INTERRUPTION. 'learner_election' is the twice-a-level a learner
+  -- takes on their own word; 'panel' is the third and beyond, which the
+  -- mitigating circumstances panel decides. They are separated because
+  -- the published allowance counts one of them and not the other.
+  set_aside_reason  TEXT CHECK (set_aside_reason IS NULL OR set_aside_reason IN
+                      ('learner_election','panel','platform_fault')),
+  set_aside_at      TEXT,
+  set_aside_by      TEXT REFERENCES users(id),
+  set_aside_note    TEXT,
+
+  -- I · ENTRY: "Three things, and only three" end an attempt. The CHECK
+  -- is the published list and nothing else may be written into it.
+  void_reason       TEXT CHECK (void_reason IS NULL OR void_reason IN
+                      ('not_own_work','impersonation','conditions_breach')),
+  void_at           TEXT,
+  void_by           TEXT REFERENCES users(id),
+  void_note         TEXT,
+
+  -- V · DEADLINES, the published four bands. 'on_time' and 'grace' are
+  -- marked in full; 'capped' is marked with the mark capped at the pass
+  -- threshold; 'incomplete' is read and returned and re-sat.
+  lateness          TEXT NOT NULL DEFAULT 'on_time'
+                    CHECK (lateness IN ('on_time','grace','capped','incomplete')),
+  late_working_days INTEGER CHECK (late_working_days IS NULL OR late_working_days >= 0),
+  -- "A cap is lifted in full where an extension was granted or a
+  -- mitigating claim is upheld." Lifting one is a decision by a named
+  -- person, so it carries a hand and a reason or it did not happen.
+  cap_lifted_by     TEXT REFERENCES users(id),
+  cap_lifted_reason TEXT CHECK (cap_lifted_reason IS NULL OR cap_lifted_reason IN
+                      ('extension_granted','mitigation_upheld')),
+  cap_lifted_at     TEXT,
+
+  -- II · IDENTITY and the spoken gate. The recording is the evidence;
+  -- the pass is a person's judgement of it, and the two are separate
+  -- columns because a recording that exists is not a paper that passed.
+  spoken_recording_id TEXT REFERENCES learner_recordings(id),
+  spoken_passed     INTEGER CHECK (spoken_passed IS NULL OR spoken_passed IN (0,1)),
+  spoken_marked_by  TEXT REFERENCES users(id),
+  spoken_marked_at  TEXT,
+
+  -- VII · RESULTS: "Level examination marks go out at one hour rather
+  -- than as each marker finishes", and are "provisional until moderation
+  -- closes on the batch, within five working days of release".
+  --
+  -- released_mark is the figure the learner was actually shown. It is
+  -- stored even though the marks it came from are all still here,
+  -- because a re-mark after release must not silently rewrite what the
+  -- College told somebody on the day.
+  released_at       TEXT,
+  released_mark     REAL CHECK (released_mark IS NULL OR (released_mark >= 0 AND released_mark <= 100)),
+  released_by       TEXT REFERENCES users(id),
+  provisional       INTEGER NOT NULL DEFAULT 1 CHECK (provisional IN (0,1)),
+  moderation_closed_at TEXT,
+
+  regulation_version TEXT NOT NULL,
+  created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+
+  -- A lifted cap carries a hand and a date, or it did not happen.
+  CHECK ((cap_lifted_at IS NULL) = (cap_lifted_by IS NULL)),
+  -- A void or a set-aside carries its reason, and a reason carries its
+  -- state. Neither half reaches the record without the other.
+  CHECK ((status = 'void') = (void_reason IS NOT NULL)),
+  CHECK ((status = 'set_aside') = (set_aside_reason IS NOT NULL)),
+  -- A released sitting has a mark, a date and a hand.
+  CHECK (status <> 'released' OR (released_at IS NOT NULL AND released_mark IS NOT NULL
+                                  AND released_by IS NOT NULL)),
+  UNIQUE (user_id, level_id, attempt)
+);
+CREATE INDEX idx_level_examinations_user ON level_examinations(user_id, level_id, attempt);
+CREATE INDEX idx_level_examinations_status ON level_examinations(status, window_closes_on);
+CREATE INDEX idx_level_examinations_paper ON level_examinations(paper_id);
+
+-- ------------------------------------------------------------
+-- A marker's marks — never overwritten, one row per criterion per role
+-- ------------------------------------------------------------
+CREATE TABLE examination_marks (
+  id                TEXT PRIMARY KEY,   -- 'xmk_' + uuid
+  examination_id    TEXT NOT NULL REFERENCES level_examinations(id),
+  criterion_id      TEXT NOT NULL REFERENCES examination_criteria(id),
+
+  -- IV · SECOND MARKING: two readers, and a third where a reconciliation
+  -- does not settle in two working days, "whose mark stands".
+  marker_role       TEXT NOT NULL CHECK (marker_role IN ('first','second','third')),
+  marker_id         TEXT NOT NULL REFERENCES users(id),
+
+  mark              REAL NOT NULL CHECK (mark >= 0 AND mark <= 100),
+  -- "What the learner did well, the single change that would raise the
+  -- mark most, and how to make it." The comment is the teaching; a mark
+  -- with no comment is a number.
+  comment           TEXT,
+  marked_at         TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+
+  UNIQUE (examination_id, criterion_id, marker_role)
+);
+CREATE INDEX idx_examination_marks_exam ON examination_marks(examination_id, marker_role);
+CREATE INDEX idx_examination_marks_marker ON examination_marks(marker_id, marked_at DESC);
+
+-- ------------------------------------------------------------
+-- Where two readers disagree — the handbook's own procedure, in a row
+-- ------------------------------------------------------------
+-- "Where the two marks fall within three percentage points, the first
+-- stands. Beyond that the markers reconcile in writing. A disagreement
+-- crossing an honours threshold or a skill floor is reconciled whatever
+-- its size … A reconciliation that settles within two working days is
+-- recorded and released. One that does not goes to a third marker,
+-- whose mark stands."
+--
+-- A row exists only where reconciliation was actually required, so the
+-- table is also the register the moderating committee reads: every case
+-- a second marker escalated, with what settled it.
+CREATE TABLE examination_reconciliations (
+  id                TEXT PRIMARY KEY,   -- 'xrc_' + uuid
+  examination_id    TEXT NOT NULL REFERENCES level_examinations(id),
+  -- NULL means the disagreement is on the OVERALL mark rather than on
+  -- one criterion — which is how an honours-threshold crossing arises
+  -- even when no single criterion moved more than three points.
+  criterion_id      TEXT REFERENCES examination_criteria(id),
+
+  first_mark        REAL NOT NULL,
+  second_mark       REAL NOT NULL,
+  divergence        REAL NOT NULL CHECK (divergence >= 0),
+
+  -- The three published triggers, and only those three.
+  trigger_reason    TEXT NOT NULL CHECK (trigger_reason IN
+                      ('tolerance','honour_threshold','skill_floor')),
+
+  opened_at         TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+  -- Two working days from opening. Stored so the clock is the one that
+  -- was running, not one recomputed later against a different calendar.
+  settle_due_on     TEXT NOT NULL,
+
+  -- "The markers reconcile IN WRITING." A settled reconciliation with
+  -- no statement is not a settled reconciliation, and the CHECK says so.
+  settled_at        TEXT,
+  settled_mark      REAL CHECK (settled_mark IS NULL OR (settled_mark >= 0 AND settled_mark <= 100)),
+  settled_by        TEXT REFERENCES users(id),
+  statement         TEXT,
+  -- 'agreed' is the two markers settling it; 'third_marker' is the
+  -- escalation, and then the third marker's mark is the settled mark.
+  settled_how       TEXT CHECK (settled_how IS NULL OR settled_how IN ('agreed','third_marker')),
+  third_marker_id   TEXT REFERENCES users(id),
+
+  CHECK ((settled_at IS NULL) = (settled_mark IS NULL)),
+  CHECK (settled_at IS NULL OR (statement IS NOT NULL AND settled_by IS NOT NULL
+                                AND settled_how IS NOT NULL)),
+  CHECK (settled_how <> 'third_marker' OR third_marker_id IS NOT NULL),
+  UNIQUE (examination_id, criterion_id, trigger_reason)
+);
+CREATE INDEX idx_examination_reconciliations_open
+  ON examination_reconciliations(settle_due_on) WHERE settled_at IS NULL;
+CREATE INDEX idx_examination_reconciliations_exam
+  ON examination_reconciliations(examination_id);
+
+-- ------------------------------------------------------------
+-- The trail
+-- ------------------------------------------------------------
+-- docs/platform-capabilities.md § 10 records the same gap twice, on
+-- announcements and on attendance: a state that can be changed with no
+-- trace, so only the current hand survives. Both are named there as
+-- wanting an events table mirroring `enrolment_events`. This one is
+-- written at the same time as the table it belongs to rather than
+-- being asked for afterwards, because an examination record is the most
+-- consequential thing this College writes about a person and "who moved
+-- this, and when" is not a question it may be unable to answer.
+--
+-- `actor_id` is nullable and a null means the platform did it — a
+-- window that closed, a clock that ran out. The same honesty
+-- enrolment_events carries.
+CREATE TABLE examination_events (
+  id                TEXT PRIMARY KEY,   -- 'xev_' + uuid
+  examination_id    TEXT NOT NULL REFERENCES level_examinations(id),
+  kind              TEXT NOT NULL CHECK (kind IN (
+                      'entered','opened','submitted','marked','second_marked',
+                      'reconciliation_opened','reconciliation_settled','third_marked',
+                      'spoken_marked','released','moderation_closed',
+                      'set_aside','voided','cap_lifted'
+                    )),
+  actor_id          TEXT REFERENCES users(id),
+  note              TEXT,
+  at                TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+);
+CREATE INDEX idx_examination_events_examination
+  ON examination_events(examination_id, at);

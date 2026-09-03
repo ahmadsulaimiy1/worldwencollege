@@ -441,7 +441,7 @@ reader with vestibular sensitivity is not a calmer page but a blank one.
    still review the translated copy before this goes live — particularly
    institutional/legal phrasing on the Tuition and Contact pages. This
    discipline has **not** been extended to the newer authenticated
-   dashboard layer (`/student-portal/preview/*`, `/finance/preview/`) —
+   dashboard layer (`/student-portal/preview/*`, `/staff-finance.html`) —
    those are English-only with no `[dir="rtl"]` build — Executive
    Decision #6 confirms this gap's resolution sequencing explicitly:
    Student Portal Arabic localisation begins once the English Student

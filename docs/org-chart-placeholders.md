@@ -131,7 +131,7 @@ Executive amends it, this file and the seed change together.
 ## What the seed deliberately does not contain
 
 **No appointment history.** `role_events` is empty for every one of
-these accounts, so the History panel on `/admin-enrolments.html` reads
+these accounts, so the History panel on `/staff-enrolments.html` reads
 "no appointments recorded" for all eighteen. That is not an oversight
 and not a gap to fill in. An appointment record answers *who granted
 this access, when, why, and under whose authority* — the exact record

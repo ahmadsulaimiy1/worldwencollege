@@ -1,0 +1,231 @@
+<!--
+  MY DESK — what the College has said to you, and what you have said back.
+
+  EIGHTH AND NINTH IN THE INTERFACE BACKLOG. "Notices addressed to them,
+  and the unread count", and "A thread to their tutors or to the
+  Registrar's desk, and the replies." Both sets of endpoints have existed
+  since the foundation pass with nothing on the site calling them: a
+  learner could be addressed by the Registrar and never be shown it.
+
+  ─────────────────────────────────────────────────────────────────────
+  ONE DESK, TWO REGISTERS
+  ─────────────────────────────────────────────────────────────────────
+  A notice is the College speaking to a room; a thread is two people
+  speaking. They are different acts and they are kept apart on the page,
+  but they arrive at one place, because a learner asking "is anything
+  waiting for me" is asking one question and should not have to ask it
+  twice.
+
+  ─────────────────────────────────────────────────────────────────────
+  NOTHING IS MARKED READ THAT WAS NOT SHOWN
+  ─────────────────────────────────────────────────────────────────────
+  A receipt is written when the learner opens the notice, never when the
+  page loads. On a thread the server sets the watermark to the last
+  message it actually returned, not to the clock, so a message arriving
+  mid-request is still unread. This page does nothing to soften either
+  rule: the badge is the server's count, re-read after every act.
+
+  ─────────────────────────────────────────────────────────────────────
+  THE EDITION IS NAMED
+  ─────────────────────────────────────────────────────────────────────
+  A notice may be published in one language or two. Where the reader's
+  language is not among them the endpoint says so in `fallback`, and the
+  page prints the sentence rather than showing an Arabic notice under an
+  English heading with no explanation.
+
+  Every id and data- attribute below is addressed by js/my-desk.js.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg></p>
+    <p class="masthead__eyebrow">Your correspondence</p>
+    <h1>My Desk</h1>
+    <p class="lede">Every notice the College has addressed to you, and every conversation you have open with your tutors or the Registrar&rsquo;s desk &mdash; in one place, with nothing marked read that you have not been shown.</p>
+    <nav class="rec-nav" aria-label="Learner">
+      <a href="/my-programme.html">My Programme</a>
+      <a href="/my-week.html">My Week</a>
+      <a href="/my-desk.html" aria-current="page">My Desk</a>
+      <a href="/my-examination.html">My Examination</a>
+      <a href="/my-cases.html">My Cases</a>
+      <a href="/my-standing.html">Where I Stand</a>
+      <a href="/my-award.html">My Awards</a>
+      <a href="/my-engagement.html">My Engagement</a>
+      <a href="/my-record.html">My Record</a>
+      <a href="/my-downloads.html">My Files</a>
+      <a href="/my-account.html">My Account</a>
+    </nav>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container">
+    <div class="vfy-wrap app-shell">
+
+      <p class="rec-state state-plate edge-lit edge-lit--light aurum" id="state" aria-live="polite">Loading your desk&hellip;</p>
+
+      <!-- WHAT IS WAITING ---------------------------------------------- -->
+      <!-- Two counts, each the server's own and neither capped by the
+           page size. A badge that reads twenty because the list asked
+           for twenty is a badge that starts lying on the second page. -->
+      <div class="desk-counts" id="secCounts" hidden>
+        <div class="desk-count plate-dark card card--dark edge-lit aurum tilt gold-live">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg></span>
+          <p class="desk-count__num" data-count-notices>&mdash;</p>
+          <p class="desk-count__label" data-count-notices-label>Notices unread</p>
+        </div>
+        <div class="desk-count plate-dark card card--dark edge-lit aurum tilt gold-live">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg></span>
+          <p class="desk-count__num" data-count-threads>&mdash;</p>
+          <p class="desk-count__label" data-count-threads-label>Messages unread</p>
+        </div>
+      </div>
+
+      <!-- NOTICES ------------------------------------------------------ -->
+      <section class="acc-block" id="secNotices" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg> Notices addressed to you</h2>
+          <div class="desk-head__tools">
+            <!-- The account's language is the default and this changes
+                 the reading for one visit only. A learner reading Arabic
+                 who follows an English link to a notice should be able
+                 to read the English of it without changing an account
+                 setting they will then have to change back. -->
+            <label class="desk-lang" for="lang">Read in</label>
+            <select id="lang" data-lang>
+              <option value="en">English</option>
+              <option value="ar">&#1575;&#1604;&#1593;&#1585;&#1576;&#1610;&#1577;</option>
+            </select>
+          </div>
+        </div>
+        <ol class="desk-notices" data-notices></ol>
+        <p class="acc-block__note" data-notices-empty hidden></p>
+      </section>
+
+      <!-- CORRESPONDENCE ----------------------------------------------- -->
+      <section class="acc-block" id="secThreads" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg> Your correspondence</h2>
+          <div class="desk-head__tools">
+            <button type="button" class="btn btn--gold magnetic aurum aurum--twin" data-compose-open>Write to the College</button>
+          </div>
+        </div>
+        <p class="acc-block__note" data-allowance></p>
+        <ul class="desk-threads" data-threads></ul>
+        <p class="acc-block__note" data-threads-empty hidden></p>
+      </section>
+
+      <!-- WRITING ------------------------------------------------------ -->
+      <!-- The recipients are the server's list, not the page's guess. A
+           compose box that offers every level and discovers by refusal
+           which ones have a tutor behind them makes the College look
+           broken at the moment a learner is asking for help. -->
+      <section class="desk-form plate-dark card card--dark edge-lit aurum" id="secCompose" hidden aria-live="polite">
+        <button type="button" class="acc-invoice__close" data-compose-close aria-label="Close">
+          <svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>
+        </button>
+        <p class="acc-invoice__eyebrow">A new conversation</p>
+        <h2>Write to the College</h2>
+        <label class="vfy-label" for="recipient">Who this is for</label>
+        <select id="recipient" data-recipient></select>
+        <p class="desk-form__why" data-recipient-note></p>
+        <label class="vfy-label" for="subject">Subject</label>
+        <input type="text" id="subject" data-subject maxlength="160" autocomplete="off">
+        <label class="vfy-label" for="messageBody">Your message</label>
+        <textarea id="messageBody" rows="6" data-body maxlength="5000"></textarea>
+        <p class="desk-form__count" data-body-count></p>
+        <div class="btn-row">
+          <button type="button" class="btn btn--gold magnetic aurum aurum--twin" data-compose-send>Send</button>
+        </div>
+        <p class="vfy-error" data-compose-error role="alert"></p>
+      </section>
+
+      <!-- ONE THREAD --------------------------------------------------- -->
+      <!-- Opened in place rather than on a second page: a learner
+           reading a reply is usually reading it against the thread
+           beside it, and a route change loses that comparison along
+           with the list they were in. -->
+      <section class="desk-thread plate-dark card card--dark edge-lit aurum" id="secThread" hidden aria-live="polite">
+        <button type="button" class="acc-invoice__close" data-thread-close aria-label="Close">
+          <svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>
+        </button>
+        <p class="acc-invoice__eyebrow" data-thread-scope>&mdash;</p>
+        <h2 data-thread-subject>&mdash;</h2>
+        <p class="desk-thread__parties" data-thread-parties></p>
+        <p class="acc-block__note" data-thread-truncated hidden></p>
+        <ol class="desk-messages" data-messages></ol>
+        <div class="desk-reply" data-reply hidden>
+          <label class="vfy-label" for="replyBody">Your reply</label>
+          <textarea id="replyBody" rows="4" data-reply-body maxlength="5000"></textarea>
+          <div class="btn-row">
+            <button type="button" class="btn btn--gold magnetic aurum aurum--twin" data-reply-send>Send the reply</button>
+          </div>
+        </div>
+        <p class="desk-thread__closed" data-reply-refusal hidden></p>
+        <p class="vfy-error" data-thread-error role="alert"></p>
+      </section>
+
+      <p class="vfy-scope" id="scope" hidden>
+        This desk shows what was addressed to you and what you are party to. A notice sent to another learner is never read out of the database on your request, and a thread you were never added to cannot be reached by guessing its address.
+      </p>
+
+    </div>
+  </div>
+</section>
+
+<section class="leaf section--paper grain" id="about" data-contents="How the desk is kept">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/one-reader.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">I</span>
+      <span class="leaf__label">The rules</span>
+      <p class="leaf__rubric">Four decisions about correspondence, each of them made in the database rather than in the page that draws it.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
+        <h2>Who a notice is for is a question the database answers, not a filter the page applies.</h2>
+      </div>
+      <figure class="diagram diagram--wide diagram--fluid reveal">
+        {{SVG:assets/art/one-reader.svg}}
+        <figcaption class="diagram__caption">
+          <svg class="icon" aria-hidden="true"><use href="#i-portcullis"/></svg>
+          Three gates, one window, one reader &mdash; the whole of the audience test
+        </figcaption>
+      </figure>
+
+      <div class="grid grid--2 grid--close">
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-portcullis"/></svg></span>
+          <h3>A notice you may not see is never loaded</h3>
+          <p>The audience test is part of the query, so a notice addressed to one learner is not read into memory on another learner&rsquo;s request. Nothing is filtered out afterwards, because a filter is a line of code that happens to still be there.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg></span>
+          <h3>The watermark follows the page, not the clock</h3>
+          <p>Opening a thread marks read exactly the messages you were shown. A message that arrives while the thread is loading stays unread and keeps its badge, so nothing is ever marked read on your behalf and then lost.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-language"/></svg></span>
+          <h3>An untranslated notice says so</h3>
+          <p>A notice is published in one language or in two. Where yours is not among them the College names the edition you are being shown, because a notice in the wrong language that does not announce itself is indistinguishable from a broken one.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-accord"/></svg></span>
+          <h3>You write to an office, and the office answers</h3>
+          <p>A learner addresses the tutors of their level or the Registrar&rsquo;s desk. Who staffs that desk is the College&rsquo;s to publish on its own pages; here you are told the desk is reachable, which is what you need to write to it.</p>
+        </div>
+      </div>
+      <div class="callout">
+        <span class="callout__label">Reading a notice is not the cost of losing it</span>
+        <p>Marking a notice read and dismissing it are two separate acts, and the record keeps them apart. A notice you have read stays on this page until you dismiss it, and the first time you opened it is kept as the fact it is rather than being overwritten on every visit.</p>
+      </div>
+    </div>
+  </div>
+</section>

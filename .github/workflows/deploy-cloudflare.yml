@@ -255,8 +255,8 @@ jobs:
         run: node tests/browser/lab-auth.mjs
       - name: Recording upload, end to end
         run: node tests/browser/recording-upload.mjs
-      - name: Enrolment administration
-        run: node tests/browser/admin-enrolments.mjs
+      - name: The staff consoles — the desk, the Registry, the Administration
+        run: node tests/browser/staff-consoles.mjs
       - name: My Programme — the route from signing in to a lesson
         run: node tests/browser/my-programme.mjs
       - name: Award verification — the portal a stranger opens
@@ -267,6 +267,50 @@ jobs:
         run: node tests/browser/graduate.mjs
       - name: My Academic Record — what the learner controls
         run: node tests/browser/my-record.mjs
+      - name: Track your application — the surface a person reaches before they are a learner
+        run: node tests/browser/admissions-track.mjs
+      - name: My Account — the statement of account, and the arithmetic under it
+        run: node tests/browser/my-account.mjs
+      - name: Where I Stand — and that no condition of the College's is charged to the learner
+        run: node tests/browser/my-standing.mjs
+      - name: My Week — times on the account's clock, and a list that agrees with the booking route
+        run: node tests/browser/my-week.mjs
+      - name: My Desk — that a notice addressed to somebody else never reaches the document
+        run: node tests/browser/my-desk.mjs
+      - name: My Cases — the appeal ladder, its clock, and the two acts that are the learner's
+        run: node tests/browser/my-cases.mjs
+      - name: My Engagement — that an empty window is never drawn as a failure
+        run: node tests/browser/my-engagement.mjs
+      - name: My Module — the study surface, and that the allowance is read before it is spent
+        run: node tests/browser/my-module.mjs
+      - name: Paying — the journey from an offer to an open level, and the screen a bank returns to
+        run: node tests/browser/payment-complete.mjs
+      # THREE AUDITS THAT WERE NOT RUNNING ANYWHERE.
+      #
+      # diagram-fit measures the rendered geometry of every plate in the
+      # page that ships it — the only place a label drawn off its own
+      # canvas is visible. It was excluded because it took fourteen
+      # minutes: a fresh page per route, each waiting on a font host
+      # that does not resolve on a build machine. Both fixed, and it
+      # found four escaped labels the first time it ran.
+      #
+      # typography-audit measures the real faces over every text-bearing
+      # element on every route. It was reporting twenty-three runs of
+      # Arabic set in a stack with no Arabic-capable family in it, and a
+      # font token used fifty-four times and declared nowhere, to
+      # nobody.
+      #
+      # An audit that is not in CI is not an audit.
+      #
+      # tests/browser/gallery.mjs is deliberately NOT here. It asserts
+      # nothing — it captures sixty-six screenshots at three widths and
+      # exits 0 whatever they show. It is a tool for looking, and a
+      # ten-minute step that cannot fail is a step that only slows the
+      # pipeline down.
+      - name: Every label inside its own canvas, and no two overlapping
+        run: node tests/browser/diagram-fit.mjs
+      - name: Every run set in a face that can carry it, with leading that clears its ink
+        run: node tests/browser/typography-audit.mjs
 
   deploy:
     needs: verify

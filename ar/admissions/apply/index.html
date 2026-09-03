@@ -11,11 +11,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/brand.css?v=e2db2ede">
-<link rel="stylesheet" href="/css/listening-lab.css?v=e42925a0">
-<link rel="stylesheet" href="/css/dashboard.css?v=fe257965">
-<link rel="stylesheet" href="/css/admissions-wizard.css?v=6fef18fb">
-<link rel="stylesheet" href="/css/arabic.css?v=1c47e5a2">
+<link rel="stylesheet" href="/css/brand.css?v=3dff6ea9">
+<link rel="stylesheet" href="/css/listening-lab.css?v=b02a26f0">
+<link rel="stylesheet" href="/css/dashboard.css?v=2d3038bc">
+<link rel="stylesheet" href="/css/admissions-wizard.css?v=943e59fc">
+<link rel="stylesheet" href="/css/arabic.css?v=8eca8911">
 </head>
 <body class="lab">
 
@@ -37,9 +37,93 @@
 <main class="lab-body" id="main" style="grid-template-columns:minmax(0,1fr)">
 
   <div data-wizard-unavailable hidden>
-    <h2>تسجيل الدخول غير مُفعَّل بعد</h2>
-    <p class="lede">يتطلّب الطلب التدريجي حسابًا مسجَّل الدخول، ونظام الحسابات هذا مبنيّ لكنه غير موصول بعد على هذا النشر. لا شيء معطوب من جانبك &mdash; راسل إدارة القبول مباشرة وسنتابع الأمر معك.</p>
-    <p><a class="btn btn--gold" href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application">راسل إدارة القبول</a></p>
+    <!-- THE APPLICATION ITSELF, NOT A MAILTO.
+         This slot used to say "sign-in is not switched on yet" and hand
+         the visitor a mailto — on the one page the whole site's Apply
+         Now button points at. But POST /api/admissions/apply has always
+         accepted an ANONYMOUS application by design (see the note above
+         optionalUser() in that file), and js/site.js already carries a
+         handler that posts to it and falls back to exactly that mailto
+         if the endpoint cannot be reached. So the form below is strictly
+         better than what it replaces in both worlds: it creates a real,
+         validated record where D1 is bound, and degrades to the same
+         email where it is not.
+         The three selects are lifted from the wizard's own steps, so the
+         two routes cannot come to offer different countries. -->
+    <h2>قدِّم على مقعد</h2>
+    <p class="lede">التقديم المُدرَّج يحفظ تقدّمك بين الزيارات ويحتاج حسابًا. ونظام الحسابات مبنيّ ولم يُوصَل بعد على هذا النشر — فهذا هو الطلب كاملًا في صفحة واحدة بدلًا منه. يصل إلى إدارة القبول بالطريقة نفسها ويُنشئ السجل نفسه.</p>
+
+    <form class="apply-anon" data-admissions-form
+          data-endpoint="/api/admissions/apply"
+          data-fallback-email="info@worldwencollege.co.uk"
+          data-storage-key="wec-lc-apply-anon"
+          data-loading-text="جارٍ الإرسال…"
+          data-error-text="يرجى تصحيح الحقول المميّزة أدناه."
+          data-success-text="وصل طلبك. سترد إدارة القبول على العنوان أعلاه."
+          data-fallback-text="تعذّر الوصول إلى النموذج، فسُلِّمت بياناتك إلى تطبيق البريد لديك جاهزةً للإرسال — اضغط إرسال ولا يضيع شيء."
+          data-retry-label="حاول مرة أخرى" novalidate>
+      <div class="field">
+        <label for="a-name">اسمك الكامل</label>
+        <input id="a-name" name="fullName" type="text" autocomplete="name" required>
+        <p class="field__hint">كما يظهر في جواز سفرك أو وثيقة هويتك الوطنية.</p>
+      </div>
+      <div class="field">
+        <label for="a-email">البريد الإلكتروني</label>
+        <input id="a-email" name="email" type="email" autocomplete="email" required dir="ltr">
+        <p class="field__hint">تكتب الكلية إلى هذا العنوان لا غير.</p>
+      </div>
+      <div class="field">
+        <label for="a-phone">الهاتف (اختياري)</label>
+        <input id="a-phone" name="phone" type="tel" autocomplete="tel" dir="ltr">
+      </div>
+      <div class="field">
+        <label for="a-country">بلد الإقامة</label>
+        <select id="a-country" name="country">
+                <option value="">اختر بلدك</option>
+                <option value="AE">الإمارات العربية المتحدة</option><option value="SA">المملكة العربية السعودية</option>
+                <option value="QA">قطر</option><option value="KW">الكويت</option><option value="BH">البحرين</option>
+                <option value="OM">عُمان</option><option value="EG">مصر</option><option value="JO">الأردن</option>
+                <option value="NG">نيجيريا</option><option value="GH">غانا</option><option value="KE">كينيا</option>
+                <option value="ZA">جنوب أفريقيا</option><option value="PK">باكستان</option><option value="IN">الهند</option>
+                <option value="BD">بنغلاديش</option><option value="ID">إندونيسيا</option><option value="MY">ماليزيا</option>
+                <option value="PH">الفلبين</option><option value="CN">الصين</option><option value="TR">تركيا</option>
+                <option value="GB">المملكة المتحدة</option><option value="US">الولايات المتحدة</option>
+                <option value="FR">فرنسا</option><option value="DE">ألمانيا</option><option value="OTHER">أخرى</option>
+              </select>
+      </div>
+      <div class="field">
+        <label for="a-purpose">فيمَ تريد الإنجليزية</label>
+        <select id="a-purpose" name="purpose">
+                <option value="">اختر السبب</option>
+                <option value="university">مقعد جامعي</option>
+                <option value="career">العمل والمسار المهني</option>
+                <option value="government">الخدمة الحكومية أو الدبلوماسية</option>
+                <option value="examination">آيلتس أو توفل أو كامبريدج</option>
+                <option value="business">الأعمال والتجارة</option>
+                <option value="personal">الإتقان الشخصي</option>
+              </select>
+      </div>
+      <div class="field">
+        <label for="a-start">متى تودّ أن تبدأ</label>
+        <select id="a-start" name="startPreference">
+                <option value="">اختر التوقيت</option>
+                <option value="immediately">فورًا</option>
+                <option value="within_3_months">خلال ثلاثة أشهر</option>
+                <option value="within_6_months">خلال ستة أشهر</option>
+                <option value="undecided">لم أقرّر بعد</option>
+              </select>
+      </div>
+      <div class="field">
+        <label for="a-notes">أي شيء آخر ينبغي أن تعرفه إدارة القبول (اختياري)</label>
+        <textarea id="a-notes" name="notes" rows="3"></textarea>
+      </div>
+      <p class="field__hint" data-level-summary hidden><span data-level-summary-text></span></p>
+      <div class="declaration">
+        <label class="declaration__line"><input type="checkbox" name="isAdult" required> <span>عمري ثمانية عشر عامًا أو أكثر.</span></label>
+        <label class="declaration__line"><input type="checkbox" name="privacyAgreed" required> <span>قرأتُ <a href="/ar/support/privacy/">إشعار الخصوصية</a> وأوافق على أن تحفظ الكلية هذه البيانات لمعالجة طلبي.</span></label>
+      </div>
+      <p><button class="btn btn--gold" type="submit" data-submit-btn><span data-btn-label>أرسل طلبي</span></button></p>
+    </form>
   </div>
 
   <div data-wizard-load-error hidden>
@@ -409,12 +493,18 @@
     <h2>طلبك وصل.</h2>
     <p class="lede">الرقم المرجعي، إن احتجت إلى مراسلة إدارة القبول بشأنه:</p>
     <div class="application-status__id" data-status-id dir="ltr">&mdash;</div>
-    <p data-status-only="submitted">أُرسِل تأكيد إلى بريدك الإلكتروني. تراجع إدارة القبول الطلبات بترتيب وصولها &mdash; لا يوجد موضع في طابور تتحقق منه، بل الرد فقط.</p>
+    <p data-status-only="submitted">احتفظ بالمرجع أعلاه &mdash; فهو المفتاح الوحيد لهذا الطلب، ولن تُفصح الكلية عن حالة طلبٍ لمن لا يحمله. وتراجع إدارة القبول الطلبات بترتيب وصولها، ولك أن تقرأ طلبك كلّه متى شئت في <a href="/ar/admissions/track/">تتبّع طلبك</a>: المرحلة التي هو فيها، وكل حركة جرت عليه، وما بقي منه.</p>
+    <!-- لا تُعرض إلا إذا أبلغت الواجهة البرمجية أن التأكيد خرج فعلًا. -->
+    <p data-confirmation-sent hidden>وأُرسل تأكيد أيضًا إلى بريدك الإلكتروني.</p>
     <p data-status-only="placement_pending" hidden>يجري ترتيب تقييم تحديد مستواك. ستتواصل إدارة القبول عبر البريد الإلكتروني لتحديد موعده.</p>
-    <p data-status-only="offer_sent" hidden>أُرسِل عرض إلى بريدك الإلكتروني. رُدّ هناك لقبوله واستلام فاتورتك.</p>
+    <p data-status-only="offer_sent" hidden>كُتب لك عرض. اقرأ شروطه وأجب عنه &mdash; قبولًا أو رفضًا &mdash; في <a href="/ar/admissions/track/">تتبّع طلبك</a>، بالمرجع أعلاه.</p>
     <p data-status-only="accepted" hidden>عرضك مقبول. يكتمل التسجيل بعد استلام السداد &mdash; راجع بريدك للاطلاع على الفاتورة.</p>
-    <p data-status-only="enrolled" hidden>أنت مسجَّل. <a href="/my-programme.html">اذهب إلى برنامجي ←</a></p>
-    <p class="form-note" style="margin-top:24px"><a href="mailto:info@worldwencollege.co.uk?subject=Application%20Query">راسل إدارة القبول</a> بأي سؤال، مع ذكر الرقم المرجعي أعلاه.</p>
+    <p data-status-only="enrolled" hidden>أنت مسجَّل. <a href="/ar/my-programme.html">اذهب إلى برنامجي ←</a></p>
+    <!-- يأخذ التتبّع الرقم مكتوبًا لا ممرَّرًا في رابط — انظر النسخة الإنجليزية. -->
+    <div class="btn-row" style="margin-top:24px">
+      <a href="/ar/admissions/track/" class="btn btn--gold magnetic aurum aurum--twin">تتبّع هذا الطلب</a>
+    </div>
+    <p class="form-note" style="margin-top:18px"><a href="mailto:info@worldwencollege.co.uk?subject=Application%20Query">راسل إدارة القبول</a> بأي سؤال، مع ذكر الرقم المرجعي أعلاه.</p>
   </div>
 
 </main>
@@ -423,6 +513,10 @@
 <script src="/js/clerk-loader.js?v=0d9cae5a"></script>
 <script src="/js/portal-guard.js?v=6ae6fb6c"></script>
 <script src="/js/api-auth.js?v=a45735fc"></script>
-<script src="/js/admissions-wizard.js?v=23280654"></script>
+<!-- js/site.js carries the [data-admissions-form] handler that posts
+     the anonymous application and falls back to mailto. Without it
+     the form above is a form nothing listens to. -->
+<script src="/js/site.js?v=4332eab8" defer></script>
+<script src="/js/admissions-wizard.js?v=77a55ec0"></script>
 </body>
 </html>

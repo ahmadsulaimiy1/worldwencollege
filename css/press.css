@@ -302,3 +302,448 @@
   .folio { transition: none; }
   .folio:hover { transform: none; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   THE TOME — a book as an object, in six faces
+   ═══════════════════════════════════════════════════════════════════
+   The Library used to represent a 443-page reference volume and a
+   19-page specification with the same 40px row. This draws each one as
+   the object it is: front board, back board, spine, and the three cut
+   edges of the block, assembled in CSS 3D on the measured extent, so a
+   thick book LOOKS thick and a pamphlet looks like a pamphlet before a
+   reader has read a number.
+
+   --spine is set per volume in the markup, in pixels, from the same
+   caliper calculation the printed cover artwork uses. Everything else
+   here is derived from it, so the box cannot come apart: change the
+   one custom property and all six faces follow.
+
+   PERSPECTIVE ON THE STAGE, NOT ON THE BOX. A `perspective` declared
+   on the rotating element itself moves with it, which flattens the
+   figure exactly as it turns — the one moment the depth is meant to
+   read. It belongs on the parent, and the parent does not move.
+   ═══════════════════════════════════════════════════════════════════ */
+.tome {
+  --spine: 24px;
+  --board-w: min(340px, 68vw);
+  --board-h: calc(var(--board-w) * 1.4143);
+  width: var(--board-w);
+  margin-inline: auto;
+}
+.tome__stage {
+  position: relative;
+  width: var(--board-w); height: var(--board-h);
+  perspective: 1900px; perspective-origin: 50% 42%;
+}
+.tome__box {
+  position: absolute; inset: 0;
+  transform-style: preserve-3d;
+  /* The resting attitude: turned far enough that the spine is visible
+     and the front board still reads as the front. A book photographed
+     flat-on is a scan; a book at 22 degrees is a book. */
+  transform: rotateY(-22deg) rotateX(4deg);
+  transition: transform 1.1s var(--ease-premium);
+  will-change: transform;
+}
+.tome__box.is-dragging { transition: none; }
+.tome__face {
+  position: absolute; inset: 0;
+  backface-visibility: hidden;
+  border-radius: 2px 4px 4px 2px;
+  overflow: hidden;
+}
+/* `>`, AND THE CHILD COMBINATOR IS THE WHOLE FIX.
+   Written `.tome__face svg` this rule matched every SVG INSIDE the
+   cover as well as the cover itself — the crest, the frame, the
+   corner fans, the fleuron — and blew each of them up to the full
+   board. On screen the College's crest was drawn three times the size
+   of the title, straight across it, and nothing in the cover file was
+   wrong: the same SVG rendered perfectly on its own. A descendant
+   selector reaching into a drawing is invisible in both the drawing
+   and the stylesheet, and shows up only when you photograph it. */
+.tome__face > svg { width: 100%; height: 100%; display: block; }
+.tome__face--front { transform: translateZ(calc(var(--spine) / 2)); }
+.tome__face--back  { transform: rotateY(180deg) translateZ(calc(var(--spine) / 2)); }
+.tome__face--spine {
+  width: var(--spine); left: 0;
+  transform-origin: left center;
+  transform: rotateY(-90deg) translateX(calc(var(--spine) / -2));
+  border-radius: 3px 0 0 3px;
+}
+/* THE BLOCK — the three cut edges, drawn as paper rather than as a
+   flat fill. A repeating hairline gradient at the leaf pitch reads as
+   a stack of sheets at every size, and it is two declarations rather
+   than an image. */
+.tome__face--fore {
+  width: var(--spine); left: auto; right: 0;
+  transform-origin: right center;
+  transform: rotateY(90deg) translateX(calc(var(--spine) / 2));
+  background:
+    linear-gradient(90deg, rgba(20,30,50,.28), rgba(255,255,255,0) 42%),
+    repeating-linear-gradient(90deg, #F6F1E4 0 1px, #E5DCC8 1px 2px);
+  border-radius: 0 3px 3px 0;
+}
+.tome__face--head, .tome__face--tail {
+  height: var(--spine); inset-block: auto;
+  background:
+    linear-gradient(180deg, rgba(20,30,50,.22), rgba(255,255,255,0) 60%),
+    repeating-linear-gradient(90deg, #F6F1E4 0 1px, #E5DCC8 1px 2px);
+}
+.tome__face--head { top: 0; transform-origin: center top; transform: rotateX(90deg) translateZ(calc(var(--spine) / -2)); }
+.tome__face--tail { bottom: 0; transform-origin: center bottom; transform: rotateX(-90deg) translateZ(calc(var(--spine) / -2)); }
+
+.tome__shadow {
+  position: absolute; left: 6%; right: 6%; bottom: -26px; height: 34px;
+  background: radial-gradient(60% 50% at 50% 50%, rgba(0,0,0,.5), rgba(0,0,0,0) 72%);
+  filter: blur(6px);
+  transform: translateZ(0);
+}
+
+/* The three attitudes the marks below the book select. */
+.tome__box[data-face="front"] { transform: rotateY(-22deg) rotateX(4deg); }
+.tome__box[data-face="spine"] { transform: rotateY(-74deg) rotateX(3deg); }
+.tome__box[data-face="back"]  { transform: rotateY(-201deg) rotateX(4deg); }
+
+.tome__controls {
+  display: flex; justify-content: center; gap: 6px; margin-top: 46px;
+}
+.tome__ctl {
+  min-height: 40px; padding-inline: 16px; border-radius: var(--r-xs);
+  font-family: inherit; font-size: .74rem; font-weight: 600; letter-spacing: .12em;
+  text-transform: uppercase; cursor: pointer;
+  background: rgba(255,255,255,.04); color: rgba(247,244,236,.66);
+  border: 1px solid rgba(199,162,74,.26);
+  transition: color var(--dur-fast) ease, background var(--dur-fast) ease,
+              border-color var(--dur-fast) ease;
+}
+.tome__ctl:hover { color: var(--gold-bright); border-color: rgba(199,162,74,.55); }
+.tome__ctl.is-on {
+  color: var(--royal-deep); background: linear-gradient(180deg, var(--gold-bright), var(--gold));
+  border-color: var(--gold);
+}
+.tome__hint {
+  margin-top: 14px; text-align: center;
+  /* .48 computed to 4.24:1 on navy: under AA for text this size, and
+     this line is the instruction that tells a reader the book can be
+     turned at all. */
+  font-size: .78rem; color: rgba(247,244,236,.62);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   THE VOLUME STAGE — the object on the left, the offer on the right
+   ═══════════════════════════════════════════════════════════════════ */
+.vol {
+  display: grid; grid-template-columns: minmax(0, 0.86fr) minmax(0, 1fr);
+  gap: clamp(32px, 5vw, 74px); align-items: start;
+}
+.vol__object { padding-block: 18px 8px; }
+.vol__panel { padding: clamp(24px, 3vw, 38px); }
+.vol__access {
+  display: flex; gap: 16px; align-items: flex-start;
+  padding-bottom: 22px; margin-bottom: 22px;
+  border-bottom: 1px solid rgba(199,162,74,.22);
+}
+.vol__access .badge-dome { flex: 0 0 auto; margin-bottom: 0; }
+.vol__accessh {
+  font-family: var(--font-display); font-size: 1.1rem; letter-spacing: .01em;
+  color: var(--gold-bright); margin-bottom: 4px;
+}
+.vol__access p { font-size: .92rem; color: rgba(247,244,236,.74); margin: 0; }
+.vol__access--held .vol__accessh { color: var(--gold-soft); }
+.vol__acts { display: flex; flex-wrap: wrap; gap: 12px; }
+.vol__act { justify-content: center; }
+.vol__size {
+  font-size: .74rem; letter-spacing: .08em; opacity: .7;
+  margin-inline-start: .6em; font-variant-numeric: tabular-nums;
+}
+.vol__readhint {
+  margin-top: 12px; font-size: .78rem; color: rgba(247,244,236,.46);
+}
+.vol__save[aria-pressed="true"] { color: var(--gold-bright); border-color: var(--gold); }
+/* `.vol__panel .vol__spech`, because `.section--dark h2` is one class
+   and one type and beats a bare class. The heading was setting at
+   41.6px of display face where 11.5px of letterspaced Inter was
+   wanted, which is the same cascade fault the footer's
+   classifications shipped with. */
+.vol__panel .vol__spech {
+  margin-top: 34px; margin-bottom: 14px;
+  font-size: .72rem; letter-spacing: .2em; text-transform: uppercase;
+  font-weight: 700; color: rgba(247,244,236,.5); font-family: var(--font-body);
+}
+.vol__spec { display: grid; gap: 0; }
+.vol__specrow {
+  display: grid; grid-template-columns: minmax(96px, 30%) 1fr; gap: 16px;
+  padding: 11px 0; border-top: 1px solid rgba(255,255,255,.07);
+  font-size: .9rem;
+}
+.vol__specrow dt { color: rgba(247,244,236,.5); font-weight: 600; }
+.vol__specrow dd { margin: 0; color: rgba(247,244,236,.86); }
+.volhero__under {
+  margin-top: -6px; margin-bottom: 16px;
+  font-size: .8rem; letter-spacing: .22em; text-transform: uppercase;
+  font-weight: 600; color: var(--gold-soft);
+}
+@media (max-width: 900px) {
+  .vol { grid-template-columns: 1fr; }
+  .vol__object { justify-self: center; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   THE FLIP — real pages, turned
+   ═══════════════════════════════════════════════════════════════════
+   Eight images stacked on one another, the current one flat and the
+   others folded back on the spine at the left edge. Turning a page is
+   a rotateY on the leaf itself, so the animation is the paper moving
+   rather than a crossfade pretending to be paper.
+
+   The block behind the leaves is the same repeating hairline gradient
+   the tome's fore edge uses, so the two components read as the same
+   material. Without it the last page turns to reveal nothing, which is
+   the moment a page-flip stops looking like a book.
+   ═══════════════════════════════════════════════════════════════════ */
+.flip { --leaf-w: min(460px, 100%); }
+.flip__book {
+  position: relative; width: var(--leaf-w); margin-inline: auto;
+  aspect-ratio: 210 / 297;
+  perspective: 2200px; perspective-origin: 0% 50%;
+}
+.flip__block {
+  position: absolute; inset: 0 -10px -8px 0;
+  border-radius: 2px 5px 5px 2px;
+  background:
+    linear-gradient(90deg, rgba(20,30,50,.2), rgba(255,255,255,0) 30%),
+    repeating-linear-gradient(90deg, #F6F1E4 0 1px, #E3D9C4 1px 2px);
+  box-shadow: 0 26px 54px -20px rgba(10,20,40,.55);
+}
+.flip__leaf {
+  position: absolute; inset: 0; margin: 0;
+  transform-origin: left center;
+  transform: rotateY(-178deg);
+  transform-style: preserve-3d;
+  transition: transform .78s var(--ease-premium), opacity .3s ease;
+  backface-visibility: hidden;
+  background: #fff;
+  border-radius: 2px 4px 4px 2px;
+  overflow: hidden;
+  box-shadow: 0 18px 40px -18px rgba(10,20,40,.5), inset 1px 0 0 rgba(10,20,40,.1);
+  opacity: 0; pointer-events: none;
+}
+.flip__leaf.is-current { transform: rotateY(0deg); opacity: 1; pointer-events: auto; }
+.flip__leaf.is-turned { transform: rotateY(-178deg); opacity: 0; }
+.flip__leaf img { width: 100%; height: 100%; object-fit: contain; display: block; background: #fff; }
+.flip__leaf figcaption {
+  position: absolute; inset-inline: 0; bottom: 0;
+  padding: 8px 12px; text-align: center;
+  font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; font-weight: 700;
+  color: var(--slate); background: linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,.94) 55%);
+}
+.flip__bar {
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+  margin-top: 34px; flex-wrap: wrap;
+}
+.flip__nav {
+  width: 44px; height: 44px; border-radius: 50%; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: none; border: 1px solid var(--rule);
+  color: var(--bronze);
+  transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease, color var(--dur-fast) ease;
+}
+.flip__nav:hover { border-color: var(--gold); background: rgba(199,162,74,.1); color: var(--ink); }
+.flip__nav[data-flip-prev] .icon { transform: rotate(180deg); }
+[dir="rtl"] .flip__nav[data-flip-prev] .icon { transform: none; }
+[dir="rtl"] .flip__nav[data-flip-next] .icon { transform: rotate(180deg); }
+.flip__dots { display: flex; gap: 6px; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; justify-content: center; }
+.flip__dots button {
+  min-width: 34px; min-height: 34px; border-radius: var(--r-xs); cursor: pointer;
+  background: none; border: 1px solid transparent; color: var(--slate);
+  font-family: inherit; font-size: .74rem; font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  transition: color var(--dur-fast) ease, border-color var(--dur-fast) ease;
+}
+.flip__dots button:hover { color: var(--ink); border-color: var(--rule); }
+.flip__dots button[aria-selected="true"] { color: var(--bronze); border-color: var(--gold); }
+
+/* ═══════════════════════════════════════════════════════════════════
+   RELATED VOLUMES
+   ═══════════════════════════════════════════════════════════════════ */
+.relgrid {
+  display: grid; gap: 22px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+}
+.relcard {
+  display: grid; grid-template-columns: 84px 1fr; gap: 18px; align-items: center;
+  padding: 20px; text-decoration: none;
+}
+.relcard__cover { display: block; line-height: 0; }
+.relcard__cover > svg {
+  width: 84px; height: auto; display: block; border-radius: 1px 3px 3px 1px;
+  box-shadow: 0 12px 26px -10px rgba(0,0,0,.6), 1px 0 0 rgba(255,255,255,.08);
+}
+.relcard__body { display: grid; gap: 5px; min-width: 0; }
+.relcard__series {
+  font-size: .64rem; letter-spacing: .18em; text-transform: uppercase;
+  font-weight: 700; color: rgba(247,244,236,.44);
+}
+.relcard__title {
+  font-family: var(--font-display); font-size: 1.02rem; line-height: 1.25;
+  color: var(--warm-white);
+}
+.relcard__meta { font-size: .78rem; color: rgba(247,244,236,.56); }
+
+/* ═══════════════════════════════════════════════════════════════════
+   REDUCED MOTION — every carve-out lands on the FINISHED state
+   ═══════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .tome__box, .flip__leaf { transition: none; }
+  /* The turned leaves stay hidden and the current one stays flat and
+     visible: the finished state of the flip, not a half-drawn one. */
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   THE BOOKCASE — five shelves, sixteen objects
+   ═══════════════════════════════════════════════════════════════════
+   A book on a shelf presents its spine. That is the whole reason a
+   spine carries a title, and it is why a "bookshelf" of face-on
+   rectangles reads as a shop display rather than as a library.
+
+   So each volume stands turned away — spine to the reader, front board
+   raked back — and comes round to face you when it is pointed at or
+   focused, lifting off the plank as it turns. The rake is a per-book
+   custom property with a deterministic value from the volume's index,
+   so the row has the slight unevenness of a shelf somebody uses
+   without any two books ever swapping places between page loads.
+
+   --spine is the measured extent, exactly as on the publication page,
+   so the reference curriculum is visibly four times the thickness of
+   the specification. That is the fact the old text list could not
+   show.
+   ═══════════════════════════════════════════════════════════════════ */
+.bookcase { display: grid; gap: 54px; }
+.stack { position: relative; }
+.stack__shelfname {
+  font-size: .68rem; letter-spacing: .22em; text-transform: uppercase;
+  /* 4.01:1 at .46. The shelf's name is how a reader knows which shelf
+     they are looking at. */
+  font-weight: 700; color: rgba(247,244,236,.62); margin-bottom: 20px;
+}
+.stack__row {
+  display: flex; align-items: flex-end; gap: clamp(24px, 3.4vw, 48px);
+  flex-wrap: wrap;
+  perspective: 1800px; perspective-origin: 50% 70%;
+  padding-bottom: 14px;
+}
+/* THE PLANK. A hairline of brass over a soft shadow, not a wood
+   texture: the College's material vocabulary is metal and paper, and a
+   photographic timber would be the one imported material on the site. */
+.stack__plank {
+  display: block; height: 3px; border-radius: 2px;
+  background: linear-gradient(90deg,
+    rgba(199,162,74,0), rgba(199,162,74,.55) 8%, rgba(243,227,179,.75) 50%,
+    rgba(199,162,74,.55) 92%, rgba(199,162,74,0));
+  box-shadow: 0 10px 26px -8px rgba(0,0,0,.7);
+}
+.stack__book {
+  --spine: 24px; --lean: 0deg;
+  position: relative; display: block; text-decoration: none;
+  width: 150px; flex: 0 0 auto;
+}
+.stack__obj {
+  position: relative; display: block;
+  width: 150px; height: 212px;
+  transform-style: preserve-3d;
+  /* -38 degrees, not -64. At the steeper angle the front board
+     compressed to 62% of its width and the livery — which is the one
+     thing a shelf is meant to tell you at a glance — stopped reading.
+     At -38 the board keeps 79% of itself and the spine is still
+     plainly there, which is what a book on a shelf actually looks
+     like from a few feet away. */
+  /* POSITIVE, so the SPINE comes forward and the fore edge goes away.
+     Negative turns the right-hand board toward the reader, which shows
+     the cut edges of the paper and hides the one face a book on a
+     shelf is meant to present. Rendered, that reads as sixteen books
+     shelved back-to-front. */
+  transform: rotateY(38deg) rotateZ(var(--lean)) translateZ(0);
+  transform-origin: 88% 100%;
+  transition: transform .62s var(--ease-premium), filter .62s ease;
+  filter: brightness(.93);
+}
+.stack__book:hover .stack__obj,
+.stack__book:focus-visible .stack__obj {
+  transform: rotateY(8deg) rotateZ(0deg) translateY(-16px) scale(1.07);
+  filter: brightness(1.06) drop-shadow(0 26px 34px rgba(0,0,0,.6));
+}
+.stack__face { position: absolute; inset: 0; overflow: hidden; border-radius: 1px 3px 3px 1px; }
+.stack__face > svg { width: 100%; height: 100%; display: block; }
+.stack__face--front { transform: translateZ(calc(var(--spine) / 2)); }
+.stack__face--spine {
+  width: var(--spine);
+  transform-origin: left center;
+  transform: rotateY(-90deg) translateX(calc(var(--spine) / -2));
+  border-radius: 2px 0 0 2px;
+}
+.stack__block {
+  position: absolute; inset: 0 0 0 auto; width: var(--spine);
+  transform-origin: right center;
+  transform: rotateY(90deg) translateX(calc(var(--spine) / 2));
+  background: repeating-linear-gradient(90deg, #F1EADB 0 1px, #DDD2BB 1px 2px);
+  border-radius: 0 2px 2px 0;
+}
+/* The label is never wider than the book it names. It was 190px over
+   a 132px board, so on a full shelf every caption ran under its
+   neighbour's spine. */
+.stack__label { display: block; margin-top: 22px; max-width: 168px; }
+.stack__label > p { margin: 0; }
+.stack__title {
+  display: block; font-family: var(--font-display); font-size: .95rem; line-height: 1.28;
+  color: var(--warm-white);
+}
+.stack__under {
+  display: block; margin-top: 2px !important;
+  font-size: .64rem; letter-spacing: .16em; text-transform: uppercase;
+  /* 3.38:1 at .4 — and this is the line that says whether a volume is
+     the reference edition or a reading copy. */
+  font-weight: 700; color: rgba(247,244,236,.62);
+}
+.stack__meta {
+  display: block; margin-top: 7px !important; font-size: .76rem; color: rgba(247,244,236,.55);
+  font-variant-numeric: tabular-nums;
+}
+.stack__state {
+  display: inline-block; margin-inline-start: .5em; padding: 1px 8px;
+  border-radius: 999px; font-size: .64rem; letter-spacing: .1em;
+  text-transform: uppercase; font-weight: 700;
+  color: var(--gold-soft); border: 1px solid rgba(199,162,74,.4);
+}
+.stack__state--held { color: #8FD3B0; border-color: rgba(143,211,176,.4); }
+.stack__book:hover .stack__title { color: var(--gold-bright); }
+
+.yours { margin-top: 46px; padding: 26px 28px; }
+.yours h3 { margin-bottom: 8px; }
+.yours__count {
+  display: inline-block; min-width: 26px; padding: 1px 8px; margin-inline-start: .4em;
+  border-radius: 999px; background: var(--gold); color: var(--royal-deep);
+  font-size: .8rem; font-weight: 800; vertical-align: middle;
+}
+.btn__meta {
+  display: block; margin-top: 3px;
+  font-size: .68rem; letter-spacing: .1em; font-weight: 600; opacity: .72;
+  text-transform: none;
+}
+.btn--gold .btn__meta { color: rgba(20,38,74,.72); }
+
+@media (max-width: 620px) {
+  .stack__book, .stack__obj { width: 116px; }
+  .stack__obj { height: 164px; }
+  .stack__label { max-width: 134px; }
+  .stack__row { gap: 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  /* The finished state, and the finished state here is the book turned
+     far enough to read its front board — never the raked-away resting
+     pose, which a reader who cannot trigger the turn would be stuck
+     with. */
+  .stack__obj { transition: none; transform: rotateY(16deg); filter: none; }
+  .stack__book:hover .stack__obj, .stack__book:focus-visible .stack__obj {
+    transform: rotateY(16deg); filter: none;
+  }
+}

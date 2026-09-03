@@ -1,0 +1,624 @@
+{
+  "_": [
+    "THE REGISTER OF INSTRUMENTS — every rule this College operates under,",
+    "in one file, with the authority behind each one.",
+    "",
+    "WHAT FAULT THIS FILE CORRECTS. The College publishes twenty-four",
+    "instruments — regulations, handbooks, codes, procedures, policies and",
+    "statements — across six pillars, in both editions. They are individually good and",
+    "collectively invisible: there was no page on which a reader, a",
+    "reviewer or a learner could see the whole framework at once, and no",
+    "way to answer the first question any panel asks, which is not 'what is",
+    "your policy on X' but 'what are your instruments, and on whose",
+    "authority does each one stand'.",
+    "",
+    "/governance/evidence/ names a 'Policy Register' as one of its",
+    "twenty-three evidence collections. Nothing published it. This is it.",
+    "",
+    "WHAT THIS FILE HOLDS, AND WHAT IT REFUSES TO HOLD. Every field below",
+    "is harvested from something already published — the instrument's own",
+    "page, the Decisions Register, data/academic-regulations.json or",
+    "data/institution.json — and the harvest is the point. Seventeen of the",
+    "twenty-four do not state a date of adoption. This file does not supply",
+    "one. `adopted_on` is null where the College has not minuted a date,",
+    "and the register prints the authority without a date rather than a",
+    "date without a minute. A register that invents the very facts it",
+    "exists to record is worse than no register.",
+    "",
+    "WHO OWNS WHAT. `owner` is the body that owns the SUBJECT MATTER, from",
+    "the seven articles published at /governance/#instrument: Article I",
+    "gives the academic standard and the framework beneath it to the Board",
+    "of Governors; Article II gives academic judgement to the Senate; the",
+    "Executive runs daily operation under policy set by the Board.",
+    "`adopted_by` is the body that actually adopted the text, which is the",
+    "Executive throughout, because it is the only one of the three that has",
+    "met. Where the two differ the register says so, and where an academic",
+    "instrument awaits Senate ratification `ratifies` names the body that",
+    "owes the ratification.",
+    "",
+    "tests/instruments.test.mjs fails the build if an instrument here has",
+    "no route in pages/manifest.json, if a regulation page exists that this",
+    "register does not name, if an adoption date precedes the College's",
+    "own founding, or if an authority is named that /governance/ does not."
+  ],
+  "register": {
+    "id": "wec.instruments",
+    "version": "1.0.0",
+    "kept_by": {
+      "en": "The Registrar",
+      "ar": "أمانة السجل"
+    },
+    "compiled_on": "2026-08-23",
+    "title": {
+      "en": "The Register of Instruments",
+      "ar": "سجلّ الأدوات النظامية"
+    },
+    "sittings": [
+      {
+        "on": "2026-08-04",
+        "by": "executive",
+        "decisions": 5
+      },
+      {
+        "on": "2026-08-14",
+        "by": "executive",
+        "decisions": 25
+      },
+      {
+        "on": "2026-08-17",
+        "by": "executive",
+        "decisions": 2
+      }
+    ]
+  },
+  "authorities": {
+    "board": {
+      "article": "I",
+      "en": {
+        "name": "The Board of Governors",
+        "holds": "Owns the academic standard and the framework beneath it. No member of the Executive may alter either."
+      },
+      "ar": {
+        "name": "مجلس الأمناء",
+        "holds": "يملك المعيار الأكاديمي والإطار الذي تحته. ولا يجوز لأيّ عضو في الإدارة التنفيذية تعديل أيٍّ منهما."
+      }
+    },
+    "senate": {
+      "article": "II",
+      "en": {
+        "name": "The Academic Senate",
+        "holds": "Academic judgement — marks, progression and awards. They may not be overturned on administrative or commercial grounds."
+      },
+      "ar": {
+        "name": "المجلس الأكاديمي",
+        "holds": "الحكم الأكاديمي — الدرجات والترقّي والشهادات. ولا تُنقَض لأسباب إدارية أو تجارية."
+      }
+    },
+    "executive": {
+      "article": null,
+      "en": {
+        "name": "The College Executive",
+        "holds": "Daily operation, under policy set by the Board. It is the College's constituted decision-making authority, and every instrument in this register was adopted by it."
+      },
+      "ar": {
+        "name": "الإدارة التنفيذية للكلية",
+        "holds": "التشغيل اليومي وفق السياسة التي يضعها المجلس. وهي سلطة القرار المكوَّنة في الكلية، وبها اعتُمدت كلّ أداة في هذا السجل."
+      }
+    },
+    "commission": {
+      "article": null,
+      "en": {
+        "name": "The Institutional Quality Commission",
+        "holds": "Academic quality, institutional effectiveness and the review cycle. It recommends; the Executive adopts."
+      },
+      "ar": {
+        "name": "هيئة الجودة المؤسسية",
+        "holds": "الجودة الأكاديمية والفاعلية المؤسسية ودورة المراجعة. توصي، والإدارة التنفيذية تعتمد."
+      }
+    }
+  },
+  "instruments": [
+    {
+      "id": "academic-regulations",
+      "kind": "regulation",
+      "route": "/students/regulations/",
+      "owner": "board",
+      "adopted_by": "executive",
+      "adopted_on": "2026-08-20",
+      "adopted_note": null,
+      "ratifies": "senate",
+      "decisions": [
+        "B1",
+        "B2",
+        "B3",
+        "B4",
+        "B5",
+        "E2"
+      ],
+      "source": "data/academic-regulations.json",
+      "en": {
+        "title": "Academic Regulations",
+        "governs": "The arithmetic of the award: the marking scale, what composes a module and a level mark, progression, classification, and the three stages of appeal."
+      },
+      "ar": {
+        "title": "اللوائح الأكاديمية",
+        "governs": "حساب الشهادة: سلّم الدرجات، وما تتركّب منه درجة الوحدة ودرجة المستوى، والترقّي، والتصنيف، ومراحل التظلّم الثلاث."
+      }
+    },
+    {
+      "id": "examinations",
+      "kind": "regulation",
+      "route": "/students/examinations/",
+      "owner": "board",
+      "adopted_by": "executive",
+      "adopted_on": "2026-08-20",
+      "adopted_note": null,
+      "ratifies": "senate",
+      "decisions": [],
+      "source": null,
+      "en": {
+        "title": "Examination & Assessment Regulations",
+        "governs": "How an assessment is set, sat, marked and second-marked; the conduct of an examination and what happens when one is missed."
+      },
+      "ar": {
+        "title": "لوائح الامتحانات والتقييم",
+        "governs": "كيف يُوضع التقييم ويُجلَس له ويُصحَّح ويُراجَع؛ وسير الامتحان، وما يجري عند التخلّف عنه."
+      }
+    },
+    {
+      "id": "assessment",
+      "kind": "framework",
+      "route": "/students/assessment/",
+      "owner": "board",
+      "adopted_by": "executive",
+      "adopted_on": "2026-08-14",
+      "adopted_note": null,
+      "ratifies": "senate",
+      "decisions": [],
+      "source": null,
+      "en": {
+        "title": "How You Are Assessed",
+        "governs": "The award standard in the learner's own words: four skills marked apart, criteria published before the work, and what a mark does and does not mean."
+      },
+      "ar": {
+        "title": "كيف تُقوَّم",
+        "governs": "معيار الشهادة بلغة المتعلّم: أربع مهارات تُصحَّح منفصلة، ومعايير تُنشر قبل العمل، وما تعنيه الدرجة وما لا تعنيه."
+      }
+    },
+    {
+      "id": "awards",
+      "kind": "framework",
+      "route": "/students/awards/",
+      "owner": "board",
+      "adopted_by": "executive",
+      "adopted_on": "2026-08-14",
+      "adopted_note": null,
+      "ratifies": "senate",
+      "decisions": [
+        "C1",
+        "C2",
+        "C4",
+        "C5"
+      ],
+      "source": null,
+      "en": {
+        "title": "Awards & Honours",
+        "governs": "The five ranks, their thresholds, and the awards conferred at each of the six levels."
+      },
+      "ar": {
+        "title": "الشهادات والمراتب",
+        "governs": "المراتب الخمس وعتباتها، والشهادات الممنوحة في المستويات الستة."
+      }
+    },
+    {
+      "id": "integrity",
+      "kind": "code",
+      "route": "/students/integrity/",
+      "owner": "board",
+      "adopted_by": "executive",
+      "adopted_on": "2026-08-14",
+      "adopted_note": null,
+      "ratifies": "senate",
+      "decisions": [
+        "C9"
+      ],
+      "source": null,
+      "en": {
+        "title": "Academic Integrity",
+        "governs": "What misconduct is, how it is investigated, the right of reply before any finding, and the range of outcomes."
+      },
+      "ar": {
+        "title": "النزاهة الأكاديمية",
+        "governs": "ما هو سوء السلوك، وكيف يُحقَّق فيه، وحقّ الردّ قبل أيّ قرار، ومدى العقوبات."
+      }
+    },
+    {
+      "id": "conduct",
+      "kind": "code",
+      "route": "/students/conduct/",
+      "owner": "executive",
+      "adopted_by": "executive",
+      "adopted_on": null,
+      "adopted_note": null,
+      "ratifies": null,
+      "decisions": [],
+      "source": null,
+      "en": {
+        "title": "Conduct & Learner Rights",
+        "governs": "What the College owes a learner and what it asks of them, and the rights that hold while any procedure runs."
+      },
+      "ar": {
+        "title": "السلوك وحقوق المتعلّم",
+        "governs": "ما تدين به الكلية للمتعلّم وما تطلبه منه، والحقوق القائمة ما دام أيّ إجراء جاريًا."
+      }
+    },
+    {
+      "id": "student-handbook",
+      "kind": "handbook",
+      "route": "/students/handbook/",
+      "owner": "executive",
+      "adopted_by": "executive",
+      "adopted_on": null,
+      "adopted_note": null,
+      "ratifies": null,
+      "decisions": [],
+      "source": null,
+      "en": {
+        "title": "The Student Handbook",
+        "governs": "Everything a learner is governed by and entitled to, gathered in one document and cross-referenced to the instrument behind each part."
+      },
+      "ar": {
+        "title": "دليل الطالب",
+        "governs": "كلّ ما يحكم المتعلّم وما يستحقّه، مجموعًا في وثيقة واحدة، مُحالًا في كلّ جزء إلى الأداة التي تحكمه."
+      }
+    },
+    {
+      "id": "tutor-handbook",
+      "kind": "handbook",
+      "route": "/academics/tutor-handbook/",
+      "owner": "executive",
+      "adopted_by": "executive",
+      "adopted_on": null,
+      "adopted_note": null,
+      "ratifies": null,
+      "decisions": [],
+      "source": null,
+      "en": {
+        "title": "The Tutor Handbook",
+        "governs": "What a tutor of this College is appointed to do: the marking obligation, the response window, the observation cycle and the standard held to."
+      },
+      "ar": {
+        "title": "دليل المدرّس",
+        "governs": "ما يُعيَّن له مدرّس هذه الكلية: واجب التصحيح، ومدّة الردّ، ودورة الملاحظة الصفّية، والمعيار المُلزَم به."
+      }
+    },
+    {
+      "id": "quality-manual",
+      "kind": "manual",
+      "route": "/governance/quality-manual/",
+      "owner": "executive",
+      "adopted_by": "executive",
+      "adopted_on": null,
+      "adopted_note": "commission",
+      "ratifies": null,
+      "decisions": [],
+      "source": "data/institution.json",
+      "en": {
+        "title": "The Quality Assurance Manual",
+        "governs": "Ten leaves, and every station in them carries a month, an owner and a deadline."
+      },
+      "ar": {
+        "title": "دليل ضمان الجودة",
+        "governs": "عشر ورقات، وكلّ محطّة فيها تحمل شهرًا ومسؤولًا وموعدًا نهائيًّا."
+      }
+    },
+    {
+      "id": "quality-architecture",
+      "kind": "framework",
+      "route": "/governance/quality/",
+      "owner": "executive",
+      "adopted_by": "executive",
+      "adopted_on": "2026-08-18",
+      "adopted_note": null,
+      "ratifies": null,
+      "decisions": [],
+      "source": "data/institution.json",
+      "en": {
+        "title": "The Quality Architecture",
+        "governs": "The bodies, the councils and the review cycle: what is checked, by whom, and how often."
+      },
+      "ar": {
+        "title": "معمار الجودة",
+        "governs": "الهيئات والمجالس ودورة المراجعة: ما يُفحَص، ومن يفحصه، وكم مرّة."
+      }
+    },
+    {
+      "id": "intellectual-property",
+      "kind": "policy",
+      "route": "/governance/intellectual-property/",
+      "owner": "executive",
+      "adopted_by": "executive",
+      "adopted_on": null,
+      "adopted_note": null,
+      "ratifies": null,
+      "decisions": [],
+      "source": null,
+      "en": {
+        "title": "Intellectual Property",
+        "governs": "Who owns what a learner writes, what a tutor produces and what the College publishes, and the licence each carries."
+      },
+      "ar": {
+        "title": "الملكية الفكرية",
+        "governs": "من يملك ما يكتبه المتعلّم، وما ينتجه المدرّس، وما تنشره الكلية، والرخصة التي يحملها كلٌّ منها."
+      }
+    },
+    {
+      "id": "research",
+      "kind": "policy",
+      "route": "/governance/research/",
+      "owner": "executive",
+      "adopted_by": "executive",
+      "adopted_on": null,
+      "adopted_note": null,
+      "ratifies": null,
+      "decisions": [],
+      "source": null,
+      "en": {
+        "title": "Research & Publication",
+        "governs": "What the College may publish about its own teaching, what it must not claim, and the ethics that bind any study of its learners."
+      },
+      "ar": {
+        "title": "البحث والنشر",
+        "governs": "ما للكلية أن تنشره عن تدريسها، وما ليس لها أن تدّعيه، والأخلاقيات التي تحكم أيّ دراسة عن متعلّميها."
+      }
+    },
+    {
+      "id": "ai-policy",
+      "kind": "policy",
+      "route": "/academics/ai-policy/",
+      "owner": "board",
+      "adopted_by": "executive",
+      "adopted_on": null,
+      "adopted_note": null,
+      "ratifies": "senate",
+      "decisions": [],
+      "source": null,
+      "en": {
+        "title": "Artificial Intelligence Policy",
+        "governs": "The bands: what a learner may use a machine for, what a tutor may, and what the College will not delegate to one."
+      },
+      "ar": {
+        "title": "سياسة الذكاء الاصطناعي",
+        "governs": "النطاقات: فيمَ للمتعلّم أن يستعمل الآلة، وفيمَ للمدرّس، وما لا توكله الكلية إليها."
+      }
+    },
+    {
+      "id": "digital-learning",
+      "kind": "policy",
+      "route": "/academics/digital-learning/",
+      "owner": "executive",
+      "adopted_by": "executive",
+      "adopted_on": null,
+      "adopted_note": null,
+      "ratifies": null,
+      "decisions": [],
+      "source": null,
+      "en": {
+        "title": "The Digital Learning Environment",
+        "governs": "What the platform is required to do, what it keeps, and the standard it is held to when it fails."
+      },
+      "ar": {
+        "title": "بيئة التعلّم الرقمية",
+        "governs": "ما يجب على المنصّة أن تفعله، وما تحتفظ به، والمعيار الذي تُحاسَب عليه حين تخفق."
+      }
+    },
+    {
+      "id": "teaching-practice",
+      "kind": "framework",
+      "route": "/academics/teaching/",
+      "owner": "board",
+      "adopted_by": "executive",
+      "adopted_on": null,
+      "adopted_note": null,
+      "ratifies": "senate",
+      "decisions": [],
+      "source": null,
+      "en": {
+        "title": "Teaching Practice",
+        "governs": "How a lesson of this College is built and what a learner is entitled to see happen in one."
+      },
+      "ar": {
+        "title": "الممارسة التدريسية",
+        "governs": "كيف يُبنى درس هذه الكلية، وما يستحقّ المتعلّم أن يراه يجري فيه."
+      }
+    },
+    {
+      "id": "complaints",
+      "kind": "procedure",
+      "route": "/support/complaints/",
+      "owner": "executive",
+      "adopted_by": "executive",
+      "adopted_on": "2026-08-17",
+      "adopted_note": null,
+      "ratifies": null,
+      "decisions": [
+        "E2"
+      ],
+      "source": null,
+      "en": {
+        "title": "Complaints",
+        "governs": "What this instrument hears and what the appeal route hears, the informal stage, the twenty working days, and the remedies an upheld complaint gets."
+      },
+      "ar": {
+        "title": "الشكاوى",
+        "governs": "ما تسمعه هذه الأداة وما يسمعه مسار التظلّم، والمرحلة الودّية، والعشرون يوم عمل، والإنصاف الذي تناله شكوى مقبولة."
+      }
+    },
+    {
+      "id": "privacy",
+      "kind": "policy",
+      "route": "/support/privacy/",
+      "owner": "executive",
+      "adopted_by": "executive",
+      "adopted_on": null,
+      "adopted_note": null,
+      "ratifies": null,
+      "decisions": [
+        "D1",
+        "D2",
+        "D3"
+      ],
+      "source": null,
+      "en": {
+        "title": "Privacy & Your Data",
+        "governs": "What the College holds about a learner, why, for how long, and what it will not erase against a permanent academic register."
+      },
+      "ar": {
+        "title": "الخصوصية وبياناتك",
+        "governs": "ما تحتفظ به الكلية عن المتعلّم، ولماذا، وإلى متى، وما لا تمحوه من سجلّ أكاديمي دائم."
+      }
+    },
+    {
+      "id": "safeguarding",
+      "kind": "policy",
+      "route": "/support/safeguarding/",
+      "owner": "executive",
+      "adopted_by": "executive",
+      "adopted_on": null,
+      "adopted_note": null,
+      "ratifies": null,
+      "decisions": [],
+      "source": null,
+      "en": {
+        "title": "Safeguarding & Learner Wellbeing",
+        "governs": "A rule of the College, binding on everyone who teaches or administers under it, and the route a concern travels."
+      },
+      "ar": {
+        "title": "الحماية ورعاية المتعلّم",
+        "governs": "قاعدة من قواعد الكلية، مُلزِمة لكلّ من يدرّس أو يدير تحتها، والمسار الذي يسلكه أيّ بلاغ."
+      }
+    },
+    {
+      "id": "accessibility",
+      "kind": "statement",
+      "route": "/support/accessibility/",
+      "owner": "executive",
+      "adopted_by": "executive",
+      "adopted_on": null,
+      "adopted_note": null,
+      "ratifies": null,
+      "decisions": [],
+      "source": null,
+      "en": {
+        "title": "Accessibility",
+        "governs": "The standard the College holds its own pages to, the adjustments a learner may ask for, and how to say when it has fallen short."
+      },
+      "ar": {
+        "title": "إتاحة الوصول",
+        "governs": "المعيار الذي تُلزِم الكلية به صفحاتها، والتيسيرات التي للمتعلّم أن يطلبها، وكيف يُبلِغ عن تقصير."
+      }
+    },
+    {
+      "id": "inclusion",
+      "kind": "statement",
+      "route": "/support/inclusion/",
+      "owner": "executive",
+      "adopted_by": "executive",
+      "adopted_on": null,
+      "adopted_note": null,
+      "ratifies": null,
+      "decisions": [],
+      "source": null,
+      "en": {
+        "title": "Equality, Diversity & Inclusion",
+        "governs": "What the College undertakes, what it measures, and what it refuses to reduce to a figure."
+      },
+      "ar": {
+        "title": "المساواة والتنوّع والشمول",
+        "governs": "ما تلتزم به الكلية، وما تقيسه، وما ترفض اختزاله في رقم."
+      }
+    },
+    {
+      "id": "admissions-policy",
+      "kind": "policy",
+      "route": "/admissions/policy/",
+      "owner": "executive",
+      "adopted_by": "executive",
+      "adopted_on": null,
+      "adopted_note": null,
+      "ratifies": null,
+      "decisions": [],
+      "source": null,
+      "en": {
+        "title": "Admissions Policy",
+        "governs": "Who is admitted, on what evidence, and the five stages an application travels with the office responsible for each."
+      },
+      "ar": {
+        "title": "سياسة القبول",
+        "governs": "من يُقبَل، وبأيّ دليل، والمراحل الخمس التي يقطعها الطلب مع الجهة المسؤولة عن كلٍّ منها."
+      }
+    },
+    {
+      "id": "international",
+      "kind": "guidance",
+      "route": "/admissions/international/",
+      "owner": "executive",
+      "adopted_by": "executive",
+      "adopted_on": null,
+      "adopted_note": null,
+      "ratifies": null,
+      "decisions": [],
+      "source": null,
+      "en": {
+        "title": "Studying From Your Own Country",
+        "governs": "What differs by country: the clock, assessment, paying under a currency restriction, how a name is printed, and what a UK visit does and does not mean."
+      },
+      "ar": {
+        "title": "الدراسة من بلدك",
+        "governs": "ما يختلف باختلاف البلد: التوقيت، والتقييم، والسداد في ظلّ قيود العملة، وكيف يُطبع الاسم، وما تعنيه الزيارة إلى بريطانيا وما لا تعنيه."
+      }
+    },
+    {
+      "id": "alumni",
+      "kind": "framework",
+      "route": "/students/alumni/",
+      "owner": "executive",
+      "adopted_by": "executive",
+      "adopted_on": null,
+      "adopted_note": null,
+      "ratifies": null,
+      "decisions": [
+        "G2"
+      ],
+      "source": null,
+      "en": {
+        "title": "Alumni Standing",
+        "governs": "What a graduate remains entitled to, the chapter each award admits them to, and what standing does not buy."
+      },
+      "ar": {
+        "title": "وضع الخرّيجين",
+        "governs": "ما يبقى للخرّيج من حقوق، والرابطة التي تُدخِله إليها كلّ شهادة، وما لا يشتريه هذا الوضع."
+      }
+    },
+    {
+      "id": "careers",
+      "kind": "framework",
+      "route": "/students/careers/",
+      "owner": "executive",
+      "adopted_by": "executive",
+      "adopted_on": null,
+      "adopted_note": null,
+      "ratifies": null,
+      "decisions": [],
+      "source": null,
+      "en": {
+        "title": "What the Qualification Is For",
+        "governs": "The stated use of the award, how an employer verifies it without asking the College, how an organisation sponsors learners, and the outcomes methodology adopted before any outcome figure exists."
+      },
+      "ar": {
+        "title": "ما الغاية من المؤهّل",
+        "governs": "الغرض المعلَن من الشهادة، وكيف يتحقّق منها ربّ العمل دون سؤال الكلية، وكيف ترعى مؤسسةٌ متعلّمين، ومنهجُ قياس المآلات المعتمَد قبل وجود أيّ رقم."
+      }
+    }
+  ]
+}

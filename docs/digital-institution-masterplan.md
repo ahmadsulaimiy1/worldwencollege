@@ -351,11 +351,23 @@ The rules that govern them, learned the expensive way and now binding:
 ## Verification, every phase
 
 ```
-node scripts/build.js                 # every page, both languages
-npm test                              # content rules, claims, structure, plates
-node tests/browser/route-audit.mjs    # all routes in Chromium
-node tests/browser/diagram-fit.mjs    # every diagram measured where it ships
+node scripts/build.js                    # every page, both languages
+npm test                                 # content rules, claims, structure, plates
+node tests/browser/route-audit.mjs       # all routes in Chromium
+node tests/browser/diagram-fit.mjs       # every diagram measured where it ships
+node tests/browser/render-quality.mjs    # contrast, layout shift, High Contrast Mode
 ```
+
+`render-quality.mjs` is the slow one and the one that finds what reading
+cannot. It measures every text style on all 186 routes against the
+ground actually painted behind it, records each route's Cumulative
+Layout Shift from the browser's own observer, and asks every control,
+with `forced-colors: active`, whether it still has a boundary. The day
+it was written it found a cream card inside a navy section on
+`/student-portal/` whose heading computed to 1.04:1, a token used in
+seven stylesheets and defined in none, twenty-eight sections missing the
+base class that carries twenty typography rules, and ten controls that
+vanish into their own ground in High Contrast Mode.
 
 Regenerating: the cluster generators (`build-about`, `build-arabic`,
 `build-arabic-levels`, `build-governance`, `build-levels`, …) write into `pages/`, and

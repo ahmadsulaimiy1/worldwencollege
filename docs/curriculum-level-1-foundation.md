@@ -289,11 +289,14 @@ clearly and try to use full sentences from this module.
 - **Delivery** (audible, reasonably fluent for A1, not read
   word-by-word from a script)
 
-A grade at or above `platform_config.lms_pass_threshold` marks Module
-1 as completed for that learner, per `functions/_lib/lms/content.js`'s
-existing, already-tested grading mechanism (see
-`docs/lms-architecture.md`) — this assignment is real, gradable content
-running on real platform logic, not a design mock-up.
+This grade is 70 per cent of Module 1; the module quiz is the other
+30. Module 1 is completed for a learner when both are marked and the
+composite reaches the pass mark — `module.formula` in
+data/academic-regulations.json, computed by
+`functions/_lib/academic/marks.js` and written by
+`functions/_lib/lms/content.js` (see `docs/lms-architecture.md`). This
+assignment is real, gradable content running on real platform logic,
+not a design mock-up.
 
 ---
 

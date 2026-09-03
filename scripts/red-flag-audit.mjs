@@ -35,7 +35,7 @@
 // already opens every route at three widths in both directions. This
 // file is the static half and cites that one rather than duplicating it.
 
-import { readFileSync, readdirSync, writeFileSync, existsSync } from 'node:fs';
+import { readFileSync, readdirSync, writeFileSync, existsSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -101,6 +101,21 @@ const BLOCK = 'p|div|section|li|h[1-6]|td|th|tr|dt|dd|figcaption|blockquote|capt
 function prose(html) {
   return html
     .replace(/<!--[\s\S]*?-->/g, ' ')
+    // A BUILD TOKEN IS NOT PROSE.
+    //
+    // pages/*.html are sources, so an inlined drawing is still
+    // `{{SVG:assets/covers/publishing-constitution-front.svg}}` when
+    // this reads the file — and the length committee counted every
+    // slash-separated fragment of that path as a word. The bookcase on
+    // the Library page therefore reported a 61-word sentence made
+    // entirely of file names, and sent an editor after prose that does
+    // not exist. Nobody reads a token; nothing here should measure one.
+    //
+    // The sixth parsing fault found in this file, and the same lesson
+    // as the other five: an audit that reports work nobody needs to do
+    // costs more than no audit.
+    .replace(/\{\{(?:SVG|S|N|V):[^}]*\}\}/g, ' ')
+    .replace(/\{\{[A-Z_]+\}\}/g, ' ')
     .replace(/<(script|style|svg)\b[\s\S]*?<\/\1>/gi, ' ')
     .replace(new RegExp(`</(?:${BLOCK})>`, 'gi'), '')
     // A LABEL IS A HEADING WEARING A SPAN. `.callout__label`,
@@ -558,6 +573,103 @@ function institutionalConfidence() {
   }
 }
 
+// ── UNFINISHED LANGUAGE, ANYWHERE IT IS SERVED ─────────────────────
+// This scans the BUILT site rather than pages/*.html, and that is the
+// whole point of it. Every other check in this file reads the page
+// sources, so none of them could see the chrome — and the chrome is
+// where this fault lived: "London admin HQ — address to be confirmed"
+// sat in partials/footer.html, which is to say on all 186 routes in
+// both editions, for as long as the footer has existed. A confession
+// written once and served everywhere is the most expensive kind, and
+// it was the one kind nothing here could find.
+//
+// THE RULE IT ENFORCES is the owner's, twice over: do not leave
+// placeholders, do not write "to be decided", and do not let the site
+// show what the College has not managed to do. WEC Press had already
+// settled the same principle for its own catalogue — "nothing planned,
+// in preparation or forthcoming appears here; a catalogue that lists
+// intentions is a prospectus wearing a catalogue's clothes" — and this
+// applies it to every surface rather than one.
+//
+// WHAT IS ALLOWED, AND WHY EACH ONE IS. Two phrases survive because
+// they are ordinary language rather than confessions, and each is
+// pinned to the file it appears in so that the same words appearing
+// somewhere new are still a finding.
+const UNFINISHED = [
+  { rx: /to be confirmed/i,        say: '"to be confirmed"' },
+  { rx: /to be announced/i,        say: '"to be announced"' },
+  { rx: /\bT\.?B\.?[CD]\.?\b/,      say: 'TBC / TBD' },
+  { rx: /being finali[sz]ed/i,     say: '"being finalised"' },
+  { rx: /coming soon/i,            say: '"coming soon"' },
+  { rx: /under construction/i,     say: '"under construction"' },
+  { rx: /watch this space/i,       say: '"watch this space"' },
+  { rx: /lorem ipsum/i,            say: 'Lorem ipsum' },
+  { rx: /in preparation/i,         say: '"in preparation"' },
+  { rx: /to be decided/i,          say: '"to be decided"' },
+  { rx: /قيد التأكيد/,              say: '«قيد التأكيد»' },
+  { rx: /قيد الإعداد/,              say: '«قيد الإعداد»' },
+  { rx: /يجري حاليًا إنهاء/,          say: '«يجري حاليًا إنهاء»' },
+];
+
+// file → phrase it may carry, with the reason recorded beside it.
+const UNFINISHED_ALLOWED = {
+  // The complaints clock's SVG description narrates a procedure:
+  // "fifteen working days for the review to be decided" is a decision
+  // being reached, not a decision nobody has taken.
+  'support/complaints/index.html': [/to be decided/i],
+  'ar/support/complaints/index.html': [/to be decided/i],
+  // The catalogue states this rule rather than breaking it: "Nothing
+  // planned, in preparation or forthcoming appears here — a catalogue
+  // that lists intentions is a prospectus wearing a catalogue's
+  // clothes." A page that publishes the principle has to be able to
+  // name the thing it refuses.
+  'press/catalogue/index.html': [/in preparation/i],
+  'ar/press/catalogue/index.html': [/قيد الإعداد/],
+};
+
+function unfinishedLanguage() {
+  committee = 'Institutional Confidence';
+
+  const strip = (html) => html
+    .replace(/<!--[\s\S]*?-->/g, ' ')
+    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style[\s\S]*?<\/style>/gi, ' ');
+
+  const built = [];
+  (function walk(dir) {
+    for (const entry of readdirSync(dir)) {
+      if (['node_modules', 'pages', 'tests', 'scripts', 'docs', 'functions', 'sql'].includes(entry)) continue;
+      if (entry.startsWith('.')) continue;
+      const full = path.join(dir, entry);
+      if (statSync(full).isDirectory()) walk(full);
+      else if (entry.endsWith('.html')) built.push(full);
+    }
+  })(ROOT);
+
+  const byPhrase = new Map();
+  for (const full of built) {
+    const rel = path.relative(ROOT, full).replace(/\\/g, '/');
+    const allowed = UNFINISHED_ALLOWED[rel] || [];
+    const body = strip(readFileSync(full, 'utf8'));
+    for (const { rx, say } of UNFINISHED) {
+      if (!rx.test(body)) continue;
+      if (allowed.some((a) => String(a) === String(rx))) continue;
+      if (!byPhrase.has(say)) byPhrase.set(say, []);
+      byPhrase.get(say).push(rel);
+    }
+  }
+
+  for (const [say, pages] of byPhrase) {
+    // A phrase in the chrome reaches every route at once, so the
+    // severity follows the reach rather than the wording.
+    flag(pages.length > 5 ? 'SEVERE' : 'MAJOR', pages.length > 5 ? `${pages.length} built routes` : pages[0],
+      `${say} is published where a reader can see it`,
+      pages.slice(0, 4).join(', ') + (pages.length > 4 ? ` and ${pages.length - 4} more` : ''),
+      'Say what the College does, not what it has not done. If the fact is not settled, publish nothing about it '
+      + 'rather than publishing that it is unsettled. CLAUDE.md § 5.');
+  }
+}
+
 // =====================================================================
 // 3 · VISUAL STORYTELLING COMMITTEE
 // =====================================================================
@@ -848,7 +960,30 @@ function motion() {
       if (cls) struck.add(cls);
     }
   }
-  const silent = [...struck].filter((c) => !sonics.includes(`.${c}`));
+  /* THE SURFACES THAT ARE STRUCK AND MUST STAY SILENT, named rather
+     than quietly skipped — the same discipline the contrast exemption
+     in tests/browser/render-quality.mjs is written with.
+
+     §3 ranks a voice by ceremony and then draws the line: "Surfaces
+     with no relief stay silent. A site where everything makes a noise
+     is a toy, not a luxury." The line it does not draw, because it had
+     no occasion to, is the surface that HAS relief and still must not
+     speak: an element nobody operates. js/sonics.js listens on
+     pointerdown, so a selector listed there sounds when a reader
+     happens to press on it.
+
+     .rec-state is the state line on every portal page — an aria-live
+     paragraph that says "Loading your record…" and then says what
+     went wrong. It is struck, because it is the first thing a reader
+     meets and the house standard does not allow a dashed grey box
+     there. It is not a control, and a page that chimed because
+     somebody rested a thumb on the sentence explaining a failure
+     would be the toy §3 is guarding against.
+
+     Entries here are exemptions with a reason, and the list is short
+     on purpose. A new component belongs in TAP or SEAL. */
+  const VOICELESS = new Set(['rec-state', 'grad-state', 'state-plate']);
+  const silent = [...struck].filter((c) => !VOICELESS.has(c) && !sonics.includes(`.${c}`));
   if (silent.length) {
     flag('MINOR', 'js/sonics.js', `${silent.length} struck component(s) absent from the sonics register`,
       silent.slice(0, 8).join(', '),
@@ -893,6 +1028,10 @@ function bilingualParity() {
 const COMMITTEES = {
   editorial: editorialExcellence,
   confidence: institutionalConfidence,
+  // Separate from `confidence` because it reads the BUILT site rather
+  // than pages/*.html — the chrome is where this fault lived, and no
+  // check over the page sources could ever have seen it.
+  unfinished: unfinishedLanguage,
   visual: visualStorytelling,
   architecture: informationArchitecture,
   material: materialLaw,

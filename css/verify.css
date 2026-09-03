@@ -46,8 +46,10 @@
   margin: 1.1rem 0 0;
   font-size: .82rem;
   opacity: .68;
-  padding-left: .85rem;
-  border-left: 2px solid var(--gold, #C6A15B);
+  /* Logical, so the gold rule stands on the reading edge in both
+     editions rather than always on the left. */
+  padding-inline-start: .85rem;
+  border-inline-start: 2px solid var(--gold, #C6A15B);
 }
 
 /* ---- The form ------------------------------------------------------- */
@@ -340,6 +342,28 @@
   font: 600 clamp(1.1rem, 1rem + .8vw, 1.4rem)/1.3 var(--font-display, "Playfair Display", Georgia, serif);
   color: var(--royal, #14264A);
 }
+/* Why the definition beneath it is in English, on the edition where
+   that needs saying. Empty and hidden on the English page, so it takes
+   no space there. */
+.vfy-meaning__note:empty { display: none; }
+.vfy-meaning__note {
+  margin: -.4rem 0 1.1rem;
+  padding-inline-start: .85rem;
+  border-inline-start: 2px solid var(--gold, #C7A24A);
+  max-width: 66ch;
+  font-size: .82rem;
+  line-height: 1.75;
+  color: var(--ink-soft, #5A6479);
+}
+.vfy-meaning__note a {
+  color: var(--royal, #14264A);
+  text-decoration: underline;
+  text-decoration-color: var(--gold, #C7A24A);
+  text-decoration-thickness: 1px;
+  text-underline-offset: .22em;
+}
+.vfy-meaning__note a:hover { text-decoration-thickness: 2px; }
+
 .vfy-meaning__body { margin: 0; display: grid; gap: .2rem 1.4rem; }
 @media (min-width: 44rem) { .vfy-meaning__body { grid-template-columns: 14rem 1fr; } }
 .vfy-meaning__body dt {

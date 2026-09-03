@@ -1,0 +1,347 @@
+/* ═══════════════════════════════════════════════════════════════════
+   MY DESK — notices, and correspondence.
+
+   Loaded after css/account.css, css/standing.css and css/week.css,
+   whose block headings, chips and dark-plate convention it reuses.
+   What is new here is a reading problem those pages do not have: two
+   registers on one page, one of them the College speaking to a room
+   and the other two people speaking. They must not look alike, or a
+   learner scanning the page cannot tell which of the two is which.
+
+   So a notice is a plate — struck, lit, with its marks along the top
+   edge — and a message is a line of speech with a name on it. The
+   difference is carried by shape, not by a heading a reader has
+   already scrolled past.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── WHAT IS WAITING ─────────────────────────────────────────────────
+   Two medallions, and they are the first thing on the page because
+   "is anything waiting for me" is the question that brought the
+   learner here. */
+.desk-counts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1rem;
+  margin-top: 1.6rem;
+}
+.desk-count {
+  position: relative;
+  text-align: center;
+  padding: 1.9rem 1.4rem 1.6rem;
+  border-radius: 12px;
+  color: #F6EFE0;
+  /* No ground of its own: `.plate-dark` in css/brand.css paints it, in
+     both directions. See the note there — this ground declared locally
+     was overridden by `[dir="rtl"] .card` and rendered gold in Arabic. */
+  border: 1px solid rgba(199, 162, 74, .42);
+  box-shadow: inset 0 0 80px -26px rgba(0, 0, 0, .8), var(--relief-metal, 0 10px 30px -12px rgba(10, 20, 40, .5));
+}
+.desk-count .badge-dome { margin: 0 auto .9rem; }
+.desk-count__num {
+  margin: 0;
+  font: 700 clamp(2.4rem, 5vw, 3.4rem)/1 var(--font-display, Georgia, serif);
+  font-variant-numeric: tabular-nums;
+  color: var(--gold, #C6A15B);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, .5), 0 0 26px rgba(199, 162, 74, .3);
+}
+.desk-count__label {
+  margin: .3rem 0 0;
+  font: 600 .74rem/1.4 var(--font-ui, system-ui, sans-serif);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(244, 231, 198, .74);
+}
+
+/* ── BLOCK HEADS ─────────────────────────────────────────────────────
+   The same shape as .wk-head, which is deliberate: a learner moving
+   between My Week and My Desk should meet one toolbar, not two. */
+.desk-head {
+  display: flex; flex-wrap: wrap; gap: .8rem 1.2rem;
+  align-items: center;
+  margin-bottom: .8rem;
+}
+.desk-head h2 { margin: 0; }
+.desk-head__tools {
+  margin-inline-start: auto;
+  display: flex; flex-wrap: wrap; align-items: center; gap: .6rem;
+}
+.desk-head__tools .btn { padding: .55em 1.2em; font-size: .8rem; }
+.desk-lang {
+  font: 600 .7rem/1 var(--font-ui, system-ui, sans-serif);
+  letter-spacing: .1em; text-transform: uppercase;
+  color: color-mix(in oklab, var(--ink, #10203A) 50%, transparent);
+}
+.desk-head__tools select {
+  padding: .5rem .7rem;
+  border-radius: 8px;
+  border: 1px solid color-mix(in oklab, var(--ink, #10203A) 20%, transparent);
+  background: var(--paper, #FBF8F2);
+  font: inherit;
+  font-size: .88rem;
+}
+.desk-head__tools select:focus-visible { outline: 2px solid var(--gold, #C6A15B); outline-offset: 2px; }
+
+/* ── CHIPS ───────────────────────────────────────────────────────────
+   Every mark on this page is a chip, and the chips carry the only
+   colour that means anything here: gold for the College's own act,
+   a lit rim for something outstanding, grey for something put away. */
+.desk-chip {
+  display: inline-flex; align-items: center; gap: .35rem;
+  padding: .28rem .62rem;
+  border-radius: 999px;
+  font: 600 .7rem/1 var(--font-ui, system-ui, sans-serif);
+  letter-spacing: .08em; text-transform: uppercase;
+  background: color-mix(in oklab, var(--ink, #10203A) 7%, transparent);
+  color: color-mix(in oklab, var(--ink, #10203A) 70%, transparent);
+  border: 1px solid color-mix(in oklab, var(--ink, #10203A) 12%, transparent);
+}
+.desk-chip .icon { width: .95em; height: .95em; }
+.desk-chip--pinned {
+  background: color-mix(in oklab, var(--gold, #C6A15B) 18%, transparent);
+  border-color: color-mix(in oklab, var(--gold, #C6A15B) 46%, transparent);
+  color: color-mix(in oklab, var(--ink, #10203A) 82%, transparent);
+}
+/* Outstanding, not wrong. Unread is the College still waiting to be
+   heard, so it is lit in gold rather than drawn in a failure red —
+   the same distinction css/standing.css draws between a condition the
+   learner owes and one the College owes. */
+.desk-chip--unread {
+  background: linear-gradient(160deg, rgba(199, 162, 74, .32), rgba(199, 162, 74, .16));
+  border-color: color-mix(in oklab, var(--gold, #C6A15B) 62%, transparent);
+  color: color-mix(in oklab, var(--ink, #10203A) 88%, transparent);
+  box-shadow: 0 0 0 1px rgba(199, 162, 74, .18), 0 2px 10px -4px rgba(199, 162, 74, .5);
+}
+.desk-chip--muted { opacity: .62; }
+.desk-chip--answered {
+  background: color-mix(in oklab, var(--emerald, #14563C) 14%, transparent);
+  border-color: color-mix(in oklab, var(--emerald, #14563C) 40%, transparent);
+  color: color-mix(in oklab, var(--emerald, #14563C) 92%, var(--ink, #10203A));
+}
+.desk-chip--closed { opacity: .7; }
+
+/* ── NOTICES ─────────────────────────────────────────────────────────
+   A struck plate. Marks along the top edge, then the title, then who
+   said it and when — the order a proclamation is read in. */
+.desk-notices { list-style: none; margin: 0; padding: 0; display: grid; gap: .9rem; }
+/* The foot padding clears the card's OWN closing rule — the gold
+   hairline brand.css paints 22px above the bottom edge of every .card.
+   At the tighter padding a card this dense wants, that ornament landed
+   across the buttons and read as a stray line. Found by rendering; it
+   is invisible in the source, because the rule belongs to a component
+   this file only borrows. */
+.desk-notice {
+  position: relative;
+  padding: 1.3rem 1.4rem 2.3rem;
+  --card-pad: 1.4rem;
+}
+.desk-notice[data-read="no"] { border-inline-start: 3px solid var(--gold, #C6A15B); }
+.desk-notice[data-put-away="yes"] { opacity: .74; }
+.desk-notice__marks {
+  display: flex; flex-wrap: wrap; gap: .45rem;
+  margin: 0 0 .6rem;
+}
+.desk-notice__title { margin: 0; font-size: 1.14rem; }
+.desk-notice__meta {
+  margin: .3rem 0 0;
+  font: 400 .84rem/1.5 var(--font-ui, system-ui, sans-serif);
+  color: color-mix(in oklab, var(--ink, #10203A) 58%, transparent);
+}
+/* The edition line. It is a statement about the notice, not a warning
+   about the College, so it is set as a marginal note in gold rather
+   than as an alert. */
+.desk-notice__edition {
+  margin: .55rem 0 0;
+  padding-inline-start: .8rem;
+  border-inline-start: 2px solid color-mix(in oklab, var(--gold, #C6A15B) 60%, transparent);
+  font-size: .86rem;
+  color: color-mix(in oklab, var(--ink, #10203A) 66%, transparent);
+}
+.desk-notice__body { margin-top: .9rem; max-width: 66ch; }
+.desk-notice__body p { margin: 0 0 .7rem; }
+.desk-notice__body p:last-child { margin-bottom: 0; }
+.desk-notice__body[dir="rtl"] { font-family: var(--font-arabic, inherit); }
+.desk-notice__row { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1rem; }
+.desk-notice__row .btn { padding: .5em 1.1em; font-size: .78rem; }
+.desk-away { margin-top: 1rem; padding: .5em 1.1em; font-size: .78rem; }
+
+/* ── THE THREAD LIST ─────────────────────────────────────────────────
+   Not a plate. A line of correspondence, with the subject as the one
+   thing that is a control on it. */
+.desk-threads { list-style: none; margin: 0; padding: 0; display: grid; gap: .8rem; }
+.desk-thread-row { padding: 1.15rem 1.3rem 2.2rem; --card-pad: 1.3rem; }
+.desk-thread-row__marks { display: flex; flex-wrap: wrap; gap: .45rem; margin: 0 0 .55rem; }
+/* A button that reads as a heading, because it IS the heading — the
+   alternative is a heading with a small link under it, which puts the
+   target 12px high on the one control a learner reaches for most. */
+.desk-thread-row__open {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: start;
+  font: 700 1.1rem/1.35 var(--font-display, Georgia, serif);
+  color: inherit;
+  cursor: pointer;
+  min-height: 2.4rem;
+}
+.desk-thread-row__open:hover { color: var(--gold-deep, #9C7A33); }
+.desk-thread-row__open:focus-visible { outline: 2px solid var(--gold, #C6A15B); outline-offset: 3px; border-radius: 4px; }
+.desk-thread-row__parties,
+.desk-thread-row__meta {
+  margin: .3rem 0 0;
+  font: 400 .82rem/1.5 var(--font-ui, system-ui, sans-serif);
+  color: color-mix(in oklab, var(--ink, #10203A) 58%, transparent);
+}
+.desk-thread-row__preview {
+  margin: .5rem 0 0;
+  max-width: 70ch;
+  font-size: .92rem;
+  color: color-mix(in oklab, var(--ink, #10203A) 74%, transparent);
+}
+
+/* ── THE TWO DARK PLATES ─────────────────────────────────────────────
+   Both paint their own ground, for the reason recorded in css/week.css:
+   `.card--dark` is a 4% white wash that assumes a dark section under
+   it, and these sit on paper. */
+.desk-form,
+.desk-thread {
+  position: relative;
+  margin-top: 1.6rem;
+  padding: 2rem 1.7rem;
+  border-radius: 12px;
+  color: #F6EFE0;
+  /* No ground of its own: `.plate-dark` in css/brand.css paints it, in
+     both directions. See the note there — this ground declared locally
+     was overridden by `[dir="rtl"] .card` and rendered gold in Arabic. */
+  border: 1px solid rgba(199, 162, 74, .42);
+  box-shadow: inset 0 0 80px -26px rgba(0, 0, 0, .8), var(--relief-metal, 0 10px 30px -12px rgba(10, 20, 40, .5));
+  /* Owned site-wide by `:target, section[id]` in css/brand.css, which
+     measures the real chrome. A local value here is dead: that rule is
+     two tokens and beats this one wherever the plate is a section. */
+}
+/* A plate's title, not a page's. A thread subject set at the page h2
+   size fills three lines on a long one and turns a conversation into a
+   poster. */
+.desk-form h2,
+.desk-thread h2 {
+  color: #F6EFE0;
+  margin: 0 0 .4rem;
+  font-size: clamp(1.35rem, 2.6vw, 1.9rem);
+  line-height: 1.24;
+}
+.desk-form .vfy-label,
+.desk-thread .vfy-label { color: rgba(244, 231, 198, .8); display: block; margin-top: 1rem; }
+.desk-form select,
+.desk-form input[type="text"],
+.desk-form textarea,
+.desk-thread textarea {
+  width: 100%;
+  margin-top: .35rem;
+  padding: .75rem .9rem;
+  border-radius: 8px;
+  border: 1px solid rgba(244, 231, 198, .28);
+  background: rgba(10, 20, 38, .5);
+  color: #F6EFE0;
+  font: inherit;
+  resize: vertical;
+}
+.desk-form select { resize: none; }
+/* A measure, not the plate's full width. A subject line and a message
+   box run the width of a 1440px screen are hard to read back, and what
+   a learner writes here they will read back before they send it. */
+.desk-form select,
+.desk-form input[type="text"],
+.desk-form textarea,
+.desk-thread textarea { max-width: 62ch; }
+.desk-form select:focus-visible,
+.desk-form input[type="text"]:focus-visible,
+.desk-form textarea:focus-visible,
+.desk-thread textarea:focus-visible { outline: 2px solid var(--gold, #C6A15B); outline-offset: 2px; }
+.desk-form__why,
+.desk-form__count {
+  margin: .45rem 0 0;
+  font-size: .86rem;
+  color: rgba(244, 231, 198, .72);
+  font-variant-numeric: tabular-nums;
+}
+.desk-form .btn-row,
+.desk-thread .btn-row { margin-top: 1.1rem; }
+.desk-form .vfy-error,
+.desk-thread .vfy-error { color: #FFD9DD; margin-top: .8rem; }
+
+.desk-thread__parties {
+  margin: 0 0 1rem;
+  font-size: .88rem;
+  color: rgba(244, 231, 198, .76);
+}
+.desk-thread .acc-block__note { color: rgba(244, 231, 198, .7); }
+.desk-thread__closed {
+  margin: 1.1rem 0 0;
+  padding: .8rem 1rem;
+  border-radius: 8px;
+  background: rgba(10, 20, 38, .5);
+  border-inline-start: 3px solid var(--gold, #C6A15B);
+  color: rgba(244, 231, 198, .86);
+  font-size: .92rem;
+}
+
+/* ── THE MESSAGES ────────────────────────────────────────────────────
+   Speech, not plates. Yours is set against the gold edge and theirs
+   against the ground, so the two sides of a conversation are told
+   apart without either being labelled at every turn. */
+.desk-messages { list-style: none; margin: 0; padding: 0; display: grid; gap: .85rem; }
+.desk-message {
+  padding: .9rem 1.05rem;
+  border-radius: 10px;
+  background: rgba(10, 20, 38, .46);
+  border: 1px solid rgba(244, 231, 198, .14);
+}
+/* Yours carries a gold edge as well as a warmer ground. Ground alone
+   reads as emphasis — "this one matters" — where an edge reads as
+   attribution, which is what it is. */
+.desk-message[data-mine="yes"] {
+  background: rgba(199, 162, 74, .12);
+  border-color: rgba(199, 162, 74, .34);
+  border-inline-start: 3px solid var(--gold, #C6A15B);
+}
+.desk-message__head {
+  display: flex; flex-wrap: wrap; gap: .5rem; align-items: baseline;
+  margin: 0 0 .45rem;
+}
+.desk-message__who { font-weight: 700; color: #F6EFE0; }
+.desk-message__party {
+  font: 600 .66rem/1 var(--font-ui, system-ui, sans-serif);
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--gold, #C6A15B);
+}
+.desk-message__at {
+  margin-inline-start: auto;
+  font: 400 .78rem/1 var(--font-ui, system-ui, sans-serif);
+  color: rgba(244, 231, 198, .6);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.desk-message__body {
+  margin: 0 0 .6rem;
+  max-width: 68ch;
+  color: rgba(246, 239, 224, .93);
+  white-space: pre-wrap;
+}
+.desk-message__body:last-child { margin-bottom: 0; }
+/* A withdrawn message keeps its place and loses its text. Rendering it
+   as absence rather than as an empty bubble is the payload's own
+   contract drawn: deleting the row would let a message vanish without
+   trace, and this is what "without trace" looks like when it is not
+   allowed to. */
+.desk-message__withdrawn {
+  margin: 0;
+  font-style: italic;
+  color: rgba(244, 231, 198, .6);
+}
+
+@media (max-width: 720px) {
+  .desk-head__tools { margin-inline-start: 0; width: 100%; }
+  .desk-message__at { margin-inline-start: 0; }
+  .desk-form, .desk-thread { padding: 1.5rem 1.15rem; }
+}

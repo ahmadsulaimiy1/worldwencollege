@@ -35,20 +35,58 @@ const check = (label, cond, detail) => {
 };
 
 // The editions are rendered on demand rather than kept in the tree, so
-// this builds the two that are not the default before measuring them.
+// this builds the ones that are not the default before measuring them.
 const SRC = {
   teacher: `${ROOT}/publication/.flagship.html`,
   student: `${ROOT}/publication/.student.html`,
   institutional: `${ROOT}/publication/.institutional.html`,
 };
+
+// ─────────────────────────────────────────────────────────────────────
+// ABSENT IS NOT THE ONLY WAY A STAGED EDITION IS WRONG
+// ─────────────────────────────────────────────────────────────────────
+// This rebuilt an edition only when its file did not exist. A file that
+// exists and is OLD was measured as though it were current — and on a
+// machine carrying a five-day-old staging, that is exactly what
+// happened: the suite reported 104 passages present in the teacher's
+// edition and missing from the student's. Every one of them was in
+// both. The student edition on disk simply predated them.
+//
+// A test that passes while measuring the wrong surface is the failure
+// this repository is built to catch, and it had grown one of its own.
+//
+// MEASURED BY CONTENT, NOT BY TIMESTAMP. Every staged edition prints
+// the content digest it was rendered from — publicationIdentity()
+// computes it over the curriculum itself, and covers.mjs sets it in the
+// identity table. Comparing digests is exact and deterministic; a
+// comparison of file times would rebuild all three on any fresh clone,
+// where git gives every file the same checkout minute.
+const { publicationIdentity } = await import(loadUrl('scripts/publication/identity.mjs'));
+const DIGEST = publicationIdentity(C, { edition: 1, revision: 0, impression: 1 }).contentDigest;
+
+const stale = (f) => !existsSync(f) || !readFileSync(f, 'utf8').includes(DIGEST);
+
+const render = (edition) => execFileSync(
+  'node', ['--experimental-sqlite', 'scripts/publication/render-flagship.mjs'],
+  { cwd: ROOT, env: { ...process.env, IEFC_EDITION: edition }, stdio: 'ignore' },
+);
+
+for (const key of ['teacher', 'student', 'institutional']) {
+  if (!stale(SRC[key])) continue;
+  console.log(`NOTE the ${key} edition on disk was not rendered from this curriculum — restaging it.`);
+  render(key);
+}
 if (!existsSync(SRC.teacher)) {
   console.log('FAIL The print source does not exist — run: npm run curriculum');
   process.exit(1);
 }
-for (const key of ['student', 'institutional']) {
-  if (existsSync(SRC[key])) continue;
-  execFileSync('node', ['--experimental-sqlite', 'scripts/publication/render-flagship.mjs'],
-    { cwd: ROOT, env: { ...process.env, IEFC_EDITION: key }, stdio: 'ignore' });
+// The rebuild is the remedy, not the finding. If an edition is STILL
+// not the current curriculum after being re-rendered, the renderer and
+// the curriculum disagree and every assertion below is measuring
+// something nobody can reproduce.
+for (const key of ['teacher', 'student', 'institutional']) {
+  check(`The ${key} edition on disk was rendered from this curriculum`,
+    !stale(SRC[key]), `expected digest ${DIGEST.slice(0, 16)}…`);
 }
 
 const text = (f) => readFileSync(f, 'utf8')

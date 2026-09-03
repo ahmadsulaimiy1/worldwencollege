@@ -1,0 +1,146 @@
+<!--
+  MY EXAMINATION — the candidate's own side of the level examination.
+
+  ─────────────────────────────────────────────────────────────────────
+  WHO READS THIS PAGE, AND WHEN
+  ─────────────────────────────────────────────────────────────────────
+  Somebody on the worst day of their year. A connection that dropped,
+  a clock they think has run out, a submission they are not certain
+  landed. /students/examinations/ is written for that person and says
+  so in its own opening line; this page is where they arrive first,
+  and it carries the same rules rather than sending them off to find
+  them.
+
+  So the published procedure is rendered on the page, from the
+  endpoint's own figures, in the reader's own language. Not a link to
+  the instrument with a hopeful tone above it.
+
+  ─────────────────────────────────────────────────────────────────────
+  THERE IS NO "ENTER FOR THE EXAMINATION" BUTTON, DELIBERATELY
+  ─────────────────────────────────────────────────────────────────────
+  § I of the instrument: "You are entered by finishing the teaching.
+  There is no entry form, no examination fee and no closing date." A
+  form here would be a form for a thing the College says has no form.
+  Entry follows the ten modules and a member of academic staff
+  confirming it, and until that happens this page says which of the
+  two is outstanding.
+
+  ─────────────────────────────────────────────────────────────────────
+  AND WHERE NO PAPER IS PUBLISHED, THAT IS SAID AS THE COLLEGE'S
+  ─────────────────────────────────────────────────────────────────────
+  A level the College has set no paper for is not a level the
+  candidate has failed to sit. The endpoint returns that sentence and
+  the page prints it, because filing the platform's unfinished work as
+  a person's outstanding work is the one thing the house standard
+  forbids outright.
+
+  Every id and data- attribute below is addressed by js/my-examination.js.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg></p>
+    <p class="masthead__eyebrow">Learner</p>
+    <h1>My Examination</h1>
+    <p class="lede">What you are entered for, the reference you read aloud, the window you choose your hour inside, and what the College does with the paper once you hand it in.</p>
+    <nav class="rec-nav" aria-label="Learner">
+      <a href="/my-programme.html">My Programme</a>
+      <a href="/my-week.html">My Week</a>
+      <a href="/my-desk.html">My Desk</a>
+      <a href="/my-module.html">My Module</a>
+      <a href="/my-examination.html" aria-current="page">My Examination</a>
+      <a href="/my-cases.html">My Cases</a>
+      <a href="/my-standing.html">Where I Stand</a>
+      <a href="/my-award.html">My Awards</a>
+      <a href="/my-engagement.html">My Engagement</a>
+      <a href="/my-record.html">My Record</a>
+      <a href="/my-downloads.html">My Files</a>
+      <a href="/my-account.html">My Account</a>
+      <a href="/listening-lab.html">Listening Lab</a>
+    </nav>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container">
+    <div class="stf-shell">
+
+      <p class="rec-state state-plate edge-lit edge-lit--light aurum" id="state" aria-live="polite">Loading your examination record&hellip;</p>
+
+      <!-- THE SITTINGS -------------------------------------------------- -->
+      <section class="acc-block reveal" id="secSittings" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg> <span data-sittings-head>Your sittings</span></h2>
+        </div>
+        <div class="exm-sittings" data-sittings></div>
+      </section>
+
+      <!-- EACH LEVEL, AND WHOSE MOVE IT IS ------------------------------ -->
+      <section class="acc-block reveal" id="secLevels" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg> <span data-levels-head>Your levels</span></h2>
+        </div>
+        <div class="exm-levels" data-levels></div>
+      </section>
+
+      <!-- THE PUBLISHED PROCEDURE --------------------------------------- -->
+      <!-- The instrument's own figures, on the page a candidate is
+           actually looking at. Rendered by the script from the endpoint,
+           so it can never drift from what the College publishes. -->
+      <section class="acc-block reveal" id="secProcedure" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg> <span data-procedure-head>How the examination is run</span></h2>
+        </div>
+        <p class="stf-basis" data-procedure-basis></p>
+        <div class="grid grid--3" data-procedure></div>
+      </section>
+
+      <!-- WHAT A LATE DAY COSTS ----------------------------------------- -->
+      <section class="acc-block reveal" id="secLateness" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg> <span data-lateness-head>What a late day costs</span></h2>
+        </div>
+        <div class="exm-scroll">
+          <table class="exm-table">
+            <thead>
+              <tr>
+                <th scope="col" data-lateness-col-when>Submitted</th>
+                <th scope="col" data-lateness-col-what>What the College does</th>
+              </tr>
+            </thead>
+            <tbody data-lateness></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- THE THINGS THAT ARE NEVER HELD AGAINST YOU --------------------- -->
+      <section class="acc-block reveal" id="secRemedy">
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg> If something goes wrong</h2>
+        </div>
+        <div class="grid grid--3">
+          <article class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+            <span class="tilt__sheen" aria-hidden="true"></span>
+            <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg></span>
+            <h3>A dropped connection is the College&rsquo;s problem</h3>
+            <p>Your work is written to the server as you produce it. A paper reopened within sixty minutes of a break resumes with the time that was left on it. A longer break sets the attempt aside at your election, it leaves no mark on the record, and a fresh window opens in three working days.</p>
+          </article>
+          <article class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+            <span class="tilt__sheen" aria-hidden="true"></span>
+            <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg></span>
+            <h3>A bad week is a claim, not a failure</h3>
+            <p>A claim of mitigating circumstances reaches the Registrar within twenty working days of the mark being released, and is decided by three people none of whom marked the work. Where no document exists &mdash; a power cut, an unsafe situation at home &mdash; a signed account of it is enough. <a href="/my-cases.html">Open one here</a>.</p>
+          </article>
+          <article class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+            <span class="tilt__sheen" aria-hidden="true"></span>
+            <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+            <h3>A mark you dispute is checked, free</h3>
+            <p>Ask within ten working days of release and the Registrar confirms that the published rubric was applied, that every criterion carries a score, and that the second marker read it. An appeal is a different thing &mdash; it is against the way a decision was reached. <a href="/students/examinations/#resits">Both are set out here</a>.</p>
+          </article>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

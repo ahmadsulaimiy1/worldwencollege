@@ -1,0 +1,214 @@
+<!--
+  حسابي — كشف حساب المتعلم.
+
+  كل مُعرِّف (id) وكل سمة data- أدناه محمولٌ عليها العمل:
+  js/my-account.js يخاطبها بأسمائها، فلا تُترجَم الأسماء وإنما يُترجَم
+  النص وحده. والحجّة الكاملة في النسخة الإنجليزية.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></p>
+    <p class="masthead__eyebrow">حسابك</p>
+    <h1>حسابي</h1>
+    <p class="lede">ما قدّرته الكلية عليك، وما أعفتك منه، وكل ما دفعته، والرصيد &mdash; مع الحساب الذي أخرجه.</p>
+    <nav class="rec-nav" aria-label="المتعلم">
+      <a href="/ar/my-programme.html">برنامجي</a>
+      <a href="/ar/my-week.html">أسبوعي</a>
+      <a href="/ar/my-desk.html">مكتبي</a>
+      <a href="/ar/my-examination.html">امتحاني</a>
+      <a href="/ar/my-cases.html">قضاياي</a>
+      <a href="/ar/my-standing.html">أين أقف</a>
+      <a href="/ar/my-award.html">شهاداتي</a>
+      <a href="/ar/my-engagement.html">مشاركتي</a>
+      <a href="/ar/my-record.html">سجلّي</a>
+      <a href="/ar/my-downloads.html">ملفّاتي</a>
+      <a href="/ar/my-account.html" aria-current="page">حسابي</a>
+      <a href="/ar/listening-lab.html">معمل الاستماع</a>
+      <a href="/ar/verify.html">التحقّق من شهادة</a>
+    </nav>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container">
+    <div class="vfy-wrap app-shell">
+
+      <p class="rec-state state-plate edge-lit edge-lit--light aurum" id="state" aria-live="polite">جارٍ تحميل حسابك&hellip;</p>
+
+      <!-- الرصيد -->
+      <section class="acc-balance card tilt gold-live edge-lit edge-lit--light aurum reveal" id="secBalance" hidden>
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+        <p class="acc-balance__eyebrow" data-balance-state>&mdash;</p>
+        <p class="acc-balance__figure" data-balance-figure>&mdash;</p>
+        <p class="acc-balance__local" data-balance-local hidden></p>
+        <p class="acc-balance__note" data-balance-note></p>
+
+        <!-- الحساب نفسه: خمسة حدود ومعادلة، بترتيب الواجهة البرمجية،
+             ليتحقّق المتعلم من الجواب بدل أن يُسلِّم به. -->
+        <ol class="acc-sum" data-reconciliation></ol>
+        <p class="acc-sum__identity" data-identity></p>
+        <p class="acc-sum__warning" data-imbalance hidden></p>
+      </section>
+
+      <!-- ما يمكنك دفعُه الآن -->
+      <!-- اقرأ أوّلًا، وادفع ثانيًا. والحجّة كاملةً في النسخة
+           الإنجليزية: الترتيبات الثلاثة هي المنشورة في
+           /ar/admissions/tuition/، ولا يُرسم زرٌّ حيث لا تقدر الكلية
+           على قبول البطاقة. -->
+      <section class="acc-block acc-buy" id="secBuy" hidden>
+        <h2><svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg> ما يمكنك دفعُه الآن</h2>
+        <p class="acc-block__lede" data-buy-lede></p>
+
+        <div class="acc-buy__bar" data-buy-bar hidden>
+          <label class="acc-buy__label" for="buyCurrency">اعرض هذه الأسعار بـ</label>
+          <select id="buyCurrency" data-currency-pick></select>
+          <p class="acc-buy__rate" data-currency-rate></p>
+        </div>
+
+        <div class="callout acc-buy__closed" data-buy-closed hidden>
+          <span class="callout__label" data-buy-closed-label></span>
+          <p data-buy-closed-text></p>
+        </div>
+
+        <ul class="acc-offers" data-offers></ul>
+
+        <p class="acc-buy__terms" data-buy-terms></p>
+        <p class="vfy-error" data-buy-error hidden role="alert"></p>
+      </section>
+
+      <!-- ما قُدِّر عليك -->
+      <section class="acc-block" id="secTuition" hidden>
+        <h2><svg class="icon" aria-hidden="true"><use href="#i-lectern"/></svg> ما قُدِّر عليك، وعلى أي أساس</h2>
+        <p class="acc-block__lede" data-tuition-scope></p>
+        <div class="acc-tablewrap">
+          <table class="acc-table">
+            <caption class="sr-only">الرسوم المقدَّرة على هذا الحساب، بحسب بنودها</caption>
+            <thead><tr><th scope="col">البند</th><th scope="col">المصدر في السجل</th><th scope="col" class="acc-num">المقدَّر</th></tr></thead>
+            <tbody data-tuition></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- الإعفاء يُقاس ولا يُدَّعى -->
+      <section class="acc-block" id="secRelief" hidden>
+        <h2><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg> ما أُعفيت منه، ومن منحه</h2>
+        <ul class="acc-relief" data-relief></ul>
+      </section>
+
+      <!-- السجل -->
+      <section class="acc-block" id="secLedger" hidden>
+        <h2><svg class="icon" aria-hidden="true"><use href="#i-countermark"/></svg> كل دفعة وإيصال واسترداد</h2>
+        <div class="acc-tablewrap">
+          <table class="acc-table">
+            <caption class="sr-only">الدفعات المسجَّلة على هذا الحساب، أحدثها أولًا</caption>
+            <thead><tr>
+              <th scope="col">التاريخ</th><th scope="col">عمّاذا</th>
+              <th scope="col">الحال</th><th scope="col" class="acc-num">المبلغ</th><th scope="col">الإيصال</th>
+            </tr></thead>
+            <tbody data-ledger></tbody>
+          </table>
+        </div>
+        <p class="acc-block__note" data-ledger-empty hidden></p>
+      </section>
+
+      <!-- جدول الأقساط -->
+      <section class="acc-block" id="secInstalments" hidden>
+        <h2><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg> جدول أقساطك</h2>
+        <div data-instalments></div>
+      </section>
+
+      <!-- فاتورة واحدة، تُفتح في مكانها -->
+      <section class="acc-invoice plate-dark card card--dark edge-lit aurum" id="secInvoice" hidden aria-live="polite">
+        <button type="button" class="acc-invoice__close" data-invoice-close aria-label="إغلاق هذه الفاتورة">
+          <svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>
+        </button>
+        <p class="acc-invoice__eyebrow" data-invoice-kind>&mdash;</p>
+        <h2 data-invoice-title>فاتورة</h2>
+        <dl class="trk-facts trk-facts--dark">
+          <div><dt>الرقم</dt><dd data-invoice-ref>&mdash;</dd></div>
+          <div><dt>تاريخ الإصدار</dt><dd data-invoice-issued>&mdash;</dd></div>
+          <div><dt>تاريخ السداد</dt><dd data-invoice-settled>&mdash;</dd></div>
+          <div><dt>الإيصال</dt><dd data-invoice-receipt>&mdash;</dd></div>
+        </dl>
+        <div class="acc-tablewrap">
+          <table class="acc-table acc-table--dark">
+            <caption class="sr-only">بنود هذه الفاتورة</caption>
+            <thead><tr>
+              <th scope="col">البند</th><th scope="col" class="acc-num">الإجمالي</th>
+              <th scope="col" class="acc-num">الإعفاء</th><th scope="col" class="acc-num">الصافي</th>
+            </tr></thead>
+            <tbody data-invoice-lines></tbody>
+          </table>
+        </div>
+        <p class="acc-invoice__charged" data-invoice-charged></p>
+        <p class="acc-sum__warning" data-invoice-mismatch hidden></p>
+      </section>
+
+      <p class="acc-latest" id="latest" hidden>
+        <a href="/ar/student-portal/payment-complete/" data-latest-link>آخرُ دفعةٍ لك، وما فتحته</a>
+      </p>
+
+      <p class="vfy-scope" id="scope" hidden>
+        يشمل هذا الكشف حسابك وحده لا حساب غيرك. وهو مأخوذ من السجل نفسه &mdash; السجلّات ذاتها التي يقرؤها تقرير إيرادات الكلية &mdash; فلا يمكن أن يختلف رقمٌ هنا ورقمٌ هناك. وحيث لا يملك النظام معلومةً يقول ذلك، ولا يقدّرها تقديرًا.
+      </p>
+
+    </div>
+  </div>
+</section>
+
+<section class="leaf section--paper grain" id="about" data-contents="كيف يُضرب الرصيد">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/portico.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١</span>
+      <span class="leaf__label">السجل</span>
+      <p class="leaf__rubric">أربع قواعد تلتزم بها الكلية في المال، وكلٌّ منها يمكن التحقّق منه في الصفحة أعلاه.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
+        <h2>رصيدٌ لك أن تتحقّق منه.</h2>
+      </div>
+      <figure class="diagram diagram--wide diagram--fluid reveal">
+        {{SVG:assets/art/how-a-balance-is-struck.ar.svg}}
+        <figcaption class="diagram__caption">
+          <svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg>
+          كمية واحدة، تُنقَص مرتين ويُردّ إليها مرة &mdash; وكل حدٍّ منها منشور
+        </figcaption>
+      </figure>
+
+      <div class="grid grid--2 grid--close">
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+          <h3>الحساب منشور</h3>
+          <p>المقدَّر، ناقصًا الإعفاء، ناقصًا ما دفعت، زائدًا ما استُرِدّ. كل حدٍّ في الصفحة برقمه، والصفحة تقول أتستقيم المعادلة أم لا. فالرصيد الذي لا يُتحقَّق منه رصيدٌ يُطلَب منك أن تثق به.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg></span>
+          <h3>عملتان لا واحدة</h3>
+          <p>كل رقم يُعرض بعملة سجل الكلية، وبعملتك حيث يكون سعر الصرف معلومًا &mdash; ويحمل الرقمُ نفسُه تاريخَ صحّة ذلك السعر، حتى تبقى صورةٌ منه صادقة.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-countermark"/></svg></span>
+          <h3>ما خُصم منك، كما خُصم</h3>
+          <p>تُظهر الفاتورة المبلغ الذي وصل البطاقة فعلًا، بالعملة التي أُخذ بها، إلى جانب رقم السجل. وتحويل ما دفعتَه بسعر اليوم استبدالٌ للواقعة بتقدير.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span>
+          <h3>الإعفاء يُقاس ولا يُدَّعى</h3>
+          <p>يظهر الخصم هنا بعد أن يكون قد خفّض مبلغًا فعلًا، ويُسمّي الجهة التي منحته. أما منحةٌ تحملها ولم تُطبَّق بعد فتُذكَر ولم يُنسَب إليها شيء، وذلك هو الرقم الصادق.</p>
+        </div>
+      </div>
+      <div class="callout">
+        <span class="callout__label">إن بدا لك رقمٌ خطأً</span>
+        <p>فقل ذلك، واذكر الرقم المرجعي الذي بجانبه. ويُجاب عن الاعتراض على مبلغٍ من مكتب المسجّل وفق <a href="/ar/support/complaints/">إجراء الشكاوى</a>، كتابةً، ضمن المدد المنشورة &mdash; وقائمة ما للكلية أن تتقاضاه مغلقة ومنشورة في <a href="/ar/admissions/tuition/">الرسوم الدراسية</a>. وما ليس في تلك القائمة فلا وجود له.</p>
+      </div>
+    </div>
+  </div>
+</section>

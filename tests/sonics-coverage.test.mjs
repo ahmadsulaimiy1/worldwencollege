@@ -64,7 +64,26 @@ const html = (function walk(dir, acc = []) {
 check('There is built HTML to check against', html.length > 100000,
   `${Math.round(html.length / 1024)} KB`);
 
-const present = (cls) => new RegExp(`class="[^"]*\\b${cls}\\b`).test(html);
+// ── …and every page script, as another ────────────────────────────────
+// A surface built by a script is as struck as one written into the
+// source. The rail on /admissions/track/ is five discs assembled by
+// js/admissions-track.js and appears in no built HTML at all, so a
+// corpus of HTML alone reported its class as a DEAD selector and would
+// have had the register drop the voice from a component that has one.
+//
+// The guard keeps its teeth: a class that appears in neither corpus is
+// still dead, and that is the case it exists to catch — a selector left
+// behind after a component was renamed.
+const scripts = readdirSync(path.join(ROOT, 'js'))
+  .filter((f) => f.endsWith('.js'))
+  .map((f) => readFileSync(path.join(ROOT, 'js', f), 'utf8'))
+  .join('\n');
+
+const present = (cls) => new RegExp(`class="[^"]*\\b${cls}\\b`).test(html)
+  // In a script: the class name as a whole word, which is how
+  // className assignments, classList calls and template strings all
+  // spell it.
+  || new RegExp(`(^|[^\\w-])${cls}([^\\w-]|$)`).test(scripts);
 
 // ── 1 · No dead selector ──────────────────────────────────────────────
 const dead = classSelectors.filter((s) => !present(s.slice(1)));
@@ -88,6 +107,13 @@ const MAJOR = [
   'article__seal', 'docket__entry', 'attest',
   // css/press.css — the imprint
   'folio', 'imprint', 'shelf__title',
+  // css/console.css — the staff consoles. The medallion at the head of
+  // a desk, the plate a piece of work sits on, and the plate a member
+  // of staff writes an act on. The empty-desk notice (.stf-clear) is
+  // deliberately absent: it is a message, not a struck object, and it
+  // carries no relief — the distinction §3 draws between a surface with
+  // a voice and one without.
+  'stf-count', 'stf-item', 'stf-act',
 ];
 const silent = MAJOR.filter((c) => present(c) && !registered.has('.' + c));
 check(`No struck shape is silent — ${MAJOR.length} major components checked`,
