@@ -118,6 +118,21 @@
   color: color-mix(in oklab, var(--emerald, #14563C) 92%, var(--ink, #10203A));
 }
 .desk-chip--closed { opacity: .7; }
+/* Examinations and conferral read K.chip()'s 'good'/'warn' kinds too —
+   a passing result or a capped/late/reconciling one. Same colour
+   language as --answered/--unread above: emerald for the College's
+   positive act, gold for something still outstanding. */
+.desk-chip--good {
+  background: color-mix(in oklab, var(--emerald, #14563C) 14%, transparent);
+  border-color: color-mix(in oklab, var(--emerald, #14563C) 40%, transparent);
+  color: color-mix(in oklab, var(--emerald, #14563C) 92%, var(--ink, #10203A));
+}
+.desk-chip--warn {
+  background: linear-gradient(160deg, rgba(199, 162, 74, .32), rgba(199, 162, 74, .16));
+  border-color: color-mix(in oklab, var(--gold, #C6A15B) 62%, transparent);
+  color: color-mix(in oklab, var(--ink, #10203A) 88%, transparent);
+  box-shadow: 0 0 0 1px rgba(199, 162, 74, .18), 0 2px 10px -4px rgba(199, 162, 74, .5);
+}
 
 /* ── NOTICES ─────────────────────────────────────────────────────────
    A struck plate. Marks along the top edge, then the title, then who

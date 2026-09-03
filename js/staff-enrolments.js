@@ -52,8 +52,11 @@
     found: function (n) { return n === 0 ? 'لا نتيجة.' : n + ' نتيجة.'; },
     open: 'افتح سجلَّه',
     close: 'أغلق',
+    learnerMeta: function (l) {
+      return l.email + ' · ' + l.role + (l.emailVerified ? ' · البريد موثَّق' : ' · البريد غير موثَّق');
+    },
     auditNote: function (d) { return 'يبدأ سجلُّ المراجعة في ' + d + '، وما قبله ليس في هذه المنصّة.'; },
-    auditNone: 'لا سجلَّ مراجعةٍ بعد.',
+    auditNone: 'قد يكون هذا السجلّ غير مكتمل: لا يُعرف متى بدأ تسجيل تغييرات القيد في هذه القاعدة.',
     enrolmentsLabel: 'تسجيلاته',
     noEnrolments: 'لا تسجيلَ له.',
     statuses: {
@@ -108,8 +111,11 @@
     found: function (n) { return n === 0 ? 'Nothing found.' : n + (n === 1 ? ' result.' : ' results.'); },
     open: 'Open their record',
     close: 'Close',
+    learnerMeta: function (l) {
+      return l.email + ' · ' + l.role + (l.emailVerified ? ' · email verified' : ' · email not verified');
+    },
     auditNote: function (d) { return 'The audit record on this platform begins ' + d + '. Nothing before that date is held here.'; },
-    auditNone: 'There is no audit record yet.',
+    auditNone: 'This record may be incomplete: it is not known when enrolment changes began being recorded on this database.',
     enrolmentsLabel: 'Their enrolments',
     noEnrolments: 'They hold no enrolment.',
     statuses: {
@@ -244,10 +250,12 @@
     return K.api('/api/admin/learners?id=' + encodeURIComponent(userId)).then(function (l) {
       open = l;
       $('[data-learner-head]').textContent = l.preferredName || l.email || l.id;
+      $('[data-learner-meta]').textContent = T.learnerMeta(l);
       $('[data-learner-close]').textContent = T.close;
-      $('[data-audit-note]').textContent = l.auditRecord && l.auditRecord.startsAt
-        ? T.auditNote(K.when(l.auditRecord.startsAt))
-        : T.auditNone;
+      var audit = l.auditRecord;
+      $('[data-audit-note]').textContent = (!audit || !audit.known)
+        ? T.auditNone
+        : (audit.complete ? '' : T.auditNote(K.when(audit.since)));
 
       // ALL SIX LEVELS, ENROLLED OR NOT. A list of only the levels
       // somebody holds cannot say what they do not hold, and "not
