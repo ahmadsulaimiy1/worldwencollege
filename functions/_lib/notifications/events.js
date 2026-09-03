@@ -124,17 +124,25 @@ export async function notify(env, eventType, { userId, to, ...data }) {
   const { subject, html } = template(data);
 
   const logId = newId('ntf');
+  // Resolved ONCE, before the send, so the success and failure paths
+  // below cannot disagree about who was asked. The column used to be
+  // the literal 'resend', which was true while there was one adapter
+  // and became a lie the moment provider() could return Brevo: every
+  // row claimed Resend regardless of who actually sent it. That column
+  // is how anyone reconstructs a deliverability problem across two
+  // providers, so it has to name the one that ran.
+  const gateway = provider(env);
   try {
-    const { providerRef } = await provider(env).send({ to, subject, html }, env);
+    const { providerRef } = await gateway.send({ to, subject, html }, env);
     await db(env)
       .prepare('INSERT INTO notification_log (id, user_id, event_type, channel, provider, provider_ref, status) VALUES (?, ?, ?, ?, ?, ?, ?)')
-      .bind(logId, userId || null, eventType, 'email', 'resend', providerRef, 'sent')
+      .bind(logId, userId || null, eventType, 'email', gateway.name, providerRef, 'sent')
       .run();
     return { sent: true };
   } catch (err) {
     await db(env)
       .prepare('INSERT INTO notification_log (id, user_id, event_type, channel, provider, status) VALUES (?, ?, ?, ?, ?, ?)')
-      .bind(logId, userId || null, eventType, 'email', 'resend', 'failed')
+      .bind(logId, userId || null, eventType, 'email', gateway.name, 'failed')
       .run();
     // A notification failure should never fail the caller's real
     // transaction (e.g. a webhook confirming a payment) — log and

@@ -39,6 +39,9 @@ const ENDPOINT = 'https://api.brevo.com/v3/smtp/email';
 const DEFAULT_FROM_NAME = 'Worldwide English College';
 
 export const brevoAdapter = {
+  // Written into notification_log.provider. See the note in events.js.
+  name: 'brevo',
+
   async send({ to, subject, html }, env) {
     if (!env.BREVO_API_KEY) throw new GatewayNotConfiguredError('Brevo', 'BREVO_API_KEY');
     if (!env.BREVO_FROM_ADDRESS) throw new GatewayNotConfiguredError('Brevo', 'BREVO_FROM_ADDRESS');

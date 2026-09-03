@@ -35,7 +35,7 @@
      fold and swap covers it. -->
 <link rel="preload" href="/assets/fonts/fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Inter:wght@400;600;700;800&family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/brand.css?v=3dff6ea9">
+<link rel="stylesheet" href="/css/brand.css?v=308b4850">
 <link rel="stylesheet" href="/css/atelier.css?v=9eadec1f">
 <link rel="stylesheet" href="/css/pages.css?v=e0f4b722">
 <link rel="stylesheet" href="/css/pillar.css?v=661126ed">
@@ -71,6 +71,9 @@
 <meta property="og:description" content="ما أنت مسجَّلٌ له، ومرجعُ الجلسة الذي تنطق به، والنافذةُ وساعاتُ الورقة الثلاث، وما تصنعه الكليةُ بها بعد التسليم.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.worldwencollege.co.uk/ar/my-examination.html">
+<!-- worldwencollege.co.uk is the College's real, permanent domain — the
+     one this site is actually served from, and the one every
+     canonical, hreflang and og:url entry is deliberately built on. -->
 <meta property="og:image" content="https://www.worldwencollege.co.uk/assets/images/og-image.jpg">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
@@ -91,8 +94,8 @@
 {
   "@context": "https://schema.org",
   "@type": "EducationalOrganization",
-  "name": "WorldWide English College — London Campus",
-  "alternateName": "WEC-LC",
+  "name": "Worldwide English College — London Campus",
+  "alternateName": "WEC",
   "url": "https://www.worldwencollege.co.uk/",
   "email": "info@worldwencollege.co.uk",
   "slogan": "Empowering the World Through English Excellence.",
@@ -605,7 +608,47 @@
       stroke-width=".55" opacity=".75"/>
   </symbol>
 
-</defs></svg>
+</defs>
+  <!-- THE SIX LEVELS.
+       One silhouette, six states: a spine with six rungs, the first N
+       struck full width and the remainder left short at 38% opacity.
+       Before this the six level tiles all carried #i-laurel, so a
+       reader could not tell Level II from Level V without reading the
+       label — six identical marks doing no work at all. Countability is
+       the whole point: the glyph says WHICH level, which is the one
+       thing a laurel could never say. Same 24x24 grid, same 1.25px
+       stroke, no fills, so the family sits inside the existing set
+       rather than beside it. -->
+  <symbol id="i-level-1" viewBox="0 0 24 24">
+    <path d="M4 21.6V2.4"/>
+    <path d="M6.4 19.0H18.6"/>
+    <path d="M6.4 15.8H11.4M6.4 12.6H11.4M6.4 9.4H11.4M6.4 6.2H11.4M6.4 3.0H11.4" opacity=".38"/>
+  </symbol>
+  <symbol id="i-level-2" viewBox="0 0 24 24">
+    <path d="M4 21.6V2.4"/>
+    <path d="M6.4 19.0H18.6M6.4 15.8H18.6"/>
+    <path d="M6.4 12.6H11.4M6.4 9.4H11.4M6.4 6.2H11.4M6.4 3.0H11.4" opacity=".38"/>
+  </symbol>
+  <symbol id="i-level-3" viewBox="0 0 24 24">
+    <path d="M4 21.6V2.4"/>
+    <path d="M6.4 19.0H18.6M6.4 15.8H18.6M6.4 12.6H18.6"/>
+    <path d="M6.4 9.4H11.4M6.4 6.2H11.4M6.4 3.0H11.4" opacity=".38"/>
+  </symbol>
+  <symbol id="i-level-4" viewBox="0 0 24 24">
+    <path d="M4 21.6V2.4"/>
+    <path d="M6.4 19.0H18.6M6.4 15.8H18.6M6.4 12.6H18.6M6.4 9.4H18.6"/>
+    <path d="M6.4 6.2H11.4M6.4 3.0H11.4" opacity=".38"/>
+  </symbol>
+  <symbol id="i-level-5" viewBox="0 0 24 24">
+    <path d="M4 21.6V2.4"/>
+    <path d="M6.4 19.0H18.6M6.4 15.8H18.6M6.4 12.6H18.6M6.4 9.4H18.6M6.4 6.2H18.6"/>
+    <path d="M6.4 3.0H11.4" opacity=".38"/>
+  </symbol>
+  <symbol id="i-level-6" viewBox="0 0 24 24">
+    <path d="M4 21.6V2.4"/>
+    <path d="M6.4 19.0H18.6M6.4 15.8H18.6M6.4 12.6H18.6M6.4 9.4H18.6M6.4 6.2H18.6M6.4 3.0H18.6"/>
+  </symbol>
+</svg>
 <!-- شريط الأدوات: أداةٌ لا شريط اتصال. انظر النسخة الإنجليزية للتعليل. -->
 <div class="topbar" data-worldclock>
   <div class="topbar__inner">
@@ -668,9 +711,12 @@
   وبقي السلوك الذي كان جيدًا فعلًا: عند التمرير ينكمش الشريط، ويصغر
   الشعار، وينسحب سطر الحرم، فيبقى اسم الكلية بحجمه الكامل.
 
-  القوائم هي أركان docs/information-architecture.html الستة نفسها
-  التي تحملها الترويسة الإنجليزية: عن الكلية، البرامج الأكاديمية،
-  القبول، الطلاب، الحوكمة، المطبعة والمكتبة. القاعدة الثابتة باقية:
+  القوائم هي الأركان الثمانية نفسها التي تحملها الترويسة الإنجليزية:
+  عن الكلية، البرامج الأكاديمية، الدراسة، القبول، الطلاب، المعايير،
+  الحوكمة، المطبعة والمكتبة. وكانت ستة؛ أُضيفت «الدراسة» و«المعايير»
+  لأن صفحات المستويات الستة وصفحة النزاهة الأكاديمية لم تكن تُبلَغ من
+  أي قائمة. ولم يُنشئ الركنان الجديدان صفحة واحدة جديدة: «المعايير»
+  تشير إلى أقسام قائمة بالفعل في الحوكمة، والركن مدخلٌ لا صفحة. القاعدة الثابتة باقية:
   حيث لا توجد صفحة عربية، لا يُدرج الرابط أصلًا بدلًا من إخراج
   القارئ من لغته — راجع pages/manifest.json لما هو مترجَم. رابط
   التواصل في شريط الخدمات أعلاه.
@@ -681,7 +727,7 @@
   واحدة، وهذا ما يعنيه الوصف «مكدَّس» على هاتف عرضه ٣٧٥ بكسل. كل ركن
   الآن زوج accordion__q / accordion__a مغلق — المكوّن ذاته الذي
   استخدمته صفحة الأسئلة الشائعة من قبل، موصول مرة واحدة في js/site.js
-  ومُعاد استخدامه هنا بدل كتابته مرتين — فيرى القارئ سبعة أسماء، يفتح
+  ومُعاد استخدامه هنا بدل كتابته مرتين — فيرى القارئ ثمانية أسماء، يفتح
   واحدًا، ويبقى الباقي بعيدًا عن الطريق. واللوحة نفسها طبقة ثابتة
   مثبَّتة عند var(--header-h) بدل أن تكون كتلة داخل السياق، ولها
   زخرفتها الغيوشيه الخاصة بها للاحتفالية، وتتحوّل أيقونة الهمبرغر إلى
@@ -744,23 +790,50 @@
             <div class="mega__col">
               <p class="mega__label">البرنامج</p>
               <a href="/ar/academics/">نظرة عامة على البرنامج</a>
-              <a href="/ar/academics/#iefc">برنامج <span dir="ltr">IEFC</span></a>
-              <a href="/ar/academics/#levels">المستويات الستة</a>
+              <a href="/ar/academics/#iefc">برنامج <span dir="ltr">IEFC</span> &mdash; <span dir="ltr">International English Fluency Course</span></a>
               <a href="/ar/academics/#learning">كيف يجري التعلّم</a>
               <a href="/ar/academics/#campus">الحرم الرقمي</a>
             </div>
             <div class="mega__col">
               <p class="mega__label">التدريس وهيئته</p>
               <a href="/ar/academics/teaching/">ممارسة التدريس</a>
+              <a href="/ar/academics/teaching/#development">تطوير المعلّمين</a>
               <a href="/ar/academics/tutor-handbook/">دليل المدرّس</a>
               <a href="/ar/faculty/">هيئة التدريس</a>
             </div>
           </div>
-          <a class="mega__feature" href="/ar/academics/#levels">
-            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-progress"/></svg>
-            <span class="mega__feature-label">ستون وحدة، مكتوبة</span>
+          <a class="mega__feature" href="/ar/academics/teaching/">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-quill"/></svg>
+            <span class="mega__feature-label">ستون درسًا، مكتوبة</span>
             <span class="mega__feature-text">كل مخرج وكل معيار تصحيح، متاح للقراءة قبل التسجيل.</span>
-            <span class="mega__feature-go">استعرض المستويات <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+            <span class="mega__feature-go">كيف تُدرّس الكلية <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
+        </div>
+      </div>
+
+      <div class="nav__item nav__item--has-menu">
+        <a href="/ar/academics/#levels" aria-haspopup="true" aria-expanded="false">الدراسة</a>
+        <div class="nav__menu nav__menu--mega crystal">
+          <div class="mega__cols">
+            <div class="mega__col">
+              <p class="mega__label">المستويات الستة</p>
+              <a href="/ar/academics/#levels">المستويات الستة جميعًا</a>
+              <a href="/ar/study/level-1/">المستوى الأول &middot; التأسيس</a>
+              <a href="/ar/study/level-2/">المستوى الثاني &middot; الابتدائي</a>
+              <a href="/ar/study/level-3/">المستوى الثالث &middot; المتوسط</a>
+            </div>
+            <div class="mega__col">
+              <p class="mega__label">&nbsp;</p>
+              <a href="/ar/study/level-4/">المستوى الرابع &middot; فوق المتوسط</a>
+              <a href="/ar/study/level-5/">المستوى الخامس &middot; المتقدّم</a>
+              <a href="/ar/study/level-6/">المستوى السادس &middot; الإتقان</a>
+            </div>
+          </div>
+          <a class="mega__feature" href="/ar/study/level-1/">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-progress"/></svg>
+            <span class="mega__feature-label">كل مستوى كامل بذاته</span>
+            <span class="mega__feature-text">يُمنح منفصلًا، وله مخرجاته. والتوقف عند الثالث يتركك حاملًا للثالث، دائمًا.</span>
+            <span class="mega__feature-go">ابدأ من التأسيس <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
           </a>
         </div>
       </div>
@@ -799,6 +872,7 @@
               <a href="/ar/students/assessment/">كيف يتم تقييمك</a>
               <a href="/ar/students/academic-record/">سجلك الأكاديمي</a>
               <a href="/ar/students/awards/">الشهادات والمراتب</a>
+              <a href="/ar/students/#support">الدعم</a>
               <a href="/ar/students/regulations/">اللوائح الأكاديمية</a>
               <a href="/ar/students/examinations/">لوائح الامتحان</a>
               <a href="/ar/students/handbook/">دليل الطالب</a>
@@ -815,6 +889,28 @@
       </div>
 
       <div class="nav__item nav__item--has-menu">
+        <a href="/ar/governance/#standard" aria-haspopup="true" aria-expanded="false">المعايير</a>
+        <div class="nav__menu nav__menu--mega nav__menu--slim crystal">
+          <div class="mega__cols">
+            <div class="mega__col">
+              <p class="mega__label">كيف يُصان المعيار</p>
+              <a href="/ar/governance/#standard">المعيار</a>
+              <a href="/ar/governance/#verification">التحقق</a>
+              <a href="/ar/governance/#research">البحث</a>
+              <a href="/ar/governance/evidence/">سجل الأدلة</a>
+              <a href="/ar/students/integrity/">النزاهة الأكاديمية</a>
+            </div>
+          </div>
+          <a class="mega__feature" href="/ar/governance/evidence/">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-shield-check"/></svg>
+            <span class="mega__feature-label">دليل لا ادّعاء</span>
+            <span class="mega__feature-text">كل ما تقوله الكلية عن نفسها منشور ومعه السجل الذي يسنده &mdash; بما فيه ما لم يُعتمد بعد.</span>
+            <span class="mega__feature-go">سجل الأدلة <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
+        </div>
+      </div>
+
+      <div class="nav__item nav__item--has-menu">
         <a href="/ar/governance/" aria-haspopup="true" aria-expanded="false">الحوكمة</a>
         <div class="nav__menu nav__menu--mega nav__menu--slim crystal">
           <div class="mega__cols">
@@ -823,7 +919,6 @@
               <a href="/ar/governance/">الحوكمة</a>
               <a href="/ar/governance/#leadership">القيادة والهيئات</a>
               <a href="/ar/governance/#quality">ضمان الجودة</a>
-              <a href="/ar/governance/evidence/">سجل الأدلة</a>
               <a href="/ar/governance/decisions/">سجل القرارات</a>
               <a href="/ar/governance/quality/">بنية الجودة</a>
               <a href="/ar/governance/quality-manual/">دليل ضمان الجودة</a>
@@ -831,11 +926,11 @@
               <a href="/ar/governance/instruments/">سجلّ الأدوات النظامية</a>
             </div>
           </div>
-          <a class="mega__feature" href="/ar/governance/evidence/">
-            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-shield-check"/></svg>
-            <span class="mega__feature-label">دليل لا ادّعاء</span>
-            <span class="mega__feature-text">كل ما تقوله الكلية عن نفسها منشور ومعه السجل الذي يسنده.</span>
-            <span class="mega__feature-go">سجل الأدلة <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          <a class="mega__feature" href="/ar/governance/decisions/">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-scales"/></svg>
+            <span class="mega__feature-label">كل قرار في السجل</span>
+            <span class="mega__feature-text">ما الذي قُرِّر، وبأي صلاحية، وعلامَ لا يزال يتوقف.</span>
+            <span class="mega__feature-go">سجل القرارات <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
           </a>
         </div>
       </div>
@@ -879,7 +974,11 @@
        حيث يحمل التصوير المرجعي سطر التاريخ والوقت، في أعلى التطبيق لا
        داخل محتوى الصفحة. مقتضبة عن قصد: سطر واحد بلا قرص تناظري، فلا
        تكلّف الترويسة شيئًا يُذكر من الارتفاع. js/worldclock.js يملأ
-       القيم الثلاث؛ الأرقام هنا هي حالة ما قبل تشغيل السكربت فقط. -->
+       القيم الثلاث؛ الأرقام هنا هي حالة ما قبل تشغيل السكربت فقط.
+
+       شريط الترويسة العلوي (partials/topbar.ar.html) صار يحمل الساعتين
+       معًا، فاستغنينا عن هذا الشريط المكرَّر في الجوال — انظر التعليق في
+       partials/header.html لتفصيل السبب. -->
 
   <!-- شريط الإجراءات السريعة — انظر النسخة الإنجليزية للتعليل. -->
   <div class="utilrail" aria-label="إجراءات سريعة">
@@ -917,6 +1016,7 @@
        بلمسة الإصبع يحمل الأركان الستة ذاتها، وبطاقة سابعة "القائمة
        الكاملة" تفتح اللوحة أدناه بدل الانتقال إلى صفحة — الشريط
        اختصار للمستوى الأول، واللوحة تبقى حيث يقيم الموقع كاملًا. -->
+
   <div class="quicknav grain" aria-label="التنقّل السريع">
     <div class="quicknav__track">
       <a href="/ar/about/" class="quicknav__tile">
@@ -927,6 +1027,10 @@
         <span class="vessel" style="--halo-delay: .6s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg></span></span>
         <span class="quicknav__label">الأكاديميا</span>
       </a>
+      <a href="/ar/academics/#levels" class="quicknav__tile">
+        <span class="vessel" style="--halo-delay: 1.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span></span>
+        <span class="quicknav__label">الدراسة</span>
+      </a>
       <a href="/ar/admissions/" class="quicknav__tile">
         <span class="vessel" style="--halo-delay: 1.2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span></span>
         <span class="quicknav__label">القبول</span>
@@ -934,6 +1038,10 @@
       <a href="/ar/students/" class="quicknav__tile">
         <span class="vessel" style="--halo-delay: 1.8s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span></span>
         <span class="quicknav__label">الطلاب</span>
+      </a>
+      <a href="/ar/governance/#standard" class="quicknav__tile">
+        <span class="vessel" style="--halo-delay: 2.4s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span></span>
+        <span class="quicknav__label">المعايير</span>
       </a>
       <a href="/ar/governance/" class="quicknav__tile">
         <span class="vessel" style="--halo-delay: 2.4s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span></span>
@@ -967,18 +1075,25 @@
         <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg></span><span>البرامج الأكاديمية</span></span><span class="plus" aria-hidden="true">+</span></button>
         <div class="accordion__a"><div class="accordion__a-inner">
           <a href="/ar/academics/">نظرة عامة على البرنامج</a>
-          <a href="/ar/academics/#iefc">برنامج <span dir="ltr">IEFC</span></a>
-          <a href="/ar/academics/#levels">المستويات الستة</a>
+          <a href="/ar/academics/#iefc">برنامج <span dir="ltr">IEFC</span> &mdash; <span dir="ltr">International English Fluency Course</span></a>
           <a href="/ar/academics/#learning">كيف يجري التعلّم</a>
           <a href="/ar/academics/#campus">الحرم الرقمي</a>
+          <a href="/ar/academics/teaching/">ممارسة التدريس</a>
+          <a href="/ar/academics/teaching/#development">تطوير المعلّمين</a>
+          <a href="/ar/academics/tutor-handbook/">دليل المدرّس</a>
+          <a href="/ar/faculty/">هيئة التدريس</a>
         </div></div>
       </div>
       <div class="accordion__item">
-        <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span><span>التدريس وهيئته</span></span><span class="plus" aria-hidden="true">+</span></button>
+        <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span><span>الدراسة</span></span><span class="plus" aria-hidden="true">+</span></button>
         <div class="accordion__a"><div class="accordion__a-inner">
-          <a href="/ar/academics/teaching/">ممارسة التدريس</a>
-          <a href="/ar/academics/tutor-handbook/">دليل المدرّس</a>
-          <a href="/ar/faculty/">هيئة التدريس</a>
+          <a href="/ar/academics/#levels">المستويات الستة جميعًا</a>
+          <a href="/ar/study/level-1/">المستوى الأول &middot; التأسيس</a>
+          <a href="/ar/study/level-2/">المستوى الثاني &middot; الابتدائي</a>
+          <a href="/ar/study/level-3/">المستوى الثالث &middot; المتوسط</a>
+          <a href="/ar/study/level-4/">المستوى الرابع &middot; فوق المتوسط</a>
+          <a href="/ar/study/level-5/">المستوى الخامس &middot; المتقدّم</a>
+          <a href="/ar/study/level-6/">المستوى السادس &middot; الإتقان</a>
         </div></div>
       </div>
       <div class="accordion__item">
@@ -995,12 +1110,13 @@
         </div></div>
       </div>
       <div class="accordion__item">
-        <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span><span>الحياة الطلابية</span></span><span class="plus" aria-hidden="true">+</span></button>
+        <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span><span>الطلاب</span></span><span class="plus" aria-hidden="true">+</span></button>
         <div class="accordion__a"><div class="accordion__a-inner">
           <a href="/ar/students/">الحياة الطلابية</a>
           <a href="/ar/students/assessment/">كيف يتم تقييمك</a>
           <a href="/ar/students/academic-record/">سجلك الأكاديمي</a>
           <a href="/ar/students/awards/">الشهادات والمراتب</a>
+          <a href="/ar/students/#support">الدعم</a>
           <a href="/ar/students/regulations/">اللوائح الأكاديمية</a>
           <a href="/ar/students/examinations/">لوائح الامتحان</a>
           <a href="/ar/students/handbook/">دليل الطالب</a>
@@ -1009,12 +1125,21 @@
         </div></div>
       </div>
       <div class="accordion__item">
+        <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span><span>المعايير</span></span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">
+          <a href="/ar/governance/#standard">المعيار</a>
+          <a href="/ar/governance/#verification">التحقق</a>
+          <a href="/ar/governance/#research">البحث</a>
+          <a href="/ar/governance/evidence/">سجل الأدلة</a>
+          <a href="/ar/students/integrity/">النزاهة الأكاديمية</a>
+        </div></div>
+      </div>
+      <div class="accordion__item">
         <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span><span>الحوكمة</span></span><span class="plus" aria-hidden="true">+</span></button>
         <div class="accordion__a"><div class="accordion__a-inner">
           <a href="/ar/governance/">الحوكمة</a>
           <a href="/ar/governance/#leadership">القيادة والهيئات</a>
           <a href="/ar/governance/#quality">ضمان الجودة</a>
-          <a href="/ar/governance/evidence/">سجل الأدلة</a>
           <a href="/ar/governance/decisions/">سجل القرارات</a>
           <a href="/ar/governance/quality/">بنية الجودة</a>
           <a href="/ar/governance/quality-manual/">دليل ضمان الجودة</a>
@@ -1031,9 +1156,10 @@
       </div>
     </div>
     <div class="nav-mobile__group--utility">
-      <a href="/ar/support/accessibility/">الإتاحة</a>
-      <a href="/ar/support/privacy/">الخصوصية وبياناتك</a>
-      <a href="/ar/contact/">تواصل معنا</a>
+      <a href="/ar/student-portal/">البوابة</a>
+      <a href="/ar/verify/" lang="en" hreflang="en">تحقّق من شهادة</a>
+      <a href="/ar/contact/">اتصل بنا</a>
+      <a href="/ar/faq/">الأسئلة الشائعة</a>
     </div>
     <div class="nav-mobile__lang">
       <a class="topbar__lang" href="/my-examination.html" lang="en" hreflang="en" dir="ltr">
@@ -1239,7 +1365,7 @@
         <span class="footergrid__label">سجلك الأكاديمي</span>
       </a>
       <a href="/ar/governance/decisions/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 1.8s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span></span>
+        <span class="vessel" style="--halo-delay: 1.8s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span></span>
         <span class="footergrid__label">سجل القرارات</span>
       </a>
       <a href="/ar/press/catalogue/" class="footergrid__tile">
@@ -1249,30 +1375,6 @@
       <a href="/ar/about/#status" class="footergrid__tile">
         <span class="vessel" style="--halo-delay: 2.4s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span></span>
         <span class="footergrid__label">الوضع المؤسسي</span>
-      </a>
-      <a href="/ar/study/level-1/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 2.7s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
-        <span class="footergrid__label">المستوى الأول &middot; A1</span>
-      </a>
-      <a href="/ar/study/level-2/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
-        <span class="footergrid__label">المستوى الثاني &middot; A2</span>
-      </a>
-      <a href="/ar/study/level-3/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 3.3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
-        <span class="footergrid__label">المستوى الثالث &middot; B1</span>
-      </a>
-      <a href="/ar/study/level-4/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 3.6s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
-        <span class="footergrid__label">المستوى الرابع &middot; B2</span>
-      </a>
-      <a href="/ar/study/level-5/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 3.9s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
-        <span class="footergrid__label">المستوى الخامس &middot; C1</span>
-      </a>
-      <a href="/ar/study/level-6/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 4.2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
-        <span class="footergrid__label">المستوى السادس &middot; C2</span>
       </a>
     </div>
   </div>
@@ -1285,11 +1387,11 @@
     <div class="footergrid__row">
       <a href="/ar/academics/#iefc" class="footergrid__tile">
         <span class="vessel vessel--sm" style="--halo-delay: 0s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span></span>
-        <span class="footergrid__label">برنامج <span dir="ltr">IEFC</span></span>
+        <span class="footergrid__label">برنامج <span dir="ltr">IEFC</span> &mdash; <span dir="ltr">International English Fluency Course</span></span>
       </a>
       <a href="/ar/academics/#levels" class="footergrid__tile">
         <span class="vessel vessel--sm" style="--halo-delay: .3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
-        <span class="footergrid__label">المستويات الستة</span>
+        <span class="footergrid__label">المؤهلات الستة</span>
       </a>
       <a href="/ar/academics/#learning" class="footergrid__tile">
         <span class="vessel vessel--sm" style="--halo-delay: .6s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span></span>
@@ -1306,6 +1408,31 @@
       <a href="/ar/student-portal/" class="footergrid__tile">
         <span class="vessel vessel--sm" style="--halo-delay: 1.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span></span>
         <span class="footergrid__label">بوابة الطالب</span>
+      </a>
+    
+      <a href="/ar/study/level-1/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 2.7s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-level-1"/></svg></span></span>
+        <span class="footergrid__label">مرحلة التأسيس &middot; <span dir="ltr">A1</span></span>
+      </a>
+      <a href="/ar/study/level-2/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-level-2"/></svg></span></span>
+        <span class="footergrid__label">مرحلة التطوير &middot; <span dir="ltr">A2</span></span>
+      </a>
+      <a href="/ar/study/level-3/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 3.3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-level-3"/></svg></span></span>
+        <span class="footergrid__label">مرحلة التطبيق &middot; <span dir="ltr">B1</span></span>
+      </a>
+      <a href="/ar/study/level-4/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 3.6s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-level-4"/></svg></span></span>
+        <span class="footergrid__label">المرحلة المهنية &middot; <span dir="ltr">B2</span></span>
+      </a>
+      <a href="/ar/study/level-5/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 3.9s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-level-5"/></svg></span></span>
+        <span class="footergrid__label">المرحلة المتقدمة &middot; <span dir="ltr">C1</span></span>
+      </a>
+      <a href="/ar/study/level-6/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 4.2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-level-6"/></svg></span></span>
+        <span class="footergrid__label">مرحلة الإتقان &middot; <span dir="ltr">C2</span></span>
       </a>
     </div>
   </div>
@@ -1422,7 +1549,7 @@
       <a href="/ar/admissions/#apply" class="footerlinks__card">
         <span class="vessel__badge vessel__badge--sm vessel__badge--gold"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
         <span class="footerlinks__card-title">قدّم الآن</span>
-        <span class="footerlinks__card-desc">ابدأ طلب الالتحاق بأيٍّ من مستويات IEFC الستة.</span>
+        <span class="footerlinks__card-desc">ابدأ طلب الالتحاق بأيٍّ من مستويات البرنامج الستة.</span>
       </a>
       <a href="/ar/student-portal/" class="footerlinks__card">
         <span class="vessel__badge vessel__badge--sm vessel__badge--gold"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg></span>
@@ -1432,7 +1559,7 @@
       <a href="/ar/admissions/tuition/" class="footerlinks__card">
         <span class="vessel__badge vessel__badge--sm vessel__badge--gold"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
         <span class="footerlinks__card-title">الرسوم الدراسية</span>
-        <span class="footerlinks__card-desc">أسعار كل مستوى ووسائل السداد وشروط الاسترداد.</span>
+        <span class="footerlinks__card-desc">أسعار كل مستوى ووسائل السداد وموقف الكلية الصريح من الاسترداد.</span>
       </a>
       <a href="/ar/contact/" class="footerlinks__card">
         <span class="vessel__badge vessel__badge--sm vessel__badge--gold"><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg></span>
@@ -1507,16 +1634,16 @@
   <div class="trim-metal" aria-hidden="true"></div>
 </footer>
 
-<script src="/js/site.js?v=4332eab8"></script>
+<script src="/js/site.js?v=6b9fe410"></script>
 <script src="/js/motion.js?v=fbe1640a"></script>
 <script src="/js/atelier.js?v=989e1ca8" defer></script>
 <script src="/js/worldclock.js?v=99a644de" defer></script>
 <script src="/js/intake.js?v=5238c58f" defer></script>
 <script src="/js/sonics.js?v=64a04468" defer></script>
-<script src="/js/auth-config.js?v=55a73de7"></script>
-<script src="/js/clerk-loader.js?v=0d9cae5a"></script>
-<script src="/js/portal-guard.js?v=6ae6fb6c"></script>
-<script src="/js/api-auth.js?v=a45735fc"></script>
+<script src="/js/auth-config.js?v=9d792265"></script>
+<script src="/js/clerk-loader.js?v=cef7ba55"></script>
+<script src="/js/portal-guard.js?v=01cafd5c"></script>
+<script src="/js/api-auth.js?v=6fec100e"></script>
 <script src="/js/staff-kit.js?v=d7f148b2"></script>
 <script src="/js/my-examination.js?v=e1267bd5"></script>
 </body>

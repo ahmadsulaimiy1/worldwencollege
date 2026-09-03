@@ -45,7 +45,7 @@
     "slug": "admissions",
     "output": "admissions/index.html",
     "title": "Admissions &mdash; Worldwide English College",
-    "description": "The whole admissions decision in one place: whether you qualify, how to apply, when you can start, and what applies to international applicants — visas included.",
+    "description": "The whole admissions decision in one place: whether you qualify, how to apply, when you can start, and what applies to international applicants.",
     "contentFile": "admissions.html",
     "lang": "en",
     "dir": "ltr",
@@ -75,7 +75,7 @@
     "slug": "faculty",
     "output": "faculty/index.html",
     "title": "Faculty &amp; Teaching Approach — WorldWide English College",
-    "description": "The academic staff and tutors who deliver the IEFC programme at WEC-LC, and the teaching standards they are appointed against.",
+    "description": "The academic staff and tutors who deliver the IEFC programme at WEC, and the teaching standards they are appointed against.",
     "contentFile": "faculty.html",
     "lang": "en",
     "dir": "ltr",
@@ -100,7 +100,7 @@
     "slug": "faq",
     "output": "faq/index.html",
     "title": "FAQ &mdash; Worldwide English College",
-    "description": "Frequently asked questions about the IEFC, admissions, fees, and studying with WEC-LC — including the questions applicants actually ask during admissions.",
+    "description": "Frequently asked questions about the IEFC, admissions, fees, and studying with WEC — including the questions applicants actually ask during admissions.",
     "contentFile": "faq.html",
     "lang": "en",
     "dir": "ltr",
@@ -120,7 +120,7 @@
     "slug": "home-ar",
     "output": "ar/index.html",
     "title": "الكلية العالمية للغة الإنجليزية — الحرم الجامعي في لندن",
-    "description": "الكلية العالمية للغة الإنجليزية تقدّم برنامج الطلاقة الدولي (IEFC) — ستة مستويات متوافقة مع CEFR من A1 إلى C2، و1,200 ساعة مصمَّمة، عبر الإنترنت بالكامل.",
+    "description": "الكلية العالمية للغة الإنجليزية تقدّم برنامج الطلاقة الدولي (⁦IEFC⁩) — ستة مستويات متوافقة مع ⁦CEFR⁩ من A1 إلى C2، و1,200 ساعة مصمَّمة، عبر الإنترنت بالكامل.",
     "contentFile": "home.ar.html",
     "extraCss": [
       "/css/home.css"
@@ -147,7 +147,7 @@
     "slug": "academics-ar",
     "output": "ar/academics/index.html",
     "title": "البرامج الأكاديمية — الكلية العالمية للغة الإنجليزية",
-    "description": "برنامج IEFC في ستة مستويات متوافقة مع الإطار الأوروبي: ما يحتويه كل مستوى، وكيف يجري التعلّم، والحرم الرقمي الذي يعمل عليه.",
+    "description": "برنامج ⁦IEFC⁩ في ستة مستويات متوافقة مع الإطار الأوروبي: ما يحتويه كل مستوى، وكيف يجري التعلّم، والحرم الرقمي الذي يعمل عليه.",
     "contentFile": "academics.ar.html",
     "lang": "ar",
     "dir": "rtl",
@@ -177,7 +177,7 @@
     "slug": "admissions-tuition-ar",
     "output": "ar/admissions/tuition/index.html",
     "title": "الرسوم والسداد والدعم — الكلية العالمية للغة الإنجليزية",
-    "description": "رسوم برنامج IEFC وأسعار المستويات، وكيف يجري السداد فعلًا — العملة والوسائل والاسترداد — والمنح ومسارات الدعم القائمة اليوم.",
+    "description": "رسوم برنامج ⁦IEFC⁩ وأسعار المستويات، وكيف يجري السداد فعلًا — العملة والوسائل والاسترداد — والمنح ومسارات الدعم القائمة اليوم.",
     "contentFile": "admissions-tuition.ar.html",
     "lang": "ar",
     "dir": "rtl",
@@ -191,8 +191,8 @@
   {
     "slug": "faculty-ar",
     "output": "ar/faculty/index.html",
-    "title": "هيئة التدريس ومعايير التوظيف — WEC-LC",
-    "description": "أعضاء هيئة التدريس والمدرّسون الذين يقدّمون برنامج IEFC في الكلية، والمعايير التدريسية التي عُيّنوا وفقها.",
+    "title": "هيئة التدريس ومعايير التوظيف — ⁦WEC-LC⁩",
+    "description": "أعضاء هيئة التدريس والمدرّسون الذين يقدّمون برنامج ⁦IEFC⁩ في الكلية، والمعايير التدريسية التي عُيّنوا وفقها.",
     "contentFile": "faculty.ar.html",
     "lang": "ar",
     "dir": "rtl",
@@ -202,7 +202,7 @@
     "slug": "student-portal-ar",
     "output": "ar/student-portal/index.html",
     "title": "بوابة الطالب — الكلية العالمية للغة الإنجليزية",
-    "description": "نظرة عامة على بوابة طالب WEC-LC: لوحة التحكم، الحصص المباشرة، الواجبات، المكتبة الرقمية، الكشوف والشهادات.",
+    "description": "نظرة عامة على بوابة طالب ⁦WEC-LC⁩: لوحة التحكم، الحصص المباشرة، الواجبات، المكتبة الرقمية، الكشوف والشهادات.",
     "contentFile": "student-portal.ar.html",
     "lang": "ar",
     "dir": "rtl",
@@ -217,7 +217,7 @@
     "slug": "faq-ar",
     "output": "ar/faq/index.html",
     "title": "الأسئلة الشائعة — الكلية العالمية للغة الإنجليزية",
-    "description": "الأسئلة الشائعة عن برنامج IEFC والقبول والرسوم والدراسة في الكلية، ومعها أسئلة القبول التي يسألها المتقدمون فعلًا.",
+    "description": "الأسئلة الشائعة عن برنامج ⁦IEFC⁩ والقبول والرسوم والدراسة في الكلية، ومعها أسئلة القبول التي يسألها المتقدمون فعلًا.",
     "contentFile": "faq.ar.html",
     "lang": "ar",
     "dir": "rtl",
@@ -360,7 +360,7 @@
     "slug": "admissions-policy",
     "output": "admissions/policy/index.html",
     "title": "Admissions Policy &mdash; Worldwide English College",
-    "description": "The rules WEC-LC applies to admissions decisions, the data it collects from applicants, and the policies that have not yet been adopted.",
+    "description": "The rules WEC applies to admissions decisions, the data it collects from applicants, and the policies that have not yet been adopted.",
     "contentFile": "admissions-policy.html",
     "lang": "en",
     "dir": "ltr",
@@ -374,7 +374,7 @@
     "slug": "students",
     "output": "students/index.html",
     "title": "Students &mdash; Worldwide English College",
-    "description": "What a WEC-LC student meets: the platform, the assessment scheme, the academic record, and the rules that govern all three.",
+    "description": "What a WEC student meets: the platform, the assessment scheme, the academic record, and the rules that govern all three.",
     "contentFile": "students.html",
     "extraCss": [
       "/css/pillar.css",
@@ -389,7 +389,7 @@
     "slug": "students-assessment",
     "output": "students/assessment/index.html",
     "title": "How You Are Assessed &mdash; Worldwide English College",
-    "description": "The four language skills, the six competencies, published rubrics, and the threshold the WEC-LC platform enforces today.",
+    "description": "The four language skills, the six competencies, published rubrics, and the threshold the WEC platform enforces today.",
     "contentFile": "students-assessment.html",
     "extraCss": [
       "/css/pillar.css",
@@ -403,7 +403,7 @@
     "slug": "students-record",
     "output": "students/academic-record/index.html",
     "title": "Your Academic Record &mdash; Worldwide English College",
-    "description": "What WEC-LC records about a student, who can see it, what the student controls, and how a third party verifies it.",
+    "description": "What WEC records about a student, who can see it, what the student controls, and how a third party verifies it.",
     "contentFile": "students-record.html",
     "extraCss": [
       "/css/pillar.css",
@@ -417,7 +417,7 @@
     "slug": "students-awards",
     "output": "students/awards/index.html",
     "title": "Awards &amp; Honours &mdash; Worldwide English College",
-    "description": "The six WEC-LC awards, their post-nominals, the adopted honours scheme, and why no award has yet been conferred on anyone.",
+    "description": "The six WEC awards, their post-nominals, the adopted honours scheme, and why no award has yet been conferred on anyone.",
     "contentFile": "students-awards.html",
     "extraCss": [
       "/css/pillar.css",
@@ -431,7 +431,7 @@
     "slug": "students-integrity",
     "output": "students/integrity/index.html",
     "title": "Academic Integrity &mdash; Worldwide English College",
-    "description": "The WEC-LC position on work that is not the learner’s own: assessment design rather than detection software, and the adopted procedure for a suspected breach.",
+    "description": "The WEC position on work that is not the learner’s own: assessment design rather than detection software, and the adopted procedure for a suspected breach.",
     "contentFile": "students-integrity.html",
     "extraCss": [
       "/css/pillar.css",
@@ -445,7 +445,7 @@
     "slug": "students-regulations",
     "output": "students/regulations/index.html",
     "title": "Academic Regulations &mdash; Worldwide English College",
-    "description": "Progression, resits, academic standing and appeals at WEC-LC, separated into when each rule took effect and on whose authority.",
+    "description": "Progression, resits, academic standing and appeals at WEC, separated into when each rule took effect and on whose authority.",
     "contentFile": "students-regulations.html",
     "extraCss": [
       "/css/pillar.css",
@@ -486,7 +486,7 @@
     "slug": "support-accessibility",
     "output": "support/accessibility/index.html",
     "title": "Accessibility &mdash; Worldwide English College",
-    "description": "What WEC-LC has built for accessibility, what has not been audited, and what the College will do on request.",
+    "description": "What WEC has built for accessibility, what has not been audited, and what the College will do on request.",
     "contentFile": "support-accessibility.html",
     "lang": "en",
     "dir": "ltr",
@@ -496,7 +496,7 @@
     "slug": "support-privacy",
     "output": "support/privacy/index.html",
     "title": "Privacy &amp; Your Data &mdash; Worldwide English College",
-    "description": "What this site collects, what it does not, who else is involved, and the accountability WEC-LC has not yet appointed.",
+    "description": "What this site collects, what it does not, who else is involved, and the accountability WEC has not yet appointed.",
     "contentFile": "support-privacy.html",
     "lang": "en",
     "dir": "ltr",
@@ -634,7 +634,7 @@
     "slug": "governance",
     "output": "governance/index.html",
     "title": "Governance &mdash; Worldwide English College",
-    "description": "How Worldwide English College is governed: its Board, Senate and Executive, the academic bodies and their remits, how quality is assured, how the standard is held, and which posts remain unfilled.",
+    "description": "How WEC is governed: its Board, Senate and Executive, the academic bodies and their remits, how quality is assured, and which posts remain unfilled.",
     "contentFile": "governance.html",
     "lang": "en",
     "dir": "ltr",
@@ -649,7 +649,7 @@
     "slug": "governance-evidence",
     "output": "governance/evidence/index.html",
     "title": "The Evidence Record &mdash; Worldwide English College",
-    "description": "WEC-LC's register of quality-assurance evidence: 37 items, what state each is in, and why none has been approved.",
+    "description": "WEC's register of quality-assurance evidence: 45 items, what state each is in, and why none has been approved.",
     "contentFile": "governance-evidence.html",
     "lang": "en",
     "dir": "ltr",
@@ -692,7 +692,7 @@
     "slug": "academics-teaching",
     "output": "academics/teaching/index.html",
     "title": "Teaching Practice &mdash; Worldwide English College",
-    "description": "How WEC-LC teaches: the method, how a lesson is designed, the support record a teacher works from, the Companion, and how development and observation are meant to work.",
+    "description": "How WEC teaches: the method, how a lesson is designed, the support record a teacher works from, and the Teacher's Companion, free to download.",
     "contentFile": "academics-teaching.html",
     "lang": "en",
     "dir": "ltr",
@@ -845,7 +845,7 @@
     "slug": "governance-evidence-ar",
     "output": "ar/governance/evidence/index.html",
     "title": "سجل الأدلة — الكلية العالمية للغة الإنجليزية",
-    "description": "سجل أدلة ضمان الجودة في الكلية: 37 قيدًا، وحالة كل منها، ولماذا لم يُعتمد أي منها.",
+    "description": "سجل أدلة ضمان الجودة في الكلية: 45 قيدًا، وحالة كل منها، ولماذا لم يُعتمد أي منها.",
     "contentFile": "governance-evidence.ar.html",
     "lang": "ar",
     "dir": "rtl",
@@ -1716,6 +1716,31 @@
     ]
   },
   {
+    "slug": "my-standing",
+    "output": "my-standing.html",
+    "title": "Where I Stand &mdash; Worldwide English College",
+    "description": "Your module marks, level mark and skill marks, your academic standing and what the College owes you under it, every condition of the award with whose work each one is, and the milestones the College has honoured.",
+    "contentFile": "my-standing.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/my-standing.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/verify.css",
+      "/css/track.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/standing.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/my-standing.js"
+    ]
+  },
+  {
     "slug": "my-week",
     "output": "my-week.html",
     "title": "My Week &mdash; Worldwide English College",
@@ -1924,6 +1949,31 @@
       "/js/portal-guard.js",
       "/js/api-auth.js",
       "/js/payment-complete.js"
+    ]
+  },
+  {
+    "slug": "my-standing-ar",
+    "output": "ar/my-standing.html",
+    "title": "أين أقف — الكلية العالمية للغة الإنجليزية",
+    "description": "درجات وحداتك ودرجة مستواك ومهاراتك، ووضعك الأكاديمي وما تدين به لك الكلية فيه، وكل شرط من شروط الشهادة ولمن هو، والمحطّات التي كرّمتها الكلية.",
+    "contentFile": "my-standing.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/my-standing.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/verify.css",
+      "/css/track.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/standing.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/my-standing.js"
     ]
   },
   {
@@ -2653,6 +2703,56 @@
     ]
   },
   {
+    "slug": "staff-marking",
+    "output": "staff-marking.html",
+    "title": "Marking &mdash; Worldwide English College",
+    "description": "The written work and the spoken work waiting to be marked, oldest first, each piece carrying the rubric it was set against and the mark it is a resit of.",
+    "contentFile": "staff-marking.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/staff-marking.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/desk.css",
+      "/css/console.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/staff-marking.js"
+    ]
+  },
+  {
+    "slug": "staff-marking-ar",
+    "output": "ar/staff-marking.html",
+    "title": "التصحيح &mdash; كلّية ورلدوايد إنجلش",
+    "description": "العملُ المكتوب والمسموع ممّا ينتظر التصحيح، الأقدمُ أوّلًا، وكلُّ عملٍ يحمل معه المعيارَ الذي كُلِّف به والدرجةَ التي هو إعادةٌ لها.",
+    "contentFile": "staff-marking.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/staff-marking.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/desk.css",
+      "/css/console.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/staff-marking.js"
+    ]
+  },
+  {
     "slug": "staff-learners",
     "output": "staff-learners.html",
     "title": "My Learners &mdash; Worldwide English College",
@@ -3084,6 +3184,58 @@
     ]
   },
   {
+    "slug": "staff-examinations",
+    "output": "staff-examinations.html",
+    "title": "Examinations &mdash; Worldwide English College",
+    "description": "Level examination scripts waiting for a first reading and for a second, the reconciliations to be settled in writing, and the release that follows all of it.",
+    "contentFile": "staff-examinations.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/staff-examinations.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/desk.css",
+      "/css/console.css",
+      "/css/examination.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/staff-examinations.js"
+    ]
+  },
+  {
+    "slug": "staff-examinations-ar",
+    "output": "ar/staff-examinations.html",
+    "title": "الامتحانات &mdash; كلّية ورلدوايد إنجلش",
+    "description": "أوراقُ امتحان المستوى المنتظِرةُ قراءةً أولى وقراءةً ثانية، والمُوافَقاتُ التي تُسوَّى كتابةً، والإعلانُ الذي يأتي بعد ذلك كلّه.",
+    "contentFile": "staff-examinations.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/staff-examinations.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/desk.css",
+      "/css/console.css",
+      "/css/examination.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/staff-examinations.js"
+    ]
+  },
+  {
     "slug": "staff-papers",
     "output": "staff-papers.html",
     "title": "Examination Papers &mdash; Worldwide English College",
@@ -3133,6 +3285,62 @@
       "/js/api-auth.js",
       "/js/staff-kit.js",
       "/js/staff-papers.js"
+    ]
+  },
+  {
+    "slug": "my-examination",
+    "output": "my-examination.html",
+    "title": "My Examination &mdash; Worldwide English College",
+    "description": "What you are entered for, the sitting reference you read aloud, the window and the three-hour clock, and what the College does with the paper once you hand it in.",
+    "contentFile": "my-examination.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/my-examination.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/verify.css",
+      "/css/track.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/standing.css",
+      "/css/console.css",
+      "/css/examination.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/my-examination.js"
+    ]
+  },
+  {
+    "slug": "my-examination-ar",
+    "output": "ar/my-examination.html",
+    "title": "امتحاني — الكلية العالمية للغة الإنجليزية",
+    "description": "ما أنت مسجَّلٌ له، ومرجعُ الجلسة الذي تنطق به، والنافذةُ وساعاتُ الورقة الثلاث، وما تصنعه الكليةُ بها بعد التسليم.",
+    "contentFile": "my-examination.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/my-examination.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/verify.css",
+      "/css/track.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/standing.css",
+      "/css/console.css",
+      "/css/examination.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/my-examination.js"
     ]
   },
   {
@@ -3245,6 +3453,58 @@
       "/js/api-auth.js",
       "/js/staff-kit.js",
       "/js/my-downloads.js"
+    ]
+  },
+  {
+    "slug": "staff-conferral",
+    "output": "staff-conferral.html",
+    "title": "Conferral &mdash; Worldwide English College",
+    "description": "Who may be conferred on, who is waiting on the College rather than on themselves, and who already holds an award — with the exact wording of every certificate shown before it is written.",
+    "contentFile": "staff-conferral.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/staff-conferral.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/desk.css",
+      "/css/console.css",
+      "/css/conferral.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/staff-conferral.js"
+    ]
+  },
+  {
+    "slug": "staff-conferral-ar",
+    "output": "ar/staff-conferral.html",
+    "title": "المنح &mdash; كلّية ورلدوايد إنجلش",
+    "description": "مَن يستحقّ المنح، ومَن ينتظر الكلية لا نفسه، ومَن يحمل شهادةً بالفعل — ونصُّ كلّ شهادةٍ معروضٌ قبل أن يُكتب.",
+    "contentFile": "staff-conferral.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/staff-conferral.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/desk.css",
+      "/css/console.css",
+      "/css/conferral.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/staff-conferral.js"
     ]
   }
 ]

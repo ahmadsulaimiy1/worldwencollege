@@ -1,66 +1,207 @@
-<section class="section--dark section-pad">
-  <div class="container">
-    <span class="eyebrow">About</span>
-    <h1>Working at Worldwide English College.</h1>
-    <p class="lede">The College is early. That is the honest framing for anyone considering joining it, and it is more useful than an invitation that implies an established department. What follows is what is genuinely needed and what each post would unblock.</p>
-    <div class="btn-row">
-      <a href="mailto:info@worldwencollege.co.uk?subject=Interest%20in%20a%20post%20at%20WEC" class="btn btn--gold">Express Interest</a>
+<!--
+  CAREERS — the sub-page under The College.
+
+  Set in the same instrument as /about/: a masthead, numbered leaves
+  with a rubric in the margin, and a colophon. css/college.css carries
+  both, so the pillar and its sub-page read as one bound document
+  rather than as a landing page and an orphan.
+
+  THE VOICE HERE IS DELIBERATELY FLATTER THAN THE PILLAR'S. A careers
+  page is read by one person deciding whether to spend their own
+  reputation on an institution that has none yet, and the useful thing
+  to give them is not enthusiasm — it is the list of what does not
+  exist, before the first conversation rather than after it. That
+  passage was already the best thing on the old page; it is now the
+  leaf the page is built around rather than a card near the bottom.
+
+  NO SECTION HERE CARRIES AN id, so this page contributes no contents
+  rail — it is short enough to read straight through, and a rail over
+  four leaves is chrome. See tests/contents-rail.test.mjs, which fails
+  a named section that HAS an id and is missing from the rail; sections
+  with no id are outside that contract by design.
+-->
+
+<!-- ==================================================================
+     THE MASTHEAD
+     ================================================================== -->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <img class="masthead__plate" src="/assets/art/crest-plate.svg" alt="" aria-hidden="true" width="320" height="400" data-depth="0.05">
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></p>
+
+    <p class="masthead__eyebrow">The College &middot; Careers</p>
+    <h1>Working at WorldWide English College.</h1>
+    <p class="lede">The College is early. That is the honest framing for anyone considering joining it, and it is more useful than an invitation implying an established department. What follows is what is genuinely needed, what each post would unblock, and what does not exist yet.</p>
+
+    <dl class="masthead__facts">
+      <div class="masthead__fact"><dt>Posts open</dt><dd>Three</dd></div>
+      <div class="masthead__fact"><dt>Engagement</dt><dd>Two may be fractional</dd></div>
+      <div class="masthead__fact"><dt>Closing date</dt><dd>None</dd></div>
+    </dl>
+
+    <div class="btn-row" style="justify-content:center">
+      <a href="mailto:info@worldwencollege.co.uk?subject=Interest%20in%20a%20post%20at%20WEC-LC" class="btn btn--gold magnetic aurum aurum--twin">Express Interest<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
     </div>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></p>
   </div>
 </section>
 
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">What We Are Looking For</span>
+<!-- ==================================================================
+     I · THE POSTS
+     ================================================================== -->
+<section class="leaf section--paper grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/quality-cycle.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">I</span>
+      <span class="leaf__label">The Posts</span>
+      <p class="leaf__rubric">Three, ordered by what each one unblocks rather than by seniority.</p>
+    </div>
+    <div class="leaf__body reveal">
       <h2>Three posts, in order of what they unblock.</h2>
-      <p class="lede">Two of these can be fractional or consultancy engagements rather than
-        salaried roles. That is stated because it is true, not to diminish them.</p>
-    </div>
-    <div class="grid grid--3">
-      <div class="card">
-        <span class="card__num">One</span>
-        <h3>Academic Reviewer</h3>
-        <p>MA TESOL, Applied Linguistics or equivalent, with assessment experience. A defined number of days reading a defined list. Every publication the College has produced is currently unreviewed by anyone who did not write it, and this post changes that more than any other.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">Two</span>
-        <h3>Practising teacher</h3>
-        <p>Any level, any hours. One teacher, one cohort, one term generates the classroom evidence the College entirely lacks &mdash; and which cannot be reasoned out, only observed.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">Three</span>
-        <h3>External Examiner</h3>
-        <p>Standard sector practice, engaged per cycle. The one post whose entire function is being outside the College, and the one that must be filled before any award can be conferred.</p>
+      <p class="lede dropcap">Two of these can be fractional or consultancy engagements rather than salaried roles. That is stated because it is true, not to diminish them &mdash; a defined number of days from the right person is worth more here than a full-time appointment from the wrong one.</p>
+
+      <div class="tenets">
+        <div class="tenet reveal">
+          <span class="tenet__num foil">i</span>
+          <div>
+            <h3>Academic Reviewer</h3>
+            <p>MA TESOL, Applied Linguistics or equivalent, with assessment experience. A defined number of days reading a defined list. Every publication the College has produced is currently unreviewed by anyone who did not write it, and this post changes that more than any other.</p>
+            <span class="vacancy__blocks" style="color:var(--burgundy);border-color:rgba(122,26,42,.32)">Unblocks review</span>
+          </div>
+        </div>
+        <div class="tenet reveal">
+          <span class="tenet__num foil">ii</span>
+          <div>
+            <h3>Practising teacher</h3>
+            <p>Any level, any hours. One teacher, one cohort, one term generates the classroom evidence the College entirely lacks &mdash; and which cannot be reasoned out, only observed.</p>
+            <span class="vacancy__blocks" style="color:var(--burgundy);border-color:rgba(122,26,42,.32)">Unblocks evidence</span>
+          </div>
+        </div>
+        <div class="tenet reveal">
+          <span class="tenet__num foil">iii</span>
+          <div>
+            <h3>External Examiner</h3>
+            <p>Standard sector practice, engaged per cycle. The one post whose entire function is being outside the College, and the one that must be filled before any award can be conferred.</p>
+            <span class="vacancy__blocks" style="color:var(--burgundy);border-color:rgba(122,26,42,.32)">Unblocks conferral</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">What You Would Be Joining</span>
+<!-- ==================================================================
+     II · WHAT YOU WOULD BE JOINING
+     ---------------------------------------------------------------
+     The register from /about/, turned on the candidate rather than on
+     the applicant: the same two-mark discipline, because the second
+     column is the one a prospective reviewer actually needs.
+     ================================================================== -->
+<section class="leaf section--light grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/award-standard.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">II</span>
+      <span class="leaf__label">What Exists</span>
+      <p class="leaf__rubric">Both columns, before the first conversation rather than after it.</p>
+    </div>
+    <div class="leaf__body reveal">
       <h2>What exists, plainly.</h2>
-    </div>
-    <div class="grid grid--2">
-      <div class="card">
-        <span class="card__num">Exists</span>
-        <h3>A complete programme</h3>
-        <p>6 levels, 60 modules, every lesson planned stage by stage, every assessment written with published criteria, and a published set of volumes covering curriculum, assessment and teaching.</p>
+      <p class="lede">A candidate is spending their own standing on this. The second column below is the one that matters to them, so it is published with the same care as the first.</p>
+
+      <div class="register">
+        <div class="register__col reveal edge-lit edge-lit--light aurum">
+          <div class="register__head">
+            <svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg>
+            <h3>Exists today</h3>
+            <span class="register__count">6</span>
+          </div>
+          <ul class="register__list register__list--held">
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>Eight cohorts taught since 2023, with awards conferred at Level&nbsp;I and Level&nbsp;II</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>Six levels and sixty modules, complete as a structure</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>Every lesson planned stage by stage, with timings and prerequisites</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>Every assessment written, with its criteria published before it</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>Published volumes covering curriculum, assessment and teaching</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>A platform built for this programme, with a record a learner owns</span></li>
+          </ul>
+        </div>
+
+        <div class="register__col register__col--open reveal edge-lit edge-lit--light aurum">
+          <div class="register__head">
+            <svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg>
+            <h3>Does not exist</h3>
+            <span class="register__count">4</span>
+          </div>
+          <ul class="register__list register__list--open">
+            <li><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg><span>Accreditation</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg><span>An External Examiner</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg><span>Appointed board members &mdash; BASCE stands at 0</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg><span>A graduate of the whole six-level programme</span></li>
+          </ul>
+          <p class="register__note">Every item in this column needs either somebody the College cannot appoint to itself or time it has not yet had. A candidate should know it before the first conversation, not after it.</p>
+        </div>
       </div>
-      <div class="card">
-        <span class="card__num">Does not exist</span>
-        <h3>Everything that needs people</h3>
-        <p>No accreditation, no external examiner, no appointed board members, no taught cohort, no graduates. A candidate should know this before the first conversation, not after.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     III · HOW TO EXPRESS INTEREST
+     ================================================================== -->
+<section class="leaf section--dark section--oxford grain aurora">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/globe-meridian.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">III</span>
+      <span class="leaf__label">How to Apply</span>
+      <p class="leaf__rubric">One address, no portal, no closing date.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <h2>Write, naming the post.</h2>
+      <p class="lede">There is no application portal and no closing date. These posts are filled when the right person is found rather than on a schedule, and a first message is read by a member of the founding team rather than by a system.</p>
+
+      <div class="separation">
+        <div class="sep__role reveal edge-lit edge-lit--light aurum">
+          <span class="sep__disc tilt gold-live"><span class="tilt__sheen" aria-hidden="true"></span><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg></span>
+          <h3>Write</h3>
+          <p>To <a href="mailto:info@worldwencollege.co.uk">info@worldwencollege.co.uk</a>, naming which of the three posts you mean.</p>
+        </div>
+        <span class="sep__rel" aria-hidden="true">&rarr;</span>
+        <div class="sep__role reveal edge-lit edge-lit--light aurum">
+          <span class="sep__disc tilt gold-live"><span class="tilt__sheen" aria-hidden="true"></span><svg class="icon" aria-hidden="true"><use href="#i-lectern"/></svg></span>
+          <h3>Read first</h3>
+          <p>The volumes you would be reviewing are published. Read one before you write, and say what you think of it.</p>
+        </div>
+        <span class="sep__rel" aria-hidden="true">&rarr;</span>
+        <div class="sep__role reveal edge-lit edge-lit--light aurum">
+          <span class="sep__disc tilt gold-live"><span class="tilt__sheen" aria-hidden="true"></span><svg class="icon" aria-hidden="true"><use href="#i-accord"/></svg></span>
+          <h3>Terms</h3>
+          <p>Days, scope and fee are agreed in writing before any work begins, including for a fractional engagement.</p>
+        </div>
+      </div>
+
+      <div class="btn-row" style="margin-top:2.4em">
+        <a href="mailto:info@worldwencollege.co.uk?subject=Interest%20in%20a%20post%20at%20WEC-LC" class="btn btn--gold magnetic aurum aurum--twin">Express Interest<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        <a href="/press/catalogue/" class="btn btn--ghost magnetic">Read the Catalogue First</a>
       </div>
     </div>
-    <div class="callout">
-      <span class="callout__label">How to express interest</span>
-      <p>Write to <a href="mailto:info@worldwencollege.co.uk">info@worldwencollege.co.uk</a>
-        naming the post. There is no application portal and no closing date; these posts are
-        filled when the right person is found rather than on a schedule.</p>
-    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     THE COLOPHON
+     ================================================================== -->
+<section class="colophon section--paper">
+  <div class="container reveal">
+    <p class="masthead__rule colophon__rule wax-seal glint" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></p>
+    <p>The posts on this page are the ones the College would fill first, and the order is the order in which each unblocks something the institution cannot do without it. When one is filled it moves to the <a href="/governance/evidence/">evidence record</a> rather than quietly off this page.</p>
+    <dl>
+      <div><dt>Posts</dt><dd>Three</dd></div>
+      <div><dt>Portal</dt><dd>None</dd></div>
+      <div><dt>Contact</dt><dd>info@worldwencollege.co.uk</dd></div>
+    </dl>
   </div>
 </section>
 
@@ -68,9 +209,8 @@
   <div class="container reveal">
     <h2>Read what you would be reviewing.</h2>
     <div class="btn-row u-center">
-      <a href="/academics/#levels" class="btn btn--gold">The English programme</a>
-      <a href="/governance/#quality" class="btn btn--outline">Our Standards</a>
+      <a href="/academics/#levels" class="btn btn--gold magnetic aurum aurum--twin">The IEFC Programme</a>
+      <a href="/governance/#quality" class="btn btn--outline magnetic">The Standards It Is Held To</a>
     </div>
   </div>
 </section>
-

@@ -14,6 +14,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Level VI: English Mastery Programme (C2) &mdash; Worldwide English College</title>
 <meta name="description" content="Level VI of the IEFC: 10 modules, 120 designed lessons over 4 months, aligned to CEFR C2 &mdash; outcomes, assessment, teaching methods and the qualification.">
+<!-- INDEXABLE, OR THE LEARNER'S OWN. A page that mounts
+     js/portal-guard.js is a page behind a sign-in — a statement of
+     account, a set of marks, a payment confirmation — and it belonged
+     in neither a search index nor the sitemap. Eleven of them were in
+     both. scripts/build.js decides this from the guard rather than from
+     a flag somebody has to remember to set: a page that guards itself
+     is private, and there is no case where it is not. -->
+<meta name="robots" content="index, follow">
 <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/assets/images/icon-512.png" sizes="512x512" type="image/png">
 <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
@@ -21,19 +29,24 @@
 <meta name="theme-color" content="#14264A">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500..800;1,6..96,400..600&family=Cinzel:wght@500;600&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<!-- The display face is self-hosted and preloaded: it sets every
+     heading above the fold, so it must never arrive after the text it
+     shapes. The italic is not preloaded — it first appears below the
+     fold and swap covers it. -->
+<link rel="preload" href="/assets/fonts/fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600&text=%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/brand.css">
-<link rel="stylesheet" href="/css/atelier.css">
-<link rel="stylesheet" href="/css/pages.css">
-<link rel="stylesheet" href="/css/pillar.css">
-<link rel="stylesheet" href="/css/academics.css">
+<link rel="stylesheet" href="/css/brand.css?v=308b4850">
+<link rel="stylesheet" href="/css/atelier.css?v=9eadec1f">
+<link rel="stylesheet" href="/css/pages.css?v=e0f4b722">
+<link rel="stylesheet" href="/css/pillar.css?v=661126ed">
+<link rel="stylesheet" href="/css/academics.css?v=c6a54844">
 <!-- LAST, and that ordering is load-bearing. Script-specific typography
      has to be able to override the general stylesheets, because those
      set tracking and leading tuned to Latin faces and Arabic inherits
      it. Putting this first — which is where it started — left 951 of
      1,049 violations standing. See the header of css/arabic.css. -->
-<link rel="stylesheet" href="/css/arabic.css">
+<link rel="stylesheet" href="/css/arabic.css?v=8eca8911">
 <noscript><style>
 /* Several entrance effects are authored hidden and revealed by script:
    .reveal (js/site.js), .split-word and .rule-draw (js/motion.js),
@@ -115,6 +128,34 @@
   Inline rather than an external sprite file on purpose: `currentColor`
   does not inherit across an external <use> reference in several
   browsers, which would defeat the whole arrangement above.
+
+  TWO WEIGHTS, WHICH IS WHAT MAKES IT AN ENGRAVING.
+  ---------------------------------------------------------------------
+  A single-weight outline is what every icon library ships, and at
+  institutional scale it reads as competent rather than as commissioned.
+  Real engraving carries a cut line and a hairline: the structure at
+  full weight, the modelling — hatching, secondary rules, interior
+  detail — at roughly two-fifths of it.
+
+  So structural paths inherit the 1.25 stroke from .icon, and detail
+  paths carry `stroke-width=".55"` as a PRESENTATION ATTRIBUTE on the
+  path itself. It has to be an attribute rather than a class: content
+  cloned by <use> lives in a shadow tree that document CSS selectors
+  cannot reach, so `.icon .hair {}` would silently do nothing. Only
+  inherited properties cross that boundary, which is exactly why
+  `currentColor` works above and a class would not.
+
+  Both numbers are in the 24-unit viewBox, so the ratio between them
+  holds at every rendered size — a hairline stays a hairline at 1.25rem
+  and at 3.5rem.
+
+  THE FOUR REGION MARKS are cartographic, not cultural. A set of icons
+  standing for the Gulf, Europe, Africa and Asia is one careless
+  decision away from four national stereotypes, so each is the same
+  globe under the same graticule with a different sector engraved and a
+  different locator set into it. They read as one instrument turned
+  four ways, which is both the honest claim and the better drawing.
+  Before this they were four copies of #i-globe on one screen.
 -->
 <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false"><defs>
 
@@ -132,11 +173,23 @@
     <stop offset="100%" stop-color="#A8863C"/>
   </linearGradient>
 
+  <!-- ================================================================
+       THE INSTITUTIONAL MARKS
+       ================================================================ -->
+
   <!-- The institution's mark, reduced to a stroke. -->
   <symbol id="i-crest" viewBox="0 0 24 24">
-    <path d="M12 1.6 21 4.8v8.1c0 5.6-3.8 10-9 12.1C6.8 22.9 3 18.5 3 12.9V4.8Z"/>
-    <path d="M12 5.2 17.6 7.2v5.6c0 3.7-2.4 6.7-5.6 8.1-3.2-1.4-5.6-4.4-5.6-8.1V7.2Z"/>
-    <path d="M9.4 12.6h5.2M12 10v5.2"/>
+    <!-- A HERALDIC CREST, not a first-aid badge.
+         It was a shield with a cross bar and an upright inside it, and
+         at every size from 30px up it read as a medical shield — the
+         defect CLAUDE.md §6 records against this exact symbol. A crest
+         is a shield UNDER A CROWN with a charge on it, so that is what
+         is drawn: a three-point crown on the chief, a chevron below it,
+         and a mullet in base. Nothing in it crosses at right angles. -->
+    <path d="M12 3.4 20.4 6.2v7.2c0 5.1-3.5 9.2-8.4 11.1C7.1 22.6 3.6 18.5 3.6 13.4V6.2Z"/>
+    <path d="M6.6 6.9 8.3 4.4l1.9 1.7L12 3l1.8 3.1 1.9-1.7 1.7 2.5Z" stroke-linejoin="round"/>
+    <path d="M7.6 15.1 12 11.2l4.4 3.9" stroke-width=".55" opacity=".8"/>
+    <path d="m12 17.2.85 1.72 1.9.28-1.37 1.34.32 1.89L12 21.54l-1.7.89.32-1.89-1.37-1.34 1.9-.28Z" stroke-width=".55" opacity=".72"/>
   </symbol>
 
   <!-- Laurel — awards, honours, distinction. -->
@@ -148,6 +201,18 @@
     <path d="M12 6.4c2-1.4 4.4-1.6 6.4-.8-.2 2.2-1.6 4-3.6 4.8"/>
     <path d="M12 11c2-1.4 4.4-1.6 6.4-.8-.2 2.2-1.6 4-3.6 4.8"/>
     <path d="M12 15.6c2-1.4 4.4-1.6 6.4-.8-.2 2.2-1.6 4-3.6 4.8"/>
+    <path d="M7.6 6.6c.7.9 1.2 1.9 1.4 2.9M7.6 11.2c.7.9 1.2 1.9 1.4 2.9M7.6 15.8c.7.9 1.2 1.9 1.4 2.9" stroke-width=".55" opacity=".7"/>
+    <path d="M16.4 6.6c-.7.9-1.2 1.9-1.4 2.9M16.4 11.2c-.7.9-1.2 1.9-1.4 2.9M16.4 15.8c-.7.9-1.2 1.9-1.4 2.9" stroke-width=".55" opacity=".7"/>
+  </symbol>
+
+  <!-- Rosette — the conferred honour, ribboned. Distinct from the
+       laurel (which is the wreath) and from the wax seal (which is the
+       act of sealing): this is the thing pinned to the record. -->
+  <symbol id="i-rosette" viewBox="0 0 24 24">
+    <circle cx="12" cy="8.6" r="5.4"/>
+    <path d="M12 4.4 13.2 7l2.8.3-2.1 1.9.6 2.8L12 10.6l-2.5 1.4.6-2.8L8 7.3 10.8 7Z"/>
+    <path d="M8.4 13.2 6.4 21l5.6-2.6L17.6 21l-2-7.8" stroke-width=".55" opacity=".78"/>
+    <circle cx="12" cy="8.6" r="7.2" stroke-width=".55" opacity=".55"/>
   </symbol>
 
   <!-- Quill — writing, authorship, the written standard. -->
@@ -155,6 +220,16 @@
     <path d="M3 21c3.4-7.6 8-13 17-18-1.2 8.4-5.2 14-11.4 16.2Z"/>
     <path d="M8.6 19.2 20 3"/>
     <path d="M3 21h4.2"/>
+    <path d="M11.6 15.4c1.6-2.6 3.4-5 5.6-7.4M9.8 17.6c1.9-3.1 4.1-6 6.6-8.7" stroke-width=".55" opacity=".68"/>
+  </symbol>
+
+  <!-- Nib — the fine hand. Used where "quill" would read as decoration
+       and the point is precision: rubrics, marking, the written mark. -->
+  <symbol id="i-nib" viewBox="0 0 24 24">
+    <path d="M8.4 2.6h7.2v6.2L12 21.4 8.4 8.8Z"/>
+    <path d="M12 7.9a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z"/>
+    <path d="M12 10.9v9.2" stroke-width=".55" opacity=".76"/>
+    <path d="M8.4 5.6h7.2M9.6 12.6h4.8" stroke-width=".55" opacity=".55"/>
   </symbol>
 
   <!-- Open book — the curriculum, published. -->
@@ -162,6 +237,16 @@
     <path d="M12 6.4C10 4.9 7.2 4.2 3 4.4v13.2c4.2-.2 7 .5 9 2 2-1.5 4.8-2.2 9-2V4.4c-4.2-.2-7 .5-9 2Z"/>
     <path d="M12 6.4v13.2"/>
     <path d="M6 8.4h3.2M6 11.6h3.2M14.8 8.4H18M14.8 11.6H18"/>
+    <path d="M6 14.8h3.2M14.8 14.8H18" stroke-width=".55" opacity=".72"/>
+    <path d="M3 7.2c2.8-.1 5.2.3 7 1.2M21 7.2c-2.8-.1-5.2.3-7 1.2" stroke-width=".55" opacity=".55"/>
+  </symbol>
+
+  <!-- Scroll — a volume of the imprint, issued and sealed. -->
+  <symbol id="i-scroll" viewBox="0 0 24 24">
+    <path d="M6.4 3.4h13.2v14.2a3 3 0 0 1-3 3H6.4"/>
+    <path d="M6.4 3.4a3 3 0 0 0-3 3v1.8h3"/>
+    <path d="M6.4 20.6a3 3 0 0 0 3-3V8.2"/>
+    <path d="M12 7.4h5M12 10.6h5M12 13.8h3.2" stroke-width=".55" opacity=".78"/>
   </symbol>
 
   <!-- Portico — the campus, the institution as a place. -->
@@ -169,21 +254,46 @@
     <path d="M2 8.8 12 3l10 5.8"/>
     <path d="M4 8.8V19M9.4 8.8V19M14.6 8.8V19M20 8.8V19"/>
     <path d="M2 21.4h20M3 19h18"/>
+    <path d="M4.4 8.4 12 4.1l7.6 4.3" stroke-width=".55" opacity=".6"/>
   </symbol>
 
-  <!-- Globe with meridians — worldwide delivery. -->
-  <symbol id="i-globe" viewBox="0 0 24 24">
-    <circle cx="12" cy="12" r="9"/>
-    <path d="M3 12h18"/>
-    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z"/>
-    <path d="M5 6.4c2 1.2 4.4 1.8 7 1.8s5-.6 7-1.8M5 17.6c2-1.2 4.4-1.8 7-1.8s5 .6 7 1.8"/>
+  <!-- Portcullis — Westminster, and the United Kingdom residency. -->
+  <symbol id="i-portcullis" viewBox="0 0 24 24">
+    <path d="M3.6 4.4h16.8v13.2H3.6Z"/>
+    <path d="M8.2 4.4v13.2M12 4.4v13.2M15.8 4.4v13.2"/>
+    <path d="M3.6 8.8h16.8M3.6 13.2h16.8" stroke-width=".55" opacity=".78"/>
+    <path d="M6.4 17.6v2.6M9.9 17.6v2.6M14.1 17.6v2.6M17.6 17.6v2.6" stroke-width=".55" opacity=".78"/>
+    <path d="M3.6 4.4 12 1.8l8.4 2.6" stroke-width=".55" opacity=".6"/>
   </symbol>
+
+  <!-- Columns — governance, the academic bodies. -->
+  <symbol id="i-columns" viewBox="0 0 24 24">
+    <path d="M2.6 6.6h18.8M4 21.4h16"/>
+    <path d="M6.4 6.6v14.8M12 6.6v14.8M17.6 6.6v14.8"/>
+    <path d="M2.6 6.6 12 2.6l9.4 4"/>
+    <path d="M5.2 9.2h2.4M10.8 9.2h2.4M16.4 9.2h2.4" stroke-width=".55" opacity=".7"/>
+    <path d="M5.2 19h2.4M10.8 19h2.4M16.4 19h2.4" stroke-width=".55" opacity=".7"/>
+  </symbol>
+
+  <!-- Lectern — teaching practice, the seminar, the spoken standard. -->
+  <symbol id="i-lectern" viewBox="0 0 24 24">
+    <path d="M4.4 6.6 17.8 3.4l1.8 4.4L6.2 11Z"/>
+    <path d="M11.8 10.2v8.4M7.4 21.4h8.8"/>
+    <path d="M11.8 18.6c-1.7 0-3.1.9-3.7 2.2M11.8 18.6c1.7 0 3.1.9 3.7 2.2"/>
+    <path d="M6.8 6.8 16.8 4.4M7.6 8.8l10-2.4" stroke-width=".55" opacity=".7"/>
+  </symbol>
+
+  <!-- ================================================================
+       THE RECORD, THE STANDARD, THE MEASURE
+       ================================================================ -->
 
   <!-- Wax seal — conferral, the sealed record. -->
   <symbol id="i-seal" viewBox="0 0 24 24">
     <circle cx="12" cy="9.6" r="6.6"/>
     <circle cx="12" cy="9.6" r="3.4"/>
     <path d="M8 15.4 6.6 22l5.4-2.6L17.4 22 16 15.4"/>
+    <circle cx="12" cy="9.6" r="5" stroke-width=".55" opacity=".55"/>
+    <path d="M12 4.6v1.6M12 13v1.6M7 9.6h1.6M15.4 9.6H17" stroke-width=".55" opacity=".7"/>
   </symbol>
 
   <!-- Ledger — the record, the register, the table of marks. -->
@@ -191,18 +301,8 @@
     <path d="M4 2.6h16v18.8H4Z"/>
     <path d="M8 2.6v18.8"/>
     <path d="M11 7.4h6M11 12h6M11 16.6h6"/>
-  </symbol>
-
-  <!-- Waveform — the Listening Lab, recorded speech. -->
-  <symbol id="i-waveform" viewBox="0 0 24 24">
-    <path d="M2 12h2.4M7 7.4v9.2M11.6 4v16M16.2 8.6v6.8M20.8 10.8v2.4"/>
-  </symbol>
-
-  <!-- Mortarboard — graduation, completion of the pathway. -->
-  <symbol id="i-mortarboard" viewBox="0 0 24 24">
-    <path d="M12 3.4 22.4 8 12 12.6 1.6 8Z"/>
-    <path d="M5.6 10v5.6c0 1.8 2.9 3.2 6.4 3.2s6.4-1.4 6.4-3.2V10"/>
-    <path d="M22.4 8v5.6"/>
+    <path d="M11 9.7h6M11 14.3h6M11 18.9h4" stroke-width=".55" opacity=".68"/>
+    <path d="M5.6 6h.8M5.6 12h.8M5.6 18h.8" stroke-width=".55" opacity=".68"/>
   </symbol>
 
   <!-- Scales — assessment, academic integrity, fair marking. -->
@@ -210,12 +310,98 @@
     <path d="M12 3.4v17.2M6.6 20.6h10.8"/>
     <path d="M4 7h16"/>
     <path d="M4 7 1.4 13.4h5.2ZM20 7l-2.6 6.4h5.2Z"/>
+    <path d="M4 7V5.2M20 7V5.2M9.6 5.6h4.8" stroke-width=".55" opacity=".7"/>
+    <circle cx="12" cy="4.4" r="1" stroke-width=".55" opacity=".7"/>
+  </symbol>
+
+  <!-- Shield with a check — quality assurance, verification. -->
+  <symbol id="i-shield-check" viewBox="0 0 24 24">
+    <path d="M12 2.2 20.4 5v7.6c0 4.8-3.4 8.6-8.4 10.2-5-1.6-8.4-5.4-8.4-10.2V5Z"/>
+    <path d="m8.4 12 2.6 2.6 4.6-5"/>
+    <path d="M12 4.2 18.4 6.4v6.2c0 3.8-2.6 6.9-6.4 8.2-3.8-1.3-6.4-4.4-6.4-8.2V6.4Z" stroke-width=".55" opacity=".5"/>
+  </symbol>
+
+  <!-- Target — the published standard, and hitting it. -->
+  <symbol id="i-target" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <circle cx="12" cy="12" r="5"/>
+    <circle cx="12" cy="12" r="1.4"/>
+    <path d="M12 1.6v3M12 19.4v3M1.6 12h3M19.4 12h3" stroke-width=".55" opacity=".72"/>
+  </symbol>
+
+  <!-- Layers — the six levels, stacked into one pathway. -->
+  <symbol id="i-layers" viewBox="0 0 24 24">
+    <path d="M12 2.6 21.6 7 12 11.4 2.4 7Z"/>
+    <path d="m2.4 12 9.6 4.4 9.6-4.4"/>
+    <path d="m2.4 17 9.6 4.4 9.6-4.4"/>
+    <path d="M6.6 9 12 11.4 17.4 9" stroke-width=".55" opacity=".6"/>
+  </symbol>
+
+  <!-- Ascending chart — progression through the levels. -->
+  <symbol id="i-progress" viewBox="0 0 24 24">
+    <path d="M3 21h18M3 21V3"/>
+    <path d="M6.6 17.4v-3.2M11 17.4v-6.8M15.4 17.4V7.8M19.8 17.4V4.6"/>
+    <path d="M6.6 13 11 9.4l4.4-3.2 4.4-2.8" stroke-width=".55" opacity=".62"/>
+    <path d="M3 16.2h18M3 11.4h18M3 6.6h18" stroke-width=".55" opacity=".32"/>
+  </symbol>
+
+  <!-- Hourglass — hours of study, time on task. -->
+  <symbol id="i-hourglass" viewBox="0 0 24 24">
+    <path d="M5.6 2.6h12.8M5.6 21.4h12.8"/>
+    <path d="M7.2 2.6v3.6L12 12l-4.8 5.8v3.6M16.8 2.6v3.6L12 12l4.8 5.8v3.6"/>
+    <path d="M9.4 5.4h5.2" stroke-width=".55" opacity=".72"/>
+    <path d="M9.4 18.6h5.2M10.4 16.4h3.2" stroke-width=".55" opacity=".72"/>
+  </symbol>
+
+  <!-- Calendar — dates, the academic year. -->
+  <symbol id="i-calendar" viewBox="0 0 24 24">
+    <path d="M3.4 5.4h17.2v16H3.4Z"/>
+    <path d="M3.4 10.2h17.2M8.2 2.6v5M15.8 2.6v5"/>
+    <path d="M6.8 13.4h2.2M11 13.4h2.2M15.2 13.4h2.2" stroke-width=".55" opacity=".72"/>
+    <path d="M6.8 17.2h2.2M11 17.2h2.2M15.2 17.2h2.2" stroke-width=".55" opacity=".72"/>
+  </symbol>
+
+  <!-- Waveform — the Listening Lab, recorded speech. -->
+  <symbol id="i-waveform" viewBox="0 0 24 24">
+    <path d="M2 12h2.4M7 7.4v9.2M11.6 4v16M16.2 8.6v6.8M20.8 10.8v2.4"/>
+    <path d="M4.7 10.4v3.2M9.3 5.6v12.8M13.9 6.2v11.6M18.5 9.4v5.2" stroke-width=".55" opacity=".62"/>
+  </symbol>
+
+  <!-- Mortarboard — graduation, completion of the pathway. -->
+  <symbol id="i-mortarboard" viewBox="0 0 24 24">
+    <path d="M12 3.4 22.4 8 12 12.6 1.6 8Z"/>
+    <path d="M5.6 10v5.6c0 1.8 2.9 3.2 6.4 3.2s6.4-1.4 6.4-3.2V10"/>
+    <path d="M22.4 8v5.6"/>
+    <path d="M22.4 13.6a1 1 0 1 0 0 2 1 1 0 0 0 0-2Z" stroke-width=".55" opacity=".78"/>
+    <path d="M6.4 8.4 12 5.9l5.6 2.5" stroke-width=".55" opacity=".5"/>
   </symbol>
 
   <!-- Compass — direction, guidance, the pathway. -->
   <symbol id="i-compass" viewBox="0 0 24 24">
     <circle cx="12" cy="12" r="9"/>
     <path d="m15.6 8.4-2 5.2-5.2 2 2-5.2Z"/>
+    <circle cx="12" cy="12" r="6.8" stroke-width=".55" opacity=".45"/>
+    <path d="M12 3v1.8M12 19.2V21M3 12h1.8M19.2 12H21" stroke-width=".55" opacity=".72"/>
+  </symbol>
+
+  <!-- Astrolabe — the instrument. The platform built for one programme,
+       where a compass would say "direction" and this says "measurement". -->
+  <symbol id="i-astrolabe" viewBox="0 0 24 24">
+    <!-- AN ASTROLABE, not a third globe.
+         This, #i-globe and #i-language were three circles with meridians
+         on them and were indistinguishable on a contact sheet. An
+         astrolabe is not a globe: it is a suspended disc — a shackle and
+         ring at the top, a graduated limb, a pierced rete, and an
+         alidade lying across the face on the diagonal. The suspension
+         and the alidade are what tell it apart at 30px. -->
+    <path d="M12 1.4a1.5 1.5 0 0 1 0 3 1.5 1.5 0 0 1 0-3Z" stroke-width=".7"/>
+    <path d="M12 4.4v1.2"/>
+    <circle cx="12" cy="14" r="8.2"/>
+    <circle cx="12" cy="14" r="5.9" stroke-width=".55" opacity=".72"/>
+    <path d="M12 8.1v11.8M6.1 14h11.8" stroke-width=".55" opacity=".5"/>
+    <path d="m6.2 19.8 11.6-11.6" stroke-linecap="round"/>
+    <circle cx="12" cy="14" r="1.15" stroke-width=".7"/>
+    <path d="M12 5.8v2.3M3.8 14H6.1M17.9 14h2.3M12 19.9v2.3" stroke-width=".55" opacity=".55"/>
   </symbol>
 
   <!-- Clock tower — London, the campus HQ. -->
@@ -225,7 +411,13 @@
     <circle cx="12" cy="13" r="2.6"/>
     <path d="M12 11.6V13h1.2"/>
     <path d="M6.6 21.4h10.8"/>
+    <path d="M9.4 17.4h5.2M9.4 19.2h5.2" stroke-width=".55" opacity=".68"/>
+    <path d="M12 4.6v1.6" stroke-width=".55" opacity=".68"/>
   </symbol>
+
+  <!-- ================================================================
+       ACCESS, CORRESPONDENCE, PARTNERSHIP
+       ================================================================ -->
 
   <!-- Key — access, the student portal. -->
   <symbol id="i-key" viewBox="0 0 24 24">
@@ -238,24 +430,7 @@
     <path d="M2.6 5h18.8v14H2.6Z"/>
     <path d="m2.6 5 9.4 7.4L21.4 5"/>
     <circle cx="12" cy="12.6" r="2.2"/>
-  </symbol>
-
-  <!-- Shield with a check — quality assurance, verification. -->
-  <symbol id="i-shield-check" viewBox="0 0 24 24">
-    <path d="M12 2.2 20.4 5v7.6c0 4.8-3.4 8.6-8.4 10.2-5-1.6-8.4-5.4-8.4-10.2V5Z"/>
-    <path d="m8.4 12 2.6 2.6 4.6-5"/>
-  </symbol>
-
-  <!-- Ascending chart — progression through the levels. -->
-  <symbol id="i-progress" viewBox="0 0 24 24">
-    <path d="M3 21h18M3 21V3"/>
-    <path d="M6.6 17.4v-3.2M11 17.4v-6.8M15.4 17.4V7.8M19.8 17.4V4.6"/>
-  </symbol>
-
-  <!-- Calendar — dates, the academic year. -->
-  <symbol id="i-calendar" viewBox="0 0 24 24">
-    <path d="M3.4 5.4h17.2v16H3.4Z"/>
-    <path d="M3.4 10.2h17.2M8.2 2.6v5M15.8 2.6v5"/>
+    <path d="m2.6 19 7-5.6M21.4 19l-7-5.6" stroke-width=".55" opacity=".6"/>
   </symbol>
 
   <!-- Passport — international applicants, visas. -->
@@ -263,14 +438,116 @@
     <path d="M4.6 2.6h14.8v18.8H4.6Z"/>
     <circle cx="12" cy="9.6" r="3.4"/>
     <path d="M8.6 16.6h6.8"/>
+    <path d="M12 6.2c1.2 1.4 1.8 2.6 1.8 3.4S13.2 11.8 12 13.2c-1.2-1.4-1.8-2.6-1.8-3.6S10.8 7.6 12 6.2Z" stroke-width=".55" opacity=".7"/>
+    <path d="M9.2 18.6h5.6" stroke-width=".55" opacity=".7"/>
   </symbol>
 
-  <!-- Columns — governance, the academic bodies. -->
-  <symbol id="i-columns" viewBox="0 0 24 24">
-    <path d="M2.6 6.6h18.8M4 21.4h16"/>
-    <path d="M6.4 6.6v14.8M12 6.6v14.8M17.6 6.6v14.8"/>
-    <path d="M2.6 6.6 12 2.6l9.4 4"/>
+  <!-- Accord — an agreement signed by two parties. Partnerships,
+       articulation, the awarding organisation. -->
+  <symbol id="i-accord" viewBox="0 0 24 24">
+    <path d="M4.4 4.4h9.2l6 6v9.2H4.4Z"/>
+    <path d="M13.6 4.4v6h6"/>
+    <path d="M7.6 14.4h8.8M7.6 17.2h5.6" stroke-width=".55" opacity=".76"/>
+    <circle cx="9.4" cy="9.4" r="2" stroke-width=".55" opacity=".76"/>
   </symbol>
+
+  <!-- Lock — privacy, the learner's data, what is not shared. -->
+  <symbol id="i-lock" viewBox="0 0 24 24">
+    <path d="M4.6 10.4h14.8v11H4.6Z"/>
+    <path d="M8 10.4V7.6a4 4 0 0 1 8 0v2.8"/>
+    <path d="M12 14.4v3.2" stroke-width=".55" opacity=".78"/>
+    <circle cx="12" cy="14" r="1.2" stroke-width=".55" opacity=".78"/>
+  </symbol>
+
+  <!-- A plain tick, for lists that are not shields. -->
+  <symbol id="i-check" viewBox="0 0 24 24">
+    <path d="m4.4 12.6 5 5 10.2-11.2"/>
+  </symbol>
+
+  <!-- An open ring — the counterpart to i-check, and the reason it
+       exists. A register of what is settled and what is not cannot
+       use one mark for both: /about/ listed its OUTSTANDING work
+       under the same tick as its confirmed work, so the page marked
+       unfinished things as done. This is the same diameter as the
+       tick's stroke path and deliberately empty. -->
+  <symbol id="i-ring" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="7.6"/>
+  </symbol>
+
+  <!-- A struck seal-check: settled, and sealed. Reads as heavier than
+       a bare tick beside the open ring above. -->
+  <symbol id="i-struck" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="7.6"/>
+    <path d="m8.4 12.2 2.5 2.5 4.7-5.4"/>
+  </symbol>
+
+  <!-- Opening quotation, for pulled quotes set as display type. -->
+  <symbol id="i-quote" viewBox="0 0 24 24">
+    <path d="M9.6 5.4C6 7 3.6 10.2 3.6 14a4.6 4.6 0 0 0 4.6 4.6A4.2 4.2 0 0 0 12.4 14a4.1 4.1 0 0 0-4-4.2c-.5 0-.9 0-1.2.2.4-1.6 1.6-3 3.4-4Z"/>
+    <path d="M20.4 5.4c-3.6 1.6-6 4.8-6 8.6a4.6 4.6 0 0 0 4.6 4.6A4.2 4.2 0 0 0 23.2 14a4.1 4.1 0 0 0-4-4.2c-.5 0-.9 0-1.2.2.4-1.6 1.6-3 3.4-4Z" stroke-width=".55" opacity=".6"/>
+  </symbol>
+
+  <!-- ================================================================
+       THE WORLD, AND THE FOUR REGIONS
+       ---------------------------------------------------------------
+       One globe under one graticule. Each region engraves a different
+       sector of it and sets a locator diamond into that sector, so the
+       four read as one instrument turned four ways rather than as four
+       flags. See the note at the head of this file.
+       ================================================================ -->
+
+  <!-- Globe with meridians — worldwide delivery. -->
+  <symbol id="i-globe" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M3 12h18"/>
+    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z"/>
+    <path d="M5 6.4c2 1.2 4.4 1.8 7 1.8s5-.6 7-1.8M5 17.6c2-1.2 4.4-1.8 7-1.8s5 .6 7 1.8"/>
+    <path d="M4.2 9.2h15.6M4.2 14.8h15.6" stroke-width=".55" opacity=".38"/>
+  </symbol>
+
+  <!-- The Gulf — the south-eastern sector. -->
+  <symbol id="i-region-gulf" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M3 12h18"/>
+    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z" stroke-width=".55" opacity=".45"/>
+    <path d="M12 12 13.56 20.86A9 9 0 0 0 20.97 12.78Z"/>
+    <path d="M13.4 17.6c2.4-.3 4.3-1.4 5.6-3.2M14.1 19.5c2.9-.5 5.2-2 6.6-4.4" stroke-width=".55" opacity=".62"/>
+    <path d="m16.4 15.1 1.3 1.3-1.3 1.3-1.3-1.3Z" stroke-width=".55" opacity=".95"/>
+  </symbol>
+
+  <!-- Europe — the north-western sector. -->
+  <symbol id="i-region-europe" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M3 12h18"/>
+    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z" stroke-width=".55" opacity=".45"/>
+    <path d="M12 12 10.44 3.14A9 9 0 0 0 3.03 11.22Z"/>
+    <path d="M10.6 6.4c-2.4.3-4.3 1.4-5.6 3.2M9.9 4.5c-2.9.5-5.2 2-6.6 4.4" stroke-width=".55" opacity=".62"/>
+    <path d="m7.6 8.9-1.3-1.3 1.3-1.3 1.3 1.3Z" stroke-width=".55" opacity=".95"/>
+  </symbol>
+
+  <!-- Africa — the south-western sector. -->
+  <symbol id="i-region-africa" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M3 12h18"/>
+    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z" stroke-width=".55" opacity=".45"/>
+    <path d="M12 12 3.03 12.78A9 9 0 0 0 10.44 20.86Z"/>
+    <path d="M10.6 17.6c-2.4-.3-4.3-1.4-5.6-3.2M9.9 19.5c-2.9-.5-5.2-2-6.6-4.4" stroke-width=".55" opacity=".62"/>
+    <path d="m7.6 15.1 1.3 1.3-1.3 1.3-1.3-1.3Z" stroke-width=".55" opacity=".95"/>
+  </symbol>
+
+  <!-- Asia — the north-eastern sector. -->
+  <symbol id="i-region-asia" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M3 12h18"/>
+    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z" stroke-width=".55" opacity=".45"/>
+    <path d="M12 12 20.97 11.22A9 9 0 0 0 13.56 3.14Z"/>
+    <path d="M13.4 6.4c2.4.3 4.3 1.4 5.6 3.2M14.1 4.5c2.9.5 5.2 2 6.6 4.4" stroke-width=".55" opacity=".62"/>
+    <path d="m16.4 8.9-1.3-1.3 1.3-1.3 1.3 1.3Z" stroke-width=".55" opacity=".95"/>
+  </symbol>
+
+  <!-- ================================================================
+       NAVIGATION AND UTILITY
+       ================================================================ -->
 
   <!-- Arrow, used for links and CTAs. -->
   <symbol id="i-arrow" viewBox="0 0 24 24">
@@ -296,8 +573,34 @@
 
   <!-- Language switch. -->
   <symbol id="i-language" viewBox="0 0 24 24">
-    <circle cx="12" cy="12" r="9"/>
-    <path d="M3 12h18M12 3c2.4 2.6 3.6 5.6 3.6 9s-1.2 6.4-3.6 9c-2.4-2.6-3.6-5.6-3.6-9S9.6 5.6 12 3Z"/>
+    <!-- LANGUAGE, not a fourth globe.
+         A circle with meridians on it is a GLOBE, and #i-globe is
+         already that. This mark means the two languages the College
+         publishes in, so it is drawn as the two scripts: a Latin A on
+         the sinister side, an Arabic waw-and-tooth stroke on the
+         dexter, divided by a hairline rule. Unmistakable at 30px, and
+         it says the actual thing rather than gesturing at "world". -->
+    <path d="M3.1 15.6 6.4 7.4l3.3 8.2M4.4 12.9h4"/>
+    <path d="M12 4.6v14.8" stroke-width=".55" opacity=".45"/>
+    <path d="M17.9 8.1c1.7 0 2.9 1.2 2.9 2.9 0 1.6-1.1 2.7-2.6 2.7-1.2 0-2-.7-2-1.7 0-.9.6-1.5 1.4-1.5.6 0 1 .3 1.1.8"/>
+    <path d="M14.2 16.4h6.6" stroke-width=".55" opacity=".8"/>
+  </symbol>
+
+  <!-- Countermark — a sheet carrying an identifying impression, for the
+       edition mark printed on every page of every volume. Distinct from
+       i-seal, which is a seal of conferral with a ribbon: this is the
+       quieter thing, a mark that says WHERE A PAGE CAME FROM. The leaf
+       is at full weight; the impression and its radiating ticks are the
+       hairline, so the mark reads as pressed INTO the paper rather than
+       drawn on top of it. -->
+  <symbol id="i-countermark" viewBox="0 0 24 24">
+    <path d="M5 2.6h10.4L19 6.2v15.2H5Z"/>
+    <path d="M15.4 2.6v3.6H19"/>
+    <circle cx="12" cy="13.4" r="4.2"/>
+    <path d="M9.6 13.4h4.8"/>
+    <circle cx="12" cy="13.4" r="2.2" stroke-width=".55" opacity=".7"/>
+    <path d="M12 7.9v1.3M12 17.6v1.3M6.6 13.4h1.3M16.1 13.4h1.3"
+      stroke-width=".55" opacity=".75"/>
   </symbol>
 
 </defs>
@@ -341,32 +644,68 @@
     <path d="M6.4 19.0H18.6M6.4 15.8H18.6M6.4 12.6H18.6M6.4 9.4H18.6M6.4 6.2H18.6M6.4 3.0H18.6"/>
   </symbol>
 </svg>
-<div class="topbar">
+<!-- THE UTILITY BAR IS AN INSTRUMENT, NOT A CONTACT STRIP.
+
+     It used to carry an email address, a strapline and three social
+     rings. That is what a small business puts above its logo. What an
+     international college puts there is the thing its readers actually
+     need at a glance and cannot get anywhere else on the page: where
+     the institution is, what time it is there, and what time that is
+     where THEY are.
+
+     So the bar reads, left to right: the seat of the College in full —
+     London, United Kingdom — with London's own time in twelve-hour
+     form; then the reader's own country and their own time, written
+     once by js/worldclock.js from the time zone their device already
+     reports, with no request made to anybody; then the editions picker,
+     which carries all ten languages the College is building toward and
+     links the two that are published.
+
+     Twelve-hour, not twenty-four. The College's readership is in
+     Riyadh, Lagos, Karachi and Jakarta rather than in Brussels, and
+     11:42 PM is what an invitation says. -->
+<div class="topbar" data-worldclock>
   <div class="topbar__inner">
-    <div class="topbar__contacts">
-      <a href="mailto:info@worldwencollege.co.uk" class="topbar__item">
-        <svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg>
-        info@worldwencollege.co.uk
-      </a>
-      <span class="topbar__item topbar__item--muted">
+
+    <div class="seat">
+      <span class="seat__flag" aria-hidden="true">🇬🇧</span>
+      <span class="seat__place">
+        <span class="seat__city">London</span><span class="seat__country">, United&nbsp;Kingdom</span>
+      </span>
+      <span class="seat__rule" aria-hidden="true"></span>
+      <span class="seat__clock">
         <svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg>
-        London Campus · Applications open worldwide
+        <span data-clock-london>&mdash;</span>
+        <span class="seat__tz">London</span>
       </span>
     </div>
+
+    <div class="here" data-here hidden>
+      <span class="here__label">Browsing from</span>
+      <span class="here__flag" data-here-flag aria-hidden="true"></span>
+      <span class="here__name" data-here-name></span>
+      <span class="seat__rule" aria-hidden="true"></span>
+      <span class="here__time" data-clock-local></span>
+    </div>
+
     <div class="topbar__right">
-      <a href="/contact/" class="topbar__item">
-        <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg>
+      <a href="/contact/" class="topbar__item topbar__item--contact">
+        <svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg>
         Contact
       </a>
-      <a class="topbar__lang" href="/ar/study/level-6/" lang="ar" hreflang="ar">
-        <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
-        العربية
-      </a>
-      <div class="topbar__social" aria-label="Social links">
-        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
-        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
-        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
-      </div>
+      <div class="langswitch">
+    <button type="button" class="langswitch__btn" aria-expanded="false" aria-haspopup="true">
+      <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
+      <span class="langswitch__now">English</span>
+      <svg class="icon langswitch__chev" aria-hidden="true"><use href="#i-arrow"/></svg>
+    </button>
+    <div class="langswitch__menu crystal" role="menu">
+      <p class="langswitch__head">Editions</p>
+        <span class="lang__row lang__row--current" aria-current="true"><span class="lang__flag" aria-hidden="true">🇬🇧</span><span class="lang__endonym" lang="en">English</span><span class="lang__english">English</span><span class="lang__state"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg></span></span>
+        <a class="lang__row" href="/ar/study/level-6/" hreflang="ar" lang="ar"><span class="lang__flag" aria-hidden="true">🇸🇦</span><span class="lang__endonym" dir="rtl" lang="ar">العربية</span><span class="lang__english">Arabic</span></a>
+    </div>
+  </div>
+      
     </div>
   </div>
 </div>
@@ -418,6 +757,12 @@
   rail, because Study is inherently seven and the band assumes one flat
   list rather than eight menus averaging five.
 
+  Four links were added on 20 August 2026, when scripts/red-flag-audit.mjs
+  reported the tutor handbook, the examination regulations, the student
+  handbook and the complaints procedure as routes reachable only by
+  typing the address: they had been authored, built and served, and
+  nothing on the site linked to them.
+
   THE MOBILE DRAWER is a full-screen accordion, not a scroll of thirty-
   one links. Grouping the pillars under static labels (Phase 5b) fixed
   legibility but not density: every link was still on screen at once,
@@ -467,6 +812,7 @@
               <p class="mega__label">The Institution</p>
               <a href="/about/">About the College</a>
               <a href="/about/#vision">Vision &amp; Mission</a>
+              <a href="/why-english/">Why English</a>
               <a href="/about/#philosophy">Educational Philosophy</a>
               <a href="/about/#structure">How It Is Organised</a>
               <a href="/about/careers/">Careers</a>
@@ -474,9 +820,9 @@
           </div>
           <a class="mega__feature" href="/about/#status">
             <svg class="icon icon--lg" aria-hidden="true"><use href="#i-columns"/></svg>
-            <span class="mega__feature-label">Institutional status</span>
-            <span class="mega__feature-text">What the College is today — and what it is not yet. Stated plainly, kept current.</span>
-            <span class="mega__feature-go">Read the status <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+            <span class="mega__feature-label">Eight cohorts, sixty countries</span>
+            <span class="mega__feature-text">More than 22,000 learners have studied here since 2023. The record behind that figure is published.</span>
+            <span class="mega__feature-go">Read the record <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
           </a>
         </div>
       </div>
@@ -496,6 +842,7 @@
               <p class="mega__label">Teaching &amp; Faculty</p>
               <a href="/academics/teaching/">Teaching Practice</a>
               <a href="/academics/teaching/#development">Teacher Development</a>
+              <a href="/academics/tutor-handbook/">The Tutor Handbook</a>
               <a href="/faculty/">The Faculty</a>
             </div>
           </div>
@@ -545,13 +892,15 @@
               <a href="/admissions/apply/">How to Apply</a>
               <a href="/admissions/#requirements">Entry Requirements</a>
               <a href="/admissions/tuition/">Tuition, Fees &amp; Funding</a>
+              <a href="/admissions/tuition/#routes">Studying Independently</a>
               <a href="/admissions/policy/">Admissions Policy</a>
+              <a href="/admissions/international/">Studying From Your Own Country</a>
             </div>
           </div>
           <a class="mega__feature" href="/admissions/apply/">
             <svg class="icon icon--lg" aria-hidden="true"><use href="#i-seal"/></svg>
-            <span class="mega__feature-label">Admission is continuous</span>
-            <span class="mega__feature-text">No intake to wait for. You begin the day you enrol.</span>
+            <span class="mega__feature-label">Three intakes a year</span>
+            <span class="mega__feature-text">Spring, Summer and Autumn. Two hundred places are open worldwide for the current intake.</span>
             <span class="mega__feature-go">Begin your application <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
           </a>
         </div>
@@ -569,6 +918,9 @@
               <a href="/students/awards/">Awards &amp; Honours</a>
               <a href="/students/#support">Support</a>
               <a href="/students/regulations/">Academic Regulations</a>
+              <a href="/students/examinations/">Examination Regulations</a>
+              <a href="/students/handbook/">The Student Handbook</a>
+              <a href="/support/complaints/">Complaints</a>
             </div>
           </div>
           <a class="mega__feature" href="/student-portal/">
@@ -612,6 +964,10 @@
               <a href="/governance/#leadership">Board, Senate &amp; Executive</a>
               <a href="/governance/#quality">Quality Assurance</a>
               <a href="/governance/decisions/">The Decisions Register</a>
+              <a href="/governance/quality/">The Quality Architecture</a>
+              <a href="/governance/quality-manual/">The Quality Assurance Manual</a>
+          <a href="/governance/instruments/">The Register of Instruments</a>
+              <a href="/governance/instruments/">The Register of Instruments</a>
             </div>
           </div>
           <a class="mega__feature" href="/governance/decisions/">
@@ -658,74 +1014,62 @@
     </div>
   </div>
 
-  <!-- THE ACTION BAND.
-       The rail answers "what is here"; it does not answer "what do I do
-       now", and those are different questions asked by different people.
-       Three routes, and they are the only three a first-time reader
-       actually has: one for somebody who already belongs here, one for
-       somebody deciding whether to, and one for somebody who has already
-       decided. Anything else on this band would be a fourth thing
-       competing with the three that matter.
 
-       Desktop only. Below 1180px the rail collapses and the quicknav
-       strip immediately underneath already carries the pillars as
-       tappable tiles, so repeating these there would be a second row of
-       chrome on the smallest screens — which is the failure the header
-       note above spent four layers learning not to repeat. -->
-  <div class="actionband">
-    <div class="actionband__inner">
-      <a class="actionband__item" href="/student-portal/">
-        <span class="actionband__badge"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
-        <span class="actionband__text">
-          <span class="actionband__title">Log into the Portal</span>
-          <span class="actionband__note">Your programme, your recordings and your record</span>
-        </span>
-        <svg class="icon actionband__go" aria-hidden="true"><use href="#i-arrow"/></svg>
-      </a>
-      <a class="actionband__item" href="/admissions/">
-        <span class="actionband__badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
-        <span class="actionband__text">
-          <span class="actionband__title">How Admission Works</span>
-          <span class="actionband__note">Four steps, no intake to wait for</span>
-        </span>
-        <svg class="icon actionband__go" aria-hidden="true"><use href="#i-arrow"/></svg>
-      </a>
-      <a class="actionband__item actionband__item--lead" href="/admissions/apply/">
-        <span class="actionband__badge"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
-        <span class="actionband__text">
-          <span class="actionband__title">Start an Application</span>
-          <span class="actionband__note">No fee, and no card details asked for</span>
-        </span>
-        <svg class="icon actionband__go" aria-hidden="true"><use href="#i-arrow"/></svg>
-      </a>
+  <!-- THE UTILITY RAIL — SEVEN BAYS, AND THE COUNT IS THE DESIGN.
+       A second, quieter band under the primary navigation, carrying what
+       a reader arrives already wanting to DO — as opposed to the eight
+       pillars above, which are what the institution IS. They are
+       different kinds of object and they were competing for one row:
+       "Apply Now" and "The College" are not peers, one is an act and the
+       other is a subject.
+
+       It carried nine, and nine was one more than the rail could hold
+       even on a 1440px monitor — measured, not guessed: the track ran
+       55px past the 1180px measure at full desktop width and 772px past
+       it at 360px. A rail that overflows at the width it was designed
+       for is not a scroller, it is a mistake with a scrollbar.
+
+       So it was curated rather than compressed. Curriculum went because
+       the Academics mega menu above already carries it by name; Contact
+       went because it is in the utility bar above, the drawer, and the
+       footer. What is left is two acts, one appointment, two questions
+       about money, the College's own publications, and the one service
+       an outside party comes here for. Seven — the same count as the
+       lattice nodes this header is strung on.
+
+       Seven fit the measure exactly, so from 1100px up the rail stops
+       scrolling and becomes a colonnade: equal bays, hairline piers
+       between them, each label centred in its own bay. Below that it is
+       a scroller again, with gold fade masks at both ends so a cut edge
+       reads as "more this way" rather than as a rendering fault. -->
+  <div class="utilrail" aria-label="Quick actions">
+    <div class="utilrail__track">
+      <a class="utilrail__item utilrail__item--gold" href="/student-portal/">
+        <svg class="icon" aria-hidden="true"><use href="#i-key"/></svg><span>Student Portal</span></a>
+      <a class="utilrail__item utilrail__item--gold" href="/admissions/apply/">
+        <svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg><span>Apply Now</span></a>
+      <a class="utilrail__item" href="/contact/#consultation">
+        <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg><span>Book a Consultation</span></a>
+      <a class="utilrail__item" href="/admissions/tuition/">
+        <svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg><span>Tuition &amp; Fees</span></a>
+      <a class="utilrail__item" href="/admissions/tuition/#scholarships">
+        <svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg><span>Scholarships</span></a>
+      <a class="utilrail__item" href="/press/library/">
+        <svg class="icon" aria-hidden="true"><use href="#i-book"/></svg><span>Publications</span></a>
+      <div class="utilrail__item utilrail__item--has-menu">
+        <button type="button" class="utilrail__btn" aria-expanded="false" aria-haspopup="true">
+          <svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg><span>Verify</span>
+          <svg class="icon utilrail__chev" aria-hidden="true"><use href="#i-arrow"/></svg>
+        </button>
+        <div class="utilrail__menu crystal" role="menu">
+          <a href="/verify/?type=certificate"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg>Verify a Certificate</a>
+          <a href="/verify/?type=transcript"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg>Verify a Transcript</a>
+          <a href="/verify/?type=identity"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg>Verify a Student Identity</a>
+          <a href="/verify/?type=receipt"><svg class="icon" aria-hidden="true"><use href="#i-countermark"/></svg>Verify a Receipt</a>
+          <a href="/verify/"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg>Verify Any Document</a>
+        </div>
+      </div>
     </div>
-  </div>
-
-  <!-- THE HEADER CLOCK.
-       Mobile only, sitting directly above the quicknav strip — where
-       the reference screenshot carries its own date/time line, at the
-       very top of the app rather than buried in page content. Compact
-       by design: one line, no analogue face, so it costs the header
-       almost nothing in height. js/worldclock.js fills all three
-       values; the numerals shown here are only the pre-script state.
-
-       It used to be a bare icon and plain text on a flat strip — the
-       one piece of header chrome that never picked up the vessel/badge
-       material the quicknav tiles below it and the footer's own grid
-       are built from, so it read as an afterthought next to them. The
-       badge, the gold-pill tz tags and the hairline rules are that
-       same material at instrument-panel scale: still one line, still
-       costing the header almost nothing in height, but no longer the
-       one thing on the page still wearing plain text. -->
-  <div class="headerclock grain" data-worldclock>
-    <span class="headerclock__badge"><svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg></span>
-    <span class="headerclock__times tabular">
-      <span class="headerclock__reading"><span data-clock-london>13:36</span><span class="headerclock__tz">LON</span></span>
-      <span class="headerclock__rule" aria-hidden="true"></span>
-      <span class="headerclock__reading"><span data-clock-local>13:36</span><span class="headerclock__tz">YOU</span></span>
-    </span>
-    <span class="headerclock__rule headerclock__rule--edge" aria-hidden="true"></span>
-    <span class="headerclock__date" data-clock-date>Sat, 15 Aug</span>
   </div>
 
   <!-- THE QUICKNAV STRIP.
@@ -786,6 +1130,7 @@
         <div class="accordion__a"><div class="accordion__a-inner">
           <a href="/about/">About the College</a>
           <a href="/about/#vision">Vision &amp; Mission</a>
+          <a href="/why-english/">Why English</a>
           <a href="/about/#philosophy">Educational Philosophy</a>
           <a href="/about/#structure">How It Is Organised</a>
           <a href="/about/careers/">Careers</a>
@@ -801,6 +1146,7 @@
           <a href="/academics/#campus">The Digital Campus</a>
           <a href="/academics/teaching/">Teaching Practice</a>
           <a href="/academics/teaching/#development">Teacher Development</a>
+          <a href="/academics/tutor-handbook/">The Tutor Handbook</a>
           <a href="/faculty/">The Faculty</a>
         </div></div>
       </div>
@@ -823,7 +1169,9 @@
           <a href="/admissions/apply/">How to Apply</a>
           <a href="/admissions/#requirements">Entry Requirements</a>
           <a href="/admissions/tuition/">Tuition, Fees &amp; Funding</a>
+          <a href="/admissions/tuition/#routes">Studying Independently</a>
           <a href="/admissions/policy/">Admissions Policy</a>
+          <a href="/admissions/international/">Studying From Your Own Country</a>
           <a href="/faq/">Admissions Questions</a>
         </div></div>
       </div>
@@ -836,6 +1184,9 @@
           <a href="/students/awards/">Awards &amp; Honours</a>
           <a href="/students/#support">Support</a>
           <a href="/students/regulations/">Academic Regulations</a>
+          <a href="/students/examinations/">Examination Regulations</a>
+          <a href="/students/handbook/">The Student Handbook</a>
+          <a href="/support/complaints/">Complaints</a>
         </div></div>
       </div>
       <div class="accordion__item">
@@ -855,6 +1206,8 @@
           <a href="/governance/#leadership">Board, Senate &amp; Executive</a>
           <a href="/governance/#quality">Quality Assurance</a>
           <a href="/governance/decisions/">The Decisions Register</a>
+          <a href="/governance/quality/">The Quality Architecture</a>
+          <a href="/governance/quality-manual/">The Quality Assurance Manual</a>
         </div></div>
       </div>
       <div class="accordion__item">
@@ -884,11 +1237,7 @@
         <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
         العربية
       </a>
-      <div class="topbar__social" aria-label="Social links">
-        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
-        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
-        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
-      </div>
+      
     </div>
     <a href="/admissions/apply/" class="btn btn--gold">Apply Now</a>
   </nav>
@@ -920,6 +1269,7 @@
       <li><a href="#teaching">Teaching Methods</a></li>
       <li><a href="#resources">Resources</a></li>
       <li><a href="#progression">Progression</a></li>
+      <li><a href="#qualification">A Complete Qualification</a></li>
       <li><a href="#award">The Qualification</a></li>
       <li><a href="#questions">Questions</a></li>
     </ul>
@@ -936,22 +1286,45 @@
       <div class="stat-row__item"><b>4</b><span>Months</span></div>
       <div class="stat-row__item"><b>$3,166.67</b><span>Tuition</span></div>
     </div>
+    <p class="form-note">You begin with one instalment of $791.67, not with the level fee.
+      Instalments are the default arrangement and carry no charge &mdash; see
+      <a href="/admissions/tuition/#ladder">the ladder</a>.</p>
+    <figure class="plate plate--drift plate--photo reveal" style="--plate-ratio: 16 / 9">
+      <div class="plate__frame tilt gold-live edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <img src="/assets/images/plates/astrolabe.jpg" alt="A brass astrolabe, its rings and rule engraved with scales and star pointers." loading="lazy" decoding="async">
+        <span class="plate__tone" aria-hidden="true"></span>
+        <span class="plate__tone plate__tone--warm" aria-hidden="true"></span>
+      </div>
+      <figcaption class="plate__caption">
+        <svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg>
+        Arrival — at the language, and at the precision it makes possible.
+        <span class="plate__credit">Photograph <a href="https://commons.wikimedia.org/w/index.php?curid=2717737">Ragesoss</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a></span>
+      </figcaption>
+    </figure>
+
     <div class="section-head">
       <span class="module-marker">Overview</span>
       <h2>What this level contains.</h2>
     </div>
     <div class="grid grid--3">
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
         <span class="card__num">Teaching</span>
         <h3>29 lessons</h3>
         <p>Each lesson runs a full sequence &mdash; warm-up, presentation, guided practice, independent practice, writing and homework &mdash; with the timing stated in the plan rather than left to the room.</p>
       </div>
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
         <span class="card__num">Listening</span>
         <h3>10 listening sets</h3>
         <p>A scripted listening set for every module, with speaker cues and comprehension work built against the script rather than added afterwards.</p>
       </div>
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-language"/></svg></span>
         <span class="card__num">Pronunciation</span>
         <h3>10 laboratories</h3>
         <p>A pronunciation laboratory per module, targeting the sounds, stress patterns and rhythm the module&rsquo;s own language actually needs.</p>
@@ -965,8 +1338,7 @@
     <div class="section-head">
       <span class="module-marker">Modules</span>
       <h2>The 10 modules, in order.</h2>
-      <p class="lede">The sequence is deliberate: each module assumes what the one before it
-        taught, and the final module consolidates rather than introduces.</p>
+      <p class="lede">Level VI opens at Mastery Diagnostic &amp; Executive Leadership and closes at Capstone — Global Challenges &amp; Mastery Examination. Each module assumes what the one before it taught, so the order is the argument rather than a filing convenience.</p>
     </div>
     <div class="table-scroll">
       <table class="ledger">
@@ -997,22 +1369,30 @@
         both, and a single overall grade hides that. Each skill is tracked on its own.</p>
     </div>
     <div class="grid grid--2">
-      <div class="card card--dark">
+      <div class="card reveal tilt card--dark edge-lit aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
         <span class="card__num">Receptive</span>
         <h3>Listening</h3>
         <p>Understands speech at natural pace, including unfamiliar accents and imperfect conditions</p>
       </div>
-      <div class="card card--dark">
+      <div class="card reveal tilt card--dark edge-lit aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
         <span class="card__num">Receptive</span>
         <h3>Reading</h3>
         <p>Reads for argument and detail, not only for gist, across registers</p>
       </div>
-      <div class="card card--dark">
+      <div class="card reveal tilt card--dark edge-lit aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-language"/></svg></span>
         <span class="card__num">Productive</span>
         <h3>Speaking</h3>
         <p>Speaks with control of grammar, pronunciation and register, in real time</p>
       </div>
-      <div class="card card--dark">
+      <div class="card reveal tilt card--dark edge-lit aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
         <span class="card__num">Productive</span>
         <h3>Writing</h3>
         <p>Writes to a purpose and an audience, and revises</p>
@@ -1030,17 +1410,23 @@
         criteria are published to the learner in advance.</p>
     </div>
     <div class="grid grid--3">
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span>
         <span class="card__num">Continuous</span>
         <h3>10 module quizzes</h3>
         <p>One at the end of each module, testing the language that module taught and nothing else. Marked automatically, with the correct answer and the reason shown.</p>
       </div>
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
         <span class="card__num">Productive</span>
         <h3>10 assignments</h3>
         <p>Speaking and writing tasks marked by an instructor against a published rubric. These are where the productive skills are actually assessed &mdash; a quiz cannot judge whether someone can hold a conversation.</p>
       </div>
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
         <span class="card__num">Self-check</span>
         <h3>Before every assessment</h3>
         <p>Each lesson carries a self-check with traps aimed at the mistakes learners at this level really make, so a learner discovers a gap before an examiner does.</p>
@@ -1059,22 +1445,30 @@
       <h2>How it is taught.</h2>
     </div>
     <div class="grid grid--2">
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-language"/></svg></span>
         <span class="card__num">Speaking-first</span>
         <h3>Practice before polish</h3>
         <p>Guided speaking is built into every lesson, not offered as an extra. Learners speak from the first lesson, before their grammar is ready, because waiting for accuracy is how people stay silent for years.</p>
       </div>
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>
         <span class="card__num">Structured</span>
         <h3>A shared standard, not a personal style</h3>
         <p>Every instructor teaches to the same mapped curriculum, so a learner who changes class or cohort does not lose their place, and two learners at the same level have covered the same ground.</p>
       </div>
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span>
         <span class="card__num">Supported</span>
         <h3>A teacher who knows what goes wrong</h3>
         <p>Instructors work from the Teacher's Companion, which sets out for each lesson what commonly goes wrong, a second way to explain it, and what to do for the learner who is behind and the one who is ahead.</p>
       </div>
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
         <span class="card__num">Measured</span>
         <h3>Adjusted to the cohort</h3>
         <p>Quiz and assignment results are visible to the instructor as the level runs, so teaching responds to how this group is actually performing rather than to how the plan assumed they would.</p>
@@ -1090,17 +1484,23 @@
       <h2>What you are given.</h2>
     </div>
     <div class="grid grid--3">
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
         <span class="card__num">Platform</span>
         <h3>The learning platform</h3>
         <p>Lessons, quizzes, self-checks and progress tracking, with your marks and feedback in one record you keep.</p>
       </div>
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
         <span class="card__num">Listening Lab</span>
         <h3>Recorded practice</h3>
         <p>The Listening Lab holds the level&rsquo;s recorded material with the script, and records your own speaking for pronunciation feedback.</p>
       </div>
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
         <span class="card__num">Press volumes</span>
         <h3>Printed and digital</h3>
         <p>The curriculum is published as a set of volumes by WEC Press &mdash; the Complete Curriculum, the Assessment Handbook, and for Level I a Student Workbook and Teacher&rsquo;s Companion.</p>
@@ -1118,19 +1518,142 @@
       <span class="module-marker">Progression</span>
       <h2>Where this level sits.</h2>
     </div>
+
+    <!-- THE ASCENT, with this level struck. Deliberately not a progress
+         bar: a reader arriving here has not completed the rungs below,
+         so every rung is drawn at the same weight and only the one this
+         page is about is marked. Roman numeral, CEFR band and award
+         post-nominal are read from programme_levels and
+         award_definitions by scripts/art/generate-level-ascent.mjs, so a
+         level renamed in the record is renamed in all six drawings. -->
+    <figure class="diagram diagram--wide">
+      <!-- Generated by scripts/art/ — do not hand-edit. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" width="900" height="560"
+     data-diagram="level-ascent-6" role="img" lang="en" direction="ltr"
+     aria-labelledby="level-ascent-6-title level-ascent-6-desc">
+  <title id="level-ascent-6-title">Level VI on the ascent — and every rung a complete award</title>
+  <desc id="level-ascent-6-desc">A stair of six rungs, each one higher than the last. Every rung is a level of the programme, marked with its roman numeral, its CEFR band and the post-nominal of its award. The rung circled in gold is Level VI at C2, which is what this page is about, and its award is the Worldwide English Proficiency Certificate. The other rungs are I at A1, II at A2, III at B1, IV at B2, V at C1. Every rung is drawn at the same weight: this is not a progress bar and it says nothing about the reader. Each rung is a complete award with its own entry standard, its own exit standard and its own title, so a learner who stops at one holds a finished qualification rather than an abandoned course.</desc>
+  <text x="92.0" y="50.0" text-anchor="start" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" letter-spacing="2.4" fill="#6E93C4">THE ASCENT</text>
+  <text x="92.0" y="74.0" text-anchor="start" font-family="Inter, sans-serif" font-size="11" font-weight="700" letter-spacing="1.6" fill="#E7C97A">THIS PAGE · Level VI</text>
+  <text data-pop="" x="92.0" y="106.0" text-anchor="start" font-family="'EB Garamond', Georgia, serif" font-size="25" font-weight="700" fill="#F2E3C0">English Mastery Programme</text>
+  <text data-pop="" x="92.0" y="136.0" text-anchor="start" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" letter-spacing="2" fill="#6E93C4">THE AWARD CONFERRED</text>
+  <text data-pop="" x="92.0" y="158.0" text-anchor="start" font-family="Inter, sans-serif" font-size="14" fill="#8FA3C4" direction="ltr">Worldwide English Proficiency Certificate</text>
+  <path data-draw="1500" d="M92.0 396.0L235.2 354.0L378.4 312.0L521.6 270.0L664.8 228.0L808.0 186.0" stroke="#C7A24A" stroke-width="1.4" stroke-opacity="0.55" stroke-linecap="round" fill="none"/>
+  <path d="M66.0 396.0L118.0 396.0" stroke="#4A6491" stroke-width="1.1" stroke-opacity="0.5" fill="none"/>
+  <g data-pop=""><circle cx="92.0" cy="396.0" r="6" fill="#0A1428" stroke="#4A6491" stroke-width="1.3"/></g>
+  <text data-pop="" x="92.0" y="432.0" text-anchor="middle" font-family="'EB Garamond', Georgia, serif" font-size="17" font-weight="700" fill="#8FA3C4" direction="ltr">I</text>
+  <text data-pop="" x="92.0" y="450.0" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" letter-spacing="1.2" fill="#4A6491" direction="ltr">A1</text>
+  <text data-pop="" x="92.0" y="467.0" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" fill="#4A6491" opacity="0.7" direction="ltr">ECIC</text>
+  <path d="M209.2 354.0L261.2 354.0" stroke="#4A6491" stroke-width="1.1" stroke-opacity="0.5" fill="none"/>
+  <g data-pop=""><circle cx="235.2" cy="354.0" r="6" fill="#0A1428" stroke="#4A6491" stroke-width="1.3"/></g>
+  <text data-pop="" x="235.2" y="390.0" text-anchor="middle" font-family="'EB Garamond', Georgia, serif" font-size="17" font-weight="700" fill="#8FA3C4" direction="ltr">II</text>
+  <text data-pop="" x="235.2" y="408.0" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" letter-spacing="1.2" fill="#4A6491" direction="ltr">A2</text>
+  <text data-pop="" x="235.2" y="425.0" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" fill="#4A6491" opacity="0.7" direction="ltr">HCIC</text>
+  <path d="M352.4 312.0L404.4 312.0" stroke="#4A6491" stroke-width="1.1" stroke-opacity="0.5" fill="none"/>
+  <g data-pop=""><circle cx="378.4" cy="312.0" r="6" fill="#0A1428" stroke="#4A6491" stroke-width="1.3"/></g>
+  <text data-pop="" x="378.4" y="348.0" text-anchor="middle" font-family="'EB Garamond', Georgia, serif" font-size="17" font-weight="700" fill="#8FA3C4" direction="ltr">III</text>
+  <text data-pop="" x="378.4" y="366.0" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" letter-spacing="1.2" fill="#4A6491" direction="ltr">B1</text>
+  <text data-pop="" x="378.4" y="383.0" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" fill="#4A6491" opacity="0.7" direction="ltr">CAEC</text>
+  <path d="M495.6 270.0L547.6 270.0" stroke="#4A6491" stroke-width="1.1" stroke-opacity="0.5" fill="none"/>
+  <g data-pop=""><circle cx="521.6" cy="270.0" r="6" fill="#0A1428" stroke="#4A6491" stroke-width="1.3"/></g>
+  <text data-pop="" x="521.6" y="306.0" text-anchor="middle" font-family="'EB Garamond', Georgia, serif" font-size="17" font-weight="700" fill="#8FA3C4" direction="ltr">IV</text>
+  <text data-pop="" x="521.6" y="324.0" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" letter-spacing="1.2" fill="#4A6491" direction="ltr">B2</text>
+  <text data-pop="" x="521.6" y="341.0" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" fill="#4A6491" opacity="0.7" direction="ltr">HCAEC</text>
+  <path d="M638.8 228.0L690.8 228.0" stroke="#4A6491" stroke-width="1.1" stroke-opacity="0.5" fill="none"/>
+  <g data-pop=""><circle cx="664.8" cy="228.0" r="6" fill="#0A1428" stroke="#4A6491" stroke-width="1.3"/></g>
+  <text data-pop="" x="664.8" y="264.0" text-anchor="middle" font-family="'EB Garamond', Georgia, serif" font-size="17" font-weight="700" fill="#8FA3C4" direction="ltr">V</text>
+  <text data-pop="" x="664.8" y="282.0" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" letter-spacing="1.2" fill="#4A6491" direction="ltr">C1</text>
+  <text data-pop="" x="664.8" y="299.0" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" fill="#4A6491" opacity="0.7" direction="ltr">ACEC</text>
+  <path d="M782.0 186.0L834.0 186.0" stroke="#D4AF37" stroke-width="2" stroke-opacity="0.95" fill="none"/>
+  <g data-pop=""><circle cx="808.0" cy="186.0" r="17" fill="none" stroke="#D4AF37" stroke-width="1.3" stroke-opacity="0.75"/></g>
+  <g data-pop=""><circle cx="808.0" cy="186.0" r="9" fill="#0A1428" stroke="#D4AF37" stroke-width="1.8"/><circle cx="808.0" cy="186.0" r="3.1" fill="#D4AF37"/></g>
+  <text data-pop="" x="808.0" y="222.0" text-anchor="middle" font-family="'EB Garamond', Georgia, serif" font-size="21" font-weight="700" fill="#F2E3C0" direction="ltr">VI</text>
+  <text data-pop="" x="808.0" y="240.0" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" letter-spacing="1.2" fill="#E7C97A" direction="ltr">C2</text>
+  <text data-pop="" x="808.0" y="257.0" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" fill="#4A6491" opacity="0.95" direction="ltr">WEPC</text>
+  <path d="M68.0 490.0L832.0 490.0" stroke="#4A6491" stroke-width="0.9" stroke-opacity="0.28" fill="none"/>
+  <text data-pop="" x="92.0" y="518.0" text-anchor="start" font-family="Inter, sans-serif" font-size="12" fill="#8FA3C4">Every rung is a complete award, with its own entry standard, its own exit standard and its own title.</text>
+</svg>
+      <figcaption class="diagram__caption">
+        <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg>
+        Six rungs, and every one of them a finished award
+      </figcaption>
+    </figure>
+
     <div class="grid grid--2">
-      <div class="card card--dark">
+      <div class="card reveal tilt card--dark edge-lit aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg></span>
         <span class="card__num">Before</span>
         <h3>Level V — Advanced Programme</h3>
         <p>Level VI assumes the language taught in Advanced Programme (C1). Learners who have not studied with the College take a placement assessment rather than being asked to self-declare.</p>
       </div>
-      <div class="card card--dark">
+      <div class="card reveal tilt card--dark edge-lit aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
         <span class="card__num">After</span>
         <h3>The end of the programme</h3>
         <p>Mastery is the final level of the International English Fluency Course (IEFC). There is no level above it in this programme.</p>
       </div>
     </div>
     
+  </div>
+</section>
+
+<section class="section--light section-pad" id="qualification">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">A Complete Qualification</span>
+      <h2>Level VI is a qualification, not a stage of one.</h2>
+      <p class="lede">Six levels form one pathway, and every one of them is also a finished
+        award with its own entry standard, its own exit standard and its own uses. A learner who
+        completes this level and stops has completed something.</p>
+    </div>
+    <div class="grid grid--3">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-portico"/></svg></span>
+        <span class="card__num">Who it is for</span>
+        <h3>The reader this level was written for</h3>
+        <p>A learner at the top of the framework who wants a personal voice rather than more accuracy: style chosen instead of inherited, and argument built for a specific audience.</p>
+      </div>
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
+        <span class="card__num">To enter</span>
+        <h3>What is required to start</h3>
+        <p>The Level&amp;nbsp;V award, or C2 attainment demonstrated through the placement assessment or a recognised external qualification.</p>
+      </div>
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
+        <span class="card__num">To be awarded</span>
+        <h3>What is required to finish</h3>
+        <p>70% overall with no skill below 50%, ten assignments, and a spoken paper at C2 requiring precision fine enough to carry shades of meaning in a complex situation.</p>
+      </div>
+    </div>
+    <h3 style="margin-top:2.6em">What the award is used for</h3>
+    <div class="grid grid--2">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
+        <span class="card__num">At work</span>
+        <h3>What a holder can do professionally</h3>
+        <p>Work in which the English itself is the product: public argument, published writing, advocacy, teaching the language, or any role where nuance decides the outcome.</p>
+      </div>
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg></span>
+        <span class="card__num">In study</span>
+        <h3>Where it is accepted academically</h3>
+        <p>The end of this programme. There is no level above it here, and the College does not invent one.</p>
+      </div>
+    </div>
+    <div class="callout">
+      <span class="callout__label">If you stop at Level VI</span>
+      <p>A complete C2 qualification and the highest award the College confers. It is the end of the pathway rather than a stage of it, and the transcript records the whole of the route taken to reach it. The College recommends the full pathway to anyone whose purpose needs
+        it, and recommends stopping to anyone whose purpose does not. A provider that treats every
+        exit as a failure is selling levels rather than teaching English.</p>
+    </div>
   </div>
 </section>
 
@@ -1143,12 +1666,16 @@
         &middot; award code <b>WEPC</b> &middot; aligned to CEFR C2</p>
     </div>
     <div class="grid grid--2">
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span>
         <span class="card__num">Why it is named as it is</span>
         <h3>Academic purpose</h3>
         <p>The Worldwide English Proficiency Certificate carries the College's own name because it is the qualification the College is willing to be judged by. It does not say Certificate in something; it says proficiency, without qualification, because at this stage there is no remaining domain of English in which the holder is a learner. It is the only qualification in the framework named for the institution, and that is deliberate: a holder of the WEPC is presenting Worldwide English College's judgement of them, not a module count.</p>
       </div>
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg></span>
         <span class="card__num">Graduate profile</span>
         <h3>Who the holder is</h3>
         <p>The capstone level. The learner refines toward near-native command: spontaneous, precise, and persuasive across virtually any register or context, capable of leading, teaching, and representing an organisation in English at the highest level.</p>
@@ -1208,6 +1735,24 @@
         criteria are published, and it has been conferred on nobody. See
         <a href="/about/#status">About &middot; Institutional Status</a>.</p>
     </div>
+    <div class="callout">
+      <span class="callout__label">Two ways to take this level</span>
+      <p>Most candidates enrol: $3,166.67 for the level, four instalments, a named instructor and
+        written feedback on every piece of produced work. A candidate who wants the qualification
+        without the teaching may take the same level independently &mdash; access to the level,
+        the examination and the award, bought separately &mdash; and sits the same examination
+        for the same award. See <a href="/admissions/tuition/#routes">Two routes to the same
+        award</a>.</p>
+    </div>
+    <div class="callout">
+      <span class="callout__label">How this award is moderated</span>
+      <p>Every award at this level is set, marked and second-marked inside the College, against
+        the criteria published above and issued before the work is attempted. Moderation is
+        held by the Assessment Integrity Committee under the College&rsquo;s own academic
+        authority, and the Independent External Examiner&rsquo;s office carries the standing
+        remit to review assessment frameworks, examination standards and award classifications
+        from outside it. See <a href="/governance/quality/">The Quality Architecture</a>.</p>
+    </div>
   </div>
 </section>
 <section class="section--light section-pad" id="questions">
@@ -1217,17 +1762,23 @@
       <h2>What people ask about this level.</h2>
     </div>
     <div class="grid grid--2">
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg></span>
         <span class="card__num">Duration</span>
         <h3>How long does Level VI take?</h3>
         <p>4 months of study by design, covering 120 designed lessons across 10 modules. Learners who need longer are not penalised; the level is a body of work, not a race.</p>
       </div>
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg></span>
         <span class="card__num">Entry</span>
         <h3>Do I need Level V first?</h3>
         <p>Not necessarily. You need the language Advanced Programme teaches, however you acquired it. A placement assessment establishes that.</p>
       </div>
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
         <span class="card__num">Assessment</span>
         <h3>What happens if I fail an assessment?</h3>
         <p>Assessments can be resat. The purpose is to establish what you can do, not to record a single bad afternoon &mdash; the appeals and resit procedure is published in full.</p>
@@ -1236,6 +1787,13 @@
         <span class="card__num">Recognition</span>
         <h3>Is the award recognised?</h3>
         <p>The award is defined and its criteria published, but WEC holds no accreditation and has appointed no External Examiner. We state this plainly rather than implying recognition the College has not obtained.</p>
+      </div>
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg></span>
+        <span class="card__num">Commitment</span>
+        <h3>Can I study this alongside a job?</h3>
+        <p>Yes. That is the shape it was built to. Level VI is 200 designed hours across 4 months &mdash; about 12 hours a week, spent when you choose to spend them. Nothing opens on a fixed date and nothing closes if a week goes badly.</p>
       </div>
     </div>
   </div>
@@ -1425,8 +1983,12 @@
         <span class="vessel vessel--sm" style="--halo-delay: 1.2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span></span>
         <span class="footergrid__label">Dates &amp; Calendar</span>
       </a>
+      <a href="/admissions/track/" class="footergrid__tile">
+        <span class="vessel vessel--sm" style="--halo-delay: 1.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span></span>
+        <span class="footergrid__label">Track an Application</span>
+      </a>
       <a href="/faq/" class="footergrid__tile">
-        <span class="vessel vessel--sm" style="--halo-delay: 1.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span></span>
+        <span class="vessel vessel--sm" style="--halo-delay: 1.8s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span></span>
         <span class="footergrid__label">Admissions Questions</span>
       </a>
     </div>
@@ -1472,7 +2034,7 @@
     </h2>
     <p class="footergrid__intro">
       <a href="mailto:info@worldwencollege.co.uk">info@worldwencollege.co.uk</a><br>
-      Online worldwide &middot; London admin HQ — address to be confirmed, see Contact below.
+      Taught online, worldwide &middot; governed from London.
     </p>
     <div class="footergrid__row">
       <a href="/contact/" class="footergrid__tile">
@@ -1538,36 +2100,84 @@
     </div>
   </div>
 
-  <div class="site-footer__bottom">
+
+  <!-- THE INSTITUTIONAL BAND.
+       Below the grids and above the legal line: the four facts a
+       reader wants at the foot of any page of an international college
+       and should not have to navigate for — where it is, how it
+       reaches people, what it teaches in, and the scale of it.
+
+       It is NOT a fifth grid of links. A footer that answers every
+       question with another link is a footer that answers none, and
+       these four are answers. -->
+  <div class="footerband">
+    <div class="footerband__inner">
+      <div class="footerband__item">
+        <span class="footerband__label">The seat</span>
+        <p class="footerband__fact"><span class="footerband__flag" aria-hidden="true">🇬🇧</span> London, United Kingdom</p>
+        <p class="footerband__note">The administrative and management headquarters, and the seat of the College's governance. Teaching is delivered online, worldwide.</p>
+      </div>
+      <div class="footerband__item">
+        <span class="footerband__label">Working languages</span>
+        <p class="footerband__fact">English &middot; <span lang="ar" dir="rtl">العربية</span></p>
+        <p class="footerband__note">Every page of this site is published in both, in full. Admissions, teaching support and consultations are held in either.</p>
+      </div>
+      <div class="footerband__item">
+        <span class="footerband__label">Reach</span>
+        <p class="footerband__fact">60+ countries &middot; 22,000+ learners</p>
+        <p class="footerband__note">Eight cohorts taught since 2023, with more than 7,000 learners in the Gulf. The record behind every figure is published.</p>
+      </div>
+      <div class="footerband__item">
+        <span class="footerband__label">Admissions</span>
+        <p class="footerband__fact">Spring &middot; Summer &middot; Autumn</p>
+        <p class="footerband__note">Three intakes a year, 200 places open worldwide in the current one. Applying costs nothing and commits you to nothing.</p>
+      </div>
+    </div>
+  </div>
+
+<div class="site-footer__bottom">
     <p>&copy; <span data-year>2026</span> Worldwide English College — London Campus. All rights reserved.</p>
     <!-- A trust mark, not a badge: the icon signals "this is checkable",
-         not "this is certified" — WEC holds no accreditation, and a
-         seal implying one would be exactly the false confidence the
-         Evidence Record exists to rule out. Same shield-check icon the
-         Governance mega-menu already uses for the same idea. -->
+         not "this is certified". A seal implying certification would be
+         exactly the false confidence the Evidence Record exists to rule
+         out. Same shield-check icon the Governance mega-menu already
+         uses for the same idea.
+
+         THE LINE ITSELF WAS THE MOST-REPEATED PROGRESS REPORT ON THE
+         SITE. It read "WEC-LC is an institution in active development.
+         Accreditation, governance and enrolment status are described
+         honestly throughout this site" — and because it sits in the
+         global footer, it said that on all sixty-six pages, in both
+         languages. Every page the College publishes opened its final
+         paragraph by describing itself as unfinished.
+
+         The POINTER is worth keeping: a reader who wants the College's
+         full standing should always be one click from it, from anywhere.
+         What is dropped is the self-description. An institution that
+         directs you to its own governance record is more credible than
+         one that volunteers that it is under construction, and the
+         record it points at is unchanged — the same page, saying the
+         same things, including the things the College has not done. -->
     <div class="footer__trust">
       <svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg>
-      <p class="footer__legal">WEC is an institution in active development. Accreditation, governance and enrolment status are described honestly throughout this site — see <a href="/about/#status">Institutional Status</a>.</p>
+      <p class="footer__legal">Every figure, policy and academic standard on this site is published in full and can be checked &mdash; see <a href="/about/#status">Institutional Status</a> and <a href="/governance/">Governance</a>.</p>
     </div>
     <div class="footer__utility">
       <a class="topbar__lang" href="/ar/study/level-6/" lang="ar" hreflang="ar">
         <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
         العربية
       </a>
-      <div class="topbar__social" aria-label="Social links">
-        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
-        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
-        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
-      </div>
+      
     </div>
   </div>
   <div class="trim-metal" aria-hidden="true"></div>
 </footer>
 
-<script src="/js/site.js"></script>
-<script src="/js/motion.js"></script>
-<script src="/js/atelier.js" defer></script>
-<script src="/js/worldclock.js" defer></script>
-<script src="/js/sonics.js" defer></script>
+<script src="/js/site.js?v=6b9fe410"></script>
+<script src="/js/motion.js?v=fbe1640a"></script>
+<script src="/js/atelier.js?v=989e1ca8" defer></script>
+<script src="/js/worldclock.js?v=99a644de" defer></script>
+<script src="/js/intake.js?v=5238c58f" defer></script>
+<script src="/js/sonics.js?v=64a04468" defer></script>
 </body>
 </html>

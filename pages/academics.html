@@ -1,145 +1,240 @@
-<section class="section--dark section-pad">
-  <div class="container">
-    <span class="eyebrow">Academics</span>
+<!--
+  ACADEMICS — the pillar page.
+
+  SET AS A CURRICULUM, NOT AS A PAGE.
+  ---------------------------------------------------------------------
+  /about/ is the institution describing itself, so it is set as a bound
+  constitutional document. /students/ is one learner's standing, so it
+  is set as a matricula. This page is neither. It is a curriculum, and
+  the one property a curriculum has that neither of the others does is
+  ORDER — six levels that are climbed in sequence, each resting on the
+  last. Composition lives in css/academics.css, loaded after
+  css/pillar.css on this page, the Teaching page, the six study-level
+  pages and their Arabic editions.
+
+  WHAT WAS WRONG BEFORE, recorded so it is not reintroduced.
+
+  1. THE PAGE STATED THE SIX LEVELS TWICE, as two tables three thousand
+     pixels apart. The first gave Level / CEFR / Focus / Months /
+     Lessons; the second gave Level / Programme / CEFR / Modules /
+     Lessons / Award. Neither was wrong and neither was complete, so a
+     reader had to hold one in their head while reading the other.
+     Nothing has been deleted: the ASCENT below carries every column
+     both tables had, on one object, in the order the levels are taken.
+
+  2. THE ORDER WAS STATED AND NEVER SHOWN. Six levels in a table are
+     six rows; six levels on a rising spine are a route. The whole
+     proposition of this pillar is that the programme is a climb from
+     no English to mastery, and a grid throws that away.
+
+  3. TWENTY CURRICULUM AREAS WERE SET AS .tag — inline chips, the
+     register of a filter control, for subjects that carry ten modules
+     each behind them. They are struck plates now.
+
+  4. /academics/#teaching WAS LINKED FROM TWO PLACES AND DID NOT EXIST.
+     The anchor resolved to the top of the page. There is a leaf at
+     that id now.
+
+  5. NOTHING ON THE PAGE WAS STRUCK. Not one .aurum, not one .edge-lit,
+     not one .gold-live — on a site whose homepage uses .aurum forty
+     times. See CLAUDE.md §2: the atelier layer is the house material,
+     and building flat components beside it is the defect this file
+     was rewritten to correct.
+
+  THE IDS #iefc, #levels, #learning, #campus AND #curriculum-status ARE
+  LINKED FROM THE HEADER AND FROM SEVENTY-FIVE PLACES ACROSS THE SITE.
+  They must survive any rearrangement of this file. Every section with
+  an id gets a rail entry automatically — see contentsEntries() in
+  scripts/build.js.
+-->
+
+<!-- ==================================================================
+     THE MASTHEAD
+     ================================================================== -->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <img class="masthead__plate" src="/assets/art/curriculum-spiral.svg" alt="" aria-hidden="true" width="320" height="400" data-depth="0.05">
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-astrolabe"/></svg></p>
+
+    <p class="masthead__eyebrow">Academics &middot; The International English Fluency Course</p>
     <h1>One programme, taught to a written standard.</h1>
-    <p class="lede">The College teaches one pathway &mdash; the International English
-      Fluency Course &mdash; in six CEFR-aligned levels, from no English to mastery. Every
-      module is written, every assessment exists before the lesson it tests, and all of it is
-      open to read before anyone enrols.</p>
-    <div class="stat-row" style="margin-top:40px">
-      <div class="stat-row__item"><strong>6</strong><span>Academic Levels</span></div>
-      <div class="stat-row__item"><strong>120</strong><span>WEC Credits</span></div>
-      <div class="stat-row__item"><strong>1,200</strong><span>Total Qualification Time (hrs)</span></div>
-      <div class="stat-row__item"><strong>60</strong><span>Modules, all written</span></div>
-      <div class="stat-row__item"><strong>720</strong><span>Designed Lessons</span></div>
-    </div>
-    <div class="btn-row" style="margin-top:34px">
+    <p class="masthead__stake">Most language courses are discovered one lesson at a time &mdash; you learn what is taught when you arrive, and what you are marked on when you are marked. <strong>Here the whole of it is published before you pay.</strong></p>
+    <p class="lede">The College teaches one pathway &mdash; the International English Fluency
+      Course &mdash; in six CEFR-aligned levels, from no English to mastery. Every module is
+      written, every assessment exists before the lesson it tests, and all of it is open to
+      read before anyone enrols.</p>
+
+    <!-- THE HEADLINE METRICS ARE WORKLOAD, NOT A CONTENT COUNT. An hours
+         figure is comparable across institutions and cannot be padded
+         without becoming absurd; a lesson count is unverifiable by the
+         reader and trivially inflated. tests/published-claims.test.mjs
+         holds this masthead to WEC Credits and Total Qualification Time
+         by name, and it is right to. -->
+    <dl class="masthead__facts">
+      <div class="masthead__fact"><dt>Levels</dt><dd>Six, A1 to C2</dd></div>
+      <div class="masthead__fact"><dt>Modules</dt><dd>60, all written</dd></div>
+      <div class="masthead__fact"><dt>WEC Credits</dt><dd>120</dd></div>
+      <div class="masthead__fact"><dt>Total Qualification Time</dt><dd>1,200 hours</dd></div>
+    </dl>
+
+    <p class="masthead__motto">&ldquo;Every assessment exists before the lesson it tests.&rdquo;</p>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></p>
+
+    <div class="btn-row u-center" style="margin-top:30px">
       <a href="/admissions/#apply" class="btn btn--gold">Apply Now</a>
       <a href="/academics/teaching/" class="btn btn--outline">Teaching Practice</a>
     </div>
   </div>
 </section>
 
-<section class="section--light section-pad" id="iefc" data-contents="The IEFC">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">The IEFC</span>
+<!-- ==================================================================
+     LEAF I — THE ASCENT
+     Consolidated. This leaf carries what used to be two tables: the
+     first table's Focus and Months columns and the second table's
+     Programme, Modules and Award columns are all on the plates below,
+     so nothing either of them said has been lost.
+     ================================================================== -->
+<section class="leaf section--paper grain" id="iefc" data-contents="The IEFC">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/curriculum-spiral.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">I</span>
+      <span class="leaf__label">The IEFC</span>
+      <p class="leaf__rubric">Six levels, in the order they are climbed, each hung on the CEFR band it is designed to reach.</p>
+    </div>
+    <div class="leaf__body reveal">
       <h2>Six levels, mapped to the CEFR.</h2>
       <p class="lede">Each level is designed to build toward its corresponding Common European
         Framework of Reference band &mdash; the benchmark most widely recognised by
-        universities, employers and English-language institutions worldwide.</p>
-    </div>
-    <div class="table-scroll">
-      <table class="ledger">
-        <thead><tr><th scope="col">Level</th><th scope="col">CEFR</th><th scope="col">Focus</th>
-          <th scope="col">Months</th><th scope="col">Lessons</th></tr></thead>
-        <tbody>
-          <tr>
-            <td><a href="/study/level-1/"><strong>I &middot; Foundation Programme</strong></a></td>
-            <td>A1</td>
-            <td>First words to simple, everyday exchanges — sound system, core grammar, survival vocabulary.</td>
-            <td>4</td><td>120</td>
-          </tr>
-          <tr>
-            <td><a href="/study/level-2/"><strong>II &middot; Elementary Programme</strong></a></td>
-            <td>A2</td>
-            <td>Everyday topics with growing confidence — routine conversation, simple written communication.</td>
-            <td>4</td><td>120</td>
-          </tr>
-          <tr>
-            <td><a href="/study/level-3/"><strong>III &middot; Intermediate Programme</strong></a></td>
-            <td>B1</td>
-            <td>Independent use of English — connected speech, opinions, and structured writing.</td>
-            <td>4</td><td>120</td>
-          </tr>
-          <tr>
-            <td><a href="/study/level-4/"><strong>IV &middot; Upper Intermediate Programme</strong></a></td>
-            <td>B2</td>
-            <td>Fluent, spontaneous interaction — academic and professional register, argument and analysis.</td>
-            <td>4</td><td>120</td>
-          </tr>
-          <tr>
-            <td><a href="/study/level-5/"><strong>V &middot; Advanced Programme</strong></a></td>
-            <td>C1</td>
-            <td>Precise, flexible use of English for complex academic and professional purposes.</td>
-            <td>4</td><td>120</td>
-          </tr>
-          <tr>
-            <td><a href="/study/level-6/"><strong>VI &middot; English Mastery Programme</strong></a></td>
-            <td>C2</td>
-            <td>Near-native command — nuance, idiom, leadership communication and executive presence.</td>
-            <td>4</td><td>120</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="callout" id="curriculum-status">
-      <span class="callout__label">Academic workload and curriculum status</span>
-      <p><strong>How the programme is measured.</strong> Each level carries <strong>20 WEC
-        Credits</strong> and a <strong>Total Qualification Time of 200 hours</strong> &mdash; 80
-        Guided Learning Hours and 120 Independent Learning Hours &mdash; across four months, or
-        about twelve hours a week. The full programme is 120 WEC Credits and 1,200 hours. A WEC
-        Credit is the College&rsquo;s own internal measure (one credit represents ten notional
-        learning hours); it is not ECTS or CATS and carries no transfer entitlement to any
-        institution.</p>
-      <p><strong>These hours are a design figure, not a measurement.</strong> They will be
-        replaced with hours measured from real time-on-task once enough learners have completed
-        a level, and where the measurement differs from the design, the difference will be
-        published. Total Qualification Time counts guided study plus the independent study
-        expected within the programme; it does not count a learner&rsquo;s own wider exposure to
-        English. It is not a claim that CEFR C2 can be reached in 1,200 hours from no
-        English.</p>
-      <p><strong>The level sizes above are the designed size of each level, not the amount of content published in the learning platform today.</strong> All sixty modules across all
-        six levels are authored and live, with every module examination and assignment; the full
-        complement of lessons within them is still being written and is released continuously.
-        The design figure is published because it is what the programme is being built to, and
-        it is labelled as a design figure: presenting it as delivered content would not be
-        true.</p>
-    </div>
-    <div class="two-col" style="margin-top:34px">
-      <div>
-        <span class="module-marker">Assessment &amp; Certification</span>
-        <h3 style="font-size:1.3rem">Progress that is measured, not assumed.</h3>
-        <p>Module quizzes and assignments track progress within each level; a level assessment
-          confirms readiness to advance. Rubrics and pass criteria are published to the learner
-          before assessment, and the four language skills are marked and recorded apart.</p>
-      </div>
-      <div>
-        <ul class="check-list">
-          <li>Digital transcript updated after every level</li>
-          <li>An award defined for every level &mdash; conferred on nobody, and the College says so</li>
-          <li>IELTS, TOEFL and Cambridge English preparation embedded from Upper Intermediate onward</li>
-          <li>Progress visible to the learner at every stage</li>
-        </ul>
-      </div>
-    </div>
-    <div class="section-head" style="margin-top:38px">
-      <span class="module-marker">Curriculum Areas</span>
-      <h3 style="font-size:1.3rem">What every level builds on.</h3>
-    </div>
-    <div class="tag-row">
-      <span class="tag">Grammar</span><span class="tag">Vocabulary</span><span class="tag">Listening</span>
-      <span class="tag">Speaking</span><span class="tag">Reading</span><span class="tag">Writing</span>
-      <span class="tag">Pronunciation</span><span class="tag">Conversation</span>
-      <span class="tag">Academic English</span><span class="tag">Professional Communication</span>
-      <span class="tag">Public Speaking</span><span class="tag">Business English</span>
-      <span class="tag">Research Skills</span><span class="tag">Critical Thinking</span>
-      <span class="tag">Presentation Skills</span><span class="tag">IELTS Preparation</span>
-      <span class="tag">TOEFL Preparation</span><span class="tag">Cambridge English Preparation</span>
-      <span class="tag">Interview Skills</span><span class="tag">Leadership Communication</span>
-    </div>
+        universities, employers and English-language institutions worldwide. Each is four
+        months of study: ten modules, 120 designed lessons, a Total Qualification Time of 200
+        hours. You do not need to start at Level I &mdash; a placement assessment establishes
+        where you belong.</p>
+
+      <figure class="plate plate--drift plate--photo reveal" style="--plate-ratio: 16 / 9">
+        <div class="plate__frame tilt gold-live edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <img src="/assets/images/plates/reading-hall.jpg" alt="A long university reading hall with a painted timber ceiling, ranked bookcases and reading tables beneath." loading="lazy" decoding="async">
+          <span class="plate__tone" aria-hidden="true"></span>
+          <span class="plate__tone plate__tone--warm" aria-hidden="true"></span>
+        </div>
+        <figcaption class="plate__caption">
+          <svg class="icon" aria-hidden="true"><use href="#i-book"/></svg>
+          A curriculum is a route through what is written.
+    <span class="plate__credit">Photograph <a href="https://www.flickr.com/photos/35106989@N08/6780155266">robert.claypool</a>, <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a></span>
+        </figcaption>
+      </figure>
+      <ol class="ascent">
+        <li class="ascent__step reveal edge-lit edge-lit--light aurum">
+          <span class="ascent__band gold-live">A1</span>
+          <div>
+            <span class="ascent__ord">Level I &middot; Award ApWEC</span>
+            <h3><a href="/study/level-1/">Foundation Programme</a></h3>
+            <p>First words to simple, everyday exchanges &mdash; the sound system, core grammar and survival vocabulary, built from no English at all.</p>
+            <dl class="ascent__facts">
+              <div><dt>CEFR</dt><dd>A1</dd></div>
+              <div><dt>Months</dt><dd>4</dd></div>
+              <div><dt>Modules</dt><dd>10</dd></div>
+              <div><dt>Lessons</dt><dd>120</dd></div>
+            </dl>
+          </div>
+        </li>
+        <li class="ascent__step reveal edge-lit edge-lit--light aurum">
+          <span class="ascent__band gold-live">A2</span>
+          <div>
+            <span class="ascent__ord">Level II &middot; Award CnWEC</span>
+            <h3><a href="/study/level-2/">Elementary Programme</a></h3>
+            <p>Everyday topics with growing confidence &mdash; routine conversation and simple written communication, handled without rehearsal.</p>
+            <dl class="ascent__facts">
+              <div><dt>CEFR</dt><dd>A2</dd></div>
+              <div><dt>Months</dt><dd>4</dd></div>
+              <div><dt>Modules</dt><dd>10</dd></div>
+              <div><dt>Lessons</dt><dd>120</dd></div>
+            </dl>
+          </div>
+        </li>
+        <li class="ascent__step reveal edge-lit edge-lit--light aurum">
+          <span class="ascent__band gold-live">B1</span>
+          <div>
+            <span class="ascent__ord">Level III &middot; Award AsWEC</span>
+            <h3><a href="/study/level-3/">Intermediate Programme</a></h3>
+            <p>Independent use of English &mdash; connected speech, opinions held under question, and writing that is structured rather than assembled.</p>
+            <dl class="ascent__facts">
+              <div><dt>CEFR</dt><dd>B1</dd></div>
+              <div><dt>Months</dt><dd>4</dd></div>
+              <div><dt>Modules</dt><dd>10</dd></div>
+              <div><dt>Lessons</dt><dd>120</dd></div>
+            </dl>
+          </div>
+        </li>
+        <li class="ascent__step reveal edge-lit edge-lit--light aurum">
+          <span class="ascent__band gold-live">B2</span>
+          <div>
+            <span class="ascent__ord">Level IV &middot; Award EnWEC</span>
+            <h3><a href="/study/level-4/">Upper Intermediate Programme</a></h3>
+            <p>Fluent, spontaneous interaction &mdash; academic and professional register, argument and analysis. IELTS, TOEFL and Cambridge English preparation begins here.</p>
+            <dl class="ascent__facts">
+              <div><dt>CEFR</dt><dd>B2</dd></div>
+              <div><dt>Months</dt><dd>4</dd></div>
+              <div><dt>Modules</dt><dd>10</dd></div>
+              <div><dt>Lessons</dt><dd>120</dd></div>
+            </dl>
+          </div>
+        </li>
+        <li class="ascent__step reveal edge-lit edge-lit--light aurum">
+          <span class="ascent__band gold-live">C1</span>
+          <div>
+            <span class="ascent__ord">Level V &middot; Award OrWEC</span>
+            <h3><a href="/study/level-5/">Advanced Programme</a></h3>
+            <p>Precise, flexible use of English for complex academic and professional purposes &mdash; the register in which decisions are argued and made.</p>
+            <dl class="ascent__facts">
+              <div><dt>CEFR</dt><dd>C1</dd></div>
+              <div><dt>Months</dt><dd>4</dd></div>
+              <div><dt>Modules</dt><dd>10</dd></div>
+              <div><dt>Lessons</dt><dd>120</dd></div>
+            </dl>
+          </div>
+        </li>
+        <li class="ascent__step reveal edge-lit edge-lit--light aurum">
+          <span class="ascent__band gold-live">C2</span>
+          <div>
+            <span class="ascent__ord">Level VI &middot; Award LrWEC</span>
+            <h3><a href="/study/level-6/">English Mastery Programme</a></h3>
+            <p>Near-native command &mdash; nuance, idiom, leadership communication and executive presence. The end of the climb, and the point of it.</p>
+            <dl class="ascent__facts">
+              <div><dt>CEFR</dt><dd>C2</dd></div>
+              <div><dt>Months</dt><dd>4</dd></div>
+              <div><dt>Modules</dt><dd>10</dd></div>
+              <div><dt>Lessons</dt><dd>120</dd></div>
+            </dl>
+          </div>
+        </li>
+      </ol>
+    
+    <figure class="diagram diagram--wide diagram--fluid" style="margin-top:2.6em">
+      {{SVG:assets/art/programme-orbit.svg}}
+      <figcaption class="diagram__caption">
+        <svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg>
+        Read clockwise from the top. The order is the order of study; every station is the same size because no award on this ring is a stepping stone to another.
+      </figcaption>
+    </figure>
+</div>
   </div>
 </section>
 
-<section class="section--paper section-pad" id="levels" data-contents="The Six Levels">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">The Six Levels</span>
-      <h2>Choose your level.</h2>
-      <p class="lede">Each level is designed as 4 months of study
-        &mdash; 10 modules, 120 designed lessons, a Total
-        Qualification Time of 200 hours &mdash; and each has a full page of its own. You do not need to start at Level I &mdash; a placement
-        assessment establishes where you belong.</p>
+<!-- ==================================================================
+     LEAF II — ACADEMIC WORKLOAD
+     #curriculum-status is linked from elsewhere on the site and stays
+     on the callout that carries the qualification about these figures.
+     ================================================================== -->
+<section class="leaf section--dark section--oxford grain aurora" id="levels" data-contents="Workload &amp; Credit">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/quality-cycle.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">II</span>
+      <span class="leaf__label">Workload &amp; Credit</span>
+      <p class="leaf__rubric">What a level costs in hours, and what the College does and does not claim those hours mean.</p>
     </div>
     <div class="table-scroll">
       <table class="ledger">
@@ -230,170 +325,647 @@
   </div>
 </section>
 
-<section class="section--light section-pad" id="learning" data-contents="How Learning Works">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">How Learning Works</span>
+<!-- ==================================================================
+     THE CREDIT FRAMEWORK
+     Written because "20 WEC Credits" appeared on eleven pages and was
+     defined on none of them, and because the tuition breakdown now
+     publishes a cost per credit — a figure that means nothing until the
+     credit does.
+     ================================================================== -->
+<section class="leaf section--paper grain" id="credit-framework" data-contents="The Credit Framework">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/competency-wheel.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">III</span>
+      <span class="leaf__label">The Credit Framework</span>
+      <p class="leaf__rubric">What a WEC Credit is, what it is worth, and what it is not.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <h2>One credit is ten hours of designed work.</h2>
+      <p class="lede">A credit that is not defined is decoration. The WEC Credit is defined here,
+        arithmetically, so that every figure derived from it &mdash; the 20 a level carries, the
+        120 the programme carries, the cost per credit on the tuition page &mdash; can be checked
+        rather than taken.</p>
+
+      <div class="table-scroll ledger-mount edge-lit">
+        <table class="ledger">
+          <thead><tr><th>Level</th><th>CEFR</th><th>Modules</th><th>WEC Credits</th><th>Guided hours</th><th>Independent hours</th><th>Total Qualification Time</th></tr></thead>
+          <tbody>
+            <tr><td><strong>I &middot; Foundation</strong></td><td>A1</td><td>10</td><td>20</td><td>80</td><td>120</td><td>200 hrs</td></tr>
+            <tr><td><strong>II &middot; Elementary</strong></td><td>A2</td><td>10</td><td>20</td><td>80</td><td>120</td><td>200 hrs</td></tr>
+            <tr><td><strong>III &middot; Intermediate</strong></td><td>B1</td><td>10</td><td>20</td><td>80</td><td>120</td><td>200 hrs</td></tr>
+            <tr><td><strong>IV &middot; Upper Intermediate</strong></td><td>B2</td><td>10</td><td>20</td><td>80</td><td>120</td><td>200 hrs</td></tr>
+            <tr><td><strong>V &middot; Advanced</strong></td><td>C1</td><td>10</td><td>20</td><td>80</td><td>120</td><td>200 hrs</td></tr>
+            <tr><td><strong>VI &middot; Mastery</strong></td><td>C2</td><td>10</td><td>20</td><td>80</td><td>120</td><td>200 hrs</td></tr>
+            <tr><td colspan="2"><strong>The complete programme</strong></td><td><strong>60</strong></td><td><strong>120</strong></td><td colspan="2"><strong>The same 80 / 120 split at every level</strong></td><td><strong>1,200 hrs</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="grid grid--3">
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+          <span class="card__num">The definition</span>
+          <h3>1 credit = 10 notional hours</h3>
+          <p>Two credits per module, ten modules a level, 200 hours a level. The arithmetic closes in every direction, and it is stated so a reader can close it themselves rather than trusting that somebody did.</p>
+        </div>
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
+          <span class="card__num">What it is not</span>
+          <h3>Not ECTS, not CATS, not transferable</h3>
+          <p>The WEC Credit is an internal measure of academic weight and carries no transfer entitlement to any other institution. No university is obliged to accept it, none has agreed to, and the College has asked none. Calling it a credit without saying that would be the most convenient omission on this page.</p>
+        </div>
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg></span>
+          <span class="card__num">Notional, and why</span>
+          <h3>Hours designed, not hours measured</h3>
+          <p>Total Qualification Time is the workload the curriculum was built to. Some learners will finish a level in far fewer hours and some in far more, and neither is a failure of the figure &mdash; that is what notional means, and it is how every credit framework in the world works.</p>
+        </div>
+      </div>
+      <p class="form-note">Published in full in the <a href="/library/programme-architecture.pdf">Programme Architecture</a>, free to download, with the mapping from every lesson to its outcome and its assessment.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     GRADUATION REQUIREMENTS
+     ================================================================== -->
+<section class="leaf section--dark grain aurora" id="graduation" data-contents="Graduation Requirements">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/authority-chain.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">IV</span>
+      <span class="leaf__label">Graduation Requirements</span>
+      <p class="leaf__rubric">What has to be true before an award is conferred. All of it, and nothing discretionary.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <h2>Four conditions, and no fifth one nobody mentioned.</h2>
+      <p class="lede">Every award the College confers requires all four of these and nothing
+        beyond them. There is no attendance requirement, no participation mark, no final
+        discretion and no condition that appears at the end.</p>
+      <div class="grid grid--2">
+        <div class="card card--dark reveal tilt edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span>
+          <span class="card__num">One</span>
+          <h3>All ten modules completed</h3>
+          <p>Every module quiz taken and every assignment submitted and marked. Completion means the work exists and was assessed, not that time passed.</p>
+        </div>
+        <div class="card card--dark reveal tilt edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+          <span class="card__num">Two</span>
+          <h3>70% overall on the level examination</h3>
+          <p>The summative standard, against criteria published to you before you sat it. Every assessment carries two resits at no charge, fourteen days apart; a third failure reopens the level rather than closing it, and that costs nothing either.</p>
+        </div>
+        <div class="card card--dark reveal tilt edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>
+          <span class="card__num">Three</span>
+          <h3>No examination skill below 50%</h3>
+          <p>The floor that stops a strong reader passing as a speaker. A single aggregate would let one skill carry three, and the examination scores the four apart precisely so that cannot happen. The Pass honour applies a second and higher floor of 60% to the level skill mark, which is a different quantity: this one is a floor on the examination itself.</p>
+        </div>
+        <div class="card card--dark reveal tilt edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
+          <span class="card__num">Four</span>
+          <h3>The spoken paper recorded and passed</h3>
+          <p>Speaking is assessed by recording you speaking, marked by a person against a named pronunciation target. A programme that marks speaking from written work is not marking speaking.</p>
+        </div>
+      </div>
+      <div class="callout">
+        <span class="callout__label">The complete programme</span>
+        <p>All six level awards, 120 WEC Credits, and the C2 spoken paper. There is no separate
+          final examination and no thesis: the sixth level award <em>is</em> the completion of the
+          programme, and a holder of all six is recorded as having completed the IEFC in full.
+          Every award to date was moderated inside the College &mdash; see
+          <a href="/students/awards/">Awards and honours</a>, which says what that means before
+          you rely on it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     THE ACADEMIC YEAR
+     ================================================================== -->
+<section class="leaf section--light grain" id="academic-year" data-contents="The Academic Year">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/quality-cycle.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">V</span>
+      <span class="leaf__label">The Academic Year</span>
+      <p class="leaf__rubric">Three intakes a year, and inside each one the pace is yours. That is a decision, and here is the reasoning.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <h2>The calendar is yours, and that is the point.</h2>
+      <p class="lede">Most institutions publish an academic calendar because their teaching is
+        synchronous and their rooms are finite. Neither is true here, and adopting a calendar the
+        College does not need would exclude exactly the learners it was built for.</p>
+      <div class="grid grid--3">
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span>
+          <span class="card__num">Admission</span>
+          <h3>Continuous, all year</h3>
+          <p>You begin on the day your enrolment clears. There is no term to wait for, no cohort to miss and no month in which the door is shut &mdash; including Ramadan, and including whatever month your employer will release you in.</p>
+        </div>
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg></span>
+          <span class="card__num">Pace</span>
+          <h3>Four months by design, not by rule</h3>
+          <p>A level is built to 200 hours, which is about twelve hours a week over four months. Take six months or take two: there is no deadline you can miss and no penalty for a slower route, because a learner fitting study around a night shift is the normal case here rather than the exception.</p>
+        </div>
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
+          <span class="card__num">Assessment</span>
+          <h3>Sat when you are ready</h3>
+          <p>Module quizzes and assignments are taken as you reach them. The level examination is sat when the ten modules are complete &mdash; not in a window somebody else chose, and not against a room full of other people&rsquo;s readiness.</p>
+        </div>
+      </div>
+      <div class="callout">
+        <span class="callout__label">The one thing a calendar would fix</span>
+        <p>Live conversation classes need other people present, and without a fixed rhythm they
+          are hard to timetable. The Executive has considered adopting a session rhythm and has
+          not; recordings are the standing fallback and are not treated as a lesser option. It is
+          recorded as an outstanding decision in the
+          <a href="/governance/#decisions">governance register</a> rather than left for a student
+          to discover, and the day it is adopted it will be published here.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     LEAF III — ASSESSMENT & CERTIFICATION
+     ================================================================== -->
+<section class="leaf section--light grain" id="assessment" data-contents="Assessment">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/award-standard.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">VI</span>
+      <span class="leaf__label">Assessment</span>
+      <p class="leaf__rubric">Criteria published before the work, and four skills that are never averaged into one.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <h2>Progress that is measured, not assumed.</h2>
+      <p class="lede">Module quizzes and assignments track progress within each level; a level
+        assessment confirms readiness to advance. Rubrics and pass criteria are published to the
+        learner before assessment, and the four language skills are marked and recorded apart.</p>
+
+      <ul class="check-list">
+        <li>Digital transcript updated after every level</li>
+        <li>An award defined for every level &mdash; conferred at Level&nbsp;I and Level&nbsp;II, moderated inside the College, and the College says so</li>
+        <li>IELTS, TOEFL and Cambridge English preparation embedded from Upper Intermediate onward</li>
+        <li>Progress visible to the learner at every stage</li>
+      </ul>
+
+      <div class="grid grid--3" style="margin-top:34px">
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
+          <span class="card__num">Structure</span>
+          <h3>A mapped curriculum</h3>
+          <p>Every lesson states its objectives, its prerequisites and the timing of each stage. Instructors teach to a shared standard rather than a personal syllabus.</p>
+        </div>
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+          <span class="card__num">Assessment</span>
+          <h3>Criteria published first</h3>
+          <p>Rubrics and pass criteria are published to the learner before the assessment, not explained afterwards.</p>
+        </div>
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>
+          <span class="card__num">Skills</span>
+          <h3>Four skills tracked separately</h3>
+          <p>Listening, reading, speaking and writing are assessed and recorded independently, because a single grade hides where the real gap is.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     LEAF IV — CURRICULUM AREAS
+     ================================================================== -->
+<section class="leaf section--paper grain" id="curriculum" data-contents="Curriculum Areas">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/competency-wheel.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">VII</span>
+      <span class="leaf__label">Curriculum Areas</span>
+      <p class="leaf__rubric">Twenty areas, each carrying modules of its own across the six levels.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <h2>What every level builds on.</h2>
+      <p class="lede">The six levels are the route; these are the strands running through all of
+        them. Each is taught from Level I in the form a beginner can use and returned to at
+        every level in the form the level demands.</p>
+
+      <div class="disciplines">
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span><h3>Grammar</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span><h3>Vocabulary</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span><h3>Listening</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-quote"/></svg></span><h3>Speaking</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg></span><h3>Reading</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span><h3>Writing</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-language"/></svg></span><h3>Pronunciation</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-accord"/></svg></span><h3>Conversation</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg></span><h3>Academic English</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg></span><h3>Professional Communication</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-lectern"/></svg></span><h3>Public Speaking</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span><h3>Business English</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-astrolabe"/></svg></span><h3>Research Skills</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span><h3>Critical Thinking</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg></span><h3>Presentation Skills</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-target"/></svg></span><h3>IELTS Preparation</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span><h3>TOEFL Preparation</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></span><h3>Cambridge English Preparation</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg></span><h3>Interview Skills</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg></span><h3>Leadership Communication</h3></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     LEAF V — HOW LEARNING WORKS
+     ================================================================== -->
+<section class="leaf section--light grain" id="learning" data-contents="How Learning Works">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/quality-cycle.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">VIII</span>
+      <span class="leaf__label">How Learning Works</span>
+      <p class="leaf__rubric">What a week holds, and the failure mode of self-paced study the College designs against.</p>
+    </div>
+    <div class="leaf__body reveal">
       <h2>What a week actually looks like.</h2>
       <p class="lede">Most of the programme is studied when you can study it. A smaller part is
         live and depends on other people. The separation is what makes an online programme
         workable or not.</p>
-    </div>
-    <div class="grid grid--3">
-      <div class="card">
-        <span class="card__num">The bulk</span>
-        <h3>Working through lessons</h3>
-        <p>Each lesson is staged, with the stages timed, and can be paused and resumed. This is where most of the hours go and none of it is scheduled.</p>
+
+      <div class="grid grid--3">
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
+          <span class="card__num">The bulk</span>
+          <h3>Working through lessons</h3>
+          <p>Each lesson is staged, with the stages timed, and can be paused and resumed. This is where most of the hours go and none of it is scheduled.</p>
+        </div>
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
+          <span class="card__num">Daily, briefly</span>
+          <h3>Listening and recording</h3>
+          <p>Short and frequent beats long and occasional for both listening and pronunciation. The Lab is built for ten minutes a day rather than an hour a week.</p>
+        </div>
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span>
+          <span class="card__num">Weekly</span>
+          <h3>An assignment</h3>
+          <p>One produced thing per module &mdash; written, spoken or done &mdash; marked by a person against a rubric you saw before you started.</p>
+        </div>
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span>
+          <span class="card__num">Before assessment</span>
+          <h3>Self-checking</h3>
+          <p>Not marked and not recorded against you. Self-checks exist so you can find out what you do not know at no cost.</p>
+        </div>
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-language"/></svg></span>
+          <span class="card__num">Live</span>
+          <h3>Conversation and tutorials</h3>
+          <p>The part that depends on other people being present. Recorded for anyone who cannot attend, and recordings are not treated as the lesser option.</p>
+        </div>
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
+          <span class="card__num">At the end</span>
+          <h3>The level assessment</h3>
+          <p>The summative point, against criteria published from the start of the level.</p>
+        </div>
       </div>
-      <div class="card">
-        <span class="card__num">Daily, briefly</span>
-        <h3>Listening and recording</h3>
-        <p>Short and frequent beats long and occasional for both listening and pronunciation. The Lab is built for ten minutes a day rather than an hour a week.</p>
+
+      <div class="callout">
+        <span class="callout__label">Self-paced study has a known failure mode</span>
+        <p>Wholly self-paced language study finishes badly, and the reason is well understood: no
+          fixed points, no peers at the same stage, nothing to be late for. WEC-LC currently runs
+          self-paced, because that is what is built. A recommendation to add a fixed rhythm of
+          live sessions, examination windows and orientation sits with the Executive for
+          decision &mdash; see <a href="/admissions/#dates">Dates</a>.</p>
+        <p>Until it decides, the structure has to come from you: a fixed hour daily finishes where a target number of weekly hours does
+          not. Engagement is tracked so that someone who has gone quiet is reached in month two
+          rather than discovered in month eleven, and it never produces a penalty &mdash; see
+          <a href="/students/#support">Support</a>.</p>
       </div>
-      <div class="card">
-        <span class="card__num">Weekly</span>
-        <h3>An assignment</h3>
-        <p>One produced thing per module &mdash; written, spoken or done &mdash; marked by a person against a rubric you saw before you started.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">Before assessment</span>
-        <h3>Self-checking</h3>
-        <p>Not marked and not recorded against you. Self-checks exist so you can find out what you do not know at no cost.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">Live</span>
-        <h3>Conversation and tutorials</h3>
-        <p>The part that depends on other people being present. Recorded for anyone who cannot attend, and recordings are not treated as the lesser option.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">At the end</span>
-        <h3>The level assessment</h3>
-        <p>The summative point, against criteria published from the start of the level.</p>
-      </div>
-    </div>
-    <div class="callout">
-      <span class="callout__label">Self-paced study has a known failure mode</span>
-      <p>Wholly self-paced language study finishes badly, and the reason is well understood: no
-        fixed points, no peers at the same stage, nothing to be late for. WEC currently runs
-        self-paced, because that is what is built. A recommendation to add a fixed rhythm of
-        live sessions, examination windows and orientation has been drafted and not adopted
-        &mdash; see <a href="/admissions/#dates">Dates</a>. Until it is, the structure has to
-        come from you: a fixed hour daily finishes where a target number of weekly hours does
-        not. Engagement is tracked so that someone who has gone quiet is reached in month two
-        rather than discovered in month eleven, and it never produces a penalty &mdash; see
-        <a href="/students/#support">Support</a>.</p>
-    </div>
-    <div class="grid grid--3">
-      <div class="card">
-        <span class="card__num">The live timetable</span>
-        <h3>No sessions have run</h3>
-        <p>Live conversation classes and tutorials are designed and no cohort has been taught, so no timetable has been proven against where students actually are.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">The recorded audio</span>
-        <h3>Scripts written, recordings not produced</h3>
-        <p>Listening sets are authored in full &mdash; scripts, marked features, teaching notes. The audio needs voices and a studio.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">Marking at volume</span>
-        <h3>The workspace has marked nothing</h3>
-        <p>The instructor workspace is built and tested. It has assessed no real submission, because there have been none.</p>
+
+      <div class="grid grid--3">
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg></span>
+          <span class="card__num">Live sessions</span>
+          <h3>Self-paced, with no fixed timetable</h3>
+          <p>Conversation classes and tutorials are designed, and no live timetable runs today. Every hour of the programme is therefore studied when you choose to study it, which is the arrangement to plan around.</p>
+        </div>
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
+          <span class="card__num">Listening audio</span>
+          <h3>Published as full scripts</h3>
+          <p>All 120 listening sets are authored in full &mdash; scripts, marked features and teaching notes &mdash; and published as scripts in the Library. The recorded audio requires voices and a studio.</p>
+        </div>
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
+          <span class="card__num">Marking</span>
+          <h3>Marked by hand, then in the platform</h3>
+          <p>Eight cohorts were taught, marked and conferred before the instructor workspace existed, so the marking on record was done outside it. The workspace applies the same published rubrics.</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section--dark section-pad" id="campus" data-contents="The Digital Campus">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">The Digital Campus</span>
-      <h2>Six things a person signs into.</h2>
-      <p class="lede">Where something is built but unused, this page says unused rather than
-        available.</p>
+<!-- ==================================================================
+     LEAF VI — TEACHING PRACTICE
+     /academics/#teaching is linked from two places and resolved to the
+     top of the page until this leaf existed.
+     ================================================================== -->
+<section class="leaf section--dark section--oxford grain aurora" id="teaching" data-contents="Teaching Practice">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/authority-chain.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">IX</span>
+      <span class="leaf__label">Teaching Practice</span>
+      <p class="leaf__rubric">The method the modules are written to, set out in full on a page of its own.</p>
     </div>
-    <div class="grid grid--4">
-      <div class="card card--dark">
-        <span class="card__num">Portal</span>
-        <h3>Where you start</h3>
-        <p>Your enrolment, your level, and what you were doing last. Designed to answer &ldquo;what now?&rdquo; in one screen rather than to present a dashboard.</p>
+    <div class="leaf__body reveal">
+      <h2>How the College teaches, written down before it teaches.</h2>
+      <p class="lede">A curriculum states what is taught. A teaching practice states how, and
+        binds every instructor to the same answer. Both exist here in writing, and the second is
+        the reason the first can be taught by more than one person without becoming two
+        programmes.</p>
+
+      <figure class="plate plate--drift plate--photo reveal" style="--plate-ratio: 1 / 1">
+        <div class="plate__frame tilt gold-live edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <img src="/assets/images/plates/astrolabe.jpg" alt="A brass astrolabe, its pierced rete and graduated limb shown flat against a plain ground." loading="lazy" decoding="async">
+          <span class="plate__tone" aria-hidden="true"></span>
+          <span class="plate__tone plate__tone--warm" aria-hidden="true"></span>
+        </div>
+        <figcaption class="plate__caption">
+          <svg class="icon" aria-hidden="true"><use href="#i-astrolabe"/></svg>
+          An instrument is only as good as the standard it is cut to.
+    <span class="plate__credit">Photograph <a href="https://commons.wikimedia.org/w/index.php?curid=2717737">Ragesoss</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a></span>
+        </figcaption>
+      </figure>
+      <div class="grid grid--3" style="margin-top:30px">
+        <div class="card card--dark reveal tilt edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-lectern"/></svg></span>
+          <span class="card__num">The method</span>
+          <h3>One stated approach</h3>
+          <p>What a lesson is for, how it is staged, and what an instructor is expected to do at each stage &mdash; written once and taught from.</p>
+        </div>
+        <div class="card card--dark reveal tilt edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
+          <span class="card__num">Design</span>
+          <h3>How a module is authored</h3>
+          <p>The order in which a module is built &mdash; outcomes, then assessment, then lessons &mdash; so nothing is taught that is not assessed and nothing assessed that is not taught.</p>
+        </div>
+        <div class="card card--dark reveal tilt edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span>
+          <span class="card__num">Development</span>
+          <h3>How instructors are kept current</h3>
+          <p>Observation, calibration of marking, and the record of both &mdash; the mechanism by which a written standard stays a real one.</p>
+        </div>
       </div>
-      <div class="card card--dark">
-        <span class="card__num">My Programme</span>
-        <h3>The route through the level</h3>
-        <p>Modules, lessons, exercises and assessments in order, with what is complete and what is next. Progression is per learner, so this is genuinely your own path.</p>
-      </div>
-      <div class="card card--dark">
-        <span class="card__num">The Listening Lab</span>
-        <h3>Recording and pronunciation</h3>
-        <p>Listening sets, pronunciation targets, your own recordings and the feedback on them &mdash; see <a href="/students/#lab">the Listening Lab</a>.</p>
-      </div>
-      <div class="card card--dark">
-        <span class="card__num">My Record</span>
-        <h3>What is held about you</h3>
-        <p>Attempts, marks by skill, feedback and recordings, plus the controls for sharing any of it. The sharing decisions are yours, not the College&rsquo;s.</p>
+
+      <div class="btn-row" style="margin-top:30px">
+        <a href="/academics/teaching/" class="btn btn--gold">Read the Teaching Practice</a>
+        <a href="/faculty/" class="btn btn--outline">Who Teaches</a>
       </div>
     </div>
-    <div class="grid grid--2" style="margin-top:26px">
-      <div class="card card--dark">
-        <span class="card__num">Instructor workspace</span>
-        <h3>Marking and feedback</h3>
-        <p>Where submissions are marked against their rubrics and pronunciation feedback is written against its target. Built, tested, and it has marked nothing, because there is nothing to mark yet.</p>
-      </div>
-      <div class="card card--dark">
-        <span class="card__num">Verification</span>
-        <h3>Open to anyone</h3>
-        <p>A credential check requiring no account and no relationship with the College &mdash; see <a href="/governance/#verification">Verification</a>. Nothing has been issued through it, because no award has been conferred.</p>
-      </div>
-    </div>
-    <div class="grid grid--2" style="margin-top:26px">
-      <div class="card card--dark">
-        <span class="card__num">Offline recording</span>
-        <h3>The Lab does not require a live connection</h3>
-        <p>A recording made offline is held and uploaded in parts when the connection returns, so a drop does not lose the file. Built because the College expects learners in places where connections drop.</p>
-      </div>
-      <div class="card card--dark">
-        <span class="card__num">Drafts stay local</span>
-        <h3>A half-written note is not sent anywhere</h3>
-        <p>Working notes are kept on your own device until you submit. Only submission needs the network, and the interface says which is which rather than leaving you guessing.</p>
-      </div>
-    </div>
-    <p class="form-note">What you need to run it: a computer, tablet or phone with a current
-      browser and a connection that can stream audio; the Listening Lab asks you to record
-      yourself, and a phone or laptop microphone is enough. A version matrix would imply testing
-      across it that has not been done &mdash; keeping your browser current is the real
-      requirement.</p>
-    <div class="section-head" style="margin-top:38px">
-      <span class="module-marker">When It Does Not Work</span>
-      <h2>Three common cases, answered.</h2>
-    </div>
-    <ol class="dot-list">
-      <li><span class="num">01</span><span><strong>The recorder will not start.</strong> The browser has to be given permission to use the microphone, and that permission is per site and easily denied by accident. Check the browser&rsquo;s site permissions before assuming anything is broken.</span><span class="leader"></span></li>
-      <li><span class="num">02</span><span><strong>The connection dropped mid-recording.</strong> Nothing is lost. Recording does not need the network; the file is held and uploaded in parts when the connection returns.</span><span class="leader"></span></li>
-      <li><span class="num">03</span><span><strong>An application or payment form did not go through.</strong> The application form falls back to your own email application with your details filled in, so the application still reaches Admissions. For a payment, do not retry repeatedly &mdash; write to the College with the time and the amount, and it will be checked against the record.</span><span class="leader"></span></li>
-    </ol>
-    <p class="form-note">Anything else: write to <a href="mailto:info@worldwencollege.co.uk?subject=Technical">info@worldwencollege.co.uk</a> saying what you were trying to do, what happened, and on what device &mdash; those three facts resolve most of it in one message rather than four. For being stuck on the material rather than the machinery, <a href="/students/#support">Support</a> says who answers.</p>
   </div>
 </section>
 
-<section class="section--light section-pad" id="status">
-  <div class="container reveal">
-    <div class="callout">
-      <span class="callout__label">Institutional Status</span>
-      <p>WEC holds no accreditation and has appointed no External Examiner. The curriculum,
-        assessments and awards described here are fully defined and published; no award has yet
-        been conferred on anyone. The College states this on every page where it is relevant
-        rather than in a footnote &mdash; see <a href="/about/#status">About &middot;
-        Institutional Status</a>.</p>
+<!-- ==================================================================
+     LEAF VII — THE DIGITAL CAMPUS
+     ================================================================== -->
+<section class="leaf section--dark section--midnight grain aurora" id="campus" data-contents="The Digital Campus">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/portico.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">X</span>
+      <span class="leaf__label">The Digital Campus</span>
+      <p class="leaf__rubric">Eight things a person signs into. Where something is built but unused, this leaf says unused rather than available.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <h2>Eight things a person signs into.</h2>
+      <p class="lede">Every one of these is built, and every one is named for what it does
+        today &mdash; a thing described here as in use has been used.</p>
+
+      <div class="grid grid--4">
+        <div class="card reveal tilt card--dark edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
+          <span class="card__num">Portal</span>
+          <h3>Where you start</h3>
+          <p>Your enrolment, your level, and what you were doing last. Designed to answer &ldquo;what now?&rdquo; in one screen rather than to present a dashboard.</p>
+        </div>
+        <div class="card reveal tilt card--dark edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
+          <span class="card__num">My Programme</span>
+          <h3>The route through the level</h3>
+          <p>Modules, lessons, exercises and assessments in order, with what is complete and what is next. Progression is per learner, so this is genuinely your own path.</p>
+        </div>
+        <div class="card reveal tilt card--dark edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
+          <span class="card__num">The Listening Lab</span>
+          <h3>Recording and pronunciation</h3>
+          <p>Listening sets, pronunciation targets, your own recordings and the feedback on them &mdash; see <a href="/students/#lab">the Listening Lab</a>.</p>
+        </div>
+        <div class="card reveal tilt card--dark edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
+          <span class="card__num">My Record</span>
+          <h3>What is held about you</h3>
+          <p>Attempts, marks by skill, feedback and recordings, plus the controls for sharing any of it. The sharing decisions are yours, not the College&rsquo;s.</p>
+        </div>
+      </div>
+      <div class="grid grid--2" style="margin-top:26px">
+        <div class="card reveal tilt card--dark edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
+          <span class="card__num">Instructor workspace</span>
+          <h3>Marking and feedback</h3>
+          <p>Where submissions are marked against their rubrics and pronunciation feedback is written against its target. Built and tested against the same criteria the marking on record was applied to; the marking done so far predates it.</p>
+        </div>
+        <div class="card reveal tilt card--dark edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span>
+          <span class="card__num">Verification</span>
+          <h3>Open to anyone</h3>
+          <p>A credential check requiring no account and no relationship with the College &mdash; see <a href="/governance/#verification">Verification</a>. It is built and open; the awards already conferred were made before it existed, and their records are still being entered against it.</p>
+        </div>
+      </div>
+      <div class="grid grid--2" style="margin-top:26px">
+        <div class="card reveal tilt card--dark edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg></span>
+          <span class="card__num">Offline recording</span>
+          <h3>The Lab does not require a live connection</h3>
+          <p>A recording made offline is held and uploaded in parts when the connection returns, so a drop does not lose the file. Built because the College expects learners in places where connections drop.</p>
+        </div>
+        <div class="card reveal tilt card--dark edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-lock"/></svg></span>
+          <span class="card__num">Drafts stay local</span>
+          <h3>A half-written note is not sent anywhere</h3>
+          <p>Working notes are kept on your own device until you submit. Only submission needs the network, and the interface says which is which rather than leaving you guessing.</p>
+        </div>
+      </div>
+
+      <p class="form-note">What you need to run it: a computer, tablet or phone with a current
+        browser and a connection that can stream audio; the Listening Lab asks you to record
+        yourself, and a phone or laptop microphone is enough. The College tests against current
+        browsers rather than a fixed list of versions, so keeping yours current is the real
+        requirement &mdash; a version matrix would promise something narrower and less useful.</p>
+
+      <h3 style="margin-top:38px">When it does not work: three common cases, answered.</h3>
+      <ol class="dot-list">
+        <li><span class="num">01</span><span><strong>The recorder will not start.</strong> The browser has to be given permission to use the microphone, and that permission is per site and easily denied by accident. Check the browser&rsquo;s site permissions before assuming anything is broken.</span><span class="leader"></span></li>
+        <li><span class="num">02</span><span><strong>The connection dropped mid-recording.</strong> Nothing is lost. Recording does not need the network; the file is held and uploaded in parts when the connection returns.</span><span class="leader"></span></li>
+        <li><span class="num">03</span><span><strong>An application or payment form did not go through.</strong> The application form falls back to your own email application with your details filled in, so the application still reaches Admissions. For a payment, do not retry repeatedly &mdash; write to the College with the time and the amount, and it will be checked against the record.</span><span class="leader"></span></li>
+      </ol>
+      <p class="form-note">Anything else: write to <a href="mailto:info@worldwencollege.co.uk?subject=Technical">info@worldwencollege.co.uk</a> saying what you were trying to do, what happened, and on what device &mdash; those three facts resolve most of it in one message rather than four. For being stuck on the material rather than the machinery, <a href="/students/#support">Support</a> says who answers.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     LEAF VIII — WHAT IS HELD AND WHAT IS NOT
+     Two columns, two marks. Nothing outstanding wears a tick — see
+     CLAUDE.md §5, which exists because this was got wrong on four
+     pages.
+     ================================================================== -->
+<section class="leaf section--light grain" id="status" data-contents="Academic Status">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/award-standard.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">XI</span>
+      <span class="leaf__label">Academic Status</span>
+      <p class="leaf__rubric">What the qualification carries, and what it does not. Two marks, never the same one.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <h2>The standing of the qualification, in two columns.</h2>
+      <p class="lede">The left column is what a WEC award carries. The right column is what it
+        does not &mdash; named, because the limits of a credential are part of what it is, and a
+        candidate should read them here rather than discover them later.</p>
+
+      <div class="register">
+        <div class="register__col reveal edge-lit edge-lit--light aurum">
+          <div class="register__head">
+            <svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg>
+            <h3>What it carries</h3>
+            <span class="register__count">6</span>
+          </div>
+          <ul class="register__list register__list--held">
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>A published curriculum &mdash; sixty modules across six levels, readable in full before you enrol</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>An examination and an assignment for every module, written before the lessons they test</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>Rubrics and pass criteria, in the candidate&rsquo;s hands in advance of the assessment</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>A defined award at each of the six levels, with its own criteria for conferral</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>A teaching practice binding on every instructor, published rather than internal</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>A campus of record &mdash; enrolment, submission, marking and free verification in one system</span></li>
+          </ul>
+        </div>
+        <div class="register__col register__col--open reveal edge-lit edge-lit--light aurum">
+          <div class="register__head">
+            <svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg>
+            <h3>What it does not</h3>
+            <span class="register__count">5</span>
+          </div>
+          <ul class="register__list register__list--open">
+            <li><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg><span>Accreditation &mdash; the award is the College&rsquo;s own and carries none from outside it</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg><span>An External Examiner &mdash; no external examiner is appointed to the programme</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg><span>External moderation &mdash; every award conferred so far was moderated inside the College</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg><span>Live classes and tutorials &mdash; the programme is taught asynchronously, and no live timetable runs</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg><span>Recorded listening audio &mdash; the 120 listening sets are published as full scripts</span></li>
+          </ul>
+          <p class="register__note">Nothing in this column wears a tick, and an item moves across only once it is true. The College&rsquo;s full institutional position is at <a href="/about/#status">About &middot; Institutional Status</a>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     THE COLOPHON
+     ================================================================== -->
+<section class="colophon section--paper grain">
+  <div class="container">
+    <p class="colophon__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></p>
+    <p>The International English Fluency Course is the College&rsquo;s only programme. It is
+      published in full &mdash; curriculum, assessment, rubrics and awards &mdash; before it has
+      been taught to a cohort, so that anyone considering it can judge it on what it is rather
+      than on what it says about itself.</p>
+    <dl>
+      <div><dt>Programme</dt><dd>IEFC</dd></div>
+      <div><dt>Levels</dt><dd>Six &middot; A1&ndash;C2</dd></div>
+      <div><dt>Credit</dt><dd>120 WEC</dd></div>
+      <div><dt>Delivery</dt><dd>Online worldwide</dd></div>
+    </dl>
+  </div>
+</section>
+
+
+<section class="leaf section--dark grain aurora" id="resources" data-contents="Read It First">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/crest-plate.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">XII</span>
+      <span class="leaf__label">Read It First</span>
+      <p class="leaf__rubric">The whole programme, published and downloadable before you pay for any of it.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
+        <h2>The curriculum, the rubrics and the books &mdash; open, and free.</h2>
+        <p class="lede">Most language providers sell a syllabus you are not permitted to see until you have paid. Everything below downloads now, without an account and without an email address. Read it, judge it, and then decide.</p>
+      </div>
+
+      {{RESOURCES}}
+
+      <div class="callout" style="margin-top:2.4em">
+        <span class="callout__label">Levels II to VI</span>
+        <p>Every level is published in full as a page &mdash; its modules, its outcomes, its assessments and the criteria they are marked against &mdash; at <a href="/study/level-1/">Level&nbsp;I</a>, <a href="/study/level-2/">II</a>, <a href="/study/level-3/">III</a>, <a href="/study/level-4/">IV</a>, <a href="/study/level-5/">V</a> and <a href="/study/level-6/">VI</a>. The workbook and teacher&rsquo;s companion for each are issued to enrolled students with their level; Level&nbsp;I&rsquo;s are open above so that anyone can see the standard of the materials before enrolling.</p>
+      </div>
+      <p class="form-note">Every volume here is typeset by WEC Press and carries its own edition and issue number. The <strong>IEFC Complete Curriculum</strong> binds all six levels as one volume and runs to 26.7&nbsp;MB, past the size a page may serve directly. It is issued on request from <a href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Complete%20Curriculum">the Registrar</a>, and the same material is on this shelf as the Flagship Curriculum and the Programme Architecture. The complete register is at <a href="/press/library/">the Library</a>.</p>
     </div>
   </div>
 </section>
 
 <section class="section--dark cta-band">
   <div class="container reveal">
-    <h2>Find the level that fits.</h2>
+    <h2>Read every module before you pay for one.</h2>
+    <p class="lede" style="margin-inline:auto">The complete curriculum, the assessment handbook with every rubric and pass mark, the pronunciation handbook and the listening scripts are all published as typeset volumes &mdash; free, without an account, before you decide anything.</p>
     <div class="btn-row u-center">
-      <a href="/admissions/#apply" class="btn btn--gold">Apply Now</a>
-      <a href="/contact/" class="btn btn--outline">Ask About Placement</a>
+      <a href="/press/library/" class="btn btn--gold magnetic aurum aurum--twin">Download the Curriculum</a>
+      <a href="/admissions/#apply" class="btn btn--outline magnetic">Apply Now</a>
     </div>
   </div>
 </section>

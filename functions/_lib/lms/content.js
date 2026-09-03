@@ -13,10 +13,41 @@
 // staff-view path) since they legitimately need to see any student's
 // work to grade it.
 
+// WHO DECIDES A MODULE IS FINISHED, since 20 August 2026: marks.js, and
+// nothing in this file.
+//
+// This file used to decide it here, with its own rule: a unit was marked
+// `completed` when EITHER the quiz score OR the assignment grade reached
+// `platform_config.lms_pass_threshold`, independently, with no
+// composite. data/academic-regulations.json records that as
+// `conformance.module_composite` and states the consequence in one
+// sentence — "a learner who passes the quiz at seventy and never submits
+// the assignment has the module recorded as complete".
+//
+// That was not a private LMS opinion. `unit_progress.status` is read by
+// the graduate profile's units-completed figure, by the Institutional
+// Metric Register's `progression.moduleCompletion`, and by the § XI
+// engagement evidence list — so the platform published a module
+// completion the adopted regulations do not define, three ways.
+//
+// The adopted rule is `module.formula`: 30 per cent machine-marked, 70
+// per cent person-marked, rounded once, and `module.both_required` —
+// there is no partial module mark and a module never completes on one
+// component. moduleMarkForUnit() is the single place that computes it,
+// shared with the standing engine, so the two cannot disagree.
+//
+// The pass threshold left with it. There is no second threshold read
+// here any more: `SCALE.passMark` in marks.js is pinned to the
+// instrument by tests/academic-standing.test.mjs, and
+// `platform_config.lms_pass_threshold` now mirrors it rather than
+// competing with it (tests/academic-standing.test.mjs § holds the two
+// identical). A number that governs an award should not be settable in
+// two places to two values.
 import { db, newId, nowIso, NotFoundError, ValidationError } from '../db.js';
 import { AuthorizationError } from '../auth/session.js';
-import { getConfigJson } from '../config.js';
-import { GRADE_SCALE, SCALE } from '../academic/marks.js';
+import { moduleMarkForUnit } from '../academic/standing.js';
+import { assertAttemptPermitted, reassessmentPosition } from '../academic/reassessment.js';
+import { meetsThreshold, percentageFromFraction, SCALE, GRADE_SCALE } from '../academic/marks.js';
 
 export async function assertLevelAccess(env, userId, levelId) {
   const enrolment = await db(env)
@@ -78,6 +109,12 @@ export async function getUnitDetail(env, { userId, unitId }) {
         .bind(item.id)
         .all();
       item.questions = questions.map(({ choicesJson, ...q }) => ({ ...q, choices: JSON.parse(choicesJson) }));
+      // The allowance, BEFORE the learner spends any of it. Discovering
+      // that a resit needs a fortnight's wait by being refused one is
+      // the version of this rule that reads as an obstruction; reading
+      // it on the page beside the paper is the version that reads as a
+      // College that has thought about how people learn.
+      item.reassessment = await reassessmentPosition(env, { userId, learningItemId: item.id, kind: 'quiz' });
     }
 
     if (item.kind === 'pronunciation') {
@@ -95,9 +132,10 @@ export async function getUnitDetail(env, { userId, unitId }) {
 
     if (item.kind === 'assignment') {
       item.mySubmission = await db(env)
-        .prepare('SELECT id, status, grade, feedback, submitted_at as submittedAt, graded_at as gradedAt FROM assignment_submissions WHERE learning_item_id = ? AND user_id = ? ORDER BY submitted_at DESC LIMIT 1')
+        .prepare('SELECT id, status, grade, feedback, attempt, submitted_at as submittedAt, graded_at as gradedAt FROM assignment_submissions WHERE learning_item_id = ? AND user_id = ? ORDER BY submitted_at DESC LIMIT 1')
         .bind(item.id, userId)
         .first();
+      item.reassessment = await reassessmentPosition(env, { userId, learningItemId: item.id, kind: 'assignment' });
     }
   }
 
@@ -110,6 +148,33 @@ export async function getUnitDetail(env, { userId, unitId }) {
     completedAt: progress ? progress.completedAt : null,
     items,
   };
+}
+
+/**
+ * Re-read the module under `module.formula` and write what it says.
+ *
+ * Called after every act that can move a module's mark — an attempt
+ * submitted, an assignment submitted, an assignment graded — rather
+ * than each of those deciding for itself. A module that is not `marked`
+ * and complete is `in_progress`: it is not a fail, and it is not a
+ * completion the College can put on a transcript.
+ *
+ * A unit the curriculum never gave both a quiz and an assignment comes
+ * back `not_assessable`, and stays `in_progress` here. All sixty
+ * authored modules carry both; a unit that does not is authoring work
+ * outstanding, and recording it as a learner's completed module would
+ * report the College's gap as the learner's achievement.
+ */
+async function recordModuleProgress(env, { userId, unitId, at }) {
+  const module = await moduleMarkForUnit(env, { userId, unitId });
+  const complete = Boolean(module && module.state === 'marked' && module.complete);
+  await upsertUnitProgress(env, {
+    userId,
+    unitId,
+    status: complete ? 'completed' : 'in_progress',
+    completedAt: complete ? at : null,
+  });
+  return module;
 }
 
 // Never downgrades a unit already marked 'completed' — a lower-scoring
@@ -147,23 +212,44 @@ export async function submitQuizAttempt(env, { userId, learningItemId, answers }
     throw new ValidationError(`Expected ${questions.length} answers.`, { answers: 'Length mismatch' });
   }
 
+  // `resit.attempts` and `resit.interval`, applied BEFORE the paper is
+  // marked. Marking it first and then refusing to record it would tell
+  // a learner their score and then decline to count it, which is worse
+  // than either answer on its own.
+  const position = await assertAttemptPermitted(env, { userId, learningItemId, kind: 'quiz' });
+
   const correctCount = questions.reduce((n, q, i) => n + (answers[i] === q.correctIndex ? 1 : 0), 0);
   const score = correctCount / questions.length;
   const submittedAt = nowIso();
   const attemptId = newId('qat');
   await db(env)
-    .prepare('INSERT INTO quiz_attempts (id, learning_item_id, user_id, answers_json, score, submitted_at) VALUES (?, ?, ?, ?, ?, ?)')
-    .bind(attemptId, learningItemId, userId, JSON.stringify(answers), score, submittedAt)
+    .prepare('INSERT INTO quiz_attempts (id, learning_item_id, user_id, answers_json, score, attempt, submitted_at) VALUES (?, ?, ?, ?, ?, ?, ?)')
+    .bind(attemptId, learningItemId, userId, JSON.stringify(answers), score, position.nextAttemptOrdinal, submittedAt)
     .run();
 
-  const passThreshold = await getConfigJson(env, 'lms_pass_threshold', { required: false }) ?? 0.7;
-  if (score >= passThreshold) {
-    await upsertUnitProgress(env, { userId, unitId: item.unit_id, status: 'completed', completedAt: submittedAt });
-  } else {
-    await upsertUnitProgress(env, { userId, unitId: item.unit_id, status: 'in_progress' });
-  }
+  await recordModuleProgress(env, { userId, unitId: item.unit_id, at: submittedAt });
 
-  return { id: attemptId, score, correctCount, totalQuestions: questions.length, passed: score >= passThreshold, submittedAt };
+  // `passed` is a statement about THIS ATTEMPT and never about the
+  // module: `module.component_floor` is null in the instrument, so a
+  // quiz below seventy still contributes its thirty per cent. It is
+  // reported because a learner who has just answered ten questions is
+  // owed the mark they got, and it is measured against the same
+  // `SCALE.passMark` every other mark on the platform is measured
+  // against rather than against a second threshold of its own.
+  const percentage = percentageFromFraction(score);
+  return {
+    id: attemptId,
+    score,
+    correctCount,
+    totalQuestions: questions.length,
+    passed: meetsThreshold(percentage, SCALE.passMark),
+    // Returned so the screen that shows the mark can say what is left
+    // in the same breath, rather than leaving a learner to discover the
+    // allowance by exhausting it. Re-read AFTER the insert: the figures
+    // are about where they now stand, not where they stood a moment ago.
+    reassessment: await reassessmentPosition(env, { userId, learningItemId, kind: 'quiz' }),
+    submittedAt,
+  };
 }
 
 export async function submitAssignment(env, { userId, learningItemId, content }) {
@@ -173,15 +259,30 @@ export async function submitAssignment(env, { userId, learningItemId, content })
   const levelId = await getLevelIdForUnit(env, item.unit_id);
   await assertLevelAccess(env, userId, levelId);
 
+  // The same gate as a quiz attempt, and one clause more that applies
+  // only here: `resit.new_task` — "a capstone resit is a new task, not a
+  // resubmission", because resubmitting a marked capstone with the
+  // marker's own feedback applied assesses the feedback and not the
+  // candidate. This file cannot tell whether the assessor set a fresh
+  // task, so it does not pretend to; `taskRefreshDue` and the ordinal go
+  // back with the submission and the assessor's queue shows both.
+  const position = await assertAttemptPermitted(env, { userId, learningItemId, kind: 'assignment' });
+
   const submissionId = newId('asub');
   const submittedAt = nowIso();
   await db(env)
-    .prepare('INSERT INTO assignment_submissions (id, learning_item_id, user_id, content, status, submitted_at) VALUES (?, ?, ?, ?, ?, ?)')
-    .bind(submissionId, learningItemId, userId, content, 'submitted', submittedAt)
+    .prepare('INSERT INTO assignment_submissions (id, learning_item_id, user_id, content, status, attempt, submitted_at) VALUES (?, ?, ?, ?, ?, ?, ?)')
+    .bind(submissionId, learningItemId, userId, content, 'submitted', position.nextAttemptOrdinal, submittedAt)
     .run();
 
-  await upsertUnitProgress(env, { userId, unitId: item.unit_id, status: 'in_progress' });
-  return { id: submissionId, status: 'submitted', submittedAt };
+  await recordModuleProgress(env, { userId, unitId: item.unit_id, at: submittedAt });
+  return {
+    id: submissionId,
+    status: 'submitted',
+    attempt: position.nextAttemptOrdinal,
+    reassessment: await reassessmentPosition(env, { userId, learningItemId, kind: 'assignment' }),
+    submittedAt,
+  };
 }
 
 // Staff-only — see functions/api/lms/grade-assignment.js.
@@ -199,10 +300,7 @@ export async function gradeAssignment(env, { gradedBy, submissionId, grade, feed
     .run();
 
   const item = await db(env).prepare('SELECT unit_id FROM learning_items WHERE id = ?').bind(submission.learning_item_id).first();
-  const passThreshold = await getConfigJson(env, 'lms_pass_threshold', { required: false }) ?? 0.7;
-  if (item && grade >= passThreshold) {
-    await upsertUnitProgress(env, { userId: submission.user_id, unitId: item.unit_id, status: 'completed', completedAt: gradedAt });
-  }
+  if (item) await recordModuleProgress(env, { userId: submission.user_id, unitId: item.unit_id, at: gradedAt });
 
   return { id: submissionId, status: 'graded', grade, feedback: feedback || null, gradedAt };
 }
@@ -414,6 +512,122 @@ export async function listRecordingsForReview(env, { levelId = null, status = 's
   return results;
 }
 
+/**
+ * THE WORK WAITING TO BE MARKED, oldest first.
+ *
+ * ─────────────────────────────────────────────────────────────────────
+ * THE FAULT THIS CORRECTS
+ * ─────────────────────────────────────────────────────────────────────
+ * `gradeAssignment()` takes a `submissionId` and nothing anywhere
+ * produced one. A tutor could mark a piece of work only if somebody
+ * handed them its id — so on a platform where learners submit
+ * assignments through /my-module.html, no member of staff could find
+ * one to mark. The submissions arrived and sat there.
+ *
+ * `listRecordingsForReview()` is the model, deliberately: the
+ * pronunciation queue solved the same problem for audio and this is
+ * that solution applied to written work, down to the ordering.
+ *
+ * ─────────────────────────────────────────────────────────────────────
+ * OLDEST FIRST, AND THAT IS THE WHOLE POINT OF A QUEUE
+ * ─────────────────────────────────────────────────────────────────────
+ * A queue sorted newest-first starves the learners who have waited
+ * longest — the recording queue says exactly this about recordings,
+ * and it is no less true of an essay. The wait is returned with every
+ * row so a marker can see it rather than infer it.
+ *
+ * ─────────────────────────────────────────────────────────────────────
+ * STAFF-WIDE, AND WHY IT IS NOT BOUNDED BY THE TEACHING RELATION
+ * ─────────────────────────────────────────────────────────────────────
+ * `assertMayReadLearner()` bounds a tutor to the learners they teach,
+ * and the relation is COMPOSED from teaching acts — a thread, a
+ * booking, a register, a mark already given. Bounding this queue the
+ * same way would mean a learner's FIRST submission is invisible to
+ * every tutor who has not already marked something of theirs, which is
+ * every tutor. The first piece of work anybody submits would wait for
+ * an administrator.
+ *
+ * That is the gap docs/platform-capabilities.md § 10 names: there is no
+ * teaching-assignment table, so the platform cannot say which tutor
+ * owns which level. Until it can, the queue is the College's rather
+ * than any one tutor's — which is also how marking actually works here:
+ * every award is set, marked and second-marked against a rubric
+ * published before the work. `graded_by` records who marked, on every
+ * row, and `requireStaff` is the gate.
+ *
+ * The payload says all of this in `basis`, so a surface renders the
+ * arrangement rather than implying a different one.
+ */
+export async function listSubmissionsForMarking(env, {
+  levelId = null, status = 'submitted', limit = 50,
+} = {}) {
+  let sql = `SELECT s.id, s.content, s.status, s.attempt, s.grade, s.feedback,
+                    s.submitted_at AS submittedAt, s.graded_at AS gradedAt,
+                    u.id AS userId, u.email, u.preferred_name AS preferredName,
+                    i.id AS learningItemId, i.title AS itemTitle, i.body AS itemBody,
+                    un.id AS unitId, un.title AS unitTitle, un.sequence AS unitSequence,
+                    c.level_id AS levelId
+               FROM assignment_submissions s
+               JOIN users u ON u.id = s.user_id
+               JOIN learning_items i ON i.id = s.learning_item_id
+               JOIN units un ON un.id = i.unit_id
+               JOIN courses c ON c.id = un.course_id
+              WHERE i.kind = 'assignment'`;
+  const binds = [];
+  if (status) { sql += ' AND s.status = ?'; binds.push(status); }
+  if (levelId !== null) { sql += ' AND c.level_id = ?'; binds.push(levelId); }
+  sql += ' ORDER BY s.submitted_at ASC LIMIT ?';
+  binds.push(limit);
+  const { results } = await db(env).prepare(sql).bind(...binds).all();
+
+  const now = Date.now();
+  for (const row of results) {
+    // How long the learner has been waiting, computed once here rather
+    // than in whatever surface renders it. Two surfaces working it out
+    // separately is two surfaces that can disagree about whether a
+    // piece of work is overdue.
+    const at = Date.parse(row.submittedAt);
+    row.waitingDays = Number.isFinite(at) ? Math.floor((now - at) / 86400000) : null;
+    // What the learner was marked against LAST time, where there was a
+    // last time. A second attempt marked without sight of the first is
+    // a second attempt marked as though it were a first.
+    const prior = await db(env)
+      .prepare(`SELECT attempt, grade, feedback, graded_at AS gradedAt
+                  FROM assignment_submissions
+                 WHERE learning_item_id = ? AND user_id = ? AND attempt < ?
+                 ORDER BY attempt DESC LIMIT 1`)
+      .bind(row.learningItemId, row.userId, row.attempt ?? 1).first();
+    row.previousAttempt = prior || null;
+  }
+
+  return {
+    basis: 'college',
+    // Named in the payload rather than left for a page to assert. See
+    // this function's header: the teaching relation cannot bound this
+    // queue without hiding every learner's first submission.
+    note: 'The marking queue is the College\'s, not one tutor\'s: until a teaching '
+      + 'assignment is recorded against a level, the platform cannot say whose work is '
+      + 'whose to mark. Every mark records who gave it.',
+    status,
+    levelId,
+    // THE SCALE THE MARK WILL BE READ ON, sent with the queue rather
+    // than restated by whatever screen renders it. A marker who cannot
+    // see the pass line is a marker guessing where it is, and a marking
+    // screen carrying its own copy of the number is a second source of
+    // truth about the most consequential figure this institution
+    // produces about a person. Both come from
+    // functions/_lib/academic/marks.js, the one implementation.
+    scale: {
+      name: GRADE_SCALE,
+      passMark: SCALE.passMark,
+      bands: SCALE.bands.map((b) => ({
+        letter: b.letter, from: b.from, toExclusive: b.toExclusive, gradePoint: b.gradePoint,
+      })),
+    },
+    submissions: results,
+  };
+}
+
 // Listening analytics for one learner. Deliberately reports coverage
 // and outcomes separately: "attempted 8 of 10" and "averaged 72%" answer
 // different questions, and a single blended number would hide a learner
@@ -489,127 +703,4 @@ export async function listLiveSessions(env, { userId, levelId }) {
     .bind(levelId)
     .all();
   return results;
-}
-
-/**
- * THE WORK WAITING TO BE MARKED, oldest first.
- *
- * ─────────────────────────────────────────────────────────────────────
- * THE FAULT THIS CORRECTS
- * ─────────────────────────────────────────────────────────────────────
- * `gradeAssignment()` takes a `submissionId` and nothing anywhere
- * produced one. A tutor could mark a piece of work only if somebody
- * handed them its id — so on a platform where learners submit
- * assignments through /my-module.html, no member of staff could find
- * one to mark. The submissions arrived and sat there.
- *
- * `listRecordingsForReview()` is the model, deliberately: the
- * pronunciation queue solved the same problem for audio and this is
- * that solution applied to written work, down to the ordering.
- *
- * ─────────────────────────────────────────────────────────────────────
- * OLDEST FIRST, AND THAT IS THE WHOLE POINT OF A QUEUE
- * ─────────────────────────────────────────────────────────────────────
- * A queue sorted newest-first starves the learners who have waited
- * longest — the recording queue says exactly this about recordings,
- * and it is no less true of an essay. The wait is returned with every
- * row so a marker can see it rather than infer it.
- *
- * ─────────────────────────────────────────────────────────────────────
- * STAFF-WIDE, AND WHY IT IS NOT BOUNDED BY THE TEACHING RELATION
- * ─────────────────────────────────────────────────────────────────────
- * `assertMayReadLearner()` bounds a tutor to the learners they teach,
- * and the relation is COMPOSED from teaching acts — a thread, a
- * booking, a register, a mark already given. Bounding this queue the
- * same way would mean a learner's FIRST submission is invisible to
- * every tutor who has not already marked something of theirs, which is
- * every tutor. The first piece of work anybody submits would wait for
- * an administrator.
- *
- * That is the gap docs/platform-capabilities.md § 10 names: there is no
- * teaching-assignment table, so the platform cannot say which tutor
- * owns which level. Until it can, the queue is the College's rather
- * than any one tutor's — which is also how marking actually works here:
- * every award is set, marked and second-marked against a rubric
- * published before the work. `graded_by` records who marked, on every
- * row, and `requireStaff` is the gate.
- *
- * The payload says all of this in `basis`, so a surface renders the
- * arrangement rather than implying a different one.
- *
- * NOTE ON `attempt`: `sql/migrations/021-attempt-ordinals.sql` added
- * the column this queries; submitAssignment() here does not populate it
- * yet (that lands with the resit-allowance engine, tracked separately),
- * so `attempt`/`previousAttempt` read null for every row until it does.
- * Degrading to null rather than erroring is deliberate — this queue is
- * useful the day it ships, not only once resits are enforced.
- */
-export async function listSubmissionsForMarking(env, {
-  levelId = null, status = 'submitted', limit = 50,
-} = {}) {
-  let sql = `SELECT s.id, s.content, s.status, s.attempt, s.grade, s.feedback,
-                    s.submitted_at AS submittedAt, s.graded_at AS gradedAt,
-                    u.id AS userId, u.email, u.preferred_name AS preferredName,
-                    i.id AS learningItemId, i.title AS itemTitle, i.body AS itemBody,
-                    un.id AS unitId, un.title AS unitTitle, un.sequence AS unitSequence,
-                    c.level_id AS levelId
-               FROM assignment_submissions s
-               JOIN users u ON u.id = s.user_id
-               JOIN learning_items i ON i.id = s.learning_item_id
-               JOIN units un ON un.id = i.unit_id
-               JOIN courses c ON c.id = un.course_id
-              WHERE i.kind = 'assignment'`;
-  const binds = [];
-  if (status) { sql += ' AND s.status = ?'; binds.push(status); }
-  if (levelId !== null) { sql += ' AND c.level_id = ?'; binds.push(levelId); }
-  sql += ' ORDER BY s.submitted_at ASC LIMIT ?';
-  binds.push(limit);
-  const { results } = await db(env).prepare(sql).bind(...binds).all();
-
-  const now = Date.now();
-  for (const row of results) {
-    // How long the learner has been waiting, computed once here rather
-    // than in whatever surface renders it. Two surfaces working it out
-    // separately is two surfaces that can disagree about whether a
-    // piece of work is overdue.
-    const at = Date.parse(row.submittedAt);
-    row.waitingDays = Number.isFinite(at) ? Math.floor((now - at) / 86400000) : null;
-    // What the learner was marked against LAST time, where there was a
-    // last time. A second attempt marked without sight of the first is
-    // a second attempt marked as though it were a first.
-    const prior = await db(env)
-      .prepare(`SELECT attempt, grade, feedback, graded_at AS gradedAt
-                  FROM assignment_submissions
-                 WHERE learning_item_id = ? AND user_id = ? AND attempt < ?
-                 ORDER BY attempt DESC LIMIT 1`)
-      .bind(row.learningItemId, row.userId, row.attempt ?? 1).first();
-    row.previousAttempt = prior || null;
-  }
-
-  return {
-    basis: 'college',
-    // Named in the payload rather than left for a page to assert. See
-    // this function's header: the teaching relation cannot bound this
-    // queue without hiding every learner's first submission.
-    note: 'The marking queue is the College\'s, not one tutor\'s: until a teaching '
-      + 'assignment is recorded against a level, the platform cannot say whose work is '
-      + 'whose to mark. Every mark records who gave it.',
-    status,
-    levelId,
-    // THE SCALE THE MARK WILL BE READ ON, sent with the queue rather
-    // than restated by whatever screen renders it. A marker who cannot
-    // see the pass line is a marker guessing where it is, and a marking
-    // screen carrying its own copy of the number is a second source of
-    // truth about the most consequential figure this institution
-    // produces about a person. Both come from
-    // functions/_lib/academic/marks.js, the one implementation.
-    scale: {
-      name: GRADE_SCALE,
-      passMark: SCALE.passMark,
-      bands: SCALE.bands.map((b) => ({
-        letter: b.letter, from: b.from, toExclusive: b.toExclusive, gradePoint: b.gradePoint,
-      })),
-    },
-    submissions: results,
-  };
 }

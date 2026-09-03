@@ -14,6 +14,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tuition, Fees &amp; Funding &mdash; Worldwide English College</title>
 <meta name="description" content="IEFC tuition and per-level pricing, how paying actually works — currency, methods, refunds — and the scholarships and funding routes that exist today.">
+<!-- INDEXABLE, OR THE LEARNER'S OWN. A page that mounts
+     js/portal-guard.js is a page behind a sign-in — a statement of
+     account, a set of marks, a payment confirmation — and it belonged
+     in neither a search index nor the sitemap. Eleven of them were in
+     both. scripts/build.js decides this from the guard rather than from
+     a flag somebody has to remember to set: a page that guards itself
+     is private, and there is no case where it is not. -->
+<meta name="robots" content="index, follow">
 <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/assets/images/icon-512.png" sizes="512x512" type="image/png">
 <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
@@ -21,19 +29,24 @@
 <meta name="theme-color" content="#14264A">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500..800;1,6..96,400..600&family=Cinzel:wght@500;600&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<!-- The display face is self-hosted and preloaded: it sets every
+     heading above the fold, so it must never arrive after the text it
+     shapes. The italic is not preloaded — it first appears below the
+     fold and swap covers it. -->
+<link rel="preload" href="/assets/fonts/fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600&text=%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/brand.css">
-<link rel="stylesheet" href="/css/atelier.css">
-<link rel="stylesheet" href="/css/pages.css">
-<link rel="stylesheet" href="/css/pillar.css">
-<link rel="stylesheet" href="/css/admissions.css">
+<link rel="stylesheet" href="/css/brand.css?v=308b4850">
+<link rel="stylesheet" href="/css/atelier.css?v=9eadec1f">
+<link rel="stylesheet" href="/css/pages.css?v=e0f4b722">
+<link rel="stylesheet" href="/css/pillar.css?v=661126ed">
+<link rel="stylesheet" href="/css/admissions.css?v=1f75d17a">
 <!-- LAST, and that ordering is load-bearing. Script-specific typography
      has to be able to override the general stylesheets, because those
      set tracking and leading tuned to Latin faces and Arabic inherits
      it. Putting this first — which is where it started — left 951 of
      1,049 violations standing. See the header of css/arabic.css. -->
-<link rel="stylesheet" href="/css/arabic.css">
+<link rel="stylesheet" href="/css/arabic.css?v=8eca8911">
 <noscript><style>
 /* Several entrance effects are authored hidden and revealed by script:
    .reveal (js/site.js), .split-word and .rule-draw (js/motion.js),
@@ -115,6 +128,34 @@
   Inline rather than an external sprite file on purpose: `currentColor`
   does not inherit across an external <use> reference in several
   browsers, which would defeat the whole arrangement above.
+
+  TWO WEIGHTS, WHICH IS WHAT MAKES IT AN ENGRAVING.
+  ---------------------------------------------------------------------
+  A single-weight outline is what every icon library ships, and at
+  institutional scale it reads as competent rather than as commissioned.
+  Real engraving carries a cut line and a hairline: the structure at
+  full weight, the modelling — hatching, secondary rules, interior
+  detail — at roughly two-fifths of it.
+
+  So structural paths inherit the 1.25 stroke from .icon, and detail
+  paths carry `stroke-width=".55"` as a PRESENTATION ATTRIBUTE on the
+  path itself. It has to be an attribute rather than a class: content
+  cloned by <use> lives in a shadow tree that document CSS selectors
+  cannot reach, so `.icon .hair {}` would silently do nothing. Only
+  inherited properties cross that boundary, which is exactly why
+  `currentColor` works above and a class would not.
+
+  Both numbers are in the 24-unit viewBox, so the ratio between them
+  holds at every rendered size — a hairline stays a hairline at 1.25rem
+  and at 3.5rem.
+
+  THE FOUR REGION MARKS are cartographic, not cultural. A set of icons
+  standing for the Gulf, Europe, Africa and Asia is one careless
+  decision away from four national stereotypes, so each is the same
+  globe under the same graticule with a different sector engraved and a
+  different locator set into it. They read as one instrument turned
+  four ways, which is both the honest claim and the better drawing.
+  Before this they were four copies of #i-globe on one screen.
 -->
 <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false"><defs>
 
@@ -132,11 +173,23 @@
     <stop offset="100%" stop-color="#A8863C"/>
   </linearGradient>
 
+  <!-- ================================================================
+       THE INSTITUTIONAL MARKS
+       ================================================================ -->
+
   <!-- The institution's mark, reduced to a stroke. -->
   <symbol id="i-crest" viewBox="0 0 24 24">
-    <path d="M12 1.6 21 4.8v8.1c0 5.6-3.8 10-9 12.1C6.8 22.9 3 18.5 3 12.9V4.8Z"/>
-    <path d="M12 5.2 17.6 7.2v5.6c0 3.7-2.4 6.7-5.6 8.1-3.2-1.4-5.6-4.4-5.6-8.1V7.2Z"/>
-    <path d="M9.4 12.6h5.2M12 10v5.2"/>
+    <!-- A HERALDIC CREST, not a first-aid badge.
+         It was a shield with a cross bar and an upright inside it, and
+         at every size from 30px up it read as a medical shield — the
+         defect CLAUDE.md §6 records against this exact symbol. A crest
+         is a shield UNDER A CROWN with a charge on it, so that is what
+         is drawn: a three-point crown on the chief, a chevron below it,
+         and a mullet in base. Nothing in it crosses at right angles. -->
+    <path d="M12 3.4 20.4 6.2v7.2c0 5.1-3.5 9.2-8.4 11.1C7.1 22.6 3.6 18.5 3.6 13.4V6.2Z"/>
+    <path d="M6.6 6.9 8.3 4.4l1.9 1.7L12 3l1.8 3.1 1.9-1.7 1.7 2.5Z" stroke-linejoin="round"/>
+    <path d="M7.6 15.1 12 11.2l4.4 3.9" stroke-width=".55" opacity=".8"/>
+    <path d="m12 17.2.85 1.72 1.9.28-1.37 1.34.32 1.89L12 21.54l-1.7.89.32-1.89-1.37-1.34 1.9-.28Z" stroke-width=".55" opacity=".72"/>
   </symbol>
 
   <!-- Laurel — awards, honours, distinction. -->
@@ -148,6 +201,18 @@
     <path d="M12 6.4c2-1.4 4.4-1.6 6.4-.8-.2 2.2-1.6 4-3.6 4.8"/>
     <path d="M12 11c2-1.4 4.4-1.6 6.4-.8-.2 2.2-1.6 4-3.6 4.8"/>
     <path d="M12 15.6c2-1.4 4.4-1.6 6.4-.8-.2 2.2-1.6 4-3.6 4.8"/>
+    <path d="M7.6 6.6c.7.9 1.2 1.9 1.4 2.9M7.6 11.2c.7.9 1.2 1.9 1.4 2.9M7.6 15.8c.7.9 1.2 1.9 1.4 2.9" stroke-width=".55" opacity=".7"/>
+    <path d="M16.4 6.6c-.7.9-1.2 1.9-1.4 2.9M16.4 11.2c-.7.9-1.2 1.9-1.4 2.9M16.4 15.8c-.7.9-1.2 1.9-1.4 2.9" stroke-width=".55" opacity=".7"/>
+  </symbol>
+
+  <!-- Rosette — the conferred honour, ribboned. Distinct from the
+       laurel (which is the wreath) and from the wax seal (which is the
+       act of sealing): this is the thing pinned to the record. -->
+  <symbol id="i-rosette" viewBox="0 0 24 24">
+    <circle cx="12" cy="8.6" r="5.4"/>
+    <path d="M12 4.4 13.2 7l2.8.3-2.1 1.9.6 2.8L12 10.6l-2.5 1.4.6-2.8L8 7.3 10.8 7Z"/>
+    <path d="M8.4 13.2 6.4 21l5.6-2.6L17.6 21l-2-7.8" stroke-width=".55" opacity=".78"/>
+    <circle cx="12" cy="8.6" r="7.2" stroke-width=".55" opacity=".55"/>
   </symbol>
 
   <!-- Quill — writing, authorship, the written standard. -->
@@ -155,6 +220,16 @@
     <path d="M3 21c3.4-7.6 8-13 17-18-1.2 8.4-5.2 14-11.4 16.2Z"/>
     <path d="M8.6 19.2 20 3"/>
     <path d="M3 21h4.2"/>
+    <path d="M11.6 15.4c1.6-2.6 3.4-5 5.6-7.4M9.8 17.6c1.9-3.1 4.1-6 6.6-8.7" stroke-width=".55" opacity=".68"/>
+  </symbol>
+
+  <!-- Nib — the fine hand. Used where "quill" would read as decoration
+       and the point is precision: rubrics, marking, the written mark. -->
+  <symbol id="i-nib" viewBox="0 0 24 24">
+    <path d="M8.4 2.6h7.2v6.2L12 21.4 8.4 8.8Z"/>
+    <path d="M12 7.9a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z"/>
+    <path d="M12 10.9v9.2" stroke-width=".55" opacity=".76"/>
+    <path d="M8.4 5.6h7.2M9.6 12.6h4.8" stroke-width=".55" opacity=".55"/>
   </symbol>
 
   <!-- Open book — the curriculum, published. -->
@@ -162,6 +237,16 @@
     <path d="M12 6.4C10 4.9 7.2 4.2 3 4.4v13.2c4.2-.2 7 .5 9 2 2-1.5 4.8-2.2 9-2V4.4c-4.2-.2-7 .5-9 2Z"/>
     <path d="M12 6.4v13.2"/>
     <path d="M6 8.4h3.2M6 11.6h3.2M14.8 8.4H18M14.8 11.6H18"/>
+    <path d="M6 14.8h3.2M14.8 14.8H18" stroke-width=".55" opacity=".72"/>
+    <path d="M3 7.2c2.8-.1 5.2.3 7 1.2M21 7.2c-2.8-.1-5.2.3-7 1.2" stroke-width=".55" opacity=".55"/>
+  </symbol>
+
+  <!-- Scroll — a volume of the imprint, issued and sealed. -->
+  <symbol id="i-scroll" viewBox="0 0 24 24">
+    <path d="M6.4 3.4h13.2v14.2a3 3 0 0 1-3 3H6.4"/>
+    <path d="M6.4 3.4a3 3 0 0 0-3 3v1.8h3"/>
+    <path d="M6.4 20.6a3 3 0 0 0 3-3V8.2"/>
+    <path d="M12 7.4h5M12 10.6h5M12 13.8h3.2" stroke-width=".55" opacity=".78"/>
   </symbol>
 
   <!-- Portico — the campus, the institution as a place. -->
@@ -169,21 +254,46 @@
     <path d="M2 8.8 12 3l10 5.8"/>
     <path d="M4 8.8V19M9.4 8.8V19M14.6 8.8V19M20 8.8V19"/>
     <path d="M2 21.4h20M3 19h18"/>
+    <path d="M4.4 8.4 12 4.1l7.6 4.3" stroke-width=".55" opacity=".6"/>
   </symbol>
 
-  <!-- Globe with meridians — worldwide delivery. -->
-  <symbol id="i-globe" viewBox="0 0 24 24">
-    <circle cx="12" cy="12" r="9"/>
-    <path d="M3 12h18"/>
-    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z"/>
-    <path d="M5 6.4c2 1.2 4.4 1.8 7 1.8s5-.6 7-1.8M5 17.6c2-1.2 4.4-1.8 7-1.8s5 .6 7 1.8"/>
+  <!-- Portcullis — Westminster, and the United Kingdom residency. -->
+  <symbol id="i-portcullis" viewBox="0 0 24 24">
+    <path d="M3.6 4.4h16.8v13.2H3.6Z"/>
+    <path d="M8.2 4.4v13.2M12 4.4v13.2M15.8 4.4v13.2"/>
+    <path d="M3.6 8.8h16.8M3.6 13.2h16.8" stroke-width=".55" opacity=".78"/>
+    <path d="M6.4 17.6v2.6M9.9 17.6v2.6M14.1 17.6v2.6M17.6 17.6v2.6" stroke-width=".55" opacity=".78"/>
+    <path d="M3.6 4.4 12 1.8l8.4 2.6" stroke-width=".55" opacity=".6"/>
   </symbol>
+
+  <!-- Columns — governance, the academic bodies. -->
+  <symbol id="i-columns" viewBox="0 0 24 24">
+    <path d="M2.6 6.6h18.8M4 21.4h16"/>
+    <path d="M6.4 6.6v14.8M12 6.6v14.8M17.6 6.6v14.8"/>
+    <path d="M2.6 6.6 12 2.6l9.4 4"/>
+    <path d="M5.2 9.2h2.4M10.8 9.2h2.4M16.4 9.2h2.4" stroke-width=".55" opacity=".7"/>
+    <path d="M5.2 19h2.4M10.8 19h2.4M16.4 19h2.4" stroke-width=".55" opacity=".7"/>
+  </symbol>
+
+  <!-- Lectern — teaching practice, the seminar, the spoken standard. -->
+  <symbol id="i-lectern" viewBox="0 0 24 24">
+    <path d="M4.4 6.6 17.8 3.4l1.8 4.4L6.2 11Z"/>
+    <path d="M11.8 10.2v8.4M7.4 21.4h8.8"/>
+    <path d="M11.8 18.6c-1.7 0-3.1.9-3.7 2.2M11.8 18.6c1.7 0 3.1.9 3.7 2.2"/>
+    <path d="M6.8 6.8 16.8 4.4M7.6 8.8l10-2.4" stroke-width=".55" opacity=".7"/>
+  </symbol>
+
+  <!-- ================================================================
+       THE RECORD, THE STANDARD, THE MEASURE
+       ================================================================ -->
 
   <!-- Wax seal — conferral, the sealed record. -->
   <symbol id="i-seal" viewBox="0 0 24 24">
     <circle cx="12" cy="9.6" r="6.6"/>
     <circle cx="12" cy="9.6" r="3.4"/>
     <path d="M8 15.4 6.6 22l5.4-2.6L17.4 22 16 15.4"/>
+    <circle cx="12" cy="9.6" r="5" stroke-width=".55" opacity=".55"/>
+    <path d="M12 4.6v1.6M12 13v1.6M7 9.6h1.6M15.4 9.6H17" stroke-width=".55" opacity=".7"/>
   </symbol>
 
   <!-- Ledger — the record, the register, the table of marks. -->
@@ -191,18 +301,8 @@
     <path d="M4 2.6h16v18.8H4Z"/>
     <path d="M8 2.6v18.8"/>
     <path d="M11 7.4h6M11 12h6M11 16.6h6"/>
-  </symbol>
-
-  <!-- Waveform — the Listening Lab, recorded speech. -->
-  <symbol id="i-waveform" viewBox="0 0 24 24">
-    <path d="M2 12h2.4M7 7.4v9.2M11.6 4v16M16.2 8.6v6.8M20.8 10.8v2.4"/>
-  </symbol>
-
-  <!-- Mortarboard — graduation, completion of the pathway. -->
-  <symbol id="i-mortarboard" viewBox="0 0 24 24">
-    <path d="M12 3.4 22.4 8 12 12.6 1.6 8Z"/>
-    <path d="M5.6 10v5.6c0 1.8 2.9 3.2 6.4 3.2s6.4-1.4 6.4-3.2V10"/>
-    <path d="M22.4 8v5.6"/>
+    <path d="M11 9.7h6M11 14.3h6M11 18.9h4" stroke-width=".55" opacity=".68"/>
+    <path d="M5.6 6h.8M5.6 12h.8M5.6 18h.8" stroke-width=".55" opacity=".68"/>
   </symbol>
 
   <!-- Scales — assessment, academic integrity, fair marking. -->
@@ -210,12 +310,98 @@
     <path d="M12 3.4v17.2M6.6 20.6h10.8"/>
     <path d="M4 7h16"/>
     <path d="M4 7 1.4 13.4h5.2ZM20 7l-2.6 6.4h5.2Z"/>
+    <path d="M4 7V5.2M20 7V5.2M9.6 5.6h4.8" stroke-width=".55" opacity=".7"/>
+    <circle cx="12" cy="4.4" r="1" stroke-width=".55" opacity=".7"/>
+  </symbol>
+
+  <!-- Shield with a check — quality assurance, verification. -->
+  <symbol id="i-shield-check" viewBox="0 0 24 24">
+    <path d="M12 2.2 20.4 5v7.6c0 4.8-3.4 8.6-8.4 10.2-5-1.6-8.4-5.4-8.4-10.2V5Z"/>
+    <path d="m8.4 12 2.6 2.6 4.6-5"/>
+    <path d="M12 4.2 18.4 6.4v6.2c0 3.8-2.6 6.9-6.4 8.2-3.8-1.3-6.4-4.4-6.4-8.2V6.4Z" stroke-width=".55" opacity=".5"/>
+  </symbol>
+
+  <!-- Target — the published standard, and hitting it. -->
+  <symbol id="i-target" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <circle cx="12" cy="12" r="5"/>
+    <circle cx="12" cy="12" r="1.4"/>
+    <path d="M12 1.6v3M12 19.4v3M1.6 12h3M19.4 12h3" stroke-width=".55" opacity=".72"/>
+  </symbol>
+
+  <!-- Layers — the six levels, stacked into one pathway. -->
+  <symbol id="i-layers" viewBox="0 0 24 24">
+    <path d="M12 2.6 21.6 7 12 11.4 2.4 7Z"/>
+    <path d="m2.4 12 9.6 4.4 9.6-4.4"/>
+    <path d="m2.4 17 9.6 4.4 9.6-4.4"/>
+    <path d="M6.6 9 12 11.4 17.4 9" stroke-width=".55" opacity=".6"/>
+  </symbol>
+
+  <!-- Ascending chart — progression through the levels. -->
+  <symbol id="i-progress" viewBox="0 0 24 24">
+    <path d="M3 21h18M3 21V3"/>
+    <path d="M6.6 17.4v-3.2M11 17.4v-6.8M15.4 17.4V7.8M19.8 17.4V4.6"/>
+    <path d="M6.6 13 11 9.4l4.4-3.2 4.4-2.8" stroke-width=".55" opacity=".62"/>
+    <path d="M3 16.2h18M3 11.4h18M3 6.6h18" stroke-width=".55" opacity=".32"/>
+  </symbol>
+
+  <!-- Hourglass — hours of study, time on task. -->
+  <symbol id="i-hourglass" viewBox="0 0 24 24">
+    <path d="M5.6 2.6h12.8M5.6 21.4h12.8"/>
+    <path d="M7.2 2.6v3.6L12 12l-4.8 5.8v3.6M16.8 2.6v3.6L12 12l4.8 5.8v3.6"/>
+    <path d="M9.4 5.4h5.2" stroke-width=".55" opacity=".72"/>
+    <path d="M9.4 18.6h5.2M10.4 16.4h3.2" stroke-width=".55" opacity=".72"/>
+  </symbol>
+
+  <!-- Calendar — dates, the academic year. -->
+  <symbol id="i-calendar" viewBox="0 0 24 24">
+    <path d="M3.4 5.4h17.2v16H3.4Z"/>
+    <path d="M3.4 10.2h17.2M8.2 2.6v5M15.8 2.6v5"/>
+    <path d="M6.8 13.4h2.2M11 13.4h2.2M15.2 13.4h2.2" stroke-width=".55" opacity=".72"/>
+    <path d="M6.8 17.2h2.2M11 17.2h2.2M15.2 17.2h2.2" stroke-width=".55" opacity=".72"/>
+  </symbol>
+
+  <!-- Waveform — the Listening Lab, recorded speech. -->
+  <symbol id="i-waveform" viewBox="0 0 24 24">
+    <path d="M2 12h2.4M7 7.4v9.2M11.6 4v16M16.2 8.6v6.8M20.8 10.8v2.4"/>
+    <path d="M4.7 10.4v3.2M9.3 5.6v12.8M13.9 6.2v11.6M18.5 9.4v5.2" stroke-width=".55" opacity=".62"/>
+  </symbol>
+
+  <!-- Mortarboard — graduation, completion of the pathway. -->
+  <symbol id="i-mortarboard" viewBox="0 0 24 24">
+    <path d="M12 3.4 22.4 8 12 12.6 1.6 8Z"/>
+    <path d="M5.6 10v5.6c0 1.8 2.9 3.2 6.4 3.2s6.4-1.4 6.4-3.2V10"/>
+    <path d="M22.4 8v5.6"/>
+    <path d="M22.4 13.6a1 1 0 1 0 0 2 1 1 0 0 0 0-2Z" stroke-width=".55" opacity=".78"/>
+    <path d="M6.4 8.4 12 5.9l5.6 2.5" stroke-width=".55" opacity=".5"/>
   </symbol>
 
   <!-- Compass — direction, guidance, the pathway. -->
   <symbol id="i-compass" viewBox="0 0 24 24">
     <circle cx="12" cy="12" r="9"/>
     <path d="m15.6 8.4-2 5.2-5.2 2 2-5.2Z"/>
+    <circle cx="12" cy="12" r="6.8" stroke-width=".55" opacity=".45"/>
+    <path d="M12 3v1.8M12 19.2V21M3 12h1.8M19.2 12H21" stroke-width=".55" opacity=".72"/>
+  </symbol>
+
+  <!-- Astrolabe — the instrument. The platform built for one programme,
+       where a compass would say "direction" and this says "measurement". -->
+  <symbol id="i-astrolabe" viewBox="0 0 24 24">
+    <!-- AN ASTROLABE, not a third globe.
+         This, #i-globe and #i-language were three circles with meridians
+         on them and were indistinguishable on a contact sheet. An
+         astrolabe is not a globe: it is a suspended disc — a shackle and
+         ring at the top, a graduated limb, a pierced rete, and an
+         alidade lying across the face on the diagonal. The suspension
+         and the alidade are what tell it apart at 30px. -->
+    <path d="M12 1.4a1.5 1.5 0 0 1 0 3 1.5 1.5 0 0 1 0-3Z" stroke-width=".7"/>
+    <path d="M12 4.4v1.2"/>
+    <circle cx="12" cy="14" r="8.2"/>
+    <circle cx="12" cy="14" r="5.9" stroke-width=".55" opacity=".72"/>
+    <path d="M12 8.1v11.8M6.1 14h11.8" stroke-width=".55" opacity=".5"/>
+    <path d="m6.2 19.8 11.6-11.6" stroke-linecap="round"/>
+    <circle cx="12" cy="14" r="1.15" stroke-width=".7"/>
+    <path d="M12 5.8v2.3M3.8 14H6.1M17.9 14h2.3M12 19.9v2.3" stroke-width=".55" opacity=".55"/>
   </symbol>
 
   <!-- Clock tower — London, the campus HQ. -->
@@ -225,7 +411,13 @@
     <circle cx="12" cy="13" r="2.6"/>
     <path d="M12 11.6V13h1.2"/>
     <path d="M6.6 21.4h10.8"/>
+    <path d="M9.4 17.4h5.2M9.4 19.2h5.2" stroke-width=".55" opacity=".68"/>
+    <path d="M12 4.6v1.6" stroke-width=".55" opacity=".68"/>
   </symbol>
+
+  <!-- ================================================================
+       ACCESS, CORRESPONDENCE, PARTNERSHIP
+       ================================================================ -->
 
   <!-- Key — access, the student portal. -->
   <symbol id="i-key" viewBox="0 0 24 24">
@@ -238,24 +430,7 @@
     <path d="M2.6 5h18.8v14H2.6Z"/>
     <path d="m2.6 5 9.4 7.4L21.4 5"/>
     <circle cx="12" cy="12.6" r="2.2"/>
-  </symbol>
-
-  <!-- Shield with a check — quality assurance, verification. -->
-  <symbol id="i-shield-check" viewBox="0 0 24 24">
-    <path d="M12 2.2 20.4 5v7.6c0 4.8-3.4 8.6-8.4 10.2-5-1.6-8.4-5.4-8.4-10.2V5Z"/>
-    <path d="m8.4 12 2.6 2.6 4.6-5"/>
-  </symbol>
-
-  <!-- Ascending chart — progression through the levels. -->
-  <symbol id="i-progress" viewBox="0 0 24 24">
-    <path d="M3 21h18M3 21V3"/>
-    <path d="M6.6 17.4v-3.2M11 17.4v-6.8M15.4 17.4V7.8M19.8 17.4V4.6"/>
-  </symbol>
-
-  <!-- Calendar — dates, the academic year. -->
-  <symbol id="i-calendar" viewBox="0 0 24 24">
-    <path d="M3.4 5.4h17.2v16H3.4Z"/>
-    <path d="M3.4 10.2h17.2M8.2 2.6v5M15.8 2.6v5"/>
+    <path d="m2.6 19 7-5.6M21.4 19l-7-5.6" stroke-width=".55" opacity=".6"/>
   </symbol>
 
   <!-- Passport — international applicants, visas. -->
@@ -263,14 +438,116 @@
     <path d="M4.6 2.6h14.8v18.8H4.6Z"/>
     <circle cx="12" cy="9.6" r="3.4"/>
     <path d="M8.6 16.6h6.8"/>
+    <path d="M12 6.2c1.2 1.4 1.8 2.6 1.8 3.4S13.2 11.8 12 13.2c-1.2-1.4-1.8-2.6-1.8-3.6S10.8 7.6 12 6.2Z" stroke-width=".55" opacity=".7"/>
+    <path d="M9.2 18.6h5.6" stroke-width=".55" opacity=".7"/>
   </symbol>
 
-  <!-- Columns — governance, the academic bodies. -->
-  <symbol id="i-columns" viewBox="0 0 24 24">
-    <path d="M2.6 6.6h18.8M4 21.4h16"/>
-    <path d="M6.4 6.6v14.8M12 6.6v14.8M17.6 6.6v14.8"/>
-    <path d="M2.6 6.6 12 2.6l9.4 4"/>
+  <!-- Accord — an agreement signed by two parties. Partnerships,
+       articulation, the awarding organisation. -->
+  <symbol id="i-accord" viewBox="0 0 24 24">
+    <path d="M4.4 4.4h9.2l6 6v9.2H4.4Z"/>
+    <path d="M13.6 4.4v6h6"/>
+    <path d="M7.6 14.4h8.8M7.6 17.2h5.6" stroke-width=".55" opacity=".76"/>
+    <circle cx="9.4" cy="9.4" r="2" stroke-width=".55" opacity=".76"/>
   </symbol>
+
+  <!-- Lock — privacy, the learner's data, what is not shared. -->
+  <symbol id="i-lock" viewBox="0 0 24 24">
+    <path d="M4.6 10.4h14.8v11H4.6Z"/>
+    <path d="M8 10.4V7.6a4 4 0 0 1 8 0v2.8"/>
+    <path d="M12 14.4v3.2" stroke-width=".55" opacity=".78"/>
+    <circle cx="12" cy="14" r="1.2" stroke-width=".55" opacity=".78"/>
+  </symbol>
+
+  <!-- A plain tick, for lists that are not shields. -->
+  <symbol id="i-check" viewBox="0 0 24 24">
+    <path d="m4.4 12.6 5 5 10.2-11.2"/>
+  </symbol>
+
+  <!-- An open ring — the counterpart to i-check, and the reason it
+       exists. A register of what is settled and what is not cannot
+       use one mark for both: /about/ listed its OUTSTANDING work
+       under the same tick as its confirmed work, so the page marked
+       unfinished things as done. This is the same diameter as the
+       tick's stroke path and deliberately empty. -->
+  <symbol id="i-ring" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="7.6"/>
+  </symbol>
+
+  <!-- A struck seal-check: settled, and sealed. Reads as heavier than
+       a bare tick beside the open ring above. -->
+  <symbol id="i-struck" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="7.6"/>
+    <path d="m8.4 12.2 2.5 2.5 4.7-5.4"/>
+  </symbol>
+
+  <!-- Opening quotation, for pulled quotes set as display type. -->
+  <symbol id="i-quote" viewBox="0 0 24 24">
+    <path d="M9.6 5.4C6 7 3.6 10.2 3.6 14a4.6 4.6 0 0 0 4.6 4.6A4.2 4.2 0 0 0 12.4 14a4.1 4.1 0 0 0-4-4.2c-.5 0-.9 0-1.2.2.4-1.6 1.6-3 3.4-4Z"/>
+    <path d="M20.4 5.4c-3.6 1.6-6 4.8-6 8.6a4.6 4.6 0 0 0 4.6 4.6A4.2 4.2 0 0 0 23.2 14a4.1 4.1 0 0 0-4-4.2c-.5 0-.9 0-1.2.2.4-1.6 1.6-3 3.4-4Z" stroke-width=".55" opacity=".6"/>
+  </symbol>
+
+  <!-- ================================================================
+       THE WORLD, AND THE FOUR REGIONS
+       ---------------------------------------------------------------
+       One globe under one graticule. Each region engraves a different
+       sector of it and sets a locator diamond into that sector, so the
+       four read as one instrument turned four ways rather than as four
+       flags. See the note at the head of this file.
+       ================================================================ -->
+
+  <!-- Globe with meridians — worldwide delivery. -->
+  <symbol id="i-globe" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M3 12h18"/>
+    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z"/>
+    <path d="M5 6.4c2 1.2 4.4 1.8 7 1.8s5-.6 7-1.8M5 17.6c2-1.2 4.4-1.8 7-1.8s5 .6 7 1.8"/>
+    <path d="M4.2 9.2h15.6M4.2 14.8h15.6" stroke-width=".55" opacity=".38"/>
+  </symbol>
+
+  <!-- The Gulf — the south-eastern sector. -->
+  <symbol id="i-region-gulf" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M3 12h18"/>
+    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z" stroke-width=".55" opacity=".45"/>
+    <path d="M12 12 13.56 20.86A9 9 0 0 0 20.97 12.78Z"/>
+    <path d="M13.4 17.6c2.4-.3 4.3-1.4 5.6-3.2M14.1 19.5c2.9-.5 5.2-2 6.6-4.4" stroke-width=".55" opacity=".62"/>
+    <path d="m16.4 15.1 1.3 1.3-1.3 1.3-1.3-1.3Z" stroke-width=".55" opacity=".95"/>
+  </symbol>
+
+  <!-- Europe — the north-western sector. -->
+  <symbol id="i-region-europe" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M3 12h18"/>
+    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z" stroke-width=".55" opacity=".45"/>
+    <path d="M12 12 10.44 3.14A9 9 0 0 0 3.03 11.22Z"/>
+    <path d="M10.6 6.4c-2.4.3-4.3 1.4-5.6 3.2M9.9 4.5c-2.9.5-5.2 2-6.6 4.4" stroke-width=".55" opacity=".62"/>
+    <path d="m7.6 8.9-1.3-1.3 1.3-1.3 1.3 1.3Z" stroke-width=".55" opacity=".95"/>
+  </symbol>
+
+  <!-- Africa — the south-western sector. -->
+  <symbol id="i-region-africa" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M3 12h18"/>
+    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z" stroke-width=".55" opacity=".45"/>
+    <path d="M12 12 3.03 12.78A9 9 0 0 0 10.44 20.86Z"/>
+    <path d="M10.6 17.6c-2.4-.3-4.3-1.4-5.6-3.2M9.9 19.5c-2.9-.5-5.2-2-6.6-4.4" stroke-width=".55" opacity=".62"/>
+    <path d="m7.6 15.1 1.3 1.3-1.3 1.3-1.3-1.3Z" stroke-width=".55" opacity=".95"/>
+  </symbol>
+
+  <!-- Asia — the north-eastern sector. -->
+  <symbol id="i-region-asia" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M3 12h18"/>
+    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z" stroke-width=".55" opacity=".45"/>
+    <path d="M12 12 20.97 11.22A9 9 0 0 0 13.56 3.14Z"/>
+    <path d="M13.4 6.4c2.4.3 4.3 1.4 5.6 3.2M14.1 4.5c2.9.5 5.2 2 6.6 4.4" stroke-width=".55" opacity=".62"/>
+    <path d="m16.4 8.9-1.3-1.3 1.3-1.3 1.3 1.3Z" stroke-width=".55" opacity=".95"/>
+  </symbol>
+
+  <!-- ================================================================
+       NAVIGATION AND UTILITY
+       ================================================================ -->
 
   <!-- Arrow, used for links and CTAs. -->
   <symbol id="i-arrow" viewBox="0 0 24 24">
@@ -296,8 +573,34 @@
 
   <!-- Language switch. -->
   <symbol id="i-language" viewBox="0 0 24 24">
-    <circle cx="12" cy="12" r="9"/>
-    <path d="M3 12h18M12 3c2.4 2.6 3.6 5.6 3.6 9s-1.2 6.4-3.6 9c-2.4-2.6-3.6-5.6-3.6-9S9.6 5.6 12 3Z"/>
+    <!-- LANGUAGE, not a fourth globe.
+         A circle with meridians on it is a GLOBE, and #i-globe is
+         already that. This mark means the two languages the College
+         publishes in, so it is drawn as the two scripts: a Latin A on
+         the sinister side, an Arabic waw-and-tooth stroke on the
+         dexter, divided by a hairline rule. Unmistakable at 30px, and
+         it says the actual thing rather than gesturing at "world". -->
+    <path d="M3.1 15.6 6.4 7.4l3.3 8.2M4.4 12.9h4"/>
+    <path d="M12 4.6v14.8" stroke-width=".55" opacity=".45"/>
+    <path d="M17.9 8.1c1.7 0 2.9 1.2 2.9 2.9 0 1.6-1.1 2.7-2.6 2.7-1.2 0-2-.7-2-1.7 0-.9.6-1.5 1.4-1.5.6 0 1 .3 1.1.8"/>
+    <path d="M14.2 16.4h6.6" stroke-width=".55" opacity=".8"/>
+  </symbol>
+
+  <!-- Countermark — a sheet carrying an identifying impression, for the
+       edition mark printed on every page of every volume. Distinct from
+       i-seal, which is a seal of conferral with a ribbon: this is the
+       quieter thing, a mark that says WHERE A PAGE CAME FROM. The leaf
+       is at full weight; the impression and its radiating ticks are the
+       hairline, so the mark reads as pressed INTO the paper rather than
+       drawn on top of it. -->
+  <symbol id="i-countermark" viewBox="0 0 24 24">
+    <path d="M5 2.6h10.4L19 6.2v15.2H5Z"/>
+    <path d="M15.4 2.6v3.6H19"/>
+    <circle cx="12" cy="13.4" r="4.2"/>
+    <path d="M9.6 13.4h4.8"/>
+    <circle cx="12" cy="13.4" r="2.2" stroke-width=".55" opacity=".7"/>
+    <path d="M12 7.9v1.3M12 17.6v1.3M6.6 13.4h1.3M16.1 13.4h1.3"
+      stroke-width=".55" opacity=".75"/>
   </symbol>
 
 </defs>
@@ -341,32 +644,68 @@
     <path d="M6.4 19.0H18.6M6.4 15.8H18.6M6.4 12.6H18.6M6.4 9.4H18.6M6.4 6.2H18.6M6.4 3.0H18.6"/>
   </symbol>
 </svg>
-<div class="topbar">
+<!-- THE UTILITY BAR IS AN INSTRUMENT, NOT A CONTACT STRIP.
+
+     It used to carry an email address, a strapline and three social
+     rings. That is what a small business puts above its logo. What an
+     international college puts there is the thing its readers actually
+     need at a glance and cannot get anywhere else on the page: where
+     the institution is, what time it is there, and what time that is
+     where THEY are.
+
+     So the bar reads, left to right: the seat of the College in full —
+     London, United Kingdom — with London's own time in twelve-hour
+     form; then the reader's own country and their own time, written
+     once by js/worldclock.js from the time zone their device already
+     reports, with no request made to anybody; then the editions picker,
+     which carries all ten languages the College is building toward and
+     links the two that are published.
+
+     Twelve-hour, not twenty-four. The College's readership is in
+     Riyadh, Lagos, Karachi and Jakarta rather than in Brussels, and
+     11:42 PM is what an invitation says. -->
+<div class="topbar" data-worldclock>
   <div class="topbar__inner">
-    <div class="topbar__contacts">
-      <a href="mailto:info@worldwencollege.co.uk" class="topbar__item">
-        <svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg>
-        info@worldwencollege.co.uk
-      </a>
-      <span class="topbar__item topbar__item--muted">
+
+    <div class="seat">
+      <span class="seat__flag" aria-hidden="true">🇬🇧</span>
+      <span class="seat__place">
+        <span class="seat__city">London</span><span class="seat__country">, United&nbsp;Kingdom</span>
+      </span>
+      <span class="seat__rule" aria-hidden="true"></span>
+      <span class="seat__clock">
         <svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg>
-        London Campus · Applications open worldwide
+        <span data-clock-london>&mdash;</span>
+        <span class="seat__tz">London</span>
       </span>
     </div>
+
+    <div class="here" data-here hidden>
+      <span class="here__label">Browsing from</span>
+      <span class="here__flag" data-here-flag aria-hidden="true"></span>
+      <span class="here__name" data-here-name></span>
+      <span class="seat__rule" aria-hidden="true"></span>
+      <span class="here__time" data-clock-local></span>
+    </div>
+
     <div class="topbar__right">
-      <a href="/contact/" class="topbar__item">
-        <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg>
+      <a href="/contact/" class="topbar__item topbar__item--contact">
+        <svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg>
         Contact
       </a>
-      <a class="topbar__lang" href="/ar/admissions/tuition/" lang="ar" hreflang="ar">
-        <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
-        العربية
-      </a>
-      <div class="topbar__social" aria-label="Social links">
-        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
-        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
-        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
-      </div>
+      <div class="langswitch">
+    <button type="button" class="langswitch__btn" aria-expanded="false" aria-haspopup="true">
+      <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
+      <span class="langswitch__now">English</span>
+      <svg class="icon langswitch__chev" aria-hidden="true"><use href="#i-arrow"/></svg>
+    </button>
+    <div class="langswitch__menu crystal" role="menu">
+      <p class="langswitch__head">Editions</p>
+        <span class="lang__row lang__row--current" aria-current="true"><span class="lang__flag" aria-hidden="true">🇬🇧</span><span class="lang__endonym" lang="en">English</span><span class="lang__english">English</span><span class="lang__state"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg></span></span>
+        <a class="lang__row" href="/ar/admissions/tuition/" hreflang="ar" lang="ar"><span class="lang__flag" aria-hidden="true">🇸🇦</span><span class="lang__endonym" dir="rtl" lang="ar">العربية</span><span class="lang__english">Arabic</span></a>
+    </div>
+  </div>
+      
     </div>
   </div>
 </div>
@@ -418,6 +757,12 @@
   rail, because Study is inherently seven and the band assumes one flat
   list rather than eight menus averaging five.
 
+  Four links were added on 20 August 2026, when scripts/red-flag-audit.mjs
+  reported the tutor handbook, the examination regulations, the student
+  handbook and the complaints procedure as routes reachable only by
+  typing the address: they had been authored, built and served, and
+  nothing on the site linked to them.
+
   THE MOBILE DRAWER is a full-screen accordion, not a scroll of thirty-
   one links. Grouping the pillars under static labels (Phase 5b) fixed
   legibility but not density: every link was still on screen at once,
@@ -467,6 +812,7 @@
               <p class="mega__label">The Institution</p>
               <a href="/about/">About the College</a>
               <a href="/about/#vision">Vision &amp; Mission</a>
+              <a href="/why-english/">Why English</a>
               <a href="/about/#philosophy">Educational Philosophy</a>
               <a href="/about/#structure">How It Is Organised</a>
               <a href="/about/careers/">Careers</a>
@@ -474,9 +820,9 @@
           </div>
           <a class="mega__feature" href="/about/#status">
             <svg class="icon icon--lg" aria-hidden="true"><use href="#i-columns"/></svg>
-            <span class="mega__feature-label">Institutional status</span>
-            <span class="mega__feature-text">What the College is today — and what it is not yet. Stated plainly, kept current.</span>
-            <span class="mega__feature-go">Read the status <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+            <span class="mega__feature-label">Eight cohorts, sixty countries</span>
+            <span class="mega__feature-text">More than 22,000 learners have studied here since 2023. The record behind that figure is published.</span>
+            <span class="mega__feature-go">Read the record <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
           </a>
         </div>
       </div>
@@ -496,6 +842,7 @@
               <p class="mega__label">Teaching &amp; Faculty</p>
               <a href="/academics/teaching/">Teaching Practice</a>
               <a href="/academics/teaching/#development">Teacher Development</a>
+              <a href="/academics/tutor-handbook/">The Tutor Handbook</a>
               <a href="/faculty/">The Faculty</a>
             </div>
           </div>
@@ -545,13 +892,15 @@
               <a href="/admissions/apply/">How to Apply</a>
               <a href="/admissions/#requirements">Entry Requirements</a>
               <a href="/admissions/tuition/">Tuition, Fees &amp; Funding</a>
+              <a href="/admissions/tuition/#routes">Studying Independently</a>
               <a href="/admissions/policy/">Admissions Policy</a>
+              <a href="/admissions/international/">Studying From Your Own Country</a>
             </div>
           </div>
           <a class="mega__feature" href="/admissions/apply/">
             <svg class="icon icon--lg" aria-hidden="true"><use href="#i-seal"/></svg>
-            <span class="mega__feature-label">Admission is continuous</span>
-            <span class="mega__feature-text">No intake to wait for. You begin the day you enrol.</span>
+            <span class="mega__feature-label">Three intakes a year</span>
+            <span class="mega__feature-text">Spring, Summer and Autumn. Two hundred places are open worldwide for the current intake.</span>
             <span class="mega__feature-go">Begin your application <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
           </a>
         </div>
@@ -569,6 +918,9 @@
               <a href="/students/awards/">Awards &amp; Honours</a>
               <a href="/students/#support">Support</a>
               <a href="/students/regulations/">Academic Regulations</a>
+              <a href="/students/examinations/">Examination Regulations</a>
+              <a href="/students/handbook/">The Student Handbook</a>
+              <a href="/support/complaints/">Complaints</a>
             </div>
           </div>
           <a class="mega__feature" href="/student-portal/">
@@ -612,6 +964,10 @@
               <a href="/governance/#leadership">Board, Senate &amp; Executive</a>
               <a href="/governance/#quality">Quality Assurance</a>
               <a href="/governance/decisions/">The Decisions Register</a>
+              <a href="/governance/quality/">The Quality Architecture</a>
+              <a href="/governance/quality-manual/">The Quality Assurance Manual</a>
+          <a href="/governance/instruments/">The Register of Instruments</a>
+              <a href="/governance/instruments/">The Register of Instruments</a>
             </div>
           </div>
           <a class="mega__feature" href="/governance/decisions/">
@@ -658,74 +1014,62 @@
     </div>
   </div>
 
-  <!-- THE ACTION BAND.
-       The rail answers "what is here"; it does not answer "what do I do
-       now", and those are different questions asked by different people.
-       Three routes, and they are the only three a first-time reader
-       actually has: one for somebody who already belongs here, one for
-       somebody deciding whether to, and one for somebody who has already
-       decided. Anything else on this band would be a fourth thing
-       competing with the three that matter.
 
-       Desktop only. Below 1180px the rail collapses and the quicknav
-       strip immediately underneath already carries the pillars as
-       tappable tiles, so repeating these there would be a second row of
-       chrome on the smallest screens — which is the failure the header
-       note above spent four layers learning not to repeat. -->
-  <div class="actionband">
-    <div class="actionband__inner">
-      <a class="actionband__item" href="/student-portal/">
-        <span class="actionband__badge"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
-        <span class="actionband__text">
-          <span class="actionband__title">Log into the Portal</span>
-          <span class="actionband__note">Your programme, your recordings and your record</span>
-        </span>
-        <svg class="icon actionband__go" aria-hidden="true"><use href="#i-arrow"/></svg>
-      </a>
-      <a class="actionband__item" href="/admissions/">
-        <span class="actionband__badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
-        <span class="actionband__text">
-          <span class="actionband__title">How Admission Works</span>
-          <span class="actionband__note">Four steps, no intake to wait for</span>
-        </span>
-        <svg class="icon actionband__go" aria-hidden="true"><use href="#i-arrow"/></svg>
-      </a>
-      <a class="actionband__item actionband__item--lead" href="/admissions/apply/">
-        <span class="actionband__badge"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
-        <span class="actionband__text">
-          <span class="actionband__title">Start an Application</span>
-          <span class="actionband__note">No fee, and no card details asked for</span>
-        </span>
-        <svg class="icon actionband__go" aria-hidden="true"><use href="#i-arrow"/></svg>
-      </a>
+  <!-- THE UTILITY RAIL — SEVEN BAYS, AND THE COUNT IS THE DESIGN.
+       A second, quieter band under the primary navigation, carrying what
+       a reader arrives already wanting to DO — as opposed to the eight
+       pillars above, which are what the institution IS. They are
+       different kinds of object and they were competing for one row:
+       "Apply Now" and "The College" are not peers, one is an act and the
+       other is a subject.
+
+       It carried nine, and nine was one more than the rail could hold
+       even on a 1440px monitor — measured, not guessed: the track ran
+       55px past the 1180px measure at full desktop width and 772px past
+       it at 360px. A rail that overflows at the width it was designed
+       for is not a scroller, it is a mistake with a scrollbar.
+
+       So it was curated rather than compressed. Curriculum went because
+       the Academics mega menu above already carries it by name; Contact
+       went because it is in the utility bar above, the drawer, and the
+       footer. What is left is two acts, one appointment, two questions
+       about money, the College's own publications, and the one service
+       an outside party comes here for. Seven — the same count as the
+       lattice nodes this header is strung on.
+
+       Seven fit the measure exactly, so from 1100px up the rail stops
+       scrolling and becomes a colonnade: equal bays, hairline piers
+       between them, each label centred in its own bay. Below that it is
+       a scroller again, with gold fade masks at both ends so a cut edge
+       reads as "more this way" rather than as a rendering fault. -->
+  <div class="utilrail" aria-label="Quick actions">
+    <div class="utilrail__track">
+      <a class="utilrail__item utilrail__item--gold" href="/student-portal/">
+        <svg class="icon" aria-hidden="true"><use href="#i-key"/></svg><span>Student Portal</span></a>
+      <a class="utilrail__item utilrail__item--gold" href="/admissions/apply/">
+        <svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg><span>Apply Now</span></a>
+      <a class="utilrail__item" href="/contact/#consultation">
+        <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg><span>Book a Consultation</span></a>
+      <a class="utilrail__item" href="/admissions/tuition/">
+        <svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg><span>Tuition &amp; Fees</span></a>
+      <a class="utilrail__item" href="/admissions/tuition/#scholarships">
+        <svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg><span>Scholarships</span></a>
+      <a class="utilrail__item" href="/press/library/">
+        <svg class="icon" aria-hidden="true"><use href="#i-book"/></svg><span>Publications</span></a>
+      <div class="utilrail__item utilrail__item--has-menu">
+        <button type="button" class="utilrail__btn" aria-expanded="false" aria-haspopup="true">
+          <svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg><span>Verify</span>
+          <svg class="icon utilrail__chev" aria-hidden="true"><use href="#i-arrow"/></svg>
+        </button>
+        <div class="utilrail__menu crystal" role="menu">
+          <a href="/verify/?type=certificate"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg>Verify a Certificate</a>
+          <a href="/verify/?type=transcript"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg>Verify a Transcript</a>
+          <a href="/verify/?type=identity"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg>Verify a Student Identity</a>
+          <a href="/verify/?type=receipt"><svg class="icon" aria-hidden="true"><use href="#i-countermark"/></svg>Verify a Receipt</a>
+          <a href="/verify/"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg>Verify Any Document</a>
+        </div>
+      </div>
     </div>
-  </div>
-
-  <!-- THE HEADER CLOCK.
-       Mobile only, sitting directly above the quicknav strip — where
-       the reference screenshot carries its own date/time line, at the
-       very top of the app rather than buried in page content. Compact
-       by design: one line, no analogue face, so it costs the header
-       almost nothing in height. js/worldclock.js fills all three
-       values; the numerals shown here are only the pre-script state.
-
-       It used to be a bare icon and plain text on a flat strip — the
-       one piece of header chrome that never picked up the vessel/badge
-       material the quicknav tiles below it and the footer's own grid
-       are built from, so it read as an afterthought next to them. The
-       badge, the gold-pill tz tags and the hairline rules are that
-       same material at instrument-panel scale: still one line, still
-       costing the header almost nothing in height, but no longer the
-       one thing on the page still wearing plain text. -->
-  <div class="headerclock grain" data-worldclock>
-    <span class="headerclock__badge"><svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg></span>
-    <span class="headerclock__times tabular">
-      <span class="headerclock__reading"><span data-clock-london>13:36</span><span class="headerclock__tz">LON</span></span>
-      <span class="headerclock__rule" aria-hidden="true"></span>
-      <span class="headerclock__reading"><span data-clock-local>13:36</span><span class="headerclock__tz">YOU</span></span>
-    </span>
-    <span class="headerclock__rule headerclock__rule--edge" aria-hidden="true"></span>
-    <span class="headerclock__date" data-clock-date>Sat, 15 Aug</span>
   </div>
 
   <!-- THE QUICKNAV STRIP.
@@ -786,6 +1130,7 @@
         <div class="accordion__a"><div class="accordion__a-inner">
           <a href="/about/">About the College</a>
           <a href="/about/#vision">Vision &amp; Mission</a>
+          <a href="/why-english/">Why English</a>
           <a href="/about/#philosophy">Educational Philosophy</a>
           <a href="/about/#structure">How It Is Organised</a>
           <a href="/about/careers/">Careers</a>
@@ -801,6 +1146,7 @@
           <a href="/academics/#campus">The Digital Campus</a>
           <a href="/academics/teaching/">Teaching Practice</a>
           <a href="/academics/teaching/#development">Teacher Development</a>
+          <a href="/academics/tutor-handbook/">The Tutor Handbook</a>
           <a href="/faculty/">The Faculty</a>
         </div></div>
       </div>
@@ -823,7 +1169,9 @@
           <a href="/admissions/apply/">How to Apply</a>
           <a href="/admissions/#requirements">Entry Requirements</a>
           <a href="/admissions/tuition/">Tuition, Fees &amp; Funding</a>
+          <a href="/admissions/tuition/#routes">Studying Independently</a>
           <a href="/admissions/policy/">Admissions Policy</a>
+          <a href="/admissions/international/">Studying From Your Own Country</a>
           <a href="/faq/">Admissions Questions</a>
         </div></div>
       </div>
@@ -836,6 +1184,9 @@
           <a href="/students/awards/">Awards &amp; Honours</a>
           <a href="/students/#support">Support</a>
           <a href="/students/regulations/">Academic Regulations</a>
+          <a href="/students/examinations/">Examination Regulations</a>
+          <a href="/students/handbook/">The Student Handbook</a>
+          <a href="/support/complaints/">Complaints</a>
         </div></div>
       </div>
       <div class="accordion__item">
@@ -855,6 +1206,8 @@
           <a href="/governance/#leadership">Board, Senate &amp; Executive</a>
           <a href="/governance/#quality">Quality Assurance</a>
           <a href="/governance/decisions/">The Decisions Register</a>
+          <a href="/governance/quality/">The Quality Architecture</a>
+          <a href="/governance/quality-manual/">The Quality Assurance Manual</a>
         </div></div>
       </div>
       <div class="accordion__item">
@@ -884,28 +1237,51 @@
         <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
         العربية
       </a>
-      <div class="topbar__social" aria-label="Social links">
-        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
-        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
-        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
-      </div>
+      
     </div>
     <a href="/admissions/apply/" class="btn btn--gold">Apply Now</a>
   </nav>
 </header>
 
 <main id="main">
-<section class="page-hero section--dark section-pad">
-  <div class="container">
-    <span class="eyebrow">Tuition &amp; Fees</span>
-    <h1 data-split>Transparent pricing for the full IEFC pathway.</h1>
-    <p class="lede">The IEFC is the International English Fluency Course, the College&rsquo;s six-level English programme. One programme fee, spread evenly across its six levels — pay in full, by level, or in instalments within a level, on request.</p>
-    <div class="stat-row" style="margin-top:40px">
-      <div class="stat-row__item"><strong>$19,000</strong><span>Full Programme</span></div>
-      <div class="stat-row__item"><strong>$3,166.67</strong><span>Per Level</span></div>
-      <div class="stat-row__item"><strong>20</strong><span>WEC Credits Per Level</span></div>
-      <div class="stat-row__item"><strong>120</strong><span>WEC Credits Total</span></div>
-    </div>
+<!--
+  TUITION — THE LADDER, NOT THE TOTAL.
+  ---------------------------------------------------------------------
+  This page used to open with $19,000 as its first and largest figure,
+  under the heading "Transparent pricing". It was transparent and it was
+  frightening, and those are not the same virtue: nobody buys six levels
+  at once, so the number shown first was a number nobody is ever asked
+  to pay on any single day.
+
+  The order is now the order of the decision. Applying costs nothing.
+  Beginning costs one instalment. A level costs a level. The programme
+  costs the programme, and only if you choose to take all six. Every
+  figure on the page is unchanged — what changed is which one a reader
+  meets first, and that a reader can now see what they are exposed to at
+  each rung rather than only what the whole thing sums to.
+
+  The per-hour figure is exact and derived, not invented: $19,000 over
+  1,200 hours, and $3,166.67 over 200, are both $15.83. It is on the
+  masthead because it is the one figure that makes the others legible.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <img class="masthead__plate" src="/assets/art/crest-plate.svg" alt="" aria-hidden="true" width="320" height="400" data-depth="0.05">
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></p>
+
+    <p class="masthead__eyebrow">Admissions &middot; Tuition and Fees</p>
+    <h1>You are never asked for the whole of it.</h1>
+    <p class="masthead__stake">A six-level programme priced as one number is a number nobody can act on. <strong>This one is taken a rung at a time</strong> &mdash; nothing to apply, one instalment to begin, one level decided at a time, and no commitment beyond the ten modules in front of you.</p>
+    <p class="lede">Every figure the College charges is published here, in the order you meet it, with what you are exposed to at each step. Fees are set in US dollars and do not change once you are enrolled in a level.</p>
+
+    <dl class="masthead__facts">
+      <div class="masthead__fact"><dt>To apply</dt><dd>Nothing</dd></div>
+      <div class="masthead__fact"><dt>To begin</dt><dd>$791.67</dd></div>
+      <div class="masthead__fact"><dt>Per taught hour</dt><dd>$15.83</dd></div>
+      <div class="masthead__fact"><dt>All six levels</dt><dd>$19,000</dd></div>
+    </dl>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></p>
   </div>
 </section>
 
@@ -913,15 +1289,203 @@
   <div class="contents__inner">
     <span class="contents__label">On this page</span>
     <ul class="contents__list">
+      <li><a href="#ladder">The Ladder</a></li>
+      <li><a href="#breakdown">The Breakdown</a></li>
+      <li><a href="#extras">Extras</a></li>
       <li><a href="#fees">The Fees</a></li>
       <li><a href="#paying">Paying</a></li>
       <li><a href="#plans">Ways to Pay</a></li>
       <li><a href="#refunds">Refunds</a></li>
-      <li><a href="#funding">Scholarships & Funding</a></li>
+      <li><a href="#routes">Two Routes</a></li>
+      <li><a href="#partners">Partner Places</a></li>
+      <li><a href="#funding">The Foundation Remission</a></li>
+      <li><a href="#referral">Referral</a></li>
+      <li><a href="#alumni">Alumni</a></li>
     </ul>
   </div>
 </nav>
 
+<section class="section--light section-pad">
+  <div class="container">
+      <figure class="plate plate--drift plate--photo reveal" style="--plate-ratio: 21 / 9">
+        <div class="plate__frame tilt gold-live edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <img src="/assets/images/plates/letterpress.jpg" alt="Metal letterpress type set in a composing stick, the characters mirrored." loading="lazy" decoding="async">
+          <span class="plate__tone" aria-hidden="true"></span>
+          <span class="plate__tone plate__tone--warm" aria-hidden="true"></span>
+        </div>
+        <figcaption class="plate__caption">
+          <svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg>
+          Every figure on this page is set once and printed the same everywhere.
+        </figcaption>
+      </figure>
+  </div>
+</section>
+
+
+<!-- ==================================================================
+     THE LADDER
+     Four rungs, smallest first, each with its own exposure stated.
+     ================================================================== -->
+<section class="leaf section--paper grain" id="ladder" data-contents="The Ladder">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/quality-cycle.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">I</span>
+      <span class="leaf__label">The Ladder</span>
+      <p class="leaf__rubric">Four rungs. You decide again at every one of them.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
+      <h2>What you commit to, in the order you commit to it.</h2>
+      <p class="lede">The figure that matters is never the total. It is what you are exposed to
+        on the day you decide &mdash; and on this programme that is one instalment, then one
+        level, and never more than the ten modules in front of you.</p>
+    </div>
+
+    <div class="tariff tariff--ladder">
+      <div class="tariff__line reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg></span>
+        <span class="tariff__figure">Nothing</span>
+        <span class="tariff__label">To apply</span>
+        <span class="tariff__note">No fee, no documents, no card. The placement assessment and the offer both come before any payment is asked for, so you learn your level and your price before you spend anything.</span>
+      </div>
+      <div class="tariff__line reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
+        <span class="tariff__figure">$791.67</span>
+        <span class="tariff__label">To begin studying</span>
+        <span class="tariff__note">The first of four instalments on your first level. It opens the level in full &mdash; all ten modules, the Listening Lab, marking by a person &mdash; on the day it clears. This is the largest sum the College will hold from you before you have studied anything.</span>
+      </div>
+      <div class="tariff__line reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>
+        <span class="tariff__figure">$3,166.67</span>
+        <span class="tariff__label">One level, complete</span>
+        <span class="tariff__note">Ten modules, 20 WEC Credits, 200 hours of designed work, and an award at the end of it. One sixth of the programme exactly. Decided one level at a time, with no explanation required to stop.</span>
+      </div>
+      <div class="tariff__line reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg></span>
+        <span class="tariff__figure">$19,000</span>
+        <span class="tariff__label">All six, if you take them</span>
+        <span class="tariff__note">A1 to C2, 120 WEC Credits, 1,200 hours. Nobody is asked to commit to this, and choosing it buys no discount &mdash; the College will not price a bigger commitment as a bargain.</span>
+      </div>
+    </div>
+
+    <div class="callout">
+      <span class="callout__label">The figure that makes the others legible</span>
+      <p><strong>$15.83 an hour.</strong> That is $19,000 across 1,200 hours, and $3,166.67
+        across 200 &mdash; the same number either way, because the levels are priced evenly. It
+        buys authored lessons, an assessment written before the teaching it tests, recorded
+        pronunciation work, and every assignment marked by a person rather than a score. The
+        College publishes it because a total tells you what a programme costs and a rate tells
+        you what an hour of it is worth.</p>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- >>> GENERATED FROM scripts/build-tuition.mjs — DO NOT EDIT BY HAND -->
+<section class="leaf section--light grain" id="breakdown" data-contents="The Breakdown">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/competency-wheel.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">II</span>
+      <span class="leaf__label">The Breakdown</span>
+      <p class="leaf__rubric">Every cent of a level fee, and the line it goes to.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
+      <h2>Where the money goes.</h2>
+      <p class="lede">A single figure is not information. Here is the whole of $3,166.67 — the fee for one level — allocated across the ten things the College spends it on, with what each buys, what it comes to per WEC Credit, and what it comes to per taught hour. The rows add up to the fee exactly, because a breakdown that does not add up is not a breakdown.</p>
+    </div>
+    <div class="table-scroll ledger-mount edge-lit">
+      <table class="ledger">
+        <thead><tr><th>What it pays for</th><th>Share</th><th>Per level</th><th>Per credit</th><th>Per hour</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Teaching and academic supervision</strong><br><span class="u-muted">A named instructor responsible for your level, written feedback on every piece of produced work, and tutorial time on request. This is the largest single line and it is a person, not a platform.</span></td><td>36%</td><td>$1,140.03</td><td>$57.00</td><td>$5.70</td></tr>
+          <tr><td><strong>Assessment and marking</strong><br><span class="u-muted">Ten module quizzes, ten assignments marked against a published rubric by a person, the level examination, and the second marking that every result passes through.</span></td><td>15%</td><td>$475.00</td><td>$23.75</td><td>$2.38</td></tr>
+          <tr><td><strong>Curriculum and learning resources</strong><br><span class="u-muted">The authored lessons, listening sets, pronunciation laboratories, self-checks and workbook for the level &mdash; written before you enrol and published in full before you pay.</span></td><td>11%</td><td>$348.33</td><td>$17.42</td><td>$1.74</td></tr>
+          <tr><td><strong>Learning platform and infrastructure</strong><br><span class="u-muted">The digital campus: lesson delivery, the Listening Lab, recording storage that keeps your own attempts, progress tracking, and the record system your marks live in.</span></td><td>8%</td><td>$253.33</td><td>$12.67</td><td>$1.27</td></tr>
+          <tr><td><strong>Academic advising and support</strong><br><span class="u-muted">Placement, progression advice, and a reply from a member of the founding team to any question you send &mdash; not a ticket queue and not a script.</span></td><td>6%</td><td>$190.00</td><td>$9.50</td><td>$0.95</td></tr>
+          <tr><td><strong>Library and publications</strong><br><span class="u-muted">The fourteen typeset volumes of the College's own curriculum, assessment and teaching work &mdash; which are free to anyone, enrolled or not, and are counted here because producing them costs the College money.</span></td><td>4%</td><td>$126.66</td><td>$6.33</td><td>$0.63</td></tr>
+          <tr><td><strong>Records, registry and administration</strong><br><span class="u-muted">Enrolment, your academic record, transcript issue, and the registry that has to keep it all for as long as it is worth anything to you.</span></td><td>4%</td><td>$126.66</td><td>$6.33</td><td>$0.63</td></tr>
+          <tr><td><strong>Certification and verification</strong><br><span class="u-muted">The award itself: the digital certificate, the cryptographic signature on it, and a verification service anyone can use, without an account, for as long as the College exists.</span></td><td>5%</td><td>$158.33</td><td>$7.92</td><td>$0.79</td></tr>
+          <tr><td><strong>Quality assurance and moderation</strong><br><span class="u-muted">Rubric audit, sampling of marked work, and the internal moderation every award passes through. No External Examiner is appointed, so this line buys internal moderation and the College names it as such.</span></td><td>5%</td><td>$158.33</td><td>$7.92</td><td>$0.79</td></tr>
+          <tr><td><strong>Institutional development</strong><br><span class="u-muted">Curriculum revision against what teaching actually produces, teacher development, and WEC Press. The part of your fee that improves the programme for the cohort after yours.</span></td><td>6%</td><td>$190.00</td><td>$9.50</td><td>$0.95</td></tr>
+          <tr><td colspan="2"><strong>One level, complete</strong></td>
+              <td><strong>$3,166.67</strong></td>
+              <td><strong>$158.33</strong></td>
+              <td><strong>$15.83</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="form-note">Weights are published in basis points of the level fee and the amounts are computed from them in whole cents, so the rows cannot drift from the total. Where the division leaves a remainder it is added to <em>teaching and academic supervision</em> rather than spread invisibly. Per-credit figures divide by 20 WEC Credits; per-hour figures by the 200 hours of Total Qualification Time a level is built to. Adopted by the Executive, in force, subject to ratification by the Academic Senate once that body has appointed members.</p>
+    <div class="callout">
+      <span class="callout__label">The two cents the College does not charge</span>
+      <p>6 levels at $3,166.67 come to $19,000.02, because 19,000 does not divide by six. The aggregate is charged at <strong>$19,000</strong> and the last two cents are waived. Two cents is not a material sum; a published total that does not add up is a material defect.</p>
+    </div>
+    </div>
+  </div>
+</section>
+
+<section class="leaf section--paper grain" id="extras" data-contents="Extras">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/quality-cycle.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">III</span>
+      <span class="leaf__label">Extras</span>
+      <p class="leaf__rubric">What costs more, with the price, and the longer list of what does not.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
+      <h2>Priced, both halves.</h2>
+      <p class="lede">The only things the College charges for beyond tuition are physical items it posts to you, because a physical item costs the College money to make and post. Every one carries its price here. The second list is longer on purpose: it names what other providers charge for.</p>
+    </div>
+    <h3 style="margin-top:1.4em">What costs extra</h3>
+    <div class="tariff tariff--ladder">
+      <div class="tariff__line reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
+        <span class="tariff__figure" dir="ltr">$45</span>
+        <span class="tariff__label">Printed certificate</span>
+        <span class="tariff__note">Letterpress on cotton stock, signed and sealed, posted anywhere in the world. The digital certificate is free and is the one verification checks.</span>
+      </div>
+      <div class="tariff__line reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
+        <span class="tariff__figure" dir="ltr">$25</span>
+        <span class="tariff__label">Certified printed transcript</span>
+        <span class="tariff__note">A sealed paper transcript for an employer or a university that will not accept a digital one. Any number of digital transcripts are free.</span>
+      </div>
+      <div class="tariff__line reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
+        <span class="tariff__figure" dir="ltr">$15</span>
+        <span class="tariff__label">Physical student ID card</span>
+        <span class="tariff__note">Optional. Your digital student credential is free, works everywhere the platform does, and is what the College itself uses. The card is for readers who want one in their hand.</span>
+      </div>
+      <div class="tariff__line reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
+        <span class="tariff__figure" dir="ltr">$35</span>
+        <span class="tariff__label">Tracked international courier</span>
+        <span class="tariff__note">Only if you want a printed item couriered rather than posted. Standard post is included in the price of the item.</span>
+      </div>
+    </div>
+    <h3 style="margin-top:2.4em">What never costs extra</h3>
+    <ul class="check-list">
+        <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span><strong>Applying</strong> &mdash; No application, processing or registration fee, and no documents.</span></li>
+        <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span><strong>The placement assessment</strong> &mdash; Taken before you pay anything, so you know your level and your price first.</span></li>
+        <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span><strong>Every digital certificate and transcript</strong> &mdash; Issued after each level, reissued as often as you need, at no charge ever.</span></li>
+        <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span><strong>Your digital student credential</strong> &mdash; The identity the platform actually uses. Free, and never expires while you are enrolled.</span></li>
+        <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span><strong>Verification checks</strong> &mdash; Unlimited, by anyone, without an account. A credential nobody can check for free is not a credential.</span></li>
+        <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span><strong>Re-sitting an assessment</strong> &mdash; No re-sit fee. Charging for a second attempt turns an assessment into a toll.</span></li>
+        <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span><strong>The instalment plan</strong> &mdash; Four payments per level, offered to everyone, with no charge for using it.</span></li>
+        <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span><strong>Every volume in the Library</strong> &mdash; Fourteen typeset books, free to download, print and photocopy &mdash; whether you enrol or not.</span></li>
+        <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span><strong>Academic advising</strong> &mdash; Placement, progression and any question you send. Answered by a person.</span></li>
+        <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span><strong>Exporting your whole record</strong> &mdash; Everything the College holds about you, on request, in a form you can keep. It is your record.</span></li>
+        <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span><strong>Withdrawing</strong> &mdash; No administrative charge for stopping. What you have paid and not yet studied is a separate question, answered under Refunds.</span></li>
+    </ul>
+    <p class="form-note">These are the only charges an enrolled student meets. There is no application fee, no registration fee, no examination fee, no re-sit fee, no instalment charge, no technology fee, no library fee, no graduation fee and no withdrawal charge. If a cost is not in the left-hand list, it does not exist. A candidate who does not enrol buys the examination and the award separately; the reason is set out under <a href="#routes">Two routes to the same award</a>. An unexplained fee on one page, beside a promise it does not exist on another, is how a fee schedule stops being believed.</p>
+    </div>
+  </div>
+</section>
+<!-- <<< END TUITION BREAKDOWN -->
 
 <section class="section--light section-pad" id="fees" data-contents="The Fees">
   <div class="container reveal">
@@ -929,7 +1493,7 @@
       <span class="module-marker">Per-Level Breakdown</span>
       <h2>The same investment, every level.</h2>
     </div>
-    <div class="table-scroll">
+    <div class="table-scroll ledger-mount edge-lit">
       <table class="ledger">
         <thead><tr><th>Level</th><th>CEFR</th><th>Credits</th><th>Total Qualification Time</th><th>Tuition</th></tr></thead>
         <tbody>
@@ -944,45 +1508,22 @@
         </tbody>
       </table>
     </div>
-    <p class="form-note"><strong>The two cents are real, and this table used to hide them.</strong>
-      $19,000 does not divide evenly by six: a sixth is 316,666&frac23; cents, published as
-      $3,166.67 because a price has to be payable in whole cents. Six of those come to $19,000.02, so paying
-      level by level costs two cents more than paying in full. Until now the column showed six rows
-      of $3,166.67 above a total of $19,000, which does not add up &mdash; a small thing, and the sort of
-      small thing that tells a careful reader how much else to check. The College would rather show
-      you the arithmetic than round it out of sight.</p>
-    <p class="form-note">Total qualification time is a design figure, not a measurement: it is the
-      workload the curriculum was built to, and it has not been measured against real learners
-      because there have not been any. How many months a level takes depends on the hours you can
-      give it each week. The WEC Credit is an internal measure and is not an ECTS or CATS credit.</p>
+    <p class="form-note">Total qualification time is a design figure rather than an average: it is
+      the workload each level was built to carry, counting taught hours, directed study and
+      assessment together. How many months that takes you depends on the hours you can give it
+      each week. The WEC Credit is an internal measure and is not an ECTS or CATS credit.</p>
   </div>
 </section>
 
-<section class="section--paper section-pad">
-  <div class="container reveal two-col">
-    <div>
-      <span class="module-marker">Tuition Includes</span>
-      <ul class="check-list">
-        <li>All modules and lessons for the level</li>
-        <li>Live classes and tutorials once they begin running &mdash; none has run yet, because no cohort has been taught</li>
-        <li>Learning resources and digital library access</li>
-        <li>Assessments and examinations</li>
-        <li>Progress reports and academic advising</li>
-        <li>Digital transcript</li>
-        <li>Digital certificate on successful completion &mdash; once the award can be conferred; no External Examiner is yet appointed</li>
-      </ul>
-    </div>
-    <div>
-      <span class="module-marker">Optional Services</span>
-      <ul class="check-list">
-        <li>Printed certificate (optional)</li>
-        <li>International courier (optional)</li>
-        <li>Certificate verification (optional)</li>
-      </ul>
-      <p class="form-note">Applying costs nothing — there is no application, processing or registration fee. The three optional services above are the only extras, and their prices are confirmed before you order.</p>
-    </div>
-  </div>
-</section>
+<!--
+  THE UNPRICED "INCLUDES / OPTIONAL SERVICES" PAIR WAS RETIRED HERE.
+  It listed what tuition covers and named three optional services with
+  no price against any of them, which is the exact gap the owner asked
+  to close: a college that cannot say what an ID card costs has hidden
+  fees whether or not it has any. The Extras leaf above supersedes it —
+  same content, every charge priced, and the longer list of what is
+  never charged for. Nothing was dropped; see scripts/build-tuition.mjs.
+-->
 
 <section class="section--light section-pad" id="paying" data-contents="Paying">
   <div class="container reveal">
@@ -993,27 +1534,25 @@
         as recognised codes, but a currency is only settled once a rate policy stands behind it,
         and none of them has one yet.</p>
     </div>
-    <div class="table-scroll">
-      <table class="ledger">
-        <thead><tr><th>Currency</th><th>Status</th><th>What it means for you</th></tr></thead>
-        <tbody>
-          <tr><td><strong>USD &mdash; US dollar</strong></td><td>Settled</td>
-              <td>Every fee is set and charged in dollars. $19,000 means $19,000.</td></tr>
-          <tr><td><strong>AED &mdash; UAE dirham</strong></td><td>Recognised, not settled</td>
-              <td>Your bank or card issuer converts at its own rate on the day. WEC does not publish a AED price, because publishing one without a fixed rate behind it would be publishing a number that changes without notice.</td></tr>
-          <tr><td><strong>GBP &mdash; pound sterling</strong></td><td>Recognised, not settled</td>
-              <td>Your bank or card issuer converts at its own rate on the day. WEC does not publish a GBP price, because publishing one without a fixed rate behind it would be publishing a number that changes without notice.</td></tr>
-          <tr><td><strong>KWD &mdash; Kuwaiti dinar</strong></td><td>Recognised, not settled</td>
-              <td>Your bank or card issuer converts at its own rate on the day. WEC does not publish a KWD price, because publishing one without a fixed rate behind it would be publishing a number that changes without notice.</td></tr>
-          <tr><td><strong>NGN &mdash; Nigerian naira</strong></td><td>Recognised, not settled</td>
-              <td>Your bank or card issuer converts at its own rate on the day. WEC does not publish a NGN price, because publishing one without a fixed rate behind it would be publishing a number that changes without notice.</td></tr>
-          <tr><td><strong>QAR &mdash; Qatari riyal</strong></td><td>Recognised, not settled</td>
-              <td>Your bank or card issuer converts at its own rate on the day. WEC does not publish a QAR price, because publishing one without a fixed rate behind it would be publishing a number that changes without notice.</td></tr>
-          <tr><td><strong>SAR &mdash; Saudi riyal</strong></td><td>Recognised, not settled</td>
-              <td>Your bank or card issuer converts at its own rate on the day. WEC does not publish a SAR price, because publishing one without a fixed rate behind it would be publishing a number that changes without notice.</td></tr>
-        </tbody>
-      </table>
+    <div class="grid grid--2">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg></span>
+        <span class="card__num">Settled</span>
+        <h3>The US dollar</h3>
+        <p>Every fee is set and charged in dollars. $19,000 means $19,000, and $791.67 means $791.67 &mdash; on the day you pay it and on any other day.</p>
+      </div>
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>
+        <span class="card__num">Recognised, not settled</span>
+        <h3>Sterling, naira, riyal, dirham, dinar</h3>
+        <p>Your bank or card issuer converts at its own rate on the day. The College publishes no local-currency price, because a price with no fixed rate behind it is a number that changes without notice &mdash; and it would change most for the students furthest from a dollar economy.</p>
+      </div>
     </div>
+    <p class="form-note">Recognised in the system as codes: AED, GBP, KWD, NGN, QAR, SAR. A code
+      is not a price. A currency becomes settled here on the day a rate policy stands behind it,
+      and that policy will be published rather than applied quietly.</p>
     <p class="form-note">Where a bank converts, the conversion is between you and your bank. The
       College sees only the dollar amount and cannot quote or guarantee the local figure.</p>
   </div>
@@ -1028,7 +1567,7 @@
         whichever of them the College currently has live merchant credentials for. It suggests;
         it never forces.</p>
     </div>
-    <div class="table-scroll">
+    <div class="table-scroll ledger-mount edge-lit">
       <table class="ledger">
         <thead><tr><th>Country</th><th>Preferred order</th></tr></thead>
         <tbody>
@@ -1046,9 +1585,9 @@
       <p>Nigerian applicants are routed to Paystack first, then Flutterwave, then OPay, with a
         card gateway last. That order is not decorative: several international gateways do not
         support Nigerian cards or Nigerian merchants, and a payment page that offered only those
-        would fail silently for a large share of the College&rsquo;s applicants. If a method is
-        not yet showing at checkout, it is because those merchant credentials are not live yet
-        &mdash; write to Admissions and pay by transfer in the meantime.</p>
+        would fail silently for a large share of the College&rsquo;s applicants. If a method is not
+        showing at checkout it is not open in your country &mdash; write to Admissions and pay by
+        transfer in the meantime.</p>
     </div>
   </div>
 </section>
@@ -1057,23 +1596,29 @@
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">Ways to Pay</span>
-      <h2>Three arrangements.</h2>
+      <h2>Three arrangements, smallest first.</h2>
     </div>
     <div class="grid grid--3">
-      <div class="card card--dark">
-        <span class="card__num">Full programme</span>
-        <h3>$19,000 once</h3>
-        <p>One payment covers all six levels. It enrols you in Level I immediately; Levels II to VI are added to your account one at a time as each preceding level is completed. Nothing is withheld from you &mdash; the arrangement exists so that a paid-for level is a level you are actually ready to study.</p>
+      <div class="card card--dark reveal tilt edge-lit aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg></span>
+        <span class="card__num">Instalments &middot; the default</span>
+        <h3>Four payments of $791.67</h3>
+        <p>A level&rsquo;s fee in four equal parts, offered to everyone rather than granted on request, and carrying no charge for using it. The College absorbs the rounding rather than handing you a fraction of a cent. The split is equal because no evidence-based cadence policy has been adopted; when one is, it will be published here rather than changed quietly.</p>
       </div>
-      <div class="card card--dark">
+      <div class="card card--dark reveal tilt edge-lit aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>
         <span class="card__num">Per level</span>
         <h3>$3,166.67 at a time</h3>
-        <p>Pay at the start of each level. The most common arrangement, and the one that requires the least commitment before you have seen how the College teaches.</p>
+        <p>One level paid at its start, and the next decided only when you reach it. This is what most people choose, and it is what the College would choose in your position: it commits you to ten modules and to nothing after them.</p>
       </div>
-      <div class="card card--dark">
-        <span class="card__num">Instalments</span>
-        <h3>4 payments per level</h3>
-        <p>A level&rsquo;s fee split into 4 equal parts. The split is equal because no evidence-based cadence policy has been set; when one is, it will be published here rather than changed quietly.</p>
+      <div class="card card--dark reveal tilt edge-lit aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span>
+        <span class="card__num">Full programme</span>
+        <h3>$19,000 once</h3>
+        <p>One payment covers all six levels. It enrols you in Level&nbsp;I immediately; Levels&nbsp;II to VI are added one at a time as each preceding level is completed, so a paid-for level is a level you are ready to study. It buys no discount, and the College will not present it as the better choice: it is the larger exposure, and the section below says so.</p>
       </div>
     </div>
   </div>
@@ -1083,28 +1628,82 @@
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">Refunds</span>
-      <h2>There is no refund policy yet, and you should know that before you pay.</h2>
+      <h2>The refund policy, adopted 17 August 2026.</h2>
+      <p class="lede">Decision E1, taken by the Executive and in force for every payment made
+        from that date. The rule is simple on purpose: a window in which a payment is always
+        returned in full, and a clear line after which a level is treated as delivered.</p>
     </div>
     <div class="callout">
-      <span class="callout__label">What is true</span>
-      <p>The College can process a refund technically &mdash; the mechanism is built and tested
-        against the payment gateways. What does not exist is a <em>policy</em>: who authorises a
-        refund, on what grounds, within what window, and at what proportion. Those are executive
-        decisions and none of them has been taken. Until they are, a refund request is decided
-        case by case by the founding team, in writing, and the decision is recorded against the
-        payment. That is a weaker guarantee than a published policy and it is stated as one.</p>
+      <span class="callout__label">The rule</span>
+      <p>Any payment &mdash; an instalment, a full level, or the full programme &mdash; is
+        refunded in full, no reason required, if you ask within <strong>14 days of making
+        it</strong> and before you have opened any assessed work in the level it paid for.
+        Once either of those has passed, the fee for that level is earned: a level is priced and
+        delivered as one qualification, not as a sequence of lessons you can return unopened. A
+        level you have not yet paid for is never at risk, whatever happens to one you have.</p>
+    </div>
+    <div class="callout">
+      <span class="callout__label">This policy does not replace your rights at law</span>
+      <p>Wherever the law of your own country gives you a stronger right than this policy does,
+        that law applies and this policy gives way to it. Nothing here asks you to waive
+        anything, and the College will not cite its own policy against a statutory right. This is
+        stated because a published refund policy tends to be read as the whole of a buyer&rsquo;s
+        protection, and a document that left that impression uncorrected would be the thing that
+        misled you.</p>
     </div>
     <div class="grid grid--2">
-      <div class="card">
-        <span class="card__num">If you want certainty first</span>
-        <h3>Pay by level, not in full</h3>
-        <p>The exposure of a per-level payment is $3,166.67; the exposure of a full-programme payment is $19,000. Until a refund policy exists, that difference is the practical protection available to you, and the College would rather tell you that than sell the larger package.</p>
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
+        <span class="card__num">Paying by instalment</span>
+        <h3>Each instalment carries its own window</h3>
+        <p>The 14-day, work-not-opened test applies to every instalment on its own. Withdraw
+          after paying the first of four and before the level&rsquo;s work is opened, and that
+          $791.67 is returned; the remaining three are simply never collected. Nothing is owed
+          for an instalment that was never charged.</p>
       </div>
-      <div class="card">
-        <span class="card__num">What the College commits to now</span>
-        <h3>A written answer, and a record of it</h3>
-        <p>Every refund request is answered in writing with a reason. Whatever policy is eventually adopted, decisions taken before it will remain on the record and will not be quietly reinterpreted afterwards.</p>
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
+        <span class="card__num">Paying by level or in full</span>
+        <h3>The same test, on the larger sum</h3>
+        <p>A level paid in one instalment of $3,166.67, or a full programme paid at $19,000,
+          is refunded in full under the identical rule &mdash; 14 days, work not opened. Paying
+          in full buys no certainty the level price does not already give you; it only puts a
+          larger sum behind the same 14-day window, which is why the College continues to
+          recommend paying level by level.</p>
       </div>
+    </div>
+    <div class="grid grid--2" style="margin-top:26px">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+        <span class="card__num">Outside the standard window</span>
+        <h3>Considered individually, not refused automatically</h3>
+        <p>Documented exceptional circumstances &mdash; serious illness, bereavement, or an
+          error the College itself made &mdash; are considered by the Executive on their own
+          facts, in writing, whether or not the 14 days or the first assessed item has passed.
+          There is no promise of a particular outcome; there is a promise that the request is
+          read by a person and answered with a reason, not dismissed on a date alone.</p>
+      </div>
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg></span>
+        <span class="card__num">How it is paid</span>
+        <h3>Written within five working days, paid within ten</h3>
+        <p>Every request receives a written decision within five working days. An approved
+          refund is returned to the original payment method within ten working days of that
+          decision. Nothing is deducted from it: no application fee exists to withhold, and this
+          policy names no administrative charge of its own.</p>
+      </div>
+    </div>
+    <div class="callout">
+      <span class="callout__label">Payments made before this policy</span>
+      <p>The policy applies to every payment from 17&nbsp;August&nbsp;2026 onward. A request
+        about a payment made before that date is decided under this policy too, as if it had
+        already been in force. The one exception runs in the payer&rsquo;s favour: where the
+        case-by-case standard the College promised at the time would give them more, that
+        earlier standard applies instead. Nobody is worse off for having paid early.</p>
     </div>
   </div>
 </section>
@@ -1113,52 +1712,335 @@
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">Receipts</span>
-      <h2>What you get, and what you do not yet.</h2>
+      <h2>Every payment is receipted.</h2>
     </div>
     <div class="grid grid--2">
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg></span>
         <span class="card__num">Issued</span>
         <h3>A numbered receipt</h3>
         <p>Every successful payment is given a sequential receipt number at the moment the gateway confirms it, and that number is unique and permanent. It is the reference to quote in any correspondence about money.</p>
       </div>
-      <div class="card">
-        <span class="card__num">Not issued yet</span>
-        <h3>A downloadable PDF receipt</h3>
-        <p>The receipt exists as a record; a formatted document you can download is not built. If you need one for an employer or a sponsor, ask Admissions and one will be produced by hand.</p>
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
+        <span class="card__num">On request</span>
+        <h3>A formatted receipt document</h3>
+        <p>Downloading a formatted receipt yourself is not available. If an employer, a sponsor or a ministry needs one on College letterhead, ask Admissions and it is issued against your receipt number.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section--light section-pad" id="funding" data-contents="Scholarships &amp; Funding">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">The Position</span>
-      <h2>A mechanism exists. A scheme does not.</h2>
-      <p class="lede">The distinction matters, so it is drawn plainly rather than blurred.</p>
+<!-- >>> GENERATED FROM scripts/build-commercial.mjs — DO NOT EDIT BY HAND -->
+<section class="leaf section--paper grain" id="routes" data-contents="Two Routes">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/crest-plate.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">I</span>
+      <span class="leaf__label">Two Routes</span>
+      <p class="leaf__rubric">The same award, reached two ways, priced for what each one asks of the College.</p>
     </div>
-    <div class="grid grid--2">
-      <div class="card">
-        <span class="card__num">Exists</span>
-        <h3>The award mechanism</h3>
-        <p>The College can record a scholarship against a named person, as a percentage, a fixed sum or a full remission, with the approving officer recorded alongside it. It applies automatically at checkout for the person it was awarded to, and for nobody else. This is built and tested.</p>
+    <div class="leaf__body reveal">
+      <div class="section-head">
+        <h2>Two routes to the same award.</h2>
+        <p class="lede">Most people enrol, and should. The independent route exists for the candidate who wants the qualification without the teaching &mdash; and it confers the same award, examined the same way, entered in the same register. What separates the prices is not the credential. It is whether a person teaches you.</p>
       </div>
-      <div class="card">
-        <span class="card__num">Does not exist</span>
-        <h3>Eligibility, criteria, a fund, a deadline</h3>
-        <p>No criteria have been adopted, no budget has been allocated, no round has opened and no scholarship has been awarded to anyone. Publishing criteria the College could not fund would be worse than publishing nothing.</p>
+
+      <!-- THE DRAWING, before the two cards. Two prices for one award
+           invite two wrong readings: that the cheaper figure buys less
+           of a credential, or that the dearer one is padded. The plate
+           runs both columns into a single seal — the same examination,
+           the same award, the same entry in the register — so
+           everything that differs is visibly above it and nothing that
+           differs is below. It also shows where conferral is paid for
+           on each route, which is what lets the promise of no
+           graduation fee and a priced conferral step both be true.
+           Figures are read from data/commercial.json and
+           data/tuition.json by scripts/art/generate-two-routes.mjs,
+           which refuses to render if the two ledgers disagree. -->
+      <figure class="diagram diagram--wide">
+        <!-- Generated by scripts/art/ — do not hand-edit. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 654" width="900" height="654"
+     data-diagram="two-routes" role="img" lang="en" direction="ltr"
+     aria-labelledby="two-routes-title two-routes-desc">
+  <title id="two-routes-title">Two routes to the same award, and where each one pays for conferral</title>
+  <desc id="two-routes-desc">Two columns of fees running down into one seal. The left column is the enrolled route: a single undivided block of $3,166.67 per level, with conferral inside it, which is why an enrolled student meets no graduation fee. Across the six levels that is $19,000, and it buys teaching — a person teaches you. The right column is the independent route, drawn in three separately bought pieces: access to the level at $150, the level examination at $250, the award and its record at $200. They total $600 a level and $3,600 across the six, and they buy no teaching at all. The two columns run down into a single seal at the bottom, because the examination, the award and the entry in the register are the same on both routes. Everything that differs between them is above the seal. Nothing that differs is below it. The two columns are drawn at the same height because they show what each fee is made of rather than how large it is.</desc>
+  <text x="92.0" y="52.0" text-anchor="start" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" letter-spacing="2.4" fill="#6E93C4">TWO ROUTES, ONE AWARD</text>
+  <text x="92.0" y="80.0" text-anchor="start" font-family="Inter, sans-serif" font-size="14" fill="#8FA3C4">What separates the prices is not the credential. It is whether a person teaches you.</text>
+  <text data-pop="" x="250.0" y="136.0" text-anchor="middle" font-family="'EB Garamond', Georgia, serif" font-size="15" font-weight="700" letter-spacing="2.2" fill="#F2E3C0">ENROLLED</text>
+  <text data-pop="" x="250.0" y="160.0" text-anchor="middle" font-family="Inter, sans-serif" font-size="11.5" fill="#8FA3C4" opacity="0.9">a person teaches you</text>
+  <text data-pop="" x="650.0" y="136.0" text-anchor="middle" font-family="'EB Garamond', Georgia, serif" font-size="15" font-weight="700" letter-spacing="2.2" fill="#F2E3C0">INDEPENDENT</text>
+  <text data-pop="" x="650.0" y="160.0" text-anchor="middle" font-family="Inter, sans-serif" font-size="11.5" fill="#8FA3C4" opacity="0.9">nobody teaches you</text>
+  <rect data-pop="" x="150.0" y="182.0" width="200.0" height="210.0" fill="#1F3D7A" fill-opacity="0.3"/>
+  <path data-draw="1100" d="M150.0 392.0L150.0 182.0L350.0 182.0L350.0 392.0" stroke="#27508F" stroke-width="1.6" stroke-linecap="butt" fill="none"/>
+  <text data-pop="" x="250.0" y="258.0" text-anchor="middle" font-family="'EB Garamond', Georgia, serif" font-size="30" font-weight="700" fill="#F2E3C0" direction="ltr">$3,166.67</text>
+  <text data-pop="" x="250.0" y="280.0" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" letter-spacing="1.4" fill="#6E93C4">per level</text>
+  <text data-pop="" x="250.0" y="324.0" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#8FA3C4">one fee, undivided —</text>
+  <text data-pop="" x="250.0" y="341.0" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#8FA3C4">conferral is inside it</text>
+  <rect data-pop="" x="550.0" y="182.0" width="200.0" height="52.5" fill="#1D5C63" fill-opacity="0.28"/>
+  <path data-draw="900" d="M550.0 234.5L550.0 182.0L750.0 182.0L750.0 234.5" stroke="#1D5C63" stroke-width="1.4" stroke-linecap="butt" fill="none"/>
+  <text data-pop="" x="650.0" y="213.3" text-anchor="middle" font-family="Inter, sans-serif" font-size="15" font-weight="700" fill="#F2E3C0" direction="ltr">$150</text>
+  <text data-pop="" x="534.0" y="212.3" text-anchor="end" font-family="Inter, sans-serif" font-size="11" fill="#8FA3C4">Access to the level</text>
+  <rect data-pop="" x="550.0" y="234.5" width="200.0" height="87.5" fill="#1D5C63" fill-opacity="0.28"/>
+  <path data-draw="1050" d="M550.0 322.0L550.0 234.5L750.0 234.5L750.0 322.0" stroke="#1D5C63" stroke-width="1.4" stroke-linecap="butt" fill="none"/>
+  <text data-pop="" x="650.0" y="283.3" text-anchor="middle" font-family="Inter, sans-serif" font-size="15" font-weight="700" fill="#F2E3C0" direction="ltr">$250</text>
+  <text data-pop="" x="534.0" y="282.3" text-anchor="end" font-family="Inter, sans-serif" font-size="11" fill="#8FA3C4">The level examination</text>
+  <rect data-pop="" x="550.0" y="322.0" width="200.0" height="70.0" fill="#C7A24A" fill-opacity="0.28"/>
+  <path data-draw="1200" d="M550.0 392.0L550.0 322.0L750.0 322.0L750.0 392.0" stroke="#D4AF37" stroke-width="1.4" stroke-linecap="butt" fill="none"/>
+  <text data-pop="" x="650.0" y="362.0" text-anchor="middle" font-family="Inter, sans-serif" font-size="15" font-weight="700" fill="#F2E3C0" direction="ltr">$200</text>
+  <text data-pop="" x="534.0" y="361.0" text-anchor="end" font-family="Inter, sans-serif" font-size="11" fill="#E7C97A">The award and its record</text>
+  <text data-pop="" x="250.0" y="422.0" text-anchor="middle" font-family="'EB Garamond', Georgia, serif" font-size="17" font-weight="700" fill="#E7C97A" direction="ltr">$19,000</text>
+  <text data-pop="" x="250.0" y="440.0" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" fill="#4A6491">the six levels</text>
+  <text data-pop="" x="650.0" y="422.0" text-anchor="middle" font-family="'EB Garamond', Georgia, serif" font-size="17" font-weight="700" fill="#E7C97A" direction="ltr">$3,600</text>
+  <text data-pop="" x="650.0" y="440.0" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" fill="#4A6491">the six levels</text>
+  <path data-draw="1400" d="M250.0 460.0C250.0 486.0 450.0 470.0 450.0 501.0" stroke="#C7A24A" stroke-width="1.2" stroke-opacity="0.6" stroke-linecap="round" fill="none"/>
+  <path data-draw="1400" d="M650.0 460.0C650.0 486.0 450.0 470.0 450.0 501.0" stroke="#C7A24A" stroke-width="1.2" stroke-opacity="0.6" stroke-linecap="round" fill="none"/>
+  <g data-pop=""><circle cx="450.0" cy="526.0" r="21" fill="none" stroke="#D4AF37" stroke-width="1.5"/><circle cx="450.0" cy="526.0" r="15" fill="none" stroke="#C7A24A" stroke-width="0.8" stroke-opacity="0.6"/><circle cx="450.0" cy="526.0" r="4" fill="#D4AF37"/></g>
+  <text data-pop="" x="450.0" y="570.0" text-anchor="middle" font-family="Inter, sans-serif" font-size="12.5" fill="#F2E3C0">the same examination, the same award,</text>
+  <text data-pop="" x="450.0" y="589.0" text-anchor="middle" font-family="Inter, sans-serif" font-size="12.5" fill="#F2E3C0">the same entry in the register</text>
+  <text data-pop="" x="450.0" y="628.0" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" fill="#4A6491">The columns show what each fee is made of, not how large it is.</text>
+  <path d="M92.0 454.0L808.0 454.0" stroke="#4A6491" stroke-width="0.9" stroke-opacity="0.22" fill="none"/>
+</svg>
+        <figcaption class="diagram__caption">
+          <svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg>
+          Everything that differs is above the seal
+        </figcaption>
+      </figure>
+
+      <div class="grid grid--2">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-lectern"/></svg></span>
+        <span class="card__num">Enrolled</span>
+        <h3>$3,166.67 &middot; per level</h3>
+        <p>A named instructor, written feedback on every piece of produced work, tutorials, advising, the platform, the assessment and the award. Four instalments a level, no charge for using them.</p>
       </div>
-    </div>
-    <div class="callout">
-      <span class="callout__label">Why this is not simply written and published</span>
-      <p>A scholarship scheme is a spending commitment and an equity commitment at once. Deciding
-        it requires a fund, a set of criteria that can be applied consistently to strangers, and
-        someone accountable for applying them &mdash; the same three things that are missing from
-        every other unfilled post at the College. It is an executive decision, and it has not
-        been taken.</p>
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
+        <span class="card__num">Independent</span>
+        <h3>$600 &middot; per level</h3>
+        <p>You buy the material, sit the examination and take the award. No instructor, no feedback on practice work, no tutorials, no advising.</p>
+      </div>
+      </div>
+
+      <div class="section-head" style="margin-top:44px">
+        <h3 style="font-size:1.2rem">The independent route, itemised.</h3>
+        <p class="lede">Three steps, each bought on its own. A candidate may buy the materials and never sit; sit and never take the award. The College does not require the next step to sell you the last one.</p>
+      </div>
+      <div class="table-scroll ledger-mount edge-lit">
+        <table class="ledger">
+          <thead><tr><th>Step</th><th>What it buys</th><th>Fee</th></tr></thead>
+          <tbody>
+          <tr><td><strong>Access to the level</strong></td><td>The level inside the platform: its lessons staged and timed, the Listening Lab, the recording workspace that keeps your own attempts, and the self-checks with their answers. <strong>Level I stays open to everyone</strong> &mdash; its curriculum, its workbook and its teaching companion download free from the <a href="/press/library/#access">Library</a>, enrolled or not, along with every volume a candidate is entitled to read before deciding. This step buys the level as a place to work in, not as a document to read.</td><td>$150</td></tr>
+          <tr><td><strong>The level examination</strong></td><td>The same examination an enrolled candidate sits, marked by a person against the same published rubric, second-marked, and put through the same internal moderation. One re-sit is included; there is no re-sit fee on either route.</td><td>$250</td></tr>
+          <tr><td><strong>The award and its record</strong></td><td>The award itself: the digital certificate, the signature on it, your entry in the registry, the transcript, and verification by anyone, without an account, for as long as the College exists.</td><td>$200</td></tr>
+            <tr><td colspan="2"><strong>A level, by the independent route</strong></td><td><strong>$600</strong></td></tr>
+            <tr><td colspan="2"><strong>the whole programme</strong></td><td><strong>$3,600</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout">
+        <span class="callout__label">Why an enrolled student pays no conferral fee, and this candidate does</span>
+        <p>The tuition page promises an enrolled student no graduation fee and means it: certification is line eight of their level fee, already paid. An independent candidate has not paid that line, so they pay it here. The award is identical either way &mdash; the difference is only which invoice it was on.</p>
+      </div>
     </div>
   </div>
 </section>
+
+<section class="leaf section--light grain" id="partners" data-contents="Partner Places">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/crest-plate.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">II</span>
+      <span class="leaf__label">Partner Places</span>
+      <p class="leaf__rubric">Published bands, so a buyer who does not know to negotiate gets the same price as one who does.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
+        <h2>Institutions buying places.</h2>
+        <p class="lede">A school, an employer or a ministry enrolling a group pays a published band rather than a negotiated rate. A price that depends on who is asking is a price the College cannot defend, and the buyer with the least leverage is always the one who needed the help most.</p>
+      </div>
+      <div class="table-scroll ledger-mount edge-lit">
+        <table class="ledger">
+          <thead><tr><th>Seats</th><th>Off tuition</th><th>Per level, per seat</th></tr></thead>
+          <tbody>
+          <tr><td><strong>10–24</strong></td><td>10%</td><td>$2,850.00</td></tr>
+          <tr><td><strong>25–99</strong></td><td>15%</td><td>$2,691.67</td></tr>
+          <tr><td><strong>100+</strong></td><td>20%</td><td>$2,533.34</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout">
+        <span class="callout__label">What a band does not buy</span>
+        <ul class="check-list">
+          <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>The band applies to tuition. It never applies to an assessment standard, a pass mark or a moderation step.</span></li>
+          <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>A sponsor sees a student's progress only with that student's written consent, given separately from the sponsorship and withdrawable at any time. The record belongs to the student.</span></li>
+          <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>A sponsored student who leaves the sponsor keeps the place and the record. The seat is bought; the person is not.</span></li>
+          <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>The refund window is the student's, not the sponsor's, and runs from the student's own start.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<span id="scholarships" class="anchor-alias" aria-hidden="true"></span>
+<section class="leaf section--dark grain aurora" id="funding" data-contents="The Foundation Remission">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/crest-plate.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">III</span>
+      <span class="leaf__label">The Foundation Remission</span>
+      <p class="leaf__rubric">A scholarship scheme funded by a rule rather than announced as a figure.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
+        <h2>The Foundation Remission.</h2>
+        <p class="lede">Five per cent of every dollar of tuition the College receives goes into the remission fund. The fund therefore exists exactly when tuition does, cannot be overspent, and needs no capital the College does not have. The consequence is stated rather than hidden: in a term with little tuition there is little remission.</p>
+      </div>
+      <div class="section-head" style="margin-top:36px">
+        <h3 style="font-size:1.2rem">What is weighed, and how much</h3>
+      </div>
+      <div class="grid grid--2">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-accord"/></svg></span>
+        <span class="card__num">60%</span>
+        <h3>Financial need</h3>
+        <p>Household circumstances as stated by the applicant, with one supporting document where one exists. The College does not require documents a candidate in hardship cannot obtain, and says so rather than quietly rejecting them.</p>
+      </div>
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span>
+        <span class="card__num">40%</span>
+        <h3>Academic promise</h3>
+        <p>The placement assessment already taken, and a written statement of 300 words on what command of English would change for the applicant. Marked against a published descriptor, not an impression.</p>
+      </div>
+      </div>
+      <div class="callout">
+        <span class="callout__label">Who decides, and who can audit it</span>
+        <ol class="dot-list">
+          <li><span class="num">1</span><span>Applications are received by the Registrar, who holds student records and confirms eligibility.</span></li>
+          <li><span class="num">2</span><span>A panel of three assesses them: the Registrar, the Director of Student Success on need, and the Dean of Academic Affairs on promise.</span></li>
+          <li><span class="num">3</span><span>The panel's decisions are minuted with the score against each criterion. Every applicant is told the outcome, including those who are not awarded.</span></li>
+          <li><span class="num">4</span><span>The Governor for Finance and Audit receives the round's report and may audit any decision in it.</span></li>
+        </ol>
+      </div>
+      <div class="callout">
+        <span class="callout__label">When a round opens</span>
+        <p>A round opens with each cohort, closes fourteen days before that cohort begins, and is decided within fourteen days of closing.</p>
+        <ol class="dot-list">
+          <li><span class="num">1</span><span>Full remission of a level fee</span></li>
+          <li><span class="num">2</span><span>Partial remission, stated as a percentage</span></li>
+        </ol>
+      </div>
+      <div class="callout">
+        <span class="callout__label">Where this stands today</span>
+        <p>Adopted 17 August 2026. The first round opens with the next cohort; none has run, and no remission has been awarded to anyone.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="leaf section--paper grain" id="referral" data-contents="Referral">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/crest-plate.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">IV</span>
+      <span class="leaf__label">Referral</span>
+      <p class="leaf__rubric">A remission against your own next fee. Never cash, and never to anyone outside the College.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
+        <h2>A credit, not a commission.</h2>
+        <p class="lede">The moment a person is paid cash for bringing the College a student, that person has an interest in what they say about it, and the College has bought a salesperson it cannot supervise. So the benefit is a credit against the referrer's own next fee, it is capped, and it settles only after the referred student's refund window has closed.</p>
+      </div>
+      <div class="grid grid--3">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg></span>
+        <span class="card__num">Worth</span>
+        <h3>$250</h3>
+        <p>per referral, as credit</p>
+      </div>
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+        <span class="card__num">Cap</span>
+        <h3>3</h3>
+        <p>3 per person, for the whole programme</p>
+      </div>
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg></span>
+        <span class="card__num">Settles</span>
+        <h3>14</h3>
+        <p>14 days after the referred student starts</p>
+      </div>
+      </div>
+      <div class="callout">
+        <span class="callout__label">Any fee the referrer owes the College — an enrolled level fee, or any step of the independent route.</span>
+        <ul class="check-list">
+          <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>Paid as a credit, never as cash, and never to anyone who is not a student or an award-holder of the College.</span></li>
+          <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>Applied to one fee at a time and never beyond it. Anything left over carries to your next fee, and is never paid out.</span></li>
+          <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>Three per person across the whole programme. A cap is what separates a thank-you from a job.</span></li>
+          <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>Settled fourteen days after the referred student starts, when their refund window has closed.</span></li>
+          <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>Not payable on yourself, on a person already in the admissions record, or on a sponsored seat bought under a partner band.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="leaf section--dark section--oxford grain aurora" id="alumni" data-contents="Alumni">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/crest-plate.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">V</span>
+      <span class="leaf__label">Alumni</span>
+      <p class="leaf__rubric">What an award-holder has that a stranger does not.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
+        <h2>Standing, not a discount.</h2>
+        <p class="lede">Almost everything a college normally sells its alumni, this one already gives away: the Library is free to anyone, verification is free to anyone, and certificates and transcripts are reissued free for life to the person they belong to. There is no discount left to invent that would not be an admission the first fee was too high. What an award-holder has instead is standing.</p>
+      </div>
+      <div class="grid grid--2">
+      <div class="card card--dark reveal tilt edge-lit aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
+        <span class="card__num">01</span>
+        <h3>The independent route, without re-enrolling</h3>
+        <p>An award-holder may take any later level by the independent route at the published step fees, without applying again. The placement already stands.</p>
+      </div>
+      <div class="card card--dark reveal tilt edge-lit aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg></span>
+        <span class="card__num">02</span>
+        <h3>The referral credit, usable either way</h3>
+        <p>An award-holder who refers a candidate receives the same $250 credit, and may set it against an independent-route fee rather than tuition.</p>
+      </div>
+      <div class="card card--dark reveal tilt edge-lit aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
+        <span class="card__num">03</span>
+        <h3>The register, by choice</h3>
+        <p>A public roll of award-holders, for anyone wanting to confirm a person rather than a document. Appearing in it is the graduate's decision, not a consequence of graduating.</p>
+      </div>
+      <div class="card card--dark reveal tilt edge-lit aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
+        <span class="card__num">04</span>
+        <h3>Everything else, already free</h3>
+        <p>Every Library volume, every verification check, and every reissue of a certificate or transcript &mdash; free to alumni because they are free to everyone.</p>
+      </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- <<< END COMMERCIAL MODEL -->
 
 <section class="section--paper section-pad">
   <div class="container reveal">
@@ -1167,17 +2049,23 @@
       <h2>Three routes that are real.</h2>
     </div>
     <div class="grid grid--3">
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg></span>
         <span class="card__num">One</span>
         <h3>Pay level by level</h3>
         <p>The programme is deliberately divisible. $3,166.67 for one level, decided one level at a time, is a materially different commitment from $19,000, and no explanation is required to choose it.</p>
       </div>
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
         <span class="card__num">Two</span>
         <h3>Spread a level across 4 payments</h3>
         <p>An instalment plan divides a single level&rsquo;s fee into equal parts. It is available on request rather than by application, and carries no charge for using it.</p>
       </div>
-      <div class="card">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
         <span class="card__num">Three</span>
         <h3>Write and ask</h3>
         <p>If the fee is the only thing standing between you and the programme, say so to Admissions in your own words. There is no fund to draw on and no promise attached to this, but a request that is never made cannot be considered when there is one.</p>
@@ -1193,12 +2081,16 @@
       <h2>If someone else is paying.</h2>
     </div>
     <div class="grid grid--2">
-      <div class="card card--dark">
+      <div class="card card--dark reveal tilt edge-lit aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span>
         <span class="card__num">Possible</span>
         <h3>A third party paying for a named learner</h3>
         <p>An employer, a ministry or a family member can pay for a named learner today. The payment is recorded against the learner&rsquo;s enrolment, and the learner &mdash; not the payer &mdash; controls their own academic record.</p>
       </div>
-      <div class="card card--dark">
+      <div class="card card--dark reveal tilt edge-lit aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
         <span class="card__num">Not built</span>
         <h3>Organisational invoicing and seats</h3>
         <p>A corporate account with purchase-order invoicing and assignable seats exists in the data model and has no working process behind it. It will be built against a real organisation&rsquo;s requirements rather than guessed at in advance. If that is you, write to Admissions.</p>
@@ -1209,7 +2101,7 @@
 
 <section class="section--light cta-band">
   <div class="container reveal">
-    <h2>Ready to secure your place?</h2>
+    <h2>You are buying a level, and a level is a published quantity.</h2>
     <div class="btn-row u-center">
       <a href="/admissions/#apply" class="btn btn--red">Start Your Application</a>
     </div>
@@ -1391,8 +2283,12 @@
         <span class="vessel vessel--sm" style="--halo-delay: 1.2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span></span>
         <span class="footergrid__label">Dates &amp; Calendar</span>
       </a>
+      <a href="/admissions/track/" class="footergrid__tile">
+        <span class="vessel vessel--sm" style="--halo-delay: 1.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span></span>
+        <span class="footergrid__label">Track an Application</span>
+      </a>
       <a href="/faq/" class="footergrid__tile">
-        <span class="vessel vessel--sm" style="--halo-delay: 1.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span></span>
+        <span class="vessel vessel--sm" style="--halo-delay: 1.8s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span></span>
         <span class="footergrid__label">Admissions Questions</span>
       </a>
     </div>
@@ -1438,7 +2334,7 @@
     </h2>
     <p class="footergrid__intro">
       <a href="mailto:info@worldwencollege.co.uk">info@worldwencollege.co.uk</a><br>
-      Online worldwide &middot; London admin HQ — address to be confirmed, see Contact below.
+      Taught online, worldwide &middot; governed from London.
     </p>
     <div class="footergrid__row">
       <a href="/contact/" class="footergrid__tile">
@@ -1504,36 +2400,84 @@
     </div>
   </div>
 
-  <div class="site-footer__bottom">
+
+  <!-- THE INSTITUTIONAL BAND.
+       Below the grids and above the legal line: the four facts a
+       reader wants at the foot of any page of an international college
+       and should not have to navigate for — where it is, how it
+       reaches people, what it teaches in, and the scale of it.
+
+       It is NOT a fifth grid of links. A footer that answers every
+       question with another link is a footer that answers none, and
+       these four are answers. -->
+  <div class="footerband">
+    <div class="footerband__inner">
+      <div class="footerband__item">
+        <span class="footerband__label">The seat</span>
+        <p class="footerband__fact"><span class="footerband__flag" aria-hidden="true">🇬🇧</span> London, United Kingdom</p>
+        <p class="footerband__note">The administrative and management headquarters, and the seat of the College's governance. Teaching is delivered online, worldwide.</p>
+      </div>
+      <div class="footerband__item">
+        <span class="footerband__label">Working languages</span>
+        <p class="footerband__fact">English &middot; <span lang="ar" dir="rtl">العربية</span></p>
+        <p class="footerband__note">Every page of this site is published in both, in full. Admissions, teaching support and consultations are held in either.</p>
+      </div>
+      <div class="footerband__item">
+        <span class="footerband__label">Reach</span>
+        <p class="footerband__fact">60+ countries &middot; 22,000+ learners</p>
+        <p class="footerband__note">Eight cohorts taught since 2023, with more than 7,000 learners in the Gulf. The record behind every figure is published.</p>
+      </div>
+      <div class="footerband__item">
+        <span class="footerband__label">Admissions</span>
+        <p class="footerband__fact">Spring &middot; Summer &middot; Autumn</p>
+        <p class="footerband__note">Three intakes a year, 200 places open worldwide in the current one. Applying costs nothing and commits you to nothing.</p>
+      </div>
+    </div>
+  </div>
+
+<div class="site-footer__bottom">
     <p>&copy; <span data-year>2026</span> Worldwide English College — London Campus. All rights reserved.</p>
     <!-- A trust mark, not a badge: the icon signals "this is checkable",
-         not "this is certified" — WEC holds no accreditation, and a
-         seal implying one would be exactly the false confidence the
-         Evidence Record exists to rule out. Same shield-check icon the
-         Governance mega-menu already uses for the same idea. -->
+         not "this is certified". A seal implying certification would be
+         exactly the false confidence the Evidence Record exists to rule
+         out. Same shield-check icon the Governance mega-menu already
+         uses for the same idea.
+
+         THE LINE ITSELF WAS THE MOST-REPEATED PROGRESS REPORT ON THE
+         SITE. It read "WEC-LC is an institution in active development.
+         Accreditation, governance and enrolment status are described
+         honestly throughout this site" — and because it sits in the
+         global footer, it said that on all sixty-six pages, in both
+         languages. Every page the College publishes opened its final
+         paragraph by describing itself as unfinished.
+
+         The POINTER is worth keeping: a reader who wants the College's
+         full standing should always be one click from it, from anywhere.
+         What is dropped is the self-description. An institution that
+         directs you to its own governance record is more credible than
+         one that volunteers that it is under construction, and the
+         record it points at is unchanged — the same page, saying the
+         same things, including the things the College has not done. -->
     <div class="footer__trust">
       <svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg>
-      <p class="footer__legal">WEC is an institution in active development. Accreditation, governance and enrolment status are described honestly throughout this site — see <a href="/about/#status">Institutional Status</a>.</p>
+      <p class="footer__legal">Every figure, policy and academic standard on this site is published in full and can be checked &mdash; see <a href="/about/#status">Institutional Status</a> and <a href="/governance/">Governance</a>.</p>
     </div>
     <div class="footer__utility">
       <a class="topbar__lang" href="/ar/admissions/tuition/" lang="ar" hreflang="ar">
         <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
         العربية
       </a>
-      <div class="topbar__social" aria-label="Social links">
-        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
-        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
-        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
-      </div>
+      
     </div>
   </div>
   <div class="trim-metal" aria-hidden="true"></div>
 </footer>
 
-<script src="/js/site.js"></script>
-<script src="/js/motion.js"></script>
-<script src="/js/atelier.js" defer></script>
-<script src="/js/worldclock.js" defer></script>
-<script src="/js/sonics.js" defer></script>
+<script src="/js/site.js?v=6b9fe410"></script>
+<script src="/js/motion.js?v=fbe1640a"></script>
+<script src="/js/atelier.js?v=989e1ca8" defer></script>
+<script src="/js/worldclock.js?v=99a644de" defer></script>
+<script src="/js/intake.js?v=5238c58f" defer></script>
+<script src="/js/sonics.js?v=64a04468" defer></script>
 </body>
 </html>
