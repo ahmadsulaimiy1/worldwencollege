@@ -104,13 +104,28 @@ const awaiting = (govDoc.match(/\*\*Decision:\*\*\s*☐\s*awaiting/g) || []).len
 const adoptedEarly = [...govDoc.matchAll(/^### (\w+)\s*[—-]?\s*(.+?)\s*\*\(adopted ([^)]+)\)\*/gm)]
   .map((m) => ({ ref: m[1], title: m[2].replace(/\*+/g, '').trim(), when: m[3] }));
 const ADOPTION_DATE = '14 August 2026';
+// The 25 decisions of ADOPTION_DATE are one sitting; E1/E2 and F1-F5
+// are seven more, adopted 17 August 2026 in three later commits, using
+// the same "### REF. Title" heading and the same "ADOPTED <date>
+// (Executive)" marker — just a different date. A filter hardcoded to
+// ADOPTION_DATE alone silently drops these seven from every count this
+// generator produces (totalAdopted, the manifest description, the
+// console's own "N adopted" line) the moment they exist, which is
+// exactly the kind of drift Regression Lock exists to catch: this
+// generator's page output has been refused by emitPage() throughout
+// (the hand-maintained page already carries all 37 and a third table
+// this template does not yet render), so the wrong count never
+// reached a served page — but it would have, the day this template's
+// HTML output caught up with the register, if the count itself had
+// stayed wrong.
+const ADOPTED_DATES = ['14 August 2026', '17 August 2026'];
 const adoptedNow = [...govDoc.matchAll(/^### ([A-Z]\d+[a-z]?)\.\s*(.+)$/gm)]
   .map((m) => ({ ref: m[1], title: m[2].replace(/\*+/g, '').trim() }))
   .filter((d) => {
     const i = govDoc.indexOf(`### ${d.ref}.`);
     const next = govDoc.indexOf('\n### ', i + 1);
     const body = govDoc.slice(i, next === -1 ? undefined : next);
-    return body.includes(`ADOPTED ${ADOPTION_DATE}`);
+    return ADOPTED_DATES.some((date) => body.includes(`ADOPTED ${date}`));
   });
 const totalAdopted = adoptedEarly.length + adoptedNow.length;
 if (!adoptedNow.length || !adoptedEarly.length) {
@@ -197,7 +212,7 @@ PAGES.pillar = {
   contents: true,
   title: 'Governance &mdash; Worldwide English College',
   // Under 160 characters — see the note in scripts/build-teaching.js.
-  description: 'How WEC is governed: its Board, Senate and Executive, the academic bodies and their '
+  description: 'How WEC-LC is governed: its Board, Senate and Executive, the academic bodies and their '
     + 'remits, how quality is assured, and which posts remain unfilled.',
   body: `${hero('Governance', 'Who decides what, and on what authority.',
     'The College separates academic judgement from institutional governance, from quality '
@@ -521,7 +536,7 @@ PAGES.evidence = {
   slug: 'governance-evidence', output: 'governance/evidence/index.html', file: 'governance-evidence.html',
   altHref: '/ar/governance/evidence/',
   title: 'The Evidence Record &mdash; Worldwide English College',
-  description: `WEC's register of quality-assurance evidence: ${E.total} items, what state `
+  description: `WEC-LC's register of quality-assurance evidence: ${E.total} items, what state `
     + 'each is in, and why none has been approved.',
   body: `${hero('Governance', 'The evidence record.',
     `${E.total} items an external reviewer would ask for, each recorded in one of four states. `
