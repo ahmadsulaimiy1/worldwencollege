@@ -288,7 +288,7 @@ const DEMO = {};
   sub('asub_recent', 'itm_l1_m2_assignment', 'usr_prog', '2026-08-19T09:00:00.000Z', {
     content: 'My room is small and there is one window in it. The bed is under the window and my desk is beside the door.\n\nI like it in the morning because the light comes in early, and it is quiet.',
   });
-  sub('asub_oldest', 'itm_l1_m1_assignment', 'usr_demo', '2026-08-01T09:00:00.000Z', {
+  sub('asub_oldest', 'itm_l1_m4_assignment', 'usr_demo', '2026-08-01T09:00:00.000Z', {
     content: 'My name is A. Student and I am from Kuala Lumpur. I work in a hotel and I speak Malay and some English.\n\nI am learning English because I want to talk to the guests without being afraid of it.',
   });
   // The resit, and the attempt it is a resit of.
