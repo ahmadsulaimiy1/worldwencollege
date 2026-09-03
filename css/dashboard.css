@@ -108,18 +108,29 @@ body.app { background: var(--ivory); }
 .stepper-card__head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 22px; flex-wrap: wrap; gap: 10px; }
 .stepper-card__head h2 { font-size: 1.05rem; margin: 0; }
 .stepper { display: flex; align-items: center; }
-.stepper__node { display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1; min-width: 0; }
+.stepper__node { display: flex; flex-direction: column; align-items: center; gap: 10px; flex: 1; min-width: 0; }
 .stepper__dot {
-  width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-display); font-weight: 700; font-size: .82rem; border: 2px solid var(--line); color: var(--ink-soft);
+  width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-weight: 700; font-size: .86rem; border: 2px solid var(--line); color: var(--ink-soft);
   background: var(--paper); flex-shrink: 0; z-index: 1;
+  transition: background-color .35s var(--ease-premium, ease), border-color .35s var(--ease-premium, ease),
+    box-shadow .35s var(--ease-premium, ease), transform .35s var(--ease-premium, ease);
 }
 .stepper__node.is-done .stepper__dot { background: var(--status-good); border-color: var(--status-good); color: #fff; }
-.stepper__node.is-current .stepper__dot { background: var(--gold); border-color: var(--gold); color: var(--royal-deep); box-shadow: 0 0 0 4px var(--status-progress-soft); }
-.stepper__label { font-size: .7rem; text-align: center; color: var(--ink-soft); font-weight: 600; line-height: 1.3; }
-.stepper__node.is-current .stepper__label { color: var(--ink); }
-.stepper__line { flex: 1; height: 2px; background: var(--line); margin: 0 -2px 26px; }
-.stepper__line.is-done { background: var(--status-good); }
+/* The current step carries the same travelling-light idiom as every
+   other struck surface on the site (see .aurum, CLAUDE.md §2) rather
+   than a static gold fill — a stepper is read at a glance, and the one
+   node that matters right now is the one place motion earns its keep. */
+.stepper__node.is-current .stepper__dot {
+  background: var(--gold); border-color: var(--gold-bright); color: var(--royal-deep); transform: scale(1.12);
+  box-shadow: 0 0 0 5px var(--status-progress-soft), 0 4px 14px -4px rgba(199,162,74,.55), var(--relief-metal, inset 0 1px 2px rgba(255,255,255,.58), inset 0 -2px 3px rgba(90,62,20,.42));
+}
+@media (prefers-reduced-motion: reduce) { .stepper__dot { transition: none; } }
+.stepper__label { font-size: .72rem; text-align: center; color: var(--ink-soft); font-weight: 600; line-height: 1.3; }
+.stepper__node.is-current .stepper__label { color: var(--ink); font-weight: 700; }
+.stepper__line { flex: 1; height: 2px; background: var(--line); margin: 0 -2px 28px; transition: background-color .5s var(--ease-premium, ease); }
+.stepper__line.is-done { background: linear-gradient(90deg, var(--status-good), var(--gold-bright)); }
+@media (prefers-reduced-motion: reduce) { .stepper__line { transition: none; } }
 
 .progress-meter { height: 8px; border-radius: 999px; background: var(--line); overflow: hidden; margin-top: 18px; }
 .progress-meter__fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--gold), var(--gold-bright)); }

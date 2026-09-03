@@ -12,8 +12,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/brand.css?v=15f3e776">
-<link rel="stylesheet" href="/css/dashboard.css?v=45f71e5b">
-<link rel="stylesheet" href="/css/admissions-wizard.css?v=8eb8e813">
+<link rel="stylesheet" href="/css/atelier.css?v=9eadec1f">
+<link rel="stylesheet" href="/css/dashboard.css?v=2c527a5e">
+<link rel="stylesheet" href="/css/admissions-wizard.css?v=aae2e922">
 <link rel="stylesheet" href="/css/arabic.css?v=8eca8911">
 </head>
 <body class="apply-shell">
@@ -162,7 +163,7 @@
       <div class="stepper__node" data-stepper-node><div class="stepper__dot">٩</div><div class="stepper__label">المراجعة</div></div>
     </div>
 
-    <div class="wizard-card">
+    <div class="wizard-card edge-lit edge-lit--light aurum reveal">
       <form data-wizard-form>
 
         <fieldset data-step="identity">
@@ -490,18 +491,24 @@
     </div>
   </div>
 
-  <div class="application-status" data-application-status hidden>
+  <div class="success-moment" data-application-status hidden>
+    <div class="success-moment__mark" data-success-mark aria-hidden="true"><svg class="icon"><use href="#i-check"/></svg></div>
     <span class="status-pill status-pill--progress" data-status-state>submitted</span>
     <h2>طلبك وصل.</h2>
     <p class="lede">الرقم المرجعي، إن احتجت إلى مراسلة إدارة القبول بشأنه:</p>
-    <div class="application-status__id" data-status-id dir="ltr">&mdash;</div>
-    <p data-status-only="submitted">احتفظ بالمرجع أعلاه &mdash; فهو المفتاح الوحيد لهذا الطلب، ولن تُفصح الكلية عن حالة طلبٍ لمن لا يحمله. وتراجع إدارة القبول الطلبات بترتيب وصولها، ولك أن تقرأ طلبك كلّه متى شئت في <a href="/ar/admissions/track/">تتبّع طلبك</a>: المرحلة التي هو فيها، وكل حركة جرت عليه، وما بقي منه.</p>
+    <div class="success-moment__id" data-status-id dir="ltr">&mdash;</div>
     <!-- لا تُعرض إلا إذا أبلغت الواجهة البرمجية أن التأكيد خرج فعلًا. -->
-    <p data-confirmation-sent hidden>وأُرسل تأكيد أيضًا إلى بريدك الإلكتروني.</p>
-    <p data-status-only="placement_pending" hidden>يجري ترتيب تقييم تحديد مستواك. ستتواصل إدارة القبول عبر البريد الإلكتروني لتحديد موعده.</p>
-    <p data-status-only="offer_sent" hidden>كُتب لك عرض. اقرأ شروطه وأجب عنه &mdash; قبولًا أو رفضًا &mdash; في <a href="/ar/admissions/track/">تتبّع طلبك</a>، بالمرجع أعلاه.</p>
-    <p data-status-only="accepted" hidden>عرضك مقبول. يكتمل التسجيل بعد استلام السداد &mdash; راجع بريدك للاطلاع على الفاتورة.</p>
-    <p data-status-only="enrolled" hidden>أنت مسجَّل. <a href="/ar/my-programme.html">اذهب إلى برنامجي ←</a></p>
+    <p class="success-moment__sent" data-confirmation-sent hidden>وأُرسل تأكيد أيضًا إلى بريدك الإلكتروني.</p>
+    <div class="success-moment__next">
+      <h3>الخطوة التالية</h3>
+      <ol>
+        <li data-status-only="submitted">احتفظ بالمرجع أعلاه &mdash; فهو المفتاح الوحيد لهذا الطلب، ولن تُفصح الكلية عن حالة طلبٍ لمن لا يحمله. وتراجع إدارة القبول الطلبات بترتيب وصولها، ولك أن تقرأ طلبك كلّه متى شئت في <a href="/ar/admissions/track/">تتبّع طلبك</a>: المرحلة التي هو فيها، وكل حركة جرت عليه، وما بقي منه.</li>
+        <li data-status-only="placement_pending" hidden>يجري ترتيب تقييم تحديد مستواك. ستتواصل إدارة القبول عبر البريد الإلكتروني لتحديد موعده.</li>
+        <li data-status-only="offer_sent" hidden>كُتب لك عرض. اقرأ شروطه وأجب عنه &mdash; قبولًا أو رفضًا &mdash; في <a href="/ar/admissions/track/">تتبّع طلبك</a>، بالمرجع أعلاه.</li>
+        <li data-status-only="accepted" hidden>عرضك مقبول. يكتمل التسجيل بعد استلام السداد &mdash; راجع بريدك للاطلاع على الفاتورة.</li>
+        <li data-status-only="enrolled" hidden>أنت مسجَّل. <a href="/ar/my-programme.html">اذهب إلى برنامجي ←</a></li>
+      </ol>
+    </div>
     <!-- يأخذ التتبّع الرقم مكتوبًا لا ممرَّرًا في رابط — انظر النسخة الإنجليزية. -->
     <div class="btn-row" style="margin-top:24px">
       <a href="/ar/admissions/track/" class="btn btn--gold magnetic aurum aurum--twin">تتبّع هذا الطلب</a>
@@ -519,6 +526,6 @@
      the anonymous application and falls back to mailto. Without it
      the form above is a form nothing listens to. -->
 <script src="/js/site.js?v=2899dc22" defer></script>
-<script src="/js/admissions-wizard.js?v=20565544"></script>
+<script src="/js/admissions-wizard.js?v=56cd6d1a"></script>
 </body>
 </html>

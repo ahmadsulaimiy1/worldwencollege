@@ -18,10 +18,20 @@
 .apply-shell { background: var(--ivory); min-height: 100vh; }
 .apply-head {
   background: linear-gradient(160deg, var(--royal) 0%, var(--royal-deep) 100%);
-  color: var(--ivory); padding: 2.4rem 0 2.9rem; position: relative; overflow: hidden;
+  color: var(--ivory); padding: 2.8rem 0 3.3rem; position: relative; overflow: hidden;
+}
+/* The same hairline lattice css/brand.css's .guilloche paints on every
+   masthead sitewide, at the same faint opacity — reused here rather
+   than loading the class, since .guilloche's ::before is an SVG this
+   standalone page has no other reason to fetch and its geometry
+   assumes a taller section than this compact head. Same institution,
+   same mark, sized to its own frame. */
+.apply-head::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none; opacity: .5;
+  background-image: repeating-linear-gradient(115deg, rgba(199,162,74,.06) 0 1px, transparent 1px 64px);
 }
 .apply-head::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--gold-gradient); opacity: .85; }
-.apply-head__wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 1.4rem; }
+.apply-head__wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 1.4rem; position: relative; }
 .apply-eyebrow {
   font: 600 .74rem/1 var(--font-body); letter-spacing: .17em; text-transform: uppercase;
   color: var(--gold-bright); margin: 0 0 .7rem; display: flex; align-items: center; gap: .6rem; flex-wrap: wrap;
@@ -46,14 +56,23 @@
 
 .wizard-card {
   background: var(--surface, #fff); border: 1px solid var(--line);
-  border-radius: 14px; padding: clamp(24px, 3vw, 40px);
-  box-shadow: var(--shadow-sm); max-width: 760px; margin: 0 auto;
+  border-radius: 16px; padding: clamp(28px, 3.4vw, 48px);
+  box-shadow: var(--shadow-md), var(--relief-raised, inset 0 1px 0 rgba(255,252,240,.3), inset 0 -1px 0 rgba(8,16,34,.42));
+  max-width: 760px; margin: 0 auto;
 }
 
 .wizard-progress-label {
   font-size: .74rem; letter-spacing: .1em; text-transform: uppercase;
   font-weight: 700; color: var(--ink-soft); margin: 0 0 18px;
 }
+
+/* Step transition — js/admissions-wizard.js retriggers this class on
+   .wizard-card each time showStage() runs, so moving between steps
+   reads as a considered turn of a page rather than a form field-set
+   snapping in and out of existence. */
+@keyframes wizardStepIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+.wizard-card.step-turn { animation: wizardStepIn .45s var(--ease-premium, cubic-bezier(.22,.61,.36,1)) both; }
+@media (prefers-reduced-motion: reduce) { .wizard-card.step-turn { animation: none; } }
 
 /* --- Optional sub-step disclosure (identity-document, emergency
    contact, education background — folded under their stage rather
@@ -97,26 +116,42 @@
 }
 
 /* --- Identity document upload ------------------------------------ */
-.kyc-doc-list { list-style: none; margin: 14px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.kyc-doc-list { list-style: none; margin: 14px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
 .kyc-doc-list__item {
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  background: var(--paper); border: 1px solid var(--line); border-radius: 8px;
-  padding: 10px 14px; font-size: .88rem;
+  background: var(--paper); border: 1px solid var(--line); border-radius: 10px;
+  padding: 12px 16px; font-size: .88rem; box-shadow: var(--shadow-sm);
+  transition: box-shadow .3s var(--ease-premium, ease);
 }
+.kyc-doc-list__item:hover { box-shadow: var(--shadow-md); }
 .kyc-doc-list__empty, .kyc-doc-list__loading { font-size: .85rem; color: var(--ink-soft); padding: 4px 0; }
 .kyc-doc-list__remove {
   background: none; border: 1px solid var(--line); border-radius: 6px;
   padding: 4px 10px; font-size: .78rem; cursor: pointer; color: var(--red, #7a2234);
+  transition: background-color .2s ease;
 }
 .kyc-doc-list__remove:hover { background: rgba(122,34,52,.08); }
 
-/* --- Review step ------------------------------------------------ */
+/* --- Review step ---------------------------------------------------
+   A receipt, not a database dump: the same document register the
+   review screen has always been, given the paper it deserves — one
+   bordered ledger, a gold rule under every row, the label carrying the
+   quiet weight (a small-caps eyebrow, not a bare word) so a page of
+   twenty-odd facts still reads as one considered document. */
 .review-summary {
-  display: grid; grid-template-columns: minmax(160px, 1fr) 2fr;
-  gap: 4px 20px; margin: 0 0 24px; font-size: .92rem;
+  display: grid; grid-template-columns: minmax(170px, 1fr) 2fr;
+  gap: 0; margin: 0 0 24px; font-size: .92rem;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  background: var(--paper);
 }
-.review-summary dt { color: var(--ink-soft); font-weight: 600; }
-.review-summary dd { margin: 0; color: var(--ink); }
+.review-summary dt {
+  color: var(--gold-antique, #A8863C); font-weight: 700; font-size: .74rem;
+  letter-spacing: .06em; text-transform: uppercase; align-self: center;
+}
+.review-summary dd { margin: 0; color: var(--ink); align-self: center; }
+.review-summary dt, .review-summary dd { padding: 12px 18px; border-bottom: 1px solid var(--line-soft, var(--line)); }
+.review-summary dt:nth-of-type(odd), .review-summary dd:nth-of-type(odd) { background: var(--ivory); }
+.review-summary dt:last-of-type, .review-summary dd:last-of-type { border-bottom: none; }
 .review-summary dt, .review-summary dd { padding: 8px 0; border-bottom: 1px solid var(--line); }
 
 /* --- Declaration well (adapted from css/pages.css's .declaration for

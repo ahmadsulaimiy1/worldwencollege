@@ -59,6 +59,7 @@
   var submitBtn = $('[data-wizard-submit]');
   var stepError = $('[data-wizard-step-error]');
   var wizardShell = $('[data-wizard-shell]');
+  var wizardCard = $('.wizard-card');
   var statusShell = $('[data-application-status]');
   var loadErrorShell = $('[data-wizard-load-error]');
 
@@ -223,6 +224,15 @@
     if (isLast) renderReview();
     if (stepKeys.some(function (k, i) { return k === 'identity-document' && stageOf[i] === index; })) renderKycDocs();
     updateStepper();
+    // Retrigger the CSS entrance animation on every stage change — a
+    // class added once only ever plays once, so the animation is
+    // removed and re-added on the next frame rather than left in
+    // place. See .wizard-card.step-turn in css/admissions-wizard.css.
+    if (wizardCard) {
+      wizardCard.classList.remove('step-turn');
+      void wizardCard.offsetWidth;
+      wizardCard.classList.add('step-turn');
+    }
     var firstVisible = steps.filter(function (_, i) { return stageOf[i] === index; })[0];
     if (firstVisible) firstVisible.scrollIntoView({ block: 'start', behavior: 'smooth' });
   }
@@ -441,7 +451,6 @@
     if (wizardShell) wizardShell.hidden = true;
     if (!statusShell) return;
     statusShell.hidden = false;
-    statusShell.classList.toggle('success-moment--milestone', application.status === 'submitted');
     var markEl = $('[data-success-mark]', statusShell);
     if (markEl) markEl.classList.toggle('aurum', application.status === 'submitted');
     var idEl = $('[data-status-id]', statusShell);
