@@ -73,7 +73,7 @@
             <input type="checkbox" id="isPublic" name="isPublic">
           </div>
 
-          <div class="rec-handle">
+          <div class="rec-handle field" id="handleField">
             <label class="vfy-label" for="handle">Your profile address</label>
             <div class="rec-handle__row">
               <span class="rec-handle__prefix">/graduate.html?handle=</span>
@@ -81,7 +81,7 @@
                      placeholder="your-name" aria-describedby="handleHelp handleError">
             </div>
             <p class="grad-note" id="handleHelp">Lower-case letters, numbers and hyphens. 4 to 32 characters. <a href="/graduate.html">See what a published record looks like</a>.</p>
-            <p class="vfy-error" id="handleError" role="alert"></p>
+            <p class="field__error" id="handleError" role="alert"></p>
           </div>
 
           <div class="rec-toggle">
@@ -141,11 +141,11 @@
               <label><input type="checkbox" name="sections" value="studyTime"> Measured study time</label>
             </fieldset>
             <div class="rec-sharemeta">
-              <div>
+              <div class="field">
                 <label class="vfy-label" for="shareLabel">Your note</label>
                 <input id="shareLabel" type="text" placeholder="Application to &hellip;" maxlength="80">
               </div>
-              <div>
+              <div class="field">
                 <label class="vfy-label" for="shareDays">Expires after</label>
                 <select id="shareDays">
                   <option value="7">7 days</option>
