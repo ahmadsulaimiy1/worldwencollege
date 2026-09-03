@@ -1,0 +1,108 @@
+{
+  "_": [
+    "THE RECORD OF STANDING — the one place the College's own figures live.",
+    "",
+    "Every page that states what the College has done reads from this file.",
+    "Nothing is typed twice, so nothing can drift: the Arabic edition and",
+    "the English edition cannot disagree, and a figure corrected here is",
+    "corrected on every page in both languages by re-running the build.",
+    "",
+    "WHERE THESE FIGURES COME FROM. They are the College's own enrolment",
+    "and assessment record, attested by the Principal on 18 August 2026 and",
+    "recorded in `attested` below. A college's own registry is the primary",
+    "source for its own enrolment — no external body counts students on its",
+    "behalf — and the attestation is held here so that the date and the",
+    "authority behind each figure are part of the record rather than",
+    "remembered.",
+    "",
+    "THE RULE THAT MAKES IT SAFE. A count left null is not a zero. It means",
+    "the College holds the record but has not released that figure for",
+    "publication; the build then emits the unnumbered wording in `prose`,",
+    "and tests/published-claims.test.mjs fails the build if a numeral",
+    "appears in copy this file has not supplied. A figure cannot reach the",
+    "site by being typed confidently into a paragraph.",
+    "",
+    "TO CHANGE A FIGURE: edit it here, move `attested.on` to the date it",
+    "was checked against the registry, and run `node scripts/build.js`."
+  ],
+
+  "inaugurated": "2023",
+
+  "attested": {
+    "by": "The Principal, Worldwide English College",
+    "on": "18 August 2026",
+    "source": "The College's enrolment register and assessment record"
+  },
+
+  "cohorts": {
+    "run": 8,
+    "current": 8,
+    "current_ordinal": "eighth",
+    "current_ordinal_ar": "الثامنة",
+    "intakes_per_year": 3,
+    "intakes": ["Spring", "Summer", "Autumn"],
+    "intakes_ar": ["الربيع", "الصيف", "الخريف"]
+  },
+
+  "reach": {
+    "learners": 22000,
+    "countries": 60,
+    "gulf": 7000,
+    "saudi": 3000,
+    "seats_open": 200
+  },
+
+  "counts": {
+    "enrolled": null,
+    "completed_level_1": null,
+    "completed_level_2": null,
+    "awards_conferred": null,
+    "released": null
+  },
+
+  "prose": {
+    "en": {
+      "SINCE": "since 2023",
+      "COHORTS": "eight cohorts",
+      "COHORTS_TAUGHT": "Eight cohorts have been taught since the College was inaugurated in 2023.",
+      "CURRENT": "The eighth cohort is in study now.",
+      "COMPLETED_1": "students who have completed Level&nbsp;I",
+      "COMPLETED_2": "students who have completed Level&nbsp;II",
+      "CONFERRED": "Awards have been conferred on named students at Level&nbsp;I and Level&nbsp;II.",
+      "FIGURES": "The College holds an enrolment record, assessment results and a transcript for every student it has taught.",
+      "REACH": "More than 22,000 learners in over 60 countries have studied with the College.",
+      "REACH_GULF": "More than 7,000 of them are in the Gulf, and more than 3,000 in Saudi Arabia alone.",
+      "INTAKES": "The College admits three times a year — Spring, Summer and Autumn.",
+      "SEATS": "Two hundred places are open worldwide for the current intake."
+    },
+    "ar": {
+      "SINCE": "منذ 2023",
+      "COHORTS": "ثماني دفعات",
+      "COHORTS_TAUGHT": "دُرِّست ثماني دفعات منذ تأسيس الكلية عام 2023.",
+      "CURRENT": "الدفعة الثامنة تدرس الآن.",
+      "COMPLETED_1": "طلاب أتمّوا المستوى الأول",
+      "COMPLETED_2": "طلاب أتمّوا المستوى الثاني",
+      "CONFERRED": "مُنِحت شهادات لطلاب بأسمائهم في المستوى الأول والمستوى الثاني.",
+      "FIGURES": "تحتفظ الكلية بسجل قيد ونتائج تقييم وكشف درجات لكل طالب درّسته.",
+      "REACH": "درس مع الكلية أكثر من 22,000 متعلم في أكثر من 60 دولة.",
+      "REACH_GULF": "منهم أكثر من 7,000 في دول الخليج، وأكثر من 3,000 في المملكة العربية السعودية وحدها.",
+      "INTAKES": "تقبل الكلية ثلاث مرات في العام — الربيع والصيف والخريف.",
+      "SEATS": "مئتا مقعد مفتوحة عالميًا في دفعة القبول الحالية."
+    }
+  },
+
+  "moderation": {
+    "_": [
+      "The chronology that resolves what would otherwise be a contradiction.",
+      "The College taught and conferred from 2023 under its own academic",
+      "authority. The governance instrument adopted on 14 August 2026 created",
+      "the office of Independent External Examiner and bound every award made",
+      "under it to that office's moderation. Awards conferred before that",
+      "date were moderated inside the College; the instrument binds awards",
+      "from its adoption forward. Both statements are true at once, and the",
+      "site says which is which rather than choosing one."
+    ],
+    "to_date": "internal",
+    "instrument_adopted": "14 August 2026"
+  }
+}

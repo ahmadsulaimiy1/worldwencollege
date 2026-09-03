@@ -1,0 +1,131 @@
+/* ═══════════════════════════════════════════════════════════════════
+   PAYMENT COMPLETE — the screen a gateway returns a learner to.
+
+   Loaded after css/track.css and css/account.css, and it borrows from
+   both deliberately rather than restating them: `.trk-facts--dark` for
+   the fact row, and the argument recorded in track.css about a dark
+   plate standing on a light page. This plate is that plate again — it
+   takes its ground from `.plate-dark` in css/brand.css, which paints it
+   in BOTH directions, because a locally declared ground here was
+   overridden by `[dir="rtl"] .card` once already and rendered gold-on-
+   gold on the Arabic edition.
+
+   THE PLATE IS THE PAGE. A person arrives here from their bank with one
+   question, so one object answers it: the standing in words, the figure
+   as charged, what it opened, and the reference to quote if any of that
+   is wrong. Everything else on the page is beneath the fold by design.
+   ═══════════════════════════════════════════════════════════════════ */
+
+.paycomp__plate {
+  margin-top: 1.9rem;
+  padding-block: 2.4rem;
+  text-align: center;
+  color: #F6EFE0;
+  border: 1px solid rgba(199, 162, 74, .42);
+  box-shadow: inset 0 0 80px -26px rgba(0, 0, 0, .8),
+              var(--relief-metal, 0 10px 30px -12px rgba(10, 20, 40, .5));
+}
+
+/* The seal sits ON the plate's own top edge, half in and half out, the
+   way a seal sits on a document rather than inside its margins. */
+.paycomp__seal {
+  width: 3.4rem;
+  height: 3.4rem;
+  margin: -3.1rem auto 1rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 35% 30%, #D8B770, #9A7635 62%, #6E5222);
+  border: 1px solid rgba(244, 231, 198, .34);
+  box-shadow: 0 6px 18px -8px rgba(0, 0, 0, .7), inset 0 1px 0 rgba(255, 255, 255, .34);
+}
+.paycomp__seal .icon { width: 1.7rem; height: 1.7rem; color: #2A1E08; }
+
+.paycomp__eyebrow {
+  font: 600 .74rem/1 var(--font-ui, system-ui, sans-serif);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--gold, #C6A15B);
+  margin: 0 0 .6rem;
+}
+.paycomp__headline {
+  font-family: var(--font-display, Georgia, serif);
+  font-size: clamp(1.5rem, 3.4vw, 2.05rem);
+  line-height: 1.15;
+  margin: 0 0 1.1rem;
+  color: #F6EFE0;
+  max-width: 30ch;
+  margin-inline: auto;
+}
+/* THE FIGURE AS CHARGED, and it is the largest thing on the plate
+   because it is the one a person checks against their banking app.
+   Tabular numerals throughout: a sum that shifts its digits between two
+   renders reads as a sum still being decided. */
+.paycomp__figure {
+  font-family: var(--font-display, Georgia, serif);
+  font-size: clamp(2.2rem, 5.6vw, 3.2rem);
+  font-weight: 700;
+  line-height: 1;
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+  color: #F6EFE0;
+}
+/* The ledger figure under it, never instead of it. */
+.paycomp__ledger {
+  margin: .45rem 0 0;
+  font-variant-numeric: tabular-nums;
+  color: rgba(244, 231, 198, .74);
+}
+.paycomp__what {
+  margin: 1.1rem auto 0;
+  max-width: 48ch;
+  color: rgba(244, 231, 198, .88);
+}
+.paycomp__instalment {
+  margin: .6rem auto 0;
+  max-width: 48ch;
+  font-size: .93rem;
+  color: rgba(244, 231, 198, .72);
+}
+/* A failure says why, in the plate rather than under it: "it failed"
+   and "the card issuer declined it" are different facts, and only the
+   second tells a person whether to try the same card. */
+.paycomp__reason {
+  margin: 1.4rem auto 0;
+  max-width: 54ch;
+  padding: .9rem 1.2rem;
+  border-inline-start: 3px solid var(--gold, #C6A15B);
+  background: rgba(244, 231, 198, .08);
+  border-radius: 0 8px 8px 0;
+  text-align: start;
+  color: #F6EFE0;
+}
+
+/* ── WHAT HAPPENS NEXT ───────────────────────────────────────────── */
+.paycomp__acts { margin-top: 1.6rem; }
+.paycomp__wait {
+  margin: 0 0 1.2rem;
+  padding: .95rem 1.2rem;
+  border-radius: 10px;
+  background: color-mix(in oklab, var(--paper, #FBF8F2) 86%, var(--ink, #10203A) 14%);
+  border-inline-start: 3px solid var(--gold, #C6A15B);
+  color: color-mix(in oklab, var(--ink, #10203A) 82%, transparent);
+}
+.paycomp__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .8rem;
+  align-items: center;
+  /* Centred under a centred plate. Left-aligned they sat against a
+     wide empty right-hand margin and read as two controls that had
+     drifted off the object they belong to. */
+  justify-content: center;
+}
+/* 44px, because a person on a phone in a banking app's return tab is
+   exactly the person this must not be fiddly for. */
+.paycomp__buttons .btn { min-height: 44px; display: inline-flex; align-items: center; }
+
+@media (max-width: 560px) {
+  .paycomp__buttons { flex-direction: column; align-items: stretch; }
+  .paycomp__buttons .btn { justify-content: center; width: 100%; }
+}

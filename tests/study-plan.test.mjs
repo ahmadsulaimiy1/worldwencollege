@@ -2,7 +2,7 @@
 // they should open next.
 //
 // The gap this closes was invisible from inside the code: the Listening
-// Lab opens at /listening-lab.html?unit=<id> and without that parameter
+// A module opens at /my-module.html?unit=<id> and without that parameter
 // says "No unit specified. Open this page from a module." There was no
 // module page. A signed-in learner could not reach a lesson at all.
 //
@@ -90,12 +90,12 @@ const progress = (run, unitId, status) =>
   check('...described as not started rather than in progress', p.state === 'not_started', p.state);
   check('...counted honestly', p.completedCount === 0 && p.totalCount === 3, `${p.completedCount}/${p.totalCount}`);
 
-  // The whole point: a link that actually opens the lesson. The Lab
-  // needs ?unit=<id> and there was previously nothing producing it.
-  check('The next unit carries a working Lab link',
-    p.nextUnit.href === '/listening-lab.html?unit=unt_1_1', p.nextUnit.href);
+  // The whole point: a link that actually opens the lesson. The module
+  // page needs ?unit=<id> and there was previously nothing producing it.
+  check('The next unit carries a working module link',
+    p.nextUnit.href === '/my-module.html?unit=unt_1_1', p.nextUnit.href);
   check('...and every unit does, so the list is navigable too',
-    p.units.every((u) => u.href === `/listening-lab.html?unit=${u.id}`), p.units.map((u) => u.href).join(' '));
+    p.units.every((u) => u.href === `/my-module.html?unit=${u.id}`), p.units.map((u) => u.href).join(' '));
 }
 
 // ---------------------------------------------------------------------

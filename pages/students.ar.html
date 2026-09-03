@@ -1,89 +1,462 @@
-<section class="section--dark section-pad">
-  <div class="container">
-    <span class="eyebrow">الطلاب</span>
-    <h1>الحياة الطلابية.</h1>
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <img class="masthead__plate" src="/assets/art/crest-plate.svg" alt="" aria-hidden="true" width="320" height="400" data-depth="0.05">
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></p>
+
+    <p class="masthead__eyebrow">الطلاب</p>
+    <h1>وضعك هنا لك أن تراه، ولك أن تملكه.</h1>
+    <p class="masthead__stake">في أكثر المؤسسات سجلُّك شيء تملكه المؤسسة <em>عنك</em>، ويُفرَج عنه مستوىً بعد مستوى. <strong>وهنا هو شيء تملكه أنت</strong> &mdash; كل محاولة، وكل درجة بحسب المهارة، وكل تسجيل، مرئية وهي تتراكم، ولا تُشارَك إلا حين تقرّر.</p>
     <p class="lede">ما تعنيه الدراسة هنا: كيف تُقيَّم، وما يُحفظ في سجلك، وأين تتدرب على الاستماع والنطق، ومن يجيبك حين تحتاج عونًا — وما لا تقدمه الكلية، مذكورًا بالوضوح نفسه.</p>
-    
+    <div class="btn-row" style="justify-content:center">
+      <a href="/ar/student-portal/" class="btn btn--gold magnetic aurum aurum--twin">بوابة الطالب</a>
+      <a href="/ar/students/regulations/" class="btn btn--outline magnetic">اللوائح الأكاديمية</a>
+    </div>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></p>
+  </div>
+</section>
+<section class="section--light section-pad">
+  <div class="container">
+      <figure class="plate plate--drift plate--photo reveal" style="--plate-ratio: 21 / 9">
+        <div class="plate__frame tilt gold-live edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <img src="/assets/images/plates/seminar.jpg" alt="طالبتان تتحاوران على حاسوب محمول في مكتبة، إحداهما بحجاب، وخلفهما ثالثة تقرأ." loading="lazy" decoding="async">
+          <span class="plate__tone" aria-hidden="true"></span>
+          <span class="plate__tone plate__tone--warm" aria-hidden="true"></span>
+        </div>
+        <figcaption class="plate__caption">
+          <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg>
+          الدراسة هنا مُشرَف عليها، يُصحّحها إنسان ويجيب عنها إنسان.
+        </figcaption>
+      </figure>
   </div>
 </section>
 
-<section class="section--light section-pad" id="study" data-contents="الدراسة هنا">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">الدراسة هنا</span>
-      <h2>أربعة أبواب لطالب الكلية.</h2>
+
+<!-- الورقة الأولى — يوم البداية.
+     THE ARABIC EDITION WAS FOUR LEAVES AGAINST THE ENGLISH TEN, and the
+     two it lacked most were the two a new reader needs first: what is
+     waiting on day one, and a map of the seven pages in this section.
+     A reader arriving in Arabic had neither.
+
+     It then stood at eight sections against twelve, which is the same
+     fault one round further on: leaves III to X were compressed into
+     four lede-only sections, so an Arabic reader got the CLAIM that
+     recording matters without the three reasons, the five steps, the
+     practicalities, the missing audio, or the two cards on what happens
+     when somebody falls behind. The page now mirrors the English one
+     section for section. scripts/parity-audit.mjs measures it. -->
+<section class="leaf section--light grain" id="day-one" data-contents="يوم البداية">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/competency-wheel.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١</span>
+      <span class="leaf__label">يوم البداية</span>
+      <p class="leaf__rubric">ما ينتظرك ساعة تسجّل. كله متاح فورًا، ولا شيء يُفتح في تاريخ.</p>
     </div>
-    <div class="grid grid--2">
-      <div class="card">
-        <span class="card__num">التقييم</span>
-        <h3>كيف يتم تقييمك</h3>
-        <p>أدوات التقييم ومعاييرها والحدود الدنيا للمهارات — <a href="/ar/students/assessment/">الصفحة الكاملة</a>.</p>
+    <div class="leaf__body reveal">
+      <h2>ما ينتظرك حين تسجّل.</h2>
+      <p class="lede">كل ذلك متاح فورًا. ولا شيء يُفتح في تاريخ، لأنه لا توجد تواريخ &mdash;
+        انظر <a href="/ar/admissions/#dates">المواعيد</a>.</p>
+      <div class="grid grid--4">
+        <div class="card reveal edge-lit edge-lit--light aurum">
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>
+          <span class="card__num">مستواك</span>
+          <h3>عشر وحدات</h3>
+          <p>المستوى الذي وُضعت فيه، بوحداته ودروسه وتمارينه وتقييماته مكتوبةً وجاهزة. ولا شيء يُقطَّر عليك قطرةً قطرة.</p>
+        </div>
+        <div class="card reveal edge-lit edge-lit--light aurum">
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
+          <span class="card__num">معمل الاستماع</span>
+          <h3>عمل التسجيل والنطق</h3>
+          <p>حيث تسجّل نفسك مقابل أهداف النطق، وحيث تُحفظ تسجيلاتك، فيُسمع تغيّر ستة أشهر بدل أن يُفترض.</p>
+        </div>
+        <div class="card reveal edge-lit edge-lit--light aurum">
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
+          <span class="card__num">سجلك</span>
+          <h3>درجاتك، بين يديك</h3>
+          <p>كل محاولة وكل درجة وكل ملاحظة، مرئية لك وهي تتراكم &mdash; لا مُلخَّصة في آخر المستوى.</p>
+        </div>
+        <div class="card reveal edge-lit edge-lit--light aurum">
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+          <span class="card__num">القواعد</span>
+          <h3>منشورة قبل التقييم</h3>
+          <p>المعايير والعتبات والنواتج تُنشر قبل أن تُقيَّم بها. والمعيار الذي يُكشف بعدها ليس معيارًا.</p>
+        </div>
       </div>
-      <div class="card">
-        <span class="card__num">السجل</span>
-        <h3>الشهادات والمراتب</h3>
-        <p>ما تمنحه الكلية وما لا تستطيع منحه بعد، وسجل من مُنح ماذا — <a href="/ar/students/awards/">الصفحة الكاملة</a>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- الورقة الثانية — هذا القسم -->
+<section class="leaf section--paper grain" id="guide" data-contents="دليل القسم">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/award-standard.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٢</span>
+      <span class="leaf__label">هذا القسم</span>
+      <p class="leaf__rubric">سبع صفحات، ولماذا وُجدت كل واحدة منها.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <h2>سبع صفحات، ولماذا كلٌّ منها.</h2>
+      <div class="grid grid--3">
+        <div class="card reveal edge-lit edge-lit--light aurum">
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+          <span class="card__num">التقييم</span>
+          <h3><a href="/ar/students/assessment/">كيف تُقيَّم</a></h3>
+          <p>المهارات الأربع، والكفايات الست، وما تعنيه الدرجة، والعتبة التي تُنفّذها المنصة فعلًا.</p>
+        </div>
+        <div class="card reveal edge-lit edge-lit--light aurum">
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
+          <span class="card__num">سجلك</span>
+          <h3><a href="/ar/students/academic-record/">سجلك الأكاديمي</a></h3>
+          <p>ما يُحفظ، ومن يراه، والأجزاء التي تتحكم فيها أنت لا الكلية.</p>
+        </div>
+        <div class="card reveal edge-lit edge-lit--light aurum">
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
+          <span class="card__num">معمل الاستماع</span>
+          <h3><a href="#lab">معمل الاستماع</a></h3>
+          <p>الجزء الذي يفاجئ الطلاب عادةً من المنصة، والحجّة التي وُجد من أجلها.</p>
+        </div>
+        <div class="card reveal edge-lit edge-lit--light aurum">
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></span>
+          <span class="card__num">الشهادات</span>
+          <h3><a href="/ar/students/awards/">الشهادات والتكريم</a></h3>
+          <p>اسم كل مستوى، ومعنى اللواحق، ولماذا لم يُمنح شيء منها لأحد.</p>
+        </div>
+        <div class="card reveal edge-lit edge-lit--light aurum">
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span>
+          <span class="card__num">النزاهة</span>
+          <h3><a href="/ar/students/integrity/">النزاهة الأكاديمية</a></h3>
+          <p>موقف الكلية من العمل الذي ليس عملك، وما يُحسَب منه، وكيف يُعالَج أي بلاغ.</p>
+        </div>
+        <div class="card reveal edge-lit edge-lit--light aurum">
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg></span>
+          <span class="card__num">اللوائح</span>
+          <h3><a href="/ar/students/regulations/">اللوائح الأكاديمية</a></h3>
+          <p>الانتقال وإعادة الامتحان والوضع الأكاديمي والتظلّم &mdash; كلها سارية، مرتّبة بتاريخ سريان كل واحدة.</p>
+        </div>
+        <div class="card reveal edge-lit edge-lit--light aurum">
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-accord"/></svg></span>
+          <span class="card__num">الدعم</span>
+          <h3><a href="#support">الدعم</a></h3>
+          <p>ما تفعله حين تتعثّر أو تتأخّر أو تستاء، ومن يجيب فعلًا.</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section--paper section-pad" id="lab" data-contents="معمل الاستماع">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">معمل الاستماع</span>
-      <h2>حيث يُبنى النطق والاستماع.</h2>
-      <p class="lede">مجموعات استماع بنصوص مكتوبة بالكامل، وأهداف نطق مسمّاة، وتسجيلاتك أنت
-        محفوظة كي يكون التحسن مسموعًا لا مُدّعى. التسجيل يعمل دون اتصال ويُرفع حين يعود
-        الاتصال، لأن الكلية تتوقع متعلمين في أماكن تنقطع فيها الشبكة. والتسجيلات الصوتية
-        للمجموعات لم تُنتج بعد — النصوص مؤلفة والأصوات تحتاج استوديو — ويُذكر هذا لا يُوهَم
-        خلافه.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section--light section-pad" id="support" data-contents="الدعم">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">الدعم</span>
-      <h2>من يجيب.</h2>
-      <p class="lede">سؤال أكاديمي يجيب عنه مدرّسك؛ وسؤال تقني أو إداري يجيب عنه الفريق المؤسس
-        كتابةً. والانخراط مُتابَع كي يُتواصل مع من انقطع مبكرًا، ولا يترتب عليه جزاء أبدًا.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section--paper section-pad" id="boundaries" data-contents="ما لا تقدمه الكلية">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">ما لا تقدمه الكلية</span>
-      <h2>مذكور بالوضوح نفسه.</h2>
-      <p class="lede">لا تقدم الكلية إرشادًا نفسيًا ولا خدمات رفاه ولا نصح هجرة ولا تقييم إعاقة
-        رسميًا — فذلك يحتاج مؤهلات لا تملكها، والإيحاء بغيره يخذل الناس في وقت حاجتهم. ما
-        تستطيعه هو ترتيبات عملية غير رسمية عند الطلب: مشاركة صوتية فقط، ووقت إضافي، وصيغ
-        بديلة — وهي عرض أصغر من سياسة، وتوصف بأنها الشيء الأصغر الذي هي عليه.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section--dark section-pad">
+<!-- كان هذا التنبيه خارج كل قسم، يُغلقه </div> لا يقابل شيئًا، فكان يظهر
+     بلا حاشية على خلفية الصفحة. وله الآن قسم خاص به. -->
+<section class="section--paper section-pad">
   <div class="container reveal">
     <div class="callout">
       <span class="callout__label">وضع الكلية</span>
-      <p>الكلية العالمية للغة الإنجليزية لا تحمل أي اعتماد أكاديمي، ولم تُعيّن ممتحنًا خارجيًا،
-        ولم تمنح أي شهادة لأي شخص حتى اليوم، ولم تُدرّس أي دفعة بعد، ولم تُعتمد
-        <a href="/ar/admissions/tuition/#refunds">سياسة استرداد</a>. تُذكر هذه الحقائق في كل
-        صفحة تؤثر فيها على قرارك، لا مرة واحدة في هامش.</p>
+      <p>{{S:COHORTS_TAUGHT}} {{S:CURRENT}} والكلية لا تحمل أي اعتماد أكاديمي ولم تُعيّن ممتحنًا
+        خارجيًا، فالشهادات التي منحتها معدَّلة داخليًا &mdash; راجع
+        <a href="/ar/about/#status">الوضع المؤسسي</a>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     الثالثة · الحجة
+     ================================================================== -->
+<section class="leaf section--light grain" id="lab" data-contents="معمل الاستماع">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/authority-chain.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٣</span>
+      <span class="leaf__label">الحجة</span>
+    </div>
+    <div class="leaf__body reveal">    <h2>لماذا التسجيل ليس اختياريًا.</h2>
+      <p class="lede">ثلاثة أسباب، مرتَّبة بحسب وزنها.</p>    <div class="grid grid--3">
+      <div class="card reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-target"/></svg></span>
+        <span class="card__num">الأول</span>
+        <h3>لا تسمع نفسك وأنت تتكلم</h3>
+        <p>كل متعلم حَكَمٌ رديء على نطقه في لحظته، لأن إنتاج الصوت والحكم عليه يتنازعان الانتباه نفسه. أما مسجَّلة، فالجملة ذاتها تصير قابلة للتقويم فجأة &mdash; منك أنت، قبل أن يسمعها أحد.</p>
+      </div>
+      <div class="card reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span>
+        <span class="card__num">الثاني</span>
+        <h3>التحسن غير مرئي بلا خط أساس</h3>
+        <p>التقدم في النطق بطيء ومتصل، وهذا بالضبط نوع التغير الذي لا يلحظه أحد في نفسه. وتسجيلٌ من الشهر الأول يُشغَّل بإزاء الشهر السادس يحسم المسألة في ثلاثين ثانية.</p>
+      </div>
+      <div class="card reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span>
+        <span class="card__num">الثالث</span>
+        <h3>لا يمكن تقييم التحدث بغير هذا</h3>
+        <p>البرنامج الذي يصحّح التحدث من عمل مكتوب لا يصحّح تحدثًا. التسجيل ليس تحسينًا للتقييم؛ هو التقييم.</p>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     الرابعة · كيف يعمل
+     ================================================================== -->
+<section class="leaf section--paper grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/quality-cycle.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٤</span>
+      <span class="leaf__label">كيف يعمل</span>
+    </div>
+    <div class="leaf__body reveal">    <h2>ما تفعله فعلًا.</h2>    <ol class="dot-list">
+      <li><span class="num">٠١</span><span><strong>استمع إلى المجموعة.</strong> كل مجموعة استماع تحمل صوتها الخاص، وفيها معلَّمةٌ السماتُ التي يستهدفها الدرس بعينها &mdash; صوت وصل، أو مقطع منبور، أو اختصار &mdash; بدل توجيه عام بأن تستمع جيدًا.</span><span class="leader"></span></li>
+      <li><span class="num">٠٢</span><span><strong>سجّل نفسك بإزاء هدف.</strong> أهداف النطق محددة ومسمّاة. «اجعله أقرب إلى الطبيعي» ليس هدفًا؛ بل الحركة في كلمة بعينها هي الهدف.</span><span class="leader"></span></li>
+      <li><span class="num">٠٣</span><span><strong>استمع إلى تسجيلك قبل التسليم.</strong> هذه هي الخطوة التي يحدث فيها أكثر التعلم، وهي الخطوة التي يتخطاها المتعلمون. وقد بُنيت في المسار عمدًا.</span><span class="leader"></span></li>
+      <li><span class="num">٠٤</span><span><strong>تلقَّ تغذية راجعة من شخص.</strong> تغذية النطق الراجعة يكتبها مدرّس بإزاء الهدف، ولا تولّدها درجة. ولا يُستعمل أي تقييم آلي للنطق، ولا يُدَّعى.</span><span class="leader"></span></li>
+      <li><span class="num">٠٥</span><span><strong>احتفظ بالتسجيل.</strong> يبقى في سجلك. وبعد ستة أشهر يكون دليلًا؛ ومحذوفًا لا يكون شيئًا.</span><span class="leader"></span></li>
+    </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     الخامسة · الأمور العملية
+     ================================================================== -->
+<section class="leaf section--dark grain aurora">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/laurel.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٥</span>
+      <span class="leaf__label">الأمور العملية</span>
+    </div>
+    <div class="leaf__body reveal">    <h2>ما يحتاجه وما يحتمله.</h2>    <div class="grid grid--3">
+      <div class="card card--dark reveal edge-lit aurum">
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
+        <span class="card__num">أي ميكروفون</span>
+        <h3>الهاتف يكفي</h3>
+        <p>جودة الاستوديو غير مطلوبة، ولن تحسّن التقييم. فالسمات التي تُصحَّح تصمد أمام ميكروفون عادي.</p>
+      </div>
+      <div class="card card--dark reveal edge-lit aurum">
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg></span>
+        <span class="card__num">اتصال غير مستقر</span>
+        <h3>التسجيل يتواصل دون اتصال</h3>
+        <p>لا يتطلب التسجيل اتصالًا حيًّا. والتسجيل الذي يُصنع دون اتصال يُحفَظ ويُرفع حين يعود الاتصال، على أجزاء، كي لا يُضيع انقطاعٌ الملفَّ كله. وقد بُني هذا لأن الكلية تتوقع طلابًا في أماكن تنقطع فيها الشبكة.</p>
+      </div>
+      <div class="card card--dark reveal edge-lit aurum">
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-language"/></svg></span>
+        <span class="card__num">أذناك أولًا</span>
+        <h3>لا شيء يُسلَّم تلقائيًا</h3>
+        <p>يُسلَّم التسجيل حين تقرر أنت أنه جاهز. ولا شيء يُلتقط أو يُرسَل في الخلفية.</p>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     السادسة · مجموعات الاستماع
+     ================================================================== -->
+<section class="leaf section--light grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/globe-meridian.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٦</span>
+      <span class="leaf__label">مجموعات الاستماع</span>
+    </div>
+    <div class="leaf__body reveal">    <h2>المعمل يعمل من نصوص مكتوبة.</h2>    <div class="callout">
+      <span class="callout__label">الصوت المسجَّل</span>
+      <p>مجموعات الاستماع المئة والعشرون مكتوبة كلها &mdash; النصوص والأهداف والسمات المعلَّمة
+        وملاحظات التدريس &mdash; وكل واحدة منها منشورة كاملة في
+        <a href="/ar/press/library/">المكتبة</a>، تُقرأ قبل التسجيل. أما الصوت المسجَّل فيحتاج
+        أصواتًا واستوديو، وإلى أن يُنتَج يعمل المعمل من النصوص ومن تسجيلاتك أنت.</p>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     السابعة · التعثر في المادة
+     ================================================================== -->
+
+<section class="leaf section--dark section--oxford grain aurora" id="study-visit" data-contents="الإقامة الدراسية في بريطانيا">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/crest-plate.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٥</span>
+      <span class="leaf__label">الإقامة الدراسية في بريطانيا</span>
+      <p class="leaf__rubric">الإقامة الدراسية تُؤدَّى في بلد اللغة نفسه &mdash; من ثلاثين إلى ستين يومًا.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
+        <h2>لكل حاملِ شهادةٍ أن يؤدّي إقامته الدراسية في بريطانيا.</h2>
+        <p class="lede"><a href="/ar/#residency">الإقامة الدراسية</a> هي المكوّن المُقيَّم الذي يُتِمّ المستوى، وتُؤدَّى في مدينتك تحت إشراف الكلية أو في المملكة المتحدة. وهذا هو المسار البريطاني: ثلاثون إلى ستون يومًا تُستعمل فيها الإنجليزية لكل شيء، وهي ممارسةٌ من رتبة أخرى غير رتبة أي فصل. والمعيار واحدٌ في المسارين &mdash; ومكانُ الممارسة يغيّر الترتيبات لا الدرجة.</p>
+      </div>
+
+      <div class="grid grid--3">
+        <div class="card card--dark reveal tilt edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg></span>
+          <span class="card__num">٦٠&ndash;٣٠</span>
+          <h3>مكوّنٌ مُقيَّم</h3>
+          <p>ليست رحلة: برنامجٌ مجدول فيه حلقات إرشادية وندوات وعروضٌ تُقيَّم وتدريبٌ ميداني مُشرَف عليه في بيئة إنجليزية عاملة. ويُصحَّح على معيار التصحيح نفسه الذي يُصحَّح عليه المسار المُشرَف عليه في بلدك، ويُثبَت في سجلك الأكاديمي إقامةً لذلك المستوى.</p>
+        </div>
+        <div class="card card--dark reveal tilt edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></span>
+          <span class="card__num">لمن</span>
+          <h3>لكل حاملِ شهادة</h3>
+          <p>مفتوحة لكل طالب يحمل شهادة من البرنامج في أي مستوى وأي دفعة، وقد سُدِّدت رسوم ذلك المستوى. والمسار البريطاني عرضٌ لا إلزام: من أدّى إقامته في بلده تحت الإشراف حمل الشهادة نفسها، مُصحَّحةً على المعيار نفسه.</p>
+        </div>
+        <div class="card card--dark reveal tilt edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span>
+          <span class="card__num">ممولة</span>
+          <h3>مقاعدُ تُمنح على الجدارة</h3>
+          <p>تموّل الكلية عددًا من الإقامات البريطانية كل عام تمويلًا كاملًا &mdash; البرنامج والسكن والسفر. وتُمنح لمعدل تراكمي من 3.70 فأعلى وعلى المعايير المنشورة نفسها التي تعمل بها منحة التأسيس، وباللجنة نفسها، وتُدوَّن الدرجة على كل معيار.</p>
+        </div>
+      </div>
+
+      <h3 style="font-size:1.15rem;margin-top:2.6em">كيف تُرتَّب الإقامة البريطانية</h3>
+      <ol class="dot-list">
+        <li><span class="num">١</span><span><strong>تُبدي تفضيلك عند التسجيل.</strong> يسأل نموذج التقديم أين تودّ أن تؤدّي إقامتك، والمواقع البريطانية مذكورة فيه بأسمائها. واختيار أحدها لا يُلزمك بشيء، لكنه يُعلم المُسجِّل أن يُعِدّ أوراقك مبكرًا، وهو أكبر ما يُوفَّر من الوقت لاحقًا.</span></li>
+        <li><span class="num">٢</span><span><strong>تُدعى عند مَنحِ الشهادة.</strong> وتذكر الدعوة تاريخَي الإقامتين البريطانيتين القادمتين وموعد إغلاق كلٍّ منهما.</span></li>
+        <li><span class="num">٣</span><span><strong>تُصدر الكلية أوراقك.</strong> خطاب قيد، وخطاب دعوة يسمّي البرنامج الأكاديمي وتواريخه، وإفادةً بشهادتك، ودليلًا على أي تمويل مُنح لك.</span></li>
+        <li><span class="num">٤</span><span><strong>تتقدّم أنت بطلب تأشيرة زائر بريطانية.</strong> والتأشيرة تُمنح أو تُرفض من إدارة التأشيرات والهجرة البريطانية وفق معاييرها. تقدّم الكلية الأوراق وتجيب عن أي سؤال يوجّهه الموظف المختص، ولا ترعى قرارًا ولا تضمنه ولا تؤثر فيه، ولا تستطيع ذلك مؤسسة.</span></li>
+        <li><span class="num">٥</span><span><strong>يُحفظ مقعدك حتى صدور القرار.</strong> وإن رُفض إذن الدخول رُدّت أي رسوم دفعتها للإقامة البريطانية كاملةً، وانتقل مقعدك إلى الإقامة التالية بلا طلبٍ ثانٍ، ولك أن تؤدّي إقامتك في بلدك تحت الإشراف للشهادة نفسها.</span></li>
+      </ol>
+
+      <div class="callout">
+        <span class="callout__label">ما لا تفعله الكلية، صريحًا</span>
+        <p>لا تُصدر تأشيرات ولا ترعاها ولا تَعِد بمنحها &mdash; فذلك القرار لإدارة التأشيرات والهجرة البريطانية وحدها. ولا تعرض الإقامة الدراسية طريقًا إلى العمل أو الاستيطان في المملكة المتحدة، ولن تسند طلبًا يُقدَّم على أنه كذلك. الإقامة مكوّنٌ أكاديمي مُقيَّم في برنامج لغة، وتُبقيها الكلية كذلك تمامًا.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="leaf section--light grain" id="support" data-contents="الدعم">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/astrolabe.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٧</span>
+      <span class="leaf__label">التعثر في المادة</span>
+    </div>
+    <div class="leaf__body reveal">    <h2>مبنيّ في التدريس قبل أن تضطر إلى السؤال.</h2>    <div class="grid grid--3">
+      <div class="card reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-lectern"/></svg></span>
+        <span class="card__num">في الدرس</span>
+        <h3>شرح ثانٍ، مكتوب سلفًا</h3>
+        <p>كل درس يحمل شرحًا بديلًا لأصعب نقطة فيه، مكتوبًا مقدمًا للمتعلم الذي لم يتابع الشرح الأول. والتدريس الذي له طريق واحد يخذل كل من يحتاج طريقًا آخر.</p>
+      </div>
+      <div class="card reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
+        <span class="card__num">في الدرس</span>
+        <h3>الأخطاء التي يقع فيها الناس فعلًا</h3>
+        <p>كل درس يسمّي الأخطاء الشائعة في نقطته وأسبابها، فيصير الخطأ معروفًا لا غامضًا. وهذه مكتوبة من اللغة نفسها لا مجموعة من بيانات الطلاب، والكلية تقول أيّهما، لأن «الأخطاء التي يقع فيها طلابنا» ادّعاء أقوى مما تستطيع إثباته.</p>
+      </div>
+      <div class="card reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
+        <span class="card__num">عند الطلب</span>
+        <h3>درس خصوصي مع مدرّس</h3>
+        <p>وحيث لا يحسم الدعمُ المكتوب الأمرَ، يحسمه درس خصوصي. اطلبه؛ فهو غير مُقنَّن.</p>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     الثامنة · التأخر
+     ================================================================== -->
+<section class="leaf section--paper grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/publication-funnel.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٨</span>
+      <span class="leaf__label">التأخر</span>
+    </div>
+    <div class="leaf__body reveal">    <h2>يُلحَظ مبكرًا، ويُقابَل بالمساعدة.</h2>    <div class="grid grid--2">
+      <div class="card reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-astrolabe"/></svg></span>
+        <span class="card__num">لماذا يُقاس</span>
+        <h3>ليُوصَل إليك، لا لتُعاقَب</h3>
+        <p>يُتابَع الانخراط كي يُتواصَل مع المتعلم الذي انقطع في الشهر الثاني بدل اكتشافه في الشهر الحادي عشر. ولا يُنتج ذلك جزاءً أبدًا، ولا يوجد شرط حضور يُرسَب فيه &mdash; فالبرنامج غير متزامن، والحضور قياس خاطئ لأي شيء فيه.</p>
+      </div>
+      <div class="card reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span>
+        <span class="card__num">ماذا يحدث</span>
+        <h3>رسالة، وعرض، ومحادثة</h3>
+        <p>التأخر يُنتج تواصلًا لا عاقبة. ومن تأخّر ما زال يستطيع الإتمام؛ وقيمة الملاحظة كلها أن يُوصَل إليه ما دام ذلك صحيحًا.</p>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     التاسعة · عدم الرضا عن شيء
+     ================================================================== -->
+<section class="leaf section--dark grain aurora">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/curriculum-spiral.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٩</span>
+      <span class="leaf__label">عدم الرضا عن شيء</span>
+    </div>
+    <div class="leaf__body reveal">    <h2>من يجيب، وبأي صدق.</h2>    <div class="grid grid--2">
+      <div class="card card--dark reveal edge-lit aurum">
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg></span>
+        <span class="card__num">من</span>
+        <h3>الفريق المؤسِّس، بأسمائه</h3>
+        <p>كل رسالة إلى الكلية يجيب عنها عضو من الفريق المؤسِّس. لا طابور تذاكر ولا نصّ جاهز لخط أول، وهذه ميزة حقيقية من حجم الكلية ولن تنجو من النمو &mdash; فتُوصف كما هي الآن.</p>
+      </div>
+      <div class="card card--dark reveal edge-lit aurum">
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
+        <span class="card__num">ما ينقص</span>
+        <h3>إجراء شكاوى رسمي</h3>
+        <p>لا توجد مرحلة مستقلة تُرفع إليها الشكوى، لأنه لا توجد جهة معيَّنة تُرفع إليها. ويُذكر هذا في <a href="/ar/students/regulations/">اللوائح الأكاديمية</a> كذلك، لأنه من نوع النقص الذي لا ينبغي أن يوجد في موضع واحد فقط.</p>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     العاشرة · ما لا تقدمه الكلية
+     ================================================================== -->
+<section class="leaf section--light grain" id="boundaries" data-contents="ما لا تقدمه الكلية">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/portico.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١٠</span>
+      <span class="leaf__label">ما لا تقدمه الكلية</span>
+    </div>
+    <div class="leaf__body reveal">    <h2>مذكور بالوضوح نفسه.</h2>    <div class="grid grid--3">
+      <div class="card reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
+        <span class="card__num">لا</span>
+        <h3>إرشاد نفسي أو خدمات رفاه</h3>
+        <p>لا تملك الكلية أي إرشاد نفسي، ولا خدمة رفاه، ولا طاقمًا مؤهَّلًا لأيٍّ منهما. فإن كنت تحتاج دعمًا من هذا النوع فمصدره خدمات بلدك. والإيحاء بغير ذلك على موقع هو الطريق الذي يُخذَل به من هم في ضيق.</p>
+      </div>
+      <div class="card reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
+        <span class="card__num">لا</span>
+        <h3>إرشاد مهني أو نصح هجرة</h3>
+        <p>لا خدمة توظيف، ولا نصح هجرة من أي نوع &mdash; انظر <a href="/ar/admissions/#visas">التأشيرات وتصاريح الدراسة</a>.</p>
+      </div>
+      <div class="card reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
+        <span class="card__num">لا</span>
+        <h3>تقييم إعاقة أو تيسيرات رسمية</h3>
+        <p>لا إجراء لدى الكلية لتقييم حاجة أو منح تيسير رسمي. وما تستطيعه ترتيبات عملية غير رسمية عند الطلب &mdash; مشاركة صوتية فقط، ووقت إضافي، وصيغ بديلة. وهذا عرض أصغر من سياسة، ويوصف بأنه الشيء الأصغر الذي هو عليه.</p>
+      </div>
+    </div>
     </div>
   </div>
 </section>
 
 <section class="section--dark cta-band">
   <div class="container reveal">
-    <h2>كيف يتم تقييمك.</h2>
+    <h2>سجلّك يبدأ يوم تسجّل، وهو لك من أول درجة.</h2>
     <div class="btn-row u-center">
-      <a href="/ar/students/assessment/" class="btn btn--gold">التقييم</a>
-      <a href="/ar/students/awards/" class="btn btn--outline">الشهادات والمراتب</a>
+      <a href="/ar/students/assessment/" class="btn btn--gold magnetic aurum aurum--twin">التقييم</a>
+      <a href="/ar/press/library/" class="btn btn--outline magnetic">نزّل كتاب تدريباتك</a>
     </div>
   </div>
 </section>

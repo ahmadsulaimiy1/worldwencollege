@@ -1,0 +1,175 @@
+<!--
+  MARKING — the written work and the spoken work waiting to be marked.
+
+  ─────────────────────────────────────────────────────────────────────
+  THE FAULT THIS PAGE EXISTS TO CORRECT
+  ─────────────────────────────────────────────────────────────────────
+  `POST /api/lms/grade-assignment` takes a `submissionId`, and until
+  the marking queue was built nothing anywhere produced one. Learners
+  have been submitting written work through /my-module.html since the
+  study surface was built; every piece of it landed in the database
+  and sat there with no queue, no count, and no screen a member of
+  staff could reach it from.
+
+  The pronunciation half of this page has existed since the Listening
+  Lab shipped — as a standalone workspace on the College's own chrome,
+  linked from nowhere. It is here now because a tutor sitting down to
+  mark is marking, and being asked to hold two addresses in their head
+  for one act is how one of them stops being used.
+
+  ─────────────────────────────────────────────────────────────────────
+  OLDEST FIRST, AND THE WAIT IS DRAWN
+  ─────────────────────────────────────────────────────────────────────
+  A queue sorted newest-first starves the learners who have waited
+  longest. Both queues here are the endpoint's own ordering, and the
+  wait is rendered as a bar as well as a sentence, because the longest
+  wait is at the top of a list — where the eye has already been.
+
+  ─────────────────────────────────────────────────────────────────────
+  THE RUBRIC TRAVELS WITH THE WORK
+  ─────────────────────────────────────────────────────────────────────
+  Every award at this College is marked against a rubric published
+  before the task, and the rubric is in the task the learner was set.
+  It is printed above the mark and cannot be collapsed away. The same
+  rule governs the recordings: the drill targets the learner was
+  working against are rendered above the scoring controls, because
+  scoring pronunciation without seeing the target is guessing.
+
+  ─────────────────────────────────────────────────────────────────────
+  AND A RESIT IS NOT MARKED AS A FIRST ATTEMPT
+  ─────────────────────────────────────────────────────────────────────
+  Where the learner has been marked before on the same task, that mark
+  and its feedback are rendered with the new submission. A marker who
+  cannot see what was said last time repeats it or contradicts it.
+
+  Every id and data- attribute below is addressed by js/staff-marking.js.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-nib"/></svg></p>
+    <p class="masthead__eyebrow">Academic staff</p>
+    <h1>Marking</h1>
+    <p class="lede">What has been handed in and not yet marked &mdash; written work and spoken work, oldest first, each piece carrying the rubric it was set against and the mark it is a resit of.</p>
+    <nav class="rec-nav" aria-label="Academic staff">
+      <a href="/staff-desk.html">The Desk</a>
+      <a href="/staff-marking.html" aria-current="page">Marking</a>
+      <a href="/staff-examinations.html">Examinations</a>
+      <a href="/staff-papers.html">Papers</a>
+      <a href="/staff-conferral.html">Conferral</a>
+      <a href="/staff-learners.html">My Learners</a>
+      <a href="/staff-hours.html">My Hours</a>
+      <a href="/staff-notices.html">Notices</a>
+      <a href="/staff-cases.html">Cases</a>
+      <a href="/staff-admissions.html">Admissions</a>
+      <a href="/staff-enrolments.html">Enrolments</a>
+      <a href="/staff-finance.html">Finance</a>
+      <a href="/staff-administration.html">Administration</a>
+    </nav>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container">
+    <div class="stf-shell">
+
+      <p class="rec-state state-plate edge-lit edge-lit--light aurum" id="state" aria-live="polite">Loading the queue&hellip;</p>
+
+      <!-- THE TWO COUNTS ----------------------------------------------- -->
+      <div class="stf-counts" id="secCounts" hidden>
+        <div class="stf-count plate-dark card card--dark edge-lit aurum tilt gold-live reveal" data-tile="written">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
+          <p class="stf-count__num" data-count>&mdash;</p>
+          <p class="stf-count__label" data-label>Written work waiting</p>
+          <p class="stf-count__foot" data-foot></p>
+        </div>
+        <div class="stf-count plate-dark card card--dark edge-lit aurum tilt gold-live reveal" data-tile="spoken">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
+          <p class="stf-count__num" data-count>&mdash;</p>
+          <p class="stf-count__label" data-label>Recordings waiting</p>
+          <p class="stf-count__foot" data-foot></p>
+        </div>
+      </div>
+
+      <!-- WRITTEN WORK -------------------------------------------------- -->
+      <section class="acc-block reveal" id="secWritten" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg> <span data-written-head>Written work</span></h2>
+          <div class="desk-head__tools stf-filters">
+            <label for="wLevel" data-written-level-label>Level</label>
+            <select id="wLevel" data-written-level></select>
+            <label for="wStatus" data-written-status-label>Showing</label>
+            <select id="wStatus" data-written-status></select>
+          </div>
+        </div>
+
+        <!-- On what basis this queue was drawn. The endpoint's own
+             sentence, printed rather than paraphrased. -->
+        <p class="stf-basis" data-written-basis></p>
+
+        <ul class="stf-queue" data-written-queue></ul>
+
+        <div class="stf-clear" data-written-empty hidden>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg></span>
+          <p class="stf-clear__head" data-written-empty-head></p>
+          <p class="stf-clear__note" data-written-empty-note></p>
+        </div>
+      </section>
+
+      <!-- SPOKEN WORK --------------------------------------------------- -->
+      <section class="acc-block reveal" id="secSpoken" hidden>
+        <div class="desk-head">
+          <h2 id="recordings"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg> <span data-spoken-head>Recordings</span></h2>
+          <div class="desk-head__tools stf-filters">
+            <label for="rLevel" data-spoken-level-label>Level</label>
+            <select id="rLevel" data-spoken-level></select>
+          </div>
+        </div>
+
+        <p class="stf-basis" data-spoken-basis></p>
+
+        <ul class="stf-queue" data-spoken-queue></ul>
+
+        <div class="stf-clear" data-spoken-empty hidden>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg></span>
+          <p class="stf-clear__head" data-spoken-empty-head></p>
+          <p class="stf-clear__note" data-spoken-empty-note></p>
+        </div>
+      </section>
+
+      <!-- HOW A MARK IS MADE HERE --------------------------------------- -->
+      <!-- The College's own published rule about marking, on the screen
+           where marking happens. It is not a reminder; it is the thing
+           the second marker will be checking against. -->
+      <section class="acc-block reveal" id="secRule">
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg> How a mark is made here</h2>
+        </div>
+        <div class="grid grid--3">
+          <article class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+            <span class="tilt__sheen" aria-hidden="true"></span>
+            <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
+            <h3>Against a published rubric</h3>
+            <p>The criteria were set before the work was, and they are in the task the learner was given. They are printed above every mark on this page so the standard being applied is the standard the learner was told about.</p>
+          </article>
+          <article class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+            <span class="tilt__sheen" aria-hidden="true"></span>
+            <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-quote"/></svg></span>
+            <h3>With a reason the learner can read</h3>
+            <p>Feedback travels to the learner&rsquo;s own record beside the mark. Write the one thing they should change; a mark with nothing behind it is a mark that cannot be acted on and cannot be appealed.</p>
+          </article>
+          <article class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+            <span class="tilt__sheen" aria-hidden="true"></span>
+            <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span>
+            <h3>And it can be looked at again</h3>
+            <p>Every mark is recorded against the account that gave it and the moment it was given. A learner who thinks a mark is wrong has a published route to say so, and that route reads this record. <a href="/students/regulations/">The academic regulations</a>.</p>
+          </article>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

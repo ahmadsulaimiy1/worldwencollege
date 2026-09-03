@@ -14,6 +14,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>البرامج الأكاديمية — الكلية العالمية للغة الإنجليزية</title>
 <meta name="description" content="برنامج ⁦IEFC⁩ في ستة مستويات متوافقة مع الإطار الأوروبي: ما يحتويه كل مستوى، وكيف يجري التعلّم، والحرم الرقمي الذي يعمل عليه.">
+<!-- INDEXABLE, OR THE LEARNER'S OWN. A page that mounts
+     js/portal-guard.js is a page behind a sign-in — a statement of
+     account, a set of marks, a payment confirmation — and it belonged
+     in neither a search index nor the sitemap. Eleven of them were in
+     both. scripts/build.js decides this from the guard rather than from
+     a flag somebody has to remember to set: a page that guards itself
+     is private, and there is no case where it is not. -->
+<meta name="robots" content="index, follow">
 <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/assets/images/icon-512.png" sizes="512x512" type="image/png">
 <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
@@ -21,16 +29,23 @@
 <meta name="theme-color" content="#14264A">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500..800;1,6..96,400..600&family=Cinzel:wght@500;600&family=Inter:wght@400;600;700;800&family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/brand.css">
-<link rel="stylesheet" href="/css/atelier.css">
-<link rel="stylesheet" href="/css/pages.css">
+<!-- The display face is self-hosted and preloaded: it sets every
+     heading above the fold, so it must never arrive after the text it
+     shapes. The italic is not preloaded — it first appears below the
+     fold and swap covers it. -->
+<link rel="preload" href="/assets/fonts/fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Inter:wght@400;600;700;800&family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/brand.css?v=308b4850">
+<link rel="stylesheet" href="/css/atelier.css?v=9eadec1f">
+<link rel="stylesheet" href="/css/pages.css?v=e0f4b722">
+<link rel="stylesheet" href="/css/pillar.css?v=661126ed">
+<link rel="stylesheet" href="/css/academics.css?v=c6a54844">
 <!-- LAST, and that ordering is load-bearing. Script-specific typography
      has to be able to override the general stylesheets, because those
      set tracking and leading tuned to Latin faces and Arabic inherits
      it. Putting this first — which is where it started — left 951 of
      1,049 violations standing. See the header of css/arabic.css. -->
-<link rel="stylesheet" href="/css/arabic.css">
+<link rel="stylesheet" href="/css/arabic.css?v=8eca8911">
 <noscript><style>
 /* Several entrance effects are authored hidden and revealed by script:
    .reveal (js/site.js), .split-word and .rule-draw (js/motion.js),
@@ -112,6 +127,34 @@
   Inline rather than an external sprite file on purpose: `currentColor`
   does not inherit across an external <use> reference in several
   browsers, which would defeat the whole arrangement above.
+
+  TWO WEIGHTS, WHICH IS WHAT MAKES IT AN ENGRAVING.
+  ---------------------------------------------------------------------
+  A single-weight outline is what every icon library ships, and at
+  institutional scale it reads as competent rather than as commissioned.
+  Real engraving carries a cut line and a hairline: the structure at
+  full weight, the modelling — hatching, secondary rules, interior
+  detail — at roughly two-fifths of it.
+
+  So structural paths inherit the 1.25 stroke from .icon, and detail
+  paths carry `stroke-width=".55"` as a PRESENTATION ATTRIBUTE on the
+  path itself. It has to be an attribute rather than a class: content
+  cloned by <use> lives in a shadow tree that document CSS selectors
+  cannot reach, so `.icon .hair {}` would silently do nothing. Only
+  inherited properties cross that boundary, which is exactly why
+  `currentColor` works above and a class would not.
+
+  Both numbers are in the 24-unit viewBox, so the ratio between them
+  holds at every rendered size — a hairline stays a hairline at 1.25rem
+  and at 3.5rem.
+
+  THE FOUR REGION MARKS are cartographic, not cultural. A set of icons
+  standing for the Gulf, Europe, Africa and Asia is one careless
+  decision away from four national stereotypes, so each is the same
+  globe under the same graticule with a different sector engraved and a
+  different locator set into it. They read as one instrument turned
+  four ways, which is both the honest claim and the better drawing.
+  Before this they were four copies of #i-globe on one screen.
 -->
 <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false"><defs>
 
@@ -129,11 +172,23 @@
     <stop offset="100%" stop-color="#A8863C"/>
   </linearGradient>
 
+  <!-- ================================================================
+       THE INSTITUTIONAL MARKS
+       ================================================================ -->
+
   <!-- The institution's mark, reduced to a stroke. -->
   <symbol id="i-crest" viewBox="0 0 24 24">
-    <path d="M12 1.6 21 4.8v8.1c0 5.6-3.8 10-9 12.1C6.8 22.9 3 18.5 3 12.9V4.8Z"/>
-    <path d="M12 5.2 17.6 7.2v5.6c0 3.7-2.4 6.7-5.6 8.1-3.2-1.4-5.6-4.4-5.6-8.1V7.2Z"/>
-    <path d="M9.4 12.6h5.2M12 10v5.2"/>
+    <!-- A HERALDIC CREST, not a first-aid badge.
+         It was a shield with a cross bar and an upright inside it, and
+         at every size from 30px up it read as a medical shield — the
+         defect CLAUDE.md §6 records against this exact symbol. A crest
+         is a shield UNDER A CROWN with a charge on it, so that is what
+         is drawn: a three-point crown on the chief, a chevron below it,
+         and a mullet in base. Nothing in it crosses at right angles. -->
+    <path d="M12 3.4 20.4 6.2v7.2c0 5.1-3.5 9.2-8.4 11.1C7.1 22.6 3.6 18.5 3.6 13.4V6.2Z"/>
+    <path d="M6.6 6.9 8.3 4.4l1.9 1.7L12 3l1.8 3.1 1.9-1.7 1.7 2.5Z" stroke-linejoin="round"/>
+    <path d="M7.6 15.1 12 11.2l4.4 3.9" stroke-width=".55" opacity=".8"/>
+    <path d="m12 17.2.85 1.72 1.9.28-1.37 1.34.32 1.89L12 21.54l-1.7.89.32-1.89-1.37-1.34 1.9-.28Z" stroke-width=".55" opacity=".72"/>
   </symbol>
 
   <!-- Laurel — awards, honours, distinction. -->
@@ -145,6 +200,18 @@
     <path d="M12 6.4c2-1.4 4.4-1.6 6.4-.8-.2 2.2-1.6 4-3.6 4.8"/>
     <path d="M12 11c2-1.4 4.4-1.6 6.4-.8-.2 2.2-1.6 4-3.6 4.8"/>
     <path d="M12 15.6c2-1.4 4.4-1.6 6.4-.8-.2 2.2-1.6 4-3.6 4.8"/>
+    <path d="M7.6 6.6c.7.9 1.2 1.9 1.4 2.9M7.6 11.2c.7.9 1.2 1.9 1.4 2.9M7.6 15.8c.7.9 1.2 1.9 1.4 2.9" stroke-width=".55" opacity=".7"/>
+    <path d="M16.4 6.6c-.7.9-1.2 1.9-1.4 2.9M16.4 11.2c-.7.9-1.2 1.9-1.4 2.9M16.4 15.8c-.7.9-1.2 1.9-1.4 2.9" stroke-width=".55" opacity=".7"/>
+  </symbol>
+
+  <!-- Rosette — the conferred honour, ribboned. Distinct from the
+       laurel (which is the wreath) and from the wax seal (which is the
+       act of sealing): this is the thing pinned to the record. -->
+  <symbol id="i-rosette" viewBox="0 0 24 24">
+    <circle cx="12" cy="8.6" r="5.4"/>
+    <path d="M12 4.4 13.2 7l2.8.3-2.1 1.9.6 2.8L12 10.6l-2.5 1.4.6-2.8L8 7.3 10.8 7Z"/>
+    <path d="M8.4 13.2 6.4 21l5.6-2.6L17.6 21l-2-7.8" stroke-width=".55" opacity=".78"/>
+    <circle cx="12" cy="8.6" r="7.2" stroke-width=".55" opacity=".55"/>
   </symbol>
 
   <!-- Quill — writing, authorship, the written standard. -->
@@ -152,6 +219,16 @@
     <path d="M3 21c3.4-7.6 8-13 17-18-1.2 8.4-5.2 14-11.4 16.2Z"/>
     <path d="M8.6 19.2 20 3"/>
     <path d="M3 21h4.2"/>
+    <path d="M11.6 15.4c1.6-2.6 3.4-5 5.6-7.4M9.8 17.6c1.9-3.1 4.1-6 6.6-8.7" stroke-width=".55" opacity=".68"/>
+  </symbol>
+
+  <!-- Nib — the fine hand. Used where "quill" would read as decoration
+       and the point is precision: rubrics, marking, the written mark. -->
+  <symbol id="i-nib" viewBox="0 0 24 24">
+    <path d="M8.4 2.6h7.2v6.2L12 21.4 8.4 8.8Z"/>
+    <path d="M12 7.9a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z"/>
+    <path d="M12 10.9v9.2" stroke-width=".55" opacity=".76"/>
+    <path d="M8.4 5.6h7.2M9.6 12.6h4.8" stroke-width=".55" opacity=".55"/>
   </symbol>
 
   <!-- Open book — the curriculum, published. -->
@@ -159,6 +236,16 @@
     <path d="M12 6.4C10 4.9 7.2 4.2 3 4.4v13.2c4.2-.2 7 .5 9 2 2-1.5 4.8-2.2 9-2V4.4c-4.2-.2-7 .5-9 2Z"/>
     <path d="M12 6.4v13.2"/>
     <path d="M6 8.4h3.2M6 11.6h3.2M14.8 8.4H18M14.8 11.6H18"/>
+    <path d="M6 14.8h3.2M14.8 14.8H18" stroke-width=".55" opacity=".72"/>
+    <path d="M3 7.2c2.8-.1 5.2.3 7 1.2M21 7.2c-2.8-.1-5.2.3-7 1.2" stroke-width=".55" opacity=".55"/>
+  </symbol>
+
+  <!-- Scroll — a volume of the imprint, issued and sealed. -->
+  <symbol id="i-scroll" viewBox="0 0 24 24">
+    <path d="M6.4 3.4h13.2v14.2a3 3 0 0 1-3 3H6.4"/>
+    <path d="M6.4 3.4a3 3 0 0 0-3 3v1.8h3"/>
+    <path d="M6.4 20.6a3 3 0 0 0 3-3V8.2"/>
+    <path d="M12 7.4h5M12 10.6h5M12 13.8h3.2" stroke-width=".55" opacity=".78"/>
   </symbol>
 
   <!-- Portico — the campus, the institution as a place. -->
@@ -166,21 +253,46 @@
     <path d="M2 8.8 12 3l10 5.8"/>
     <path d="M4 8.8V19M9.4 8.8V19M14.6 8.8V19M20 8.8V19"/>
     <path d="M2 21.4h20M3 19h18"/>
+    <path d="M4.4 8.4 12 4.1l7.6 4.3" stroke-width=".55" opacity=".6"/>
   </symbol>
 
-  <!-- Globe with meridians — worldwide delivery. -->
-  <symbol id="i-globe" viewBox="0 0 24 24">
-    <circle cx="12" cy="12" r="9"/>
-    <path d="M3 12h18"/>
-    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z"/>
-    <path d="M5 6.4c2 1.2 4.4 1.8 7 1.8s5-.6 7-1.8M5 17.6c2-1.2 4.4-1.8 7-1.8s5 .6 7 1.8"/>
+  <!-- Portcullis — Westminster, and the United Kingdom residency. -->
+  <symbol id="i-portcullis" viewBox="0 0 24 24">
+    <path d="M3.6 4.4h16.8v13.2H3.6Z"/>
+    <path d="M8.2 4.4v13.2M12 4.4v13.2M15.8 4.4v13.2"/>
+    <path d="M3.6 8.8h16.8M3.6 13.2h16.8" stroke-width=".55" opacity=".78"/>
+    <path d="M6.4 17.6v2.6M9.9 17.6v2.6M14.1 17.6v2.6M17.6 17.6v2.6" stroke-width=".55" opacity=".78"/>
+    <path d="M3.6 4.4 12 1.8l8.4 2.6" stroke-width=".55" opacity=".6"/>
   </symbol>
+
+  <!-- Columns — governance, the academic bodies. -->
+  <symbol id="i-columns" viewBox="0 0 24 24">
+    <path d="M2.6 6.6h18.8M4 21.4h16"/>
+    <path d="M6.4 6.6v14.8M12 6.6v14.8M17.6 6.6v14.8"/>
+    <path d="M2.6 6.6 12 2.6l9.4 4"/>
+    <path d="M5.2 9.2h2.4M10.8 9.2h2.4M16.4 9.2h2.4" stroke-width=".55" opacity=".7"/>
+    <path d="M5.2 19h2.4M10.8 19h2.4M16.4 19h2.4" stroke-width=".55" opacity=".7"/>
+  </symbol>
+
+  <!-- Lectern — teaching practice, the seminar, the spoken standard. -->
+  <symbol id="i-lectern" viewBox="0 0 24 24">
+    <path d="M4.4 6.6 17.8 3.4l1.8 4.4L6.2 11Z"/>
+    <path d="M11.8 10.2v8.4M7.4 21.4h8.8"/>
+    <path d="M11.8 18.6c-1.7 0-3.1.9-3.7 2.2M11.8 18.6c1.7 0 3.1.9 3.7 2.2"/>
+    <path d="M6.8 6.8 16.8 4.4M7.6 8.8l10-2.4" stroke-width=".55" opacity=".7"/>
+  </symbol>
+
+  <!-- ================================================================
+       THE RECORD, THE STANDARD, THE MEASURE
+       ================================================================ -->
 
   <!-- Wax seal — conferral, the sealed record. -->
   <symbol id="i-seal" viewBox="0 0 24 24">
     <circle cx="12" cy="9.6" r="6.6"/>
     <circle cx="12" cy="9.6" r="3.4"/>
     <path d="M8 15.4 6.6 22l5.4-2.6L17.4 22 16 15.4"/>
+    <circle cx="12" cy="9.6" r="5" stroke-width=".55" opacity=".55"/>
+    <path d="M12 4.6v1.6M12 13v1.6M7 9.6h1.6M15.4 9.6H17" stroke-width=".55" opacity=".7"/>
   </symbol>
 
   <!-- Ledger — the record, the register, the table of marks. -->
@@ -188,18 +300,8 @@
     <path d="M4 2.6h16v18.8H4Z"/>
     <path d="M8 2.6v18.8"/>
     <path d="M11 7.4h6M11 12h6M11 16.6h6"/>
-  </symbol>
-
-  <!-- Waveform — the Listening Lab, recorded speech. -->
-  <symbol id="i-waveform" viewBox="0 0 24 24">
-    <path d="M2 12h2.4M7 7.4v9.2M11.6 4v16M16.2 8.6v6.8M20.8 10.8v2.4"/>
-  </symbol>
-
-  <!-- Mortarboard — graduation, completion of the pathway. -->
-  <symbol id="i-mortarboard" viewBox="0 0 24 24">
-    <path d="M12 3.4 22.4 8 12 12.6 1.6 8Z"/>
-    <path d="M5.6 10v5.6c0 1.8 2.9 3.2 6.4 3.2s6.4-1.4 6.4-3.2V10"/>
-    <path d="M22.4 8v5.6"/>
+    <path d="M11 9.7h6M11 14.3h6M11 18.9h4" stroke-width=".55" opacity=".68"/>
+    <path d="M5.6 6h.8M5.6 12h.8M5.6 18h.8" stroke-width=".55" opacity=".68"/>
   </symbol>
 
   <!-- Scales — assessment, academic integrity, fair marking. -->
@@ -207,12 +309,98 @@
     <path d="M12 3.4v17.2M6.6 20.6h10.8"/>
     <path d="M4 7h16"/>
     <path d="M4 7 1.4 13.4h5.2ZM20 7l-2.6 6.4h5.2Z"/>
+    <path d="M4 7V5.2M20 7V5.2M9.6 5.6h4.8" stroke-width=".55" opacity=".7"/>
+    <circle cx="12" cy="4.4" r="1" stroke-width=".55" opacity=".7"/>
+  </symbol>
+
+  <!-- Shield with a check — quality assurance, verification. -->
+  <symbol id="i-shield-check" viewBox="0 0 24 24">
+    <path d="M12 2.2 20.4 5v7.6c0 4.8-3.4 8.6-8.4 10.2-5-1.6-8.4-5.4-8.4-10.2V5Z"/>
+    <path d="m8.4 12 2.6 2.6 4.6-5"/>
+    <path d="M12 4.2 18.4 6.4v6.2c0 3.8-2.6 6.9-6.4 8.2-3.8-1.3-6.4-4.4-6.4-8.2V6.4Z" stroke-width=".55" opacity=".5"/>
+  </symbol>
+
+  <!-- Target — the published standard, and hitting it. -->
+  <symbol id="i-target" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <circle cx="12" cy="12" r="5"/>
+    <circle cx="12" cy="12" r="1.4"/>
+    <path d="M12 1.6v3M12 19.4v3M1.6 12h3M19.4 12h3" stroke-width=".55" opacity=".72"/>
+  </symbol>
+
+  <!-- Layers — the six levels, stacked into one pathway. -->
+  <symbol id="i-layers" viewBox="0 0 24 24">
+    <path d="M12 2.6 21.6 7 12 11.4 2.4 7Z"/>
+    <path d="m2.4 12 9.6 4.4 9.6-4.4"/>
+    <path d="m2.4 17 9.6 4.4 9.6-4.4"/>
+    <path d="M6.6 9 12 11.4 17.4 9" stroke-width=".55" opacity=".6"/>
+  </symbol>
+
+  <!-- Ascending chart — progression through the levels. -->
+  <symbol id="i-progress" viewBox="0 0 24 24">
+    <path d="M3 21h18M3 21V3"/>
+    <path d="M6.6 17.4v-3.2M11 17.4v-6.8M15.4 17.4V7.8M19.8 17.4V4.6"/>
+    <path d="M6.6 13 11 9.4l4.4-3.2 4.4-2.8" stroke-width=".55" opacity=".62"/>
+    <path d="M3 16.2h18M3 11.4h18M3 6.6h18" stroke-width=".55" opacity=".32"/>
+  </symbol>
+
+  <!-- Hourglass — hours of study, time on task. -->
+  <symbol id="i-hourglass" viewBox="0 0 24 24">
+    <path d="M5.6 2.6h12.8M5.6 21.4h12.8"/>
+    <path d="M7.2 2.6v3.6L12 12l-4.8 5.8v3.6M16.8 2.6v3.6L12 12l4.8 5.8v3.6"/>
+    <path d="M9.4 5.4h5.2" stroke-width=".55" opacity=".72"/>
+    <path d="M9.4 18.6h5.2M10.4 16.4h3.2" stroke-width=".55" opacity=".72"/>
+  </symbol>
+
+  <!-- Calendar — dates, the academic year. -->
+  <symbol id="i-calendar" viewBox="0 0 24 24">
+    <path d="M3.4 5.4h17.2v16H3.4Z"/>
+    <path d="M3.4 10.2h17.2M8.2 2.6v5M15.8 2.6v5"/>
+    <path d="M6.8 13.4h2.2M11 13.4h2.2M15.2 13.4h2.2" stroke-width=".55" opacity=".72"/>
+    <path d="M6.8 17.2h2.2M11 17.2h2.2M15.2 17.2h2.2" stroke-width=".55" opacity=".72"/>
+  </symbol>
+
+  <!-- Waveform — the Listening Lab, recorded speech. -->
+  <symbol id="i-waveform" viewBox="0 0 24 24">
+    <path d="M2 12h2.4M7 7.4v9.2M11.6 4v16M16.2 8.6v6.8M20.8 10.8v2.4"/>
+    <path d="M4.7 10.4v3.2M9.3 5.6v12.8M13.9 6.2v11.6M18.5 9.4v5.2" stroke-width=".55" opacity=".62"/>
+  </symbol>
+
+  <!-- Mortarboard — graduation, completion of the pathway. -->
+  <symbol id="i-mortarboard" viewBox="0 0 24 24">
+    <path d="M12 3.4 22.4 8 12 12.6 1.6 8Z"/>
+    <path d="M5.6 10v5.6c0 1.8 2.9 3.2 6.4 3.2s6.4-1.4 6.4-3.2V10"/>
+    <path d="M22.4 8v5.6"/>
+    <path d="M22.4 13.6a1 1 0 1 0 0 2 1 1 0 0 0 0-2Z" stroke-width=".55" opacity=".78"/>
+    <path d="M6.4 8.4 12 5.9l5.6 2.5" stroke-width=".55" opacity=".5"/>
   </symbol>
 
   <!-- Compass — direction, guidance, the pathway. -->
   <symbol id="i-compass" viewBox="0 0 24 24">
     <circle cx="12" cy="12" r="9"/>
     <path d="m15.6 8.4-2 5.2-5.2 2 2-5.2Z"/>
+    <circle cx="12" cy="12" r="6.8" stroke-width=".55" opacity=".45"/>
+    <path d="M12 3v1.8M12 19.2V21M3 12h1.8M19.2 12H21" stroke-width=".55" opacity=".72"/>
+  </symbol>
+
+  <!-- Astrolabe — the instrument. The platform built for one programme,
+       where a compass would say "direction" and this says "measurement". -->
+  <symbol id="i-astrolabe" viewBox="0 0 24 24">
+    <!-- AN ASTROLABE, not a third globe.
+         This, #i-globe and #i-language were three circles with meridians
+         on them and were indistinguishable on a contact sheet. An
+         astrolabe is not a globe: it is a suspended disc — a shackle and
+         ring at the top, a graduated limb, a pierced rete, and an
+         alidade lying across the face on the diagonal. The suspension
+         and the alidade are what tell it apart at 30px. -->
+    <path d="M12 1.4a1.5 1.5 0 0 1 0 3 1.5 1.5 0 0 1 0-3Z" stroke-width=".7"/>
+    <path d="M12 4.4v1.2"/>
+    <circle cx="12" cy="14" r="8.2"/>
+    <circle cx="12" cy="14" r="5.9" stroke-width=".55" opacity=".72"/>
+    <path d="M12 8.1v11.8M6.1 14h11.8" stroke-width=".55" opacity=".5"/>
+    <path d="m6.2 19.8 11.6-11.6" stroke-linecap="round"/>
+    <circle cx="12" cy="14" r="1.15" stroke-width=".7"/>
+    <path d="M12 5.8v2.3M3.8 14H6.1M17.9 14h2.3M12 19.9v2.3" stroke-width=".55" opacity=".55"/>
   </symbol>
 
   <!-- Clock tower — London, the campus HQ. -->
@@ -222,7 +410,13 @@
     <circle cx="12" cy="13" r="2.6"/>
     <path d="M12 11.6V13h1.2"/>
     <path d="M6.6 21.4h10.8"/>
+    <path d="M9.4 17.4h5.2M9.4 19.2h5.2" stroke-width=".55" opacity=".68"/>
+    <path d="M12 4.6v1.6" stroke-width=".55" opacity=".68"/>
   </symbol>
+
+  <!-- ================================================================
+       ACCESS, CORRESPONDENCE, PARTNERSHIP
+       ================================================================ -->
 
   <!-- Key — access, the student portal. -->
   <symbol id="i-key" viewBox="0 0 24 24">
@@ -235,24 +429,7 @@
     <path d="M2.6 5h18.8v14H2.6Z"/>
     <path d="m2.6 5 9.4 7.4L21.4 5"/>
     <circle cx="12" cy="12.6" r="2.2"/>
-  </symbol>
-
-  <!-- Shield with a check — quality assurance, verification. -->
-  <symbol id="i-shield-check" viewBox="0 0 24 24">
-    <path d="M12 2.2 20.4 5v7.6c0 4.8-3.4 8.6-8.4 10.2-5-1.6-8.4-5.4-8.4-10.2V5Z"/>
-    <path d="m8.4 12 2.6 2.6 4.6-5"/>
-  </symbol>
-
-  <!-- Ascending chart — progression through the levels. -->
-  <symbol id="i-progress" viewBox="0 0 24 24">
-    <path d="M3 21h18M3 21V3"/>
-    <path d="M6.6 17.4v-3.2M11 17.4v-6.8M15.4 17.4V7.8M19.8 17.4V4.6"/>
-  </symbol>
-
-  <!-- Calendar — dates, the academic year. -->
-  <symbol id="i-calendar" viewBox="0 0 24 24">
-    <path d="M3.4 5.4h17.2v16H3.4Z"/>
-    <path d="M3.4 10.2h17.2M8.2 2.6v5M15.8 2.6v5"/>
+    <path d="m2.6 19 7-5.6M21.4 19l-7-5.6" stroke-width=".55" opacity=".6"/>
   </symbol>
 
   <!-- Passport — international applicants, visas. -->
@@ -260,14 +437,116 @@
     <path d="M4.6 2.6h14.8v18.8H4.6Z"/>
     <circle cx="12" cy="9.6" r="3.4"/>
     <path d="M8.6 16.6h6.8"/>
+    <path d="M12 6.2c1.2 1.4 1.8 2.6 1.8 3.4S13.2 11.8 12 13.2c-1.2-1.4-1.8-2.6-1.8-3.6S10.8 7.6 12 6.2Z" stroke-width=".55" opacity=".7"/>
+    <path d="M9.2 18.6h5.6" stroke-width=".55" opacity=".7"/>
   </symbol>
 
-  <!-- Columns — governance, the academic bodies. -->
-  <symbol id="i-columns" viewBox="0 0 24 24">
-    <path d="M2.6 6.6h18.8M4 21.4h16"/>
-    <path d="M6.4 6.6v14.8M12 6.6v14.8M17.6 6.6v14.8"/>
-    <path d="M2.6 6.6 12 2.6l9.4 4"/>
+  <!-- Accord — an agreement signed by two parties. Partnerships,
+       articulation, the awarding organisation. -->
+  <symbol id="i-accord" viewBox="0 0 24 24">
+    <path d="M4.4 4.4h9.2l6 6v9.2H4.4Z"/>
+    <path d="M13.6 4.4v6h6"/>
+    <path d="M7.6 14.4h8.8M7.6 17.2h5.6" stroke-width=".55" opacity=".76"/>
+    <circle cx="9.4" cy="9.4" r="2" stroke-width=".55" opacity=".76"/>
   </symbol>
+
+  <!-- Lock — privacy, the learner's data, what is not shared. -->
+  <symbol id="i-lock" viewBox="0 0 24 24">
+    <path d="M4.6 10.4h14.8v11H4.6Z"/>
+    <path d="M8 10.4V7.6a4 4 0 0 1 8 0v2.8"/>
+    <path d="M12 14.4v3.2" stroke-width=".55" opacity=".78"/>
+    <circle cx="12" cy="14" r="1.2" stroke-width=".55" opacity=".78"/>
+  </symbol>
+
+  <!-- A plain tick, for lists that are not shields. -->
+  <symbol id="i-check" viewBox="0 0 24 24">
+    <path d="m4.4 12.6 5 5 10.2-11.2"/>
+  </symbol>
+
+  <!-- An open ring — the counterpart to i-check, and the reason it
+       exists. A register of what is settled and what is not cannot
+       use one mark for both: /about/ listed its OUTSTANDING work
+       under the same tick as its confirmed work, so the page marked
+       unfinished things as done. This is the same diameter as the
+       tick's stroke path and deliberately empty. -->
+  <symbol id="i-ring" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="7.6"/>
+  </symbol>
+
+  <!-- A struck seal-check: settled, and sealed. Reads as heavier than
+       a bare tick beside the open ring above. -->
+  <symbol id="i-struck" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="7.6"/>
+    <path d="m8.4 12.2 2.5 2.5 4.7-5.4"/>
+  </symbol>
+
+  <!-- Opening quotation, for pulled quotes set as display type. -->
+  <symbol id="i-quote" viewBox="0 0 24 24">
+    <path d="M9.6 5.4C6 7 3.6 10.2 3.6 14a4.6 4.6 0 0 0 4.6 4.6A4.2 4.2 0 0 0 12.4 14a4.1 4.1 0 0 0-4-4.2c-.5 0-.9 0-1.2.2.4-1.6 1.6-3 3.4-4Z"/>
+    <path d="M20.4 5.4c-3.6 1.6-6 4.8-6 8.6a4.6 4.6 0 0 0 4.6 4.6A4.2 4.2 0 0 0 23.2 14a4.1 4.1 0 0 0-4-4.2c-.5 0-.9 0-1.2.2.4-1.6 1.6-3 3.4-4Z" stroke-width=".55" opacity=".6"/>
+  </symbol>
+
+  <!-- ================================================================
+       THE WORLD, AND THE FOUR REGIONS
+       ---------------------------------------------------------------
+       One globe under one graticule. Each region engraves a different
+       sector of it and sets a locator diamond into that sector, so the
+       four read as one instrument turned four ways rather than as four
+       flags. See the note at the head of this file.
+       ================================================================ -->
+
+  <!-- Globe with meridians — worldwide delivery. -->
+  <symbol id="i-globe" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M3 12h18"/>
+    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z"/>
+    <path d="M5 6.4c2 1.2 4.4 1.8 7 1.8s5-.6 7-1.8M5 17.6c2-1.2 4.4-1.8 7-1.8s5 .6 7 1.8"/>
+    <path d="M4.2 9.2h15.6M4.2 14.8h15.6" stroke-width=".55" opacity=".38"/>
+  </symbol>
+
+  <!-- The Gulf — the south-eastern sector. -->
+  <symbol id="i-region-gulf" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M3 12h18"/>
+    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z" stroke-width=".55" opacity=".45"/>
+    <path d="M12 12 13.56 20.86A9 9 0 0 0 20.97 12.78Z"/>
+    <path d="M13.4 17.6c2.4-.3 4.3-1.4 5.6-3.2M14.1 19.5c2.9-.5 5.2-2 6.6-4.4" stroke-width=".55" opacity=".62"/>
+    <path d="m16.4 15.1 1.3 1.3-1.3 1.3-1.3-1.3Z" stroke-width=".55" opacity=".95"/>
+  </symbol>
+
+  <!-- Europe — the north-western sector. -->
+  <symbol id="i-region-europe" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M3 12h18"/>
+    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z" stroke-width=".55" opacity=".45"/>
+    <path d="M12 12 10.44 3.14A9 9 0 0 0 3.03 11.22Z"/>
+    <path d="M10.6 6.4c-2.4.3-4.3 1.4-5.6 3.2M9.9 4.5c-2.9.5-5.2 2-6.6 4.4" stroke-width=".55" opacity=".62"/>
+    <path d="m7.6 8.9-1.3-1.3 1.3-1.3 1.3 1.3Z" stroke-width=".55" opacity=".95"/>
+  </symbol>
+
+  <!-- Africa — the south-western sector. -->
+  <symbol id="i-region-africa" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M3 12h18"/>
+    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z" stroke-width=".55" opacity=".45"/>
+    <path d="M12 12 3.03 12.78A9 9 0 0 0 10.44 20.86Z"/>
+    <path d="M10.6 17.6c-2.4-.3-4.3-1.4-5.6-3.2M9.9 19.5c-2.9-.5-5.2-2-6.6-4.4" stroke-width=".55" opacity=".62"/>
+    <path d="m7.6 15.1 1.3 1.3-1.3 1.3-1.3-1.3Z" stroke-width=".55" opacity=".95"/>
+  </symbol>
+
+  <!-- Asia — the north-eastern sector. -->
+  <symbol id="i-region-asia" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M3 12h18"/>
+    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z" stroke-width=".55" opacity=".45"/>
+    <path d="M12 12 20.97 11.22A9 9 0 0 0 13.56 3.14Z"/>
+    <path d="M13.4 6.4c2.4.3 4.3 1.4 5.6 3.2M14.1 4.5c2.9.5 5.2 2 6.6 4.4" stroke-width=".55" opacity=".62"/>
+    <path d="m16.4 8.9-1.3-1.3 1.3-1.3 1.3 1.3Z" stroke-width=".55" opacity=".95"/>
+  </symbol>
+
+  <!-- ================================================================
+       NAVIGATION AND UTILITY
+       ================================================================ -->
 
   <!-- Arrow, used for links and CTAs. -->
   <symbol id="i-arrow" viewBox="0 0 24 24">
@@ -293,8 +572,34 @@
 
   <!-- Language switch. -->
   <symbol id="i-language" viewBox="0 0 24 24">
-    <circle cx="12" cy="12" r="9"/>
-    <path d="M3 12h18M12 3c2.4 2.6 3.6 5.6 3.6 9s-1.2 6.4-3.6 9c-2.4-2.6-3.6-5.6-3.6-9S9.6 5.6 12 3Z"/>
+    <!-- LANGUAGE, not a fourth globe.
+         A circle with meridians on it is a GLOBE, and #i-globe is
+         already that. This mark means the two languages the College
+         publishes in, so it is drawn as the two scripts: a Latin A on
+         the sinister side, an Arabic waw-and-tooth stroke on the
+         dexter, divided by a hairline rule. Unmistakable at 30px, and
+         it says the actual thing rather than gesturing at "world". -->
+    <path d="M3.1 15.6 6.4 7.4l3.3 8.2M4.4 12.9h4"/>
+    <path d="M12 4.6v14.8" stroke-width=".55" opacity=".45"/>
+    <path d="M17.9 8.1c1.7 0 2.9 1.2 2.9 2.9 0 1.6-1.1 2.7-2.6 2.7-1.2 0-2-.7-2-1.7 0-.9.6-1.5 1.4-1.5.6 0 1 .3 1.1.8"/>
+    <path d="M14.2 16.4h6.6" stroke-width=".55" opacity=".8"/>
+  </symbol>
+
+  <!-- Countermark — a sheet carrying an identifying impression, for the
+       edition mark printed on every page of every volume. Distinct from
+       i-seal, which is a seal of conferral with a ribbon: this is the
+       quieter thing, a mark that says WHERE A PAGE CAME FROM. The leaf
+       is at full weight; the impression and its radiating ticks are the
+       hairline, so the mark reads as pressed INTO the paper rather than
+       drawn on top of it. -->
+  <symbol id="i-countermark" viewBox="0 0 24 24">
+    <path d="M5 2.6h10.4L19 6.2v15.2H5Z"/>
+    <path d="M15.4 2.6v3.6H19"/>
+    <circle cx="12" cy="13.4" r="4.2"/>
+    <path d="M9.6 13.4h4.8"/>
+    <circle cx="12" cy="13.4" r="2.2" stroke-width=".55" opacity=".7"/>
+    <path d="M12 7.9v1.3M12 17.6v1.3M6.6 13.4h1.3M16.1 13.4h1.3"
+      stroke-width=".55" opacity=".75"/>
   </symbol>
 
 </defs>
@@ -338,32 +643,49 @@
     <path d="M6.4 19.0H18.6M6.4 15.8H18.6M6.4 12.6H18.6M6.4 9.4H18.6M6.4 6.2H18.6M6.4 3.0H18.6"/>
   </symbol>
 </svg>
-<div class="topbar">
+<!-- شريط الأدوات: أداةٌ لا شريط اتصال. انظر النسخة الإنجليزية للتعليل. -->
+<div class="topbar" data-worldclock>
   <div class="topbar__inner">
-    <div class="topbar__contacts">
-      <a href="mailto:info@worldwencollege.co.uk" class="topbar__item" dir="ltr">
-        <svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg>
-        info@worldwencollege.co.uk
-      </a>
-      <span class="topbar__item topbar__item--muted">
+
+    <div class="seat">
+      <span class="seat__flag" aria-hidden="true">🇬🇧</span>
+      <span class="seat__place">
+        <span class="seat__city">لندن</span><span class="seat__country">، المملكة المتحدة</span>
+      </span>
+      <span class="seat__rule" aria-hidden="true"></span>
+      <span class="seat__clock">
         <svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg>
-        الحرم الجامعي في لندن · التقديم متاح عالميًا
+        <span data-clock-london dir="ltr">&mdash;</span>
+        <span class="seat__tz">بتوقيت لندن</span>
       </span>
     </div>
+
+    <div class="here" data-here hidden>
+      <span class="here__label">تتصفّح من</span>
+      <span class="here__flag" data-here-flag aria-hidden="true"></span>
+      <span class="here__name" data-here-name></span>
+      <span class="seat__rule" aria-hidden="true"></span>
+      <span class="here__time" data-clock-local dir="ltr"></span>
+    </div>
+
     <div class="topbar__right">
-      <a href="/ar/contact/" class="topbar__item">
-        <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg>
+      <a href="/ar/contact/" class="topbar__item topbar__item--contact">
+        <svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg>
         تواصل معنا
       </a>
-      <a class="topbar__lang" href="/academics/" lang="en" hreflang="en" dir="ltr">
-        <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
-        English
-      </a>
-      <div class="topbar__social" aria-label="روابط التواصل الاجتماعي">
-        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
-        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
-        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
-      </div>
+      <div class="langswitch">
+    <button type="button" class="langswitch__btn" aria-expanded="false" aria-haspopup="true">
+      <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
+      <span class="langswitch__now">العربية</span>
+      <svg class="icon langswitch__chev" aria-hidden="true"><use href="#i-arrow"/></svg>
+    </button>
+    <div class="langswitch__menu crystal" role="menu">
+      <p class="langswitch__head">الطبعات</p>
+        <a class="lang__row" href="/academics/" hreflang="en" lang="en"><span class="lang__flag" aria-hidden="true">🇬🇧</span><span class="lang__endonym" lang="en">English</span><span class="lang__english">English</span></a>
+        <span class="lang__row lang__row--current" aria-current="true"><span class="lang__flag" aria-hidden="true">🇸🇦</span><span class="lang__endonym" dir="rtl" lang="ar">العربية</span><span class="lang__english">Arabic</span><span class="lang__state"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg></span></span>
+    </div>
+  </div>
+      
     </div>
   </div>
 </div>
@@ -439,7 +761,9 @@
               <p class="mega__label">المؤسسة</p>
               <a href="/ar/about/">عن الكلية</a>
               <a href="/ar/about/#vision">الرؤية والرسالة</a>
-              <a href="/ar/about/#philosophy">الفلسفة التربوية</a>
+              <a href="/ar/why-english/">حجّة الإنجليزية</a>
+              <a href="/ar/why-english/">حجّة الإنجليزية</a>
+          <a href="/ar/about/#philosophy">الفلسفة التربوية</a>
               <a href="/ar/about/#structure">التنظيم</a>
               <a href="/ar/about/careers/">العمل في الكلية</a>
             </div>
@@ -447,7 +771,7 @@
           <a class="mega__feature" href="/ar/about/#status">
             <svg class="icon icon--lg" aria-hidden="true"><use href="#i-columns"/></svg>
             <span class="mega__feature-label">الوضع المؤسسي</span>
-            <span class="mega__feature-text">ما هي الكلية اليوم — وما ليست بعد. مكتوب بوضوح ومحدَّث باستمرار.</span>
+            <span class="mega__feature-text">ثماني دفعات وستون دولة. أكثر من 22,000 متعلّم درسوا هنا منذ 2023، والسجل وراء الرقم منشور.</span>
             <span class="mega__feature-go">اقرأ الوضع المؤسسي <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
           </a>
         </div>
@@ -468,6 +792,7 @@
               <p class="mega__label">التدريس وهيئته</p>
               <a href="/ar/academics/teaching/">ممارسة التدريس</a>
               <a href="/ar/academics/teaching/#development">تطوير المعلّمين</a>
+              <a href="/ar/academics/tutor-handbook/">دليل المدرّس</a>
               <a href="/ar/faculty/">هيئة التدريس</a>
             </div>
           </div>
@@ -517,13 +842,15 @@
               <a href="/ar/admissions/apply/">كيفية التقديم</a>
               <a href="/ar/admissions/#requirements">شروط الالتحاق</a>
               <a href="/ar/admissions/tuition/">الرسوم والتمويل</a>
+              <a href="/ar/admissions/tuition/#routes">الدراسة المستقلة</a>
               <a href="/ar/admissions/policy/">سياسة القبول</a>
+              <a href="/ar/admissions/international/">الدراسة من بلدك</a>
             </div>
           </div>
           <a class="mega__feature" href="/ar/admissions/apply/">
             <svg class="icon icon--lg" aria-hidden="true"><use href="#i-seal"/></svg>
-            <span class="mega__feature-label">القبول مستمر</span>
-            <span class="mega__feature-text">لا دفعة تنتظرها. تبدأ يوم تسجّل.</span>
+            <span class="mega__feature-label">ثلاث دفعات في العام</span>
+            <span class="mega__feature-text">الربيع والصيف والخريف. ومئتا مقعد مفتوحة عالميًا في الدفعة الحالية.</span>
             <span class="mega__feature-go">ابدأ طلبك <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
           </a>
         </div>
@@ -541,6 +868,9 @@
               <a href="/ar/students/awards/">الشهادات والمراتب</a>
               <a href="/ar/students/#support">الدعم</a>
               <a href="/ar/students/regulations/">اللوائح الأكاديمية</a>
+              <a href="/ar/students/examinations/">لوائح الامتحان</a>
+              <a href="/ar/students/handbook/">دليل الطالب</a>
+              <a href="/ar/support/complaints/">الشكاوى</a>
             </div>
           </div>
           <a class="mega__feature" href="/ar/student-portal/">
@@ -584,6 +914,10 @@
               <a href="/ar/governance/#leadership">القيادة والهيئات</a>
               <a href="/ar/governance/#quality">ضمان الجودة</a>
               <a href="/ar/governance/decisions/">سجل القرارات</a>
+              <a href="/ar/governance/quality/">بنية الجودة</a>
+              <a href="/ar/governance/quality-manual/">دليل ضمان الجودة</a>
+          <a href="/ar/governance/instruments/">سجلّ الأدوات النظامية</a>
+              <a href="/ar/governance/instruments/">سجلّ الأدوات النظامية</a>
             </div>
           </div>
           <a class="mega__feature" href="/ar/governance/decisions/">
@@ -636,21 +970,39 @@
        تكلّف الترويسة شيئًا يُذكر من الارتفاع. js/worldclock.js يملأ
        القيم الثلاث؛ الأرقام هنا هي حالة ما قبل تشغيل السكربت فقط.
 
-       كانت أيقونة عارية ونصًا صِرفًا على شريط مسطّح — القطعة الوحيدة في
-       الترويسة التي لم تحمل معدن الـ"vessel/badge" الذي تُبنى منه بلاطات
-       التنقّل السريع تحتها وشبكة التذييل نفسها. الشارة والوسمان الذهبيان
-       والخطوط الفاصلة هنا هي المعدن نفسه بمقياس لوحة القيادة: سطر واحد
-       يظل يكلّف الترويسة القليل من الارتفاع، لكنه لم يعد الشيء الوحيد
-       على الصفحة الذي ما زال يلبس نصًّا صِرفًا. -->
-  <div class="headerclock grain" data-worldclock>
-    <span class="headerclock__badge"><svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg></span>
-    <span class="headerclock__times tabular" dir="ltr">
-      <span class="headerclock__reading"><span data-clock-london>13:36</span><span class="headerclock__tz">LON</span></span>
-      <span class="headerclock__rule" aria-hidden="true"></span>
-      <span class="headerclock__reading"><span data-clock-local>13:36</span><span class="headerclock__tz">YOU</span></span>
-    </span>
-    <span class="headerclock__rule headerclock__rule--edge" aria-hidden="true"></span>
-    <span class="headerclock__date" data-clock-date>Sat, 15 Aug</span>
+       شريط الترويسة العلوي (partials/topbar.ar.html) صار يحمل الساعتين
+       معًا، فاستغنينا عن هذا الشريط المكرَّر في الجوال — انظر التعليق في
+       partials/header.html لتفصيل السبب. -->
+
+  <!-- شريط الإجراءات السريعة — انظر النسخة الإنجليزية للتعليل. -->
+  <div class="utilrail" aria-label="إجراءات سريعة">
+    <div class="utilrail__track">
+      <a class="utilrail__item utilrail__item--gold" href="/ar/student-portal/">
+        <svg class="icon" aria-hidden="true"><use href="#i-key"/></svg><span>بوابة الطالب</span></a>
+      <a class="utilrail__item utilrail__item--gold" href="/ar/admissions/apply/">
+        <svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg><span>قدِّم الآن</span></a>
+      <a class="utilrail__item" href="/ar/contact/#consultation">
+        <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg><span>احجز استشارة</span></a>
+      <a class="utilrail__item" href="/ar/admissions/tuition/">
+        <svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg><span>الرسوم الدراسية</span></a>
+      <a class="utilrail__item" href="/ar/admissions/tuition/#scholarships">
+        <svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg><span>المنح</span></a>
+      <a class="utilrail__item" href="/ar/press/library/">
+        <svg class="icon" aria-hidden="true"><use href="#i-book"/></svg><span>المطبوعات</span></a>
+      <div class="utilrail__item utilrail__item--has-menu">
+        <button type="button" class="utilrail__btn" aria-expanded="false" aria-haspopup="true">
+          <svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg><span>التحقّق</span>
+          <svg class="icon utilrail__chev" aria-hidden="true"><use href="#i-arrow"/></svg>
+        </button>
+        <div class="utilrail__menu crystal" role="menu">
+          <a href="/ar/verify/?type=certificate"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg>التحقّق من شهادة</a>
+          <a href="/ar/verify/?type=transcript"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg>التحقّق من كشف درجات</a>
+          <a href="/ar/verify/?type=identity"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg>التحقّق من هوية طالب</a>
+          <a href="/ar/verify/?type=receipt"><svg class="icon" aria-hidden="true"><use href="#i-countermark"/></svg>التحقّق من إيصال</a>
+          <a href="/ar/verify/"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg>التحقّق من أي وثيقة</a>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- شريط التنقّل السريع: للجوال فقط (يُخفى من 861px فصاعدًا، حيث
@@ -658,36 +1010,6 @@
        بلمسة الإصبع يحمل الأركان الستة ذاتها، وبطاقة سابعة "القائمة
        الكاملة" تفتح اللوحة أدناه بدل الانتقال إلى صفحة — الشريط
        اختصار للمستوى الأول، واللوحة تبقى حيث يقيم الموقع كاملًا. -->
-  <!-- شريط الإجراءات: انظر التعليق في partials/header.html. ثلاثة مسارات
-       لا رابعة: من ينتمي إلى الكلية بالفعل، ومن يقرّر أينتمي، ومن قرّر. -->
-  <div class="actionband">
-    <div class="actionband__inner">
-      <a class="actionband__item" href="/ar/student-portal/">
-        <span class="actionband__badge"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
-        <span class="actionband__text">
-          <span class="actionband__title">ادخل إلى البوابة</span>
-          <span class="actionband__note">برنامجك وتسجيلاتك وسجلك</span>
-        </span>
-        <svg class="icon actionband__go" aria-hidden="true"><use href="#i-arrow"/></svg>
-      </a>
-      <a class="actionband__item" href="/ar/admissions/">
-        <span class="actionband__badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
-        <span class="actionband__text">
-          <span class="actionband__title">كيف يجري القبول</span>
-          <span class="actionband__note">أربع خطوات، ولا دفعة تنتظرها</span>
-        </span>
-        <svg class="icon actionband__go" aria-hidden="true"><use href="#i-arrow"/></svg>
-      </a>
-      <a class="actionband__item actionband__item--lead" href="/ar/admissions/apply/">
-        <span class="actionband__badge"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
-        <span class="actionband__text">
-          <span class="actionband__title">ابدأ طلبًا</span>
-          <span class="actionband__note">بلا رسوم، ودون طلب بيانات بطاقة</span>
-        </span>
-        <svg class="icon actionband__go" aria-hidden="true"><use href="#i-arrow"/></svg>
-      </a>
-    </div>
-  </div>
 
   <div class="quicknav grain" aria-label="التنقّل السريع">
     <div class="quicknav__track">
@@ -752,6 +1074,7 @@
           <a href="/ar/academics/#campus">الحرم الرقمي</a>
           <a href="/ar/academics/teaching/">ممارسة التدريس</a>
           <a href="/ar/academics/teaching/#development">تطوير المعلّمين</a>
+          <a href="/ar/academics/tutor-handbook/">دليل المدرّس</a>
           <a href="/ar/faculty/">هيئة التدريس</a>
         </div></div>
       </div>
@@ -774,7 +1097,9 @@
           <a href="/ar/admissions/apply/">كيفية التقديم</a>
           <a href="/ar/admissions/#requirements">شروط الالتحاق</a>
           <a href="/ar/admissions/tuition/">الرسوم والتمويل</a>
+          <a href="/ar/admissions/tuition/#routes">الدراسة المستقلة</a>
           <a href="/ar/admissions/policy/">سياسة القبول</a>
+          <a href="/ar/admissions/international/">الدراسة من بلدك</a>
           <a href="/ar/faq/">أسئلة القبول</a>
         </div></div>
       </div>
@@ -787,6 +1112,9 @@
           <a href="/ar/students/awards/">الشهادات والمراتب</a>
           <a href="/ar/students/#support">الدعم</a>
           <a href="/ar/students/regulations/">اللوائح الأكاديمية</a>
+          <a href="/ar/students/examinations/">لوائح الامتحان</a>
+          <a href="/ar/students/handbook/">دليل الطالب</a>
+          <a href="/ar/support/complaints/">الشكاوى</a>
           <a href="/ar/student-portal/">بوابة الطالب</a>
         </div></div>
       </div>
@@ -807,6 +1135,8 @@
           <a href="/ar/governance/#leadership">القيادة والهيئات</a>
           <a href="/ar/governance/#quality">ضمان الجودة</a>
           <a href="/ar/governance/decisions/">سجل القرارات</a>
+          <a href="/ar/governance/quality/">بنية الجودة</a>
+          <a href="/ar/governance/quality-manual/">دليل ضمان الجودة</a>
         </div></div>
       </div>
       <div class="accordion__item">
@@ -830,25 +1160,74 @@
         <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
         English
       </a>
-      <div class="topbar__social" aria-label="روابط التواصل الاجتماعي">
-        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
-        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
-        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
-      </div>
+      
     </div>
     <a href="/ar/admissions/apply/" class="btn btn--gold">قدّم الآن</a>
   </nav>
 </header>
 
 <main id="main">
-<section class="page-hero section--dark section-pad">
-  <div class="container">
-    <span class="eyebrow">البرامج الأكاديمية</span>
-    <h1 data-split>برنامج واحد، يُدرَّس بمعيار مكتوب.</h1>
-    <p class="lede">تدرّس الكلية مسارًا واحدًا — برنامج الطلاقة الدولي في اللغة الإنجليزية — في ستة مستويات متوافقة مع الإطار الأوروبي، من عدم وجود إنجليزية إلى الإتقان. كل وحدة مكتوبة، وكل تقييم موجود قبل الدرس الذي يختبره، وكل ذلك متاح للقراءة قبل أن يسجّل أحد.</p>
-    <div class="btn-row">
+<!--
+  البرامج الأكاديمية — صفحة الركن.
+
+  الطبعة العربية لصفحة /academics/، ثمانية أوراق مقابل ثمانية.
+  ---------------------------------------------------------------------
+  THE ARABIC EDITION SHIPS WITH THE ENGLISH ONE. This file mirrors
+  pages/academics.html leaf for leaf — the ascent, the horarium, the
+  twenty disciplines, the register of what is held against what is not.
+  It is not a summary of the English page and must never become one.
+
+  TWO THINGS THIS FILE MUST NOT DO, both enforced by
+  tests/published-claims.test.mjs and both got wrong before. Neither is
+  spelled out here, deliberately: the test greps the SOURCE, so a note
+  quoting the banned strings fails the page it is trying to protect —
+  which is what happened when this comment was first written.
+
+    1. THE RETIRED SITE-WIDE LESSON TOTAL is banned on Arabic pages, in
+       Arabic numerals and in Arabic words alike. A translation of the
+       mission clause reintroduced it once. Each level's own designed
+       lesson count is publishable; the six summed is not.
+    2. THE RETIRED NOUN for a published learning-item measure is banned
+       in all its forms. وحدة on this page means MODULE — ten per level
+       — which is a different thing and is allowed. Read the regexes in
+       the test before adding a phrase near either.
+
+  ARABIC TYPE RULES LIVE IN css/arabic.css. Declare the family; never
+  re-point a token. Numerals are set as Arabic-Indic in prose and are
+  wrapped in <span dir="ltr"> where they are Latin-script codes (CEFR
+  bands, award abbreviations).
+-->
+
+<!-- ==================================================================
+     الترويسة
+     ================================================================== -->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <img class="masthead__plate" src="/assets/art/curriculum-spiral.ar.svg" alt="" aria-hidden="true" width="320" height="400" data-depth="0.05">
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-astrolabe"/></svg></p>
+
+    <p class="masthead__eyebrow">البرامج الأكاديمية &middot; برنامج الطلاقة الدولي في اللغة الإنجليزية</p>
+    <h1>برنامج واحد، يُدرَّس بمعيار مكتوب.</h1>
+    <p class="masthead__stake">أكثر مقررات اللغة تُكتشف درسًا درسًا &mdash; تعرف ما يُدرَّس حين تصل إليه، وما تُقيَّم به حين تُقيَّم. <strong>وهنا يُنشر كله قبل أن تدفع.</strong></p>
+    <p class="lede">تدرّس الكلية مسارًا واحدًا &mdash; برنامج الطلاقة الدولي في اللغة الإنجليزية
+      &mdash; في ستة مستويات متوافقة مع الإطار الأوروبي، من عدم وجود إنجليزية إلى الإتقان. كل
+      وحدة مكتوبة، وكل تقييم موجود قبل الدرس الذي يختبره، وكل ذلك متاح للقراءة قبل أن يسجّل
+      أحد.</p>
+
+    <dl class="masthead__facts">
+      <div class="masthead__fact"><dt>المستويات</dt><dd>ستة، من <span dir="ltr">A1</span> إلى <span dir="ltr">C2</span></dd></div>
+      <div class="masthead__fact"><dt>الوحدات</dt><dd>ستون، جميعها مكتوبة</dd></div>
+      <div class="masthead__fact"><dt>أرصدة الكلية</dt><dd>١٢٠</dd></div>
+      <div class="masthead__fact"><dt>الزمن الكلي للمؤهل</dt><dd>١٢٠٠ ساعة</dd></div>
+    </dl>
+
+    <p class="masthead__motto">&laquo;كل تقييم موجود قبل الدرس الذي يختبره.&raquo;</p>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></p>
+
+    <div class="btn-row u-center" style="margin-top:30px">
       <a href="/ar/admissions/#apply" class="btn btn--gold">قدّم الآن</a>
-      <a href="/ar/admissions/tuition/" class="btn btn--outline">الرسوم</a>
+      <a href="/ar/academics/teaching/" class="btn btn--outline">ممارسة التدريس</a>
     </div>
   </div>
 </section>
@@ -857,225 +1236,1126 @@
   <div class="contents__inner">
     <span class="contents__label">في هذه الصفحة</span>
     <ul class="contents__list">
-      <li><a href="#iefc">برنامج ⁦IEFC⁩</a></li>
-      <li><a href="#levels">المستويات الستة</a></li>
+      <li><a href="#iefc">برنامج IEFC</a></li>
+      <li><a href="#levels">العبء والأرصدة</a></li>
+      <li><a href="#credit-framework">إطار الأرصدة</a></li>
+      <li><a href="#graduation">شروط المنح</a></li>
+      <li><a href="#academic-year">السنة الأكاديمية</a></li>
+      <li><a href="#assessment">التقييم</a></li>
+      <li><a href="#curriculum">مجالات المنهج</a></li>
       <li><a href="#learning">كيف يجري التعلّم</a></li>
+      <li><a href="#teaching">ممارسة التدريس</a></li>
       <li><a href="#campus">الحرم الرقمي</a></li>
-      <li><a href="#teaching">التدريس</a></li>
+      <li><a href="#status">الوضع الأكاديمي</a></li>
+      <li><a href="#resources">اقرأه أولًا</a></li>
     </ul>
   </div>
 </nav>
 
 
-<section class="section--light section-pad" id="iefc" data-contents="برنامج ⁦IEFC⁩">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">برنامج ⁦IEFC⁩</span>
+<!-- ==================================================================
+     الورقة الأولى — الصعود
+     ================================================================== -->
+<section class="leaf section--paper grain" id="iefc" data-contents="برنامج IEFC">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/curriculum-spiral.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١</span>
+      <span class="leaf__label">برنامج <span dir="ltr">IEFC</span></span>
+      <p class="leaf__rubric">ستة مستويات، بترتيب صعودها، كلٌّ معلّق على نطاقه في الإطار الأوروبي.</p>
+    </div>
+    <div class="leaf__body reveal">
       <h2>ستة مستويات، متوافقة مع الإطار الأوروبي.</h2>
-      <p class="lede">صُمّم كل مستوى ليبني نحو نطاقه في الإطار الأوروبي المرجعي المشترك للغات —
-        المعيار الأوسع اعترافًا لدى الجامعات وأصحاب العمل ومؤسسات اللغة الإنجليزية في العالم.
-        يحمل كل مستوى <span dir="ltr">20</span> رصيدًا من أرصدة الكلية، والزمن الكلي للمؤهل فيه
-        <span dir="ltr">200</span> ساعة على مدى أربعة أشهر؛ والبرنامج كاملًا <span dir="ltr">120</span> رصيدًا والزمن
-        الكلي للمؤهل <span dir="ltr">1,200</span> ساعة.</p>
+      <p class="lede">صُمّم كل مستوى ليبني نحو نطاقه في الإطار الأوروبي المرجعي المشترك للغات
+        &mdash; المعيار الأوسع اعترافًا لدى الجامعات وأصحاب العمل ومؤسسات اللغة الإنجليزية في
+        العالم. وكل مستوى أربعة أشهر من الدراسة: عشر وحدات، و١٢٠ درسًا مصمَّمًا، وزمن كلي
+        للمؤهل مقداره ٢٠٠ ساعة. ولست مضطرًا أن تبدأ من المستوى الأول &mdash; تقييم تحديد
+        المستوى يبيّن أين موضعك.</p>
+
+      <figure class="plate plate--drift plate--photo reveal" style="--plate-ratio: 16 / 9">
+        <div class="plate__frame tilt gold-live edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <img src="/assets/images/plates/reading-hall.jpg" alt="قاعة مطالعة جامعية طويلة بسقف خشبي مزخرف، ورفوف كتب مصطفّة، وطاولات قراءة تحتها." loading="lazy" decoding="async">
+          <span class="plate__tone" aria-hidden="true"></span>
+          <span class="plate__tone plate__tone--warm" aria-hidden="true"></span>
+        </div>
+        <figcaption class="plate__caption">
+          <svg class="icon" aria-hidden="true"><use href="#i-book"/></svg>
+          المنهج طريق في ما هو مكتوب.
+    <span class="plate__credit">تصوير <a href="https://www.flickr.com/photos/35106989@N08/6780155266">robert.claypool</a>، <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a></span>
+        </figcaption>
+      </figure>
+      <ol class="ascent">
+        <li class="ascent__step reveal edge-lit edge-lit--light aurum">
+          <span class="ascent__band gold-live" dir="ltr">A1</span>
+          <div>
+            <span class="ascent__ord">المستوى الأول &middot; شهادة <span dir="ltr">ApWEC</span></span>
+            <h3><a href="/ar/study/level-1/">برنامج التأسيس</a></h3>
+            <p>من الكلمات الأولى إلى تبادلات يومية بسيطة &mdash; النظام الصوتي، والقواعد الأساسية، ومفردات البقاء، مبنيةً من لا شيء.</p>
+            <dl class="ascent__facts">
+              <div><dt>الإطار</dt><dd dir="ltr">A1</dd></div>
+              <div><dt>الأشهر</dt><dd>٤</dd></div>
+              <div><dt>الوحدات</dt><dd>١٠</dd></div>
+              <div><dt>الدروس</dt><dd>١٢٠</dd></div>
+            </dl>
+          </div>
+        </li>
+        <li class="ascent__step reveal edge-lit edge-lit--light aurum">
+          <span class="ascent__band gold-live" dir="ltr">A2</span>
+          <div>
+            <span class="ascent__ord">المستوى الثاني &middot; شهادة <span dir="ltr">CnWEC</span></span>
+            <h3><a href="/ar/study/level-2/">البرنامج الابتدائي</a></h3>
+            <p>مواضيع يومية بثقة متزايدة &mdash; محادثة روتينية وتواصل كتابي بسيط، يُؤدَّيان دون تحضير مسبق.</p>
+            <dl class="ascent__facts">
+              <div><dt>الإطار</dt><dd dir="ltr">A2</dd></div>
+              <div><dt>الأشهر</dt><dd>٤</dd></div>
+              <div><dt>الوحدات</dt><dd>١٠</dd></div>
+              <div><dt>الدروس</dt><dd>١٢٠</dd></div>
+            </dl>
+          </div>
+        </li>
+        <li class="ascent__step reveal edge-lit edge-lit--light aurum">
+          <span class="ascent__band gold-live" dir="ltr">B1</span>
+          <div>
+            <span class="ascent__ord">المستوى الثالث &middot; شهادة <span dir="ltr">AsWEC</span></span>
+            <h3><a href="/ar/study/level-3/">البرنامج المتوسط</a></h3>
+            <p>استخدام مستقل للغة الإنجليزية &mdash; كلام مترابط، وآراء تُدافَع عنها تحت السؤال، وكتابة منظّمة لا مركّبة.</p>
+            <dl class="ascent__facts">
+              <div><dt>الإطار</dt><dd dir="ltr">B1</dd></div>
+              <div><dt>الأشهر</dt><dd>٤</dd></div>
+              <div><dt>الوحدات</dt><dd>١٠</dd></div>
+              <div><dt>الدروس</dt><dd>١٢٠</dd></div>
+            </dl>
+          </div>
+        </li>
+        <li class="ascent__step reveal edge-lit edge-lit--light aurum">
+          <span class="ascent__band gold-live" dir="ltr">B2</span>
+          <div>
+            <span class="ascent__ord">المستوى الرابع &middot; شهادة <span dir="ltr">EnWEC</span></span>
+            <h3><a href="/ar/study/level-4/">المتوسط المتقدم</a></h3>
+            <p>تفاعل طليق وتلقائي &mdash; سجل أكاديمي ومهني، وحجاج وتحليل. ومن هنا يبدأ الإعداد لاختبارات <span dir="ltr">IELTS</span> و<span dir="ltr">TOEFL</span> و<span dir="ltr">Cambridge English</span>.</p>
+            <dl class="ascent__facts">
+              <div><dt>الإطار</dt><dd dir="ltr">B2</dd></div>
+              <div><dt>الأشهر</dt><dd>٤</dd></div>
+              <div><dt>الوحدات</dt><dd>١٠</dd></div>
+              <div><dt>الدروس</dt><dd>١٢٠</dd></div>
+            </dl>
+          </div>
+        </li>
+        <li class="ascent__step reveal edge-lit edge-lit--light aurum">
+          <span class="ascent__band gold-live" dir="ltr">C1</span>
+          <div>
+            <span class="ascent__ord">المستوى الخامس &middot; شهادة <span dir="ltr">OrWEC</span></span>
+            <h3><a href="/ar/study/level-5/">البرنامج المتقدم</a></h3>
+            <p>استخدام دقيق ومرن للغة لأغراض أكاديمية ومهنية معقّدة &mdash; السجل الذي تُناقَش فيه القرارات وتُتَّخذ.</p>
+            <dl class="ascent__facts">
+              <div><dt>الإطار</dt><dd dir="ltr">C1</dd></div>
+              <div><dt>الأشهر</dt><dd>٤</dd></div>
+              <div><dt>الوحدات</dt><dd>١٠</dd></div>
+              <div><dt>الدروس</dt><dd>١٢٠</dd></div>
+            </dl>
+          </div>
+        </li>
+        <li class="ascent__step reveal edge-lit edge-lit--light aurum">
+          <span class="ascent__band gold-live" dir="ltr">C2</span>
+          <div>
+            <span class="ascent__ord">المستوى السادس &middot; شهادة <span dir="ltr">LrWEC</span></span>
+            <h3><a href="/ar/study/level-6/">برنامج الإتقان</a></h3>
+            <p>إتقان يقارب مستوى الناطقين الأصليين &mdash; الدقة، والتعابير، والتواصل القيادي والحضور التنفيذي. نهاية الصعود، والغاية منه.</p>
+            <dl class="ascent__facts">
+              <div><dt>الإطار</dt><dd dir="ltr">C2</dd></div>
+              <div><dt>الأشهر</dt><dd>٤</dd></div>
+              <div><dt>الوحدات</dt><dd>١٠</dd></div>
+              <div><dt>الدروس</dt><dd>١٢٠</dd></div>
+            </dl>
+          </div>
+        </li>
+      </ol>
+    
+    <figure class="diagram diagram--wide diagram--fluid" style="margin-top:2.6em">
+      <!-- Generated by scripts/art/ — do not hand-edit. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 790" width="980" height="790"
+     data-diagram="programme-orbit" role="img" lang="ar" direction="ltr"
+     aria-labelledby="programme-orbit-title programme-orbit-desc">
+  <title id="programme-orbit-title">حلقة برنامج الطلاقة الإنجليزية الدولي: ستة مستويات على مدار واحد</title>
+  <desc id="programme-orbit-desc">ستُّ شهادات كاملة على حلقة واحدة. لكلٍّ منها شرط دخولها وشرط خروجها وعنوانها ولقبها اللاحق — ومن وقف عند أي محطة حمل مؤهَّلًا تامًّا لا ناقصًا. تُقرأ مع عقارب الساعة ابتداءً من الأعلى. الترتيب ترتيب الدراسة، والحجم واحد في كل محطة لأن لا شهادة على هذه الحلقة درجةٌ إلى غيرها. المحطات الست بترتيب الدراسة: I التأسيس (A1، ApWEC)؛ II التمهيدي (A2، CnWEC)؛ III المتوسط (B1، AsWEC)؛ IV فوق المتوسط (B2، EnWEC)؛ V المتقدم (C1، OrWEC)؛ VI الإتقان (C2، LrWEC). وفي المركز مجموع ما تحمله الحلقة: 60 وحدة دراسية و294 عنصر تعلّم عبر المستويات الستة، من A1 إلى C2.</desc>
+  <defs>
+    <!-- GOLD, STRUCK. Three stops rather than two: a struck metal
+         surface is bright at the lit edge, saturated in the body and
+         warm-dark in the shadow, and a two-stop ramp reads as plastic
+         because plastic is exactly the material with no mid-tone. -->
+    <linearGradient id="po-gold" x1="0.18" y1="0" x2="0.82" y2="1">
+      <stop offset="0"    stop-color="#F2E3C0"/>
+      <stop offset="0.34" stop-color="#E7C97A"/>
+      <stop offset="0.68" stop-color="#D4AF37"/>
+      <stop offset="1"    stop-color="#795A32"/>
+    </linearGradient>
+
+    <!-- The same metal turned over, for a face that catches light from
+         below — the underside of a ribbon, the return of a fold. -->
+    <linearGradient id="po-gold-under" x1="0.2" y1="1" x2="0.8" y2="0">
+      <stop offset="0"    stop-color="#795A32"/>
+      <stop offset="0.55" stop-color="#C7A24A"/>
+      <stop offset="1"    stop-color="#E7C97A"/>
+    </linearGradient>
+
+    <!-- OXFORD, DEEP. The ground a struck object sits in. -->
+    <linearGradient id="po-deep" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0"    stop-color="#14264A"/>
+      <stop offset="0.5"  stop-color="#0E1B33"/>
+      <stop offset="1"    stop-color="#0A1428"/>
+    </linearGradient>
+
+    <!-- GLASS. A pale tablet on a dark ground: mostly transparent, with
+         a lit top edge and a faint warm cast at the foot where the gold
+         beneath it bounces. -->
+    <linearGradient id="po-glass" x1="0.15" y1="0" x2="0.85" y2="1">
+      <stop offset="0"   stop-color="#FFFFFF" stop-opacity="0.20"/>
+      <stop offset="0.4" stop-color="#FFFFFF" stop-opacity="0.06"/>
+      <stop offset="1"   stop-color="#C7A24A" stop-opacity="0.09"/>
+    </linearGradient>
+
+    <!-- The specular cap: a bright crescent across the upper third,
+         falling off to nothing before the equator. Radial rather than
+         linear because a highlight on a curved body is a patch, not a
+         band, and the linear version is the single most common tell of
+         a flat object pretending to be round. -->
+    <radialGradient id="po-spec" cx="0.32" cy="0.26" r="0.62">
+      <stop offset="0"   stop-color="#FFFFFF" stop-opacity="0.62"/>
+      <stop offset="0.38" stop-color="#FFFFFF" stop-opacity="0.16"/>
+      <stop offset="1"   stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- The halo a lit object throws onto the ground behind it. -->
+    <radialGradient id="po-halo" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0"    stop-color="#E7C97A" stop-opacity="0.26"/>
+      <stop offset="0.55" stop-color="#C7A24A" stop-opacity="0.08"/>
+      <stop offset="1"    stop-color="#C7A24A" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- ONE cast shadow for the whole plate. Objects differ in size by
+         a factor of six here and still share it: the blur is set for
+         the middle of that range, and at both ends the error is smaller
+         than the stroke width. A filter per object would be honest and
+         would also be sixty filters. -->
+    <filter id="po-cast" x="-40%" y="-40%" width="180%" height="200%">
+      <feDropShadow dx="3" dy="7" stdDeviation="7"
+                    flood-color="#0A1428" flood-opacity="0.55"/>
+    </filter>
+    <filter id="po-cast-sm" x="-40%" y="-40%" width="180%" height="200%">
+      <feDropShadow dx="1.5" dy="3" stdDeviation="3.2"
+                    flood-color="#0A1428" flood-opacity="0.5"/>
+    </filter>
+    <filter id="po-glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="9"/>
+    </filter>
+  </defs>
+  <style>
+    /* Sizes are set per-element; these classes only override at the
+       widths where the plate has been scaled down enough to need it.
+       Two steps rather than a continuous ramp: a diagram is either
+       being read at its designed size or it is being read small, and
+       the intermediate widths are where it is still comfortable. */
+    @media (max-width: 780px) {
+      .t-lbl  { font-size: 26px; }
+      .t-sub  { font-size: 17px; }
+      .t-num  { font-size: 46px; }
+      .t-eyeb { font-size: 17px; }
+      .t-note { font-size: 17px; }
+      .t-mini { font-size: 14px; }
+    }
+    @media (max-width: 520px) {
+      .t-lbl  { font-size: 32px; }
+      .t-sub  { font-size: 21px; }
+      .t-num  { font-size: 54px; }
+      .t-eyeb { font-size: 20px; }
+      .t-note { font-size: 21px; }
+      .t-mini { font-size: 17px; }
+    }
+
+    /* THE ONE THING GROWING THE TYPE CANNOT FIX.
+       A radial layout puts its labels on the horizontal, anchored away
+       from the centre, and a 28-character label grown to stay legible
+       simply runs off the plate — the ring has no more room to give it
+       and no font size satisfies both constraints at 390px.
+       So a plate may carry a label twice: the full form for the widths
+       that can hold it, and a short form — a CEFR band, a numeral, a
+       code — for the widths that cannot. Exactly one is ever visible,
+       so neither is dead weight and the drawing never carries a label
+       it has to clip. */
+    .lbl-narrow { display: none; }
+    @media (max-width: 780px) {
+      .lbl-wide { display: none; }
+      .lbl-narrow { display: inline; }
+    }
+  </style>
+  <rect width="980" height="790" fill="url(#po-deep)"/>
+
+  <!-- the eyebrow -->
+<text class="t-eyeb" x="490.0" y="34.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.22" fill="#C7A24A">⁧برنامج الطلاقة الإنجليزية الدولي⁩</text>
+
+  <!-- the ring the stations stand on -->
+    <circle cx="490.0" cy="396.0" r="196.0" fill="none"
+            stroke="url(#po-deep)" stroke-width="18.0" filter="url(#po-cast-sm)"/>
+    <circle cx="490.0" cy="396.0" r="196.0" fill="none"
+            stroke="#C7A24A" stroke-opacity="0.5" stroke-width="1"/>
+    <circle cx="490.0" cy="396.0" r="187.0" fill="none"
+            stroke="#E7C97A" stroke-opacity="0.22" stroke-width="0.8"/>
+    <path d="M 294.0 396.0 A 196.0 196.0 0 0 1 490.0 200.0"
+          fill="none" stroke="#E7C97A" stroke-opacity="0.5"
+          stroke-width="1.6" stroke-linecap="round"/>
+
+  <!-- the hub: what the six add up to -->
+    <circle cx="490" cy="396" r="128" fill="url(#po-halo)"/>
+
+    <circle cx="490.0" cy="396.0" r="112.0" fill="url(#po-deep)" filter="url(#po-cast)"/>
+    <circle cx="490.0" cy="396.0" r="112.0" fill="url(#po-spec)"/>
+    <circle cx="490.0" cy="396.0" r="112.0" fill="none"
+            stroke="#C7A24A" stroke-opacity="0.55" stroke-width="3.9"/>
+    <circle cx="490.0" cy="396.0" r="100.8" fill="none"
+            stroke="#0A1428" stroke-opacity="0.18" stroke-width="0.8"/>
+    <circle cx="490" cy="396" r="99" fill="none" stroke="#C7A24A"
+            stroke-opacity="0.35" stroke-width="0.9"/>
+<text x="490.0" y="352.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="12" font-weight="700" letter-spacing="0.2" fill="#C7A24A">⁧برنامجٌ واحد⁩</text>
+<text class="t-lbl" x="490.0" y="390.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="30" font-weight="700" fill="#F2E3C0">⁧ستُّ شهادات⁩</text>
+    <path d="M 444 410 H 536" stroke="#C7A24A"
+          stroke-opacity="0.5" stroke-width="0.9"/>
+<text x="450.0" y="442.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="25" font-weight="700" fill="#E7C97A">60</text>
+<text x="450.0" y="460.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.16" fill="#4A6491">⁧وحدة⁩</text>
+<text x="530.0" y="442.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="25" font-weight="700" fill="#E7C97A">A1 → C2</text>
+<text x="530.0" y="460.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.16" fill="#4A6491">⁧الإطار الأوروبي⁩</text>
+
+  <!-- six struck stations -->
+    <circle cx="490.0" cy="200.0" r="80.6" fill="url(#po-halo)"/>
+    <circle cx="490.0" cy="200.0" r="52.0" fill="url(#po-gold)" filter="url(#po-cast)"/>
+    <circle cx="490.0" cy="200.0" r="52.0" fill="url(#po-spec)"/>
+    <circle cx="490.0" cy="200.0" r="52.0" fill="none"
+            stroke="#F2E3C0" stroke-opacity="0.55" stroke-width="1.8"/>
+    <circle cx="490.0" cy="200.0" r="46.8" fill="none"
+            stroke="#0A1428" stroke-opacity="0.18" stroke-width="0.8"/>
+<text class="t-num" x="490.0" y="211.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="32" font-weight="700" fill="#0A1428">I</text>
+<text class="t-mini lbl-narrow" x="490.0" y="278.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="15" font-weight="700" letter-spacing="0.08" fill="#E7C97A">A1</text>
+<text class="t-lbl lbl-wide" x="490.0" y="104.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="19" font-weight="600" fill="#F2E3C0">⁧التأسيس⁩</text>
+<text class="t-sub lbl-wide" x="490.0" y="125.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="12.5" font-weight="600" letter-spacing="0.1" fill="#6E93C4">A1 · ApWEC</text>
+    <circle cx="659.7" cy="298.0" r="80.6" fill="url(#po-halo)"/>
+    <circle cx="659.7" cy="298.0" r="52.0" fill="url(#po-gold)" filter="url(#po-cast)"/>
+    <circle cx="659.7" cy="298.0" r="52.0" fill="url(#po-spec)"/>
+    <circle cx="659.7" cy="298.0" r="52.0" fill="none"
+            stroke="#F2E3C0" stroke-opacity="0.55" stroke-width="1.8"/>
+    <circle cx="659.7" cy="298.0" r="46.8" fill="none"
+            stroke="#0A1428" stroke-opacity="0.18" stroke-width="0.8"/>
+<text class="t-num" x="659.7" y="309.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="32" font-weight="700" fill="#0A1428">II</text>
+<text class="t-mini lbl-narrow" x="659.7" y="376.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="15" font-weight="700" letter-spacing="0.08" fill="#E7C97A">A2</text>
+<text class="t-lbl lbl-wide" x="734.2" y="253.0" text-anchor="start" font-family="Cairo, Inter, sans-serif" font-size="19" font-weight="600" fill="#F2E3C0">⁧التمهيدي⁩</text>
+<text class="t-sub lbl-wide" x="734.2" y="274.0" text-anchor="start" font-family="Cairo, Inter, sans-serif" font-size="12.5" font-weight="600" letter-spacing="0.1" fill="#6E93C4">A2 · CnWEC</text>
+    <circle cx="659.7" cy="494.0" r="80.6" fill="url(#po-halo)"/>
+    <circle cx="659.7" cy="494.0" r="52.0" fill="url(#po-gold)" filter="url(#po-cast)"/>
+    <circle cx="659.7" cy="494.0" r="52.0" fill="url(#po-spec)"/>
+    <circle cx="659.7" cy="494.0" r="52.0" fill="none"
+            stroke="#F2E3C0" stroke-opacity="0.55" stroke-width="1.8"/>
+    <circle cx="659.7" cy="494.0" r="46.8" fill="none"
+            stroke="#0A1428" stroke-opacity="0.18" stroke-width="0.8"/>
+<text class="t-num" x="659.7" y="505.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="32" font-weight="700" fill="#0A1428">III</text>
+<text class="t-mini lbl-narrow" x="659.7" y="572.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="15" font-weight="700" letter-spacing="0.08" fill="#E7C97A">B1</text>
+<text class="t-lbl lbl-wide" x="734.2" y="535.0" text-anchor="start" font-family="Cairo, Inter, sans-serif" font-size="19" font-weight="600" fill="#F2E3C0">⁧المتوسط⁩</text>
+<text class="t-sub lbl-wide" x="734.2" y="556.0" text-anchor="start" font-family="Cairo, Inter, sans-serif" font-size="12.5" font-weight="600" letter-spacing="0.1" fill="#6E93C4">B1 · AsWEC</text>
+    <circle cx="490.0" cy="592.0" r="80.6" fill="url(#po-halo)"/>
+    <circle cx="490.0" cy="592.0" r="52.0" fill="url(#po-gold)" filter="url(#po-cast)"/>
+    <circle cx="490.0" cy="592.0" r="52.0" fill="url(#po-spec)"/>
+    <circle cx="490.0" cy="592.0" r="52.0" fill="none"
+            stroke="#F2E3C0" stroke-opacity="0.55" stroke-width="1.8"/>
+    <circle cx="490.0" cy="592.0" r="46.8" fill="none"
+            stroke="#0A1428" stroke-opacity="0.18" stroke-width="0.8"/>
+<text class="t-num" x="490.0" y="603.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="32" font-weight="700" fill="#0A1428">IV</text>
+<text class="t-mini lbl-narrow" x="490.0" y="670.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="15" font-weight="700" letter-spacing="0.08" fill="#E7C97A">B2</text>
+<text class="t-lbl lbl-wide" x="490.0" y="684.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="19" font-weight="600" fill="#F2E3C0">⁧فوق المتوسط⁩</text>
+<text class="t-sub lbl-wide" x="490.0" y="705.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="12.5" font-weight="600" letter-spacing="0.1" fill="#6E93C4">B2 · EnWEC</text>
+    <circle cx="320.3" cy="494.0" r="80.6" fill="url(#po-halo)"/>
+    <circle cx="320.3" cy="494.0" r="52.0" fill="url(#po-gold)" filter="url(#po-cast)"/>
+    <circle cx="320.3" cy="494.0" r="52.0" fill="url(#po-spec)"/>
+    <circle cx="320.3" cy="494.0" r="52.0" fill="none"
+            stroke="#F2E3C0" stroke-opacity="0.55" stroke-width="1.8"/>
+    <circle cx="320.3" cy="494.0" r="46.8" fill="none"
+            stroke="#0A1428" stroke-opacity="0.18" stroke-width="0.8"/>
+<text class="t-num" x="320.3" y="505.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="32" font-weight="700" fill="#0A1428">V</text>
+<text class="t-mini lbl-narrow" x="320.3" y="572.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="15" font-weight="700" letter-spacing="0.08" fill="#E7C97A">C1</text>
+<text class="t-lbl lbl-wide" x="245.8" y="535.0" text-anchor="end" font-family="Cairo, Inter, sans-serif" font-size="19" font-weight="600" fill="#F2E3C0">⁧المتقدم⁩</text>
+<text class="t-sub lbl-wide" x="245.8" y="556.0" text-anchor="end" font-family="Cairo, Inter, sans-serif" font-size="12.5" font-weight="600" letter-spacing="0.1" fill="#6E93C4">C1 · OrWEC</text>
+    <circle cx="320.3" cy="298.0" r="80.6" fill="url(#po-halo)"/>
+    <circle cx="320.3" cy="298.0" r="52.0" fill="url(#po-gold)" filter="url(#po-cast)"/>
+    <circle cx="320.3" cy="298.0" r="52.0" fill="url(#po-spec)"/>
+    <circle cx="320.3" cy="298.0" r="52.0" fill="none"
+            stroke="#F2E3C0" stroke-opacity="0.55" stroke-width="1.8"/>
+    <circle cx="320.3" cy="298.0" r="46.8" fill="none"
+            stroke="#0A1428" stroke-opacity="0.18" stroke-width="0.8"/>
+<text class="t-num" x="320.3" y="309.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="32" font-weight="700" fill="#0A1428">VI</text>
+<text class="t-mini lbl-narrow" x="320.3" y="376.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="15" font-weight="700" letter-spacing="0.08" fill="#E7C97A">C2</text>
+<text class="t-lbl lbl-wide" x="245.8" y="253.0" text-anchor="end" font-family="Cairo, Inter, sans-serif" font-size="19" font-weight="600" fill="#F2E3C0">⁧الإتقان⁩</text>
+<text class="t-sub lbl-wide" x="245.8" y="274.0" text-anchor="end" font-family="Cairo, Inter, sans-serif" font-size="12.5" font-weight="600" letter-spacing="0.1" fill="#6E93C4">C2 · LrWEC</text>
+
+  <!-- the reading -->
+    <path d="M 130 728 H 850" stroke="#C7A24A" stroke-opacity="0.3" stroke-width="0.9"/>
+<text class="t-eyeb" x="490.0" y="756.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="12" font-weight="700" letter-spacing="0.2" fill="#795A32">⁧برنامجٌ واحد⁩</text>
+</svg>
+      <figcaption class="diagram__caption">
+        <svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg>
+        تُقرأ مع عقارب الساعة ابتداءً من الأعلى. الترتيب ترتيب الدراسة، وكل محطة بالحجم نفسه لأن لا شهادة على هذه الحلقة درجةٌ إلى غيرها.
+      </figcaption>
+    </figure>
+</div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     الورقة الثانية — العبء والأرصدة
+     ================================================================== -->
+<section class="leaf section--dark section--oxford grain aurora" id="levels" data-contents="العبء والأرصدة">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/quality-cycle.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٢</span>
+      <span class="leaf__label">العبء والأرصدة</span>
+      <p class="leaf__rubric">ما يكلّفه المستوى بالساعات، وما تدّعيه الكلية وما لا تدّعيه عن معنى هذه الساعات.</p>
     </div>
-    <div class="callout">
-      <span class="callout__label">حالة المنهج وقياس العبء</span>
-      <p>هذه الساعات رقم تصميم لا قياس: ستُستبدل بها ساعات مقيسة من وقت الدراسة الفعلي متى أكمل
-        متعلمون كافون مستوى، ويُنشر الفرق حيث يوجد. ورصيد الكلية وحدة داخلية (الرصيد عشر ساعات
-        تعلم افتراضية)، وليس <span dir="ltr">ECTS</span> ولا <span dir="ltr">CATS</span> ولا
-        يمنح حق تحويل إلى أي مؤسسة. وجميع الوحدات الستين مؤلفة ومنشورة، أما الدروس داخلها فما
-        زالت تُكتب وتصدر تباعًا.</p>
-    </div>
-    <div class="section-head" style="margin-top:38px">
-      <span class="module-marker">مجالات المنهج</span>
-      <h3 style="font-size:1.3rem">ما يُبنى عليه كل مستوى.</h3>
-    </div>
-    <div class="tag-row">
-      <span class="tag">القواعد</span><span class="tag">المفردات</span><span class="tag">الاستماع</span>
-      <span class="tag">التحدث</span><span class="tag">القراءة</span><span class="tag">الكتابة</span>
-      <span class="tag">النطق</span><span class="tag">المحادثة</span>
-      <span class="tag">اللغة الأكاديمية</span><span class="tag">التواصل المهني</span>
-      <span class="tag">الخطابة العامة</span><span class="tag">لغة الأعمال</span>
-      <span class="tag">مهارات البحث</span><span class="tag">التفكير النقدي</span>
-      <span class="tag">مهارات العرض</span><span class="tag" dir="ltr">IELTS</span>
-      <span class="tag" dir="ltr">TOEFL</span><span class="tag" dir="ltr">Cambridge English</span>
-      <span class="tag">مهارات المقابلات</span><span class="tag">التواصل القيادي</span>
+    <div class="leaf__body reveal">
+      <h2>مئتا ساعة في المستوى، مقسومة حيث يهم القسم.</h2>
+      <p class="lede">يحمل كل مستوى ٢٠ رصيدًا من أرصدة الكلية، وزمنًا كليًا للمؤهل مقداره ٢٠٠
+        ساعة على مدى أربعة أشهر &mdash; نحو اثنتي عشرة ساعة أسبوعيًا. والقسمة أدناه هي التي
+        تقرّر أيكون البرنامج عبر الإنترنت عمليًا أم لا: ما يعتمد على حضور الآخرين، وما لا
+        يعتمد.</p>
+
+      <div class="horarium reveal edge-lit aurum">
+        <div class="horarium__band horarium__band--guided">
+          <span class="horarium__figure">٨٠</span>
+          <span class="horarium__label">ساعة تعلّم موجَّه</span>
+          <p class="horarium__note">مُدرَّسة ومُصحَّحة ومجدولة &mdash; دروس تُدرس مع المادة، وتكاليف يصححها شخص، وجلسات المحادثة والحصص المباشرة.</p>
+        </div>
+        <div class="horarium__band horarium__band--independent">
+          <span class="horarium__figure">١٢٠</span>
+          <span class="horarium__label">ساعة تعلّم مستقل</span>
+          <p class="horarium__note">لك أن تضعها حيث شئت. قراءة واستماع وتسجيل وفحص ذاتي وتدريب &mdash; الجزء الذي لا يحاسبه جدول أحد.</p>
+        </div>
+      </div>
+
+      <div class="callout" id="curriculum-status">
+        <span class="callout__label">حالة المنهج وقياس العبء</span>
+        <p><strong>هذه الساعات رقم تصميم لا قياس.</strong> وحيث تختلف الساعات المقيسة من وقت
+          الدراسة الفعلي عن رقم التصميم، يُنشر الفرق ولا يُسوَّى بصمت. والزمن الكلي
+          للمؤهل يحسب الدراسة الموجَّهة مع الدراسة المستقلة المتوقعة داخل البرنامج، ولا يحسب
+          تعرّض المتعلم الأوسع للغة الإنجليزية خارجه. وليس ادّعاءً بأن مستوى
+          <span dir="ltr">C2</span> يُبلَغ في ١٢٠٠ ساعة انطلاقًا من لا شيء.</p>
+        <p><strong>ورصيد الكلية وحدة داخلية</strong> (الرصيد عشر ساعات تعلم افتراضية)، وليس
+          <span dir="ltr">ECTS</span> ولا <span dir="ltr">CATS</span>، ولا يمنح حق تحويل إلى أي
+          مؤسسة.</p>
+        <p><strong>وأحجام المستويات أعلاه هي الحجم المصمَّم لكل مستوى، لا مقدار ما نُشر في
+          منصة التعلم اليوم.</strong> جميع الوحدات الستين في المستويات الستة مؤلفة ومنشورة، مع
+          امتحان كل وحدة وتكليفها؛ أما الدروس داخلها فما زالت تُكتب وتصدر تباعًا.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="section--light section-pad" id="levels" data-contents="المستويات الستة">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">البنية</span>
-      <h2>ستة مستويات، ستون وحدة.</h2>
+<!-- ==================================================================
+     إطار الأرصدة
+     ================================================================== -->
+<section class="leaf section--paper grain" id="credit-framework" data-contents="إطار الأرصدة">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/competency-wheel.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٣</span>
+      <span class="leaf__label">إطار الأرصدة</span>
+      <p class="leaf__rubric">ما هو رصيد الكلية، وما قيمته، وما ليس هو.</p>
     </div>
-    <div class="table-scroll">
-      <table class="ledger">
-        <thead><tr><th>المستوى</th><th><span dir="ltr">CEFR</span></th><th>التركيز</th><th>الوحدات</th><th>الأرصدة</th><th>الساعات</th><th>الشهادة</th></tr></thead>
-        <tbody>
-          <tr><td><strong>المستوى الأول · برنامج التأسيس</strong></td><td><span dir="ltr">A1</span></td><td>من الكلمات الأولى إلى تبادلات يومية بسيطة — النظام الصوتي، القواعد الأساسية، مفردات البقاء.</td><td><span dir="ltr">10</span></td><td><span dir="ltr">20</span></td><td><span dir="ltr">200</span></td><td><span dir="ltr">ECIC</span></td></tr>
-          <tr><td><strong>المستوى الثاني · البرنامج الابتدائي</strong></td><td><span dir="ltr">A2</span></td><td>مواضيع يومية بثقة متزايدة — محادثة روتينية، وتواصل كتابي بسيط.</td><td><span dir="ltr">10</span></td><td><span dir="ltr">20</span></td><td><span dir="ltr">200</span></td><td><span dir="ltr">HCIC</span></td></tr>
-          <tr><td><strong>المستوى الثالث · البرنامج المتوسط</strong></td><td><span dir="ltr">B1</span></td><td>استخدام مستقل للغة الإنجليزية — كلام مترابط، وآراء، وكتابة منظّمة.</td><td><span dir="ltr">10</span></td><td><span dir="ltr">20</span></td><td><span dir="ltr">200</span></td><td><span dir="ltr">CAEC</span></td></tr>
-          <tr><td><strong>المستوى الرابع · المتوسط المتقدم</strong></td><td><span dir="ltr">B2</span></td><td>تفاعل طليق وتلقائي — سجل أكاديمي ومهني، حجاج وتحليل.</td><td><span dir="ltr">10</span></td><td><span dir="ltr">20</span></td><td><span dir="ltr">200</span></td><td><span dir="ltr">HCAEC</span></td></tr>
-          <tr><td><strong>المستوى الخامس · البرنامج المتقدم</strong></td><td><span dir="ltr">C1</span></td><td>استخدام دقيق ومرن للغة لأغراض أكاديمية ومهنية معقّدة.</td><td><span dir="ltr">10</span></td><td><span dir="ltr">20</span></td><td><span dir="ltr">200</span></td><td><span dir="ltr">ACEC</span></td></tr>
-          <tr><td><strong>المستوى السادس · برنامج الإتقان</strong></td><td><span dir="ltr">C2</span></td><td>إتقان يقارب مستوى الناطقين الأصليين — الدقة، التعابير، التواصل القيادي والحضور التنفيذي.</td><td><span dir="ltr">10</span></td><td><span dir="ltr">20</span></td><td><span dir="ltr">200</span></td><td><span dir="ltr">WEPC</span></td></tr>
-          <tr><td colspan="3"><strong>المجموع</strong></td><td><span dir="ltr">60</span></td><td><span dir="ltr">120</span></td><td><span dir="ltr">1,200</span></td><td>—</td></tr>
-        </tbody>
-      </table>
+    <div class="leaf__body reveal">
+      <h2>الرصيد الواحد عشر ساعات عمل مصمَّم.</h2>
+      <p class="lede">الرصيد الذي لا يُعرَّف زينة. ورصيد الكلية معرَّف هنا تعريفًا حسابيًا، حتى
+        يكون كل رقم مشتقّ منه &mdash; العشرون التي يحملها المستوى، والمئة والعشرون التي يحملها
+        البرنامج، وكلفة الرصيد في صفحة الرسوم &mdash; قابلًا للفحص لا للتصديق.</p>
+
+      <div class="table-scroll ledger-mount edge-lit">
+        <table class="ledger">
+          <thead><tr><th>المستوى</th><th dir="ltr">CEFR</th><th>الوحدات</th><th>أرصدة الكلية</th><th>ساعات موجَّهة</th><th>ساعات مستقلة</th><th>الزمن الكلي للمؤهل</th></tr></thead>
+          <tbody>
+            <tr><td><strong>الأول &middot; التأسيس</strong></td><td dir="ltr">A1</td><td>10</td><td>20</td><td>80</td><td>120</td><td>200 ساعة</td></tr>
+            <tr><td><strong>الثاني &middot; الابتدائي</strong></td><td dir="ltr">A2</td><td>10</td><td>20</td><td>80</td><td>120</td><td>200 ساعة</td></tr>
+            <tr><td><strong>الثالث &middot; المتوسط</strong></td><td dir="ltr">B1</td><td>10</td><td>20</td><td>80</td><td>120</td><td>200 ساعة</td></tr>
+            <tr><td><strong>الرابع &middot; المتوسط المتقدم</strong></td><td dir="ltr">B2</td><td>10</td><td>20</td><td>80</td><td>120</td><td>200 ساعة</td></tr>
+            <tr><td><strong>الخامس &middot; المتقدم</strong></td><td dir="ltr">C1</td><td>10</td><td>20</td><td>80</td><td>120</td><td>200 ساعة</td></tr>
+            <tr><td><strong>السادس &middot; الإتقان</strong></td><td dir="ltr">C2</td><td>10</td><td>20</td><td>80</td><td>120</td><td>200 ساعة</td></tr>
+            <tr><td colspan="2"><strong>البرنامج كاملًا</strong></td><td><strong>60</strong></td><td><strong>120</strong></td><td colspan="2"><strong>القسمة نفسها 80 / 120 في كل مستوى</strong></td><td><strong>1,200 ساعة</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <figure class="plate plate--drift plate--photo reveal" style="--plate-ratio: 1 / 1">
+        <div class="plate__frame tilt gold-live edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <img src="/assets/images/plates/astrolabe.jpg" alt="أسطرلاب نحاسي، تظهر شبكته المخرَّمة وحلقته المدرَّجة مسطَّحةً على أرضية خالية." loading="lazy" decoding="async">
+          <span class="plate__tone" aria-hidden="true"></span>
+          <span class="plate__tone plate__tone--warm" aria-hidden="true"></span>
+        </div>
+        <figcaption class="plate__caption">
+          <svg class="icon" aria-hidden="true"><use href="#i-astrolabe"/></svg>
+          الآلة لا تجود إلا بقدر المعيار الذي صُنعت عليه.
+    <span class="plate__credit">تصوير <a href="https://commons.wikimedia.org/w/index.php?curid=2717737">Ragesoss</a>، <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a></span>
+        </figcaption>
+      </figure>
+      <div class="grid grid--3">
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+          <span class="card__num">التعريف</span>
+          <h3>رصيد واحد = عشر ساعات تقديرية</h3>
+          <p>رصيدان في كل وحدة، وعشر وحدات في المستوى، ومئتا ساعة للمستوى. والحساب يُغلَق في كل اتجاه، وهو مذكور ليغلقه القارئ بنفسه لا ليثق بأن أحدًا أغلقه.</p>
+        </div>
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
+          <span class="card__num">وما ليس هو</span>
+          <h3>ليس <span dir="ltr">ECTS</span> ولا <span dir="ltr">CATS</span> ولا قابلًا للنقل</h3>
+          <p>رصيد الكلية مقياس داخلي للوزن الأكاديمي ولا يحمل أي استحقاق نقلٍ إلى أي مؤسسة أخرى. ولا جامعة مُلزَمة بقبوله، ولا واحدة وافقت عليه، ولم تسأل الكلية أيًّا منها. وتسميته رصيدًا دون قول ذلك أكثرُ إغفال مريح على هذه الصفحة.</p>
+        </div>
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg></span>
+          <span class="card__num">تقديري، ولماذا</span>
+          <h3>ساعات مصمَّمة لا ساعات مقيسة</h3>
+          <p>الزمن الكلي للمؤهل هو العبء الذي بُني عليه المنهج. وسيُتِمّ متعلمون مستوًى في ساعات أقل بكثير وآخرون في أكثر بكثير، وليس أيٌّ من ذلك خللًا في الرقم &mdash; هذا معنى «تقديري»، وهو ما تعمل به كل أطر الأرصدة في العالم.</p>
+        </div>
+      </div>
+      <p class="form-note">منشور كاملًا في <a href="/library/programme-architecture.pdf">بنية البرنامج (بالإنجليزية)</a>، حرةَ التنزيل، ومعها ربط كل درس بناتجه وبتقييمه.</p>
     </div>
-    <p class="form-note">الساعة التأهيلية رقم تصميم لا قياس: هي حجم العمل الذي بُني عليه المنهج،
-      ولم يُقَس بعد على متعلمين حقيقيين. ورصيد الكلية وحدة داخلية، وليس رصيدًا أوروبيًا ولا
-      بريطانيًا معترفًا به.</p>
   </div>
 </section>
 
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">ما يحتويه كل مستوى</span>
-      <h2>الشكل نفسه في المستويات الستة.</h2>
+<!-- ==================================================================
+     شروط منح الشهادة
+     ================================================================== -->
+<section class="leaf section--dark grain aurora" id="graduation" data-contents="شروط المنح">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/authority-chain.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٤</span>
+      <span class="leaf__label">شروط المنح</span>
+      <p class="leaf__rubric">ما يجب أن يتحقق قبل منح الشهادة. كله، ولا شيء منه تقديري.</p>
     </div>
-    <div class="grid grid--4">
-      <div class="card">
-        <span class="card__num">عشر</span>
-        <h3>وحدات</h3>
-        <p>كل وحدة موضوع متماسك، بدروس مخططة مرحلةً مرحلة بأزمنة معلنة.</p>
+    <div class="leaf__body reveal">
+      <h2>أربعة شروط، ولا خامس لم يذكره أحد.</h2>
+      <p class="lede">كل شهادة تمنحها الكلية تتطلب هذه الأربعة كلها ولا شيء بعدها. لا شرط حضور،
+        ولا درجة مشاركة، ولا تقدير في النهاية، ولا شرط يظهر في الآخر.</p>
+      <div class="grid grid--2">
+        <div class="card card--dark reveal tilt edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span>
+          <span class="card__num">الأول</span>
+          <h3>إتمام الوحدات العشر كلها</h3>
+          <p>أداء كل اختبار وحدة وتسليم كل تكليف وتصحيحه. والإتمام أن يوجد العمل ويُقيَّم، لا أن يمضي الوقت.</p>
+        </div>
+        <div class="card card--dark reveal tilt edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+          <span class="card__num">الثاني</span>
+          <h3>‏70% إجمالًا في امتحان المستوى</h3>
+          <p>المعيار الختامي، مقابل معايير نُشرت لك قبل أن تؤديه. ولكل تقييم إعادتان بلا رسم، بينهما أربعة عشر يومًا؛ والرسوب الثالث يعيد فتح المستوى لا يغلقه، وذلك أيضًا بلا رسم.</p>
+        </div>
+        <div class="card card--dark reveal tilt edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>
+          <span class="card__num">الثالث</span>
+          <h3>ولا مهارة في الامتحان دون 50%</h3>
+          <p>الحدُّ الذي يمنع القارئ القويّ أن يمرّ متحدثًا. والدرجة المجمّعة وحدها تجعل مهارةً تحمل ثلاثًا، والامتحان يصحّح الأربع منفصلة لكي لا يحدث ذلك بالضبط. أما مرتبة النجاح فتضع حدًّا ثانيًا أعلى، 60%، على درجة المهارة في المستوى، وهي كمية أخرى: وهذا حدٌّ على الامتحان نفسه.</p>
+        </div>
+        <div class="card card--dark reveal tilt edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
+          <span class="card__num">الرابع</span>
+          <h3>تسجيل ورقة التحدث والنجاح فيها</h3>
+          <p>يُقيَّم التحدث بتسجيلك وأنت تتحدث، ويصححه شخص مقابل هدف نطق مسمّى. والبرنامج الذي يصحّح التحدث من عمل مكتوب لا يصحّح تحدثًا.</p>
+        </div>
       </div>
-      <div class="card">
-        <span class="card__num">في كل وحدة</span>
-        <h3>اختبار قصير وتكليف</h3>
-        <p>الاختبار يقيس الاسترجاع ويُصحَّح آليًا؛ التكليف ينتج شيئًا ويصححه شخص وفق معيار منشور رأيته قبل أن تبدأ.</p>
+      <div class="callout">
+        <span class="callout__label">البرنامج كاملًا</span>
+        <p>شهادات المستويات الستة كلها، ومئة وعشرون رصيدًا، وورقة التحدث في <span dir="ltr">C2</span>.
+          ولا امتحان نهائي منفصل ولا رسالة: شهادة المستوى السادس <em>هي</em> إتمام البرنامج،
+          ومن حمل الستة يُسجَّل بأنه أتمّ برنامج <span dir="ltr">IEFC</span> كاملًا. وكل شهادة
+          مُنحت حتى اليوم عُدِّلت داخل الكلية &mdash; انظر
+          <a href="/ar/students/awards/">الشهادات والمراتب</a>، وهي تقول ما يعنيه ذلك قبل أن
+          تعتمد عليه.</p>
       </div>
-      <div class="card">
-        <span class="card__num">عمل الاستماع</span>
-        <h3>مجموعات استماع ونطق</h3>
-        <p>نصوص مكتوبة بالكامل مع السمات المستهدفة محددة داخلها. التسجيلات الصوتية لها لم تُنتج بعد، وهذا مذكور لا مُوهَم.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">فحوص ذاتية</span>
-        <h3>غير محتسبة عليك</h3>
-        <p>لا تُصحَّح ولا تُسجَّل ضدك. وُجدت لتعرف ما لا تعرفه دون أن يكلفك ذلك شيئًا.</p>
-      </div>
-    </div>
-    <div class="callout">
-      <span class="callout__label">صفحات المستويات التفصيلية</span>
-      <p>لكل مستوى صفحة تفصيلية بالعربية تعرض وحداته وتقييمه وطرائق تدريسه وشهادته:
-        <a href="/ar/study/level-1/">المستوى الأول</a> ·
-        <a href="/ar/study/level-2/">الثاني</a> · <a href="/ar/study/level-3/">الثالث</a> ·
-        <a href="/ar/study/level-4/">الرابع</a> · <a href="/ar/study/level-5/">الخامس</a> ·
-        <a href="/ar/study/level-6/">السادس</a>.</p>
     </div>
   </div>
 </section>
 
-<section class="section--light section-pad" id="learning" data-contents="كيف يجري التعلّم">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">كيف يجري التعلّم</span>
+<!-- ==================================================================
+     السنة الأكاديمية
+     ================================================================== -->
+<section class="leaf section--light grain" id="academic-year" data-contents="السنة الأكاديمية">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/quality-cycle.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٥</span>
+      <span class="leaf__label">السنة الأكاديمية</span>
+      <p class="leaf__rubric">لا فصل ولا سداسي ولا تاريخ التحاق. وهذا قرار، وهذه حجته.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <h2>التقويم تقويمك، وهذا هو المقصود.</h2>
+      <p class="lede">تنشر أكثر المؤسسات تقويمًا أكاديميًا لأن تدريسها متزامن وقاعاتها محدودة.
+        ولا واحد من الأمرين صحيح هنا، واعتماد تقويم لا تحتاجه الكلية سيُخرج بالضبط المتعلمين
+        الذين بُنيت لهم.</p>
+      <div class="grid grid--3">
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span>
+          <span class="card__num">الالتحاق</span>
+          <h3>مستمر، طول العام</h3>
+          <p>تبدأ الدراسة في تاريخ دفعتك &mdash; الربيع أو الصيف أو الخريف &mdash; وداخل الفصل الإيقاع إيقاعك أنت. ولا شهر يُغلَق فيه الباب: لا رمضان، ولا أي شهر يُفرِّغك فيه عملك.</p>
+        </div>
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg></span>
+          <span class="card__num">الإيقاع</span>
+          <h3>أربعة أشهر بالتصميم لا بالإلزام</h3>
+          <p>المستوى مبنيّ على مئتي ساعة، أي نحو اثنتي عشرة ساعة أسبوعيًا على أربعة أشهر. خُذ ستة أشهر أو خُذ شهرين: لا موعد نهائي يفوتك ولا جزاء على طريق أبطأ، لأن من يضع الدراسة حول مناوبة ليلية هو الحال المعتادة هنا لا الاستثناء.</p>
+        </div>
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
+          <span class="card__num">التقييم</span>
+          <h3>يُؤدَّى حين تكون مستعدًّا</h3>
+          <p>تُؤدَّى اختبارات الوحدات والتكاليف حين تبلغها. ويُؤدَّى امتحان المستوى حين تكتمل الوحدات العشر &mdash; لا في نافذة اختارها غيرك، ولا بإزاء قاعة مملوءة باستعداد أناس آخرين.</p>
+        </div>
+      </div>
+      <div class="callout">
+        <span class="callout__label">الأمر الوحيد الذي كان التقويم سيحلّه</span>
+        <p>حصص المحادثة المباشرة تحتاج حضور آخرين، وبلا إيقاع ثابت يصعب جدولتها. وقد نظرت
+          الإدارة التنفيذية في اعتماد إيقاع للجلسات ولم تعتمده؛ والتسجيلات هي البديل الدائم ولا
+          تُعامل بوصفها الخيار الأدنى. ويُسجَّل ذلك قرارًا معلَّقًا في
+          <a href="/ar/governance/#decisions">سجل الحوكمة</a> بدل أن يُترك ليكتشفه طالب، ويوم
+          يُعتمد سيُنشر هنا.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     الورقة الثالثة — التقييم
+     ================================================================== -->
+<section class="leaf section--light grain" id="assessment" data-contents="التقييم">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/award-standard.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٦</span>
+      <span class="leaf__label">التقييم</span>
+      <p class="leaf__rubric">معايير تُنشر قبل العمل، وأربع مهارات لا تُجمع أبدًا في رقم واحد.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <h2>تقدّم يُقاس، لا يُفترض.</h2>
+      <p class="lede">اختبارات الوحدات وتكاليفها تتابع التقدّم داخل المستوى، وتقييم المستوى
+        يؤكد الجاهزية للانتقال. وتُنشر المعايير وشروط النجاح للمتعلم قبل التقييم، وتُصحَّح
+        المهارات اللغوية الأربع وتُسجَّل منفصلة.</p>
+
+      <ul class="check-list">
+        <li>سجل رقمي يُحدَّث بعد كل مستوى</li>
+        <li>شهادة معرَّفة لكل مستوى &mdash; مُنِحت في المستوى الأول والثاني، معدَّلة داخليًا، والكلية تقول ذلك</li>
+        <li>إعداد <span dir="ltr">IELTS</span> و<span dir="ltr">TOEFL</span> و<span dir="ltr">Cambridge English</span> مُضمَّن من المتوسط المتقدم فصاعدًا</li>
+        <li>تقدّم مرئي للمتعلم في كل مرحلة</li>
+      </ul>
+
+      <div class="grid grid--3" style="margin-top:34px">
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
+          <span class="card__num">البنية</span>
+          <h3>منهج مرسوم</h3>
+          <p>كل درس يذكر أهدافه ومتطلباته السابقة وزمن كل مرحلة فيه. والمدرّسون يدرّسون وفق معيار مشترك لا وفق مقرر شخصي.</p>
+        </div>
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+          <span class="card__num">التقييم</span>
+          <h3>معايير تُنشر أولًا</h3>
+          <p>تُنشر المعايير وشروط النجاح للمتعلم قبل التقييم، لا تُشرح بعده.</p>
+        </div>
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>
+          <span class="card__num">المهارات</span>
+          <h3>أربع مهارات تُتابَع منفصلة</h3>
+          <p>الاستماع والقراءة والتحدث والكتابة تُقيَّم وتُسجَّل مستقلةً، لأن الدرجة الواحدة تخفي موضع الفجوة الحقيقي.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     الورقة الرابعة — مجالات المنهج
+     ================================================================== -->
+<section class="leaf section--paper grain" id="curriculum" data-contents="مجالات المنهج">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/competency-wheel.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٧</span>
+      <span class="leaf__label">مجالات المنهج</span>
+      <p class="leaf__rubric">عشرون مجالًا، لكلٍّ منها وحداته عبر المستويات الستة.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <h2>ما يُبنى عليه كل مستوى.</h2>
+      <p class="lede">المستويات الستة هي الطريق، وهذه الخيوط تمرّ فيها جميعًا. يُدرَّس كل مجال
+        من المستوى الأول بالصورة التي يستطيعها المبتدئ، ويُعاد إليه في كل مستوى بالصورة التي
+        يقتضيها ذلك المستوى.</p>
+
+      <div class="disciplines">
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span><h3>القواعد</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span><h3>المفردات</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span><h3>الاستماع</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-quote"/></svg></span><h3>التحدث</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg></span><h3>القراءة</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span><h3>الكتابة</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-language"/></svg></span><h3>النطق</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-accord"/></svg></span><h3>المحادثة</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg></span><h3>اللغة الأكاديمية</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg></span><h3>التواصل المهني</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-lectern"/></svg></span><h3>الخطابة العامة</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span><h3>لغة الأعمال</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-astrolabe"/></svg></span><h3>مهارات البحث</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span><h3>التفكير النقدي</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg></span><h3>مهارات العرض</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-target"/></svg></span><h3 dir="ltr">IELTS</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span><h3 dir="ltr">TOEFL</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></span><h3 dir="ltr">Cambridge English</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg></span><h3>مهارات المقابلات</h3></div>
+        <div class="discipline reveal edge-lit edge-lit--light aurum"><span class="badge-dome gold-live"><svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg></span><h3>التواصل القيادي</h3></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     الورقة الخامسة — كيف يجري التعلّم
+     ================================================================== -->
+<section class="leaf section--light grain" id="learning" data-contents="كيف يجري التعلّم">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/quality-cycle.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٨</span>
+      <span class="leaf__label">كيف يجري التعلّم</span>
+      <p class="leaf__rubric">ما يحتويه الأسبوع، ووضع الإخفاق في الدراسة الذاتية الذي تصمّم الكلية ضدّه.</p>
+    </div>
+    <div class="leaf__body reveal">
       <h2>شكل الأسبوع الدراسي.</h2>
       <p class="lede">معظم البرنامج يُدرس وقتما استطعت؛ وجزء أصغر مباشر يعتمد على حضور الآخرين.
-        الجزء الأكبر دروس مرحلية بأزمنة معلنة تُستأنف من حيث توقفت؛ وعشر دقائق يوميًا للاستماع
-        والتسجيل خير من ساعة أسبوعيًا؛ وتكليف واحد في كل وحدة يصححه شخص وفق معيار منشور؛
-        وفحوص ذاتية لا تُحتسب عليك؛ وتقييم مستوى ختامي بمعايير معلنة من أول المستوى.</p>
-    </div>
-    <div class="callout">
-      <span class="callout__label">للدراسة الذاتية وضع إخفاق معروف</span>
-      <p>الدراسة الذاتية الكاملة للغة تنتهي غالبًا نهاية سيئة، وسببها مفهوم: لا مواعيد ثابتة،
-        ولا زملاء في المرحلة نفسها، ولا شيء تتأخر عنه. الكلية تعمل اليوم بنظام ذاتي لأنه ما
-        بُني، وقد صيغت توصية بإضافة إيقاع ثابت من جلسات مباشرة ونوافذ امتحان ولم تُعتمد بعد.
-        إلى أن تُعتمد، البنية تأتي منك: ساعة ثابتة يوميًا تُنهي البرنامج حيث لا يُنهيه هدف
-        أسبوعي بالساعات. والانخراط مُتابَع كي يُتواصل مع من انقطع في الشهر الثاني لا أن
-        يُكتشف في الشهر الحادي عشر، ولا يترتب عليه جزاء أبدًا.</p>
+        وهذا الفصل هو ما يجعل البرنامج عبر الإنترنت عمليًا أو لا يجعله.</p>
+
+      <div class="grid grid--3">
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
+          <span class="card__num">الجزء الأكبر</span>
+          <h3>العمل خلال الدروس</h3>
+          <p>كل درس مرحليّ بأزمنة معلنة، ويمكن إيقافه واستئنافه. هنا تذهب أغلب الساعات، ولا شيء منها مجدول.</p>
+        </div>
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
+          <span class="card__num">يوميًا، بإيجاز</span>
+          <h3>الاستماع والتسجيل</h3>
+          <p>القصير المتكرر خير من الطويل المتباعد في الاستماع والنطق معًا. والمعمل مبني لعشر دقائق يوميًا لا لساعة أسبوعيًا.</p>
+        </div>
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span>
+          <span class="card__num">أسبوعيًا</span>
+          <h3>تكليف واحد</h3>
+          <p>شيء واحد مُنتَج في كل وحدة &mdash; مكتوب أو منطوق أو مؤدًّى &mdash; يصححه شخص وفق معيار رأيته قبل أن تبدأ.</p>
+        </div>
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span>
+          <span class="card__num">قبل التقييم</span>
+          <h3>الفحص الذاتي</h3>
+          <p>لا يُصحَّح ولا يُسجَّل ضدك. وُجد لتعرف ما لا تعرفه دون أن يكلفك ذلك شيئًا.</p>
+        </div>
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-language"/></svg></span>
+          <span class="card__num">مباشر</span>
+          <h3>المحادثة والحصص</h3>
+          <p>الجزء الذي يعتمد على حضور الآخرين. يُسجَّل لمن لم يستطع الحضور، والتسجيل لا يُعامل بوصفه الخيار الأدنى.</p>
+        </div>
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
+          <span class="card__num">في الختام</span>
+          <h3>تقييم المستوى</h3>
+          <p>النقطة الختامية، وفق معايير معلنة من أول المستوى.</p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <span class="callout__label">للدراسة الذاتية وضع إخفاق معروف</span>
+        <p>الدراسة الذاتية الكاملة للغة تنتهي غالبًا نهاية سيئة، وسببها مفهوم: لا مواعيد ثابتة،
+          ولا زملاء في المرحلة نفسها، ولا شيء تتأخر عنه. الكلية تعمل اليوم بنظام ذاتي لأنه ما
+          بُني، وتوصيةُ إضافة إيقاع ثابت من جلسات مباشرة ونوافذ امتحان معروضةٌ على الإدارة التنفيذية للبتّ فيها
+          &mdash; انظر <a href="/ar/admissions/#dates">المواعيد</a>.</p>
+        <p>وإلى أن تبتّ فيها، البنية تأتي منك: ساعة ثابتة يوميًا تُنهي البرنامج حيث لا يُنهيه هدف أسبوعي بالساعات. والانخراط
+          مُتابَع كي يُتواصل مع من انقطع في الشهر الثاني لا أن يُكتشف في الشهر الحادي عشر، ولا
+          يترتب عليه جزاء أبدًا &mdash; انظر <a href="/ar/students/#support">الدعم</a>.</p>
+      </div>
+
+      <div class="grid grid--3">
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg></span>
+          <span class="card__num">الجلسات المباشرة</span>
+          <h3>ذاتي الإيقاع، بلا جدول ثابت</h3>
+          <p>جلسات المحادثة والحصص المباشرة مصمَّمة، ولا جدول مباشر يعمل اليوم. فكل ساعة من البرنامج تُدرَس في الوقت الذي تختاره، وهذا هو الترتيب الذي تخطّط عليه.</p>
+        </div>
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
+          <span class="card__num">صوت الاستماع</span>
+          <h3>يُنشر نصوصًا كاملة</h3>
+          <p>مجموعات الاستماع المئة والعشرون مؤلفة بالكامل &mdash; نصوص وسمات مستهدفة وملاحظات تدريس &mdash; وتُنشر نصوصًا في المكتبة. أما الصوت المسجَّل فيحتاج أصواتًا واستوديو.</p>
+        </div>
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
+          <span class="card__num">التصحيح</span>
+          <h3>صُحِّح يدويًا، ثم في المنصة</h3>
+          <p>دُرِّست ثماني دفعات وصُحِّحت ومُنِحت شهاداتها قبل وجود مساحة المدرّس، فالتصحيح المسجَّل جرى خارجها. والمساحة تطبّق المعايير المنشورة نفسها.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="section--dark section-pad" id="campus" data-contents="الحرم الرقمي">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">الحرم الرقمي</span>
-      <h2>ستة أماكن يدخلها الشخص.</h2>
-      <p class="lede">حيث يكون الشيء مبنيًا وغير مستعمَل، تقول هذه الصفحة «غير مستعمَل» لا
-        «متاح».</p>
+<!-- ==================================================================
+     الورقة السادسة — ممارسة التدريس
+     ================================================================== -->
+<section class="leaf section--dark section--oxford grain aurora" id="teaching" data-contents="ممارسة التدريس">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/authority-chain.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٩</span>
+      <span class="leaf__label">ممارسة التدريس</span>
+      <p class="leaf__rubric">الطريقة التي تُكتب إليها الوحدات، مبسوطة كاملةً في صفحة خاصة بها.</p>
     </div>
-    <div class="grid grid--2">
-      <div class="card card--dark">
-        <span class="card__num">للمتعلم</span>
-        <h3>أربعة أماكن للعمل</h3>
-        <p>البوابة حيث تبدأ؛ وبرنامجي وفيه طريقك عبر المستوى بما اكتمل وما يليه؛ ومعمل الاستماع للتسجيل والنطق؛ وسجلي وفيه محاولاتك ودرجاتك بحسب المهارة وتحكّمك في مشاركة أي منها.</p>
-      </div>
-      <div class="card card--dark">
-        <span class="card__num">للطاقم وللعامة</span>
-        <h3>مكانان آخران</h3>
-        <p>مساحة المصحح حيث تُصحح التسليمات وفق معاييرها — مبنية ومختبرة ولم تصحح شيئًا لأنه لا شيء يُصحح بعد؛ والتحقق من الشهادات مفتوح لأي أحد دون حساب، ولم يصدر عبره شيء لأن شهادة لم تُمنح.</p>
-      </div>
-    </div>
-    <div class="grid grid--2" style="margin-top:26px">
-      <div class="card card--dark">
-        <span class="card__num">تسجيل دون اتصال</span>
-        <h3>المعمل لا يشترط اتصالًا حيًا</h3>
-        <p>التسجيل المُلتقط دون اتصال يُحفظ ويُرفع أجزاءً حين يعود الاتصال، فلا يضيع الملف بانقطاع. بُني هذا لأن الكلية تتوقع متعلمين في أماكن تنقطع فيها الاتصالات.</p>
-      </div>
-      <div class="card card--dark">
-        <span class="card__num">المسودات تبقى محلية</span>
-        <h3>النص غير المكتمل لا يُرسل إلى أي مكان</h3>
-        <p>ملاحظات العمل تبقى على جهازك حتى تُسلّم. التسليم وحده يحتاج الشبكة، والواجهة تقول أيهما أيّ بدل أن تترك التخمين لك.</p>
-      </div>
-    </div>
-    <p class="form-note">ما تحتاجه لتشغيله: حاسوب أو جهاز لوحي أو هاتف بمتصفح حديث واتصال يبثّ
-      الصوت؛ ويطلب معمل الاستماع أن تسجّل نفسك، وميكروفون الهاتف أو الحاسوب يكفي.</p>
-    <div class="section-head" style="margin-top:38px">
-      <span class="module-marker">حين لا يعمل شيء</span>
-      <h2>ثلاث حالات شائعة، وجوابها.</h2>
-    </div>
-    <ol class="dot-list">
-      <li><span class="num">01</span><span><strong>المسجّل لا يبدأ.</strong> على المتصفح أن يُمنح إذن استخدام الميكروفون، وهذا الإذن خاص بكل موقع ويسهل رفضه دون قصد. راجع أذونات الموقع في متصفحك قبل افتراض أن شيئًا معطوب.</span><span class="leader"></span></li>
-      <li><span class="num">02</span><span><strong>انقطع الاتصال أثناء التسجيل.</strong> لا شيء يضيع. التسجيل لا يحتاج الشبكة؛ يُحفظ الملف ويُرفع أجزاءً حين يعود الاتصال.</span><span class="leader"></span></li>
-      <li><span class="num">03</span><span><strong>نموذج تقديم أو دفع لم يكتمل.</strong> نموذج التقديم يتحوّل إلى رسالة بريد من جهازك ببياناتك معبأة، فيصل طلبك إلى القبول على أي حال. أما الدفع فلا تكرر المحاولة مرارًا — اكتب إلى الكلية بوقت العملية ومبلغها، وستُراجع مقابل السجل.</span><span class="leader"></span></li>
-    </ol>
-    <p class="form-note">ولأي شيء آخر: اكتب إلى <a href="mailto:info@worldwencollege.co.uk?subject=Technical" dir="ltr">info@worldwencollege.co.uk</a> ذاكرًا ما كنت تحاول فعله، وما الذي حدث، وعلى أي جهاز — هذه الحقائق الثلاث تحل أغلب المشكلات برسالة واحدة بدل أربع. أما التعثر في المادة نفسها لا في الأجهزة، فقسم <a href="/ar/students/#support">الدعم</a> يقول من يجيب.</p>
-  </div>
-</section>
+    <div class="leaf__body reveal">
+      <h2>كيف تدرّس الكلية، مكتوبًا قبل أن تدرّس.</h2>
+      <p class="lede">أربعة التزامات تشكّل كل درس. يُدرَّس بالإنجليزية من المستوى الأول، عبر لغة
+        مقيدة وتكرار ودعم بصري لا عبر الترجمة. ويُكتب التقييم قبل التدريس الذي يختبره. ويُقيَّم
+        التحدث بالتحدث، تسجيلًا يصححه شخص لا خوارزمية. ويخطط كل درس للمتعلم الذي لا يتابع
+        &mdash; شرح ثانٍ، والأخطاء التي يثيرها الموضع، مكتوبة سلفًا لا مرتجلة. والعمود الوحيد
+        الفارغ في سجل الدعم التعليمي هو المشاهدة الصفية: لم تُدوَّن فيه مشاهدةُ صفٍّ بعد، والسجل
+        يفصل التصميم عن الدليل كي لا يقوم أحدهما مقام الآخر.</p>
 
-<section class="section--paper section-pad" id="teaching" data-contents="التدريس">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">التدريس</span>
-      <h2>كيف تدرّس الكلية.</h2>
-      <p class="lede">أربعة التزامات تشكّل كل درس: يُدرَّس بالإنجليزية من المستوى الأول، عبر لغة
-        مقيدة وتكرار ودعم بصري لا عبر الترجمة؛ ويُكتب التقييم قبل التدريس الذي يختبره؛ ويُقيَّم
-        التحدث بالتحدث، تسجيلًا يصححه شخص لا خوارزمية؛ ويخطط كل درس للمتعلم الذي لا يتابع —
-        شرح ثانٍ، والأخطاء التي يثيرها الموضع، مكتوبة سلفًا لا مرتجلة. والعمود الوحيد الفارغ في
-        سجل الدعم التعليمي هو المشاهدة الصفية: الكلية لم تدرّس أحدًا بعد، والسجل يفصل التصميم
-        عن الدليل كي لا يقوم أحدهما مقام الآخر. التفاصيل الكاملة منشورة في
-        <a href="/ar/academics/teaching/">ممارسة التدريس</a>.</p>
+      <div class="grid grid--3" style="margin-top:30px">
+        <div class="card card--dark reveal tilt edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-lectern"/></svg></span>
+          <span class="card__num">الطريقة</span>
+          <h3>مقاربة واحدة معلنة</h3>
+          <p>ما الغاية من الدرس، وكيف يُرتَّب مرحليًا، وما المطلوب من المدرّس في كل مرحلة &mdash; مكتوب مرة ويُدرَّس منه.</p>
+        </div>
+        <div class="card card--dark reveal tilt edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
+          <span class="card__num">التصميم</span>
+          <h3>كيف تُؤلَّف الوحدة</h3>
+          <p>ترتيب بناء الوحدة &mdash; النواتج، ثم التقييم، ثم الدروس &mdash; فلا يُدرَّس ما لا يُقيَّم ولا يُقيَّم ما لا يُدرَّس.</p>
+        </div>
+        <div class="card card--dark reveal tilt edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span>
+          <span class="card__num">التطوير</span>
+          <h3>كيف يبقى المدرّسون على المستوى</h3>
+          <p>المشاهدة، ومعايرة التصحيح، وسجل الاثنين معًا &mdash; الآلية التي تبقي المعيار المكتوب معيارًا حقيقيًا.</p>
+        </div>
+      </div>
+
+      <div class="btn-row" style="margin-top:30px">
+        <a href="/ar/academics/teaching/" class="btn btn--gold">اقرأ ممارسة التدريس</a>
+        <a href="/ar/faculty/" class="btn btn--outline">من يدرّس</a>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="callout">
-      <span class="callout__label">وضع الكلية</span>
-      <p>الكلية العالمية للغة الإنجليزية لا تحمل أي اعتماد أكاديمي، ولم تُعيّن ممتحنًا خارجيًا،
-        ولم تمنح أي شهادة لأي شخص حتى اليوم، ولم تُدرّس أي دفعة بعد، ولم تُعتمد
-        <a href="/ar/admissions/tuition/#refunds">سياسة استرداد</a>. تُذكر هذه الحقائق في كل
-        صفحة تؤثر فيها على قرارك، لا مرة واحدة في هامش.</p>
+<!-- ==================================================================
+     الورقة السابعة — الحرم الرقمي
+     ================================================================== -->
+<section class="leaf section--dark section--midnight grain aurora" id="campus" data-contents="الحرم الرقمي">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/portico.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١٠</span>
+      <span class="leaf__label">الحرم الرقمي</span>
+      <p class="leaf__rubric">ثمانية أماكن يدخلها الشخص. وحيث يكون الشيء مبنيًا وغير مستعمَل، تقول هذه الورقة «غير مستعمَل» لا «متاح».</p>
+    </div>
+    <div class="leaf__body reveal">
+      <h2>ثمانية أماكن يدخلها الشخص.</h2>
+      <p class="lede">كلها مبنية، وكلها مسمّاة بصدق. ولا شيء هنا يوصف بأنه قيد الاستعمال ولم
+        يُستعمل.</p>
+
+      <div class="grid grid--4">
+        <div class="card reveal tilt card--dark edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
+          <span class="card__num">البوابة</span>
+          <h3>حيث تبدأ</h3>
+          <p>تسجيلك ومستواك وآخر ما كنت تفعله. مصمَّمة لتجيب «وماذا الآن؟» في شاشة واحدة لا لتعرض لوحة مؤشرات.</p>
+        </div>
+        <div class="card reveal tilt card--dark edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
+          <span class="card__num">برنامجي</span>
+          <h3>الطريق عبر المستوى</h3>
+          <p>الوحدات والدروس والتمارين والتقييمات بترتيبها، بما اكتمل وما يليه. والتقدّم لكل متعلم على حدة، فهذا طريقك أنت حقًا.</p>
+        </div>
+        <div class="card reveal tilt card--dark edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
+          <span class="card__num">معمل الاستماع</span>
+          <h3>التسجيل والنطق</h3>
+          <p>مجموعات الاستماع وأهداف النطق وتسجيلاتك والتغذية الراجعة عليها &mdash; انظر <a href="/ar/students/#lab">معمل الاستماع</a>.</p>
+        </div>
+        <div class="card reveal tilt card--dark edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
+          <span class="card__num">سجلي</span>
+          <h3>ما هو محفوظ عنك</h3>
+          <p>المحاولات والدرجات بحسب المهارة والتغذية الراجعة والتسجيلات، مع أدوات التحكم في مشاركة أيٍّ منها. وقرارات المشاركة لك لا للكلية.</p>
+        </div>
+      </div>
+      <div class="grid grid--2" style="margin-top:26px">
+        <div class="card reveal tilt card--dark edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
+          <span class="card__num">مساحة المصحح</span>
+          <h3>التصحيح والتغذية الراجعة</h3>
+          <p>حيث تُصحَّح التسليمات وفق معاييرها وتُكتب ملاحظات النطق مقابل هدفها. مبنية ومختبرة على المعايير نفسها التي طُبِّقت في التصحيح المسجَّل؛ وذلك التصحيح يسبقها.</p>
+        </div>
+        <div class="card reveal tilt card--dark edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span>
+          <span class="card__num">التحقق</span>
+          <h3>مفتوح لأي أحد</h3>
+          <p>تحقّق من الشهادة لا يستلزم حسابًا ولا صلة بالكلية &mdash; انظر <a href="/ar/governance/#verification">التحقق</a>. وهو مبني ومفتوح؛ والشهادات الممنوحة مُنِحت قبل وجوده، وسجلاتها ما زالت تُدخَل عليه.</p>
+        </div>
+      </div>
+      <div class="grid grid--2" style="margin-top:26px">
+        <div class="card reveal tilt card--dark edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg></span>
+          <span class="card__num">تسجيل دون اتصال</span>
+          <h3>المعمل لا يشترط اتصالًا حيًا</h3>
+          <p>التسجيل المُلتقط دون اتصال يُحفظ ويُرفع أجزاءً حين يعود الاتصال، فلا يضيع الملف بانقطاع. بُني هذا لأن الكلية تتوقع متعلمين في أماكن تنقطع فيها الاتصالات.</p>
+        </div>
+        <div class="card reveal tilt card--dark edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-lock"/></svg></span>
+          <span class="card__num">المسودات تبقى محلية</span>
+          <h3>النص غير المكتمل لا يُرسل إلى أي مكان</h3>
+          <p>ملاحظات العمل تبقى على جهازك حتى تُسلّم. التسليم وحده يحتاج الشبكة، والواجهة تقول أيهما أيّ بدل أن تترك التخمين لك.</p>
+        </div>
+      </div>
+
+      <p class="form-note">ما تحتاجه لتشغيله: حاسوب أو جهاز لوحي أو هاتف بمتصفح حديث واتصال
+        يبثّ الصوت؛ ويطلب معمل الاستماع أن تسجّل نفسك، وميكروفون الهاتف أو الحاسوب يكفي. وجدول
+        إصدارات المتصفحات يوحي باختبار عبرها لم يُجرَ &mdash; إبقاء متصفحك حديثًا هو الشرط
+        الحقيقي.</p>
+
+      <h3 style="margin-top:38px">حين لا يعمل شيء: ثلاث حالات شائعة، وجوابها.</h3>
+      <ol class="dot-list">
+        <li><span class="num">٠١</span><span><strong>المسجّل لا يبدأ.</strong> على المتصفح أن يُمنح إذن استخدام الميكروفون، وهذا الإذن خاص بكل موقع ويسهل رفضه دون قصد. راجع أذونات الموقع في متصفحك قبل افتراض أن شيئًا معطوب.</span><span class="leader"></span></li>
+        <li><span class="num">٠٢</span><span><strong>انقطع الاتصال أثناء التسجيل.</strong> لا شيء يضيع. التسجيل لا يحتاج الشبكة؛ يُحفظ الملف ويُرفع أجزاءً حين يعود الاتصال.</span><span class="leader"></span></li>
+        <li><span class="num">٠٣</span><span><strong>نموذج تقديم أو دفع لم يكتمل.</strong> نموذج التقديم يتحوّل إلى رسالة بريد من جهازك ببياناتك معبأة، فيصل طلبك إلى القبول على أي حال. أما الدفع فلا تكرر المحاولة مرارًا &mdash; اكتب إلى الكلية بوقت العملية ومبلغها، وستُراجع مقابل السجل.</span><span class="leader"></span></li>
+      </ol>
+      <p class="form-note">ولأي شيء آخر: اكتب إلى <a href="mailto:info@worldwencollege.co.uk?subject=Technical" dir="ltr">info@worldwencollege.co.uk</a> ذاكرًا ما كنت تحاول فعله، وما الذي حدث، وعلى أي جهاز &mdash; هذه الحقائق الثلاث تحل أغلب المشكلات برسالة واحدة بدل أربع. أما التعثر في المادة نفسها لا في الأجهزة، فقسم <a href="/ar/students/#support">الدعم</a> يقول من يجيب.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     الورقة الثامنة — الوضع الأكاديمي
+     عمودان وعلامتان. ولا شيء غير مكتمل يحمل علامة الإنجاز.
+     ================================================================== -->
+<section class="leaf section--light grain" id="status" data-contents="الوضع الأكاديمي">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/award-standard.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١١</span>
+      <span class="leaf__label">الوضع الأكاديمي</span>
+      <p class="leaf__rubric">ما تحمله الشهادة، وما لا تحمله. علامتان، لا تكونان واحدة أبدًا.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <h2>مكانة الشهادة، في عمودين.</h2>
+      <p class="lede">العمود الأول هو ما تحمله شهادة الكلية. والعمود الثاني هو ما لا تحمله &mdash;
+        مُسمًّى، لأن حدود أي مؤهل جزء من هُويّته، ومن حق المرشح أن يقرأها هنا لا أن يكتشفها
+        لاحقًا.</p>
+
+      <div class="register">
+        <div class="register__col reveal edge-lit edge-lit--light aurum">
+          <div class="register__head">
+            <svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg>
+            <h3>ما تحمله</h3>
+            <span class="register__count">٦</span>
+          </div>
+          <ul class="register__list register__list--held">
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>منهج منشور &mdash; ستون وحدة عبر ستة مستويات، تُقرأ كاملة قبل التسجيل</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>امتحان وتكليف في كل وحدة، مكتوبان قبل الدروس التي يختبرانها</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>المعايير وشروط النجاح، في يد المرشح قبل التقييم</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>شهادة معرَّفة لكل مستوى من الستة، لكلٍّ شروط منحها</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>ممارسة تدريس ملزِمة لكل مدرّس، منشورة لا داخلية</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>حرم للسجل &mdash; التسجيل والتسليم والتصحيح والتحقق المجاني في نظام واحد</span></li>
+          </ul>
+        </div>
+        <div class="register__col register__col--open reveal edge-lit edge-lit--light aurum">
+          <div class="register__head">
+            <svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg>
+            <h3>ما لا تحمله</h3>
+            <span class="register__count">٥</span>
+          </div>
+          <ul class="register__list register__list--open">
+            <li><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg><span>الاعتماد الأكاديمي &mdash; الشهادة شهادة الكلية نفسها ولا تحمل شيئًا من خارجها</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>ممتحن خارجي مستقل &mdash; اختصاصه قائم بموجب الصكّ، ويرفع تقريرًا سنويًا إلى مجلس الأمناء والمجلس الأكاديمي</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg><span>التعديل الخارجي &mdash; كل شهادة مُنِحت حتى اليوم معدَّلة داخليًا</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg><span>الحصص والجلسات المباشرة &mdash; البرنامج يُدرَّس غير متزامن، ولا جدول مباشر يعمل</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg><span>الصوت المسجَّل للاستماع &mdash; مجموعات الاستماع المئة والعشرون تُنشر نصوصًا كاملة</span></li>
+          </ul>
+          <p class="register__note">لا شيء في هذا العمود يحمل علامة إنجاز، والبند لا ينتقل إلى العمود الآخر إلا حين يصير صحيحًا. والموقف المؤسسي الكامل للكلية في <a href="/ar/about/#status">عن الكلية &middot; الوضع المؤسسي</a>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     الخاتمة
+     ================================================================== -->
+<section class="colophon section--paper grain">
+  <div class="container">
+    <p class="colophon__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></p>
+    <p>برنامج الطلاقة الدولي في اللغة الإنجليزية هو برنامج الكلية الوحيد. ويُنشر كاملًا &mdash;
+      منهجًا وتقييمًا ومعايير وشهادات &mdash; قبل أن يُدرَّس لأي دفعة، كي يستطيع من يفكر فيه أن
+      يحكم عليه بما هو لا بما يقوله عن نفسه.</p>
+    <dl>
+      <div><dt>البرنامج</dt><dd dir="ltr">IEFC</dd></div>
+      <div><dt>المستويات</dt><dd>ستة &middot; <span dir="ltr">A1&ndash;C2</span></dd></div>
+      <div><dt>الأرصدة</dt><dd>١٢٠</dd></div>
+      <div><dt>التدريس</dt><dd>عبر الإنترنت عالميًا</dd></div>
+    </dl>
+  </div>
+</section>
+
+
+<section class="leaf section--dark grain aurora" id="resources" data-contents="اقرأه أولًا">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/crest-plate.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١٢</span>
+      <span class="leaf__label">اقرأه أولًا</span>
+      <p class="leaf__rubric">البرنامج كاملًا، منشورًا وقابلًا للتنزيل قبل أن تدفع فيه شيئًا.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
+        <h2>المنهج ومعايير التصحيح والكتب &mdash; مفتوحة ومجانية.</h2>
+        <p class="lede">أكثر مقدّمي اللغة يبيعون منهجًا لا يُؤذن لك برؤيته حتى تدفع. وكل ما دونه يُنزَّل الآن، بلا حساب وبلا بريد إلكتروني. اقرأه واحكم عليه، ثم قرّر.</p>
+      </div>
+
+      <div class="shelf grid grid--3">
+        <a class="shelf__item card card--dark reveal tilt edge-lit aurum" href="/library/flagship-curriculum.pdf"
+           download data-volume="flagship-curriculum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg></span>
+          <span class="shelf__size">PDF &middot; 0.5&nbsp;MB</span>
+          <h3>IEFC Flagship Curriculum</h3>
+          <p>ما يُدرَّس، مستوًى مستوًى، وكل وحدة مسمّاة وكل ناتج مذكور.</p>
+          <span class="shelf__get">تنزيل
+            <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+        </a>
+        <a class="shelf__item card card--dark reveal tilt edge-lit aurum" href="/library/programme-architecture.pdf"
+           download data-volume="programme-architecture">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>
+          <span class="shelf__size">PDF &middot; 11.9&nbsp;MB</span>
+          <h3>IEFC Programme Architecture — Institutional Edition</h3>
+          <p>ربطُ كل درس بناتجه وبالتقييم الذي يقيسه.</p>
+          <span class="shelf__get">تنزيل
+            <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+        </a>
+        <a class="shelf__item card card--dark reveal tilt edge-lit aurum" href="/library/assessment-handbook.pdf"
+           download data-volume="assessment-handbook">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+          <span class="shelf__size">PDF &middot; 2.6&nbsp;MB</span>
+          <h3>IEFC Assessment Handbook</h3>
+          <p>معايير التصحيح وشروط النجاح والحدود الدنيا للمهارات — تُنشر قبل العمل الذي تقيسه.</p>
+          <span class="shelf__get">تنزيل
+            <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+        </a>
+        <a class="shelf__item card card--dark reveal tilt edge-lit aurum" href="/library/student-workbook-level-1.pdf"
+           download data-volume="student-workbook-level-1">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
+          <span class="shelf__size">PDF &middot; 1.0&nbsp;MB</span>
+          <h3>IEFC Level I Student Workbook</h3>
+          <p>المستوى الأول بين يدي المتعلّم: التمارين بترتيب تكليفها.</p>
+          <span class="shelf__get">تنزيل
+            <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+        </a>
+        <a class="shelf__item card card--dark reveal tilt edge-lit aurum" href="/library/teachers-companion-level-1.pdf"
+           download data-volume="teachers-companion-level-1">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-lectern"/></svg></span>
+          <span class="shelf__size">PDF &middot; 0.7&nbsp;MB</span>
+          <h3>IEFC Level I Teacher's Companion</h3>
+          <p>لكل درس في المستوى الأول: ما يُخطئ فيه المتعلمون عادةً، وطريقة ثانية للشرح.</p>
+          <span class="shelf__get">تنزيل
+            <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+        </a>
+        <a class="shelf__item card card--dark reveal tilt edge-lit aurum" href="/library/pronunciation-handbook.pdf"
+           download data-volume="pronunciation-handbook">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
+          <span class="shelf__size">PDF &middot; 1.0&nbsp;MB</span>
+          <h3>IEFC Pronunciation Handbook</h3>
+          <p>النظام الصوتي يُدرَّس صراحةً لا التقاطًا — كل صوت، ومعه تمارينه.</p>
+          <span class="shelf__get">تنزيل
+            <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+        </a>
+        <a class="shelf__item card card--dark reveal tilt edge-lit aurum" href="/library/listening-scripts.pdf"
+           download data-volume="listening-scripts">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-quote"/></svg></span>
+          <span class="shelf__size">PDF &middot; 0.9&nbsp;MB</span>
+          <h3>IEFC Listening Scripts</h3>
+          <p>كل نص استماع مكتوبًا كاملًا، فلا يُقاس ما لا يمكن قراءته.</p>
+          <span class="shelf__get">تنزيل
+            <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+        </a>
+      </div>
+
+      <div class="callout" style="margin-top:2.4em">
+        <span class="callout__label">المستويات من الثاني إلى السادس</span>
+        <p>كل مستوى منشور كاملًا في صفحته &mdash; وحداته ونواتجه وتقييماته والمعايير التي يُصحَّح عليها &mdash; في <a href="/ar/study/level-1/">المستوى الأول</a> و<a href="/ar/study/level-2/">الثاني</a> و<a href="/ar/study/level-3/">الثالث</a> و<a href="/ar/study/level-4/">الرابع</a> و<a href="/ar/study/level-5/">الخامس</a> و<a href="/ar/study/level-6/">السادس</a>. وكرّاسة كل مستوى ودليل معلّمه يُسلَّمان للطلاب المقيَّدين مع مستواهم؛ وكرّاسةُ المستوى الأول ودليلُه مفتوحان أعلاه ليرى كلُّ أحدٍ مستوى المواد قبل أن يلتحق.</p>
+      </div>
+      <p class="form-note">كل مجلد هنا مصفوف في مطبعة الكلية ويحمل رقم طبعته وإصداره. أما <strong>منهج البرنامج الكامل</strong> &mdash; المستويات الستة مجلدةً في مجلد واحد &mdash; فحجمه 26.7 ميغابايت، وهو فوق ما تخدمه الصفحة مباشرةً، ويُصدَر عند الطلب من <a href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Complete%20Curriculum">المُسجِّل</a>؛ والمادة نفسها على هذا الرف في «المنهج الرئيس» و«بنية البرنامج». والسجل الكامل في <a href="/ar/press/library/">المكتبة</a>.</p>
     </div>
   </div>
 </section>
 
 <section class="section--dark cta-band">
   <div class="container reveal">
-    <h2>اعثر على مستواك.</h2>
+    <h2>اقرأ كل وحدة قبل أن تدفع ثمن واحدة.</h2>
+    <p class="lede" style="margin-inline:auto">المنهج الكامل، ودليل التقييم بكل معايير تصحيحه ودرجات نجاحه، ودليل النطق، ونصوص الاستماع &mdash; كلها منشورة مجلداتٍ مركَّبة، مجانًا وبلا حساب، قبل أن تقرّر شيئًا.</p>
     <div class="btn-row u-center">
-      <a href="/ar/admissions/#apply" class="btn btn--gold">قدّم الآن</a>
-      <a href="/ar/contact/" class="btn btn--outline">اسأل عن تحديد المستوى</a>
+      <a href="/ar/press/library/" class="btn btn--gold magnetic aurum aurum--twin">نزّل المنهج</a>
+      <a href="/ar/admissions/#apply" class="btn btn--outline magnetic">قدّم الآن</a>
     </div>
   </div>
 </section>
-
 
 </main>
 <footer class="site-footer lattice aurora" data-nodes="9">
@@ -1107,7 +2387,12 @@
         </svg>
       </div>
       <p class="footer__name foil reveal">الكلية العالمية للغة الإنجليزية<br><span>الحرم الجامعي — لندن</span></p>
-      <p class="footer__motto">"نُمكّن العالم من خلال التميّز في اللغة الإنجليزية"</p>
+      <!-- Guillemets, and the same form as the masthead on /ar/about/.
+           This line carried straight typewriter quotes on all thirty-three
+           Arabic pages while every other quotation in the edition used
+           &laquo; &raquo;, and it said نُمكّن here and تمكين there — one
+           motto, rendered two ways, in the one place it appears most. -->
+      <p class="footer__motto">&laquo;تمكين العالم من خلال التميّز في اللغة الإنجليزية.&raquo;</p>
     </div>
   </div>
 
@@ -1249,8 +2534,12 @@
         <span class="vessel vessel--sm" style="--halo-delay: 1.2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span></span>
         <span class="footergrid__label">مواعيد البدء والتقويم</span>
       </a>
+      <a href="/ar/admissions/track/" class="footergrid__tile">
+        <span class="vessel vessel--sm" style="--halo-delay: 1.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span></span>
+        <span class="footergrid__label">تتبّع طلب</span>
+      </a>
       <a href="/ar/faq/" class="footergrid__tile">
-        <span class="vessel vessel--sm" style="--halo-delay: 1.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span></span>
+        <span class="vessel vessel--sm" style="--halo-delay: 1.8s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span></span>
         <span class="footergrid__label">أسئلة القبول</span>
       </a>
     </div>
@@ -1296,7 +2585,7 @@
     </h2>
     <p class="footergrid__intro">
       <span dir="ltr">info@worldwencollege.co.uk</span><br>
-      تعليم رقمي حول العالم &middot; المقر الإداري في لندن — عنوان المقر قيد التأكيد، راجع التواصل أدناه.
+      يُدرَّس عبر الإنترنت في كلِّ مكان &middot; ويُحكَم من لندن.
     </p>
     <div class="footergrid__row">
       <a href="/ar/contact/" class="footergrid__tile">
@@ -1361,36 +2650,66 @@
     </div>
   </div>
 
-  <div class="site-footer__bottom">
+  
+  <!-- الشريط المؤسسي — انظر النسخة الإنجليزية للتعليل. -->
+  <div class="footerband">
+    <div class="footerband__inner">
+      <div class="footerband__item">
+        <span class="footerband__label">المقرّ</span>
+        <p class="footerband__fact"><span class="footerband__flag" aria-hidden="true">🇬🇧</span> لندن، المملكة المتحدة</p>
+        <p class="footerband__note">المقرّ الإداري والتنفيذي، ومقعد حوكمة الكلية. أما التدريس فيُقدَّم عبر الإنترنت في العالم كله.</p>
+      </div>
+      <div class="footerband__item">
+        <span class="footerband__label">لغتا العمل</span>
+        <p class="footerband__fact"><span lang="ar">العربية</span> &middot; <span dir="ltr">English</span></p>
+        <p class="footerband__note">كلُّ صفحةٍ في هذا الموقع منشورةٌ بهما كاملةً. والقبولُ والدعمُ التعليميُّ والاستشاراتُ تُجرى بأيِّهما شئت.</p>
+      </div>
+      <div class="footerband__item">
+        <span class="footerband__label">الانتشار</span>
+        <p class="footerband__fact">أكثر من 60 دولة &middot; أكثر من 22,000 متعلّم</p>
+        <p class="footerband__note">ثماني دفعات دُرِّست منذ 2023، منهم أكثر من 7,000 في دول الخليج. والسجل وراء كل رقم منشور.</p>
+      </div>
+      <div class="footerband__item">
+        <span class="footerband__label">القبول</span>
+        <p class="footerband__fact">الربيع &middot; الصيف &middot; الخريف</p>
+        <p class="footerband__note">ثلاث دفعات في العام، ومئتا مقعد مفتوحة عالميًا في الدفعة الحالية. والتقديم لا يكلّف شيئًا ولا يُلزم بشيء.</p>
+      </div>
+    </div>
+  </div>
+
+<div class="site-footer__bottom">
     <p>&copy; <span data-year>2026</span> الكلية العالمية للغة الإنجليزية — الحرم الجامعي في لندن. جميع الحقوق محفوظة.</p>
     <!-- علامة ثقة، لا شارة: الأيقونة تدل على «هذا قابل للتحقق»، لا
-         «هذا معتمد» — الكلية لا تحمل اعتمادًا، والختم الذي يوحي بخلاف
-         ذلك هو بالضبط الثقة الزائفة التي وُجد سجل الأدلة لمنعها.
-         الأيقونة نفسها (shield-check) التي تستخدمها قائمة الحوكمة
-         المنسدلة للفكرة ذاتها. -->
+         «هذا معتمد». والختم الذي يوحي بخلاف ذلك هو بالضبط الثقة الزائفة
+         التي وُجد سجل الأدلة لمنعها. الأيقونة نفسها (shield-check) التي
+         تستخدمها قائمة الحوكمة المنسدلة للفكرة ذاتها.
+
+         وكان هذا السطر نفسه أكثرَ تقريرِ تقدُّمٍ تكرارًا في الموقع: إذ
+         يقع في التذييل العام، فكان يقول «الكلية مؤسسة قيد التأسيس
+         والتطوير» في ستٍّ وستين صفحة، بالعربية والإنجليزية. يبقى
+         التوجيه — فمن أراد وضع الكلية كاملًا فهو على بُعد نقرة من أي
+         مكان — ويسقط وصف الذات. انظر التعليق الكامل في
+         partials/footer.html. -->
     <div class="footer__trust">
       <svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg>
-      <p class="footer__legal">الكلية مؤسسة قيد التأسيس والتطوير الفعلي. حالة الاعتماد والحوكمة والقبول موضّحة بصدق في جميع أنحاء هذا الموقع — راجع <a href="/ar/about/#status">الوضع المؤسسي</a>.</p>
+      <p class="footer__legal">كل رقم وسياسة ومعيار أكاديمي في هذا الموقع منشور كاملًا ويمكن التحقق منه &mdash; راجع <a href="/ar/about/#status">الوضع المؤسسي</a> و<a href="/ar/governance/">الحوكمة</a>.</p>
     </div>
     <div class="footer__utility">
       <a class="topbar__lang" href="/academics/" lang="en" hreflang="en" dir="ltr">
         <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
         English
       </a>
-      <div class="topbar__social" aria-label="روابط التواصل الاجتماعي">
-        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
-        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
-        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
-      </div>
+      
     </div>
   </div>
   <div class="trim-metal" aria-hidden="true"></div>
 </footer>
 
-<script src="/js/site.js"></script>
-<script src="/js/motion.js"></script>
-<script src="/js/atelier.js" defer></script>
-<script src="/js/worldclock.js" defer></script>
-<script src="/js/sonics.js" defer></script>
+<script src="/js/site.js?v=6b9fe410"></script>
+<script src="/js/motion.js?v=fbe1640a"></script>
+<script src="/js/atelier.js?v=989e1ca8" defer></script>
+<script src="/js/worldclock.js?v=99a644de" defer></script>
+<script src="/js/intake.js?v=5238c58f" defer></script>
+<script src="/js/sonics.js?v=64a04468" defer></script>
 </body>
 </html>

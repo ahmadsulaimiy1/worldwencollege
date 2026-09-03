@@ -244,7 +244,11 @@ export function inventoryL1(C = buildCurriculum()) {
     const st = item.stages.find((s) => s.icon === 'vocabulary');
     if (!st) continue;
     const text = st.parts.map((p) => p.text).join(' ').trim();
-    const collocations = text.split(';').filter((p) => / -- /.test(p));
+    // Either dash: the curriculum's separators were set as em dashes
+    // when the study surface began rendering them to learners, and a
+    // counter that admitted only the old spelling reported nought
+    // collocations across six levels that had lost none.
+    const collocations = text.split(';').filter((p) => / (?:--|—) /.test(p));
     if (collocations.length >= 2) collocationEntries += collocations.length;
   }
 

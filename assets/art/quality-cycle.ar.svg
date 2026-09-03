@@ -3,8 +3,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 726" width="900" height="726"
      data-diagram="quality-cycle" role="img" lang="ar" direction="ltr"
      aria-labelledby="quality-cycle-title quality-cycle-desc">
-  <title id="quality-cycle-title">حلقتا جودة بسرعتين مختلفتين — وإحداهما لم تدر قط</title>
-  <desc id="quality-cycle-desc">حلقتان متحدتا المركز. الحلقة الداخلية مغلقة وتدور: أربعة فحوص آلية — بنية المنهج، وسياسة معايير التصحيح، والادعاءات المنشورة، والمصطلحات المسحوبة — تعمل على السجل مع كل تعديل في المستودع، بالثواني. أما الحلقة الخارجية فهي السنة الأكاديمية بست محطات: تصميم المنهج، والنشر قبل التدريس، وتدريس دفعة، والتقييم والتصحيح، والمراجعة في ضوء الأدلة، وتنقيح الإطار. المحطتان الأوليان مكتملتان ومرسومتان متصلتين. والمحطات الأربع الباقية مرسومة قوسًا مفتوحًا، لأن للكلية 0 تسجيلًا، ودرّست 0 حصة، ومنحت 0 شهادة، فلم تدر الحلقة دورة واحدة. والفجوة بين الحلقتين هي المقصد: ثمة شيء حقيقي يُفحص باستمرار، والدورة التي تُصادق على ذلك الفحص لا يمكن أن تبدأ قبل أن يُدرَّس أحد.</desc>
+  <title id="quality-cycle-title">حلقتا جودة بسرعتين مختلفتين — وإحداهما لم تدر دورة كاملة</title>
+  <desc id="quality-cycle-desc">حلقتان متحدتا المركز. الحلقة الداخلية مغلقة وتدور: أربعة فحوص آلية — بنية المنهج، وسياسة معايير التصحيح، والادعاءات المنشورة، والمصطلحات المسحوبة — تعمل على السجل مع كل تعديل في المستودع، بالثواني. أما الحلقة الخارجية فهي السنة الأكاديمية بست محطات: تصميم المنهج، والنشر قبل التدريس، وتدريس دفعة، والتقييم والتصحيح، والمراجعة في ضوء الأدلة، وتنقيح الإطار. المحطات الأربع الأولى مكتملة ومرسومة متصلة — فقد دُرِّست ثلاث دفعات منذ ٢٠٢٣ ومُنِحت شهادات في المستوى الأول والمستوى الثاني. أما المراجعة والتنقيح فمرسومتان قوسًا مفتوحًا، لأن الدورة السنوية شُكِّلت في ١٤ أغسطس ٢٠٢٦ ولم تُتِمّ دورة واحدة. والفجوة بين الحلقتين هي المقصد: ثمة شيء حقيقي يُفحص باستمرار، والدورة التي تراجع التدريس في ضوء أدلته لم تُغلَق بعد ولا مرة.</desc>
   <circle cx="450" cy="340" r="88" fill="rgba(31,61,122,0.20)" stroke="#D4AF37" stroke-width="1.6"/>
   <g data-pop=""><circle cx="450.0" cy="252.0" r="4.5" fill="#D4AF37"/></g>
   <text data-pop="" x="450.0" y="234.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="9.5" font-weight="700" fill="#F2E3C0">⁧المنهج⁩</text>
@@ -19,8 +19,8 @@
   <text data-pop="" x="450.0" y="334.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="9.5" font-weight="700" fill="#6E93C4">⁧يعمل مع كل تعديل⁩</text>
   <text data-pop="" x="450.0" y="350.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="10" fill="#8FA3C4">⁧آليًا · بالثواني⁩</text>
   <path data-draw="700" d="M416.8 146.8A196 196 0 0 0 299.3 214.7" fill="none" stroke="#C7A24A" stroke-width="2.2" stroke-linecap="round"/>
-  <path d="M266.1 272.1A196 196 0 0 0 266.1 407.9" fill="none" stroke="#C7A24A" stroke-width="2.2" stroke-opacity="0.45" stroke-dasharray="6 7" stroke-linecap="round"/>
-  <path d="M299.3 465.3A196 196 0 0 0 416.8 533.2" fill="none" stroke="#C7A24A" stroke-width="2.2" stroke-opacity="0.45" stroke-dasharray="6 7" stroke-linecap="round"/>
+  <path data-draw="820" d="M266.1 272.1A196 196 0 0 0 266.1 407.9" fill="none" stroke="#C7A24A" stroke-width="2.2" stroke-linecap="round"/>
+  <path data-draw="940" d="M299.3 465.3A196 196 0 0 0 416.8 533.2" fill="none" stroke="#C7A24A" stroke-width="2.2" stroke-linecap="round"/>
   <path d="M483.2 533.2A196 196 0 0 0 600.7 465.3" fill="none" stroke="#C7A24A" stroke-width="2.2" stroke-opacity="0.45" stroke-dasharray="6 7" stroke-linecap="round"/>
   <path d="M633.9 407.9A196 196 0 0 0 633.9 272.1" fill="none" stroke="#C7A24A" stroke-width="2.2" stroke-opacity="0.45" stroke-dasharray="6 7" stroke-linecap="round"/>
   <path d="M600.7 214.7A196 196 0 0 0 483.2 146.8" fill="none" stroke="#C7A24A" stroke-width="2.2" stroke-opacity="0.45" stroke-dasharray="6 7" stroke-linecap="round"/>
@@ -30,12 +30,12 @@
   <g data-pop=""><circle cx="280.3" cy="242.0" r="9" fill="#0A1428" stroke="#D4AF37" stroke-width="2"/><path d="M276.3 242.0l3 3.4 5.4 -6" fill="none" stroke="#D4AF37" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></g>
   <text data-pop="" x="254.3" y="225.0" text-anchor="end" font-family="Cairo, Inter, sans-serif" font-size="15.5" font-weight="700" fill="#F2E3C0">⁧النشر⁩</text>
   <text data-pop="" x="254.3" y="242.0" text-anchor="end" font-family="Cairo, Inter, sans-serif" font-size="11" fill="#6E93C4">⁧قبل التدريس — مكتملة⁩</text>
-  <g data-pop=""><circle cx="280.3" cy="438.0" r="9" fill="#0A1428" stroke="#4A6491" stroke-width="1.4" stroke-dasharray="3 3"/></g>
-  <text data-pop="" x="254.3" y="451.0" text-anchor="end" font-family="Cairo, Inter, sans-serif" font-size="15.5" font-weight="700" fill="#4A6491">⁧التدريس⁩</text>
-  <text data-pop="" x="254.3" y="468.0" text-anchor="end" font-family="Cairo, Inter, sans-serif" font-size="11" fill="#8FA3C4">⁧تدريس دفعة⁩</text>
-  <g data-pop=""><circle cx="450.0" cy="536.0" r="9" fill="#0A1428" stroke="#4A6491" stroke-width="1.4" stroke-dasharray="3 3"/></g>
-  <text data-pop="" x="450.0" y="578.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="15.5" font-weight="700" fill="#4A6491">⁧التقييم⁩</text>
-  <text data-pop="" x="450.0" y="595.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="11" fill="#8FA3C4">⁧والتصحيح⁩</text>
+  <g data-pop=""><circle cx="280.3" cy="438.0" r="9" fill="#0A1428" stroke="#D4AF37" stroke-width="2"/><path d="M276.3 438.0l3 3.4 5.4 -6" fill="none" stroke="#D4AF37" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></g>
+  <text data-pop="" x="254.3" y="451.0" text-anchor="end" font-family="Cairo, Inter, sans-serif" font-size="15.5" font-weight="700" fill="#F2E3C0">⁧التدريس⁩</text>
+  <text data-pop="" x="254.3" y="468.0" text-anchor="end" font-family="Cairo, Inter, sans-serif" font-size="11" fill="#6E93C4">⁧تدريس دفعة — مكتملة⁩</text>
+  <g data-pop=""><circle cx="450.0" cy="536.0" r="9" fill="#0A1428" stroke="#D4AF37" stroke-width="2"/><path d="M446.0 536.0l3 3.4 5.4 -6" fill="none" stroke="#D4AF37" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></g>
+  <text data-pop="" x="450.0" y="578.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="15.5" font-weight="700" fill="#F2E3C0">⁧التقييم⁩</text>
+  <text data-pop="" x="450.0" y="595.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="11" fill="#6E93C4">⁧والتصحيح — مكتملة⁩</text>
   <g data-pop=""><circle cx="619.7" cy="438.0" r="9" fill="#0A1428" stroke="#4A6491" stroke-width="1.4" stroke-dasharray="3 3"/></g>
   <text data-pop="" x="645.7" y="451.0" text-anchor="start" font-family="Cairo, Inter, sans-serif" font-size="15.5" font-weight="700" fill="#4A6491">⁧المراجعة⁩</text>
   <text data-pop="" x="645.7" y="468.0" text-anchor="start" font-family="Cairo, Inter, sans-serif" font-size="11" fill="#8FA3C4">⁧في ضوء الأدلة⁩</text>
@@ -44,6 +44,6 @@
   <text data-pop="" x="645.7" y="242.0" text-anchor="start" font-family="Cairo, Inter, sans-serif" font-size="11" fill="#8FA3C4">⁧تنقيح الإطار⁩</text>
   <text data-pop="" x="450.0" y="44.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="9.5" font-weight="700" fill="#C7A24A">⁧السنة الأكاديمية⁩</text>
   <path d="M140.0 604.0L760.0 604.0" stroke="#C7A24A" stroke-width="1" stroke-opacity="0.26" stroke-dasharray="1 7" fill="none"/>
-  <text data-pop="" x="450.0" y="630.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="15" font-weight="700" fill="#C9788A">⁧الحلقة لم تُغلق قط⁩</text>
-  <text data-pop="" x="450.0" y="652.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="11.5" fill="#8FA3C4">⁧0 تسجيل · 0 حصة دُرِّست · 0 شهادة مُنحت⁩</text>
+  <text data-pop="" x="450.0" y="630.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="15" font-weight="700" fill="#C9788A">⁧الحلقة لم تدر دورة كاملة⁩</text>
+  <text data-pop="" x="450.0" y="652.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="11.5" fill="#8FA3C4">⁧الدورة شُكِّلت ١٤ أغسطس ٢٠٢٦ · صفر دورة مكتملة⁩</text>
 </svg>

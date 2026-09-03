@@ -1,0 +1,156 @@
+<!--
+  MY LEARNERS — the roster a member of staff may read, one learner's
+  engagement, the register a tutor may take themselves, and the
+  confirmation that a level is finished.
+
+  ─────────────────────────────────────────────────────────────────────
+  THE ROSTER IS COMPOSED, NOT QUERIED
+  ─────────────────────────────────────────────────────────────────────
+  The natural staff endpoint for engagement takes a level and returns
+  everybody at it, because that is the shape the query wants to be. It
+  is also how a tutor appointed on Monday acquires the complete
+  engagement history of two hundred people they have never taught.
+
+  There is no tutor-to-learner assignment table, so the relation is
+  composed from the teaching acts that already exist — a live thread, a
+  booked tutorial, a marked assignment, a register taken — and every
+  read of a named learner passes through that check on the server. This
+  page therefore has no search box. It is not an omission: a search box
+  over learners is precisely the surface that check exists to prevent.
+
+  ─────────────────────────────────────────────────────────────────────
+  A CORRECTION NEVER CONCEALS WHAT IT CORRECTED
+  ─────────────────────────────────────────────────────────────────────
+  Where a member of staff has stated an engagement fact the platform
+  could not read, the platform's own reading is returned beside it and
+  this page prints both. A learner shown "your tutor marked this
+  absent" can also be shown what the platform read, and a tutor about
+  to overwrite a mark can see what they are overwriting.
+
+  A reason is required on every register mark. An unexplained mark on
+  somebody's record is the thing that endpoint most needs to be
+  incapable of, and the form here cannot be submitted without one.
+
+  ─────────────────────────────────────────────────────────────────────
+  AND A LEVEL IS CONFIRMED, NOT DECLARED
+  ─────────────────────────────────────────────────────────────────────
+  Completing a level can be refused. The gates are read BEFORE the act,
+  and rendered, so a member of staff meets the condition as a sentence
+  rather than as a rejection — same engine, same words, on both sides
+  of the button.
+
+  Every id and data- attribute below is addressed by js/staff-learners.js.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></p>
+    <p class="masthead__eyebrow">Academic staff</p>
+    <h1>My Learners</h1>
+    <p class="lede">The learners in your care, how each of them has engaged, the register you may take yourself &mdash; and the confirmation, once the conditions are met, that a level is finished.</p>
+    <nav class="rec-nav" aria-label="Academic staff">
+      <a href="/staff-desk.html">The Desk</a>
+      <a href="/staff-marking.html">Marking</a>
+      <a href="/staff-learners.html" aria-current="page">My Learners</a>
+      <a href="/staff-hours.html">My Hours</a>
+      <a href="/staff-notices.html">Notices</a>
+      <a href="/staff-cases.html">Cases</a>
+      <a href="/staff-admissions.html">Admissions</a>
+      <a href="/staff-enrolments.html">Enrolments</a>
+      <a href="/staff-finance.html">Finance</a>
+      <a href="/staff-administration.html">Administration</a>
+    </nav>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container">
+    <div class="stf-shell">
+
+      <p class="rec-state state-plate edge-lit edge-lit--light aurum" id="state" aria-live="polite">Loading your roster&hellip;</p>
+
+      <!-- THE ROSTER ---------------------------------------------------- -->
+      <section class="acc-block reveal" id="secRoster" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg> <span data-roster-head>Your roster</span></h2>
+        </div>
+
+        <p class="stf-basis" data-roster-basis></p>
+
+        <ul class="stf-queue" data-roster></ul>
+
+        <div class="stf-clear" data-roster-empty hidden>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-portico"/></svg></span>
+          <p class="stf-clear__head" data-roster-empty-head></p>
+          <p class="stf-clear__note" data-roster-empty-note></p>
+        </div>
+      </section>
+
+      <!-- ONE LEARNER --------------------------------------------------- -->
+      <section class="acc-block reveal" id="secLearner" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg> <span data-learner-head></span></h2>
+          <div class="desk-head__tools">
+            <button class="btn btn--outline" type="button" data-learner-close></button>
+          </div>
+        </div>
+
+        <!-- The definition the learner is shown, shown to the tutor
+             unaltered. A staff view that strips it is how "engagement"
+             becomes "attendance" in the sentence a tutor writes. -->
+        <p class="stf-basis" data-engagement-notice></p>
+
+        <div class="stf-counts" data-learner-tally></div>
+
+        <div class="stf-panel">
+          <p class="stf-panel__label" data-modules-label></p>
+          <ul class="stf-queue" data-modules></ul>
+        </div>
+
+        <p class="stf-basis" data-authored-notice></p>
+
+        <!-- TAKE A REGISTER ------------------------------------------- -->
+        <div class="stf-act" data-register hidden>
+          <h3 data-register-head></h3>
+          <p class="stf-field__note" data-register-why></p>
+
+          <div class="stf-field">
+            <label for="regModule" data-register-module-label></label>
+            <select id="regModule" data-register-module></select>
+          </div>
+          <div class="stf-field">
+            <label for="regState" data-register-state-label></label>
+            <select id="regState" data-register-state></select>
+            <p class="stf-field__note" data-register-state-note></p>
+          </div>
+          <div class="stf-field" data-register-minutes-field hidden>
+            <label for="regMinutes" data-register-minutes-label></label>
+            <input id="regMinutes" type="number" min="0" step="1" data-register-minutes>
+          </div>
+          <div class="stf-field">
+            <label for="regReason" data-register-reason-label></label>
+            <textarea id="regReason" data-register-reason></textarea>
+            <p class="stf-field__note" data-register-reason-note></p>
+          </div>
+          <div class="stf-buttons">
+            <button class="btn btn--gold" type="button" data-register-send></button>
+            <span class="stf-said" data-register-said aria-live="polite"></span>
+          </div>
+        </div>
+
+        <!-- CONFIRM A LEVEL ------------------------------------------- -->
+        <div class="stf-act" data-complete hidden>
+          <h3 data-complete-head></h3>
+          <p class="stf-field__note" data-complete-why></p>
+          <ul class="stf-queue" data-gates></ul>
+          <div class="stf-buttons">
+            <button class="btn btn--gold" type="button" data-complete-send></button>
+            <span class="stf-said" data-complete-said aria-live="polite"></span>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

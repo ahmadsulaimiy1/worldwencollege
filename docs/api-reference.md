@@ -29,12 +29,63 @@ submission.
 ```
 
 ### `GET /api/admissions/status?id=app_xxx`
-Public, no auth — deliberately keyed by id (an applicant has no
-account yet). Returns `{ id, status, created_at }` only.
+No session — an applicant has no account, and cannot be given one. The
+application reference IS the credential: it is compared in constant
+time, an unknown and a malformed reference get one identical 401, and
+every attempt spends from a per-address lookup allowance. Returns
+`{ id, status, createdAt }` and nothing else — no name, no email, no
+decision detail.
+
+`GET /api/admissions/track?ref=app_xxx` is the same credential opening
+the full record. Both resolve the reference through
+`applicationByReference()` in
+`functions/_lib/admissions/lifecycle.js`, which is the only place a
+reference becomes a row.
 
 ---
 
 ## Payments
+
+### `GET /api/payments/options`
+**Requires auth**, and answers for the signed-in learner only — a
+`userId`/`user_id`/`studentId`/`learnerId` parameter is refused with a
+422 rather than ignored. Query: `country` (two letters, a suggestion
+only) and `currency` (three letters; a currency the College cannot take
+answers 404 by name rather than being quietly re-quoted in dollars).
+
+READ FIRST, SPEND SECOND. `create-checkout` below decides the price,
+the discount, the currency and the gateway by INSERTING a payments row
+and handing the learner to a gateway; until this route existed there
+was no way to ask any of those questions without spending that row.
+
+Returns `{ asAt, currency, levels[], fullProgramme, instalments,
+scholarship, discountPolicy, payment }`.
+
+- Every figure is `presentAmount()` from `_lib/student/finance.js` —
+  the same `{usdCents, ledger:{…text}, learner:{…text, rateAsOf}}`
+  shape `/api/student/finance` uses, so a surface renders one money
+  format and formats nothing itself.
+- `levels[]` carries `price` (what paying in full costs TODAY, after
+  any relief), `published`/`relief` (both null where there is none),
+  `instalment.amounts` computed by the same `computeInstalmentAmounts()`
+  the create route charges from, `instalment.reliefApplies` (always
+  false — a plan is struck on the published fee and the create route
+  refuses to discount an instalment), `enrolment.held`, `nameAr` and
+  `ordinalAr` beside `name`.
+- `fullProgramme.comparison` is `same` where the difference from
+  `sumOfLevels` is under one whole currency unit: six levels sum to
+  $19,000.02 against an aggregate of $19,000, and that waiver is not a
+  discount — see `data/tuition.json` § _rounding.
+- `instalments.appliesTo` is `level`, which is what the fee schedule
+  publishes.
+- **`payment.configured` is the honest list, with no fallback in it.**
+  `suggestGateway()` answers `['stripe']` when nothing is configured
+  because the create route needs a name to attempt; an interface given
+  an empty list here is expected to say the College cannot take a card
+  today rather than draw a button that answers 503.
+
+Nothing is written. Asking what something costs creates no payment row
+and no instalment plan.
 
 ### `POST /api/payments/create-checkout`
 **Requires auth.** Body — exactly one of `levelId`, `fullProgramme`, or
@@ -54,10 +105,24 @@ only) apply a discount via `functions/_lib/payments/discounts.js` —
 both together are rejected with a 422 unless
 `platform_config.discount_stacking_policy` explicitly allows it.
 
+`language` (`'en'`/`'ar'`) is the ONLY thing a caller may say about
+where the gateway returns them: the success and cancel addresses are
+built by `returnAddresses()` in `_lib/payments/checkout.js`, and a
+caller-supplied URL would be an open redirect on a page people arrive
+at from their bank. Success returns to
+`/student-portal/payment-complete/?payment=…`; cancel returns to
+`/my-account.html`, where every checkout on this site begins.
+
 Returns `{ paymentId, checkoutUrl, gateway, currency, amountMinor }`.
 `currency`/`gateway` are optional — omitted, they're inferred from the
 account's country via `_lib/currency.js`'s routing suggestion, per
 `payments-architecture.md` § UX.
+
+The price, the discount, the currency, the gateway choice and the
+pending row are all decided in `_lib/payments/checkout.js`
+(`priceCheckout()`, `openPayment()`), so the same arithmetic can be
+exercised without a live gateway. The route itself is only the gateway
+call and the failure-marking around it.
 
 ### `POST /api/payments/instalment-plan`
 **Requires auth.** Body: `{ levelId }` or `{ fullProgramme: true }`.
@@ -68,10 +133,36 @@ instalmentCount, status, amounts }`. Pay each instalment in turn via
 `POST /api/payments/create-checkout` with `{ instalmentPlanId: id }`.
 
 ### `GET /api/payments/verify?id=pay_xxx`
-**Requires auth**, and the payment must belong to the caller. Returns
-`{ id, status, currency, amountCents, levelId }` — polled by the
-checkout success page while waiting for the webhook. `levelId` is
-`null` for a full-programme payment.
+**Requires auth.** The payment is bound to the account in the query
+itself, so a reference belonging to somebody else is answered exactly
+as one that does not exist. **`id` is optional**: with no reference the
+most recent payment on the account is answered, which is what makes
+`/student-portal/payment-complete/` reachable from a statement of
+account rather than only by holding an address a gateway generated.
+
+Read by that page, and polled by it while the webhook lands. The four
+keys this route has always answered with — `id`, `status`, `currency`,
+`amountCents`, `levelId` — are unchanged and still first in the
+payload. Beside them, from `_lib/payments/confirmation.js`:
+
+- `standing` — one of `awaiting_gateway`, `received`, `enrolled`,
+  `failed`, `returned`. Six statuses, an optional receipt and an
+  optional enrolment collapse into the five things a person can be
+  told, and that is decided ONCE, here, rather than in two editions of
+  a page that could then disagree about whether somebody had paid.
+- `mayConfirmEnrolment` — true only where `POST /api/enrolment/confirm`
+  would actually grant it, so an interface never draws a button that
+  answers 422.
+- `charged` — what actually reached the card, in the currency it was
+  taken in, formatted; never re-converted at today's rate.
+  `ledgerAmount` is the same sum in the ledger currency.
+- `level` / `opens` — both `{id, roman, cefr, name, nameAr,
+  ordinalAr}`. `opens` is Level I for a full-programme payment, per
+  Executive Decision #1.
+- `instalment` — `{planId, number, of, paidCount, remainingCount}`;
+  `number` is null while the charge is still in flight, because the
+  number is its position among the ones that succeeded.
+- `receipt`, `enrolment`, `failureReason`.
 
 ### `POST /api/payments/webhook-{stripe,paystack,flutterwave,opay}`
 Gateway-only (signature-verified, not user-callable). Each is five
@@ -218,9 +309,15 @@ Marks the unit `in_progress`, not `completed` — grading is what can complete i
 ### `POST /api/lms/grade-assignment`
 **Staff/admin only.** Body: `{ submissionId, grade, feedback? }` —
 `grade` is a fraction 0..1. Returns `{ id, status:'graded', grade,
-feedback, gradedAt }`. A grade at or above
-`platform_config.lms_pass_threshold` (default 0.7) marks the unit
-`completed`.
+feedback, gradedAt }`. Grading re-reads the module under the adopted
+`module.formula` — 30 per cent quiz, 70 per cent assignment, rounded
+once — and marks the unit `completed` only if BOTH components are
+marked and the composite reaches the pass mark. A graded assignment on
+its own never completes a module; nor does a passed quiz. Until
+20 August 2026 either one did, independently, against
+`platform_config.lms_pass_threshold`; see
+`functions/_lib/lms/content.js` for what that published and why it
+changed.
 
 ### `GET /api/lms/live-sessions?levelId=<n>`
 Returns `{ levelId, sessions: [{ id, title, startsAt, durationMinutes, joinUrl, unitId }] }`.
@@ -329,7 +426,7 @@ not what happens past `requireUser()`'s full JWT-verification path,
 which needs a real Clerk-signed token to reach.
 
 **What's verified but not committed:** the frontend (`js/portal-auth.js`,
-`js/finance-dashboard.js`, `js/portal-guard.js`, and the admissions
+`js/staff-finance.js`, `js/portal-guard.js`, and the admissions
 form's try-API-then-fallback flow) was checked this session with
 Playwright — real browser automation, not eyeballed — confirming zero
 behavior change with no Clerk key configured, correct gate/redirect
@@ -341,3 +438,66 @@ backend-only. Adding a committed frontend test suite (Playwright as a
 devDependency, scripts under e.g. `tests/e2e/`) is a reasonable next
 step, not done here to avoid taking on a large new dependency without
 that being asked for.
+
+---
+
+## The Level Examination
+
+The 60 per cent of every level mark. Six tables
+(`sql/migrations/023-level-examination.sql`), one library
+(`functions/_lib/academic/examinations.js`), and three routes. Every
+figure below is transcribed from `/students/examinations/` and
+`/academics/tutor-handbook/`, and `tests/level-examination.test.mjs`
+fails the build if a constant and the published sentence disagree.
+
+### `GET /api/student/examination`
+
+The candidate's own sittings, the levels they are enrolled at, and the
+whole published procedure in the reader's language (`?lang=ar`).
+
+A level with no published paper carries a `note` saying so — the
+College's outstanding work, never the candidate's.
+
+### `POST /api/student/examination?action=open|submit`
+
+`{ examinationId }`. Opening starts the three hours from that moment;
+reopening within the published sixty minutes resumes rather than
+restarting. Submitting decides and stores the lateness band.
+
+### `GET /api/staff/examinations`
+
+- no parameters → the first-marking queue, oldest first
+- `?role=second` → scripts with one reading and no second, excluding any
+  the caller read themselves
+- `?examinationId=` → one script prepared for a marker. **The other
+  reader's marks are withheld until the caller's own are recorded**, and
+  `withheld` says so in words rather than leaving an empty list to read
+  as a bug.
+- `?userId=` → one learner's sittings, behind the same teaching-relation
+  check every other staff read of a named learner passes through.
+
+### `POST /api/staff/examinations?action=…`
+
+| action | body | what it does |
+|---|---|---|
+| `enter` | `userId`, `levelId` | Enters a candidate. Refuses without ten complete modules, without a published paper, inside the fourteen-day resit interval, or past the two-resit allowance. Idempotent. |
+| `mark` | `examinationId`, `role`, `marks[]` | One marker's reading of EVERY criterion. Refuses a partial script, a second reading before a first, and the same person in two roles. A second reading opens any reconciliation the published triggers require. |
+| `settle` | `reconciliationId`, `settledMark`, `statement`, `how`, `thirdMarkerId` | Settles one reconciliation in writing. Where `how` is `third_marker`, the settled mark must be the third marker's. |
+| `spoken` | `examinationId`, `recordingId`, `passed` | The spoken paper. Refuses a recording belonging to another learner. |
+| `release` | `examinationId` | Refuses until every criterion carries two readings, every reconciliation is settled, and the spoken paper is marked. Releases provisional. |
+| `close_moderation` | `examinationId` | Clears `provisional`. Moves no mark. |
+| `set_aside` | `examinationId`, `reason`, `note` | `learner_election` twice a level, then the panel. Struck from the count of resits; the ordinal is not reused. |
+| `void` | `examinationId`, `reason`, `note` | One of the three published reasons and no other. |
+| `lift_cap` | `examinationId`, `reason` | `extension_granted` or `mitigation_upheld`. Lifts the cap; cannot raise a mark. |
+
+### `GET`, `POST /api/admin/examination-papers`
+
+`GET` returns every paper at every level including retired versions, and
+a per-level summary naming where nothing is published. `POST` authors a
+draft (`?action=author`) or publishes one (`?action=publish`).
+
+Publishing is the act that stamps `rubric_published_on`. It refuses a
+rubric whose weights do not sum to 1, one that measures fewer than the
+four language skills, and one with no criterion marked from the spoken
+paper — each of those would make a published gate unreadable for every
+candidate who sat it.

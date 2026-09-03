@@ -1,0 +1,172 @@
+<!--
+  THE TUTOR'S DESK — what is waiting for a member of staff, in one
+  place, in the order it fell due.
+
+  ─────────────────────────────────────────────────────────────────────
+  THE FAULT THIS PAGE EXISTS TO CORRECT
+  ─────────────────────────────────────────────────────────────────────
+  Every capability on this desk existed as an endpoint before it
+  existed as a surface. A learner could submit an essay, book a
+  tutorial, open an appeal and write to their tutor — and the tutor had
+  no screen on which any of it appeared. The College could be asked
+  five different questions by five different people and answer none of
+  them, because nothing told anybody they had been asked.
+
+  A platform whose staff side is a SQL console has no staff side.
+
+  ─────────────────────────────────────────────────────────────────────
+  ONE QUESTION, ASKED ONCE
+  ─────────────────────────────────────────────────────────────────────
+  A tutor arriving here is asking one thing — "is anything waiting for
+  me" — and should not have to ask it six times. So every queue reports
+  its own count to this page and the page adds nothing: each number is
+  the endpoint's own, never the length of a list this page asked for.
+  A badge that reads twenty because the request asked for twenty starts
+  lying on the second page.
+
+  ─────────────────────────────────────────────────────────────────────
+  AND THE COUNT IS NOT THE POINT — THE WAIT IS
+  ─────────────────────────────────────────────────────────────────────
+  Under each count is the longest wait behind it, because forty pieces
+  of work marked yesterday and one waiting eleven days are not the same
+  desk, and a count alone cannot tell them apart.
+
+  Every id and data- attribute below is addressed by js/staff-desk.js.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-lectern"/></svg></p>
+    <p class="masthead__eyebrow">Academic staff</p>
+    <h1>The Tutor&rsquo;s Desk</h1>
+    <p class="lede">Everything the College is waiting on you for &mdash; work to mark, a register to take, a learner who has written to you, a case that falls due &mdash; in one place, in the order it arrived.</p>
+    <nav class="rec-nav" aria-label="Academic staff">
+      <a href="/staff-desk.html" aria-current="page">The Desk</a>
+      <a href="/staff-marking.html">Marking</a>
+      <a href="/staff-examinations.html">Examinations</a>
+      <a href="/staff-papers.html">Papers</a>
+      <a href="/staff-conferral.html">Conferral</a>
+      <a href="/staff-learners.html">My Learners</a>
+      <a href="/staff-hours.html">My Hours</a>
+      <a href="/staff-notices.html">Notices</a>
+      <a href="/staff-cases.html">Cases</a>
+      <a href="/staff-admissions.html">Admissions</a>
+      <a href="/staff-enrolments.html">Enrolments</a>
+      <a href="/staff-finance.html">Finance</a>
+      <a href="/staff-administration.html">Administration</a>
+    </nav>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container">
+    <div class="stf-shell">
+
+      <p class="rec-state state-plate edge-lit edge-lit--light aurum" id="state" aria-live="polite">Loading your desk&hellip;</p>
+
+      <!-- WHAT IS WAITING ---------------------------------------------- -->
+      <div class="stf-counts" id="secCounts" hidden>
+        <a class="stf-count plate-dark card card--dark edge-lit aurum aurum--hover tilt gold-live reveal" href="/staff-marking.html" data-tile="marking">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-nib"/></svg></span>
+          <p class="stf-count__num" data-count>&mdash;</p>
+          <p class="stf-count__label" data-label>Written work to mark</p>
+          <p class="stf-count__foot" data-foot></p>
+        </a>
+        <a class="stf-count plate-dark card card--dark edge-lit aurum aurum--hover tilt gold-live reveal" href="/staff-marking.html#recordings" data-tile="recordings">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
+          <p class="stf-count__num" data-count>&mdash;</p>
+          <p class="stf-count__label" data-label>Recordings to review</p>
+          <p class="stf-count__foot" data-foot></p>
+        </a>
+        <a class="stf-count plate-dark card card--dark edge-lit aurum aurum--hover tilt gold-live reveal" href="/staff-cases.html" data-tile="cases">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+          <p class="stf-count__num" data-count>&mdash;</p>
+          <p class="stf-count__label" data-label>Cases awaiting an answer</p>
+          <p class="stf-count__foot" data-foot></p>
+        </a>
+        <a class="stf-count plate-dark card card--dark edge-lit aurum aurum--hover tilt gold-live reveal" href="/staff-notices.html#threads" data-tile="messages">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg></span>
+          <p class="stf-count__num" data-count>&mdash;</p>
+          <p class="stf-count__label" data-label>Messages unread</p>
+          <p class="stf-count__foot" data-foot></p>
+        </a>
+      </div>
+
+      <!-- TODAY -------------------------------------------------------- -->
+      <!-- The hours this member of staff has published and who is in
+           them. It is above the queues because an hour has a time on it
+           and a queue does not: work not marked today can be marked
+           tomorrow, and a tutorial at four o'clock cannot. -->
+      <section class="acc-block reveal" id="secToday" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg> Your teaching, next</h2>
+          <div class="desk-head__tools">
+            <a class="btn btn--outline" href="/staff-hours.html">All your hours</a>
+          </div>
+        </div>
+        <p class="stf-basis" data-today-note></p>
+        <ul class="stf-queue" data-today></ul>
+        <div class="stf-clear" data-today-empty hidden>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg></span>
+          <p class="stf-clear__head" data-today-empty-head></p>
+          <p class="stf-clear__note" data-today-empty-note></p>
+        </div>
+      </section>
+
+      <!-- WHAT THE DESK IS FOR ----------------------------------------- -->
+      <!-- Not decoration. A member of staff appointed this morning has
+           to learn what this platform will and will not let them do,
+           and the honest place to say it is the first screen they see.
+           Each line is a capability with a page behind it. -->
+      <section class="acc-block reveal" id="secWhat">
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg> What this desk does</h2>
+        </div>
+        <div class="grid grid--3">
+          <article class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+            <span class="tilt__sheen" aria-hidden="true"></span>
+            <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-nib"/></svg></span>
+            <h3>Mark what has been handed in</h3>
+            <p>Written work and spoken work, oldest first, each carrying the rubric it was set against and the mark it is a resit of. <a href="/staff-marking.html">Go to marking</a>.</p>
+          </article>
+          <article class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+            <span class="tilt__sheen" aria-hidden="true"></span>
+            <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
+            <h3>Read a learner you teach</h3>
+            <p>Your roster, one learner&rsquo;s engagement beside the platform&rsquo;s own reading of it, a register you may take yourself, and the confirmation that a level is finished. <a href="/staff-learners.html">Go to your learners</a>.</p>
+          </article>
+          <article class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+            <span class="tilt__sheen" aria-hidden="true"></span>
+            <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span>
+            <h3>Publish the hours you are free</h3>
+            <p>An hour a learner can book, withdrawn with a reason that reaches everyone holding a place in it. <a href="/staff-hours.html">Go to your hours</a>.</p>
+          </article>
+          <article class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+            <span class="tilt__sheen" aria-hidden="true"></span>
+            <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg></span>
+            <h3>Address a notice, and answer a letter</h3>
+            <p>A notice to your level in either language, drafted, published, amended or withdrawn with the reason on the record &mdash; and the threads your learners have open with you. <a href="/staff-notices.html">Go to notices</a>.</p>
+          </article>
+          <article class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+            <span class="tilt__sheen" aria-hidden="true"></span>
+            <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+            <h3>Answer a case you are not part of</h3>
+            <p>The queue in the order each answer falls due, with the accounts that may not hear each case named beside it &mdash; so a case reaches the right person the first time. <a href="/staff-cases.html">Go to cases</a>.</p>
+          </article>
+          <article class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+            <span class="tilt__sheen" aria-hidden="true"></span>
+            <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span>
+            <h3>And what it will not do</h3>
+            <p>It will not show you a learner you do not teach, publish an hour under a colleague&rsquo;s name, let you answer a case you decided, or record an act against anyone but the account signed in. Those are refusals in the platform, not conventions on this page. <a href="/academics/tutor-handbook/">The tutor&rsquo;s handbook</a>.</p>
+          </article>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

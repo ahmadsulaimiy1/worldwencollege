@@ -89,7 +89,7 @@ footer that reads as the illuminated base of the building.
 This is deliberately the second thing built: it is the highest-leverage
 surface on the site, and it proves the Atelier on every page at once.
 
-### Layer 3 — Living diagrams *(six shipped)*
+### Layer 3 — Living diagrams *(nine shipped)*
 Animated SVG that draws itself: paths trace, nodes arrive, labels rise.
 All generated, never hand-drawn, from `scripts/art/` on the shared
 apparatus in `scripts/art/lib/plate.mjs` — palette, scale, text, the
@@ -103,7 +103,10 @@ apparatus in `scripts/art/lib/plate.mjs` — palette, scale, text, the
 | **Authority Chain** | `/about/governance/` | Two academic bodies stop short of approval for two different reasons — one empty, one idle |
 | **Publication Funnel** | `/press/` | A short catalogue is a decision, and the review gate is still shut |
 | **Competency Wheel** | `/about/basce/` | The framework is measured against BASCE's own remit, and the polygon collapses on the two axes carrying nothing |
-| **Quality Cycle** | `/about/quality-assurance/` | Two loops at different speeds: one closed and turning on every change, one open because nobody has been taught |
+| **Quality Cycle** | `/about/quality-assurance/` | Two loops at different speeds: one closed and turning on every change, one open because the annual cycle was constituted in August 2026 and has not come round |
+| **Provenance Columns** | `/academics/teaching/` | The fourth kind of teaching knowledge is empty in kind, not in degree — writing produced the other three and cannot produce this one |
+| **Level Ascent** | `/study/level-1…6/` | Six rungs, each a complete award. Deliberately not a progress bar: the reader has not climbed it |
+| **Two Routes** | `/admissions/tuition/` | Two prices converge on one seal, so everything that differs is visibly above it — and conferral is paid for on both routes, in different places |
 
 **The rule these established.** A diagram on this site is not
 decoration and not a restatement — it earns its place only by showing
@@ -348,11 +351,23 @@ The rules that govern them, learned the expensive way and now binding:
 ## Verification, every phase
 
 ```
-node scripts/build.js                 # every page, both languages
-npm test                              # content rules, claims, structure, plates
-node tests/browser/route-audit.mjs    # all routes in Chromium
-node tests/browser/diagram-fit.mjs    # every diagram measured where it ships
+node scripts/build.js                    # every page, both languages
+npm test                                 # content rules, claims, structure, plates
+node tests/browser/route-audit.mjs       # all routes in Chromium
+node tests/browser/diagram-fit.mjs       # every diagram measured where it ships
+node tests/browser/render-quality.mjs    # contrast, layout shift, High Contrast Mode
 ```
+
+`render-quality.mjs` is the slow one and the one that finds what reading
+cannot. It measures every text style on all 186 routes against the
+ground actually painted behind it, records each route's Cumulative
+Layout Shift from the browser's own observer, and asks every control,
+with `forced-colors: active`, whether it still has a boundary. The day
+it was written it found a cream card inside a navy section on
+`/student-portal/` whose heading computed to 1.04:1, a token used in
+seven stylesheets and defined in none, twenty-eight sections missing the
+base class that carries twenty typography rules, and ten controls that
+vanish into their own ground in High Contrast Mode.
 
 Regenerating: the cluster generators (`build-about`, `build-arabic`,
 `build-arabic-levels`, `build-governance`, `build-levels`, …) write into `pages/`, and

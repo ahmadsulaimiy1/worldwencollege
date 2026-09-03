@@ -625,7 +625,7 @@ node tests/browser/my-record.mjs
   first run by finding that the content-type allow-list rejected
   `audio/webm;codecs=opus` — every recording any real browser makes.
   13 assertions.
-- `browser/admin-enrolments.mjs` — the enrolment administration page in
+- `browser/staff-consoles.mjs` — the ten staff consoles in
   a real browser, against the real enrolment module: search, open a
   learner, withdraw a level, re-enrol, read the audit trail back, and
   confirm that dismissing the reason prompt changes nothing. It found a

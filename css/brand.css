@@ -3,6 +3,29 @@
    Brand System — Royal Blue / Gold / Oxblood Red
    ========================================================= */
 
+/* THE DISPLAY FACE, SELF-HOSTED.
+   Fraunces, variable: one file carries weights 400–700 across optical
+   sizes 9–144, the italic a second. Self-hosted so no page makes a
+   request to a third party for its own identity, and so the browser
+   harness in tests/browser/ measures the exact bytes a visitor gets.
+   `font-weight` as a RANGE is load-bearing: without it the browser
+   clamps every weight to the file's default and the axis is inert.
+   The rationale for the face itself is with the tokens below. */
+@font-face {
+  font-family: 'Fraunces';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/assets/fonts/fraunces-var.woff2') format('woff2-variations');
+}
+@font-face {
+  font-family: 'Fraunces';
+  font-style: italic;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url('/assets/fonts/fraunces-italic-var.woff2') format('woff2-variations');
+}
+
 :root {
   /* =====================================================================
      THE PALETTE
@@ -88,6 +111,16 @@
   --gold-bright:  var(--gold-soft);
   --paper:        #FCFAF4;   /* card surface on ivory */
   --red:          var(--oxblood);
+  /* GOLD FOR TEXT ON A LIGHT GROUND, and it is bronze rather than gold
+     because measurement says so. `--gold-deep` was used in seven
+     stylesheets and DEFINED IN NONE of them: every use was
+     `var(--gold-deep, #9A7A38)`, so the fallback was the value, and the
+     fallback computes to 3.44–4.03:1 on the light grounds it was used
+     on. A rank on the Graduate Register read at 4.03, a heading on the
+     engagement record at 3.64. Pointing the token at --bronze, which
+     the palette above already fixed by measurement, clears 4.5:1
+     everywhere in one line. */
+  --gold-deep:    var(--bronze);
   --red-bright:   #C23A4E;
   --ink-soft:     var(--slate);
 
@@ -181,18 +214,44 @@
   /* =====================================================================
      THE FACES
      ---------------------------------------------------------------------
-     --font-display  Bodoni Moda. A Didone: vertical stress, unbracketed
-                     serifs, and a stroke contrast steep enough that at
-                     display size the letterforms read as engraved rather
-                     than written. It replaced Playfair Display, which is
-                     a fine face and the single most-used "elegant" font
-                     on the web — a masthead that a reader has already
-                     seen on ten thousand other sites cannot carry an
-                     institution's authority no matter how well it is set.
-                     Requested VARIABLE on `opsz`; see the note in
-                     scripts/build.js for why that axis is the reason
-                     this face can serve both a 4.6rem headline and a
-                     1.05rem sub-heading.
+     --font-display  Fraunces, variable, optical size 9–144, self-hosted
+                     from /assets/fonts/ (see the @font-face block above
+                     this :root).
+
+                     THE THIRD FACE IN THIS SLOT, and the pattern of the
+                     first two rejections is the reason it is not a
+                     fourth serif of the same kind. Bodoni Moda was
+                     disliked: too much hairline, read as fashion. It
+                     was traded for EB Garamond — the opposite trade,
+                     softer, older. That was disliked too: thin, fussy,
+                     "cheap and complicated to read". Both complaints
+                     are about the same thing — STROKE WEIGHT AT READING
+                     SIZE. A Didone puts its thinness in the hairlines;
+                     an old-style Garamond puts it everywhere. Swapping
+                     between them re-trades the problem.
+
+                     Fraunces resolves it instead. A soft-serif with
+                     real flesh on the stroke at every size, and a true
+                     optical axis: at masthead scale it tightens and
+                     sharpens into something grand, at card scale it
+                     opens into something sturdy and effortless. The
+                     'SOFT' and 'WONK' axes are pinned to 0 on body —
+                     the classical cut, not the novelty one. It reads
+                     modern, simple and expensive, and it will still
+                     read that way in five years, which fashionable
+                     display faces do not.
+
+                     SELF-HOSTED, deliberately: two woff2 files, ~150KB
+                     for the whole family including italics, no request
+                     to a third party, and the render harness measures
+                     the identical file a visitor downloads.
+
+                     Weight comes DOWN with the swap: h1/h2 at 620
+                     rather than 700. Fraunces carries more ink per
+                     stroke than Garamond did, so Garamond's 700 becomes
+                     heavy-set at display size; 620 on the variable axis
+                     is the confident weight, and the difference between
+                     a headline and a heading stays marked by size.
 
      --font-ceremonial  Cinzel. Inscriptional Roman capitals, the letters
                      cut into Trajan's column and inherited by every
@@ -211,14 +270,27 @@
                      around it — not from replacing a workhorse that is
                      doing its job.
 
-     Fallbacks name real Didones (Didot, Bodoni MT) before Georgia, so a
-     machine without webfonts still gets the closest thing it owns
-     rather than jumping to a slab. 'Amiri' stays in every stack as the
+     Fallbacks: Georgia is the nearest thing most machines own to a
+     sturdy screen serif, so a visitor whose font request fails gets
+     weight rather than a spindle. 'Amiri' stays in every stack as the
      Arabic backstop — see css/arabic.css, which is what actually holds
-     the line for Arabic. */
-  --font-display:    'Bodoni Moda', 'Didot', 'Bodoni MT', Georgia, 'Amiri', serif;
-  --font-ceremonial: 'Cinzel', 'Trajan Pro', 'Bodoni Moda', Georgia, 'Amiri', serif;
+     the line for Arabic and is NOT touched by this change: the Arabic
+     programme (Cairo display, Amiri text) is settled and correct. */
+  --font-display:    'Fraunces', Georgia, 'Times New Roman', 'Amiri', serif;
+  --font-ceremonial: 'Cinzel', 'Trajan Pro', Georgia, 'Amiri', serif;
   --font-body:       'Inter', -apple-system, 'Cairo', sans-serif;
+  /* THE LABEL FACE, AND IT WAS NEVER DEFINED.
+     Nine stylesheets set `var(--font-ui, system-ui, sans-serif)` on
+     fifty-four eyebrows, table headings and small-caps labels. The token
+     did not exist, so every one of them took the fallback: the reader's
+     OS font in English — plausible enough that nobody looked — and in
+     Arabic a stack with no Arabic-capable family in it at all, which
+     tests/browser/typography-audit.mjs reported as twenty-three runs of
+     Arabic set in system-ui.
+     The same stack as --font-body, deliberately. It is a separate token
+     because a label face may one day diverge from a reading face, not
+     because it already has. */
+  --font-ui:         'Inter', -apple-system, 'Cairo', sans-serif;
 
   --wrap: 1180px;
 }
@@ -252,8 +324,19 @@ html { scroll-behavior: smooth; }
    section or an element carrying an id, and both need clearance equal
    to the condensed header plus a little breathing room. Set here once
    rather than per-anchor, because the failure is silent: the page does
-   scroll, it just scrolls to the wrong place, and nothing reports it. */
-:target, section[id], [data-chapter] { scroll-margin-top: 96px; }
+   scroll, it just scrolls to the wrong place, and nothing reports it.
+
+   MEASURED, NOT GUESSED. This carried a literal 96px, which was the
+   condensed header's height when it was written. The chrome has since
+   gained its utility rail and measures 122px, so every anchor on the
+   site had been landing 26px underneath it — and, because this rule is
+   `section[id]` at two-token specificity, it silently beat the taller
+   `scroll-margin-top` each portal plate had set for itself. js/motion.js
+   measures the header's real rendered height into --header-h on load
+   and on resize; the fallback is only for the frame before it runs. */
+:target, section[id], [data-chapter] {
+  scroll-margin-top: calc(var(--header-h, 122px) + 24px);
+}
 body {
   margin: 0;
   font-family: var(--font-body);
@@ -266,6 +349,12 @@ body {
      reason it was chosen is switched off — silently, since the page
      still renders in the right family. */
   font-optical-sizing: auto;
+  /* Fraunces carries two novelty axes and both are pinned to zero: SOFT
+     rounds the terminals toward a confection, WONK swaps in the quirky
+     alternate letterforms. The College wants the classical cut. Set
+     here because font-variation-settings inherits, and the faces that
+     lack these axes ignore the setting at no cost. */
+  font-variation-settings: 'SOFT' 0, 'WONK' 0;
   /* Never let the browser fake a WEIGHT. A synthesised bold on a Didone
      smears the hairlines along with the stems and destroys the stroke
      contrast that IS the face — and with a variable weight axis loaded
@@ -316,8 +405,8 @@ p { margin: 0 0 1em; }
    is what keeps Arabic, which this pass does not touch, genuinely
    untouched rather than untouched-by-accident.
    ========================================================= */
-[dir="ltr"] h1 { font-size: clamp(2.05rem, 1.35rem + 3.1vw, 3.5rem); line-height: 1.06; letter-spacing: -.019em; font-weight: 700; }
-[dir="ltr"] h2 { font-size: clamp(1.7rem, 1.2rem + 2.1vw, 2.6rem); line-height: 1.1; letter-spacing: -.016em; font-weight: 700; }
+[dir="ltr"] h1 { font-size: clamp(2.05rem, 1.35rem + 3.1vw, 3.5rem); line-height: 1.06; letter-spacing: -.019em; font-weight: 620; }
+[dir="ltr"] h2 { font-size: clamp(1.7rem, 1.2rem + 2.1vw, 2.6rem); line-height: 1.1; letter-spacing: -.016em; font-weight: 620; }
 [dir="ltr"] h3 { font-size: clamp(1.3rem, 1.1rem + 1vw, 1.75rem); line-height: 1.2; letter-spacing: -.01em; font-weight: 600; }
 /* H4 moves to Inter rather than a fourth shade of Playfair: a
    display-optical serif reads thin and mushy below ~20px, so the
@@ -366,6 +455,15 @@ section { position: relative; }
 }
 .section--light .eyebrow { color: var(--red); }
 .section--light .eyebrow::before { background: var(--red); }
+/* THE OTHER FOUR LIGHT GROUNDS NEED IT TOO. Gold at 12px computes to
+   2.2:1 on ivory and 2.31:1 on paper — the eyebrow on the portal
+   preview and the marker on /academics/teaching/ were both measured
+   there. `--red` clears 6.2:1 or better on every light ground in the
+   palette. */
+.section--paper .eyebrow, .section--warm .eyebrow,
+.section--cream .eyebrow, .section--pearl .eyebrow { color: var(--red); }
+.section--paper .eyebrow::before, .section--warm .eyebrow::before,
+.section--cream .eyebrow::before, .section--pearl .eyebrow::before { background: var(--red); }
 
 .module-marker {
   display: inline-block;
@@ -557,13 +655,33 @@ section { position: relative; }
   transform: translateY(1px);
   box-shadow: inset 0 2px 4px rgba(90,62,20,.55), inset 0 -1px 0 rgba(255,252,240,.4);
 }
-.btn--outline { border-color: var(--gold); color: inherit; }
+/* `background-color: transparent` is load-bearing, not tidiness. `.btn`
+   sets no background at all, which is invisible while every outline
+   button on the site is an <a> — an anchor has no default background.
+   The first <button class="btn btn--outline"> (the Decline control on
+   /admissions/track/) rendered as the user agent's #EFEFEF button grey
+   with champagne text on it: a blank pill. Found by rendering it. */
+.btn--outline { border-color: var(--gold); color: inherit; background-color: transparent; }
 .btn--outline:hover { background: rgba(199,162,74,.1); transform: translateY(-2px); }
 .btn--outline:active { transform: translateY(0); }
 .btn--red { background: var(--red); color: #fff; box-shadow: var(--shadow-sm); }
 .btn--red:hover { background: var(--red-bright); transform: translateY(-2px); box-shadow: var(--shadow-md); }
 .btn--red:active { transform: translateY(0); }
-.btn--ghost { color: var(--gold-bright); border-color: var(--line-dark); }
+/* Transparent for the reason `.btn--quiet` gives at length: as a
+   <button> this takes the user agent's grey and its gold text lands on
+   it at under 2:1. */
+/* .btn--ghost IS A DARK-GROUND CONTROL, and nothing said so until a
+   render audit measured it at 1.54:1 on a paper card.
+
+   Its ink is --gold-bright, which is chosen to be readable on midnight
+   and oxford; on --paper or --warm-white it is barely a tint. On a
+   LIGHT ground the variant is `.btn--outline`, one line below, whose
+   ink is `inherit` and therefore takes the surrounding text colour.
+
+   The two look identical in the source and differ by a factor of four
+   in contrast, which is exactly the class of fault CLAUDE.md § 6 says
+   cannot be found by reasoning about CSS. */
+.btn--ghost { color: var(--gold-bright); border-color: var(--line-dark); background-color: transparent; }
 .btn--ghost:hover { border-color: var(--gold); background: rgba(231,201,122,.06); }
 /* Every other focusable control (.field inputs, .toggle) gets an
    explicit gold focus ring — .btn was relying entirely on the browser
@@ -597,26 +715,105 @@ section { position: relative; }
 
 /* -------------------- Topbar -------------------- */
 .topbar { background: var(--royal-deep); color: rgba(247,244,236,.82); font-size: .8rem; }
-/* NOWRAP UNCONDITIONALLY, and the previous version is instructive: the
-   rule below used to say `flex-wrap: wrap`, with nowrap applied only
-   under 720px. The comment further down already asserted that a utility
-   bar "should cost one row at every width" — but the rule only enforced
-   it on phones, so between 721 and 833 the bar quietly grew a second
-   row and doubled from 60px to 120px. A band bounded on both sides by
-   correct behaviour is the hardest kind of fault to notice by eye and
-   the easiest to measure, which is roughly the story of this whole
-   header.
+/* ═══════════════════════════════════════════════════════════════════
+   TWO STATES, AND NEITHER OF THEM SPREADS OVER A VOID
+   ═══════════════════════════════════════════════════════════════════
+   This rule used to say `justify-content: space-between`, and measured
+   at fourteen widths it produced the worst thing on the site:
 
-   Wrapping is not a graceful degradation here. It is the failure. The
-   bar sheds items instead — see the drop rules below. */
+       360  content 188 of 360   slack 172
+       390  content 188 of 390   slack 202
+       768  content 388 of 768   slack 380
+
+   Half to two-thirds of the bar was empty, with a 32px cluster of one
+   icon marooned at the far right edge. space-between does not balance
+   two objects — it throws them apart, and the wider the screen the
+   further apart it throws them. It only ever looked right because at
+   desktop width there happened to be a third object in the middle
+   holding the row together. The moment the shed rules below removed
+   that middle object, the bar split into two pieces with a gulf between
+   them, which is exactly how it read.
+
+   So the bar has two states and both of them fill their measure:
+
+   BELOW 1121px it is ONE CENTRED INSTRUMENT. Everything the bar still
+   carries sits in a single centred group, hairline rules between the
+   parts. Whatever the shed rules take away, the group simply gets
+   shorter and stays centred — there is no arrangement of hidden
+   children that can produce a gap, which is the property the old rule
+   did not have and could not be given.
+
+   AT 1121px AND ABOVE it is THREE BAYS on a `1fr auto 1fr` grid: the
+   seat at the start, the visitor dead centre, the actions at the end.
+   Grid rather than flex because `auto` margins centre a flex item in
+   the LEFTOVER space — which is only the middle of the bar when the two
+   side bays happen to be the same width. The centre column of a
+   `1fr auto 1fr` grid is the middle of the bar always.
+
+   NOWRAP UNCONDITIONALLY. The rule used to say `flex-wrap: wrap`, with
+   nowrap applied only under 720px, so between 721 and 833 the bar
+   quietly grew a second row and doubled from 60px to 120px. A band
+   bounded on both sides by correct behaviour is the hardest kind of
+   fault to notice by eye and the easiest to measure, which is roughly
+   the story of this whole header. Wrapping is not graceful degradation
+   here; it is the failure. The bar sheds instead — see the drop rules
+   below, which now condense rather than delete.
+
+   46px, not 60. The padding used to be 8px top and bottom on top of a
+   44px tap target, which bought nothing: the target is already legal at
+   44 and the extra 14px of navy was 14px of chrome on all seventy
+   pages before a reader saw a word of the College's own writing. */
 .topbar__inner {
-  max-width: var(--wrap); margin: 0 auto; padding: 8px 24px;
-  display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: nowrap;
+  max-width: var(--wrap); margin: 0 auto; padding: 0 24px;
+  min-height: 46px;
+  display: flex; align-items: center; justify-content: center;
+  gap: clamp(10px, 2.2vw, 26px); flex-wrap: nowrap;
 }
+@media (min-width: 1121px) {
+  .topbar__inner {
+    display: grid;
+    grid-template-columns: minmax(min-content, 1fr) auto minmax(min-content, 1fr);
+    column-gap: 20px;
+  }
+  /* PINNED TO THEIR COLUMNS, NOT PLACED BY FLOW.
+     `.here` is served hidden and revealed by js/worldclock.js once the
+     reader's own zone is known — and `[hidden]` is display:none, which
+     takes it OUT of the grid. With two items in a three-column grid,
+     auto-placement put the actions bay in the MIDDLE column, and the
+     reveal then threw it 424px to the right on every page load. That
+     was the largest layout shift left on the site.
+
+     Named columns fix it at the root: the bay is in column three
+     whether or not anything is in column two. */
+  .seat { grid-column: 1; justify-self: start; }
+  .here { grid-column: 2; justify-self: center; }
+  .topbar__right { grid-column: 3; justify-self: end; }
+}
+/* `minmax(min-content, 1fr)`, and the `min-content` half is the part
+   that took a screenshot to find. Written `minmax(0, 1fr)` the two side
+   columns are free to become NARROWER than the thing inside them, and
+   at 1440px they did: the actions bay needed 453px, its column was
+   390px, and `justify-self: end` held its right edge to the measure
+   while the other end slid 63px back underneath the visitor's clock.
+   On screen the sound control sat on top of "9:47 AM" with its own
+   label broken over two lines. Nothing in the source said so.
+
+   With a `min-content` floor the columns grow to fit rather than
+   overlap, and the centre column stops being dead centre only in the
+   one case where dead centre is impossible — when the bar is genuinely
+   full. That is the right order of surrender: a bay that is 20px off
+   the axis is a proportion, a bay printed over its neighbour is a bug.
+
+   The nowrap is the other half of it. `min-content` on a row of words
+   is the width of the LONGEST WORD, not of the line — which is how
+   "Sound off" came to be set as "Sound" over "off". The actions bay is
+   a row of labels that must each stay on one line for min-content to
+   mean what this rule needs it to mean. */
+.topbar__right { white-space: nowrap; }
 .topbar__contacts { display: flex; gap: 22px; flex-wrap: nowrap; }
 .topbar__item:hover { color: var(--gold-bright); }
 .topbar__item--muted { color: rgba(247,244,236,.55); }
-.topbar__right { display: flex; align-items: center; gap: 18px; }
+.topbar__right { display: flex; align-items: center; gap: clamp(8px, 1.4vw, 18px); min-width: 0; }
 .topbar__lang {
   font-weight: 600; letter-spacing: .04em;
   padding-inline: 12px; border-inline: 1px solid rgba(247,244,236,.16);
@@ -657,41 +854,367 @@ section { position: relative; }
 .topbar__social .icon { width: 14px; height: 14px; position: relative; }
 .topbar__social a:hover { color: var(--gold-bright); }
 .topbar__social a:hover::before { border-color: var(--gold); background: rgba(199,162,74,.12); }
-/* THE BAR SHEDS ITEMS; IT DOES NOT SHRINK THEM AND IT DOES NOT WRAP.
-   On a phone this was wrapping to three rows and taking 240px before
-   the reader reached the College's name.
 
-   Every control here is 44px because that is the smallest reliable
-   thumb target, so buying a shorter bar by shrinking them would trade a
-   cosmetic problem for an accessibility one. Things go instead, in
-   order of how little they are needed: the campus strapline first (the
-   hero repeats it verbatim), then the social ring. The language switch
-   is the one control a Gulf reader may genuinely need on a phone, so it
-   never goes.
 
-   940, not 720, for the strapline. Measured with the bar forced to one
-   row: its natural content needed 785px in English and 726px in Arabic
-   against the viewport less 48px of padding, so English ran out at
-   833 and the threshold sat at 860. The Contact link the architecture
-   moved into this bar adds ~90px to the right cluster, which pushes
-   the English break past 920 — so the strapline now goes at 940.
-   720 was the width at which the bar had ALREADY been wrapping for
-   a hundred pixels. */
-@media (max-width: 940px) {
-  .topbar__contacts .topbar__item--muted { display: none; }
+/* ═══════════════════════════════════════════════════════════════════
+   THE SEAT, THE VISITOR, AND THE EDITIONS
+   ═══════════════════════════════════════════════════════════════════
+   The utility bar carries three objects now instead of a contact
+   strip: where the College is and what time it is there; where the
+   reader is and what time it is there; and which of ten editions they
+   are reading.
+
+   All three are set in the same small caps as the rest of the bar and
+   separated by hairline rules rather than by bullets — a middot
+   between two clocks reads as a list, a rule reads as an instrument.
+   ══════════════════════════════════════════════════════════════════ */
+.seat, .here {
+  display: flex; align-items: center; gap: 10px; min-width: 0;
+  white-space: nowrap;
 }
+.seat__flag, .here__flag { font-size: 1.02rem; line-height: 1; filter: saturate(1.05); }
+.seat__place { font-weight: 600; letter-spacing: .015em; color: rgba(247,244,236,.94); }
+.seat__country { color: rgba(247,244,236,.62); font-weight: 400; }
+.seat__rule {
+  width: 1px; height: 14px; flex: 0 0 auto;
+  background: linear-gradient(180deg, transparent, rgba(199,162,74,.55), transparent);
+}
+.seat__clock, .here__time {
+  display: inline-flex; align-items: center; gap: .5em;
+  font-variant-numeric: tabular-nums; letter-spacing: .02em;
+  color: var(--gold-bright, #E7C97A);
+}
+/* THE READING IS RESERVED BEFORE IT ARRIVES.
+   Both clocks are served as an em dash and filled by js/worldclock.js
+   from the reader's own device — so the box grew from one character to
+   "10:47 AM" a few hundred milliseconds in, and everything beside it
+   moved. Eight tabular figures is the widest reading either format
+   produces; a 24-hour locale sits centred in the same box with a little
+   air, which costs nothing and moves nothing. */
+[data-clock-london], [data-clock-local] {
+  display: inline-block;
+  min-width: 7.4ch;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.seat__clock .icon { width: 13px; height: 13px; opacity: .7; color: var(--gold-royal); }
+.seat__tz, .here__label {
+  font-size: .68rem; letter-spacing: .14em; text-transform: uppercase;
+  color: rgba(247,244,236,.5); font-weight: 600;
+}
+.here__name { font-weight: 600; color: rgba(247,244,236,.9); }
+[dir="rtl"] .seat__tz, [dir="rtl"] .here__label { letter-spacing: 0; }
+
+/* THE EDITIONS PICKER.
+   Ten rows, each carrying the language's own name in its own script
+   plus its English name, so a reader who cannot yet read the endonym
+   can still find their language — the failure mode of every
+   endonym-only picker ever shipped. */
+.langswitch { position: relative; }
+.langswitch__btn {
+  display: inline-flex; align-items: center; gap: .5em;
+  min-height: 44px; padding-inline: 12px;
+  background: none; border: 0; cursor: pointer;
+  border-inline: 1px solid rgba(247,244,236,.16);
+  color: inherit; font: inherit; font-weight: 600; letter-spacing: .03em;
+  transition: color var(--dur-fast) ease;
+}
+.langswitch__btn:hover, .langswitch__btn[aria-expanded="true"] { color: var(--gold-bright); }
+.langswitch__btn .icon { width: 13px; height: 13px; opacity: .62; color: var(--gold-royal); }
+.langswitch__chev { transform: rotate(90deg); transition: transform var(--dur-med) var(--ease-premium); }
+.langswitch__btn[aria-expanded="true"] .langswitch__chev { transform: rotate(-90deg); }
+/* TWO CLASSES, NOT ONE, AND THAT IS LOAD-BEARING.
+   These menus wear `.crystal`, which css/atelier.css defines AFTER
+   this file with `position: relative`. A bare `.langswitch__menu`
+   rule ties on specificity and loses on order, so the menu rendered
+   in flow and stretched the utility bar from 60px to 575px — the
+   whole ten-language list painted down the page. Scoping to the
+   parent wins by specificity instead of by hoping about order. */
+.langswitch > .langswitch__menu {
+  position: absolute; inset-inline-end: 0; top: calc(100% + 6px); z-index: 90;
+  min-width: 268px; padding: 10px; border-radius: var(--r-md);
+  background: var(--royal-deep, #0E1B38);
+  border: 1px solid rgba(199,162,74,.34);
+  box-shadow: 0 26px 60px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.06);
+  opacity: 0; visibility: hidden; transform: translateY(-6px);
+  transition: opacity var(--dur-med) var(--ease-premium),
+              transform var(--dur-med) var(--ease-premium),
+              visibility var(--dur-med);
+}
+.langswitch.is-open .langswitch__menu { opacity: 1; visibility: visible; transform: none; }
+.langswitch__head {
+  margin: 2px 10px 8px; font-size: .64rem; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--gold-royal); font-weight: 700;
+}
+.lang__row {
+  display: grid;
+  /* FOUR columns, not three: flag, endonym, the English name, and the
+     mark on the current edition. With three, the current row's fourth
+     child wrapped onto an implicit second row and the tick sat on its
+     own line under the language it belonged to — invisible while eight
+     rows crowded the menu, obvious the moment the menu held two. The
+     fourth column is `auto` and collapses to nothing on the rows that
+     carry no mark. */
+  grid-template-columns: 1.4rem 1fr auto auto;
+  align-items: center; gap: 10px;
+  padding: 9px 10px; border-radius: 8px; min-height: 44px;
+  color: rgba(247,244,236,.88); text-decoration: none;
+  transition: background var(--dur-fast) ease, color var(--dur-fast) ease;
+}
+a.lang__row:hover { background: rgba(199,162,74,.13); color: var(--gold-bright); }
+.lang__flag { font-size: 1.05rem; line-height: 1; }
+.lang__endonym { font-weight: 600; }
+.lang__english {
+  font-size: .68rem; letter-spacing: .1em; text-transform: uppercase;
+  color: rgba(247,244,236,.42); justify-self: end;
+}
+.lang__row--current { background: rgba(199,162,74,.1); }
+.lang__row--current .lang__state .icon { width: 14px; height: 14px; color: var(--gold-bright); }
+/* `.lang__row--soon` was here. The picker no longer renders an
+   unpublished edition at all — see data/languages.json — so the rules
+   that dimmed one are gone rather than left to be found by somebody
+   wondering which markup they style. */
+
+/* ═══════════════════════════════════════════════════════════════════
+   THE UTILITY RAIL — a second band, and a different kind of object
+   ═══════════════════════════════════════════════════════════════════
+   The six pillars above are what the institution IS. These nine are
+   what a reader arrives wanting to DO. They are not peers and they
+   stopped competing for one row the day this band was cut.
+
+   It scrolls; it never wraps. A wrapped rail costs 44px of chrome on
+   every page of the site for an item nobody was looking for. The fade
+   masks at both ends are the affordance that says "more this way" —
+   without them a cut item reads as a rendering fault, which is the
+   single most common way a scroller is misread.
+
+   And from 1024px up it does not scroll either: seven bays fit the
+   measure exactly, so the rail becomes a colonnade rather than a
+   swipe. See THE COLONNADE below.
+   ══════════════════════════════════════════════════════════════════ */
+.utilrail {
+  position: relative;
+  background: linear-gradient(180deg, rgba(13,26,54,.96), rgba(10,20,42,.99));
+  border-top: 1px solid rgba(199,162,74,.16);
+  border-bottom: 1px solid rgba(199,162,74,.22);
+}
+.utilrail::before, .utilrail::after {
+  content: ''; position: absolute; top: 0; bottom: 0; width: 46px;
+  pointer-events: none; z-index: 3;
+}
+.utilrail::before { inset-inline-start: 0; background: linear-gradient(to right, rgba(10,20,42,.99), transparent); }
+.utilrail::after { inset-inline-end: 0; background: linear-gradient(to left, rgba(10,20,42,.99), transparent); }
+[dir="rtl"] .utilrail::before { background: linear-gradient(to left, rgba(10,20,42,.99), transparent); }
+[dir="rtl"] .utilrail::after { background: linear-gradient(to right, rgba(10,20,42,.99), transparent); }
+.utilrail__track {
+  max-width: var(--wrap); margin: 0 auto; padding: 0 24px;
+  display: flex; align-items: stretch; gap: 4px;
+  overflow-x: auto; overflow-y: visible;
+  scroll-snap-type: x proximity; scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.utilrail__track::-webkit-scrollbar { display: none; }
+.utilrail__item, .utilrail__btn {
+  position: relative; flex: 0 0 auto; scroll-snap-align: start;
+  display: inline-flex; align-items: center; gap: .55em;
+  min-height: 46px; padding-inline: 14px;
+  font-size: .78rem; font-weight: 600; letter-spacing: .04em;
+  color: rgba(247,244,236,.76); text-decoration: none;
+  background: none; border: 0; cursor: pointer; font-family: inherit;
+  transition: color var(--dur-fast) ease;
+}
+.utilrail__item .icon, .utilrail__btn .icon {
+  width: 14px; height: 14px; opacity: .6; color: var(--gold-royal);
+  transition: opacity var(--dur-fast) ease, transform var(--dur-med) var(--ease-premium);
+}
+/* The lit underline is a painted layer rather than a pseudo-element,
+   because these items already spend ::before on the divider and a
+   third layer would collide — the same collision the card ornaments
+   were rebuilt to avoid. */
+.utilrail__item, .utilrail__btn {
+  background-image: linear-gradient(90deg, transparent, var(--gold, #C7A24A), transparent);
+  background-repeat: no-repeat;
+  background-position: 50% calc(100% - 6px);
+  background-size: 0 2px;
+  transition: color var(--dur-fast) ease, background-size var(--dur-med) var(--ease-premium);
+}
+.utilrail__item:hover, .utilrail__btn:hover, .utilrail__btn[aria-expanded="true"] {
+  color: var(--gold-bright); background-size: calc(100% - 28px) 2px;
+}
+.utilrail__item:hover .icon, .utilrail__btn:hover .icon { opacity: 1; transform: translateY(-1px); }
+.utilrail__item--gold { color: var(--gold-bright); }
+.utilrail__item--gold .icon { opacity: .95; }
+.utilrail__item--has-menu { padding: 0; }
+.utilrail__chev { transform: rotate(90deg); width: 11px !important; height: 11px !important; }
+.utilrail__item--has-menu > .utilrail__menu {
+  position: absolute; inset-inline-start: 0; top: 100%; z-index: 95;
+  min-width: 264px; padding: 8px; border-radius: var(--r-md);
+  background: var(--royal-deep, #0E1B38);
+  border: 1px solid rgba(199,162,74,.34);
+  box-shadow: 0 26px 60px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.06);
+  opacity: 0; visibility: hidden; transform: translateY(-6px);
+  transition: opacity var(--dur-med) var(--ease-premium),
+              transform var(--dur-med) var(--ease-premium), visibility var(--dur-med);
+}
+.utilrail__item--has-menu.is-open .utilrail__menu { opacity: 1; visibility: visible; transform: none; }
+.utilrail__menu a {
+  display: flex; align-items: center; gap: .7em;
+  padding: 10px 12px; min-height: 44px; border-radius: 8px;
+  font-size: .8rem; font-weight: 500; letter-spacing: .01em;
+  color: rgba(247,244,236,.86); text-decoration: none;
+  transition: background var(--dur-fast) ease, color var(--dur-fast) ease;
+}
+.utilrail__menu a:hover { background: rgba(199,162,74,.13); color: var(--gold-bright); }
+.utilrail__menu .icon { width: 15px; height: 15px; opacity: .7; color: var(--gold-royal); }
+
+@media (max-width: 720px) {
+  .utilrail__track { padding-inline: 16px; gap: 2px; }
+  .utilrail__item, .utilrail__btn { font-size: .74rem; padding-inline: 11px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   THE COLONNADE — FROM 1024px UP THE RAIL STOPS BEING A SCROLLER
+   ═══════════════════════════════════════════════════════════════════
+   A horizontal scroller is the right answer on a phone and the wrong
+   one on a monitor. Measured, the nine-item rail ran 55px past the
+   1180px measure at 1440px wide and stayed exactly 55px over at 2560
+   and 3440 — so on every desktop in the world the last item was cut in
+   half by a fade mask, and the rail read as a component that had failed
+   to load rather than as one a reader was meant to swipe.
+
+   Seven items fit. Measured, the seven stop overflowing at about
+   1020px and the colonnade's equal bays stay uncut from 1024px — so
+   1024 is the line, which is also where a tablet turns into a laptop.
+   Above it the track stops clipping, the fade
+   masks come off, and each bay takes an equal share of the measure with
+   its label centred in it — a colonnade of seven equal bays with
+   hairline piers between them, which is the same figure the numbered
+   leaves and the register columns are drawn on elsewhere.
+
+   `flex: 1 1 0` rather than `1 1 auto`: with an `auto` basis the bays
+   would be as wide as their labels and only the LEFTOVER would be
+   shared, so "Book a Consultation" would sit in a bay half again as
+   wide as "Verify" and the piers would fall at irregular intervals. A
+   zero basis makes all seven bays identical by construction, which is
+   what makes the row read as architecture rather than as a list that
+   happens to reach the edges. */
+@media (min-width: 1024px) {
+  .utilrail::before, .utilrail::after { display: none; }
+  .utilrail__track {
+    overflow: visible; gap: 0; padding-inline: 24px;
+    scroll-snap-type: none;
+  }
+  .utilrail__item, .utilrail__btn {
+    flex: 1 1 0; min-width: 0; justify-content: center;
+    padding-inline: 6px; font-size: .755rem; scroll-snap-align: none;
+  }
+  /* The Verify bay measured 151px against its six 163px neighbours, and
+     the twelve missing pixels are exactly its own padding. With a zero
+     flex basis the free space is the track MINUS every item's padding,
+     shared seven ways, and the padding is then added back on — so the
+     one item that had none came out one padding narrower than the rest.
+     It carries the same padding as its neighbours now and hands its
+     button the full bay. */
+  .utilrail__item--has-menu { padding-inline: 6px; }
+  .utilrail__item--has-menu > .utilrail__btn { width: 100%; padding-inline: 0; }
+
+  /* THE PIERS. One hairline between bays, none at either end — a
+     colonnade has columns between its bays, not railings around it.
+     ::before is free on these items: the lit underline they carry on
+     hover is a painted background layer precisely so that it would
+     be, which is the same reasoning the card ornaments were rebuilt
+     on when .aurum took ::after and .edge-lit took ::before. */
+  .utilrail__track > * + *::before {
+    content: ''; position: absolute; inset-block: 13px;
+    inset-inline-start: 0; width: 1px;
+    background: linear-gradient(180deg, transparent, rgba(199,162,74,.3), transparent);
+  }
+}
+
+/* A CLOSED MENU IS STILL 264px OF LAYOUT, AND IT WAS PUSHING THE PAGE.
+   Measured at 1180px exactly — the width at which the measure and the
+   viewport are the same number — the document had 32px of horizontal
+   overflow and the rail reported the same 32. The seven bays were not
+   the cause: six were 163px, the seventh 151, and 6×163+151 = 1129
+   inside a 1132px track. The cause was the Verify panel, which is
+   `visibility: hidden` when closed but is still laid out, still 264px
+   wide, and still hanging off the LAST bay in the row — so 132px of it
+   sat past the right edge of the measure and dragged the whole document
+   sideways. Visibility hides a thing from the eye. It does not remove it
+   from the scroll area, and nothing about the closed panel looked wrong
+   on screen, which is why it took a measurement to find.
+
+   The fix is the one a dropdown at the end of a row should always have
+   had: the last bay's panel is pinned by its TRAILING edge and opens
+   inward. Nothing then extends past the rail in either direction, at
+   any width, open or closed. */
+.utilrail__track > .utilrail__item--has-menu:last-child > .utilrail__menu {
+  inset-inline-start: auto; inset-inline-end: 0;
+}
+
+/* THE LADDER CONDENSES; IT DOES NOT DELETE.
+   The old ladder's fifth rung was `@media (max-width: 820px) { .here
+   { display: none } }` — it threw the visitor block away whole, and
+   that single line is what emptied the middle of the bar and left
+   space-between to pull the two survivors to opposite edges. Every rung
+   below now takes a WORD off an object rather than taking the object
+   away, so the centred group of the state above simply gets shorter.
+
+   The pairing is the whole point of this bar. "It is 11:42 PM in London
+   and 1:42 AM where you are" is one fact told by two clocks; delete
+   either clock and the remaining one is just a number. So both clocks
+   survive all the way down to 360px, and what goes instead is the
+   prose around them — which the flags were already saying.
+
+   1180 · the social rings. Three decorative links, the cheapest thing
+          on the bar and the first to go.
+   1040 · the Contact link. It is in the utility rail directly below, in
+          the footer and in the drawer; losing it here loses nothing.
+    940 · ", United Kingdom". "London" alone names the seat and the flag
+          beside it is already carrying the country.
+    860 · "Browsing from". The visitor's own flag says it, in one glyph
+          instead of thirteen characters.
+    720 · the visitor's country NAME and the clock-tower glyph. The
+          reader knows which country they are in; the flag confirms it.
+          Bar type drops to .76rem and the padding to 16px.
+    560 · the trailing "London" after the time, the rule inside the
+          visitor block, and the picker's border. What is left is
+          🇬🇧 London 7:50 AM · 🇸🇦 9:50 AM · English — 264px of content
+          in a 328px measure at 360px wide, centred, both clocks intact
+          and the editions picker still naming the edition in words.
+          The word was hidden here at first and it read as two mystery
+          glyphs; it costs 24px of a 120px surplus, which is the wrong
+          economy to make on the one control a Gulf reader needs.
+
+   The editions picker itself never goes at any width. It is the one
+   control a Gulf reader may genuinely need, and the drawer's copy of it
+   is behind a tap they would have to know about first. */
+@media (max-width: 1180px) { .topbar__social { display: none; } }
+@media (max-width: 1040px) { .topbar__item--contact { display: none; } }
+@media (max-width: 940px)  { .seat__country { display: none; } }
+@media (max-width: 860px)  { .here__label { display: none; } }
 @media (max-width: 720px) {
   .topbar { font-size: .76rem; }
-  .topbar__inner { gap: 12px; padding-inline: 16px; }
+  .topbar__inner { padding-inline: 16px; }
+  .seat, .here { gap: 8px; }
+  .here__name { display: none; }
+  .seat__clock .icon { display: none; }
 }
-@media (max-width: 620px) {
-  .topbar__social { display: none; }
-  .topbar__lang { padding-inline: 0; border: 0; }
-  /* The address can ellipsis rather than force the bar to wrap. */
+@media (max-width: 560px) {
+  .langswitch__btn { padding-inline: 0; border: 0; }
+  .seat__tz { display: none; }
+  .here .seat__rule { display: none; }
   .topbar__item { min-width: 0; }
-  .topbar__contacts { flex: 1 1 auto; min-width: 0; }
-  .topbar__contacts .topbar__item { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .seat, .here { gap: 7px; }
 }
+
+/* AN OPEN MENU IS NOT PART OF THE SCROLL.
+   The Verify group sits inside the rail's own overflow-x scroller, so
+   its menu was clipped at the track's edge the moment it opened — a
+   264px panel showing 40px of itself. While a menu is open the track
+   stops clipping. It is scoped to the open state so the rail keeps its
+   scroll behaviour every other moment. */
+.utilrail__track:has(.utilrail__item--has-menu.is-open) { overflow: visible; }
 
 /* -------------------- Header / Nav -------------------- */
 /* `.site-header.lattice`, and the doubled class is load-bearing.
@@ -780,6 +1303,34 @@ section { position: relative; }
   display: flex; align-items: center; gap: clamp(16px, 2.4vw, 40px);
   transition: padding var(--dur-med) var(--ease-premium);
 }
+/* THE OPEN MEGA PANEL HAD ITS FIRST 47 PIXELS PAINTED OVER, on all six
+   menus, in both languages, on every page of the site.
+   ---------------------------------------------------------------------
+   Found by screenshotting the navigation after adding four links to it
+   on 20 August 2026 — invisible in the source, and exactly the class of
+   fault CLAUDE.md § 6 exists for.
+
+   The mechanism, because it is not obvious from either rule alone.
+   `.lattice > *:not(.lattice__bed)` in css/atelier.css gives every
+   direct child of the header `position: relative; z-index: 2`. That is
+   what lifts the header's contents off the lattice bed, and it is
+   correct. Its side effect is that BOTH `.site-header__inner` and
+   `.utilrail` become stacking contexts at the same level — so the
+   panel's own `z-index: 10` can only order it inside its parent, and
+   between the two parents nothing but DOM order decides. The utility
+   rail comes second in partials/header.html and therefore won, over a
+   panel that hangs 47px down into it.
+
+   What was lost was the `.mega__label` on every panel: "Student Life",
+   "The Programme", "How the College Is Run" — the line that tells a
+   reader which pillar they have opened.
+
+   One number fixes it, and it must be spelled at (0,2,1) or better to
+   beat the `.lattice > *` rule that caused it. An open panel now
+   overlays the utility rail, which is what an overlay is for; nothing
+   else moves, because the two bands do not otherwise overlap and the
+   panel is `visibility: hidden` when closed. */
+.site-header.lattice > .site-header__inner { z-index: 3; }
 /* The navigation takes the slack, so the actions sit hard against the
    end margin and the brand hard against the start one — rather than
    three groups drifting apart with space-between.
@@ -887,8 +1438,47 @@ section { position: relative; }
    transparency was never the part doing the work. */
 .nav__menu.crystal { background: #0E1B33; }
 [dir="rtl"] .nav__menu { left: auto; right: 0; transform-origin: top right; }
+/* THREE WAYS IN, NOT ONE.
+   :hover and :focus-within alone made the whole primary navigation a
+   mouse-only object — on any touch device above the 1180px breakpoint a
+   tap followed the link instead of opening the panel, and the six mega
+   menus were unreachable. `.is-open` is set by js/site.js from the
+   pointer type, which is what makes a press on a tablet mean disclose
+   and a click on a mouse mean go. See the long note at the primary
+   navigation block in that file.
+
+   :hover is kept as a selector rather than replaced by the class so the
+   desktop panel still opens with JavaScript unavailable. The touch path
+   cannot be made to work without script; the mouse path never needed
+   it and does not lose it. */
 .nav__item--has-menu:hover .nav__menu,
-.nav__item--has-menu:focus-within .nav__menu { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+.nav__item--has-menu:focus-within .nav__menu,
+.nav__item--has-menu.is-open .nav__menu { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+
+/* On a coarse pointer, hover is a lie the browser tells once per tap.
+   Suppressing the hover selector there means the panel is shown by the
+   class alone, so it cannot flash open for the length of a synthetic
+   hover and then vanish as the page navigates. */
+@media (hover: none) {
+  .nav__item--has-menu:hover .nav__menu { opacity: 0; visibility: hidden; transform: translateY(6px) scale(.98); }
+  .nav__item--has-menu.is-open .nav__menu { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+}
+
+/* The disclosure caret. A label that opens a panel has to look unlike a
+   label that does not — on a mouse the difference is discoverable by
+   hovering, and on touch there is nothing to hover, so it must be
+   visible at rest. It rotates when the panel is open. */
+.nav__item--has-menu > a[aria-haspopup]::before {
+  content: ''; display: inline-block; width: .42em; height: .42em;
+  margin-inline-end: .52em; vertical-align: .08em;
+  border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg) translateY(-.06em); opacity: .5;
+  transition: transform var(--dur-med) var(--ease-premium), opacity var(--dur-med) ease;
+}
+.nav__item--has-menu:hover > a[aria-haspopup]::before,
+.nav__item--has-menu.is-open > a[aria-haspopup]::before {
+  transform: rotate(225deg) translateY(-.06em); opacity: .95;
+}
 .nav__menu a { display: block; padding: 10px 12px; border-radius: 4px; color: var(--ink); font-size: .86rem; font-weight: 600; transition: background var(--dur-fast) ease, color var(--dur-fast) ease, padding-left var(--dur-fast) var(--ease-premium); }
 .nav__menu a:hover { background: var(--ivory); color: var(--red); padding-left: 16px; }
 [dir="rtl"] .nav__menu a:hover { padding-left: 12px; padding-right: 16px; }
@@ -949,88 +1539,21 @@ section { position: relative; }
    one line of chrome, sitewide, costing almost nothing in
    height, in the one place — above the strip — a reader
    actually glances for it.
+   ========================================================= */
+/* THE HEADER CLOCK WAS REMOVED, AND THE REASON IS WORTH KEEPING.
+   A second clock panel used to sit here, mobile only, showing LON and
+   YOU on an ivory band under the navigation. It was authored when the
+   utility bar above it could not carry two clocks on a phone. The bar
+   can now — measured, both clocks and the editions picker sit inside
+   275px at 360px wide — so the panel became a duplicate of the band
+   36px above it, and js/worldclock.js had never painted it anyway, so
+   what a phone actually showed was the correct time in the bar and a
+   hard-coded 13:36 with a five-day-old date immediately beneath.
 
-   It used to stop at "compact": a bare 14px icon and plain text,
-   no material at all, directly beneath a quicknav strip built
-   entirely from .vessel/.vessel__badge — the worked-metal tile
-   used everywhere else a shape needs presence. Sitting flat
-   under something struck and bevelled is what read as a
-   downgrade, not any one property of the strip itself. The fix
-   is the same material at instrument-panel scale: a small
-   struck badge in place of the bare icon, LON/YOU as gold-hairline
-   pills rather than loose caps, tabular figures so the numerals
-   don't shift the layout as they tick, and slender gold rules in
-   place of a plain middot. Still one line. Still mobile only.
-   Still costing the header almost nothing in height — the badge
-   is 22px, not the quicknav's 50–80px, because a strip a reader
-   glances at needs presence, not a second focal point. -->
-/* Polished ivory, not navy — the strip and the clock line above it are
-   their own panel, set apart from the header bar it sits under (which
-   stays navy) the way a printed programme insets a cream card into a
-   dark cover: the material changes, the institution's palette doesn't.
-   Every colour below is chosen to hold >= 4.5:1 on this ground. */
-.headerclock { display: none; }
-@media (max-width: 860px) {
-  .headerclock {
-    display: flex; align-items: center; gap: 9px;
-    position: relative; overflow: hidden;
-    background: linear-gradient(180deg, var(--warm-white) 0%, var(--pearl) 100%);
-    border-top: 1px solid rgba(199,162,74,.45);
-    /* Lifts the panel off the navy bar above it rather than just
-       drawing a line under it — the same "seated, not stuck on"
-       logic as the vessel's own inset highlight, at a fraction of
-       the depth because this is a strip, not a tile. */
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.9), 0 4px 10px -7px rgba(10,20,40,.4);
-    padding: 7px 20px;
-    font-family: var(--font-body); font-size: .72rem; font-weight: 600;
-    color: var(--ink);
-  }
-  /* The struck badge. Three layers, not the vessel's five — at 22px a
-     chamfer and a counter-rotating halo are invisible, just muddy; what
-     reads at this size is a genuine bevel (the two inset lines) and a
-     gold ring holding a dark, lit dome, which is the same "this is
-     metal, not a coloured circle" read the vessel badge makes at 10x
-     the size. */
-  .headerclock__badge {
-    display: flex; align-items: center; justify-content: center;
-    width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
-    background: radial-gradient(circle at 34% 26%, var(--sapphire) 0%, var(--navy) 58%, var(--oxford) 100%);
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,.45),
-      inset 0 -1px 0 rgba(0,0,0,.55),
-      0 0 0 1px rgba(199,162,74,.6),
-      0 2px 5px -2px rgba(10,20,40,.55);
-  }
-  .headerclock__badge .icon { width: 11px; height: 11px; color: var(--gold-soft); }
-  .headerclock__times { display: flex; align-items: baseline; gap: 3px; }
-  .headerclock__reading { display: inline-flex; align-items: baseline; gap: 3px; }
-  .headerclock__reading > span:first-child { font-weight: 700; letter-spacing: .01em; }
-  /* A tag, not loose caps — the same gold-hairline-on-tint the vessel
-     system uses for anything that names rather than acts. */
-  .headerclock__tz {
-    font-size: .54rem; font-weight: 700; letter-spacing: .06em;
-    color: var(--bronze); line-height: 1.5;
-    border: 1px solid rgba(199,162,74,.4); border-radius: 20px;
-    padding: 0 4px; background: rgba(199,162,74,.09);
-  }
-  /* A drawn line, not a character — &middot; sits on the text baseline
-     and reads as punctuation; a gold gradient rule reads as an
-     instrument-panel division, matching the hairlines the badge and
-     tags are already built from. */
-  .headerclock__rule {
-    width: 1px; align-self: stretch; flex-shrink: 0;
-    background: linear-gradient(180deg, transparent, rgba(199,162,74,.6) 50%, transparent);
-  }
-  /* The auto margin belongs on the rule, not the date: the flexible
-     space has to open BEFORE the divider so the rule and the date it
-     introduces stay a fixed 6px apart at the strip's edge, rather than
-     the gap landing between them. */
-  .headerclock__rule--edge { margin-inline-start: auto; margin-inline-end: 6px; }
-  .headerclock__date {
-    color: var(--slate);
-    font-size: .68rem; font-weight: 600; letter-spacing: .01em; flex-shrink: 0;
-  }
-}
+   Two clocks disagreeing on one screen is worse than one clock. The
+   panel is gone and the 36px of chrome with it. .glance__tile and the
+   quicknav strip, which the comment in css/home.css refers to
+   alongside it, are unaffected. */
 
 /* =========================================================
    THE VESSEL
@@ -1369,6 +1892,33 @@ section { position: relative; }
 .nav { gap: 13px; }
 .nav__item > a { font-size: .79rem; }
 
+/* THE BAND WHERE THE RAIL FITS ONLY IF IT IS ASKED TO.
+   ===================================================
+   The nav collapses at 1180 and the full rail needs 1328px to lay out
+   at its comfortable spacing. Between those two numbers — which is 1280,
+   the single most common laptop width there is — the header ran off the
+   right edge of the viewport and the whole page scrolled sideways. It
+   passed every check that looked at 1440, 1024 and 390, because the
+   fault lives in the gap between two of them.
+
+   Measured rather than guessed: at 1280 the English rail is brand 246 +
+   nav 680 + actions 243, and lands 24px past the edge; at 1200 it lands
+   53px past. Tightening the two gaps — the one between the three groups
+   and the one between nav items — recovers 77px at 1280 and 66px at
+   1200, so the rail fits with room in hand at both ends of the band.
+
+   Type size is deliberately untouched. Shrinking the nav text would buy
+   the same pixels by making the navigation harder to read on the exact
+   machines most visitors use, which is a worse answer than closing up
+   spacing that was generous to begin with.
+
+   The Arabic rail already fits — 567 against 680 — and takes the same
+   spacing so the two editions do not diverge in a band nobody looks at. */
+@media (min-width: 1181px) and (max-width: 1359px) {
+  .site-header__inner { gap: 16px; }
+  .nav { gap: 14px; }
+}
+
 @media (max-width: 1180px) {
   .nav { display: none; }
   /* See the note at .site-header__inner: the slack has to move to
@@ -1468,25 +2018,290 @@ section { position: relative; }
 @media (max-width: 900px) { .grid--3, .grid--4 { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 620px) { .grid--2, .grid--3, .grid--4 { grid-template-columns: 1fr; } }
 
+/* AN ODD LAST CARD CLOSES THE ROW RATHER THAN SITTING BESIDE A VOID.
+   Five councils and seven subcommittees are both odd numbers, and in a
+   two-column grid an odd number ends with one card alone against an
+   empty half — on the dark Councils ground that empty half is the
+   largest single area in the section, and the eye reads it as a card
+   that failed to render rather than as a grid that ran out.
+   `.grid--close` lets the last card take the full measure and finish
+   the block. It is opt-in: a grid of tiles where every cell must stay
+   the same size does not want this. */
+.grid--close > :last-child:nth-child(odd) { grid-column: 1 / -1; }
+@media (max-width: 620px) { .grid--close > :last-child:nth-child(odd) { grid-column: auto; } }
+
+/* A CARD IN A GRID STRETCHES TO ITS TALLEST SIBLING, and with the
+   content top-aligned that left up to 39px of measured void at the
+   foot of every short card — the "blank space" that made the
+   Academics page read as unfinished. Two changes fix it and neither
+   is a hack: the card becomes a flex column so the space is
+   distributable, and the space that remains is CLAIMED by a struck
+   baseline rule pushed to the foot with margin-top:auto. A short card
+   now ends on a deliberate flourish at the same height as its
+   neighbours instead of on nothing. */
+/* NEITHER PSEUDO-ELEMENT BELONGS TO THE CARD, and that is the whole
+   architecture of this block.
+   ---------------------------------------------------------------------
+   A card is the surface that most often wears .aurum (the travelling
+   gold point, which claims ::after) and .edge-lit (the lit rim, which
+   claims ::before) — CLAUDE.md §2 states the division and forbids
+   taking either from a shape wearing those classes.
+
+   The card was breaking that rule twice over, silently:
+
+     · ::before was the gold hairline that draws across the top on
+       hover. Every card wearing .edge-lit lost it.
+     · ::after was claimed THREE times in this one file — a foot rule
+       here, and a masked lit rim four hundred lines below under THE
+       MATERIAL, EXTENDED. The later rule won, so the foot rule never
+       painted on a single card on the site; and on any card wearing
+       .aurum, the travelling light won and the rim went too.
+
+   Nothing announced any of it. The rules were all present in the
+   stylesheet and two of the three were dead.
+
+   So both card effects are painted as BACKGROUND LAYERS on the card's
+   own box, where nothing can claim them:
+
+     layer 1 — the top hairline, sized 0 wide at rest and 100% on
+               hover, which transitions as smoothly as the scaleX it
+               replaces.
+     layer 2 — the foot rule, held 22px off the bottom edge and inset
+               to the card's own padding, so a plate is closed at the
+               foot whatever its content height.
+
+   background-color carries the ground, because `background` shorthand
+   would reset the layers. */
 .card {
-  background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-md);
-  padding: 32px; position: relative; overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  transition: transform var(--dur-med) var(--ease-premium), box-shadow var(--dur-med) var(--ease-premium), border-color var(--dur-med) ease;
+  --card-pad: 32px;
+  --card-rule: rgba(199, 162, 74, .55);
+  --card-rule-mid: rgba(199, 162, 74, .16);
+
+  background-color: var(--paper);
+  /* Four ornaments, four painted layers, in paint order:
+       1 · the gold hairline across the head, 0 wide at rest
+       2 · the closing rule at the foot, inset to the card's padding
+       3 · the corner bracket, upright
+       4 · the corner bracket, level
+     Every one of them used to be a pseudo-element and every one of
+     them collided with another. Painted layers cannot collide: they
+     compose. */
+  /* A FIFTH AND SIXTH LAYER: THE GLOSS.
+     Four ornaments were enough to make the card an object. They did not
+     make it a MATERIAL, and a flat fill under a hairline is the "still
+     looks basic" the owner named.
+
+     Two more painted layers, both light rather than ink:
+
+       5 · the specular sweep — a broad, soft diagonal catching the
+           upper-left corner, which is where every other struck surface
+           on this site is lit from. It is a radial patch and not a
+           linear band on purpose: a highlight on a curved body is a
+           patch, and the linear version is the single most reliable
+           tell of a flat thing pretending to have depth.
+       6 · the ground haze — a faint warm pool at the foot, the light
+           the gold rule bounces back up into the paper.
+
+     Painted, not pseudo-elements. `::before` belongs to `.edge-lit` and
+     `::after` to `.aurum`, deliberately, so one surface can wear both —
+     and every ornament this component has ever gained by taking a
+     pseudo-element has collided with another within a week. */
+  background-image:
+    linear-gradient(135deg, var(--gold) 0%, var(--gold-bright) 100%),
+    linear-gradient(90deg, var(--card-rule) 0%, var(--card-rule-mid) 38%, transparent 72%),
+    linear-gradient(var(--line), var(--line)),
+    linear-gradient(var(--line), var(--line)),
+    radial-gradient(75% 58% at 18% 0%, rgba(255,255,255,.85), rgba(255,255,255,0) 62%),
+    radial-gradient(120% 72% at 50% 118%, rgba(199,162,74,.13), rgba(199,162,74,0) 70%);
+  background-repeat: no-repeat;
+  background-position:
+    left top,
+    var(--card-pad) calc(100% - 22px),
+    right 12px bottom 12px,
+    right 12px bottom 12px,
+    left top,
+    left bottom;
+  background-size:
+    0 3px,
+    calc(100% - var(--card-pad) * 2) 1px,
+    1px 0,
+    0 1px,
+    100% 100%,
+    100% 100%;
+  border: 1px solid var(--line); border-radius: var(--r-md);
+  padding: var(--card-pad); position: relative; overflow: hidden;
+  /* Relief rather than a drop shadow: a lit rim on the top edge, the
+     body shadow beneath, and a long soft cast further down. Three
+     stops is what separates a raised object from a rectangle with a
+     shadow under it. */
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.9),
+    0 1px 2px rgba(10,20,40,.06),
+    0 18px 38px -22px rgba(10,20,40,.34);
+  display: flex; flex-direction: column;
+  transition: transform var(--dur-med) var(--ease-premium),
+              box-shadow var(--dur-med) var(--ease-premium),
+              background-size var(--dur-med) var(--ease-premium),
+              border-color var(--dur-med) ease;
 }
-/* A hairline gold rule that draws in from the left on hover — the
-   card equivalent of the button's shine sweep, at a scale appropriate
-   to a resting surface rather than a call to action. */
-.card::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  background: var(--gold-gradient); transform: scaleX(0); transform-origin: left;
-  transition: transform var(--dur-med) var(--ease-premium);
+.card > p:last-of-type { margin-bottom: 0; }
+
+/* ---------------------------------------------------------------------
+   NO CARD IN A ROW POOLS ITS SLACK AT THE FOOT
+   ---------------------------------------------------------------------
+   A grid row stretches every card to the tallest one, and the shorter
+   cards spent the difference as a void under the last line — 176px of
+   it on /students/awards/, which CLAUDE.md §1 forbids outright and
+   which no amount of copy-editing fixes: three prose cards balanced at
+   1440 are unbalanced at 900, and balancing them there unbalances 1440.
+   Four rounds of trimming and padding sentences proved that, and each
+   round changed the writing to serve the layout, which is backwards.
+
+   The card is already a flex column, so the slack can simply be shared
+   out between the dome, the eyebrow, the heading and the paragraph
+   instead of pooled beneath them. Diffused, it reads as a card with
+   air in it. Pooled, it reads as a card that lost its last paragraph.
+
+   Scoped to `.grid` because that is where the stretch comes from —
+   a card standing on its own is sized by its own content and has no
+   slack to distribute.
+   --------------------------------------------------------------------- */
+.grid .card { justify-content: space-between; }
+
+/* EXCEPT WHERE THE CARD'S BODY IS A LIST, WHICH IS A DIFFERENT SHAPE.
+   Diffusing slack is right for prose: a paragraph does not mind where
+   the air goes. A numbered list does. The Observation framework puts
+   eight areas beside five outputs, and space-between spent the
+   three-row difference in ONE gap between the second card's heading and
+   its first row — so the two headings, which name two halves of the
+   same instrument, sat 160px apart and the columns stopped reading as
+   parallel.
+
+   A list-bodied card therefore keeps its head tight and hands the slack
+   to the list, which shares it out across its own rows. The heads line
+   up, the rules stay contiguous, and the shorter column simply breathes
+   more per row. */
+.grid .card:has(> .dot-list) { justify-content: flex-start; }
+.grid .card > .dot-list { flex: 1 1 auto; display: flex; flex-direction: column; }
+.grid .card > .dot-list > li { flex: 1 1 auto; align-content: center; }
+.card:hover {
+  background-size:
+    100% 3px,
+    calc(100% - var(--card-pad) * 2) 1px,
+    1px 16px,
+    16px 1px;
 }
-.card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: rgba(199,162,74,.55); }
+/* Mirrored: the hairline draws from the trailing edge, the closing rule
+   falls away in the direction the eye is travelling, and the bracket
+   marks the corner the reader finishes at. */
+[dir="rtl"] .card {
+  background-image:
+    linear-gradient(225deg, var(--gold) 0%, var(--gold-bright) 100%),
+    linear-gradient(-90deg, var(--card-rule) 0%, var(--card-rule-mid) 38%, transparent 72%),
+    linear-gradient(var(--line), var(--line)),
+    linear-gradient(var(--line), var(--line));
+  background-position:
+    right top,
+    right var(--card-pad) bottom 22px,
+    left 12px bottom 12px,
+    left 12px bottom 12px;
+}
+
+/* ── A CARD THAT BRINGS ITS OWN GROUND ───────────────────────────────
+   Four surfaces on this site are cards that paint a dark plate instead
+   of paper — the offer on the tracking page, the invoice on My Account,
+   the two forms on My Week, and the plates on My Desk. Each of them
+   used to declare that ground itself, and every one of them was WRONG
+   IN ARABIC and right in English.
+
+   The reason is two lines above. `[dir="rtl"] .card` re-declares
+   `background-image` at two-class specificity, so it outranked a plain
+   `.acc-invoice` in a stylesheet loaded afterwards — and the plate then
+   wore the CARD's gold hairline at full size instead of its own dark
+   ground. The result was champagne text on gold at about 1.3:1, on the
+   Arabic edition only, on four surfaces, for as long as they have
+   existed. It was invisible in every source file and obvious the moment
+   the page was rendered — CLAUDE.md §6, exactly.
+
+   So the ground is declared ONCE, here, next to the rule that was
+   overriding it, and in BOTH directions. A plate that wants it says so
+   in the markup and declares no ground of its own; a fifth one added
+   next year inherits the correction rather than repeating the fault. */
+.card.plate-dark,
+[dir="rtl"] .card.plate-dark {
+  color: #F6EFE0;
+  background-image:
+    radial-gradient(ellipse 90% 80% at 20% 0%, rgba(31, 61, 122, .5), transparent 70%),
+    linear-gradient(158deg, var(--midnight), var(--oxford));
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-color: rgba(199, 162, 74, .42);
+  box-shadow: inset 0 0 80px -26px rgba(0, 0, 0, .8),
+              var(--relief-metal, 0 10px 30px -12px rgba(10, 20, 40, .5));
+}
+.card--dark {
+  --card-rule: rgba(242, 227, 192, .5);
+  --card-rule-mid: rgba(199, 162, 74, .14);
+}
+/* The duplicate `.card:hover` that used to sit here set the old flat
+   `--shadow-md` and, purely by being further down the file, overrode
+   the three-stop relief defined with the rest of the hover state. Two
+   rules for one state is how a considered shadow silently becomes the
+   default one. The ::before below belongs to .edge-lit and stays. */
 .card:hover::before { transform: scaleX(1); }
-.card--dark { background: rgba(255,255,255,.04); border-color: var(--line-dark); }
-.card--dark:hover { border-color: var(--line-dark); }
+/* background-COLOR, not the shorthand: `background` would reset the two
+   painted layers the card sets above and take the top hairline and the
+   foot rule off every dark card on the site. */
+.card--dark { background-color: rgba(255,255,255,.04); border-color: var(--line-dark); }
+.card--dark:hover { border-color: rgba(199,162,74,.5); }
+/* THE GLOSS, DIMMED FOR THE DARK GROUND.
+   The specular above is set for paper, where an 85% white patch reads
+   as light falling on a matte surface. On oxford blue the same patch
+   reads as fog: it lifts the corner off the palette and the card stops
+   belonging to the section it sits in. A tenth of it is enough — on a
+   dark ground the eye reads a highlight from very little, which is the
+   same reason the domes carry a thin rim rather than a wide one. The
+   warm pool at the foot stays, because gold bouncing into navy is the
+   effect this palette is actually built on. */
+.card--dark {
+  background-image:
+    linear-gradient(135deg, var(--gold) 0%, var(--gold-bright) 100%),
+    linear-gradient(90deg, var(--card-rule) 0%, var(--card-rule-mid) 38%, transparent 72%),
+    linear-gradient(var(--line-dark), var(--line-dark)),
+    linear-gradient(var(--line-dark), var(--line-dark)),
+    radial-gradient(78% 60% at 18% 0%, rgba(255,255,255,.09), rgba(255,255,255,0) 64%),
+    radial-gradient(120% 72% at 50% 118%, rgba(199,162,74,.16), rgba(199,162,74,0) 70%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.09),
+    0 1px 2px rgba(3,8,20,.4),
+    0 22px 46px -24px rgba(3,8,20,.72);
+}
+.card--dark:hover {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.16),
+    0 2px 4px rgba(3,8,20,.36),
+    0 38px 68px -28px rgba(3,8,20,.8);
+}
 .card h3 { font-size: 1.1rem; }
+/* A CARD TITLE THAT IS A LINK IS A TARGET, NOT A SENTENCE.
+   ========================================================
+   The six level cards on /academics/ title themselves with a link —
+   `<h3><a>Foundation Programme</a></h3>` — and at 390px that anchor was
+   21px tall. WCAG's minimum is 44, and the inline exception does not
+   apply: nothing surrounds it, so it is not a link in a sentence, it is
+   the thing a thumb aims at.
+
+   The padding is absorbed by an equal negative margin, so the hit area
+   grows to a full target and not one pixel of the layout moves. Applied
+   only where the whole heading is the link — a heading with a link
+   inside a longer phrase keeps its line height, because stretching an
+   inline link in running text is what breaks a paragraph's rhythm. */
+.card h3 > a:only-child {
+  display: inline-block;
+  padding-block: 12px;
+  margin-block: -12px;
+}
 .card__num { font-family: var(--font-display); font-size: .82rem; color: var(--gold); font-weight: 700; margin-bottom: 10px; display: block; }
 /* Gold-on-paper computes to ~2.3:1, well under WCAG AA's 4.5:1 for
    text this size — switching to --red on light grounds matches the
@@ -1510,9 +2325,57 @@ section { position: relative; }
     0 0 0 1px rgba(199,162,74,.38);
   transition: transform var(--dur-med) var(--ease-premium), box-shadow var(--dur-med) var(--ease-premium);
 }
-.badge-dome .icon { width: 24px; height: 24px; filter: drop-shadow(0 1px 1px rgba(20,20,10,.14)); }
-.badge-dome--sm { width: 44px; height: 44px; border-radius: var(--r-sm); margin-bottom: 12px; }
-.badge-dome--sm .icon { width: 20px; height: 20px; }
+.badge-dome .icon { width: 30px; height: 30px; filter: drop-shadow(0 1px 1px rgba(20,20,10,.14)); }
+.badge-dome--sm { width: 46px; height: 46px; border-radius: var(--r-sm); margin-bottom: 12px; }
+.badge-dome--sm .icon { width: 22px; height: 22px; }
+
+/* THE DOME IS GLASS OVER METAL, and it needs both surfaces to read as
+   a real object rather than a tinted square.
+
+   ::before is the SPECULAR CAP — a hard-edged crescent of light in the
+   upper third, which is what a curved glossy surface does to a light
+   source and what a soft radial gradient never quite says. It is
+   clipped to the dome's own radius and does not move.
+
+   ::after is the TRAVELLING POINT — a narrow bright arc orbiting the
+   rim, masked to a 1.5px ring by the same content-box/border-box
+   exclude trick .aurum uses in atelier.css. The gold runs to near-white
+   at its centre so it reads as a diamond catching light rather than as
+   a glowing outline. Nine seconds a turn, staggered per card below, so
+   a grid of domes never pulses in unison.
+
+   The two pseudo-elements are deliberately split this way so a dome can
+   ALSO wear .aurum on its parent without either fighting the other. */
+.badge-dome { position: relative; isolation: isolate; }
+.badge-dome::before {
+  content: ''; position: absolute; z-index: 2; pointer-events: none;
+  left: 12%; right: 12%; top: 7%; height: 34%;
+  border-radius: 50% 50% 44% 44% / 68% 68% 32% 32%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .78), rgba(255, 255, 255, .06));
+  opacity: .78;
+}
+.badge-dome::after {
+  content: ''; position: absolute; inset: 0; z-index: 3; pointer-events: none;
+  border-radius: inherit; padding: 1.5px;
+  background: conic-gradient(from var(--aurum-angle, 0deg),
+    transparent 0deg, transparent 36deg,
+    rgba(212, 175, 55, .42) 50deg,
+    rgba(255, 253, 244, 1) 60deg,
+    rgba(242, 227, 192, .72) 70deg,
+    transparent 86deg, transparent 360deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  animation: aurum-orbit var(--dome-dur, 9s) linear infinite;
+  animation-delay: var(--dome-delay, 0s);
+}
+/* Staggered so a row of domes is a procession, not a strobe. */
+.card:nth-child(2) .badge-dome::after, .audience:nth-child(2) .badge-dome::after { --dome-delay: 1.5s; }
+.card:nth-child(3) .badge-dome::after, .audience:nth-child(3) .badge-dome::after { --dome-delay: 3s; }
+.card:nth-child(4) .badge-dome::after, .audience:nth-child(4) .badge-dome::after { --dome-delay: 4.5s; }
+.card:nth-child(5) .badge-dome::after { --dome-delay: 6s; }
+.card:nth-child(6) .badge-dome::after { --dome-delay: 7.5s; }
 .card:hover .badge-dome, .audience:hover .badge-dome, .region:hover .badge-dome {
   transform: translateY(-1px);
   box-shadow:
@@ -1529,7 +2392,7 @@ section { position: relative; }
    same 6.5s cycle .case__medallion uses, so a reader who has met one
    recognises the other as the same material, just lit differently. */
 .badge-dome--lg {
-  width: 84px; height: 84px; border-radius: 28px; margin-bottom: 20px;
+  width: 106px; height: 106px; border-radius: 34px; margin-bottom: 22px;
   box-shadow:
     inset 0 3px 4px rgba(255,255,255,.92),
     inset 0 -4px 6px rgba(20,20,10,.14),
@@ -1537,7 +2400,7 @@ section { position: relative; }
     0 0 0 1.5px rgba(199,162,74,.42);
 }
 .badge-dome--lg .icon {
-  width: 36px; height: 36px; stroke-width: 1.1;
+  width: 50px; height: 50px; stroke-width: 1;
   color: var(--gold-royal); filter: drop-shadow(0 1px 1px rgba(20,20,10,.18));
   animation: badge-dome-breathe 6.5s var(--ease-premium) infinite alternate;
 }
@@ -1634,6 +2497,107 @@ section { position: relative; }
 .table-scroll { overflow-x: auto; }
 
 /* -------------------- Stat row -------------------- */
+/* =========================================================
+   THE STATE PLATE
+   What the College says while nothing is on screen yet.
+   =========================================================
+
+   THREE SURFACES USED TO SAY IT FROM A DASHED GREY BOX, and a dashed
+   box is the register of an admin panel — the one thing §1 will not
+   have on a surface a reader meets first:
+
+     .rec-state   the state line on all twenty-five portal pages, in
+                  both editions: "Loading your record…", and then
+                  whatever went wrong.
+     .grad-state  the same line on the shared-record pages.
+     .reg-empty   the PUBLIC register before its first conferral. Its
+                  own stylesheet said this had to "read as a register
+                  that is waiting rather than as a page that is
+                  broken", and a dashed rectangle read as broken.
+
+   Those three names are still in the markup and carry no styles of
+   their own any more. They are kept deliberately: `.reg-empty` is what
+   tests/browser/register.mjs reads the sentence by, and an element
+   that three different pages give three different meanings to is
+   easier to find in a source file when it still says which one it is.
+
+   They are one component now, and it is struck: paper ground lit from
+   above, the relief of a raised plate, the College's own rosette
+   pressed into it, and the sentence set in the display face at a size
+   somebody is meant to read rather than dismiss.
+
+   THE RIM AND THE TRAVELLING POINT COME FROM THE ATELIER LAYER — the
+   markup wears `edge-lit edge-lit--light aurum` — so they are already
+   carved out for reduced motion and already mirrored for RTL, and both
+   pseudo-elements are therefore spoken for. That is why the rosette is
+   a background layer here and not a `::before`. CLAUDE.md §2.
+
+   `.reveal` is deliberately not among those classes. These are
+   aria-live regions: an element whose visibility waits on an
+   IntersectionObserver is an element that can fail to appear, and the
+   one line on the page that says what is happening must never be the
+   line that did not arrive.
+
+   IT STAYS SILENT. js/sonics.js listens on pointerdown and gives a
+   voice to surfaces a person operates; a paragraph explaining a
+   failure that chimed when somebody rested a thumb on it is the toy
+   §3 is guarding against. The exemption is recorded by name in
+   scripts/red-flag-audit.mjs rather than left as a hole.
+   ========================================================= */
+.state-plate {
+  position: relative;
+  margin: 2.6rem auto;
+  max-width: 30rem;
+  /* The head room is the mark's. */
+  padding: 5rem 2rem 2.6rem;
+  text-align: center;
+  border-radius: 16px;
+  color: var(--ink, #16202E);
+  font-family: var(--font-display, Georgia, 'Times New Roman', serif);
+  font-size: clamp(1.05rem, 1rem + .34vw, 1.28rem);
+  line-height: 1.7;
+  /* Slower than a card's. A plate that is telling you to wait should
+     not itself look hurried. */
+  --aurum-dur: 14s;
+  background:
+    /* #i-rosette from partials/icons.html — the same drawing the
+       mastheads are ruled with, struck faintly into the plate rather
+       than a second mark invented for one line. */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C7A24A' stroke-width='.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cg opacity='.66'%3E%3Ccircle cx='12' cy='8.6' r='5.4'/%3E%3Cpath d='M12 4.4 13.2 7l2.8.3-2.1 1.9.6 2.8L12 10.6l-2.5 1.4.6-2.8L8 7.3 10.8 7Z'/%3E%3Cpath d='M8.4 13.2 6.4 21l5.6-2.6L17.6 21l-2-7.8' stroke-width='.55' opacity='.78'/%3E%3Ccircle cx='12' cy='8.6' r='7.2' stroke-width='.55' opacity='.55'/%3E%3C/g%3E%3C/svg%3E")
+      no-repeat center 1.6rem / 56px 56px,
+    /* Light from above, as everywhere else on this site. */
+    radial-gradient(118% 86% at 50% 0%,
+      rgba(255, 255, 255, .96) 0%,
+      rgba(253, 251, 246, .84) 46%,
+      rgba(243, 238, 226, .92) 100%),
+    var(--paper, #FCFAF4);
+  box-shadow:
+    var(--relief-metal, inset 0 1px 2px rgba(255, 255, 255, .58), inset 0 -2px 3px rgba(90, 62, 20, .42)),
+    0 1px 1px rgba(20, 38, 74, .06),
+    0 18px 40px -22px rgba(20, 38, 74, .34);
+}
+/* THE SAME ELEMENT WAS 926px WIDE IN ENGLISH AND 736 IN ARABIC, and
+   the reason is one rule earlier in this file: `[dir="ltr"] p` sets a
+   70ch measure, which outranks a bare class and so reached the English
+   edition only. Matching the element as well as the class settles it
+   in both directions. Written as its own rule so the override stays
+   visible to whoever reads it next. */
+p.state-plate { max-width: 30rem; }
+
+/* The head, where a plate has one. */
+.state-plate strong {
+  display: block;
+  font-size: 1.1em;
+  margin-bottom: .35rem;
+  color: var(--ink, #16202E);
+}
+/* A plate with nothing struck on it is not a plate. */
+.state-plate:empty { display: none; }
+
+@media (max-width: 30rem) {
+  .state-plate { padding: 4.4rem 1.25rem 2.1rem; border-radius: 14px; }
+}
+
 .stat-row { display: flex; flex-wrap: wrap; gap: 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
 .stat-row__item { flex: 1 1 160px; padding: 26px 20px; text-align: center; border-right: 1px solid var(--line); }
 [dir="rtl"] .stat-row__item { border-right: none; border-left: 1px solid var(--line); }
@@ -1653,6 +2617,15 @@ section { position: relative; }
    arguably the second. Both are legitimate here, so both are styled. */
 .stat-row__item strong, .stat-row__item b {
   display: block; font-family: var(--font-display); font-size: 1.7rem; color: var(--red);
+  /* A HEADLINE FIGURE IS ONE TOKEN AND MUST NOT BREAK.
+     /ar/governance/ rendered BASCE's founding date as "2026-08-" on
+     one line and "04" on the next, because a hyphen is a legitimate
+     break opportunity and the Arabic display face sets the digits
+     wider than the Latin one — so the English cell fitted and the
+     Arabic cell did not. Every value this band carries is a single
+     token: a date, a reference, a fee, a count, a level code. None of
+     them mean anything in halves. */
+  white-space: nowrap;
 }
 .section--dark .stat-row__item strong, .section--deep .stat-row__item strong,
 .section--dark .stat-row__item b, .section--deep .stat-row__item b { color: var(--gold-bright); }
@@ -1858,6 +2831,40 @@ section { position: relative; }
 .portal-shell .btn--ghost:hover { color: var(--royal-deep); border-color: var(--bronze); }
 .portal-shell .lede { text-align: center; margin: 0 auto 24px; font-size: .95rem; }
 
+/* A CREAM CARD ON A NAVY GROUND CARRIES ITS OWN INK.
+   `.portal-shell` sets `background: var(--paper)` and sits inside
+   `.section--dark`, which sets ivory text on everything under it. So
+   the heading was #fff on #FCFAF4 — 1.04:1 — the lede was ivory at .78
+   and the outline button was ivory on cream. Measured across all 186
+   routes, this was the worst contrast on the site, and it was on
+   /student-portal/, which is where the navigation and the footer send
+   every learner.
+
+   The card is a light surface. It takes the light palette, and says so
+   loudly enough that the dark section's rules cannot reach past it. */
+.section--dark .portal-shell,
+.section--deep .portal-shell { color: var(--ink); }
+.section--dark .portal-shell h1,
+.section--dark .portal-shell h2,
+.section--dark .portal-shell h3,
+.section--deep .portal-shell h2 { color: var(--ink); }
+.section--dark .portal-shell .lede,
+.section--deep .portal-shell .lede { color: var(--ink-soft); }
+.section--dark .portal-shell .form-note,
+.section--deep .portal-shell .form-note { color: var(--ink-soft); }
+.section--dark .portal-shell .module-marker,
+.section--deep .portal-shell .module-marker {
+  color: var(--red); border-color: rgba(163,38,56,.3);
+}
+.section--dark .portal-shell .btn--outline,
+.section--deep .portal-shell .btn--outline {
+  color: var(--royal); border-color: rgba(20,38,74,.35);
+}
+.section--dark .portal-shell .btn--outline:hover,
+.section--deep .portal-shell .btn--outline:hover {
+  color: var(--royal); border-color: var(--bronze); background: rgba(20,38,74,.04);
+}
+
 /* -------------------- Footer -------------------- */
 /* Footer navigation is the largest single source of small tap targets
    on the marketing site — fifteen per page, on every page, because they
@@ -1956,13 +2963,42 @@ section { position: relative; }
    it reads as a distinct register: browse the grids above it, or grab
    one of these six directly. Same scroll-snap mechanism as the
    header's quicknav — no carousel library here either. */
-.footerlinks { max-width: var(--wrap); margin: 0 auto 44px; padding: 0 24px; }
-.footerlinks__heading {
-  display: flex; align-items: center; gap: .7em;
-  font-family: var(--font-body); font-weight: 700;
-  font-size: .68rem; letter-spacing: .2em; text-transform: uppercase;
-  color: var(--gold-royal); padding-bottom: 18px;
+/* A CUT EDGE WITH NO MASK READS AS A FAULT, NOT AS A SCROLLER.
+   Six 240px cards need about 1,520px and the measure is 1,392, so the
+   last card and a half are clipped at the right edge of a footer that
+   otherwise looks finished. The scrolling is correct; the absence of an
+   affordance was not. The same gold fade the utility rail uses tells a
+   reader there is more this way instead of leaving them to wonder what
+   went wrong — and it is the one thing that separates a deliberate
+   overflow from a broken layout at a glance. */
+.footerlinks { position: relative; max-width: var(--wrap); margin: 0 auto 44px; padding: 0 24px; }
+.footerlinks::after {
+  content: ''; position: absolute; inset-inline-end: 24px; bottom: 8px;
+  width: 64px; top: 58px; pointer-events: none; z-index: 2;
+  background: linear-gradient(to left, var(--royal-deep, #0E1B38), transparent);
 }
+[dir="rtl"] .footerlinks::after {
+  background: linear-gradient(to right, var(--royal-deep, #0E1B38), transparent);
+}
+/* The same fault, the same repair: an <h2> under `[dir="ltr"] h2`, so
+   this asked for .68rem and rendered at 41.6px of Inter in caps. One
+   classification, one setting — the footer's five group titles are
+   siblings and must look like siblings. */
+.site-footer .footerlinks__heading {
+  display: flex; align-items: center; gap: .8em;
+  font-family: var(--font-display); font-weight: 600;
+  font-size: 1.34rem; line-height: 1.1;
+  letter-spacing: .015em; text-transform: none;
+  color: var(--gold-royal); padding-bottom: 18px; margin: 0;
+}
+.site-footer .footerlinks__heading::after {
+  content: ''; flex: 1 1 auto; height: 1px; min-width: 24px;
+  background: linear-gradient(to right, rgba(199,162,74,.5), rgba(199,162,74,0));
+}
+[dir="rtl"] .site-footer .footerlinks__heading::after {
+  background: linear-gradient(to left, rgba(199,162,74,.5), rgba(199,162,74,0));
+}
+@media (max-width: 620px) { .site-footer .footerlinks__heading { font-size: 1.18rem; } }
 .footerlinks__track {
   display: flex; gap: 16px;
   overflow-x: auto; scroll-snap-type: x proximity;
@@ -2022,11 +3058,40 @@ section { position: relative; }
   border: 1px solid rgba(199,162,74,.45);
   box-shadow: inset 0 1px 0 rgba(255,255,255,.9), 0 30px 70px -34px rgba(3,8,20,.9);
 }
-.footergrid__heading {
-  display: flex; align-items: center; gap: .7em;
-  font-family: var(--font-body); font-weight: 700;
-  font-size: .68rem; letter-spacing: .2em; text-transform: uppercase;
-  color: var(--bronze); padding: 30px 30px 22px;
+/* THE CLASSIFICATION, AND A RULE THAT NEVER APPLIED.
+   This block asked for .68rem in the body face and never got it: the
+   heading is an <h2>, and `[dir="ltr"] h2` further up carries an
+   attribute AND an element, which outranks a single class. So every
+   footer on the site set its group titles at 41.6px of Inter — a
+   shouted sans-serif label where an engraved classification belonged,
+   and it had been that way on every page in both directions.
+
+   It is scoped to the footer now so it wins on specificity rather than
+   on hope, and while the rule was being repaired the design was
+   settled properly: the display face, small caps tracking, gold, and a
+   hairline that runs from the words to the edge of the group — which
+   is what makes a heading read as the head of a register rather than
+   as the first line of a list. */
+.site-footer .footergrid__heading {
+  display: flex; align-items: center; gap: .8em;
+  font-family: var(--font-display); font-weight: 600;
+  font-size: 1.34rem; line-height: 1.1;
+  letter-spacing: .015em; text-transform: none;
+  color: var(--gold-royal); padding: 34px 30px 20px; margin: 0;
+}
+/* The rule takes the remaining measure. `flex: 1` on a pseudo-element
+   needs the pseudo-element to be a flex item, which it is here because
+   the heading itself is the flex container — the badge, the words and
+   the rule are three siblings on one line. */
+.site-footer .footergrid__heading::after {
+  content: ''; flex: 1 1 auto; height: 1px; min-width: 24px;
+  background: linear-gradient(to right, rgba(199,162,74,.5), rgba(199,162,74,0));
+}
+[dir="rtl"] .site-footer .footergrid__heading::after {
+  background: linear-gradient(to left, rgba(199,162,74,.5), rgba(199,162,74,0));
+}
+@media (max-width: 620px) {
+  .site-footer .footergrid__heading { font-size: 1.18rem; padding: 26px 20px 16px; }
 }
 /* Get in Touch carries a real address line and an email above its tile
    row — neither belongs in a tile, an email is read, not clicked as an
@@ -2122,6 +3187,37 @@ ul.check-list li::before {
 [dir="rtl"] ul.check-list li::before { left: auto; right: 0; }
 .section--light ul.check-list li::before, .section--paper ul.check-list li::before { color: var(--red); }
 
+/* TWO MARKERS ON ONE LINE IS A RENDERING FAULT, AND THIS RULE ENDS IT.
+   `.check-list` draws its tick in CSS. Several lists also carry an
+   inline `<svg class="icon">` per item — because the mark has to be
+   chosen per item, `#i-struck` for settled and `#i-ring` for
+   outstanding (CLAUDE.md §5) — and where both met, the item rendered a
+   crimson ✓ AND a mark beside it. It was live on the tuition ladder in
+   three places and on the External Examiner's remit, and it is
+   invisible in the source: each half is correct on its own.
+   An item that brings its own mark does not get a second one. */
+ul.check-list li:has(> svg.icon)::before { content: none; }
+/* And the mark keeps the hanging indent the ::before tick had: a
+   two-line item whose second line returns to the margin reads as two
+   items, and half the tuition guarantees run to two lines. */
+ul.check-list li:has(> svg.icon) {
+  padding-inline-start: 0; display: flex; gap: .55em; align-items: baseline;
+}
+ul.check-list li > svg.icon { width: 1em; height: 1em; flex: 0 0 auto;
+  position: relative; top: .09em; color: var(--gold); }
+.section--light ul.check-list li > svg.icon,
+.section--paper ul.check-list li > svg.icon { color: var(--bronze); }
+
+/* AND A LIST OF WHAT IS NOT DONE YET DOES NOT WEAR TICKS AT ALL.
+   `.check-list` was carrying the outstanding half of the About page's
+   two-column state of the College — "In progress, to be published here
+   as confirmed" — under a column of ticks, which is the same defect
+   §5 names, committed in a stylesheet rather than in markup. The open
+   ring is the site's mark for outstanding work everywhere else. */
+ul.check-list--open li::before { content: '○'; font-weight: 400; color: rgba(231, 201, 122, .62); }
+.section--light ul.check-list--open li::before,
+.section--paper ul.check-list--open li::before { color: var(--ink-soft); }
+
 .tag-row { display: flex; flex-wrap: wrap; gap: 10px; }
 .tag { border: 1px solid var(--line); border-radius: 999px; padding: .5em 1.1em; font-size: .82rem; font-weight: 600; }
 
@@ -2142,37 +3238,43 @@ ul.check-list li::before {
    ===================================================================== */
 
 /* -------------------- Display typography -------------------- */
-/* SETTING A DIDONE.
+/* SETTING THE DISPLAY SCALE.
    ---------------------------------------------------------------------
-   Bodoni Moda is not Playfair Display with better manners, and the
-   settings below are not the old ones nudged. A Didone has vertical
-   stress, unbracketed serifs and extreme stroke contrast, and each of
-   those changes how it must be set:
+   These numbers were tuned for a Didone, survived EB Garamond, and now
+   serve Fraunces — worth writing down so nobody 'corrects' them back. Each was set to solve a problem Bodoni had; Garamond either
+   has the same problem more mildly, or the value is right for an
+   unrelated reason.
 
-   1. WEIGHT. The hairlines are genuinely hair-thin, so at 600 on a dark
-      ground the face begins to shimmer and the stems bloom into them.
-      Display sizes take 500 — lighter than Playfair wanted, and the
-      right answer, because the drama in a Didone is the CONTRAST
-      between stem and hairline, not mass. Weight climbs back as the
-      size falls, which the `opsz` axis is doing in parallel.
+   1. WEIGHT. Display sizes take 500-600 and headings take 700. Under
+      Bodoni the low display weights were a rescue — hairlines shimmer
+      on a dark ground and stems bloom into them above 600. Garamond has
+      no such failure, so the same values now read as a deliberate
+      hierarchy instead: size carries the emphasis, weight only marks
+      the difference between a headline and a heading.
 
-   2. TRACKING. Playfair took -.021em at the top of the scale. That is
-      much too tight here: a Didone's serifs are flat, thin and
-      horizontal, so closing the letters up makes adjacent serifs touch
-      and the line reads as though it were underscored. Display-1 sits
-      at -.008em — closed only enough to stop a 5rem line drifting
-      apart, never enough to weld it.
+   2. TRACKING. -.008em at the top of the scale, opening as the size
+      falls. Bodoni needed the restraint because its flat horizontal
+      serifs weld together when closed up. Garamond's serifs are
+      bracketed and angled, so it tolerates more — but an old-style face
+      at 5rem still drifts apart untracked, and this is the same small
+      negative that stops it.
 
-   3. LEADING. Higher contrast makes each line read as a heavier band,
-      so the lines need more air or the block looks striped. 1.04
-      becomes 1.08 at the top of the scale.
+   3. LEADING. 1.08 at the top of the scale. Set for Bodoni because high
+      contrast makes each line read as a heavy band; kept for Garamond
+      because its long ascenders and descenders need the same air for a
+      different reason.
 
    Everything stays clamp()ed, so there is no breakpoint at which a
    headline is the wrong size, and every value moves on one continuous
-   ramp between a phone and a 1440px desktop. The top of the ramp is
-   also raised (4.6rem → 5rem): the previous ceiling was set for a face
-   with a larger x-height, and the same measured cap-height needs more
-   point size in this one. */
+   ramp between a phone and a 1440px desktop. The 5rem ceiling stays:
+   Garamond's cap-height is smaller again than Bodoni's, so if anything
+   it wants that ramp more, and checked against the rendered page it
+   sits right.
+
+   `font-optical-sizing: auto` below is live again: Fraunces carries a
+   true 9–144 opsz axis, so the 5rem display sets in the sharp large
+   cut and a card heading in the sturdy small one — the property the
+   face was chosen for. */
 .display-1 {
   font-family: var(--font-display); font-weight: 500;
   font-size: clamp(2.5rem, 1.35rem + 4.9vw, 5rem);
@@ -2552,6 +3654,13 @@ ul.check-list li::before {
   .plate--drift > .plate__frame > svg { animation: none; transform: none; }
   .wax-seal, .wax-seal.is-visible { animation: none; opacity: 1; transform: none; }
   .typeline__caret { animation: none; opacity: 1; }
+  /* The dome's travelling point stops travelling and RESTS at the
+     top-left rim, where the light in this room comes from — the
+     finished state, not a hidden one. The specular cap never moved
+     and is untouched. */
+  .badge-dome::after { animation: none; --aurum-angle: 296deg; }
+  .badge-dome--lg .icon { animation: none; transform: none; }
+  .card::after, .card, .badge-dome { transition: none; }
   .site-header, .site-header__inner, .brand__crest, .brand__campus,
   .chapter-rail__dot, .chapter-rail__label { transition: none; }
   /* js/motion.js reads this same query and, when it matches, writes the
@@ -2617,7 +3726,21 @@ ul.check-list li::before {
 @keyframes sonics-bar { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(.55); } }
 /* The bar shed rules drop the label first, then the whole control, in
    the same order and for the same reason as everything else in the bar. */
-@media (max-width: 900px) { .sonics-toggle__label { display: none; } }
+/* THE WORD GOES, THE CONTROL STAYS.
+   "Sound off" was 65px of the 453px actions bay — and the bay needed to
+   lose exactly that much for the visitor's clock to sit on the axis of
+   the page at desktop width. It is also the only text on this bar that
+   is about the WEBSITE rather than about the College, which makes it
+   the right 65px to spend. The three animated bars already say what the
+   control is, the button carries a full aria-label for a screen reader,
+   and a title now says it in words on hover for anyone who wants it
+   spelled out. The label element stays in the DOM, hidden the way
+   .sr-only hides things, so nothing an assistive technology reads
+   changes at all. */
+.sonics-toggle__label {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
 @media (max-width: 620px) { .sonics-toggle { display: none; } }
 @media (prefers-reduced-motion: reduce) {
   .sonics-toggle.is-on .sonics-toggle__wave i { animation: none; }
@@ -2659,6 +3782,14 @@ ul.check-list li::before {
     rgba(199,162,74,.06) 46%, rgba(6,13,28,.55) 100%);
 }
 [dir="rtl"] .card::after { transform: scaleX(-1); }
+/* A CARD WEARING .aurum TRADES ITS RIM FOR A TRAVELLING LIGHT, because
+   both live on ::after and the travelling one is declared later. That
+   is the right trade — an orbiting point beats a static rim — but the
+   card must not come out of it flatter than it went in. The relief
+   pair restores the turned edge as light and shadow on the box itself,
+   which costs no pseudo-element and so cannot be claimed away. */
+.card.aurum { box-shadow: var(--shadow-sm), var(--relief-raised); }
+.card.aurum:hover { box-shadow: var(--shadow-md), var(--relief-raised); }
 
 /* THE LEDGER ROW lights as the eye crosses it — on every ledger on the
    site, not only the homepage's. Six rows of near-identical figures is
@@ -2704,111 +3835,6 @@ ul.check-list li::before {
   .tag, .tag:hover, .ledger tbody tr { transition: none; transform: none; }
 }
 
-/* ── THE ACTION BAND ──────────────────────────────────────────────────
-   A second band beneath the rail carrying the three things a reader
-   does, rather than the places a reader goes. It has to read as part of
-   the header rather than as a strip of buttons parked under it, so it
-   shares the header's ground and is separated from the rail by a single
-   gold hairline rather than by a gap.
-
-   The item badges are cut on the same chamfer as .vessel__badge — a hard
-   stop at 152deg — so every struck surface on this site takes light from
-   the same direction. That consistency is most of what separates a
-   designed page from an assembled one. */
-.actionband {
-  position: relative;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.05) 0%, rgba(0,0,0,.16) 100%),
-    linear-gradient(90deg, var(--oxford) 0%, var(--navy) 50%, var(--oxford) 100%);
-  border-top: 1px solid rgba(199,162,74,.34);
-  border-bottom: 1px solid rgba(199,162,74,.20);
-}
-.actionband__inner {
-  max-width: var(--wrap); margin: 0 auto; padding: 0 24px;
-  display: grid; grid-template-columns: repeat(3, 1fr);
-}
-.actionband__item {
-  position: relative; display: flex; align-items: center; gap: 13px;
-  padding: 13px 20px; min-height: 44px; color: rgba(247,244,236,.9);
-  transition: background var(--dur-med) var(--ease-premium),
-              color var(--dur-med) var(--ease-premium);
-}
-/* Hairline separators drawn between items only — a border on each would
-   put one against the container edge, which reads as a cage. */
-.actionband__item + .actionband__item::before {
-  content: ''; position: absolute; inset-inline-start: 0; top: 22%; bottom: 22%;
-  width: 1px; background: linear-gradient(180deg,
-    transparent, rgba(199,162,74,.34) 22%, rgba(199,162,74,.34) 78%, transparent);
-}
-.actionband__badge {
-  flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%;
-  display: grid; place-items: center;
-  background:
-    linear-gradient(152deg,
-      rgba(255,255,255,.30) 0%, rgba(255,255,255,.11) 33.4%,
-      rgba(255,255,255,.02) 34%, rgba(0,0,0,.12) 34.6%, rgba(0,0,0,.30) 100%),
-    radial-gradient(circle at 34% 26%, var(--sapphire) 0%, var(--navy) 56%, var(--oxford) 100%);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.44),
-    inset 0 -1px 0 rgba(0,0,0,.58),
-    0 4px 9px -5px rgba(0,0,0,.7),
-    0 0 0 1px rgba(199,162,74,.46);
-  transition: transform var(--dur-med) var(--ease-premium),
-              box-shadow var(--dur-med) var(--ease-premium);
-}
-.actionband__badge .icon { width: 16px; height: 16px; color: var(--gold-champagne); }
-.actionband__text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
-.actionband__title {
-  font-family: var(--font-body); font-weight: 700; font-size: .8rem;
-  letter-spacing: .012em; color: var(--warm-white); white-space: nowrap;
-}
-.actionband__note {
-  font-family: var(--font-body); font-size: .69rem; letter-spacing: .006em;
-  color: rgba(247,244,236,.56);
-  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-}
-.actionband__go {
-  width: 15px; height: 15px; margin-inline-start: auto; flex-shrink: 0;
-  color: rgba(199,162,74,.72);
-  transition: transform var(--dur-med) var(--ease-premium), color var(--dur-med) var(--ease-premium);
-}
-/* The arrow travels along the reading direction, so it must flip in RTL
-   rather than pointing back at the text it is leading away from. */
-[dir="rtl"] .actionband__go { transform: scaleX(-1); }
-
-.actionband__item:hover { background: rgba(255,255,255,.045); }
-.actionband__item:hover .actionband__badge {
-  transform: translateY(-1px);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.55),
-    inset 0 -1px 0 rgba(0,0,0,.6),
-    0 6px 13px -6px rgba(0,0,0,.75),
-    0 0 0 1px rgba(199,162,74,.7);
-}
-.actionband__item:hover .actionband__go { color: var(--gold-champagne); transform: translateX(3px); }
-[dir="rtl"] .actionband__item:hover .actionband__go { transform: scaleX(-1) translateX(3px); }
-.actionband__item:focus-visible { outline: 2px solid var(--bronze); outline-offset: -3px; }
-
-/* The lead route is the one the College actually wants taken, and it is
-   marked by a gold rule under it rather than by a filled button: a third
-   filled control this close to "Apply Now" in the rail above would read
-   as two competing primaries. */
-.actionband__item--lead::after {
-  content: ''; position: absolute; inset-inline: 14px; bottom: 0; height: 2px;
-  background: linear-gradient(90deg, transparent, var(--gold-champagne), transparent);
-  opacity: .75;
-}
-.actionband__item--lead .actionband__title { color: var(--gold-champagne); }
-
-/* Below the rail's own breakpoint the quicknav strip takes over. */
-@media (max-width: 1180px) { .actionband { display: none; } }
-@media (prefers-reduced-motion: reduce) {
-  .actionband__badge, .actionband__go { transition: none; }
-  .actionband__item:hover .actionband__badge { transform: none; }
-  .actionband__item:hover .actionband__go { transform: none; }
-  [dir="rtl"] .actionband__item:hover .actionband__go { transform: scaleX(-1); }
-}
-
 /* ROMAN NUMERALS ARE LATIN SCRIPT IN AN RTL SENTENCE.
    I, V and X are Latin letters to the Unicode bidi algorithm, so a level
    numeral sitting beside Arabic can be reordered — "المستوى VIII" is safe
@@ -2852,5 +3878,292 @@ ul.check-list li::before {
     animation-iteration-count: 1 !important;
     transition-duration: .01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* AN ALIAS ANCHOR.
+   One section, two names. The utility rail and the footer say
+   "Scholarships" because that is the word a reader searches for; the
+   College's own name for the instrument is the Foundation Remission,
+   and the section heading says so. A second page carrying the other
+   name would drift from this one on the first edit, so the section
+   takes a second anchor instead. Zero-height, no box, offset upward by
+   the sticky header so the heading is not hidden under it on arrival. */
+.anchor-alias {
+  display: block; height: 0; overflow: hidden;
+  scroll-margin-top: calc(var(--header-h, 84px) + 24px);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   THE INTAKE PANEL
+   ═══════════════════════════════════════════════════════════════════
+   A live object on a site that was, in the owner's words, looking
+   stagnant. It is the one element on these pages whose content is
+   different every time it is read, and it is the one a reader deciding
+   whether to apply actually needs: three intakes a year, the places
+   open in the next one, and how long they have.
+
+   Built on the same material law as every other struck surface — a lit
+   rim, a travelling point, real relief — rather than as a marketing
+   banner, because it is making an institutional statement and not an
+   offer. There is no urgency styling here on purpose: no red, no
+   flashing, no "hurry". A college states its calendar; a shop counts
+   down at you.
+   ══════════════════════════════════════════════════════════════════ */
+.intake {
+  position: relative; overflow: hidden;
+  padding: 34px 34px 30px; border-radius: var(--r-lg, 18px);
+  background:
+    radial-gradient(120% 90% at 12% 0%, rgba(199,162,74,.14), transparent 58%),
+    linear-gradient(165deg, var(--royal-deep, #0E1B38), var(--oxford, #0A1428));
+  border: 1px solid rgba(199,162,74,.34);
+  box-shadow: 0 30px 70px -34px rgba(3,8,20,.9), inset 0 1px 0 rgba(255,255,255,.07);
+  color: rgba(247,244,236,.9);
+}
+.intake__glow {
+  position: absolute; inset-inline-end: -80px; top: -90px;
+  width: 280px; height: 280px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(231,201,122,.22), transparent 68%);
+  pointer-events: none;
+}
+.intake__head {
+  display: flex; flex-wrap: wrap; align-items: baseline;
+  justify-content: space-between; gap: 12px;
+  padding-bottom: 16px; border-bottom: 1px solid rgba(199,162,74,.24);
+}
+.intake__eyebrow {
+  font-size: .7rem; letter-spacing: .18em; text-transform: uppercase;
+  font-weight: 700; color: var(--gold-royal);
+}
+[dir="rtl"] .intake__eyebrow { letter-spacing: 0; }
+.intake__seats { margin: 0; font-size: .92rem; color: rgba(247,244,236,.72); }
+.intake__seats strong {
+  font-family: var(--font-display); font-size: 1.45rem;
+  color: var(--gold-bright, #E7C97A); margin-inline-end: .28em;
+}
+
+.intake__clock { padding: 22px 0 18px; text-align: center; }
+.intake__closes {
+  display: block; font-size: .7rem; letter-spacing: .16em;
+  text-transform: uppercase; color: rgba(247,244,236,.5); font-weight: 700;
+}
+[dir="rtl"] .intake__closes { letter-spacing: 0; }
+.intake__digits {
+  display: flex; align-items: baseline; justify-content: center; gap: 6px;
+  margin-top: 10px;
+  /* LTR even in the Arabic edition. A duration counts down left to
+     right in both scripts — Arabic numerals run left to right inside an
+     RTL line, and mirroring the group would put the days where the
+     minutes belong. */
+  direction: ltr;
+}
+.intake__unit { display: inline-flex; flex-direction: column; align-items: center; min-width: 72px; }
+.intake__unit b {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(2.4rem, 1.6rem + 2.6vw, 3.4rem); line-height: 1;
+  color: var(--gold-bright, #E7C97A);
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 2px 0 rgba(0,0,0,.35), 0 0 26px rgba(231,201,122,.28);
+}
+.intake__unit i {
+  font-style: normal; margin-top: 6px;
+  font-size: .64rem; letter-spacing: .14em; text-transform: uppercase;
+  color: rgba(247,244,236,.44); font-weight: 700;
+}
+[dir="rtl"] .intake__unit i { letter-spacing: 0; }
+.intake__colon {
+  font-family: var(--font-display); font-size: 2rem; line-height: 1;
+  color: rgba(199,162,74,.5); transform: translateY(-.28em);
+}
+.intake__next { margin: 14px 0 0; font-size: .86rem; color: rgba(247,244,236,.62); }
+.intake__next strong { color: rgba(247,244,236,.92); }
+
+.intake__list { list-style: none; margin: 6px 0 0; padding: 0; }
+.intake__row {
+  display: grid; grid-template-columns: 22px 1fr auto;
+  align-items: center; gap: 12px;
+  padding: 13px 0; border-top: 1px solid rgba(199,162,74,.16);
+  transition: color var(--dur-fast) ease;
+}
+.intake__mark .icon { width: 15px; height: 15px; color: rgba(199,162,74,.45); }
+.intake__name { font-weight: 600; color: rgba(247,244,236,.78); }
+.intake__term { font-size: .8rem; color: rgba(247,244,236,.45); }
+/* The intake the countdown is counting to. js/intake.js sets this, so
+   the list and the digits can never name two different intakes. */
+.intake__row.is-next .intake__name { color: var(--gold-bright, #E7C97A); }
+.intake__row.is-next .intake__mark .icon { color: var(--gold-bright, #E7C97A); }
+.intake__row.is-next .intake__term { color: rgba(247,244,236,.7); }
+.intake__note {
+  margin: 16px 0 20px; font-size: .8rem; line-height: 1.6;
+  color: rgba(247,244,236,.5);
+}
+.intake .btn { width: 100%; justify-content: center; }
+
+@media (max-width: 620px) {
+  .intake { padding: 26px 20px 24px; }
+  .intake__unit { min-width: 58px; }
+  .intake__row { grid-template-columns: 20px 1fr; }
+  .intake__term { grid-column: 2; font-size: .74rem; }
+}
+
+/* The gateway from the homepage's opening chapter to the full case.
+   Centred and quiet: it is an invitation to read further, not a call to
+   act, and styling it as a call to act would put two competing gold
+   buttons in one chapter. */
+.case__more { display: flex; justify-content: center; margin-top: 2.4em; }
+
+/* ═══════════════════════════════════════════════════════════════════
+   THE INSTITUTIONAL BAND
+   ═══════════════════════════════════════════════════════════════════
+   Four facts at the foot of every page: where the College sits, what
+   it works in, how far it reaches, and when it admits. Not a fifth
+   grid of links — a footer that answers every question with another
+   link answers none of them, and these are answers.
+
+   Set as a register rather than as cards: a hairline above each item,
+   a small-caps label, the fact in the display face, and the sentence
+   that qualifies it underneath. It is the last thing a reader sees and
+   it should read like the foot of a prospectus.
+   ══════════════════════════════════════════════════════════════════ */
+.footerband {
+  border-top: 1px solid rgba(199,162,74,.2);
+  border-bottom: 1px solid rgba(199,162,74,.2);
+  margin: 0 0 36px;
+  background:
+    radial-gradient(120% 140% at 50% 0%, rgba(199,162,74,.07), transparent 62%);
+}
+.footerband__inner {
+  max-width: var(--wrap); margin: 0 auto; padding: 34px 24px 30px;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px;
+}
+.footerband__item { min-width: 0; }
+.footerband__label {
+  display: block; font-size: .64rem; letter-spacing: .18em;
+  text-transform: uppercase; font-weight: 700; color: var(--gold-royal);
+  padding-bottom: 10px; margin-bottom: 12px;
+  border-bottom: 1px solid rgba(199,162,74,.22);
+}
+[dir="rtl"] .footerband__label { letter-spacing: 0; }
+.footerband__fact {
+  margin: 0 0 8px; font-family: var(--font-display);
+  font-size: 1.06rem; font-weight: 600; line-height: 1.28;
+  color: rgba(247,244,236,.94);
+}
+.footerband__flag { font-size: 1.02em; margin-inline-end: .3em; }
+.footerband__note {
+  margin: 0; font-size: .8rem; line-height: 1.62;
+  color: rgba(247,244,236,.5);
+}
+@media (max-width: 1000px) { .footerband__inner { grid-template-columns: repeat(2, 1fr); gap: 26px; } }
+@media (max-width: 560px)  { .footerband__inner { grid-template-columns: 1fr; padding: 26px 20px 24px; } }
+
+/* THE PORTAL ENTRY, WHEN SIGN-IN IS DOWN.
+   js/portal-entry.js has three states and only one of them is good
+   news. The down state is set apart by its rule rather than by colour:
+   an amber panel would read as a warning about the READER's standing,
+   which is exactly what the copy is at pains to say it is not. */
+.portal-entry--down {
+  border-inline-start: 3px solid var(--gold-antique, #9A7B33);
+  padding-inline-start: 22px;
+}
+.portal-entry--down .portal-entry__welcome { color: var(--gold-soft, #D9C48A); }
+
+/* THE LAB BAND.
+   The Listening Lab and My Programme are instruments a learner works
+   IN. They take the site's header, rail and footer like every other
+   page, but not the 600px ceremonial masthead: chrome above a waveform
+   is charged to the person doing the work, and a learner who opens the
+   lab four times a week pays it four times a week. A compact navy band
+   carries the unit, the title and the way back, and the instrument
+   starts within one screen. */
+.labband { padding: 30px 0 26px; border-bottom: 1px solid rgba(199,162,74,.22); }
+.labband .lab-title { margin: 6px 0 4px; }
+.labband .lab-sub { color: rgba(247,244,236,.72); margin: 0; }
+.labband .lab-eyebrow { color: rgba(247,244,236,.55); }
+.labband .lab-back { margin: 12px 0 0; }
+.labband .lab-back a { color: var(--gold-soft); }
+
+/* ═══════════════════════════════════════════════════════════════════
+   HIGH CONTRAST MODE
+   ═══════════════════════════════════════════════════════════════════
+   Windows High Contrast — `forced-colors: active` — replaces every
+   author colour with the reader's own four, and REMOVES background
+   images, gradients and box-shadows outright. Everything this site
+   uses to say "this is a struck object" is one of those three.
+
+   Measured, not assumed: the whole site was rendered at 1440 in
+   forced-colors and every button, .btn and [role=button] on all 186
+   routes was asked whether it still had a border or an outline. Ten
+   did not, and a control with neither has no boundary at all — the
+   Verify submit read as the word "Verify" floating beside the field it
+   submits.
+
+   The rule for the fix is the one the mode itself implies: name the
+   SYSTEM colours, never a hex. ButtonBorder and CanvasText are
+   whatever the reader chose, and that is the point.
+
+   Nothing here changes a pixel outside High Contrast Mode.
+
+   EVERY SELECTOR IS DOUBLED, and that is load-bearing rather than a
+   typo. This file is first in the cascade and the page stylesheets
+   come after it, so a single class here loses on source order to the
+   `border: 0` that put the control in this list in the first place —
+   which is exactly what happened on the first attempt, and the Verify
+   submit came back from the probe still borderless. Doubling the class
+   raises specificity instead of relying on order, so one block in one
+   file governs eleven stylesheets. */
+@media (forced-colors: active) {
+
+  /* ── The ten borderless controls ──────────────────────────────── */
+  .sonics-toggle.sonics-toggle,
+  .utilrail__btn.utilrail__btn,
+  .accordion__q.accordion__q,
+  .vfy-submit.vfy-submit,
+  .acc-open.acc-open,
+  .cse-row__open.cse-row__open,
+  .desk-thread-row__open.desk-thread-row__open,
+  .eng-cell.eng-cell,
+  .flip__nav.flip__nav {
+    border: 1px solid ButtonBorder;
+  }
+
+  /* ── The struck shapes ─────────────────────────────────────────
+     A dome, a card, a plate and a chip are all drawn with a gradient
+     and a box-shadow ring, and High Contrast keeps neither. Without a
+     border the glyph inside a dome floats on the page and a card is
+     an unmarked run of text. */
+  .badge-dome.badge-dome,
+  .card.card,
+  .plate__frame.plate__frame,
+  .chip.chip,
+  .honour.honour,
+  .grad-award.grad-award,
+  .stf-item.stf-item,
+  .reg-entry.reg-entry,
+  .vfy-card.vfy-card {
+    border: 1px solid CanvasText;
+  }
+
+  /* ── Focus, which is the one thing that must never be subtle ──── */
+  :focus-visible {
+    outline: 3px solid Highlight;
+    outline-offset: 2px;
+  }
+
+  /* Decoration that carries no meaning and becomes noise when the
+     palette is down to four colours. The travelling light and the lit
+     rim are gradients; forced to a system colour they stop being light
+     and become a solid bar across the object they were orbiting.
+     Suppressed here, and ONLY here.
+
+     This is not the house rule about `::after` and `::before` being
+     spoken for. Nothing is taken: the pseudo-elements still belong to
+     .aurum and .edge-lit, and outside High Contrast Mode they are
+     untouched. */
+  .aurum.aurum::after,
+  .edge-lit.edge-lit::before,
+  .tilt__sheen.tilt__sheen,
+  .constellation.constellation {
+    display: none;
   }
 }

@@ -38,18 +38,30 @@
 .grad-note { margin: 0 0 1.1rem; color: var(--ink-soft, #4B5768); line-height: 1.7; font-size: .9rem; }
 .grad-bio { margin: 0; line-height: 1.8; max-width: 62ch; }
 
-/* ---- State ----------------------------------------------------------- */
-.grad-state:empty { display: none; }
-.grad-state {
-  margin: 2.4rem 0;
-  padding: 2.2rem 1.4rem;
-  text-align: center;
-  border: 1px dashed rgba(20, 38, 74, .22);
-  border-radius: 12px;
+/* ---- Scope of the record --------------------------------------------
+   The sentence that tells a reader how much of the record they are
+   looking at. It sits with the record rather than in the masthead —
+   both because it qualifies the record and because filling it into the
+   masthead grew the masthead and moved the whole page.
+
+   Empty until there is a record, and it must take no space until then:
+   a served-empty paragraph that reserved a box would be a hole in the
+   page on the three paths where no record ever arrives. */
+.grad-scope:empty { display: none; }
+.grad-scope {
+  margin: 0 0 1.8rem;
+  padding-inline-start: .95rem;
+  border-inline-start: 2px solid var(--gold, #C7A24A);
+  max-width: 68ch;
+  font-size: .86rem;
+  line-height: 1.75;
   color: var(--ink-soft, #4B5768);
-  line-height: 1.7;
 }
-.grad-state strong { display: block; color: var(--ink, #16202E); margin-bottom: .35rem; font-size: 1.05rem; }
+
+/* ---- State ----------------------------------------------------------- */
+/* `.state-plate`, in css/brand.css, is the whole of this component —
+   the same plate the portal state line and the public register speak
+   from. Nothing here is specific to a shared record. */
 
 /* ---- Awards ---------------------------------------------------------- */
 .grad-awards { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
@@ -81,7 +93,7 @@
 .grad-badge {
   display: inline-block; padding: .12rem .55rem; border-radius: 999px;
   font: 700 .7rem/1.6 var(--font-body, Inter, sans-serif);
-  letter-spacing: .05em; margin-right: .4rem;
+  letter-spacing: .05em; margin-inline-end: .4rem;
 }
 .grad-badge--honour { background: rgba(199, 162, 74, .18); color: #8A6B2E; }
 .grad-badge--revoked { background: rgba(163, 38, 56, .12); color: #8C1F2F; }

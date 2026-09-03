@@ -25,32 +25,32 @@ INSERT INTO units (id, course_id, sequence, title) VALUES
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 ('itm_l4_m1_overview', 'unt_l4_m1', 1, 'reading', 'Module Overview & Key Phrases',
-'KEY PHRASES: By the time..., I had already... -- I''d been working there for... when... -- Looking back,... -- In retrospect,... -- Up until that point,... -- Since then,...
+'KEY PHRASES: By the time..., I had already... — I''d been working there for... when... — Looking back,... — In retrospect,... — Up until that point,... — Since then,...
 
-DISCOURSE MARKERS (functional set -- reflective temporal framing): "looking back", "in retrospect", "up until that point", "since then" -- used to frame a narrative explicitly as reflection rather than simple chronological reporting.
+DISCOURSE MARKERS (functional set — reflective temporal framing): "looking back", "in retrospect", "up until that point", "since then" — used to frame a narrative explicitly as reflection rather than simple chronological reporting.
 
 PHRASAL VERBS & COLLOCATIONS: "come a long way" (make significant progress over time), "turn a corner" (reach a turning point after a difficult period), "build on [a foundation]" (develop further from an existing base), "move forward" (progress, often after a setback), "take stock (of something)" (pause to assess a situation carefully).
 
-BrE / AmE NOTE: British "whilst" (a more formal, literary variant of "while") is rarely used in American English, where "while" covers both registers; British "amongst" vs. American "among" -- both correct, but American English strongly prefers "among" in every register.
+BrE / AmE NOTE: British "whilst" (a more formal, literary variant of "while") is rarely used in American English, where "while" covers both registers; British "amongst" vs. American "among" — both correct, but American English strongly prefers "among" in every register.
 
 KEY VOCABULARY: change/growth vocabulary (milestone, transition, turning point, progression, evolve), reflective-writing connective language (this experience taught me, what I didn''t realise at the time, with hindsight). Intercultural note: how much personal reflection or vulnerability is appropriate to share in academic or professional writing varies by culture and institutional norm.
 
 ENTRY DIAGNOSTIC (the highest-value diagnostic in the programme, and here is why it sits at Level IV specifically).
-The B1-to-B2 step is the largest single transition in the six-level sequence. It is where the demand changes from communicating to ARGUING -- from making yourself understood to making a case someone could disagree with. A learner who is fluent and comfortable in B1 conversation can be badly unprepared for evidence-based writing, and will usually not discover this until Module 4 or later. The diagnostic exists to surface it in week one.
+The B1-to-B2 step is the largest single transition in the six-level sequence. It is where the demand changes from communicating to ARGUING — from making yourself understood to making a case someone could disagree with. A learner who is fluent and comfortable in B1 conversation can be badly unprepared for evidence-based writing, and will usually not discover this until Module 4 or later. The diagnostic exists to surface it in week one.
 
-(1) ARGUMENT: read the supplied 200-word opinion piece. In two sentences, state the author''''s claim and the evidence offered for it. Most learners arriving at B2 can summarise the topic but not separate the claim from its support -- if that is you, that is the finding, not a failure.
+(1) ARGUMENT: read the supplied 200-word opinion piece. In two sentences, state the author''''s claim and the evidence offered for it. Most learners arriving at B2 can summarise the topic but not separate the claim from its support — if that is you, that is the finding, not a failure.
 (2) SPEAKING UNDER CHALLENGE: state a position you hold in 60 seconds. Your instructor gives one genuine counter-argument. Note whether your instinct was to repeat your position or to engage the objection.
 (3) WRITING: write one paragraph arguing for that position. Mark it yourself against one question: could a reasonable person disagree with my thesis as written? If not, it is a topic, not a thesis.
 (4) LISTENING: listen once to the Module 1 recording and note every hedge you heard.
 
 THEN WRITE YOUR PERSONAL FOCUS PLAN: three specific aims, one each for argument, speaking under challenge, and academic writing. Keep it. Module 10 returns to it.'),
 
-('itm_l4_m1_lesson1', 'unt_l4_m1', 2, 'reading', 'Lesson 1.1 -- I Had Already Left When... -- Past Perfect, Simple & Continuous',
+('itm_l4_m1_lesson1', 'unt_l4_m1', 2, 'reading', 'Lesson 1.1 — I Had Already Left When... — Past Perfect, Simple & Continuous',
 'LEARNING OBJECTIVES: (1) form past perfect simple correctly (had + past participle), (2) form past perfect continuous correctly (had been + -ing), (3) use past perfect to clarify which of two past events happened first, (4) distinguish past perfect simple (a completed earlier action) from past perfect continuous (an ongoing earlier action, often with duration).
 
 PREREQUISITE KNOWLEDGE: Level II, Module 1 (past simple vs. past continuous); Level III, Module 1 (present perfect simple); Level III, Module 2 (present perfect continuous).
 
-WARM-UP (5 min): Your instructor tells a short two-event story out of order ("I arrived at the station. My train had already left.") -- which event happened first?
+WARM-UP (5 min): Your instructor tells a short two-event story out of order ("I arrived at the station. My train had already left.") — which event happened first?
 
 PRESENTATION (10 min): "By the time I arrived, the meeting had already started. I''d been working there for two years when the company was acquired." Past perfect simple marks a completed action before another past point; past perfect continuous marks an action in progress up to that past point, often with for/since duration.
 
@@ -62,7 +62,7 @@ CRITICAL THINKING / DISCUSSION PROMPT: "Why do you think the order events are to
 
 LISTENING ACTIVITY (5 min): Listen to a short account with two past events told out of chronological order and reconstruct the actual chronological order on a simple timeline worksheet.
 
-READING ACTIVITY -- EXTENDED READING & ANALYSIS (8 min): Read a short professional/academic-style narrative (150-180 words) using past perfect to establish a complex timeline. Answer 2 literal questions and 2 analytical questions.
+READING ACTIVITY — EXTENDED READING & ANALYSIS (8 min): Read a short professional/academic-style narrative (150-180 words) using past perfect to establish a complex timeline. Answer 2 literal questions and 2 analytical questions.
 
 WRITING TASK (5 min): Write 4-5 sentences describing a real two-stage sequence from your own life, using past perfect correctly.
 
@@ -78,7 +78,7 @@ REVISION: Lesson 1.2 opens with learners briefly naming their homework period of
 
 EXTENSION: Add one sentence using past perfect in a negative form ("I hadn''t expected that...") or a question form ("Had you ever...?").'),
 
-('itm_l4_m1_lesson2', 'unt_l4_m1', 3, 'reading', 'Lesson 1.2 -- Looking Back -- Mixed-Tense Narration & Reflective Writing',
+('itm_l4_m1_lesson2', 'unt_l4_m1', 3, 'reading', 'Lesson 1.2 — Looking Back — Mixed-Tense Narration & Reflective Writing',
 'LEARNING OBJECTIVES: (1) combine present perfect, present perfect continuous, past simple, past continuous, and past perfect fluently within one extended narrative, (2) frame a narrative explicitly as reflection using "looking back/in retrospect", (3) identify what you didn''t realise at the time versus what you understand now, (4) write a reflective piece with genuine depth, not just a chronological list.
 
 PREREQUISITE KNOWLEDGE: Lesson 1.1 (past perfect), all prior present/past tense work across Levels I-III.
@@ -101,7 +101,7 @@ READING ACTIVITY (5 min): Read a short written reflective excerpt and annotate i
 
 WRITING TASK (5 min): Revise your independent-practice paragraph: add one sentence explicitly contrasting what you thought then with what you understand now.
 
-PRONUNCIATION PRACTICE (5 min): Reflective, measured intonation and pacing -- noticeably slower and more thoughtful than narrative storytelling pace.
+PRONUNCIATION PRACTICE (5 min): Reflective, measured intonation and pacing — noticeably slower and more thoughtful than narrative storytelling pace.
 
 VOCABULARY REINFORCEMENT: a reflective-language matching game (this experience taught me, what I didn''t realise at the time, with hindsight, in retrospect).
 
@@ -113,12 +113,12 @@ REVISION: This lesson opens with the Lesson 1.1 change-period recap. Module 1''s
 
 EXTENSION: Add a closing sentence using "since then" to bridge from the reflected-upon past into your present situation.'),
 
-('itm_l4_m1_quiz', 'unt_l4_m1', 4, 'quiz', 'Module 1 Quiz -- Advanced Present & Past Systems', NULL),
+('itm_l4_m1_quiz', 'unt_l4_m1', 4, 'quiz', 'Module 1 Quiz — Advanced Present & Past Systems', NULL),
 
-('itm_l4_m1_assignment', 'unt_l4_m1', 5, 'assignment', 'Module 1 Assignment -- Looking Back -- A Reflective Piece on Change',
-'INSTRUCTIONS: Write (or record) a reflective piece, 12-15 sentences, about a real period of change or growth in your life or career. This is this level''s first of eight distinct writing genres -- reflective writing -- and should read as genuine reflection, not a chronological list of events. Include: at least one past perfect sentence clarifying the order of two events; at least one present perfect continuous sentence describing an ongoing state or duration; a mix of at least 4 different tense forms overall; "looking back"/"in retrospect" framing; and an explicit contrast between what you understood then and what you understand now.
+('itm_l4_m1_assignment', 'unt_l4_m1', 5, 'assignment', 'Module 1 Assignment — Looking Back — A Reflective Piece on Change',
+'INSTRUCTIONS: Write (or record) a reflective piece, 12-15 sentences, about a real period of change or growth in your life or career. This is this level''s first of eight distinct writing genres — reflective writing — and should read as genuine reflection, not a chronological list of events. Include: at least one past perfect sentence clarifying the order of two events; at least one present perfect continuous sentence describing an ongoing state or duration; a mix of at least 4 different tense forms overall; "looking back"/"in retrospect" framing; and an explicit contrast between what you understood then and what you understand now.
 
-GRADING RUBRIC: (1) Grammatical accuracy -- correct past perfect (simple and continuous) formation, correct tense choices across the piece. (2) Vocabulary range -- at least 4 distinct change/growth or reflective-language words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- clear sequencing of at least two past events, a then-vs-now contrast, and reflective framing language all present. (4) Evidence & argument quality -- is the then-vs-now contrast actually supported by the events narrated, or asserted over them? (5) Communicative quality -- does the reflection show genuine, specific insight, and does it read as authentic reflection rather than a plain narrative? (6) Discourse coherence & register -- does the piece flow as one connected reflective account with purposeful tense variety, and is the register appropriately thoughtful and personal without becoming a bare list?
+GRADING RUBRIC: (1) Grammatical accuracy — correct past perfect (simple and continuous) formation, correct tense choices across the piece. (2) Vocabulary range — at least 4 distinct change/growth or reflective-language words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion — clear sequencing of at least two past events, a then-vs-now contrast, and reflective framing language all present. (4) Evidence & argument quality — is the then-vs-now contrast actually supported by the events narrated, or asserted over them? (5) Communicative quality — does the reflection show genuine, specific insight, and does it read as authentic reflection rather than a plain narrative? (6) Discourse coherence & register — does the piece flow as one connected reflective account with purposeful tense variety, and is the register appropriately thoughtful and personal without becoming a bare list?
 
 A grade at or above the platform''s pass threshold marks this module complete.');
 
@@ -143,22 +143,22 @@ INSERT INTO units (id, course_id, sequence, title) VALUES
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 ('itm_l4_m2_overview', 'unt_l4_m2', 1, 'reading', 'Module Overview & Key Phrases',
-'KEY PHRASES: This essay will argue that... -- Moreover,.../Furthermore,... -- Nevertheless,.../However,... -- Consequently,.../As a result,... -- In other words,... -- This suggests/indicates that...
+'KEY PHRASES: This essay will argue that... — Moreover,.../Furthermore,... — Nevertheless,.../However,... — Consequently,.../As a result,... — In other words,... — This suggests/indicates that...
 
-DISCOURSE MARKERS (functional set -- formal academic cohesion): "moreover, furthermore" (adding a further, reinforcing point); "nevertheless" (a formal contrast marker, stronger than "however"); "consequently" (a formal cause-effect marker).
+DISCOURSE MARKERS (functional set — formal academic cohesion): "moreover, furthermore" (adding a further, reinforcing point); "nevertheless" (a formal contrast marker, stronger than "however"); "consequently" (a formal cause-effect marker).
 
 PHRASAL VERBS & COLLOCATIONS: "lay out [an argument]" (present it clearly and in order), "flesh out [an idea]" (develop it with more detail), "hinge on [something]" (depend critically on it), "boil down to [something]" (be reducible to its essential point), "make a case for/against [something]".
 
-BrE / AmE NOTE: British "dissertation" often refers to an extended piece of independent research writing at undergraduate or master''s level, while American English reserves "dissertation" for doctoral-level work and uses "thesis" for undergraduate/master''s -- the reverse of what many learners might guess.
+BrE / AmE NOTE: British "dissertation" often refers to an extended piece of independent research writing at undergraduate or master''s level, while American English reserves "dissertation" for doctoral-level work and uses "thesis" for undergraduate/master''s — the reverse of what many learners might guess.
 
 KEY VOCABULARY: essay-architecture vocabulary (thesis, introduction, body paragraph, evidence, counter-argument, conclusion), paraphrasing vocabulary (source, plagiarism, original wording, restate). Intercultural note: the direct, thesis-first essay structure taught here is one widely used international-academic-English convention, not the only valid way to organise a persuasive argument.'),
 
-('itm_l4_m2_lesson1', 'unt_l4_m2', 2, 'reading', 'Lesson 2.1 -- Taking a Position -- Thesis Statements & Essay Architecture',
+('itm_l4_m2_lesson1', 'unt_l4_m2', 2, 'reading', 'Lesson 2.1 — Taking a Position — Thesis Statements & Essay Architecture',
 'LEARNING OBJECTIVES: (1) write a thesis statement that is specific and genuinely arguable, (2) outline a 5-paragraph essay (introduction with a hook and thesis; three body paragraphs, each with a topic sentence, evidence, and brief analysis; a conclusion), (3) distinguish a strong thesis from a weak one, (4) use moreover/furthermore to add a reinforcing point within a paragraph.
 
 PREREQUISITE KNOWLEDGE: Level III, Module 9 (paragraph structure, topic sentences, basic citation awareness).
 
-WARM-UP (5 min): Your instructor shows three candidate "thesis" sentences on the same topic -- one too broad/obvious, one just a topic with no position, one genuinely specific and arguable -- which is strongest and why?
+WARM-UP (5 min): Your instructor shows three candidate "thesis" sentences on the same topic — one too broad/obvious, one just a topic with no position, one genuinely specific and arguable — which is strongest and why?
 
 PRESENTATION (10 min): Weak: "Social media is a topic that affects many people" (not arguable). Better: "Social media is bad" (too broad). Strong: "Social media platforms should be required to disclose how their algorithms rank content, because users currently cannot make informed choices about what they see." A strong thesis is specific, takes a genuine position, and often previews why. The 5-paragraph skeleton: Introduction (hook, context, thesis) -> Body 1/2/3 (topic sentence + evidence + brief analysis) -> Conclusion (restate the thesis''s significance).
 
@@ -170,7 +170,7 @@ CRITICAL THINKING / DISCUSSION PROMPT: "Why do you think a thesis that''s too br
 
 LISTENING ACTIVITY (5 min): Listen to someone outlining an essay plan aloud (thesis + 3 points + conclusion angle) and note each part on a simple outline worksheet.
 
-READING ACTIVITY -- EXTENDED READING & ANALYSIS (8 min): Read a short 5-paragraph argumentative essay (200-220 words) on a generic topic. Answer 2 literal questions and 2 analytical questions.
+READING ACTIVITY — EXTENDED READING & ANALYSIS (8 min): Read a short 5-paragraph argumentative essay (200-220 words) on a generic topic. Answer 2 literal questions and 2 analytical questions.
 
 WRITING TASK (5 min): Write your own thesis statement plus one body-paragraph topic sentence that clearly supports it.
 
@@ -186,14 +186,14 @@ REVISION: Lesson 2.2 opens with learners briefly sharing their finalised thesis 
 
 EXTENSION: Add a brief counter-argument note to your outline to address in Body 3 or the conclusion.'),
 
-('itm_l4_m2_lesson2', 'unt_l4_m2', 3, 'reading', 'Lesson 2.2 -- In Other Words -- Paraphrasing Without Losing Meaning',
+('itm_l4_m2_lesson2', 'unt_l4_m2', 3, 'reading', 'Lesson 2.2 — In Other Words — Paraphrasing Without Losing Meaning',
 'LEARNING OBJECTIVES: (1) genuinely paraphrase an idea by changing both wording and sentence structure, (2) recognise when a "paraphrase" is actually too close to the original, (3) use consequently/nevertheless correctly to connect paraphrased ideas to your own argument, (4) draft a complete 5-paragraph argumentative essay.
 
 PREREQUISITE KNOWLEDGE: Lesson 2.1 (thesis, essay architecture), Level III Module 2 (basic paraphrasing, now developed further).
 
-WARM-UP (5 min): Your instructor shows one original sentence and two "paraphrases" -- one that only swaps a few words, one that genuinely restates the idea differently -- which is the real paraphrase and why?
+WARM-UP (5 min): Your instructor shows one original sentence and two "paraphrases" — one that only swaps a few words, one that genuinely restates the idea differently — which is the real paraphrase and why?
 
-PRESENTATION (10 min): Original: "Many researchers believe that remote work increases employee satisfaction, though the evidence remains mixed." Weak paraphrase: "Lots of researchers think remote work increases worker satisfaction, though the proof is mixed." Genuine paraphrase: "While the connection between remote work and job satisfaction is not fully settled, a considerable body of research points toward a positive link." A genuine paraphrase changes sentence structure and word choices substantially while preserving the original meaning exactly -- swapping synonyms alone is a common, often accidental form of plagiarism.
+PRESENTATION (10 min): Original: "Many researchers believe that remote work increases employee satisfaction, though the evidence remains mixed." Weak paraphrase: "Lots of researchers think remote work increases worker satisfaction, though the proof is mixed." Genuine paraphrase: "While the connection between remote work and job satisfaction is not fully settled, a considerable body of research points toward a positive link." A genuine paraphrase changes sentence structure and word choices substantially while preserving the original meaning exactly — swapping synonyms alone is a common, often accidental form of plagiarism.
 
 GUIDED PRACTICE (10 min): You are given 6 original sentences and, for each, identify which of two provided "paraphrases" is genuine and which is too close to the original, explaining your reasoning.
 
@@ -221,12 +221,12 @@ REVISION: This lesson opens with the Lesson 2.1 thesis recap. Module 2''s Quiz a
 
 EXTENSION: Paraphrase the same sentence twice, in two genuinely different ways, comparing which version fits your essay''s tone better.'),
 
-('itm_l4_m2_quiz', 'unt_l4_m2', 4, 'quiz', 'Module 2 Quiz -- Academic Writing I', NULL),
+('itm_l4_m2_quiz', 'unt_l4_m2', 4, 'quiz', 'Module 2 Quiz — Academic Writing I', NULL),
 
-('itm_l4_m2_assignment', 'unt_l4_m2', 5, 'assignment', 'Module 2 Assignment -- An Argumentative Essay',
-'INSTRUCTIONS: Write a full 5-paragraph argumentative essay, 300-400 words, on a topic of your choice that you can genuinely argue a position on. This is this level''s second writing genre -- the argumentative essay. Your essay must include: a clear, specific, arguable thesis statement in the introduction; three body paragraphs, each with a topic sentence, supporting evidence or reasoning, and brief analysis; at least one genuine paraphrase of an idea (not synonym-swapped); at least two of this module''s formal cohesion devices (moreover/furthermore/nevertheless/consequently); and a conclusion that restates the thesis''s significance.
+('itm_l4_m2_assignment', 'unt_l4_m2', 5, 'assignment', 'Module 2 Assignment — An Argumentative Essay',
+'INSTRUCTIONS: Write a full 5-paragraph argumentative essay, 300-400 words, on a topic of your choice that you can genuinely argue a position on. This is this level''s second writing genre — the argumentative essay. Your essay must include: a clear, specific, arguable thesis statement in the introduction; three body paragraphs, each with a topic sentence, supporting evidence or reasoning, and brief analysis; at least one genuine paraphrase of an idea (not synonym-swapped); at least two of this module''s formal cohesion devices (moreover/furthermore/nevertheless/consequently); and a conclusion that restates the thesis''s significance.
 
-GRADING RUBRIC: (1) Grammatical accuracy -- correct, varied sentence structures appropriate to formal academic writing. (2) Vocabulary range -- at least 4 distinct essay-architecture or argument words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- thesis, three supported body paragraphs, a genuine paraphrase, and a conclusion all present. (4) Evidence & argument quality -- is the thesis genuinely specific and arguable, is each body paragraph''s evidence or reasoning actually convincing, and does the essay address the strongest version of the topic? (5) Discourse coherence & register -- does the essay read as one connected, logically structured academic piece, with formal cohesion devices used correctly and register consistently formal throughout?
+GRADING RUBRIC: (1) Grammatical accuracy — correct, varied sentence structures appropriate to formal academic writing. (2) Vocabulary range — at least 4 distinct essay-architecture or argument words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion — thesis, three supported body paragraphs, a genuine paraphrase, and a conclusion all present. (4) Evidence & argument quality — is the thesis genuinely specific and arguable, is each body paragraph''s evidence or reasoning actually convincing, and does the essay address the strongest version of the topic? (5) Discourse coherence & register — does the essay read as one connected, logically structured academic piece, with formal cohesion devices used correctly and register consistently formal throughout?
 
 A grade at or above the platform''s pass threshold marks this module complete.');
 
@@ -251,9 +251,9 @@ INSERT INTO units (id, course_id, sequence, title) VALUES
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 ('itm_l4_m3_overview', 'unt_l4_m3', 1, 'reading', 'Module Overview & Key Phrases',
-'KEY PHRASES: If I had known..., I would have... -- With regard to.../Further to your email,... -- Please find attached... -- I look forward to hearing from you. -- Could you tell me about a time when...? -- Looking back, I would have approached that differently.
+'KEY PHRASES: If I had known..., I would have... — With regard to.../Further to your email,... — Please find attached... — I look forward to hearing from you. — Could you tell me about a time when...? — Looking back, I would have approached that differently.
 
-DISCOURSE MARKERS (functional set -- formal correspondence framing): "with regard to", "further to your email/our conversation", "given that", "provided that" -- formulaic formal-register openers and conditional-adjacent connectors specific to professional written communication.
+DISCOURSE MARKERS (functional set — formal correspondence framing): "with regard to", "further to your email/our conversation", "given that", "provided that" — formulaic formal-register openers and conditional-adjacent connectors specific to professional written communication.
 
 PHRASAL VERBS & COLLOCATIONS: "follow up (on something)" (check on progress or send a reminder), "touch base (with someone)" (make brief contact to check in), "circle back (to something)" (return to a topic later), "reach out (to someone)" (make initial contact, often professionally), "get back to (someone)" (respond to them after some time).
 
@@ -261,12 +261,12 @@ BrE / AmE NOTE: British professional emails often close with "Kind regards" (or 
 
 KEY VOCABULARY: professional-email vocabulary (attachment, correspondence, recipient, subject line, cc/bcc), interview vocabulary (candidate, qualification, strength, area for development, behavioural question). Intercultural note: interview norms vary by country and workplace culture.'),
 
-('itm_l4_m3_lesson1', 'unt_l4_m3', 2, 'reading', 'Lesson 3.1 -- If I Had Known... -- Third Conditional',
+('itm_l4_m3_lesson1', 'unt_l4_m3', 2, 'reading', 'Lesson 3.1 — If I Had Known... — Third Conditional',
 'LEARNING OBJECTIVES: (1) form the third conditional correctly (If + past perfect, would have + past participle), (2) use it to reflect on a hypothetical different outcome to a real past situation, (3) distinguish the third conditional (an unreal past) from the second conditional (an unreal present/future), (4) use the third conditional to reflect honestly on a workplace or career decision.
 
 PREREQUISITE KNOWLEDGE: Level III, Module 8 (second conditional); Level IV, Module 1 (past perfect).
 
-WARM-UP (5 min): Your instructor states one real generic past regret ("I didn''t apply for that job -- I wish I had") -- what tense would you need to express "what would have happened if I had"?
+WARM-UP (5 min): Your instructor states one real generic past regret ("I didn''t apply for that job — I wish I had") — what tense would you need to express "what would have happened if I had"?
 
 PRESENTATION (10 min): "If I had known about the deadline earlier, I would have submitted my application on time. If she hadn''t taken that internship, she wouldn''t have discovered her interest in data analysis." Third conditional describes a hypothetical different outcome to something that already, definitely happened. Contrast: "If I were braver, I would apply" (second conditional, still possible) vs. "If I had been braver, I would have applied" (third conditional, that chance is gone).
 
@@ -278,7 +278,7 @@ CRITICAL THINKING / DISCUSSION PROMPT: "Do you think reflecting on ''what would 
 
 LISTENING ACTIVITY (5 min): Listen to someone reflecting on a career decision using third conditional and complete a simple "what happened / what might have happened instead" grid.
 
-READING ACTIVITY -- EXTENDED READING & ANALYSIS (8 min): Read a short professional reflection excerpt (150-180 words) using third conditional to discuss a past career turning point. Answer 2 literal questions and 2 analytical questions.
+READING ACTIVITY — EXTENDED READING & ANALYSIS (8 min): Read a short professional reflection excerpt (150-180 words) using third conditional to discuss a past career turning point. Answer 2 literal questions and 2 analytical questions.
 
 WRITING TASK (5 min): Write 4-5 third-conditional sentences reflecting on a real or invented workplace decision.
 
@@ -294,12 +294,12 @@ REVISION: Lesson 3.2 opens with learners briefly naming their homework job choic
 
 EXTENSION: Add one mixed-conditional sentence as a recognition-level preview ("If I had taken that job, I would be in a completely different city now").'),
 
-('itm_l4_m3_lesson2', 'unt_l4_m3', 3, 'reading', 'Lesson 3.2 -- Dear Hiring Manager... -- Professional Correspondence & the Job Interview',
+('itm_l4_m3_lesson2', 'unt_l4_m3', 3, 'reading', 'Lesson 3.2 — Dear Hiring Manager... — Professional Correspondence & the Job Interview',
 'LEARNING OBJECTIVES: (1) write a professional email in correct formal structure and register, (2) draft a short workplace proposal with a clear recommendation and reasoning, (3) answer a behavioural interview question using the STAR-style structure (Situation, Task, Action, Result) with genuine reflection, (4) use professional workplace phrasal verbs naturally in both writing and speech.
 
 PREREQUISITE KNOWLEDGE: Lesson 3.1 (third conditional, for reflective interview answers), Level III Module 3 (workplace vocabulary, a business pitch).
 
-WARM-UP (5 min): Your instructor shows one poorly-structured professional email and one well-structured one on the same topic -- what are the differences?
+WARM-UP (5 min): Your instructor shows one poorly-structured professional email and one well-structured one on the same topic — what are the differences?
 
 PRESENTATION (10 min): Professional email structure: SUBJECT LINE (clear and specific), GREETING (Dear [Name] or Dear Hiring Manager if unknown), PURPOSE STATED EARLY (I am writing to...), BODY (clear, organised), CLOSING (I look forward to hearing from you), SIGN-OFF (Kind regards,). A short workplace proposal structure: a brief context, a clear recommendation, 1-2 supporting reasons, a next-step suggestion. The STAR interview-answer structure, with a model answer to "Tell me about a time you solved a difficult problem," including one third-conditional reflective sentence.
 
@@ -307,7 +307,7 @@ GUIDED PRACTICE (10 min): You are given a jumbled professional email (parts shuf
 
 INDEPENDENT PRACTICE (10 min): Draft a short professional email using the full structure and at least one professional phrasal verb, then prepare a STAR-structured answer to one interview question using your Lesson 3.1 homework notes.
 
-SPEAKING ACTIVITY -- INTERVIEW TASK: In pairs, Learner A conducts a short mock job interview (2-3 questions, including at least one behavioural question), Learner B answers using the STAR structure with a genuine third-conditional reflection, then swap roles.
+SPEAKING ACTIVITY — INTERVIEW TASK: In pairs, Learner A conducts a short mock job interview (2-3 questions, including at least one behavioural question), Learner B answers using the STAR structure with a genuine third-conditional reflection, then swap roles.
 
 CRITICAL THINKING / DISCUSSION PROMPT: "Why do you think interviewers often ask about a past difficulty rather than just asking ''what are your strengths?'' What does a well-structured answer to a difficulty question reveal that a simple strengths list doesn''t?"
 
@@ -317,7 +317,7 @@ READING ACTIVITY (5 min): Read a well-structured professional email and a short 
 
 WRITING TASK (5 min): Finalise your professional email draft, checking register consistency and correct structure.
 
-PRONUNCIATION PRACTICE (5 min): Calm, confident interview-answer pacing and intonation -- clear stress on key result words and composed delivery when answering an unscripted follow-up question.
+PRONUNCIATION PRACTICE (5 min): Calm, confident interview-answer pacing and intonation — clear stress on key result words and composed delivery when answering an unscripted follow-up question.
 
 VOCABULARY REINFORCEMENT: a professional-phrasal-verb matching game (follow up on, touch base, circle back, reach out, get back to).
 
@@ -329,12 +329,12 @@ REVISION: This lesson opens with the Lesson 3.1 job-choice recap. Module 3''s Qu
 
 EXTENSION: Draft a brief written workplace proposal (3-4 sentences: context, recommendation, reasoning, next step) in addition to your email.'),
 
-('itm_l4_m3_quiz', 'unt_l4_m3', 4, 'quiz', 'Module 3 Quiz -- The World of Work', NULL),
+('itm_l4_m3_quiz', 'unt_l4_m3', 4, 'quiz', 'Module 3 Quiz — The World of Work', NULL),
 
-('itm_l4_m3_assignment', 'unt_l4_m3', 5, 'assignment', 'Module 3 Assignment -- A Professional Email & Mock Interview',
+('itm_l4_m3_assignment', 'unt_l4_m3', 5, 'assignment', 'Module 3 Assignment — A Professional Email & Mock Interview',
 'INSTRUCTIONS: Complete two parts. PART A (formal correspondence, this level''s third writing genre): Write a professional email, 150-200 words, either applying for a role, following up after an interview, or proposing a workplace idea. Use correct formal structure (subject line, greeting, clear purpose, body, closing, sign-off) and include at least one phrasal verb from this module. PART B (interview speaking task): Record yourself (or perform live) answering one behavioural interview question ("Tell me about a time when...") using the STAR structure, including at least one third-conditional reflective sentence about what might have happened differently.
 
-GRADING RUBRIC: (1) Grammatical accuracy -- correct third-conditional formation, correct formal email structures. (2) Vocabulary range -- at least 3 distinct professional-correspondence or interview words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- full email structure present in Part A; a complete STAR structure with a genuine third-conditional reflection in Part B. (4) Evidence & argument quality -- does the STAR answer''s Result follow from the Action described, and is the email''s request supported by a stated reason rather than by politeness alone? (5) Communicative quality -- does the email sound genuinely professional and purposeful, and does the interview answer reveal real reflection, not a rehearsed, generic response? (6) Discourse coherence & register -- is the email''s register consistently formal throughout, and does the interview answer sound composed and appropriately professional in delivery?
+GRADING RUBRIC: (1) Grammatical accuracy — correct third-conditional formation, correct formal email structures. (2) Vocabulary range — at least 3 distinct professional-correspondence or interview words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion — full email structure present in Part A; a complete STAR structure with a genuine third-conditional reflection in Part B. (4) Evidence & argument quality — does the STAR answer''s Result follow from the Action described, and is the email''s request supported by a stated reason rather than by politeness alone? (5) Communicative quality — does the email sound genuinely professional and purposeful, and does the interview answer reveal real reflection, not a rehearsed, generic response? (6) Discourse coherence & register — is the email''s register consistently formal throughout, and does the interview answer sound composed and appropriately professional in delivery?
 
 A grade at or above the platform''s pass threshold marks this module complete.');
 
@@ -359,22 +359,22 @@ INSERT INTO units (id, course_id, sequence, title) VALUES
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 ('itm_l4_m4_overview', 'unt_l4_m4', 1, 'reading', 'Module Overview & Key Phrases',
-'KEY PHRASES: While it''s true that..., this doesn''t undermine... -- Granted,...; nevertheless,... -- It would be naive to deny that..., yet... -- I''d like to propose the motion that... -- In rebuttal,... -- To conclude, the case for/against this motion is...
+'KEY PHRASES: While it''s true that..., this doesn''t undermine... — Granted,...; nevertheless,... — It would be naive to deny that..., yet... — I''d like to propose the motion that... — In rebuttal,... — To conclude, the case for/against this motion is...
 
-DISCOURSE MARKERS (functional set -- advanced concession): "granted", "admittedly", "while it''s true that", "it would be naive to deny that" -- more sophisticated concession openers than Level III''s "that''s a fair point, however."
+DISCOURSE MARKERS (functional set — advanced concession): "granted", "admittedly", "while it''s true that", "it would be naive to deny that" — more sophisticated concession openers than Level III''s "that''s a fair point, however."
 
 PHRASAL VERBS & COLLOCATIONS: "hold up (under scrutiny)" (remain valid when closely examined), "poke holes in [an argument]" (identify weaknesses in it), "come round to [a viewpoint]" (gradually start to agree with it), "dig in" (refuse to change position, often stubbornly), "give ground" (make a concession, especially reluctantly).
 
-BrE / AmE NOTE: "moot point" has genuinely drifted apart in meaning: in British English (and the term''s original legal sense), a moot point is open to debate or uncertain; in informal American usage, "moot" has increasingly come to mean irrelevant or no longer worth discussing -- almost opposite meanings.
+BrE / AmE NOTE: "moot point" has genuinely drifted apart in meaning: in British English (and the term''s original legal sense), a moot point is open to debate or uncertain; in informal American usage, "moot" has increasingly come to mean irrelevant or no longer worth discussing — almost opposite meanings.
 
 KEY VOCABULARY: debate vocabulary (motion, proposition, opposition, rebuttal, floor, adjudicator), leadership vocabulary recycled from Level III Module 4 (decisive, accountable, delegate, inspire). Intercultural note: formal competitive debate is one widely used international-academic convention, not a universal way of resolving disagreement.'),
 
-('itm_l4_m4_lesson1', 'unt_l4_m4', 2, 'reading', 'Lesson 4.1 -- While It''s True That... -- Advanced Concession Language',
+('itm_l4_m4_lesson1', 'unt_l4_m4', 2, 'reading', 'Lesson 4.1 — While It''s True That... — Advanced Concession Language',
 'LEARNING OBJECTIVES: (1) use advanced concession phrases (granted, admittedly, while it''s true that, it would be naive to deny that) to acknowledge a genuine counter-point, (2) follow a concession with a clear reason your overall position still holds, (3) distinguish a genuine, confidence-building concession from a rhetorical trap, (4) evaluate whether an argument "holds up under scrutiny."
 
 PREREQUISITE KNOWLEDGE: Level III, Module 4 (formal opinion language, the basic agree/partially-agree/disagree/concede scale).
 
-WARM-UP (5 min): Your instructor states one opinion, then models two different concessions to the same counter-point -- one that accidentally undermines their whole position, one that strengthens it -- what''s the difference?
+WARM-UP (5 min): Your instructor states one opinion, then models two different concessions to the same counter-point — one that accidentally undermines their whole position, one that strengthens it — what''s the difference?
 
 PRESENTATION (10 min): "Granted, remote work can make spontaneous collaboration harder. Nevertheless, the flexibility it offers most employees outweighs that cost for the majority of roles." Then: "While it''s true that some roles genuinely require in-person presence, this doesn''t undermine the case for flexible policies more broadly." A strong concession acknowledges something real and specific, then explains precisely why the overall position still holds; a weak concession accidentally admits something that breaks the whole argument.
 
@@ -386,7 +386,7 @@ CRITICAL THINKING / DISCUSSION PROMPT: "Why do you think acknowledging a weaknes
 
 LISTENING ACTIVITY (5 min): Listen to a short structured argument including a concession and evaluate whether the concession is strong or weak.
 
-READING ACTIVITY -- EXTENDED READING & ANALYSIS (8 min): Read a short opinion-piece excerpt (180-200 words) that includes at least one concession. Answer 2 literal questions and 2 analytical questions.
+READING ACTIVITY — EXTENDED READING & ANALYSIS (8 min): Read a short opinion-piece excerpt (180-200 words) that includes at least one concession. Answer 2 literal questions and 2 analytical questions.
 
 WRITING TASK (5 min): Write a short paragraph (5-6 sentences) presenting an opinion, a genuine concession, and a clear explanation of why your position still holds.
 
@@ -402,7 +402,7 @@ REVISION: Lesson 4.2 opens with learners briefly stating their homework position
 
 EXTENSION: Prepare a concession to your own anticipated strongest counter-argument in advance.'),
 
-('itm_l4_m4_lesson2', 'unt_l4_m4', 3, 'reading', 'Lesson 4.2 -- The Motion Is... -- Formal Debate Structure',
+('itm_l4_m4_lesson2', 'unt_l4_m4', 3, 'reading', 'Lesson 4.2 — The Motion Is... — Formal Debate Structure',
 'LEARNING OBJECTIVES: (1) understand and use standard formal-debate structure and vocabulary (motion, proposition, opposition, rebuttal), (2) deliver a structured opening statement for a position, (3) rebut an opposing argument directly and specifically, (4) deliver a closing statement that synthesises the debate, including at least one graceful concession.
 
 PREREQUISITE KNOWLEDGE: Lesson 4.1 (concession language), Level III Module 4 (the 3-round mini-debate).
@@ -415,7 +415,7 @@ GUIDED PRACTICE (10 min): In small groups, you are assigned proposition or oppos
 
 INDEPENDENT PRACTICE (10 min): Finalise your opening statement and prepare at least one anticipated rebuttal point for the other side''s likely argument.
 
-SPEAKING ACTIVITY -- FORMAL DEBATE: The class holds a full structured debate on the leadership-related motion from Lesson 4.1''s homework: opening statements, a rebuttal round, and closing statements (including at least one genuine concession).
+SPEAKING ACTIVITY — FORMAL DEBATE: The class holds a full structured debate on the leadership-related motion from Lesson 4.1''s homework: opening statements, a rebuttal round, and closing statements (including at least one genuine concession).
 
 CRITICAL THINKING / DISCUSSION PROMPT: "After the debate, has anyone''s actual opinion shifted, even slightly? What was it that moved you, if anything?"
 
@@ -437,12 +437,12 @@ REVISION: This lesson opens with the Lesson 4.1 position recap. Module 4''s Quiz
 
 EXTENSION: Argue the side you personally disagree with, as an exercise in genuine perspective-taking.'),
 
-('itm_l4_m4_quiz', 'unt_l4_m4', 4, 'quiz', 'Module 4 Quiz -- Arguing a Position', NULL),
+('itm_l4_m4_quiz', 'unt_l4_m4', 4, 'quiz', 'Module 4 Quiz — Arguing a Position', NULL),
 
-('itm_l4_m4_assignment', 'unt_l4_m4', 5, 'assignment', 'Module 4 Assignment -- A Formal Debate -- Leadership Communication',
+('itm_l4_m4_assignment', 'unt_l4_m4', 5, 'assignment', 'Module 4 Assignment — A Formal Debate — Leadership Communication',
 'INSTRUCTIONS: Record yourself (or perform live, alone or with a partner) delivering a formal debate contribution on a leadership-related motion of your choice, 2-3 minutes total. Include: a clear opening statement with your position and at least 2 reasons; at least one direct rebuttal of a specific opposing point (real or anticipated); at least one advanced concession using this module''s language (granted/admittedly/while it''s true that), followed by a clear reason your position still holds; and a closing statement synthesising your case.
 
-GRADING RUBRIC: (1) Grammatical accuracy -- correct, varied use of concession and debate structures. (2) Vocabulary range -- at least 3 distinct debate/concession phrases used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- opening statement, a specific rebuttal, a genuine concession, and a closing statement all present. (4) Evidence & argument quality -- is the reasoning genuinely persuasive and specific, does the rebuttal actually engage with the opposing point, and does the concession strengthen rather than undermine the overall position? (5) Discourse coherence & register -- is the register appropriately formal throughout, and does the contribution stay respectful and evidence-based, even under the pressure of rebuttal?
+GRADING RUBRIC: (1) Grammatical accuracy — correct, varied use of concession and debate structures. (2) Vocabulary range — at least 3 distinct debate/concession phrases used correctly, plus one phrasal verb/collocation from this module. (3) Task completion — opening statement, a specific rebuttal, a genuine concession, and a closing statement all present. (4) Evidence & argument quality — is the reasoning genuinely persuasive and specific, does the rebuttal actually engage with the opposing point, and does the concession strengthen rather than undermine the overall position? (5) Discourse coherence & register — is the register appropriately formal throughout, and does the contribution stay respectful and evidence-based, even under the pressure of rebuttal?
 
 A grade at or above the platform''s pass threshold marks this module complete.');
 
@@ -467,9 +467,9 @@ INSERT INTO units (id, course_id, sequence, title) VALUES
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 ('itm_l4_m5_overview', 'unt_l4_m5', 1, 'reading', 'Module Overview & Key Phrases',
-'KEY PHRASES: It has been argued/suggested that... -- This technology should be regulated... -- Concerns have been raised about... -- She asked whether/if... -- He urged them to... -- On balance,.../When weighed against...
+'KEY PHRASES: It has been argued/suggested that... — This technology should be regulated... — Concerns have been raised about... — She asked whether/if... — He urged them to... — On balance,.../When weighed against...
 
-DISCOURSE MARKERS (functional set -- formal comparison and evaluation): "on balance", "when weighed against", "by comparison", "by contrast" -- more formal comparison connectors than Level III''s "whereas/in contrast."
+DISCOURSE MARKERS (functional set — formal comparison and evaluation): "on balance", "when weighed against", "by comparison", "by contrast" — more formal comparison connectors than Level III''s "whereas/in contrast."
 
 PHRASAL VERBS & COLLOCATIONS: "grapple with [an issue]" (struggle seriously to understand or resolve it), "call into question [something]" (cause doubt about its validity), "shed light on [something]" (help explain or clarify it), "raise concerns about [something]", "strike a balance (between two things)".
 
@@ -477,12 +477,12 @@ BrE / AmE NOTE: British English distinguishes "programme" (a general plan, sched
 
 KEY VOCABULARY: technology/ethics vocabulary (algorithm, regulation, innovation, unintended consequence, safeguard, dilemma), academic hedging language (it could be argued, arguably, to some extent). Intercultural note: attitudes toward new technology vary significantly by country, generation, and institution.'),
 
-('itm_l4_m5_lesson1', 'unt_l4_m5', 2, 'reading', 'Lesson 5.1 -- It Has Been Argued That... -- Passive Voice II, Advanced Tenses',
+('itm_l4_m5_lesson1', 'unt_l4_m5', 2, 'reading', 'Lesson 5.1 — It Has Been Argued That... — Passive Voice II, Advanced Tenses',
 'LEARNING OBJECTIVES: (1) form present perfect passive correctly (has/have been + past participle), (2) form modal passive correctly (modal + be + past participle), (3) form future passive correctly (will be + past participle), (4) choose the passive deliberately for academic distance when discussing technology and ethics.
 
 PREREQUISITE KNOWLEDGE: Level III, Module 5 (present/past simple passive).
 
-WARM-UP (5 min): Your instructor shows one active sentence about a technology issue and models converting it through several passive forms -- what changes in meaning/emphasis each time?
+WARM-UP (5 min): Your instructor shows one active sentence about a technology issue and models converting it through several passive forms — what changes in meaning/emphasis each time?
 
 PRESENTATION (10 min): "It has been argued that artificial intelligence will transform the workplace. This technology should be regulated to prevent misuse. Concerns have been raised about data privacy. The industry will be significantly affected by new legislation." Present perfect passive reports an ongoing or recently established claim; modal passive expresses necessity, possibility, or recommendation; future passive predicts a future effect.
 
@@ -494,7 +494,7 @@ CRITICAL THINKING / DISCUSSION PROMPT: "Why do you think academic and journalist
 
 LISTENING ACTIVITY (5 min): Listen to a short news-style report about a technology issue and identify each passive construction and its tense/modal.
 
-READING ACTIVITY -- EXTENDED READING & ANALYSIS (8 min): Read a short technology-ethics article excerpt (180-200 words) using a range of passive constructions. Answer 2 literal questions and 2 analytical questions.
+READING ACTIVITY — EXTENDED READING & ANALYSIS (8 min): Read a short technology-ethics article excerpt (180-200 words) using a range of passive constructions. Answer 2 literal questions and 2 analytical questions.
 
 WRITING TASK (5 min): Write 4-5 sentences about a technology or ethical issue, using present perfect, modal, and future passive at least once each.
 
@@ -510,7 +510,7 @@ REVISION: Lesson 5.2 opens with learners briefly naming their two chosen technol
 
 EXTENSION: Add one present continuous passive sentence as a recognition-level review ("The technology is being adopted rapidly").'),
 
-('itm_l4_m5_lesson2', 'unt_l4_m5', 3, 'reading', 'Lesson 5.2 -- She Asked Whether... -- Reported Speech II & a Panel Discussion',
+('itm_l4_m5_lesson2', 'unt_l4_m5', 3, 'reading', 'Lesson 5.2 — She Asked Whether... — Reported Speech II & a Panel Discussion',
 'LEARNING OBJECTIVES: (1) report yes/no questions correctly using whether/if, (2) report wh-questions correctly, with correct word order (no inversion), (3) report commands and strong recommendations using advanced reporting verbs (urged, insisted, warned), (4) participate in a panel discussion, representing an assigned position and responding to other panellists'' points.
 
 PREREQUISITE KNOWLEDGE: Level III, Module 6 (reported speech for statements).
@@ -523,7 +523,7 @@ GUIDED PRACTICE (10 min): Convert 8 direct questions/commands (yes/no questions,
 
 INDEPENDENT PRACTICE (10 min): In small groups (3-4), you are each assigned a distinct position on a technology-ethics issue and prepare 2-3 points for your assigned position, including at least one passive construction from Lesson 5.1.
 
-SPEAKING ACTIVITY -- PANEL DISCUSSION: Groups hold a structured panel discussion: each panellist states their position, responds to at least one other panellist directly (using reported speech), and the discussion closes with each panellist briefly summarising where they''d be willing to compromise.
+SPEAKING ACTIVITY — PANEL DISCUSSION: Groups hold a structured panel discussion: each panellist states their position, responds to at least one other panellist directly (using reported speech), and the discussion closes with each panellist briefly summarising where they''d be willing to compromise.
 
 CRITICAL THINKING / DISCUSSION PROMPT: "When you represented a position in this discussion that wasn''t necessarily your own personal view, did preparing good arguments for it change how you think about that position at all? Why might that be useful?"
 
@@ -533,7 +533,7 @@ READING ACTIVITY (5 min): Read a short written panel-discussion transcript excer
 
 WRITING TASK (5 min): Write a short summary (5-6 sentences) of your panel discussion, using reported speech to relay at least 2 different panellists'' positions accurately.
 
-PRONUNCIATION PRACTICE (5 min): Composed, professional intonation for panel-discussion turn-taking -- a brief, polite interruption phrase and clear, non-confrontational stress when directly referencing another speaker''s point.
+PRONUNCIATION PRACTICE (5 min): Composed, professional intonation for panel-discussion turn-taking — a brief, polite interruption phrase and clear, non-confrontational stress when directly referencing another speaker''s point.
 
 VOCABULARY REINFORCEMENT: an advanced-reporting-verb matching game (urged, insisted, warned, claimed, argued) matched to example direct quotations.
 
@@ -545,12 +545,12 @@ REVISION: This lesson opens with the Lesson 5.1 technology/approach-naming recap
 
 EXTENSION: Add a reported command using a stronger reporting verb than "urged" ("insisted that... must..."), noting the increased force this conveys.'),
 
-('itm_l4_m5_quiz', 'unt_l4_m5', 4, 'quiz', 'Module 5 Quiz -- Science, Technology & Ethics', NULL),
+('itm_l4_m5_quiz', 'unt_l4_m5', 4, 'quiz', 'Module 5 Quiz — Science, Technology & Ethics', NULL),
 
-('itm_l4_m5_assignment', 'unt_l4_m5', 5, 'assignment', 'Module 5 Assignment -- A Compare-and-Contrast Essay -- Two Technologies or Approaches',
-'INSTRUCTIONS: Write a compare-and-contrast essay, 350-450 words, evaluating two related technologies or two different ethical/regulatory approaches to the same issue. This is this level''s fourth writing genre -- compare-and-contrast writing. Structure your essay clearly (either point-by-point or subject-by-subject organisation). Include: at least 2 passive constructions from Lesson 5.1 (present perfect, modal, or future); at least one reported-speech sentence relaying a claim or argument you''ve encountered about either option; at least one formal comparison connector (on balance/when weighed against/by comparison/by contrast); and a reasoned conclusion about which option you find more compelling, or under what conditions each might be preferable.
+('itm_l4_m5_assignment', 'unt_l4_m5', 5, 'assignment', 'Module 5 Assignment — A Compare-and-Contrast Essay — Two Technologies or Approaches',
+'INSTRUCTIONS: Write a compare-and-contrast essay, 350-450 words, evaluating two related technologies or two different ethical/regulatory approaches to the same issue. This is this level''s fourth writing genre — compare-and-contrast writing. Structure your essay clearly (either point-by-point or subject-by-subject organisation). Include: at least 2 passive constructions from Lesson 5.1 (present perfect, modal, or future); at least one reported-speech sentence relaying a claim or argument you''ve encountered about either option; at least one formal comparison connector (on balance/when weighed against/by comparison/by contrast); and a reasoned conclusion about which option you find more compelling, or under what conditions each might be preferable.
 
-GRADING RUBRIC: (1) Grammatical accuracy -- correct advanced passive formation, correct reported speech. (2) Vocabulary range -- at least 4 distinct technology/ethics words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- both options genuinely compared, a passive construction, a reported claim, and a reasoned conclusion all present. (4) Evidence & argument quality -- is the comparison genuinely balanced and specific, and is the conclusion actually justified by the comparison? (5) Discourse coherence & register -- is the essay''s organisation clear and consistent, and is the register appropriately formal and academic throughout?
+GRADING RUBRIC: (1) Grammatical accuracy — correct advanced passive formation, correct reported speech. (2) Vocabulary range — at least 4 distinct technology/ethics words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion — both options genuinely compared, a passive construction, a reported claim, and a reasoned conclusion all present. (4) Evidence & argument quality — is the comparison genuinely balanced and specific, and is the conclusion actually justified by the comparison? (5) Discourse coherence & register — is the essay''s organisation clear and consistent, and is the register appropriately formal and academic throughout?
 
 A grade at or above the platform''s pass threshold marks this module complete.');
 
@@ -575,22 +575,22 @@ INSERT INTO units (id, course_id, sequence, title) VALUES
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 ('itm_l4_m6_overview', 'unt_l4_m6', 1, 'reading', 'Module Overview & Key Phrases',
-'KEY PHRASES: This is likely due to... -- This could potentially lead to... -- The reduction of.../The awareness of... -- Let me begin by... -- Moving on to... -- To summarise,...
+'KEY PHRASES: This is likely due to... — This could potentially lead to... — The reduction of.../The awareness of... — Let me begin by... — Moving on to... — To summarise,...
 
-DISCOURSE MARKERS (functional set -- presentation signposting): "let me begin by", "moving on to", "turning now to", "to summarise" -- spoken structural signposts that let an audience follow a longer talk''s shape by ear.
+DISCOURSE MARKERS (functional set — presentation signposting): "let me begin by", "moving on to", "turning now to", "to summarise" — spoken structural signposts that let an audience follow a longer talk''s shape by ear.
 
 PHRASAL VERBS & COLLOCATIONS: "draw attention to [something]" (highlight it for an audience), "touch on [a point]" (mention it briefly), "wrap up" (bring a talk to a close), "open the floor (to questions)", "field a question" (respond to an unexpected audience question).
 
-BrE / AmE NOTE: British English writes dates day/month/year (15 March 2026, or 15/03/2026), while American English writes month/day/year (March 15, 2026, or 3/15/2026) -- the same numeric date can refer to two different actual dates depending on the convention used.
+BrE / AmE NOTE: British English writes dates day/month/year (15 March 2026, or 15/03/2026), while American English writes month/day/year (March 15, 2026, or 3/15/2026) — the same numeric date can refer to two different actual dates depending on the convention used.
 
 KEY VOCABULARY: global-issues vocabulary (inequality, sustainability, migration, public health, resource scarcity, governance), nominalised academic vocabulary (reduction, awareness, implementation, urgency, intervention). Intercultural note: which global issues are treated as most urgent varies significantly by country, resource level, and political context.'),
 
-('itm_l4_m6_lesson1', 'unt_l4_m6', 2, 'reading', 'Lesson 6.1 -- This Is Likely Due To... -- Modals for Speculation & Nominalisation',
+('itm_l4_m6_lesson1', 'unt_l4_m6', 2, 'reading', 'Lesson 6.1 — This Is Likely Due To... — Modals for Speculation & Nominalisation',
 'LEARNING OBJECTIVES: (1) use a precise range of modal expressions to speculate about causes and outcomes of a global issue, (2) form nominalisations correctly (verb/adjective -> noun: reduce -> reduction, aware -> awareness, decide -> decision, urgent -> urgency), (3) use nominalisation to shift a sentence into a more formal, academic register, (4) discuss a global issue''s causes and outcomes with appropriate speculative hedging.
 
 PREREQUISITE KNOWLEDGE: Level III, Module 7 (modals of deduction).
 
-WARM-UP (5 min): Your instructor states a global-issue fact and models two ways of speculating about its cause -- one casual, one nominalised and formal -- what''s the register difference?
+WARM-UP (5 min): Your instructor states a global-issue fact and models two ways of speculating about its cause — one casual, one nominalised and formal — what''s the register difference?
 
 PRESENTATION (10 min): "This is likely due to a combination of factors. This could potentially lead to further instability in the region." Nominalisation: "Governments decided to intervene" -> "the decision to intervene"; "People are becoming more aware of the issue" -> "growing awareness of the issue"; "It is urgent that we act" -> "the urgency of the situation." Nominalisation turns a verb or adjective into a noun, letting a writer build a longer, more formal noun phrase.
 
@@ -602,7 +602,7 @@ CRITICAL THINKING / DISCUSSION PROMPT: "Why do you think formal, nominalised lan
 
 LISTENING ACTIVITY (5 min): Listen to a short formal talk speculating about a global issue''s causes and note each speculative expression and nominalised noun phrase used.
 
-READING ACTIVITY -- EXTENDED READING & ANALYSIS (8 min): Read a short policy-report-style excerpt (180-200 words) on a global issue, heavy with nominalisation. Answer 2 literal questions and 2 analytical questions.
+READING ACTIVITY — EXTENDED READING & ANALYSIS (8 min): Read a short policy-report-style excerpt (180-200 words) on a global issue, heavy with nominalisation. Answer 2 literal questions and 2 analytical questions.
 
 WRITING TASK (5 min): Write 4-5 sentences about a global issue''s likely causes and outcomes, using speculative modals and at least 2 nominalisations.
 
@@ -618,20 +618,20 @@ REVISION: Lesson 6.2 opens with learners briefly naming their chosen global issu
 
 EXTENSION: Nominalise a full sentence from your independent-practice work into an even more formal, report-style single noun-phrase-heavy sentence.'),
 
-('itm_l4_m6_lesson2', 'unt_l4_m6', 3, 'reading', 'Lesson 6.2 -- Ladies and Gentlemen... -- Briefing an Audience: The Formal Presentation',
+('itm_l4_m6_lesson2', 'unt_l4_m6', 3, 'reading', 'Lesson 6.2 — Ladies and Gentlemen... — Briefing an Audience: The Formal Presentation',
 'LEARNING OBJECTIVES: (1) structure a formal 4-5 minute presentation with a clear opening, body, and close, (2) verbally reference and describe a visual aid naturally, (3) use presentation signposting language to help an audience follow a longer talk, (4) handle unscripted audience questions calmly and professionally, including one you don''t fully know the answer to.
 
 PREREQUISITE KNOWLEDGE: Lesson 6.1 (speculation, nominalisation), Level III Module 9 (the capstone thesis + two-points + conclusion talk).
 
-WARM-UP (5 min): Your instructor delivers 30 seconds of a talk with no signposting at all, then the same content with clear signposting -- which was easier to follow and why?
+WARM-UP (5 min): Your instructor delivers 30 seconds of a talk with no signposting at all, then the same content with clear signposting — which was easier to follow and why?
 
-PRESENTATION (10 min): The formal presentation structure: OPENING ("Let me begin by outlining...", a brief statement of what the talk will cover); BODY (2-3 main points, each clearly signposted -- "Moving on to..., Turning now to..." -- each ideally referencing a described visual aid, "As you can see on this chart, ... This illustrates..."); CLOSE ("To summarise...", a clear final takeaway); Q&A ("I''d be happy to open the floor to questions" / calmly fielding a question you''re unsure of: "That''s a fair question -- based on what I know, I''d say..., though I''d want to look into it further"). A confident answer to a difficult question doesn''t require pretending certainty.
+PRESENTATION (10 min): The formal presentation structure: OPENING ("Let me begin by outlining...", a brief statement of what the talk will cover); BODY (2-3 main points, each clearly signposted — "Moving on to..., Turning now to..." — each ideally referencing a described visual aid, "As you can see on this chart, ... This illustrates..."); CLOSE ("To summarise...", a clear final takeaway); Q&A ("I''d be happy to open the floor to questions" / calmly fielding a question you''re unsure of: "That''s a fair question — based on what I know, I''d say..., though I''d want to look into it further"). A confident answer to a difficult question doesn''t require pretending certainty.
 
 GUIDED PRACTICE (10 min): In pairs, take turns delivering a 60-second mini-version of a presentation on a provided topic, using at least 2 signposting phrases and one described visual-aid reference, while your partner listens for and names the structural parts.
 
 INDEPENDENT PRACTICE (10 min): Develop your Lesson 6.1 homework notes into a full presentation outline (opening, 2-3 signposted body points each with a described visual aid, a close), and rehearse it once.
 
-SPEAKING ACTIVITY -- FLAGSHIP FORMAL PRESENTATION: Deliver your full 4-5 minute presentation to a small group (or the class), describing at least one visual aid naturally within the talk, using signposting throughout, and fielding at least 2 unscripted audience questions.
+SPEAKING ACTIVITY — FLAGSHIP FORMAL PRESENTATION: Deliver your full 4-5 minute presentation to a small group (or the class), describing at least one visual aid naturally within the talk, using signposting throughout, and fielding at least 2 unscripted audience questions.
 
 CRITICAL THINKING / DISCUSSION PROMPT: "What''s the difference between confidently answering a question and confidently pretending to know something you don''t? Why does that distinction matter, especially in a professional or academic setting?"
 
@@ -641,7 +641,7 @@ READING ACTIVITY (5 min): Read a short written presentation script excerpt and l
 
 WRITING TASK (5 min): Write your presentation''s opening and closing statements as clean written text (3-4 sentences each).
 
-PRONUNCIATION PRACTICE (5 min): Confident, well-paced formal delivery across a longer talk -- deliberate pauses at each signposted transition, varied pitch to maintain audience engagement, and calm, unhurried intonation when fielding an unscripted question.
+PRONUNCIATION PRACTICE (5 min): Confident, well-paced formal delivery across a longer talk — deliberate pauses at each signposted transition, varied pitch to maintain audience engagement, and calm, unhurried intonation when fielding an unscripted question.
 
 VOCABULARY REINFORCEMENT: a presentation-signposting phrase-matching game (let me begin by, moving on to, turning now to, to summarise) matched to their position in a talk.
 
@@ -653,12 +653,12 @@ REVISION: This lesson opens with the Lesson 6.1 issue-naming recap. Module 6''s 
 
 EXTENSION: Add a second described visual aid to your presentation, choosing a genuinely different type and describing each appropriately.'),
 
-('itm_l4_m6_quiz', 'unt_l4_m6', 4, 'quiz', 'Module 6 Quiz -- Global Issues', NULL),
+('itm_l4_m6_quiz', 'unt_l4_m6', 4, 'quiz', 'Module 6 Quiz — Global Issues', NULL),
 
-('itm_l4_m6_assignment', 'unt_l4_m6', 5, 'assignment', 'Module 6 Assignment -- A Global Issue Briefing -- Report & Formal Presentation',
-'INSTRUCTIONS: Complete two parts on one real global issue of your choice. PART A (report/proposal writing, this level''s fifth writing genre): Write a short analytical report, 250-350 words, describing the issue, speculating about its likely causes using this module''s modal expressions, and proposing a response -- use at least 3 nominalisations. PART B (the flagship formal presentation): Record yourself (or perform live) a 4-5 minute presentation based on your report, with a clearly signposted opening, body, and close; describe at least one visual aid naturally within the talk; and respond to at least 2 unscripted follow-up questions from your audience.
+('itm_l4_m6_assignment', 'unt_l4_m6', 5, 'assignment', 'Module 6 Assignment — A Global Issue Briefing — Report & Formal Presentation',
+'INSTRUCTIONS: Complete two parts on one real global issue of your choice. PART A (report/proposal writing, this level''s fifth writing genre): Write a short analytical report, 250-350 words, describing the issue, speculating about its likely causes using this module''s modal expressions, and proposing a response — use at least 3 nominalisations. PART B (the flagship formal presentation): Record yourself (or perform live) a 4-5 minute presentation based on your report, with a clearly signposted opening, body, and close; describe at least one visual aid naturally within the talk; and respond to at least 2 unscripted follow-up questions from your audience.
 
-GRADING RUBRIC: (1) Grammatical accuracy -- correct speculative modal use, correct nominalisation formation. (2) Vocabulary range -- at least 4 distinct global-issues or nominalised academic words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- the report describes the issue, speculates about causes, and proposes a response; the presentation includes a signposted structure, a described visual aid, and composed Q&A handling. (4) Evidence & argument quality -- is the proposed response genuinely justified by the analysis, and are the speculative claims appropriately hedged rather than overstated? (5) Discourse coherence & register -- is the report''s register formal and report-appropriate throughout, and does the presentation sound genuinely structured and audience-aware, not just read aloud?
+GRADING RUBRIC: (1) Grammatical accuracy — correct speculative modal use, correct nominalisation formation. (2) Vocabulary range — at least 4 distinct global-issues or nominalised academic words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion — the report describes the issue, speculates about causes, and proposes a response; the presentation includes a signposted structure, a described visual aid, and composed Q&A handling. (4) Evidence & argument quality — is the proposed response genuinely justified by the analysis, and are the speculative claims appropriately hedged rather than overstated? (5) Discourse coherence & register — is the report''s register formal and report-appropriate throughout, and does the presentation sound genuinely structured and audience-aware, not just read aloud?
 
 A grade at or above the platform''s pass threshold marks this module complete.');
 
@@ -683,24 +683,24 @@ INSERT INTO units (id, course_id, sequence, title) VALUES
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 ('itm_l4_m7_overview', 'unt_l4_m7', 1, 'reading', 'Module Overview & Key Phrases',
-'KEY PHRASES: This implies.../The tone here suggests... -- Arguably,... -- It could be inferred that... -- The writer appears to favour... -- This technique is used to... -- In summary, the piece argues...; however, it overlooks...
+'KEY PHRASES: This implies.../The tone here suggests... — Arguably,... — It could be inferred that... — The writer appears to favour... — This technique is used to... — In summary, the piece argues...; however, it overlooks...
 
-DISCOURSE MARKERS (functional set -- critical-reading meta-language): "this implies", "the tone here suggests", "arguably", "it could be inferred that" -- hedged, analytical language for describing what a text does and suggests.
+DISCOURSE MARKERS (functional set — critical-reading meta-language): "this implies", "the tone here suggests", "arguably", "it could be inferred that" — hedged, analytical language for describing what a text does and suggests.
 
 PHRASAL VERBS & COLLOCATIONS: "read into [something]" (interpret a deeper or additional meaning), "play down [an issue]" (minimise its apparent importance), "play up [an issue]" (exaggerate its apparent importance), "gloss over [something]" (address briefly and superficially), "spin [a story]" (present information in a biased way).
 
-BrE / AmE NOTE: "op-ed" -- an American-originated term -- has spread internationally, though British publications have traditionally been just as likely to use "opinion piece" or "comment piece" for the same genre.
+BrE / AmE NOTE: "op-ed" — an American-originated term — has spread internationally, though British publications have traditionally been just as likely to use "opinion piece" or "comment piece" for the same genre.
 
 KEY VOCABULARY: media-analysis vocabulary (bias, tone, rhetoric, framing, loaded language, objectivity), cohesion vocabulary (ellipsis, substitution, antecedent, reference). Intercultural note: what counts as "neutral" versus "biased" media varies by media tradition and country.'),
 
-('itm_l4_m7_lesson1', 'unt_l4_m7', 2, 'reading', 'Lesson 7.1 -- Reading Between the Lines -- Identifying Bias, Tone & Rhetorical Technique',
+('itm_l4_m7_lesson1', 'unt_l4_m7', 2, 'reading', 'Lesson 7.1 — Reading Between the Lines — Identifying Bias, Tone & Rhetorical Technique',
 'LEARNING OBJECTIVES: (1) identify an author''s likely purpose and bias in a text, (2) describe a text''s tone using precise vocabulary, not just "positive/negative", (3) recognise common rhetorical techniques (rhetorical questions, repetition, appeals to emotion or authority) and explain their intended effect, (4) infer implicit meaning and justify it with specific textual evidence.
 
 PREREQUISITE KNOWLEDGE: Level III, Module 6 (basic media-literacy evaluation checklist).
 
-WARM-UP (5 min): Your instructor reads two short opening sentences on the same event, written in noticeably different tones -- describe the difference in one word each.
+WARM-UP (5 min): Your instructor reads two short opening sentences on the same event, written in noticeably different tones — describe the difference in one word each.
 
-PRESENTATION (10 min): "This piece uses the rhetorical question ''Can we really afford to wait?'' to create a sense of urgency -- the tone here suggests real alarm, not neutral reporting. The writer appears to favour immediate action, and this is reinforced by the repeated phrase ''time is running out.''" Four things to look for: PURPOSE (to inform, persuade, entertain); BIAS (a leaning revealed through word choice, selective facts, or framing); TONE (the emotional colouring of the language); RHETORICAL TECHNIQUE (a deliberate device used to persuade or engage).
+PRESENTATION (10 min): "This piece uses the rhetorical question ''Can we really afford to wait?'' to create a sense of urgency — the tone here suggests real alarm, not neutral reporting. The writer appears to favour immediate action, and this is reinforced by the repeated phrase ''time is running out.''" Four things to look for: PURPOSE (to inform, persuade, entertain); BIAS (a leaning revealed through word choice, selective facts, or framing); TONE (the emotional colouring of the language); RHETORICAL TECHNIQUE (a deliberate device used to persuade or engage).
 
 GUIDED PRACTICE (10 min): You are given 3 short text excerpts (generic, invented, representing different tones/biases) and identify the purpose, tone, and at least one rhetorical technique in each.
 
@@ -710,11 +710,11 @@ CRITICAL THINKING / DISCUSSION PROMPT: "Is it possible for a text to be biased a
 
 LISTENING ACTIVITY (5 min): Listen to a short persuasive speech excerpt and identify its tone and at least one rhetorical technique used.
 
-READING ACTIVITY -- EXTENDED READING & ANALYSIS (8 min): Read a longer authentic-style opinion piece (200-220 words) on a generic topic. Answer 2 literal questions and 2 analytical questions.
+READING ACTIVITY — EXTENDED READING & ANALYSIS (8 min): Read a longer authentic-style opinion piece (200-220 words) on a generic topic. Answer 2 literal questions and 2 analytical questions.
 
 WRITING TASK (5 min): Write a short analytical paragraph (5-6 sentences) identifying the purpose, tone, and one rhetorical technique in a text of your choice.
 
-PRONUNCIATION PRACTICE (5 min): Analytical, evaluative intonation when describing a text''s tone or bias aloud -- a measured, slightly detached delivery.
+PRONUNCIATION PRACTICE (5 min): Analytical, evaluative intonation when describing a text''s tone or bias aloud — a measured, slightly detached delivery.
 
 VOCABULARY REINFORCEMENT: a tone-vocabulary expansion game: sort 12 precise tone words by rough emotional "temperature."
 
@@ -726,12 +726,12 @@ REVISION: Lesson 7.2 opens with learners briefly sharing their homework text''s 
 
 EXTENSION: Identify a second rhetorical technique in the same homework text and compare its effect to the first.'),
 
-('itm_l4_m7_lesson2', 'unt_l4_m7', 3, 'reading', 'Lesson 7.2 -- It, This, One -- Ellipsis & Substitution for Cohesion',
+('itm_l4_m7_lesson2', 'unt_l4_m7', 3, 'reading', 'Lesson 7.2 — It, This, One — Ellipsis & Substitution for Cohesion',
 'LEARNING OBJECTIVES: (1) use ellipsis correctly to omit repeated words where meaning stays clear, (2) use substitution (one/ones, so/not, do so) to avoid repeating a noun or clause, (3) recognise ellipsis and substitution when reading, correctly identifying what''s been omitted or replaced, (4) write a concise, cohesive summary-and-critique of a media text.
 
 PREREQUISITE KNOWLEDGE: Lesson 7.1 (critical-reading analysis), Level III Module 2 (summarising basics).
 
-WARM-UP (5 min): Your instructor shows one repetitive sentence pair and one economical version using ellipsis -- what was removed and why does it still make sense?
+WARM-UP (5 min): Your instructor shows one repetitive sentence pair and one economical version using ellipsis — what was removed and why does it still make sense?
 
 PRESENTATION (10 min): ELLIPSIS: "She wanted to go, but couldn''t [go]" (the repeated verb phrase is omitted). SUBSTITUTION: "I liked the first article, but not the second one" (one substitutes for the repeated noun); "He said the report was biased, and I think so too" (so substitutes for the whole reported clause); "She read the article carefully, and he did so too" (do so substitutes for a repeated verb phrase). Both avoid clunky repetition and are hallmarks of genuinely fluent, cohesive written English.
 
@@ -749,7 +749,7 @@ READING ACTIVITY (5 min): Read a short written summary-and-critique example and 
 
 WRITING TASK (5 min): Revise your independent-practice summary into a full summary-and-critique: add 2-3 sentences evaluating the original text''s purpose, tone, and at least one rhetorical technique.
 
-PRONUNCIATION PRACTICE (5 min): Natural sentence rhythm around ellipsis and substitution in spoken English -- a brief pause or slight stress shift onto the substituted word.
+PRONUNCIATION PRACTICE (5 min): Natural sentence rhythm around ellipsis and substitution in spoken English — a brief pause or slight stress shift onto the substituted word.
 
 VOCABULARY REINFORCEMENT: an ellipsis/substitution identification game: find and mark all instances in a short provided text.
 
@@ -761,19 +761,19 @@ REVISION: This lesson opens with the Lesson 7.1 tone-word recap. Module 7''s Qui
 
 EXTENSION: Identify one place in a provided dense academic-style text where you had to pause and work out what an ellipsis or substitution referred to.'),
 
-('itm_l4_m7_quiz', 'unt_l4_m7', 4, 'quiz', 'Module 7 Quiz -- Media Literacy & Critical Reading', NULL),
+('itm_l4_m7_quiz', 'unt_l4_m7', 4, 'quiz', 'Module 7 Quiz — Media Literacy & Critical Reading', NULL),
 
-('itm_l4_m7_assignment', 'unt_l4_m7', 5, 'assignment', 'Module 7 Assignment -- A Summary-and-Critique of a Media Text',
-'INSTRUCTIONS: Write a summary-and-critique, 250-300 words, of a real or realistic media text (an article, opinion piece, or advertisement) of your choice. This is this level''s sixth writing genre -- the summary-and-critique. Structure it in two clear parts: A SUMMARY (3-4 sentences, genuinely condensed, using at least 2 instances of ellipsis or substitution for economy); and A CRITIQUE (5-6 sentences, identifying the text''s purpose, tone, at least one specific bias or rhetorical technique with its intended effect, and your own reasoned evaluation of whether the text is persuasive, fair, or misleading).
+('itm_l4_m7_assignment', 'unt_l4_m7', 5, 'assignment', 'Module 7 Assignment — A Summary-and-Critique of a Media Text',
+'INSTRUCTIONS: Write a summary-and-critique, 250-300 words, of a real or realistic media text (an article, opinion piece, or advertisement) of your choice. This is this level''s sixth writing genre — the summary-and-critique. Structure it in two clear parts: A SUMMARY (3-4 sentences, genuinely condensed, using at least 2 instances of ellipsis or substitution for economy); and A CRITIQUE (5-6 sentences, identifying the text''s purpose, tone, at least one specific bias or rhetorical technique with its intended effect, and your own reasoned evaluation of whether the text is persuasive, fair, or misleading).
 
-GRADING RUBRIC: (1) Grammatical accuracy -- correct, clear ellipsis and substitution use (no ambiguous reference). (2) Vocabulary range -- at least 4 distinct media-analysis words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- a genuine summary and a genuine critique, both present and clearly distinguished. (4) Evidence & argument quality -- is the critique''s identification of bias/technique supported by specific textual evidence, and is the overall evaluation reasoned rather than a bare opinion? (5) Discourse coherence & register -- is the summary genuinely condensed, and is the critique''s register appropriately analytical and measured throughout?
+GRADING RUBRIC: (1) Grammatical accuracy — correct, clear ellipsis and substitution use (no ambiguous reference). (2) Vocabulary range — at least 4 distinct media-analysis words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion — a genuine summary and a genuine critique, both present and clearly distinguished. (4) Evidence & argument quality — is the critique''s identification of bias/technique supported by specific textual evidence, and is the overall evaluation reasoned rather than a bare opinion? (5) Discourse coherence & register — is the summary genuinely condensed, and is the critique''s register appropriately analytical and measured throughout?
 
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
 ('qq_l4_m7_1', 'itm_l4_m7_quiz', 1, '"This piece uses the rhetorical question ''Can we really afford to wait?'' to create a sense of urgency." What is being identified here?', '["bias only","a grammar error","a rhetorical technique","a citation"]', 2),
 ('qq_l4_m7_2', 'itm_l4_m7_quiz', 2, 'Which best describes "tone" in critical reading?', '["the emotional colouring of the language","whether a text is true or false","the number of paragraphs","the author''s job title"]', 0),
-('qq_l4_m7_3', 'itm_l4_m7_quiz', 3, '"She wanted to go, but couldn''t ___." (ellipsis -- what''s omitted?)', '["went","going","goes","go"]', 3),
+('qq_l4_m7_3', 'itm_l4_m7_quiz', 3, '"She wanted to go, but couldn''t ___." (ellipsis — what''s omitted?)', '["went","going","goes","go"]', 3),
 ('qq_l4_m7_4', 'itm_l4_m7_quiz', 4, '"I liked the first article, but not the second ___." (substitution)', '["it","one","so","do"]', 1),
 ('qq_l4_m7_5', 'itm_l4_m7_quiz', 5, '"He said the report was biased, and I think ___ too." (clause substitution)', '["so","it","one","that"]', 0),
 ('qq_l4_m7_6', 'itm_l4_m7_quiz', 6, 'Which is a genuine risk of overusing ellipsis and substitution?', '["sentences become too long","it is always grammatically incorrect","the reference can become unclear or ambiguous","it makes writing too formal"]', 2),
@@ -791,9 +791,9 @@ INSERT INTO units (id, course_id, sequence, title) VALUES
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 ('itm_l4_m8_overview', 'unt_l4_m8', 1, 'reading', 'Module Overview & Key Phrases',
-'KEY PHRASES: I hear what you''re saying, but... -- Let''s find some middle ground. -- Would you be open to...? -- That''s a good starting point, but... -- Can I just come in here? -- On the condition that.../Provided that...
+'KEY PHRASES: I hear what you''re saying, but... — Let''s find some middle ground. — Would you be open to...? — That''s a good starting point, but... — Can I just come in here? — On the condition that.../Provided that...
 
-DISCOURSE MARKERS (functional set -- negotiation conditions): "on the condition that", "provided that", "in exchange for", "as long as" -- connectors specific to proposing and accepting conditional compromises.
+DISCOURSE MARKERS (functional set — negotiation conditions): "on the condition that", "provided that", "in exchange for", "as long as" — connectors specific to proposing and accepting conditional compromises.
 
 PHRASAL VERBS & COLLOCATIONS: "meet halfway" (each side compromises equally), "hammer out [a deal]" (work through difficulties to reach an agreement), "iron out [details]" (resolve minor remaining problems), "hold firm (on a point)" (refuse to compromise on something specific), "sweeten the deal" (make an offer more attractive).
 
@@ -801,14 +801,14 @@ BrE / AmE NOTE: British professionals typically check their "diary" when schedul
 
 KEY VOCABULARY: meeting vocabulary (agenda, minutes, action point, chair, quorum), negotiation vocabulary (leverage, concession, stalemate, compromise, terms). Intercultural note: norms around directness in disagreement and negotiation pace vary significantly by culture and industry.'),
 
-('itm_l4_m8_lesson1', 'unt_l4_m8', 2, 'reading', 'Lesson 8.1 -- My Colleague, Who Has Worked Here for Ten Years... -- Non-Defining Relative Clauses',
+('itm_l4_m8_lesson1', 'unt_l4_m8', 2, 'reading', 'Lesson 8.1 — My Colleague, Who Has Worked Here for Ten Years... — Non-Defining Relative Clauses',
 'LEARNING OBJECTIVES: (1) form non-defining relative clauses correctly, using commas, (2) use them to add extra, non-essential information smoothly, (3) distinguish non-defining relative clauses from defining relative clauses, (4) use "which" correctly to refer back to an entire preceding clause.
 
 PREREQUISITE KNOWLEDGE: Level III, Module 2 (defining relative clauses).
 
-WARM-UP (5 min): Your instructor shows two similar sentences -- one with a defining relative clause, one with a non-defining one -- what changes if the relative clause is removed from each?
+WARM-UP (5 min): Your instructor shows two similar sentences — one with a defining relative clause, one with a non-defining one — what changes if the relative clause is removed from each?
 
-PRESENTATION (10 min): "The colleague who reviewed the proposal had some concerns" (defining -- specifies which colleague) vs. "My colleague, who has worked here for ten years, had some concerns" (non-defining -- extra information; removing the clause leaves the core meaning intact). Non-defining clauses are always set off by commas; "that" is never used in a non-defining clause. "Which" can refer back to an entire previous clause: "The meeting ran long, which frustrated several attendees."
+PRESENTATION (10 min): "The colleague who reviewed the proposal had some concerns" (defining — specifies which colleague) vs. "My colleague, who has worked here for ten years, had some concerns" (non-defining — extra information; removing the clause leaves the core meaning intact). Non-defining clauses are always set off by commas; "that" is never used in a non-defining clause. "Which" can refer back to an entire previous clause: "The meeting ran long, which frustrated several attendees."
 
 GUIDED PRACTICE (10 min): You are given 8 sentence pairs and decide whether each needs a defining or non-defining relative clause based on context, adding commas correctly where needed.
 
@@ -818,7 +818,7 @@ CRITICAL THINKING / DISCUSSION PROMPT: "Why do you think it matters, in professi
 
 LISTENING ACTIVITY (5 min): Listen to a short professional account (6-7 sentences, mixing defining and non-defining relative clauses) and identify which type each clause is and why.
 
-READING ACTIVITY -- EXTENDED READING & ANALYSIS (8 min): Read a short professional report excerpt (180-200 words) using both clause types. Answer 2 literal questions and 2 analytical questions.
+READING ACTIVITY — EXTENDED READING & ANALYSIS (8 min): Read a short professional report excerpt (180-200 words) using both clause types. Answer 2 literal questions and 2 analytical questions.
 
 WRITING TASK (5 min): Write 4-5 sentences about your own workplace or study context, using at least 2 non-defining relative clauses correctly, with commas.
 
@@ -834,20 +834,20 @@ REVISION: Lesson 8.2 opens with learners briefly naming their homework negotiati
 
 EXTENSION: Add one sentence combining a defining and a non-defining relative clause in the same sentence, correctly punctuated.'),
 
-('itm_l4_m8_lesson2', 'unt_l4_m8', 3, 'reading', 'Lesson 8.2 -- I Hear What You''re Saying, But... -- Negotiation & Meeting Language',
+('itm_l4_m8_lesson2', 'unt_l4_m8', 3, 'reading', 'Lesson 8.2 — I Hear What You''re Saying, But... — Negotiation & Meeting Language',
 'LEARNING OBJECTIVES: (1) disagree diplomatically in a professional register, (2) participate in a meeting, proposing and responding to agenda items appropriately, (3) negotiate toward a compromise using structured conditional language, (4) write accurate meeting minutes and a professional follow-up email.
 
 PREREQUISITE KNOWLEDGE: Lesson 8.1 (non-defining relative clauses), Level III Module 4 (formal opinion/agreement language, now extended into live negotiation).
 
-WARM-UP (5 min): Your instructor models one overly blunt disagreement ("No, that''s wrong") and one diplomatically phrased one ("I hear what you''re saying, but I''d push back on one part of that") -- which is more likely to keep a negotiation productive?
+WARM-UP (5 min): Your instructor models one overly blunt disagreement ("No, that''s wrong") and one diplomatically phrased one ("I hear what you''re saying, but I''d push back on one part of that") — which is more likely to keep a negotiation productive?
 
-PRESENTATION (10 min): "A: We need this delivered by Friday. B: I hear what you''re saying, but that timeline is tight given the resources we have. Would you be open to Monday instead? A: I could accept Monday, provided that we get a progress update on Wednesday. B: That works -- let''s meet halfway and confirm Wednesday and Monday." Diplomatic disagreement (acknowledge, then push back specifically); proposing a condition (provided that/on the condition that); finding middle ground (meet halfway). Meeting participation language: proposing an agenda item, politely interrupting, confirming an action point.
+PRESENTATION (10 min): "A: We need this delivered by Friday. B: I hear what you''re saying, but that timeline is tight given the resources we have. Would you be open to Monday instead? A: I could accept Monday, provided that we get a progress update on Wednesday. B: That works — let''s meet halfway and confirm Wednesday and Monday." Diplomatic disagreement (acknowledge, then push back specifically); proposing a condition (provided that/on the condition that); finding middle ground (meet halfway). Meeting participation language: proposing an agenda item, politely interrupting, confirming an action point.
 
 GUIDED PRACTICE (10 min): In pairs, practise 4 short negotiation exchanges from prompt cards, each requiring one diplomatic disagreement, one conditional proposal, and one compromise phrase.
 
 INDEPENDENT PRACTICE (10 min): Using your Lesson 8.1 homework scenario, prepare your side''s opening position, one anticipated point of disagreement, and one possible conditional compromise.
 
-SPEAKING ACTIVITY -- NEGOTIATION & MEETING ROLEPLAY: In pairs or small groups, hold a full negotiation roleplay on your prepared scenario, framed as part of a short meeting (one person acts as chair, opening and closing the discussion and confirming action points).
+SPEAKING ACTIVITY — NEGOTIATION & MEETING ROLEPLAY: In pairs or small groups, hold a full negotiation roleplay on your prepared scenario, framed as part of a short meeting (one person acts as chair, opening and closing the discussion and confirming action points).
 
 CRITICAL THINKING / DISCUSSION PROMPT: "Is it always possible to find a compromise that satisfies both sides equally? What happens, professionally, when a negotiation genuinely can''t reach middle ground?"
 
@@ -869,12 +869,12 @@ REVISION: This lesson opens with the Lesson 8.1 scenario-naming recap. Module 8'
 
 EXTENSION: Add a moment where your negotiation nearly reaches a stalemate, then practise language for proposing a genuinely creative alternative to break the deadlock.'),
 
-('itm_l4_m8_quiz', 'unt_l4_m8', 4, 'quiz', 'Module 8 Quiz -- Meetings & Negotiation', NULL),
+('itm_l4_m8_quiz', 'unt_l4_m8', 4, 'quiz', 'Module 8 Quiz — Meetings & Negotiation', NULL),
 
-('itm_l4_m8_assignment', 'unt_l4_m8', 5, 'assignment', 'Module 8 Assignment -- A Negotiation Roleplay & Meeting Minutes',
+('itm_l4_m8_assignment', 'unt_l4_m8', 5, 'assignment', 'Module 8 Assignment — A Negotiation Roleplay & Meeting Minutes',
 'INSTRUCTIONS: Complete two parts based on a real or invented workplace negotiation scenario. PART A (speaking): Record yourself (or perform with a partner) a negotiation roleplay, 90 seconds to 2 minutes, including at least one diplomatic disagreement, one conditional proposal (provided that/on the condition that), and a clear outcome. Use at least one non-defining relative clause naturally within the roleplay. PART B (formal correspondence): Write brief meeting minutes (5-8 bullet points, including at least one action point with a name and deadline) and a short professional follow-up email summarising the outcome.
 
-GRADING RUBRIC: (1) Grammatical accuracy -- correct non-defining relative clause formation, correct negotiation conditional structures. (2) Vocabulary range -- at least 3 distinct meeting/negotiation words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- diplomatic disagreement, a conditional proposal, and a clear outcome in Part A; complete minutes with an action point and a follow-up email in Part B. (4) Evidence & argument quality -- is the conditional proposal grounded in a stated interest rather than a restated position, and do the minutes record what was actually agreed rather than what the writer wished had been? (5) Communicative quality -- does the negotiation sound genuinely professional and realistic, and do the minutes accurately and concisely capture what was decided? (6) Discourse coherence & register -- is the spoken negotiation''s tone diplomatic throughout, and is the written correspondence''s register consistently professional?
+GRADING RUBRIC: (1) Grammatical accuracy — correct non-defining relative clause formation, correct negotiation conditional structures. (2) Vocabulary range — at least 3 distinct meeting/negotiation words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion — diplomatic disagreement, a conditional proposal, and a clear outcome in Part A; complete minutes with an action point and a follow-up email in Part B. (4) Evidence & argument quality — is the conditional proposal grounded in a stated interest rather than a restated position, and do the minutes record what was actually agreed rather than what the writer wished had been? (5) Communicative quality — does the negotiation sound genuinely professional and realistic, and do the minutes accurately and concisely capture what was decided? (6) Discourse coherence & register — is the spoken negotiation''s tone diplomatic throughout, and is the written correspondence''s register consistently professional?
 
 A grade at or above the platform''s pass threshold marks this module complete.');
 
@@ -899,9 +899,9 @@ INSERT INTO units (id, course_id, sequence, title) VALUES
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 ('itm_l4_m9_overview', 'unt_l4_m9', 1, 'reading', 'Module Overview & Key Phrases',
-'KEY PHRASES: According to Source A,..., while Source B suggests... -- Both sources agree that... -- This is corroborated by... -- Taken together, these sources suggest... -- (Source A) / (Source B) -- a genuine point of tension between these two perspectives is...
+'KEY PHRASES: According to Source A,..., while Source B suggests... — Both sources agree that... — This is corroborated by... — Taken together, these sources suggest... — (Source A) / (Source B) — a genuine point of tension between these two perspectives is...
 
-DISCOURSE MARKERS (functional set -- synthesis): "both sources agree that", "while Source A suggests..., Source B indicates...", "taken together", "this is corroborated by" -- the level''s most academically demanding connector set, for holding two sources in relation to each other.
+DISCOURSE MARKERS (functional set — synthesis): "both sources agree that", "while Source A suggests..., Source B indicates...", "taken together", "this is corroborated by" — the level''s most academically demanding connector set, for holding two sources in relation to each other.
 
 PHRASAL VERBS & COLLOCATIONS: "draw together [ideas]" (combine them into one coherent whole), "tie in with [something]" (connect naturally or logically to it), "cross-reference [two things]" (check them against each other), "build a case (from multiple sources)", "corroborate [a claim]" (confirm it using independent evidence).
 
@@ -909,12 +909,12 @@ BrE / AmE NOTE: British academic writing commonly uses single quotation marks ('
 
 KEY VOCABULARY: citation vocabulary (source, citation, attribution, corroborate, synthesis, in-text citation), the module''s consolidated cohesion toolkit (nominalisation, ellipsis, substitution, non-defining relative clauses, formal connectors). Intercultural note: formal citation systems vary by academic discipline and country; full mastery of any one system is deferred to Level V+.'),
 
-('itm_l4_m9_lesson1', 'unt_l4_m9', 2, 'reading', 'Lesson 9.1 -- According to Source A... -- Synthesising Multiple Sources',
+('itm_l4_m9_lesson1', 'unt_l4_m9', 2, 'reading', 'Lesson 9.1 — According to Source A... — Synthesising Multiple Sources',
 'LEARNING OBJECTIVES: (1) accurately identify a source''s main claim and key supporting points, (2) compare two sources, identifying where they agree, disagree, or offer complementary angles, (3) use basic citation mechanics ((Source A)-style attribution) consistently, (4) begin synthesising two sources into one coherent point, rather than summarising each separately.
 
 PREREQUISITE KNOWLEDGE: Level III, Module 9 (basic citation awareness); Level IV, Module 2 (genuine paraphrasing) and Module 7 (summary skills).
 
-WARM-UP (5 min): Your instructor reads two short, generic invented "source" statements on the same topic that partially agree and partially disagree -- where do they align and where do they differ?
+WARM-UP (5 min): Your instructor reads two short, generic invented "source" statements on the same topic that partially agree and partially disagree — where do they align and where do they differ?
 
 PRESENTATION (10 min): Reading two short supplied source excerpts (Source A and Source B, 80-100 words each) and identifying: Source A''s main claim, Source B''s main claim, where they agree, where they disagree or offer a different angle. Synthesis: "According to Source A, remote work improves focus; Source B largely agrees, though it notes this depends heavily on having a dedicated workspace (Source B). Taken together, these sources suggest that the benefit is real but conditional." Genuine synthesis relates the two claims to each other, not two separate summaries.
 
@@ -926,7 +926,7 @@ CRITICAL THINKING / DISCUSSION PROMPT: "Why do you think it''s tempting to just 
 
 LISTENING ACTIVITY (5 min): Listen to someone verbally synthesising two sources and identify where they state agreement, disagreement, and their own overall conclusion.
 
-READING ACTIVITY -- EXTENDED READING & ANALYSIS (8 min): Read two short source excerpts (150 words each) on a generic academic/professional topic. Answer 2 literal questions (one per source) and 2 analytical/synthesis questions.
+READING ACTIVITY — EXTENDED READING & ANALYSIS (8 min): Read two short source excerpts (150 words each) on a generic academic/professional topic. Answer 2 literal questions (one per source) and 2 analytical/synthesis questions.
 
 WRITING TASK (5 min): Write 2-3 sentences synthesising the two reading-activity sources, using at least one citation mechanic and one synthesis discourse marker.
 
@@ -942,12 +942,12 @@ REVISION: Lesson 9.2 opens with learners briefly sharing their additional point 
 
 EXTENSION: Identify a plausible reason why the two sources might disagree (different context, different timeframe, different assumptions) rather than simply noting that they do.'),
 
-('itm_l4_m9_lesson2', 'unt_l4_m9', 3, 'reading', 'Lesson 9.2 -- Bringing It All Together -- Coherence, Cohesion & the Research-Based Essay',
+('itm_l4_m9_lesson2', 'unt_l4_m9', 3, 'reading', 'Lesson 9.2 — Bringing It All Together — Coherence, Cohesion & the Research-Based Essay',
 'LEARNING OBJECTIVES: (1) deploy the level''s full cohesion toolkit (nominalisation, ellipsis/substitution, non-defining relative clauses, formal connectors) within one extended piece, (2) structure a research-based essay that synthesises two sources into a genuine argument, (3) maintain coherence across multiple paragraphs, (4) draft a complete research-based essay using supplied source material.
 
 PREREQUISITE KNOWLEDGE: Lesson 9.1 (synthesis, citation mechanics); Module 2 (thesis/essay architecture), Module 6 (nominalisation), Module 7 (ellipsis/substitution), Module 8 (non-defining relative clauses).
 
-WARM-UP (5 min): Your instructor shows one short paragraph missing clear logical progression and one revised version with clear coherence -- what specifically was fixed?
+WARM-UP (5 min): Your instructor shows one short paragraph missing clear logical progression and one revised version with clear coherence — what specifically was fixed?
 
 PRESENTATION (10 min): The research-based essay structure: INTRODUCTION (context, a thesis informed by both sources); BODY PARAGRAPHS (each developing one point, synthesising both sources where relevant, using citation mechanics); CONCLUSION (restating the synthesised position''s significance). A worked paragraph combining a nominalisation ("the implementation of this policy"), a non-defining relative clause ("Source A, which surveyed over a thousand employees, found..."), substitution ("Source B reached a similar conclusion, and Source A did so too"), and a formal connector ("Moreover, both sources note..."). COHERENCE is the logical flow of ideas; COHESION is the grammatical "glue" that makes that flow readable.
 
@@ -977,12 +977,12 @@ REVISION: This lesson opens with the Lesson 9.1 connection-point recap. Module 9
 
 EXTENSION: Add a brief acknowledgement of a limitation in your own synthesis as a sophisticated closing move.'),
 
-('itm_l4_m9_quiz', 'unt_l4_m9', 4, 'quiz', 'Module 9 Quiz -- Academic Writing II', NULL),
+('itm_l4_m9_quiz', 'unt_l4_m9', 4, 'quiz', 'Module 9 Quiz — Academic Writing II', NULL),
 
-('itm_l4_m9_assignment', 'unt_l4_m9', 5, 'assignment', 'Module 9 Assignment -- A Research-Based Essay from Supplied Sources',
+('itm_l4_m9_assignment', 'unt_l4_m9', 5, 'assignment', 'Module 9 Assignment — A Research-Based Essay from Supplied Sources',
 'INSTRUCTIONS: You will be given two short supplied source excerpts (generic, invented, 100-120 words each) on the same topic, representing partially agreeing, partially disagreeing, or complementary perspectives. Write a research-based essay, 400-500 words, that synthesises both sources into one coherent argument. This is this level''s capstone, eighth writing genre. Your essay must include: a clear thesis informed by both sources; at least 2 genuine synthesis statements using this module''s discourse markers; consistent basic citation mechanics throughout; and at least 3 different cohesion devices from this level''s toolkit, used purposefully.
 
-GRADING RUBRIC: (1) Grammatical accuracy -- correct, varied use of the level''s cohesion devices. (2) Vocabulary range -- at least 4 distinct citation/synthesis words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- a synthesised thesis, genuine synthesis, consistent citation, and at least 3 cohesion devices all present. (4) Evidence & argument quality -- does the essay genuinely engage with both sources'' claims, and is the final position actually justified by that engagement? (5) Discourse coherence & register -- does the essay read as one logically progressing, well-glued piece of formal academic writing?
+GRADING RUBRIC: (1) Grammatical accuracy — correct, varied use of the level''s cohesion devices. (2) Vocabulary range — at least 4 distinct citation/synthesis words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion — a synthesised thesis, genuine synthesis, consistent citation, and at least 3 cohesion devices all present. (4) Evidence & argument quality — does the essay genuinely engage with both sources'' claims, and is the final position actually justified by that engagement? (5) Discourse coherence & register — does the essay read as one logically progressing, well-glued piece of formal academic writing?
 
 A grade at or above the platform''s pass threshold marks this module complete.');
 
@@ -1007,23 +1007,23 @@ INSERT INTO units (id, course_id, sequence, title) VALUES
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 ('itm_l4_m10_revguide', 'unt_l4_m10', 1, 'reading', 'Level IV Revision Guide',
-'MODULE 1 -- ADVANCED PRESENT & PAST SYSTEMS: past perfect (simple and continuous), mixed-tense narration; discourse markers looking back/in retrospect/up until that point/since then; reflective writing (writing genre 1).
+'MODULE 1 — ADVANCED PRESENT & PAST SYSTEMS: past perfect (simple and continuous), mixed-tense narration; discourse markers looking back/in retrospect/up until that point/since then; reflective writing (writing genre 1).
 
-MODULE 2 -- ACADEMIC WRITING I: thesis statements, 5-paragraph essay structure, genuine paraphrasing; discourse markers moreover/furthermore/nevertheless/consequently; the argumentative essay (writing genre 2).
+MODULE 2 — ACADEMIC WRITING I: thesis statements, 5-paragraph essay structure, genuine paraphrasing; discourse markers moreover/furthermore/nevertheless/consequently; the argumentative essay (writing genre 2).
 
-MODULE 3 -- THE WORLD OF WORK: third conditional; discourse markers with regard to/further to/given that/provided that; formal correspondence and a workplace proposal (writing genre 3); a job interview (STAR structure).
+MODULE 3 — THE WORLD OF WORK: third conditional; discourse markers with regard to/further to/given that/provided that; formal correspondence and a workplace proposal (writing genre 3); a job interview (STAR structure).
 
-MODULE 4 -- ARGUING A POSITION: advanced concession language (granted/admittedly/while it''s true that); a full formal debate structure.
+MODULE 4 — ARGUING A POSITION: advanced concession language (granted/admittedly/while it''s true that); a full formal debate structure.
 
-MODULE 5 -- SCIENCE, TECHNOLOGY & ETHICS: passive voice II (present perfect, modal, future); reported questions and commands with advanced reporting verbs; a panel discussion; compare-and-contrast writing (writing genre 4).
+MODULE 5 — SCIENCE, TECHNOLOGY & ETHICS: passive voice II (present perfect, modal, future); reported questions and commands with advanced reporting verbs; a panel discussion; compare-and-contrast writing (writing genre 4).
 
-MODULE 6 -- GLOBAL ISSUES: speculative modals, nominalisation; discourse markers let me begin by/moving on to/to summarise; an analytical report/proposal (writing genre 5); the flagship formal presentation with described visual aids and Q&A.
+MODULE 6 — GLOBAL ISSUES: speculative modals, nominalisation; discourse markers let me begin by/moving on to/to summarise; an analytical report/proposal (writing genre 5); the flagship formal presentation with described visual aids and Q&A.
 
-MODULE 7 -- MEDIA LITERACY & CRITICAL READING: identifying purpose, bias, tone, and rhetorical technique; ellipsis and substitution for cohesion; a summary-and-critique (writing genre 6).
+MODULE 7 — MEDIA LITERACY & CRITICAL READING: identifying purpose, bias, tone, and rhetorical technique; ellipsis and substitution for cohesion; a summary-and-critique (writing genre 6).
 
-MODULE 8 -- MEETINGS & NEGOTIATION: non-defining relative clauses; diplomatic disagreement and negotiation conditional language; a negotiation roleplay; meeting minutes and a follow-up email (writing genre 7).
+MODULE 8 — MEETINGS & NEGOTIATION: non-defining relative clauses; diplomatic disagreement and negotiation conditional language; a negotiation roleplay; meeting minutes and a follow-up email (writing genre 7).
 
-MODULE 9 -- ACADEMIC WRITING II: genuine multi-source synthesis, basic citation mechanics, the full cohesion toolkit consolidated; a research-based essay from supplied sources (writing genre 8, capstone).
+MODULE 9 — ACADEMIC WRITING II: genuine multi-source synthesis, basic citation mechanics, the full cohesion toolkit consolidated; a research-based essay from supplied sources (writing genre 8, capstone).
 
 STRUCTURAL THREAD ACROSS THE LEVEL: Level IV moved learners from completing the tense system and reflecting on their own experience through progressively more demanding academic and professional genres, before culminating in genuine multi-source academic synthesis. Each module paired one grammar system with one real communicative genre. Module 10 tests all of it together, in connected, authentic performance.
 
@@ -1033,12 +1033,12 @@ CUMULATIVE DISCOURSE-MARKER TOOLKIT: reflective framing (looking back, in retros
 
 CUMULATIVE BrE/AmE REFERENCE: whilst/while, amongst/among (M1); dissertation/thesis (M2); Kind regards/Best regards (M3); moot point (M4); programme/program (M5); date formatting (M6); op-ed (M7); diary/calendar (M8); single vs. double quotation marks (M9).'),
 
-('itm_l4_m10_revlesson', 'unt_l4_m10', 2, 'reading', 'Revision Lesson -- Structured Consolidation Activities',
+('itm_l4_m10_revlesson', 'unt_l4_m10', 2, 'reading', 'Revision Lesson — Structured Consolidation Activities',
 'LEARNING OBJECTIVES: (1) correctly select the right grammar structure from Modules 1-9 given a real academic or professional context, (2) deploy at least 8 discourse markers from across the level''s functional sets fluently within one connected talk or piece of writing, (3) correctly identify at least 8 BrE/AmE differences from across the level, (4) self-identify at least one personal area needing further revision before the mock exam.
 
 PREREQUISITE KNOWLEDGE: All of Modules 1-9.
 
-WARM-UP (5 min): "Grammar auction" -- bid points on whether 8 example sentences (each drawn from a different module) are grammatically correct or incorrect.
+WARM-UP (5 min): "Grammar auction" — bid points on whether 8 example sentences (each drawn from a different module) are grammatically correct or incorrect.
 
 PRESENTATION/CONSOLIDATION (15 min): A genre-and-structure selection drill: real-life prompts, each requiring a different module''s grammar and genre knowledge ("Reflect on a period of change" -> Module 1; "Argue a position on a policy question" -> Module 2/4; "Write a professional follow-up email" -> Module 3/8; "Speculate about a global issue''s cause" -> Module 6; "Synthesise two conflicting claims" -> Module 9).
 
@@ -1048,7 +1048,7 @@ INDEPENDENT PRACTICE (10 min): Complete a self-assessment checklist (one line pe
 
 SPEAKING ACTIVITY: The structure-selection drill and station rotation above are both fundamentally speaking-driven.
 
-CRITICAL THINKING / DISCUSSION PROMPT: "Across this whole level, which genre or skill do you think will be most useful to you in a real university or workplace setting -- the argumentative essay, the formal presentation, negotiation, or synthesis writing? Why?"
+CRITICAL THINKING / DISCUSSION PROMPT: "Across this whole level, which genre or skill do you think will be most useful to you in a real university or workplace setting — the argumentative essay, the formal presentation, negotiation, or synthesis writing? Why?"
 
 LISTENING ACTIVITY (5 min): Listen to a single extended talk (someone reflecting on a career change, arguing a position, and briefly speculating about a global issue).
 
@@ -1070,18 +1070,18 @@ EXTENSION: Stronger learners help peers at weaker stations during the rotation a
 
 REVISITING YOUR ENTRY DIAGNOSTIC: return to the personal focus plan from Module 1 and judge each aim as met, partly met, or not met, with evidence.
 
-Then answer the question the Module 1 diagnostic set up: at the start of this level, could you separate a claim from the evidence offered for it? Can you now? Point to a specific piece of your own work from this level as your evidence. If you cannot point to it, the honest answer is not yet -- and that is a more useful conclusion than an optimistic one.'),
+Then answer the question the Module 1 diagnostic set up: at the start of this level, could you separate a claim from the evidence offered for it? Can you now? Point to a specific piece of your own work from this level as your evidence. If you cannot point to it, the honest answer is not yet — and that is a more useful conclusion than an optimistic one.'),
 
-('itm_l4_m10_examquiz', 'unt_l4_m10', 3, 'quiz', 'Upper Intermediate-Level Mock Exam -- Grammar & Vocabulary', NULL),
+('itm_l4_m10_examquiz', 'unt_l4_m10', 3, 'quiz', 'Upper Intermediate-Level Mock Exam — Grammar & Vocabulary', NULL),
 
-('itm_l4_m10_examassignment', 'unt_l4_m10', 4, 'assignment', 'Upper Intermediate-Level Mock Exam -- Speaking & Writing',
+('itm_l4_m10_examassignment', 'unt_l4_m10', 4, 'assignment', 'Upper Intermediate-Level Mock Exam — Speaking & Writing',
 'This is your Level IV final assessment. Complete both parts.
 
-PART A -- SPEAKING: A FULL FORMAL PRESENTATION WITH Q&A (5-6 minutes, recorded or live with your instructor): Deliver a structured presentation on a topic of your choice, drawing on the level''s cumulative skills: a clearly signposted opening, body, and close (Module 6); at least one described visual aid; a stated position with a supporting argument and at least one advanced concession (Modules 2/4); at least one reported claim relayed accurately (Module 5); and composed handling of at least 2 unscripted audience questions.
+PART A — SPEAKING: A FULL FORMAL PRESENTATION WITH Q&A (5-6 minutes, recorded or live with your instructor): Deliver a structured presentation on a topic of your choice, drawing on the level''s cumulative skills: a clearly signposted opening, body, and close (Module 6); at least one described visual aid; a stated position with a supporting argument and at least one advanced concession (Modules 2/4); at least one reported claim relayed accurately (Module 5); and composed handling of at least 2 unscripted audience questions.
 
-PART B -- WRITING: A FULL RUBRIC-GRADED ESSAY (500-600 words): Write a structured essay -- argumentative or research-based, your choice -- that draws on the level''s cumulative writing skills. Include: a clear, specific, arguable thesis (Module 2); at least one passive construction and one reported-speech sentence (Module 5); at least one non-defining relative clause (Module 8); at least 2 nominalisations (Module 6); at least one instance of ellipsis or substitution (Module 7); and, if choosing the research-based option, genuine synthesis of at least two distinct perspectives with basic citation mechanics (Module 9). Structure the essay with a clear introduction, body paragraphs, and conclusion (Module 2).
+PART B — WRITING: A FULL RUBRIC-GRADED ESSAY (500-600 words): Write a structured essay — argumentative or research-based, your choice — that draws on the level''s cumulative writing skills. Include: a clear, specific, arguable thesis (Module 2); at least one passive construction and one reported-speech sentence (Module 5); at least one non-defining relative clause (Module 8); at least 2 nominalisations (Module 6); at least one instance of ellipsis or substitution (Module 7); and, if choosing the research-based option, genuine synthesis of at least two distinct perspectives with basic citation mechanics (Module 9). Structure the essay with a clear introduction, body paragraphs, and conclusion (Module 2).
 
-GRADING RUBRIC (weighted toward listening and speaking per the Upper Intermediate-level assessment strategy): (1) Grammatical range and accuracy -- correct, varied use of the level''s grammar points across both parts. (2) Vocabulary range -- discourse markers and phrasal verbs/collocations drawn from at least 6 of the 9 modules across both parts combined. (3) Task completion -- every required element present in both Part A and Part B. (4) Communicative quality -- does the writing reach its intended reader with a purpose that reader would recognise, not merely satisfy the task specification? (5) Fluency and delivery (Part A) -- reasonably fluent for B2, audible, able to sustain a longer formal presentation and respond composedly to unscripted follow-up questions, including one you are not fully certain of. (6) Coherence (Part B) -- the essay reads as one connected, logically structured piece with clear paragraph-level organisation. (7) Evidence & argument quality -- is the thesis genuinely specific and arguable, is the reasoning or synthesis actually convincing, and does the piece address the strongest version of the topic? (8) Discourse coherence & register -- is the register appropriately formal/academic or professional throughout, and does the connector toolkit genuinely aid clarity?
+GRADING RUBRIC (weighted toward listening and speaking per the Upper Intermediate-level assessment strategy): (1) Grammatical range and accuracy — correct, varied use of the level''s grammar points across both parts. (2) Vocabulary range — discourse markers and phrasal verbs/collocations drawn from at least 6 of the 9 modules across both parts combined. (3) Task completion — every required element present in both Part A and Part B. (4) Communicative quality — does the writing reach its intended reader with a purpose that reader would recognise, not merely satisfy the task specification? (5) Fluency and delivery (Part A) — reasonably fluent for B2, audible, able to sustain a longer formal presentation and respond composedly to unscripted follow-up questions, including one you are not fully certain of. (6) Coherence (Part B) — the essay reads as one connected, logically structured piece with clear paragraph-level organisation. (7) Evidence & argument quality — is the thesis genuinely specific and arguable, is the reasoning or synthesis actually convincing, and does the piece address the strongest version of the topic? (8) Discourse coherence & register — is the register appropriately formal/academic or professional throughout, and does the connector toolkit genuinely aid clarity?
 
 PROGRESSION REQUIREMENT: A grade at or above the platform''s pass threshold on this comprehensive assessment marks Level IV as complete for the learner and, for a full-programme student, triggers Level V''s enrolment to unlock automatically.');
 

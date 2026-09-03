@@ -1,0 +1,160 @@
+<!--
+  PAPERS — setting a level examination, and publishing its rubric.
+
+  ─────────────────────────────────────────────────────────────────────
+  WHY THIS IS NOT ON /staff-examinations.html
+  ─────────────────────────────────────────────────────────────────────
+  Marking to a rubric and SETTING one are different authorities, and
+  the platform draws that line in `requireAdmin` rather than in a note
+  in a handbook. Publishing a paper is the act that stamps
+  `rubric_published_on`, and that date is the whole of the College's
+  claim that every award is marked against a rubric published before
+  the work &mdash; a claim that is on /faq/, on /admissions/, in the
+  tuition itemisation and in the tutor handbook.
+
+  A screen where a marker could edit the rubric they are about to mark
+  against would make that claim unverifiable, whatever the code
+  underneath did.
+
+  ─────────────────────────────────────────────────────────────────────
+  AUTHORING AND PUBLISHING ARE TWO ACTS, AND THE PAGE MAKES THAT PLAIN
+  ─────────────────────────────────────────────────────────────────────
+  A draft is not markable and not sittable. It is written, read back,
+  and published as a separate, dated, attributed act. One button doing
+  both would let the publication date be written by whoever happened to
+  press it, at whatever moment suited them, which is exactly the
+  back-dating the two steps exist to prevent.
+
+  ─────────────────────────────────────────────────────────────────────
+  AND THE THREE REFUSALS ARE PRINTED BEFORE THEY ARE MET
+  ─────────────────────────────────────────────────────────────────────
+  A rubric whose weights do not sum to 1; one that measures fewer than
+  the four language skills; one with no criterion marked from the
+  spoken paper. Each would make a published gate unreadable for every
+  candidate who ever sat that paper. They are stated on the form rather
+  than discovered by submitting it.
+
+  Every id and data- attribute below is addressed by js/staff-papers.js.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg></p>
+    <p class="masthead__eyebrow">Administration</p>
+    <h1>Examination Papers</h1>
+    <p class="lede">The paper set at each level, the rubric it is marked against, and the dated act of publishing one &mdash; which is what makes every mark under it defensible.</p>
+    <nav class="rec-nav" aria-label="Academic staff">
+      <a href="/staff-desk.html">The Desk</a>
+      <a href="/staff-marking.html">Marking</a>
+      <a href="/staff-examinations.html">Examinations</a>
+      <a href="/staff-papers.html" aria-current="page">Papers</a>
+      <a href="/staff-conferral.html">Conferral</a>
+      <a href="/staff-learners.html">My Learners</a>
+      <a href="/staff-hours.html">My Hours</a>
+      <a href="/staff-notices.html">Notices</a>
+      <a href="/staff-cases.html">Cases</a>
+      <a href="/staff-admissions.html">Admissions</a>
+      <a href="/staff-enrolments.html">Enrolments</a>
+      <a href="/staff-finance.html">Finance</a>
+      <a href="/staff-administration.html">Administration</a>
+    </nav>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container">
+    <div class="stf-shell">
+
+      <p class="rec-state state-plate edge-lit edge-lit--light aurum" id="state" aria-live="polite">Loading the papers&hellip;</p>
+
+      <!-- WHAT IS SET AT EACH LEVEL ------------------------------------- -->
+      <section class="acc-block reveal" id="secLevels" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg> <span data-levels-head>The six levels</span></h2>
+        </div>
+        <p class="stf-basis" data-levels-basis></p>
+        <div class="exm-levels" data-levels></div>
+      </section>
+
+      <!-- THE THREE REFUSALS, and they sit in their own always-visible
+           section rather than inside the form.
+
+           THE FAULT THIS CORRECTS was invisible in the source and plain
+           on screen: with the form hidden until the papers load, a page
+           that could not reach the platform rendered its masthead, one
+           sentence, and five hundred pixels of nothing above the
+           footer. A screen must never fail into a void; the standing
+           rules are true whether or not the platform answered, so they
+           stay. -->
+      <section class="acc-block reveal" id="secRefusals">
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg> What a publishable rubric has to hold</h2>
+        </div>
+        <div class="grid grid--3">
+          <article class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+            <span class="tilt__sheen" aria-hidden="true"></span>
+            <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+            <h3>The weights sum to one</h3>
+            <p>A composite that does not sum to its whole is not the composite the rubric describes, and a mark computed from it would be a mark against a standard nobody published.</p>
+          </article>
+          <article class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+            <span class="tilt__sheen" aria-hidden="true"></span>
+            <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg></span>
+            <h3>All four skills are measured</h3>
+            <p>The published skill floor is read against all four examination sub-marks. A paper that measures three of them refuses conferral to every candidate who sits it, for a fault that is the paper&rsquo;s and not theirs.</p>
+          </article>
+          <article class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+            <span class="tilt__sheen" aria-hidden="true"></span>
+            <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
+            <h3>One criterion is spoken</h3>
+            <p>Every level examination carries a spoken component of at least fifteen minutes, and the spoken gate needs a criterion to read. A programme that marks speaking from written work is not marking speaking.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- AUTHOR A PAPER ------------------------------------------------- -->
+      <section class="acc-block reveal" id="secAuthor" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg> <span data-author-head>Set a paper</span></h2>
+        </div>
+
+        <form class="exm-form" id="paperForm" novalidate>
+          <div class="exm-form__head">
+            <h3 data-form-head>The paper</h3>
+            <p class="exm-form__note" data-form-note></p>
+          </div>
+          <div class="exm-crit">
+            <label class="exm-crit__name" for="pLevel" data-l-level>Level</label>
+            <select id="pLevel" data-p-level></select>
+
+            <label class="exm-crit__comment-label" for="pTitle" data-l-title>Title</label>
+            <input type="text" id="pTitle" required>
+
+            <label class="exm-crit__comment-label" for="pTitleAr" data-l-title-ar>Title in Arabic</label>
+            <input type="text" id="pTitleAr" dir="rtl" lang="ar">
+
+            <label class="exm-crit__comment-label" for="pConditions" data-l-conditions>The conditions printed on the paper</label>
+            <textarea id="pConditions" rows="4" required></textarea>
+
+            <label class="exm-crit__comment-label" for="pConditionsAr" data-l-conditions-ar>The conditions in Arabic</label>
+            <textarea id="pConditionsAr" rows="4" dir="rtl" lang="ar"></textarea>
+          </div>
+
+          <div data-criteria></div>
+
+          <button type="button" class="acc-open" data-add-criterion></button>
+
+          <output class="exm-running" aria-live="polite">
+            <p class="exm-running__label" data-weights-label>The criterion weights</p>
+            <p class="exm-running__value" data-weights>&mdash;</p>
+          </output>
+
+          <button type="submit" class="btn btn--gold chime" data-author-submit>Save as a draft</button>
+          <p class="exm-form__says" aria-live="polite" data-author-says></p>
+        </form>
+      </section>
+
+    </div>
+  </div>
+</section>

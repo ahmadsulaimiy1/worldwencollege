@@ -30,17 +30,31 @@ const SITE = 'https://www.worldwencollege.co.uk';
 const urlFor = (output) => '/' + output.replace(/index\.html$/, '');
 
 // ---------------------------------------------------------------------
-// 1 · THE SITEMAP LISTS EVERY PAGE THE BUILD PRODUCES
+// 1 · THE SITEMAP LISTS EVERY PUBLIC PAGE THE BUILD PRODUCES
 // ---------------------------------------------------------------------
+// It used to say EVERY page, and that was the correct rule when it was
+// written: the fault it closed was a hand-maintained sitemap listing 20
+// of 76. It became the wrong rule when the learner's own surfaces were
+// built — a statement of account, a set of marks, a transcript, a
+// payment confirmation, twenty-two of them, all formally submitted to
+// be indexed by the College itself.
+//
+// So the rule is now: every PUBLIC page, and no private one. What
+// counts as private is decided by the guard the page mounts rather than
+// by a list kept here — see tests/indexing.test.mjs, which holds the
+// whole of that arrangement including the noindex tag on the page.
 const sitemap = readFileSync(path.join(ROOT, 'sitemap.xml'), 'utf8');
 const listed = new Set([...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]));
-const indexable = entries.filter((e) => !/(^|\/)404\.html$/.test(e.output));
+const isPrivate = (e) => e.private === true || (e.scripts || []).includes('/js/portal-guard.js');
+const indexable = entries
+  .filter((e) => !/(^|\/)404\.html$/.test(e.output))
+  .filter((e) => !isPrivate(e));
 const expected = new Set(indexable.map((e) => SITE + urlFor(e.output)));
 
 const missing = [...expected].filter((u) => !listed.has(u));
 const extra = [...listed].filter((u) => !expected.has(u));
 
-check(`The sitemap lists every built page — ${listed.size} listed, ${expected.size} built`,
+check(`The sitemap lists every public page — ${listed.size} listed, ${expected.size} public`,
   missing.length === 0, `missing ${missing.length}: ${missing.slice(0, 4).join(', ')}`);
 check('...and lists nothing that is not built',
   extra.length === 0, `stale ${extra.length}: ${extra.slice(0, 4).join(', ')}`);
@@ -79,9 +93,28 @@ const built = new Set(entries.map((e) => urlFor(e.output)));
 // docs/ or sql/ still counts as broken: it exists here and 404s in
 // production, which is the worst of both.
 const WITHHELD = /^\/(docs|tests|sql|scripts|publication|node_modules|partials|pages)\//;
+// ── A 200 REWRITE IN _redirects IS A REAL ADDRESS ────────────────────
+// The Library publishes fourteen volumes at clean, citable slugs —
+// /library/assessment-handbook.pdf — which _redirects rewrites (200,
+// not 301) onto the file the publication pipeline actually writes under
+// its own long name. Nothing is copied, so the slug resolves on the
+// host and NOT on disk. Without this, every download link on the
+// Library page reads as broken.
+//
+// Only 200 rewrites count. A 301 means the target is the real address
+// and must resolve on its own, which the rest of this check enforces.
+const rewrites = new Set(
+  readFileSync(path.join(ROOT, '_redirects'), 'utf8')
+    .split('\n')
+    .map((l) => l.trim().split(/\s+/))
+    .filter((p) => p.length === 3 && p[2] === '200')
+    .map((p) => p[0])
+);
+
 const servedOnDisk = (target) => {
   if (WITHHELD.test(target)) return false;
-  const rel = target.replace(/^\//, '');
+  if (rewrites.has(target)) return true;
+  const rel = decodeURIComponent(target.replace(/^\//, ''));
   if (rel && existsSync(path.join(ROOT, rel)) && !target.endsWith('/')) return true;
   return existsSync(path.join(ROOT, rel, 'index.html'));
 };

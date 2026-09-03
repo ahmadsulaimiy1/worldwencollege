@@ -14,6 +14,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>الحياة الطلابية — الكلية العالمية للغة الإنجليزية</title>
 <meta name="description" content="ما تعنيه الدراسة في الكلية: كيف تُقيَّم، وسجلك الأكاديمي، ومعمل الاستماع، والدعم المتاح وما لا تقدمه الكلية.">
+<!-- INDEXABLE, OR THE LEARNER'S OWN. A page that mounts
+     js/portal-guard.js is a page behind a sign-in — a statement of
+     account, a set of marks, a payment confirmation — and it belonged
+     in neither a search index nor the sitemap. Eleven of them were in
+     both. scripts/build.js decides this from the guard rather than from
+     a flag somebody has to remember to set: a page that guards itself
+     is private, and there is no case where it is not. -->
+<meta name="robots" content="index, follow">
 <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/assets/images/icon-512.png" sizes="512x512" type="image/png">
 <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
@@ -21,16 +29,23 @@
 <meta name="theme-color" content="#14264A">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500..800;1,6..96,400..600&family=Cinzel:wght@500;600&family=Inter:wght@400;600;700;800&family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/brand.css">
-<link rel="stylesheet" href="/css/atelier.css">
-<link rel="stylesheet" href="/css/pages.css">
+<!-- The display face is self-hosted and preloaded: it sets every
+     heading above the fold, so it must never arrive after the text it
+     shapes. The italic is not preloaded — it first appears below the
+     fold and swap covers it. -->
+<link rel="preload" href="/assets/fonts/fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Inter:wght@400;600;700;800&family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/brand.css?v=308b4850">
+<link rel="stylesheet" href="/css/atelier.css?v=9eadec1f">
+<link rel="stylesheet" href="/css/pages.css?v=e0f4b722">
+<link rel="stylesheet" href="/css/pillar.css?v=661126ed">
+<link rel="stylesheet" href="/css/students.css?v=8fb38bac">
 <!-- LAST, and that ordering is load-bearing. Script-specific typography
      has to be able to override the general stylesheets, because those
      set tracking and leading tuned to Latin faces and Arabic inherits
      it. Putting this first — which is where it started — left 951 of
      1,049 violations standing. See the header of css/arabic.css. -->
-<link rel="stylesheet" href="/css/arabic.css">
+<link rel="stylesheet" href="/css/arabic.css?v=8eca8911">
 <noscript><style>
 /* Several entrance effects are authored hidden and revealed by script:
    .reveal (js/site.js), .split-word and .rule-draw (js/motion.js),
@@ -112,6 +127,34 @@
   Inline rather than an external sprite file on purpose: `currentColor`
   does not inherit across an external <use> reference in several
   browsers, which would defeat the whole arrangement above.
+
+  TWO WEIGHTS, WHICH IS WHAT MAKES IT AN ENGRAVING.
+  ---------------------------------------------------------------------
+  A single-weight outline is what every icon library ships, and at
+  institutional scale it reads as competent rather than as commissioned.
+  Real engraving carries a cut line and a hairline: the structure at
+  full weight, the modelling — hatching, secondary rules, interior
+  detail — at roughly two-fifths of it.
+
+  So structural paths inherit the 1.25 stroke from .icon, and detail
+  paths carry `stroke-width=".55"` as a PRESENTATION ATTRIBUTE on the
+  path itself. It has to be an attribute rather than a class: content
+  cloned by <use> lives in a shadow tree that document CSS selectors
+  cannot reach, so `.icon .hair {}` would silently do nothing. Only
+  inherited properties cross that boundary, which is exactly why
+  `currentColor` works above and a class would not.
+
+  Both numbers are in the 24-unit viewBox, so the ratio between them
+  holds at every rendered size — a hairline stays a hairline at 1.25rem
+  and at 3.5rem.
+
+  THE FOUR REGION MARKS are cartographic, not cultural. A set of icons
+  standing for the Gulf, Europe, Africa and Asia is one careless
+  decision away from four national stereotypes, so each is the same
+  globe under the same graticule with a different sector engraved and a
+  different locator set into it. They read as one instrument turned
+  four ways, which is both the honest claim and the better drawing.
+  Before this they were four copies of #i-globe on one screen.
 -->
 <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false"><defs>
 
@@ -129,11 +172,23 @@
     <stop offset="100%" stop-color="#A8863C"/>
   </linearGradient>
 
+  <!-- ================================================================
+       THE INSTITUTIONAL MARKS
+       ================================================================ -->
+
   <!-- The institution's mark, reduced to a stroke. -->
   <symbol id="i-crest" viewBox="0 0 24 24">
-    <path d="M12 1.6 21 4.8v8.1c0 5.6-3.8 10-9 12.1C6.8 22.9 3 18.5 3 12.9V4.8Z"/>
-    <path d="M12 5.2 17.6 7.2v5.6c0 3.7-2.4 6.7-5.6 8.1-3.2-1.4-5.6-4.4-5.6-8.1V7.2Z"/>
-    <path d="M9.4 12.6h5.2M12 10v5.2"/>
+    <!-- A HERALDIC CREST, not a first-aid badge.
+         It was a shield with a cross bar and an upright inside it, and
+         at every size from 30px up it read as a medical shield — the
+         defect CLAUDE.md §6 records against this exact symbol. A crest
+         is a shield UNDER A CROWN with a charge on it, so that is what
+         is drawn: a three-point crown on the chief, a chevron below it,
+         and a mullet in base. Nothing in it crosses at right angles. -->
+    <path d="M12 3.4 20.4 6.2v7.2c0 5.1-3.5 9.2-8.4 11.1C7.1 22.6 3.6 18.5 3.6 13.4V6.2Z"/>
+    <path d="M6.6 6.9 8.3 4.4l1.9 1.7L12 3l1.8 3.1 1.9-1.7 1.7 2.5Z" stroke-linejoin="round"/>
+    <path d="M7.6 15.1 12 11.2l4.4 3.9" stroke-width=".55" opacity=".8"/>
+    <path d="m12 17.2.85 1.72 1.9.28-1.37 1.34.32 1.89L12 21.54l-1.7.89.32-1.89-1.37-1.34 1.9-.28Z" stroke-width=".55" opacity=".72"/>
   </symbol>
 
   <!-- Laurel — awards, honours, distinction. -->
@@ -145,6 +200,18 @@
     <path d="M12 6.4c2-1.4 4.4-1.6 6.4-.8-.2 2.2-1.6 4-3.6 4.8"/>
     <path d="M12 11c2-1.4 4.4-1.6 6.4-.8-.2 2.2-1.6 4-3.6 4.8"/>
     <path d="M12 15.6c2-1.4 4.4-1.6 6.4-.8-.2 2.2-1.6 4-3.6 4.8"/>
+    <path d="M7.6 6.6c.7.9 1.2 1.9 1.4 2.9M7.6 11.2c.7.9 1.2 1.9 1.4 2.9M7.6 15.8c.7.9 1.2 1.9 1.4 2.9" stroke-width=".55" opacity=".7"/>
+    <path d="M16.4 6.6c-.7.9-1.2 1.9-1.4 2.9M16.4 11.2c-.7.9-1.2 1.9-1.4 2.9M16.4 15.8c-.7.9-1.2 1.9-1.4 2.9" stroke-width=".55" opacity=".7"/>
+  </symbol>
+
+  <!-- Rosette — the conferred honour, ribboned. Distinct from the
+       laurel (which is the wreath) and from the wax seal (which is the
+       act of sealing): this is the thing pinned to the record. -->
+  <symbol id="i-rosette" viewBox="0 0 24 24">
+    <circle cx="12" cy="8.6" r="5.4"/>
+    <path d="M12 4.4 13.2 7l2.8.3-2.1 1.9.6 2.8L12 10.6l-2.5 1.4.6-2.8L8 7.3 10.8 7Z"/>
+    <path d="M8.4 13.2 6.4 21l5.6-2.6L17.6 21l-2-7.8" stroke-width=".55" opacity=".78"/>
+    <circle cx="12" cy="8.6" r="7.2" stroke-width=".55" opacity=".55"/>
   </symbol>
 
   <!-- Quill — writing, authorship, the written standard. -->
@@ -152,6 +219,16 @@
     <path d="M3 21c3.4-7.6 8-13 17-18-1.2 8.4-5.2 14-11.4 16.2Z"/>
     <path d="M8.6 19.2 20 3"/>
     <path d="M3 21h4.2"/>
+    <path d="M11.6 15.4c1.6-2.6 3.4-5 5.6-7.4M9.8 17.6c1.9-3.1 4.1-6 6.6-8.7" stroke-width=".55" opacity=".68"/>
+  </symbol>
+
+  <!-- Nib — the fine hand. Used where "quill" would read as decoration
+       and the point is precision: rubrics, marking, the written mark. -->
+  <symbol id="i-nib" viewBox="0 0 24 24">
+    <path d="M8.4 2.6h7.2v6.2L12 21.4 8.4 8.8Z"/>
+    <path d="M12 7.9a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z"/>
+    <path d="M12 10.9v9.2" stroke-width=".55" opacity=".76"/>
+    <path d="M8.4 5.6h7.2M9.6 12.6h4.8" stroke-width=".55" opacity=".55"/>
   </symbol>
 
   <!-- Open book — the curriculum, published. -->
@@ -159,6 +236,16 @@
     <path d="M12 6.4C10 4.9 7.2 4.2 3 4.4v13.2c4.2-.2 7 .5 9 2 2-1.5 4.8-2.2 9-2V4.4c-4.2-.2-7 .5-9 2Z"/>
     <path d="M12 6.4v13.2"/>
     <path d="M6 8.4h3.2M6 11.6h3.2M14.8 8.4H18M14.8 11.6H18"/>
+    <path d="M6 14.8h3.2M14.8 14.8H18" stroke-width=".55" opacity=".72"/>
+    <path d="M3 7.2c2.8-.1 5.2.3 7 1.2M21 7.2c-2.8-.1-5.2.3-7 1.2" stroke-width=".55" opacity=".55"/>
+  </symbol>
+
+  <!-- Scroll — a volume of the imprint, issued and sealed. -->
+  <symbol id="i-scroll" viewBox="0 0 24 24">
+    <path d="M6.4 3.4h13.2v14.2a3 3 0 0 1-3 3H6.4"/>
+    <path d="M6.4 3.4a3 3 0 0 0-3 3v1.8h3"/>
+    <path d="M6.4 20.6a3 3 0 0 0 3-3V8.2"/>
+    <path d="M12 7.4h5M12 10.6h5M12 13.8h3.2" stroke-width=".55" opacity=".78"/>
   </symbol>
 
   <!-- Portico — the campus, the institution as a place. -->
@@ -166,21 +253,46 @@
     <path d="M2 8.8 12 3l10 5.8"/>
     <path d="M4 8.8V19M9.4 8.8V19M14.6 8.8V19M20 8.8V19"/>
     <path d="M2 21.4h20M3 19h18"/>
+    <path d="M4.4 8.4 12 4.1l7.6 4.3" stroke-width=".55" opacity=".6"/>
   </symbol>
 
-  <!-- Globe with meridians — worldwide delivery. -->
-  <symbol id="i-globe" viewBox="0 0 24 24">
-    <circle cx="12" cy="12" r="9"/>
-    <path d="M3 12h18"/>
-    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z"/>
-    <path d="M5 6.4c2 1.2 4.4 1.8 7 1.8s5-.6 7-1.8M5 17.6c2-1.2 4.4-1.8 7-1.8s5 .6 7 1.8"/>
+  <!-- Portcullis — Westminster, and the United Kingdom residency. -->
+  <symbol id="i-portcullis" viewBox="0 0 24 24">
+    <path d="M3.6 4.4h16.8v13.2H3.6Z"/>
+    <path d="M8.2 4.4v13.2M12 4.4v13.2M15.8 4.4v13.2"/>
+    <path d="M3.6 8.8h16.8M3.6 13.2h16.8" stroke-width=".55" opacity=".78"/>
+    <path d="M6.4 17.6v2.6M9.9 17.6v2.6M14.1 17.6v2.6M17.6 17.6v2.6" stroke-width=".55" opacity=".78"/>
+    <path d="M3.6 4.4 12 1.8l8.4 2.6" stroke-width=".55" opacity=".6"/>
   </symbol>
+
+  <!-- Columns — governance, the academic bodies. -->
+  <symbol id="i-columns" viewBox="0 0 24 24">
+    <path d="M2.6 6.6h18.8M4 21.4h16"/>
+    <path d="M6.4 6.6v14.8M12 6.6v14.8M17.6 6.6v14.8"/>
+    <path d="M2.6 6.6 12 2.6l9.4 4"/>
+    <path d="M5.2 9.2h2.4M10.8 9.2h2.4M16.4 9.2h2.4" stroke-width=".55" opacity=".7"/>
+    <path d="M5.2 19h2.4M10.8 19h2.4M16.4 19h2.4" stroke-width=".55" opacity=".7"/>
+  </symbol>
+
+  <!-- Lectern — teaching practice, the seminar, the spoken standard. -->
+  <symbol id="i-lectern" viewBox="0 0 24 24">
+    <path d="M4.4 6.6 17.8 3.4l1.8 4.4L6.2 11Z"/>
+    <path d="M11.8 10.2v8.4M7.4 21.4h8.8"/>
+    <path d="M11.8 18.6c-1.7 0-3.1.9-3.7 2.2M11.8 18.6c1.7 0 3.1.9 3.7 2.2"/>
+    <path d="M6.8 6.8 16.8 4.4M7.6 8.8l10-2.4" stroke-width=".55" opacity=".7"/>
+  </symbol>
+
+  <!-- ================================================================
+       THE RECORD, THE STANDARD, THE MEASURE
+       ================================================================ -->
 
   <!-- Wax seal — conferral, the sealed record. -->
   <symbol id="i-seal" viewBox="0 0 24 24">
     <circle cx="12" cy="9.6" r="6.6"/>
     <circle cx="12" cy="9.6" r="3.4"/>
     <path d="M8 15.4 6.6 22l5.4-2.6L17.4 22 16 15.4"/>
+    <circle cx="12" cy="9.6" r="5" stroke-width=".55" opacity=".55"/>
+    <path d="M12 4.6v1.6M12 13v1.6M7 9.6h1.6M15.4 9.6H17" stroke-width=".55" opacity=".7"/>
   </symbol>
 
   <!-- Ledger — the record, the register, the table of marks. -->
@@ -188,18 +300,8 @@
     <path d="M4 2.6h16v18.8H4Z"/>
     <path d="M8 2.6v18.8"/>
     <path d="M11 7.4h6M11 12h6M11 16.6h6"/>
-  </symbol>
-
-  <!-- Waveform — the Listening Lab, recorded speech. -->
-  <symbol id="i-waveform" viewBox="0 0 24 24">
-    <path d="M2 12h2.4M7 7.4v9.2M11.6 4v16M16.2 8.6v6.8M20.8 10.8v2.4"/>
-  </symbol>
-
-  <!-- Mortarboard — graduation, completion of the pathway. -->
-  <symbol id="i-mortarboard" viewBox="0 0 24 24">
-    <path d="M12 3.4 22.4 8 12 12.6 1.6 8Z"/>
-    <path d="M5.6 10v5.6c0 1.8 2.9 3.2 6.4 3.2s6.4-1.4 6.4-3.2V10"/>
-    <path d="M22.4 8v5.6"/>
+    <path d="M11 9.7h6M11 14.3h6M11 18.9h4" stroke-width=".55" opacity=".68"/>
+    <path d="M5.6 6h.8M5.6 12h.8M5.6 18h.8" stroke-width=".55" opacity=".68"/>
   </symbol>
 
   <!-- Scales — assessment, academic integrity, fair marking. -->
@@ -207,12 +309,98 @@
     <path d="M12 3.4v17.2M6.6 20.6h10.8"/>
     <path d="M4 7h16"/>
     <path d="M4 7 1.4 13.4h5.2ZM20 7l-2.6 6.4h5.2Z"/>
+    <path d="M4 7V5.2M20 7V5.2M9.6 5.6h4.8" stroke-width=".55" opacity=".7"/>
+    <circle cx="12" cy="4.4" r="1" stroke-width=".55" opacity=".7"/>
+  </symbol>
+
+  <!-- Shield with a check — quality assurance, verification. -->
+  <symbol id="i-shield-check" viewBox="0 0 24 24">
+    <path d="M12 2.2 20.4 5v7.6c0 4.8-3.4 8.6-8.4 10.2-5-1.6-8.4-5.4-8.4-10.2V5Z"/>
+    <path d="m8.4 12 2.6 2.6 4.6-5"/>
+    <path d="M12 4.2 18.4 6.4v6.2c0 3.8-2.6 6.9-6.4 8.2-3.8-1.3-6.4-4.4-6.4-8.2V6.4Z" stroke-width=".55" opacity=".5"/>
+  </symbol>
+
+  <!-- Target — the published standard, and hitting it. -->
+  <symbol id="i-target" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <circle cx="12" cy="12" r="5"/>
+    <circle cx="12" cy="12" r="1.4"/>
+    <path d="M12 1.6v3M12 19.4v3M1.6 12h3M19.4 12h3" stroke-width=".55" opacity=".72"/>
+  </symbol>
+
+  <!-- Layers — the six levels, stacked into one pathway. -->
+  <symbol id="i-layers" viewBox="0 0 24 24">
+    <path d="M12 2.6 21.6 7 12 11.4 2.4 7Z"/>
+    <path d="m2.4 12 9.6 4.4 9.6-4.4"/>
+    <path d="m2.4 17 9.6 4.4 9.6-4.4"/>
+    <path d="M6.6 9 12 11.4 17.4 9" stroke-width=".55" opacity=".6"/>
+  </symbol>
+
+  <!-- Ascending chart — progression through the levels. -->
+  <symbol id="i-progress" viewBox="0 0 24 24">
+    <path d="M3 21h18M3 21V3"/>
+    <path d="M6.6 17.4v-3.2M11 17.4v-6.8M15.4 17.4V7.8M19.8 17.4V4.6"/>
+    <path d="M6.6 13 11 9.4l4.4-3.2 4.4-2.8" stroke-width=".55" opacity=".62"/>
+    <path d="M3 16.2h18M3 11.4h18M3 6.6h18" stroke-width=".55" opacity=".32"/>
+  </symbol>
+
+  <!-- Hourglass — hours of study, time on task. -->
+  <symbol id="i-hourglass" viewBox="0 0 24 24">
+    <path d="M5.6 2.6h12.8M5.6 21.4h12.8"/>
+    <path d="M7.2 2.6v3.6L12 12l-4.8 5.8v3.6M16.8 2.6v3.6L12 12l4.8 5.8v3.6"/>
+    <path d="M9.4 5.4h5.2" stroke-width=".55" opacity=".72"/>
+    <path d="M9.4 18.6h5.2M10.4 16.4h3.2" stroke-width=".55" opacity=".72"/>
+  </symbol>
+
+  <!-- Calendar — dates, the academic year. -->
+  <symbol id="i-calendar" viewBox="0 0 24 24">
+    <path d="M3.4 5.4h17.2v16H3.4Z"/>
+    <path d="M3.4 10.2h17.2M8.2 2.6v5M15.8 2.6v5"/>
+    <path d="M6.8 13.4h2.2M11 13.4h2.2M15.2 13.4h2.2" stroke-width=".55" opacity=".72"/>
+    <path d="M6.8 17.2h2.2M11 17.2h2.2M15.2 17.2h2.2" stroke-width=".55" opacity=".72"/>
+  </symbol>
+
+  <!-- Waveform — the Listening Lab, recorded speech. -->
+  <symbol id="i-waveform" viewBox="0 0 24 24">
+    <path d="M2 12h2.4M7 7.4v9.2M11.6 4v16M16.2 8.6v6.8M20.8 10.8v2.4"/>
+    <path d="M4.7 10.4v3.2M9.3 5.6v12.8M13.9 6.2v11.6M18.5 9.4v5.2" stroke-width=".55" opacity=".62"/>
+  </symbol>
+
+  <!-- Mortarboard — graduation, completion of the pathway. -->
+  <symbol id="i-mortarboard" viewBox="0 0 24 24">
+    <path d="M12 3.4 22.4 8 12 12.6 1.6 8Z"/>
+    <path d="M5.6 10v5.6c0 1.8 2.9 3.2 6.4 3.2s6.4-1.4 6.4-3.2V10"/>
+    <path d="M22.4 8v5.6"/>
+    <path d="M22.4 13.6a1 1 0 1 0 0 2 1 1 0 0 0 0-2Z" stroke-width=".55" opacity=".78"/>
+    <path d="M6.4 8.4 12 5.9l5.6 2.5" stroke-width=".55" opacity=".5"/>
   </symbol>
 
   <!-- Compass — direction, guidance, the pathway. -->
   <symbol id="i-compass" viewBox="0 0 24 24">
     <circle cx="12" cy="12" r="9"/>
     <path d="m15.6 8.4-2 5.2-5.2 2 2-5.2Z"/>
+    <circle cx="12" cy="12" r="6.8" stroke-width=".55" opacity=".45"/>
+    <path d="M12 3v1.8M12 19.2V21M3 12h1.8M19.2 12H21" stroke-width=".55" opacity=".72"/>
+  </symbol>
+
+  <!-- Astrolabe — the instrument. The platform built for one programme,
+       where a compass would say "direction" and this says "measurement". -->
+  <symbol id="i-astrolabe" viewBox="0 0 24 24">
+    <!-- AN ASTROLABE, not a third globe.
+         This, #i-globe and #i-language were three circles with meridians
+         on them and were indistinguishable on a contact sheet. An
+         astrolabe is not a globe: it is a suspended disc — a shackle and
+         ring at the top, a graduated limb, a pierced rete, and an
+         alidade lying across the face on the diagonal. The suspension
+         and the alidade are what tell it apart at 30px. -->
+    <path d="M12 1.4a1.5 1.5 0 0 1 0 3 1.5 1.5 0 0 1 0-3Z" stroke-width=".7"/>
+    <path d="M12 4.4v1.2"/>
+    <circle cx="12" cy="14" r="8.2"/>
+    <circle cx="12" cy="14" r="5.9" stroke-width=".55" opacity=".72"/>
+    <path d="M12 8.1v11.8M6.1 14h11.8" stroke-width=".55" opacity=".5"/>
+    <path d="m6.2 19.8 11.6-11.6" stroke-linecap="round"/>
+    <circle cx="12" cy="14" r="1.15" stroke-width=".7"/>
+    <path d="M12 5.8v2.3M3.8 14H6.1M17.9 14h2.3M12 19.9v2.3" stroke-width=".55" opacity=".55"/>
   </symbol>
 
   <!-- Clock tower — London, the campus HQ. -->
@@ -222,7 +410,13 @@
     <circle cx="12" cy="13" r="2.6"/>
     <path d="M12 11.6V13h1.2"/>
     <path d="M6.6 21.4h10.8"/>
+    <path d="M9.4 17.4h5.2M9.4 19.2h5.2" stroke-width=".55" opacity=".68"/>
+    <path d="M12 4.6v1.6" stroke-width=".55" opacity=".68"/>
   </symbol>
+
+  <!-- ================================================================
+       ACCESS, CORRESPONDENCE, PARTNERSHIP
+       ================================================================ -->
 
   <!-- Key — access, the student portal. -->
   <symbol id="i-key" viewBox="0 0 24 24">
@@ -235,24 +429,7 @@
     <path d="M2.6 5h18.8v14H2.6Z"/>
     <path d="m2.6 5 9.4 7.4L21.4 5"/>
     <circle cx="12" cy="12.6" r="2.2"/>
-  </symbol>
-
-  <!-- Shield with a check — quality assurance, verification. -->
-  <symbol id="i-shield-check" viewBox="0 0 24 24">
-    <path d="M12 2.2 20.4 5v7.6c0 4.8-3.4 8.6-8.4 10.2-5-1.6-8.4-5.4-8.4-10.2V5Z"/>
-    <path d="m8.4 12 2.6 2.6 4.6-5"/>
-  </symbol>
-
-  <!-- Ascending chart — progression through the levels. -->
-  <symbol id="i-progress" viewBox="0 0 24 24">
-    <path d="M3 21h18M3 21V3"/>
-    <path d="M6.6 17.4v-3.2M11 17.4v-6.8M15.4 17.4V7.8M19.8 17.4V4.6"/>
-  </symbol>
-
-  <!-- Calendar — dates, the academic year. -->
-  <symbol id="i-calendar" viewBox="0 0 24 24">
-    <path d="M3.4 5.4h17.2v16H3.4Z"/>
-    <path d="M3.4 10.2h17.2M8.2 2.6v5M15.8 2.6v5"/>
+    <path d="m2.6 19 7-5.6M21.4 19l-7-5.6" stroke-width=".55" opacity=".6"/>
   </symbol>
 
   <!-- Passport — international applicants, visas. -->
@@ -260,14 +437,116 @@
     <path d="M4.6 2.6h14.8v18.8H4.6Z"/>
     <circle cx="12" cy="9.6" r="3.4"/>
     <path d="M8.6 16.6h6.8"/>
+    <path d="M12 6.2c1.2 1.4 1.8 2.6 1.8 3.4S13.2 11.8 12 13.2c-1.2-1.4-1.8-2.6-1.8-3.6S10.8 7.6 12 6.2Z" stroke-width=".55" opacity=".7"/>
+    <path d="M9.2 18.6h5.6" stroke-width=".55" opacity=".7"/>
   </symbol>
 
-  <!-- Columns — governance, the academic bodies. -->
-  <symbol id="i-columns" viewBox="0 0 24 24">
-    <path d="M2.6 6.6h18.8M4 21.4h16"/>
-    <path d="M6.4 6.6v14.8M12 6.6v14.8M17.6 6.6v14.8"/>
-    <path d="M2.6 6.6 12 2.6l9.4 4"/>
+  <!-- Accord — an agreement signed by two parties. Partnerships,
+       articulation, the awarding organisation. -->
+  <symbol id="i-accord" viewBox="0 0 24 24">
+    <path d="M4.4 4.4h9.2l6 6v9.2H4.4Z"/>
+    <path d="M13.6 4.4v6h6"/>
+    <path d="M7.6 14.4h8.8M7.6 17.2h5.6" stroke-width=".55" opacity=".76"/>
+    <circle cx="9.4" cy="9.4" r="2" stroke-width=".55" opacity=".76"/>
   </symbol>
+
+  <!-- Lock — privacy, the learner's data, what is not shared. -->
+  <symbol id="i-lock" viewBox="0 0 24 24">
+    <path d="M4.6 10.4h14.8v11H4.6Z"/>
+    <path d="M8 10.4V7.6a4 4 0 0 1 8 0v2.8"/>
+    <path d="M12 14.4v3.2" stroke-width=".55" opacity=".78"/>
+    <circle cx="12" cy="14" r="1.2" stroke-width=".55" opacity=".78"/>
+  </symbol>
+
+  <!-- A plain tick, for lists that are not shields. -->
+  <symbol id="i-check" viewBox="0 0 24 24">
+    <path d="m4.4 12.6 5 5 10.2-11.2"/>
+  </symbol>
+
+  <!-- An open ring — the counterpart to i-check, and the reason it
+       exists. A register of what is settled and what is not cannot
+       use one mark for both: /about/ listed its OUTSTANDING work
+       under the same tick as its confirmed work, so the page marked
+       unfinished things as done. This is the same diameter as the
+       tick's stroke path and deliberately empty. -->
+  <symbol id="i-ring" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="7.6"/>
+  </symbol>
+
+  <!-- A struck seal-check: settled, and sealed. Reads as heavier than
+       a bare tick beside the open ring above. -->
+  <symbol id="i-struck" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="7.6"/>
+    <path d="m8.4 12.2 2.5 2.5 4.7-5.4"/>
+  </symbol>
+
+  <!-- Opening quotation, for pulled quotes set as display type. -->
+  <symbol id="i-quote" viewBox="0 0 24 24">
+    <path d="M9.6 5.4C6 7 3.6 10.2 3.6 14a4.6 4.6 0 0 0 4.6 4.6A4.2 4.2 0 0 0 12.4 14a4.1 4.1 0 0 0-4-4.2c-.5 0-.9 0-1.2.2.4-1.6 1.6-3 3.4-4Z"/>
+    <path d="M20.4 5.4c-3.6 1.6-6 4.8-6 8.6a4.6 4.6 0 0 0 4.6 4.6A4.2 4.2 0 0 0 23.2 14a4.1 4.1 0 0 0-4-4.2c-.5 0-.9 0-1.2.2.4-1.6 1.6-3 3.4-4Z" stroke-width=".55" opacity=".6"/>
+  </symbol>
+
+  <!-- ================================================================
+       THE WORLD, AND THE FOUR REGIONS
+       ---------------------------------------------------------------
+       One globe under one graticule. Each region engraves a different
+       sector of it and sets a locator diamond into that sector, so the
+       four read as one instrument turned four ways rather than as four
+       flags. See the note at the head of this file.
+       ================================================================ -->
+
+  <!-- Globe with meridians — worldwide delivery. -->
+  <symbol id="i-globe" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M3 12h18"/>
+    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z"/>
+    <path d="M5 6.4c2 1.2 4.4 1.8 7 1.8s5-.6 7-1.8M5 17.6c2-1.2 4.4-1.8 7-1.8s5 .6 7 1.8"/>
+    <path d="M4.2 9.2h15.6M4.2 14.8h15.6" stroke-width=".55" opacity=".38"/>
+  </symbol>
+
+  <!-- The Gulf — the south-eastern sector. -->
+  <symbol id="i-region-gulf" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M3 12h18"/>
+    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z" stroke-width=".55" opacity=".45"/>
+    <path d="M12 12 13.56 20.86A9 9 0 0 0 20.97 12.78Z"/>
+    <path d="M13.4 17.6c2.4-.3 4.3-1.4 5.6-3.2M14.1 19.5c2.9-.5 5.2-2 6.6-4.4" stroke-width=".55" opacity=".62"/>
+    <path d="m16.4 15.1 1.3 1.3-1.3 1.3-1.3-1.3Z" stroke-width=".55" opacity=".95"/>
+  </symbol>
+
+  <!-- Europe — the north-western sector. -->
+  <symbol id="i-region-europe" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M3 12h18"/>
+    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z" stroke-width=".55" opacity=".45"/>
+    <path d="M12 12 10.44 3.14A9 9 0 0 0 3.03 11.22Z"/>
+    <path d="M10.6 6.4c-2.4.3-4.3 1.4-5.6 3.2M9.9 4.5c-2.9.5-5.2 2-6.6 4.4" stroke-width=".55" opacity=".62"/>
+    <path d="m7.6 8.9-1.3-1.3 1.3-1.3 1.3 1.3Z" stroke-width=".55" opacity=".95"/>
+  </symbol>
+
+  <!-- Africa — the south-western sector. -->
+  <symbol id="i-region-africa" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M3 12h18"/>
+    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z" stroke-width=".55" opacity=".45"/>
+    <path d="M12 12 3.03 12.78A9 9 0 0 0 10.44 20.86Z"/>
+    <path d="M10.6 17.6c-2.4-.3-4.3-1.4-5.6-3.2M9.9 19.5c-2.9-.5-5.2-2-6.6-4.4" stroke-width=".55" opacity=".62"/>
+    <path d="m7.6 15.1 1.3 1.3-1.3 1.3-1.3-1.3Z" stroke-width=".55" opacity=".95"/>
+  </symbol>
+
+  <!-- Asia — the north-eastern sector. -->
+  <symbol id="i-region-asia" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M3 12h18"/>
+    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z" stroke-width=".55" opacity=".45"/>
+    <path d="M12 12 20.97 11.22A9 9 0 0 0 13.56 3.14Z"/>
+    <path d="M13.4 6.4c2.4.3 4.3 1.4 5.6 3.2M14.1 4.5c2.9.5 5.2 2 6.6 4.4" stroke-width=".55" opacity=".62"/>
+    <path d="m16.4 8.9-1.3-1.3 1.3-1.3 1.3 1.3Z" stroke-width=".55" opacity=".95"/>
+  </symbol>
+
+  <!-- ================================================================
+       NAVIGATION AND UTILITY
+       ================================================================ -->
 
   <!-- Arrow, used for links and CTAs. -->
   <symbol id="i-arrow" viewBox="0 0 24 24">
@@ -293,8 +572,34 @@
 
   <!-- Language switch. -->
   <symbol id="i-language" viewBox="0 0 24 24">
-    <circle cx="12" cy="12" r="9"/>
-    <path d="M3 12h18M12 3c2.4 2.6 3.6 5.6 3.6 9s-1.2 6.4-3.6 9c-2.4-2.6-3.6-5.6-3.6-9S9.6 5.6 12 3Z"/>
+    <!-- LANGUAGE, not a fourth globe.
+         A circle with meridians on it is a GLOBE, and #i-globe is
+         already that. This mark means the two languages the College
+         publishes in, so it is drawn as the two scripts: a Latin A on
+         the sinister side, an Arabic waw-and-tooth stroke on the
+         dexter, divided by a hairline rule. Unmistakable at 30px, and
+         it says the actual thing rather than gesturing at "world". -->
+    <path d="M3.1 15.6 6.4 7.4l3.3 8.2M4.4 12.9h4"/>
+    <path d="M12 4.6v14.8" stroke-width=".55" opacity=".45"/>
+    <path d="M17.9 8.1c1.7 0 2.9 1.2 2.9 2.9 0 1.6-1.1 2.7-2.6 2.7-1.2 0-2-.7-2-1.7 0-.9.6-1.5 1.4-1.5.6 0 1 .3 1.1.8"/>
+    <path d="M14.2 16.4h6.6" stroke-width=".55" opacity=".8"/>
+  </symbol>
+
+  <!-- Countermark — a sheet carrying an identifying impression, for the
+       edition mark printed on every page of every volume. Distinct from
+       i-seal, which is a seal of conferral with a ribbon: this is the
+       quieter thing, a mark that says WHERE A PAGE CAME FROM. The leaf
+       is at full weight; the impression and its radiating ticks are the
+       hairline, so the mark reads as pressed INTO the paper rather than
+       drawn on top of it. -->
+  <symbol id="i-countermark" viewBox="0 0 24 24">
+    <path d="M5 2.6h10.4L19 6.2v15.2H5Z"/>
+    <path d="M15.4 2.6v3.6H19"/>
+    <circle cx="12" cy="13.4" r="4.2"/>
+    <path d="M9.6 13.4h4.8"/>
+    <circle cx="12" cy="13.4" r="2.2" stroke-width=".55" opacity=".7"/>
+    <path d="M12 7.9v1.3M12 17.6v1.3M6.6 13.4h1.3M16.1 13.4h1.3"
+      stroke-width=".55" opacity=".75"/>
   </symbol>
 
 </defs>
@@ -338,32 +643,49 @@
     <path d="M6.4 19.0H18.6M6.4 15.8H18.6M6.4 12.6H18.6M6.4 9.4H18.6M6.4 6.2H18.6M6.4 3.0H18.6"/>
   </symbol>
 </svg>
-<div class="topbar">
+<!-- شريط الأدوات: أداةٌ لا شريط اتصال. انظر النسخة الإنجليزية للتعليل. -->
+<div class="topbar" data-worldclock>
   <div class="topbar__inner">
-    <div class="topbar__contacts">
-      <a href="mailto:info@worldwencollege.co.uk" class="topbar__item" dir="ltr">
-        <svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg>
-        info@worldwencollege.co.uk
-      </a>
-      <span class="topbar__item topbar__item--muted">
+
+    <div class="seat">
+      <span class="seat__flag" aria-hidden="true">🇬🇧</span>
+      <span class="seat__place">
+        <span class="seat__city">لندن</span><span class="seat__country">، المملكة المتحدة</span>
+      </span>
+      <span class="seat__rule" aria-hidden="true"></span>
+      <span class="seat__clock">
         <svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg>
-        الحرم الجامعي في لندن · التقديم متاح عالميًا
+        <span data-clock-london dir="ltr">&mdash;</span>
+        <span class="seat__tz">بتوقيت لندن</span>
       </span>
     </div>
+
+    <div class="here" data-here hidden>
+      <span class="here__label">تتصفّح من</span>
+      <span class="here__flag" data-here-flag aria-hidden="true"></span>
+      <span class="here__name" data-here-name></span>
+      <span class="seat__rule" aria-hidden="true"></span>
+      <span class="here__time" data-clock-local dir="ltr"></span>
+    </div>
+
     <div class="topbar__right">
-      <a href="/ar/contact/" class="topbar__item">
-        <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg>
+      <a href="/ar/contact/" class="topbar__item topbar__item--contact">
+        <svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg>
         تواصل معنا
       </a>
-      <a class="topbar__lang" href="/students/" lang="en" hreflang="en" dir="ltr">
-        <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
-        English
-      </a>
-      <div class="topbar__social" aria-label="روابط التواصل الاجتماعي">
-        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
-        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
-        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
-      </div>
+      <div class="langswitch">
+    <button type="button" class="langswitch__btn" aria-expanded="false" aria-haspopup="true">
+      <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
+      <span class="langswitch__now">العربية</span>
+      <svg class="icon langswitch__chev" aria-hidden="true"><use href="#i-arrow"/></svg>
+    </button>
+    <div class="langswitch__menu crystal" role="menu">
+      <p class="langswitch__head">الطبعات</p>
+        <a class="lang__row" href="/students/" hreflang="en" lang="en"><span class="lang__flag" aria-hidden="true">🇬🇧</span><span class="lang__endonym" lang="en">English</span><span class="lang__english">English</span></a>
+        <span class="lang__row lang__row--current" aria-current="true"><span class="lang__flag" aria-hidden="true">🇸🇦</span><span class="lang__endonym" dir="rtl" lang="ar">العربية</span><span class="lang__english">Arabic</span><span class="lang__state"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg></span></span>
+    </div>
+  </div>
+      
     </div>
   </div>
 </div>
@@ -439,7 +761,9 @@
               <p class="mega__label">المؤسسة</p>
               <a href="/ar/about/">عن الكلية</a>
               <a href="/ar/about/#vision">الرؤية والرسالة</a>
-              <a href="/ar/about/#philosophy">الفلسفة التربوية</a>
+              <a href="/ar/why-english/">حجّة الإنجليزية</a>
+              <a href="/ar/why-english/">حجّة الإنجليزية</a>
+          <a href="/ar/about/#philosophy">الفلسفة التربوية</a>
               <a href="/ar/about/#structure">التنظيم</a>
               <a href="/ar/about/careers/">العمل في الكلية</a>
             </div>
@@ -447,7 +771,7 @@
           <a class="mega__feature" href="/ar/about/#status">
             <svg class="icon icon--lg" aria-hidden="true"><use href="#i-columns"/></svg>
             <span class="mega__feature-label">الوضع المؤسسي</span>
-            <span class="mega__feature-text">ما هي الكلية اليوم — وما ليست بعد. مكتوب بوضوح ومحدَّث باستمرار.</span>
+            <span class="mega__feature-text">ثماني دفعات وستون دولة. أكثر من 22,000 متعلّم درسوا هنا منذ 2023، والسجل وراء الرقم منشور.</span>
             <span class="mega__feature-go">اقرأ الوضع المؤسسي <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
           </a>
         </div>
@@ -468,6 +792,7 @@
               <p class="mega__label">التدريس وهيئته</p>
               <a href="/ar/academics/teaching/">ممارسة التدريس</a>
               <a href="/ar/academics/teaching/#development">تطوير المعلّمين</a>
+              <a href="/ar/academics/tutor-handbook/">دليل المدرّس</a>
               <a href="/ar/faculty/">هيئة التدريس</a>
             </div>
           </div>
@@ -517,13 +842,15 @@
               <a href="/ar/admissions/apply/">كيفية التقديم</a>
               <a href="/ar/admissions/#requirements">شروط الالتحاق</a>
               <a href="/ar/admissions/tuition/">الرسوم والتمويل</a>
+              <a href="/ar/admissions/tuition/#routes">الدراسة المستقلة</a>
               <a href="/ar/admissions/policy/">سياسة القبول</a>
+              <a href="/ar/admissions/international/">الدراسة من بلدك</a>
             </div>
           </div>
           <a class="mega__feature" href="/ar/admissions/apply/">
             <svg class="icon icon--lg" aria-hidden="true"><use href="#i-seal"/></svg>
-            <span class="mega__feature-label">القبول مستمر</span>
-            <span class="mega__feature-text">لا دفعة تنتظرها. تبدأ يوم تسجّل.</span>
+            <span class="mega__feature-label">ثلاث دفعات في العام</span>
+            <span class="mega__feature-text">الربيع والصيف والخريف. ومئتا مقعد مفتوحة عالميًا في الدفعة الحالية.</span>
             <span class="mega__feature-go">ابدأ طلبك <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
           </a>
         </div>
@@ -541,6 +868,9 @@
               <a href="/ar/students/awards/">الشهادات والمراتب</a>
               <a href="/ar/students/#support">الدعم</a>
               <a href="/ar/students/regulations/">اللوائح الأكاديمية</a>
+              <a href="/ar/students/examinations/">لوائح الامتحان</a>
+              <a href="/ar/students/handbook/">دليل الطالب</a>
+              <a href="/ar/support/complaints/">الشكاوى</a>
             </div>
           </div>
           <a class="mega__feature" href="/ar/student-portal/">
@@ -584,6 +914,10 @@
               <a href="/ar/governance/#leadership">القيادة والهيئات</a>
               <a href="/ar/governance/#quality">ضمان الجودة</a>
               <a href="/ar/governance/decisions/">سجل القرارات</a>
+              <a href="/ar/governance/quality/">بنية الجودة</a>
+              <a href="/ar/governance/quality-manual/">دليل ضمان الجودة</a>
+          <a href="/ar/governance/instruments/">سجلّ الأدوات النظامية</a>
+              <a href="/ar/governance/instruments/">سجلّ الأدوات النظامية</a>
             </div>
           </div>
           <a class="mega__feature" href="/ar/governance/decisions/">
@@ -636,21 +970,39 @@
        تكلّف الترويسة شيئًا يُذكر من الارتفاع. js/worldclock.js يملأ
        القيم الثلاث؛ الأرقام هنا هي حالة ما قبل تشغيل السكربت فقط.
 
-       كانت أيقونة عارية ونصًا صِرفًا على شريط مسطّح — القطعة الوحيدة في
-       الترويسة التي لم تحمل معدن الـ"vessel/badge" الذي تُبنى منه بلاطات
-       التنقّل السريع تحتها وشبكة التذييل نفسها. الشارة والوسمان الذهبيان
-       والخطوط الفاصلة هنا هي المعدن نفسه بمقياس لوحة القيادة: سطر واحد
-       يظل يكلّف الترويسة القليل من الارتفاع، لكنه لم يعد الشيء الوحيد
-       على الصفحة الذي ما زال يلبس نصًّا صِرفًا. -->
-  <div class="headerclock grain" data-worldclock>
-    <span class="headerclock__badge"><svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg></span>
-    <span class="headerclock__times tabular" dir="ltr">
-      <span class="headerclock__reading"><span data-clock-london>13:36</span><span class="headerclock__tz">LON</span></span>
-      <span class="headerclock__rule" aria-hidden="true"></span>
-      <span class="headerclock__reading"><span data-clock-local>13:36</span><span class="headerclock__tz">YOU</span></span>
-    </span>
-    <span class="headerclock__rule headerclock__rule--edge" aria-hidden="true"></span>
-    <span class="headerclock__date" data-clock-date>Sat, 15 Aug</span>
+       شريط الترويسة العلوي (partials/topbar.ar.html) صار يحمل الساعتين
+       معًا، فاستغنينا عن هذا الشريط المكرَّر في الجوال — انظر التعليق في
+       partials/header.html لتفصيل السبب. -->
+
+  <!-- شريط الإجراءات السريعة — انظر النسخة الإنجليزية للتعليل. -->
+  <div class="utilrail" aria-label="إجراءات سريعة">
+    <div class="utilrail__track">
+      <a class="utilrail__item utilrail__item--gold" href="/ar/student-portal/">
+        <svg class="icon" aria-hidden="true"><use href="#i-key"/></svg><span>بوابة الطالب</span></a>
+      <a class="utilrail__item utilrail__item--gold" href="/ar/admissions/apply/">
+        <svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg><span>قدِّم الآن</span></a>
+      <a class="utilrail__item" href="/ar/contact/#consultation">
+        <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg><span>احجز استشارة</span></a>
+      <a class="utilrail__item" href="/ar/admissions/tuition/">
+        <svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg><span>الرسوم الدراسية</span></a>
+      <a class="utilrail__item" href="/ar/admissions/tuition/#scholarships">
+        <svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg><span>المنح</span></a>
+      <a class="utilrail__item" href="/ar/press/library/">
+        <svg class="icon" aria-hidden="true"><use href="#i-book"/></svg><span>المطبوعات</span></a>
+      <div class="utilrail__item utilrail__item--has-menu">
+        <button type="button" class="utilrail__btn" aria-expanded="false" aria-haspopup="true">
+          <svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg><span>التحقّق</span>
+          <svg class="icon utilrail__chev" aria-hidden="true"><use href="#i-arrow"/></svg>
+        </button>
+        <div class="utilrail__menu crystal" role="menu">
+          <a href="/ar/verify/?type=certificate"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg>التحقّق من شهادة</a>
+          <a href="/ar/verify/?type=transcript"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg>التحقّق من كشف درجات</a>
+          <a href="/ar/verify/?type=identity"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg>التحقّق من هوية طالب</a>
+          <a href="/ar/verify/?type=receipt"><svg class="icon" aria-hidden="true"><use href="#i-countermark"/></svg>التحقّق من إيصال</a>
+          <a href="/ar/verify/"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg>التحقّق من أي وثيقة</a>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- شريط التنقّل السريع: للجوال فقط (يُخفى من 861px فصاعدًا، حيث
@@ -658,36 +1010,6 @@
        بلمسة الإصبع يحمل الأركان الستة ذاتها، وبطاقة سابعة "القائمة
        الكاملة" تفتح اللوحة أدناه بدل الانتقال إلى صفحة — الشريط
        اختصار للمستوى الأول، واللوحة تبقى حيث يقيم الموقع كاملًا. -->
-  <!-- شريط الإجراءات: انظر التعليق في partials/header.html. ثلاثة مسارات
-       لا رابعة: من ينتمي إلى الكلية بالفعل، ومن يقرّر أينتمي، ومن قرّر. -->
-  <div class="actionband">
-    <div class="actionband__inner">
-      <a class="actionband__item" href="/ar/student-portal/">
-        <span class="actionband__badge"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
-        <span class="actionband__text">
-          <span class="actionband__title">ادخل إلى البوابة</span>
-          <span class="actionband__note">برنامجك وتسجيلاتك وسجلك</span>
-        </span>
-        <svg class="icon actionband__go" aria-hidden="true"><use href="#i-arrow"/></svg>
-      </a>
-      <a class="actionband__item" href="/ar/admissions/">
-        <span class="actionband__badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
-        <span class="actionband__text">
-          <span class="actionband__title">كيف يجري القبول</span>
-          <span class="actionband__note">أربع خطوات، ولا دفعة تنتظرها</span>
-        </span>
-        <svg class="icon actionband__go" aria-hidden="true"><use href="#i-arrow"/></svg>
-      </a>
-      <a class="actionband__item actionband__item--lead" href="/ar/admissions/apply/">
-        <span class="actionband__badge"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
-        <span class="actionband__text">
-          <span class="actionband__title">ابدأ طلبًا</span>
-          <span class="actionband__note">بلا رسوم، ودون طلب بيانات بطاقة</span>
-        </span>
-        <svg class="icon actionband__go" aria-hidden="true"><use href="#i-arrow"/></svg>
-      </a>
-    </div>
-  </div>
 
   <div class="quicknav grain" aria-label="التنقّل السريع">
     <div class="quicknav__track">
@@ -752,6 +1074,7 @@
           <a href="/ar/academics/#campus">الحرم الرقمي</a>
           <a href="/ar/academics/teaching/">ممارسة التدريس</a>
           <a href="/ar/academics/teaching/#development">تطوير المعلّمين</a>
+          <a href="/ar/academics/tutor-handbook/">دليل المدرّس</a>
           <a href="/ar/faculty/">هيئة التدريس</a>
         </div></div>
       </div>
@@ -774,7 +1097,9 @@
           <a href="/ar/admissions/apply/">كيفية التقديم</a>
           <a href="/ar/admissions/#requirements">شروط الالتحاق</a>
           <a href="/ar/admissions/tuition/">الرسوم والتمويل</a>
+          <a href="/ar/admissions/tuition/#routes">الدراسة المستقلة</a>
           <a href="/ar/admissions/policy/">سياسة القبول</a>
+          <a href="/ar/admissions/international/">الدراسة من بلدك</a>
           <a href="/ar/faq/">أسئلة القبول</a>
         </div></div>
       </div>
@@ -787,6 +1112,9 @@
           <a href="/ar/students/awards/">الشهادات والمراتب</a>
           <a href="/ar/students/#support">الدعم</a>
           <a href="/ar/students/regulations/">اللوائح الأكاديمية</a>
+          <a href="/ar/students/examinations/">لوائح الامتحان</a>
+          <a href="/ar/students/handbook/">دليل الطالب</a>
+          <a href="/ar/support/complaints/">الشكاوى</a>
           <a href="/ar/student-portal/">بوابة الطالب</a>
         </div></div>
       </div>
@@ -807,6 +1135,8 @@
           <a href="/ar/governance/#leadership">القيادة والهيئات</a>
           <a href="/ar/governance/#quality">ضمان الجودة</a>
           <a href="/ar/governance/decisions/">سجل القرارات</a>
+          <a href="/ar/governance/quality/">بنية الجودة</a>
+          <a href="/ar/governance/quality-manual/">دليل ضمان الجودة</a>
         </div></div>
       </div>
       <div class="accordion__item">
@@ -830,23 +1160,28 @@
         <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
         English
       </a>
-      <div class="topbar__social" aria-label="روابط التواصل الاجتماعي">
-        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
-        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
-        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
-      </div>
+      
     </div>
     <a href="/ar/admissions/apply/" class="btn btn--gold">قدّم الآن</a>
   </nav>
 </header>
 
 <main id="main">
-<section class="page-hero section--dark section-pad">
-  <div class="container">
-    <span class="eyebrow">الطلاب</span>
-    <h1 data-split>الحياة الطلابية.</h1>
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <img class="masthead__plate" src="/assets/art/crest-plate.svg" alt="" aria-hidden="true" width="320" height="400" data-depth="0.05">
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></p>
+
+    <p class="masthead__eyebrow">الطلاب</p>
+    <h1>وضعك هنا لك أن تراه، ولك أن تملكه.</h1>
+    <p class="masthead__stake">في أكثر المؤسسات سجلُّك شيء تملكه المؤسسة <em>عنك</em>، ويُفرَج عنه مستوىً بعد مستوى. <strong>وهنا هو شيء تملكه أنت</strong> &mdash; كل محاولة، وكل درجة بحسب المهارة، وكل تسجيل، مرئية وهي تتراكم، ولا تُشارَك إلا حين تقرّر.</p>
     <p class="lede">ما تعنيه الدراسة هنا: كيف تُقيَّم، وما يُحفظ في سجلك، وأين تتدرب على الاستماع والنطق، ومن يجيبك حين تحتاج عونًا — وما لا تقدمه الكلية، مذكورًا بالوضوح نفسه.</p>
-    
+    <div class="btn-row" style="justify-content:center">
+      <a href="/ar/student-portal/" class="btn btn--gold magnetic aurum aurum--twin">بوابة الطالب</a>
+      <a href="/ar/students/regulations/" class="btn btn--outline magnetic">اللوائح الأكاديمية</a>
+    </div>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></p>
   </div>
 </section>
 
@@ -854,92 +1189,463 @@
   <div class="contents__inner">
     <span class="contents__label">في هذه الصفحة</span>
     <ul class="contents__list">
-      <li><a href="#study">الدراسة هنا</a></li>
+      <li><a href="#day-one">يوم البداية</a></li>
+      <li><a href="#guide">دليل القسم</a></li>
       <li><a href="#lab">معمل الاستماع</a></li>
+      <li><a href="#leaf-4">كيف يعمل</a></li>
+      <li><a href="#leaf-5">الأمور العملية</a></li>
+      <li><a href="#leaf-6">مجموعات الاستماع</a></li>
+      <li><a href="#study-visit">الإقامة الدراسية في بريطانيا</a></li>
       <li><a href="#support">الدعم</a></li>
+      <li><a href="#leaf-9">التأخر</a></li>
+      <li><a href="#leaf-10">عدم الرضا عن شيء</a></li>
       <li><a href="#boundaries">ما لا تقدمه الكلية</a></li>
     </ul>
   </div>
 </nav>
 
+<section class="section--light section-pad">
+  <div class="container">
+      <figure class="plate plate--drift plate--photo reveal" style="--plate-ratio: 21 / 9">
+        <div class="plate__frame tilt gold-live edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <img src="/assets/images/plates/seminar.jpg" alt="طالبتان تتحاوران على حاسوب محمول في مكتبة، إحداهما بحجاب، وخلفهما ثالثة تقرأ." loading="lazy" decoding="async">
+          <span class="plate__tone" aria-hidden="true"></span>
+          <span class="plate__tone plate__tone--warm" aria-hidden="true"></span>
+        </div>
+        <figcaption class="plate__caption">
+          <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg>
+          الدراسة هنا مُشرَف عليها، يُصحّحها إنسان ويجيب عنها إنسان.
+        </figcaption>
+      </figure>
+  </div>
+</section>
 
-<section class="section--light section-pad" id="study" data-contents="الدراسة هنا">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">الدراسة هنا</span>
-      <h2>أربعة أبواب لطالب الكلية.</h2>
+
+<!-- الورقة الأولى — يوم البداية.
+     THE ARABIC EDITION WAS FOUR LEAVES AGAINST THE ENGLISH TEN, and the
+     two it lacked most were the two a new reader needs first: what is
+     waiting on day one, and a map of the seven pages in this section.
+     A reader arriving in Arabic had neither.
+
+     It then stood at eight sections against twelve, which is the same
+     fault one round further on: leaves III to X were compressed into
+     four lede-only sections, so an Arabic reader got the CLAIM that
+     recording matters without the three reasons, the five steps, the
+     practicalities, the missing audio, or the two cards on what happens
+     when somebody falls behind. The page now mirrors the English one
+     section for section. scripts/parity-audit.mjs measures it. -->
+<section class="leaf section--light grain" id="day-one" data-contents="يوم البداية">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/competency-wheel.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١</span>
+      <span class="leaf__label">يوم البداية</span>
+      <p class="leaf__rubric">ما ينتظرك ساعة تسجّل. كله متاح فورًا، ولا شيء يُفتح في تاريخ.</p>
     </div>
-    <div class="grid grid--2">
-      <div class="card">
-        <span class="card__num">التقييم</span>
-        <h3>كيف يتم تقييمك</h3>
-        <p>أدوات التقييم ومعاييرها والحدود الدنيا للمهارات — <a href="/ar/students/assessment/">الصفحة الكاملة</a>.</p>
+    <div class="leaf__body reveal">
+      <h2>ما ينتظرك حين تسجّل.</h2>
+      <p class="lede">كل ذلك متاح فورًا. ولا شيء يُفتح في تاريخ، لأنه لا توجد تواريخ &mdash;
+        انظر <a href="/ar/admissions/#dates">المواعيد</a>.</p>
+      <div class="grid grid--4">
+        <div class="card reveal edge-lit edge-lit--light aurum">
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>
+          <span class="card__num">مستواك</span>
+          <h3>عشر وحدات</h3>
+          <p>المستوى الذي وُضعت فيه، بوحداته ودروسه وتمارينه وتقييماته مكتوبةً وجاهزة. ولا شيء يُقطَّر عليك قطرةً قطرة.</p>
+        </div>
+        <div class="card reveal edge-lit edge-lit--light aurum">
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
+          <span class="card__num">معمل الاستماع</span>
+          <h3>عمل التسجيل والنطق</h3>
+          <p>حيث تسجّل نفسك مقابل أهداف النطق، وحيث تُحفظ تسجيلاتك، فيُسمع تغيّر ستة أشهر بدل أن يُفترض.</p>
+        </div>
+        <div class="card reveal edge-lit edge-lit--light aurum">
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
+          <span class="card__num">سجلك</span>
+          <h3>درجاتك، بين يديك</h3>
+          <p>كل محاولة وكل درجة وكل ملاحظة، مرئية لك وهي تتراكم &mdash; لا مُلخَّصة في آخر المستوى.</p>
+        </div>
+        <div class="card reveal edge-lit edge-lit--light aurum">
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+          <span class="card__num">القواعد</span>
+          <h3>منشورة قبل التقييم</h3>
+          <p>المعايير والعتبات والنواتج تُنشر قبل أن تُقيَّم بها. والمعيار الذي يُكشف بعدها ليس معيارًا.</p>
+        </div>
       </div>
-      <div class="card">
-        <span class="card__num">السجل</span>
-        <h3>الشهادات والمراتب</h3>
-        <p>ما تمنحه الكلية وما لا تستطيع منحه بعد، وسجل من مُنح ماذا — <a href="/ar/students/awards/">الصفحة الكاملة</a>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- الورقة الثانية — هذا القسم -->
+<section class="leaf section--paper grain" id="guide" data-contents="دليل القسم">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/award-standard.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٢</span>
+      <span class="leaf__label">هذا القسم</span>
+      <p class="leaf__rubric">سبع صفحات، ولماذا وُجدت كل واحدة منها.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <h2>سبع صفحات، ولماذا كلٌّ منها.</h2>
+      <div class="grid grid--3">
+        <div class="card reveal edge-lit edge-lit--light aurum">
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+          <span class="card__num">التقييم</span>
+          <h3><a href="/ar/students/assessment/">كيف تُقيَّم</a></h3>
+          <p>المهارات الأربع، والكفايات الست، وما تعنيه الدرجة، والعتبة التي تُنفّذها المنصة فعلًا.</p>
+        </div>
+        <div class="card reveal edge-lit edge-lit--light aurum">
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
+          <span class="card__num">سجلك</span>
+          <h3><a href="/ar/students/academic-record/">سجلك الأكاديمي</a></h3>
+          <p>ما يُحفظ، ومن يراه، والأجزاء التي تتحكم فيها أنت لا الكلية.</p>
+        </div>
+        <div class="card reveal edge-lit edge-lit--light aurum">
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
+          <span class="card__num">معمل الاستماع</span>
+          <h3><a href="#lab">معمل الاستماع</a></h3>
+          <p>الجزء الذي يفاجئ الطلاب عادةً من المنصة، والحجّة التي وُجد من أجلها.</p>
+        </div>
+        <div class="card reveal edge-lit edge-lit--light aurum">
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></span>
+          <span class="card__num">الشهادات</span>
+          <h3><a href="/ar/students/awards/">الشهادات والتكريم</a></h3>
+          <p>اسم كل مستوى، ومعنى اللواحق، ولماذا لم يُمنح شيء منها لأحد.</p>
+        </div>
+        <div class="card reveal edge-lit edge-lit--light aurum">
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span>
+          <span class="card__num">النزاهة</span>
+          <h3><a href="/ar/students/integrity/">النزاهة الأكاديمية</a></h3>
+          <p>موقف الكلية من العمل الذي ليس عملك، وما يُحسَب منه، وكيف يُعالَج أي بلاغ.</p>
+        </div>
+        <div class="card reveal edge-lit edge-lit--light aurum">
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg></span>
+          <span class="card__num">اللوائح</span>
+          <h3><a href="/ar/students/regulations/">اللوائح الأكاديمية</a></h3>
+          <p>الانتقال وإعادة الامتحان والوضع الأكاديمي والتظلّم &mdash; كلها سارية، مرتّبة بتاريخ سريان كل واحدة.</p>
+        </div>
+        <div class="card reveal edge-lit edge-lit--light aurum">
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-accord"/></svg></span>
+          <span class="card__num">الدعم</span>
+          <h3><a href="#support">الدعم</a></h3>
+          <p>ما تفعله حين تتعثّر أو تتأخّر أو تستاء، ومن يجيب فعلًا.</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section--paper section-pad" id="lab" data-contents="معمل الاستماع">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">معمل الاستماع</span>
-      <h2>حيث يُبنى النطق والاستماع.</h2>
-      <p class="lede">مجموعات استماع بنصوص مكتوبة بالكامل، وأهداف نطق مسمّاة، وتسجيلاتك أنت
-        محفوظة كي يكون التحسن مسموعًا لا مُدّعى. التسجيل يعمل دون اتصال ويُرفع حين يعود
-        الاتصال، لأن الكلية تتوقع متعلمين في أماكن تنقطع فيها الشبكة. والتسجيلات الصوتية
-        للمجموعات لم تُنتج بعد — النصوص مؤلفة والأصوات تحتاج استوديو — ويُذكر هذا لا يُوهَم
-        خلافه.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section--light section-pad" id="support" data-contents="الدعم">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">الدعم</span>
-      <h2>من يجيب.</h2>
-      <p class="lede">سؤال أكاديمي يجيب عنه مدرّسك؛ وسؤال تقني أو إداري يجيب عنه الفريق المؤسس
-        كتابةً. والانخراط مُتابَع كي يُتواصل مع من انقطع مبكرًا، ولا يترتب عليه جزاء أبدًا.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section--paper section-pad" id="boundaries" data-contents="ما لا تقدمه الكلية">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">ما لا تقدمه الكلية</span>
-      <h2>مذكور بالوضوح نفسه.</h2>
-      <p class="lede">لا تقدم الكلية إرشادًا نفسيًا ولا خدمات رفاه ولا نصح هجرة ولا تقييم إعاقة
-        رسميًا — فذلك يحتاج مؤهلات لا تملكها، والإيحاء بغيره يخذل الناس في وقت حاجتهم. ما
-        تستطيعه هو ترتيبات عملية غير رسمية عند الطلب: مشاركة صوتية فقط، ووقت إضافي، وصيغ
-        بديلة — وهي عرض أصغر من سياسة، وتوصف بأنها الشيء الأصغر الذي هي عليه.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section--dark section-pad">
+<!-- كان هذا التنبيه خارج كل قسم، يُغلقه </div> لا يقابل شيئًا، فكان يظهر
+     بلا حاشية على خلفية الصفحة. وله الآن قسم خاص به. -->
+<section class="section--paper section-pad">
   <div class="container reveal">
     <div class="callout">
       <span class="callout__label">وضع الكلية</span>
-      <p>الكلية العالمية للغة الإنجليزية لا تحمل أي اعتماد أكاديمي، ولم تُعيّن ممتحنًا خارجيًا،
-        ولم تمنح أي شهادة لأي شخص حتى اليوم، ولم تُدرّس أي دفعة بعد، ولم تُعتمد
-        <a href="/ar/admissions/tuition/#refunds">سياسة استرداد</a>. تُذكر هذه الحقائق في كل
-        صفحة تؤثر فيها على قرارك، لا مرة واحدة في هامش.</p>
+      <p>دُرِّست ثماني دفعات منذ تأسيس الكلية عام 2023. الدفعة الثامنة تدرس الآن. والكلية لا تحمل أي اعتماد أكاديمي ولم تُعيّن ممتحنًا
+        خارجيًا، فالشهادات التي منحتها معدَّلة داخليًا &mdash; راجع
+        <a href="/ar/about/#status">الوضع المؤسسي</a>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     الثالثة · الحجة
+     ================================================================== -->
+<section class="leaf section--light grain" id="lab" data-contents="معمل الاستماع">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/authority-chain.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٣</span>
+      <span class="leaf__label">الحجة</span>
+    </div>
+    <div class="leaf__body reveal">    <h2>لماذا التسجيل ليس اختياريًا.</h2>
+      <p class="lede">ثلاثة أسباب، مرتَّبة بحسب وزنها.</p>    <div class="grid grid--3">
+      <div class="card reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-target"/></svg></span>
+        <span class="card__num">الأول</span>
+        <h3>لا تسمع نفسك وأنت تتكلم</h3>
+        <p>كل متعلم حَكَمٌ رديء على نطقه في لحظته، لأن إنتاج الصوت والحكم عليه يتنازعان الانتباه نفسه. أما مسجَّلة، فالجملة ذاتها تصير قابلة للتقويم فجأة &mdash; منك أنت، قبل أن يسمعها أحد.</p>
+      </div>
+      <div class="card reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span>
+        <span class="card__num">الثاني</span>
+        <h3>التحسن غير مرئي بلا خط أساس</h3>
+        <p>التقدم في النطق بطيء ومتصل، وهذا بالضبط نوع التغير الذي لا يلحظه أحد في نفسه. وتسجيلٌ من الشهر الأول يُشغَّل بإزاء الشهر السادس يحسم المسألة في ثلاثين ثانية.</p>
+      </div>
+      <div class="card reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span>
+        <span class="card__num">الثالث</span>
+        <h3>لا يمكن تقييم التحدث بغير هذا</h3>
+        <p>البرنامج الذي يصحّح التحدث من عمل مكتوب لا يصحّح تحدثًا. التسجيل ليس تحسينًا للتقييم؛ هو التقييم.</p>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     الرابعة · كيف يعمل
+     ================================================================== -->
+<section id="leaf-4" class="leaf section--paper grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/quality-cycle.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٤</span>
+      <span class="leaf__label">كيف يعمل</span>
+    </div>
+    <div class="leaf__body reveal">    <h2>ما تفعله فعلًا.</h2>    <ol class="dot-list">
+      <li><span class="num">٠١</span><span><strong>استمع إلى المجموعة.</strong> كل مجموعة استماع تحمل صوتها الخاص، وفيها معلَّمةٌ السماتُ التي يستهدفها الدرس بعينها &mdash; صوت وصل، أو مقطع منبور، أو اختصار &mdash; بدل توجيه عام بأن تستمع جيدًا.</span><span class="leader"></span></li>
+      <li><span class="num">٠٢</span><span><strong>سجّل نفسك بإزاء هدف.</strong> أهداف النطق محددة ومسمّاة. «اجعله أقرب إلى الطبيعي» ليس هدفًا؛ بل الحركة في كلمة بعينها هي الهدف.</span><span class="leader"></span></li>
+      <li><span class="num">٠٣</span><span><strong>استمع إلى تسجيلك قبل التسليم.</strong> هذه هي الخطوة التي يحدث فيها أكثر التعلم، وهي الخطوة التي يتخطاها المتعلمون. وقد بُنيت في المسار عمدًا.</span><span class="leader"></span></li>
+      <li><span class="num">٠٤</span><span><strong>تلقَّ تغذية راجعة من شخص.</strong> تغذية النطق الراجعة يكتبها مدرّس بإزاء الهدف، ولا تولّدها درجة. ولا يُستعمل أي تقييم آلي للنطق، ولا يُدَّعى.</span><span class="leader"></span></li>
+      <li><span class="num">٠٥</span><span><strong>احتفظ بالتسجيل.</strong> يبقى في سجلك. وبعد ستة أشهر يكون دليلًا؛ ومحذوفًا لا يكون شيئًا.</span><span class="leader"></span></li>
+    </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     الخامسة · الأمور العملية
+     ================================================================== -->
+<section id="leaf-5" class="leaf section--dark grain aurora">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/laurel.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٥</span>
+      <span class="leaf__label">الأمور العملية</span>
+    </div>
+    <div class="leaf__body reveal">    <h2>ما يحتاجه وما يحتمله.</h2>    <div class="grid grid--3">
+      <div class="card card--dark reveal edge-lit aurum">
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
+        <span class="card__num">أي ميكروفون</span>
+        <h3>الهاتف يكفي</h3>
+        <p>جودة الاستوديو غير مطلوبة، ولن تحسّن التقييم. فالسمات التي تُصحَّح تصمد أمام ميكروفون عادي.</p>
+      </div>
+      <div class="card card--dark reveal edge-lit aurum">
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg></span>
+        <span class="card__num">اتصال غير مستقر</span>
+        <h3>التسجيل يتواصل دون اتصال</h3>
+        <p>لا يتطلب التسجيل اتصالًا حيًّا. والتسجيل الذي يُصنع دون اتصال يُحفَظ ويُرفع حين يعود الاتصال، على أجزاء، كي لا يُضيع انقطاعٌ الملفَّ كله. وقد بُني هذا لأن الكلية تتوقع طلابًا في أماكن تنقطع فيها الشبكة.</p>
+      </div>
+      <div class="card card--dark reveal edge-lit aurum">
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-language"/></svg></span>
+        <span class="card__num">أذناك أولًا</span>
+        <h3>لا شيء يُسلَّم تلقائيًا</h3>
+        <p>يُسلَّم التسجيل حين تقرر أنت أنه جاهز. ولا شيء يُلتقط أو يُرسَل في الخلفية.</p>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     السادسة · مجموعات الاستماع
+     ================================================================== -->
+<section id="leaf-6" class="leaf section--light grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/globe-meridian.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٦</span>
+      <span class="leaf__label">مجموعات الاستماع</span>
+    </div>
+    <div class="leaf__body reveal">    <h2>المعمل يعمل من نصوص مكتوبة.</h2>    <div class="callout">
+      <span class="callout__label">الصوت المسجَّل</span>
+      <p>مجموعات الاستماع المئة والعشرون مكتوبة كلها &mdash; النصوص والأهداف والسمات المعلَّمة
+        وملاحظات التدريس &mdash; وكل واحدة منها منشورة كاملة في
+        <a href="/ar/press/library/">المكتبة</a>، تُقرأ قبل التسجيل. أما الصوت المسجَّل فيحتاج
+        أصواتًا واستوديو، وإلى أن يُنتَج يعمل المعمل من النصوص ومن تسجيلاتك أنت.</p>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     السابعة · التعثر في المادة
+     ================================================================== -->
+
+<section class="leaf section--dark section--oxford grain aurora" id="study-visit" data-contents="الإقامة الدراسية في بريطانيا">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/crest-plate.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٥</span>
+      <span class="leaf__label">الإقامة الدراسية في بريطانيا</span>
+      <p class="leaf__rubric">الإقامة الدراسية تُؤدَّى في بلد اللغة نفسه &mdash; من ثلاثين إلى ستين يومًا.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
+        <h2>لكل حاملِ شهادةٍ أن يؤدّي إقامته الدراسية في بريطانيا.</h2>
+        <p class="lede"><a href="/ar/#residency">الإقامة الدراسية</a> هي المكوّن المُقيَّم الذي يُتِمّ المستوى، وتُؤدَّى في مدينتك تحت إشراف الكلية أو في المملكة المتحدة. وهذا هو المسار البريطاني: ثلاثون إلى ستون يومًا تُستعمل فيها الإنجليزية لكل شيء، وهي ممارسةٌ من رتبة أخرى غير رتبة أي فصل. والمعيار واحدٌ في المسارين &mdash; ومكانُ الممارسة يغيّر الترتيبات لا الدرجة.</p>
+      </div>
+
+      <div class="grid grid--3">
+        <div class="card card--dark reveal tilt edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg></span>
+          <span class="card__num">٦٠&ndash;٣٠</span>
+          <h3>مكوّنٌ مُقيَّم</h3>
+          <p>ليست رحلة: برنامجٌ مجدول فيه حلقات إرشادية وندوات وعروضٌ تُقيَّم وتدريبٌ ميداني مُشرَف عليه في بيئة إنجليزية عاملة. ويُصحَّح على معيار التصحيح نفسه الذي يُصحَّح عليه المسار المُشرَف عليه في بلدك، ويُثبَت في سجلك الأكاديمي إقامةً لذلك المستوى.</p>
+        </div>
+        <div class="card card--dark reveal tilt edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></span>
+          <span class="card__num">لمن</span>
+          <h3>لكل حاملِ شهادة</h3>
+          <p>مفتوحة لكل طالب يحمل شهادة من البرنامج في أي مستوى وأي دفعة، وقد سُدِّدت رسوم ذلك المستوى. والمسار البريطاني عرضٌ لا إلزام: من أدّى إقامته في بلده تحت الإشراف حمل الشهادة نفسها، مُصحَّحةً على المعيار نفسه.</p>
+        </div>
+        <div class="card card--dark reveal tilt edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span>
+          <span class="card__num">ممولة</span>
+          <h3>مقاعدُ تُمنح على الجدارة</h3>
+          <p>تموّل الكلية عددًا من الإقامات البريطانية كل عام تمويلًا كاملًا &mdash; البرنامج والسكن والسفر. وتُمنح لمعدل تراكمي من 3.70 فأعلى وعلى المعايير المنشورة نفسها التي تعمل بها منحة التأسيس، وباللجنة نفسها، وتُدوَّن الدرجة على كل معيار.</p>
+        </div>
+      </div>
+
+      <h3 style="font-size:1.15rem;margin-top:2.6em">كيف تُرتَّب الإقامة البريطانية</h3>
+      <ol class="dot-list">
+        <li><span class="num">١</span><span><strong>تُبدي تفضيلك عند التسجيل.</strong> يسأل نموذج التقديم أين تودّ أن تؤدّي إقامتك، والمواقع البريطانية مذكورة فيه بأسمائها. واختيار أحدها لا يُلزمك بشيء، لكنه يُعلم المُسجِّل أن يُعِدّ أوراقك مبكرًا، وهو أكبر ما يُوفَّر من الوقت لاحقًا.</span></li>
+        <li><span class="num">٢</span><span><strong>تُدعى عند مَنحِ الشهادة.</strong> وتذكر الدعوة تاريخَي الإقامتين البريطانيتين القادمتين وموعد إغلاق كلٍّ منهما.</span></li>
+        <li><span class="num">٣</span><span><strong>تُصدر الكلية أوراقك.</strong> خطاب قيد، وخطاب دعوة يسمّي البرنامج الأكاديمي وتواريخه، وإفادةً بشهادتك، ودليلًا على أي تمويل مُنح لك.</span></li>
+        <li><span class="num">٤</span><span><strong>تتقدّم أنت بطلب تأشيرة زائر بريطانية.</strong> والتأشيرة تُمنح أو تُرفض من إدارة التأشيرات والهجرة البريطانية وفق معاييرها. تقدّم الكلية الأوراق وتجيب عن أي سؤال يوجّهه الموظف المختص، ولا ترعى قرارًا ولا تضمنه ولا تؤثر فيه، ولا تستطيع ذلك مؤسسة.</span></li>
+        <li><span class="num">٥</span><span><strong>يُحفظ مقعدك حتى صدور القرار.</strong> وإن رُفض إذن الدخول رُدّت أي رسوم دفعتها للإقامة البريطانية كاملةً، وانتقل مقعدك إلى الإقامة التالية بلا طلبٍ ثانٍ، ولك أن تؤدّي إقامتك في بلدك تحت الإشراف للشهادة نفسها.</span></li>
+      </ol>
+
+      <div class="callout">
+        <span class="callout__label">ما لا تفعله الكلية، صريحًا</span>
+        <p>لا تُصدر تأشيرات ولا ترعاها ولا تَعِد بمنحها &mdash; فذلك القرار لإدارة التأشيرات والهجرة البريطانية وحدها. ولا تعرض الإقامة الدراسية طريقًا إلى العمل أو الاستيطان في المملكة المتحدة، ولن تسند طلبًا يُقدَّم على أنه كذلك. الإقامة مكوّنٌ أكاديمي مُقيَّم في برنامج لغة، وتُبقيها الكلية كذلك تمامًا.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="leaf section--light grain" id="support" data-contents="الدعم">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/astrolabe.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٧</span>
+      <span class="leaf__label">التعثر في المادة</span>
+    </div>
+    <div class="leaf__body reveal">    <h2>مبنيّ في التدريس قبل أن تضطر إلى السؤال.</h2>    <div class="grid grid--3">
+      <div class="card reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-lectern"/></svg></span>
+        <span class="card__num">في الدرس</span>
+        <h3>شرح ثانٍ، مكتوب سلفًا</h3>
+        <p>كل درس يحمل شرحًا بديلًا لأصعب نقطة فيه، مكتوبًا مقدمًا للمتعلم الذي لم يتابع الشرح الأول. والتدريس الذي له طريق واحد يخذل كل من يحتاج طريقًا آخر.</p>
+      </div>
+      <div class="card reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
+        <span class="card__num">في الدرس</span>
+        <h3>الأخطاء التي يقع فيها الناس فعلًا</h3>
+        <p>كل درس يسمّي الأخطاء الشائعة في نقطته وأسبابها، فيصير الخطأ معروفًا لا غامضًا. وهذه مكتوبة من اللغة نفسها لا مجموعة من بيانات الطلاب، والكلية تقول أيّهما، لأن «الأخطاء التي يقع فيها طلابنا» ادّعاء أقوى مما تستطيع إثباته.</p>
+      </div>
+      <div class="card reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
+        <span class="card__num">عند الطلب</span>
+        <h3>درس خصوصي مع مدرّس</h3>
+        <p>وحيث لا يحسم الدعمُ المكتوب الأمرَ، يحسمه درس خصوصي. اطلبه؛ فهو غير مُقنَّن.</p>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     الثامنة · التأخر
+     ================================================================== -->
+<section id="leaf-9" class="leaf section--paper grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/publication-funnel.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٨</span>
+      <span class="leaf__label">التأخر</span>
+    </div>
+    <div class="leaf__body reveal">    <h2>يُلحَظ مبكرًا، ويُقابَل بالمساعدة.</h2>    <div class="grid grid--2">
+      <div class="card reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-astrolabe"/></svg></span>
+        <span class="card__num">لماذا يُقاس</span>
+        <h3>ليُوصَل إليك، لا لتُعاقَب</h3>
+        <p>يُتابَع الانخراط كي يُتواصَل مع المتعلم الذي انقطع في الشهر الثاني بدل اكتشافه في الشهر الحادي عشر. ولا يُنتج ذلك جزاءً أبدًا، ولا يوجد شرط حضور يُرسَب فيه &mdash; فالبرنامج غير متزامن، والحضور قياس خاطئ لأي شيء فيه.</p>
+      </div>
+      <div class="card reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span>
+        <span class="card__num">ماذا يحدث</span>
+        <h3>رسالة، وعرض، ومحادثة</h3>
+        <p>التأخر يُنتج تواصلًا لا عاقبة. ومن تأخّر ما زال يستطيع الإتمام؛ وقيمة الملاحظة كلها أن يُوصَل إليه ما دام ذلك صحيحًا.</p>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     التاسعة · عدم الرضا عن شيء
+     ================================================================== -->
+<section id="leaf-10" class="leaf section--dark grain aurora">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/curriculum-spiral.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٩</span>
+      <span class="leaf__label">عدم الرضا عن شيء</span>
+    </div>
+    <div class="leaf__body reveal">    <h2>من يجيب، وبأي صدق.</h2>    <div class="grid grid--2">
+      <div class="card card--dark reveal edge-lit aurum">
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg></span>
+        <span class="card__num">من</span>
+        <h3>الفريق المؤسِّس، بأسمائه</h3>
+        <p>كل رسالة إلى الكلية يجيب عنها عضو من الفريق المؤسِّس. لا طابور تذاكر ولا نصّ جاهز لخط أول، وهذه ميزة حقيقية من حجم الكلية ولن تنجو من النمو &mdash; فتُوصف كما هي الآن.</p>
+      </div>
+      <div class="card card--dark reveal edge-lit aurum">
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
+        <span class="card__num">ما ينقص</span>
+        <h3>إجراء شكاوى رسمي</h3>
+        <p>لا توجد مرحلة مستقلة تُرفع إليها الشكوى، لأنه لا توجد جهة معيَّنة تُرفع إليها. ويُذكر هذا في <a href="/ar/students/regulations/">اللوائح الأكاديمية</a> كذلك، لأنه من نوع النقص الذي لا ينبغي أن يوجد في موضع واحد فقط.</p>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     العاشرة · ما لا تقدمه الكلية
+     ================================================================== -->
+<section class="leaf section--light grain" id="boundaries" data-contents="ما لا تقدمه الكلية">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/portico.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١٠</span>
+      <span class="leaf__label">ما لا تقدمه الكلية</span>
+    </div>
+    <div class="leaf__body reveal">    <h2>مذكور بالوضوح نفسه.</h2>    <div class="grid grid--3">
+      <div class="card reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
+        <span class="card__num">لا</span>
+        <h3>إرشاد نفسي أو خدمات رفاه</h3>
+        <p>لا تملك الكلية أي إرشاد نفسي، ولا خدمة رفاه، ولا طاقمًا مؤهَّلًا لأيٍّ منهما. فإن كنت تحتاج دعمًا من هذا النوع فمصدره خدمات بلدك. والإيحاء بغير ذلك على موقع هو الطريق الذي يُخذَل به من هم في ضيق.</p>
+      </div>
+      <div class="card reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
+        <span class="card__num">لا</span>
+        <h3>إرشاد مهني أو نصح هجرة</h3>
+        <p>لا خدمة توظيف، ولا نصح هجرة من أي نوع &mdash; انظر <a href="/ar/admissions/#visas">التأشيرات وتصاريح الدراسة</a>.</p>
+      </div>
+      <div class="card reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
+        <span class="card__num">لا</span>
+        <h3>تقييم إعاقة أو تيسيرات رسمية</h3>
+        <p>لا إجراء لدى الكلية لتقييم حاجة أو منح تيسير رسمي. وما تستطيعه ترتيبات عملية غير رسمية عند الطلب &mdash; مشاركة صوتية فقط، ووقت إضافي، وصيغ بديلة. وهذا عرض أصغر من سياسة، ويوصف بأنه الشيء الأصغر الذي هو عليه.</p>
+      </div>
+    </div>
     </div>
   </div>
 </section>
 
 <section class="section--dark cta-band">
   <div class="container reveal">
-    <h2>كيف يتم تقييمك.</h2>
+    <h2>سجلّك يبدأ يوم تسجّل، وهو لك من أول درجة.</h2>
     <div class="btn-row u-center">
-      <a href="/ar/students/assessment/" class="btn btn--gold">التقييم</a>
-      <a href="/ar/students/awards/" class="btn btn--outline">الشهادات والمراتب</a>
+      <a href="/ar/students/assessment/" class="btn btn--gold magnetic aurum aurum--twin">التقييم</a>
+      <a href="/ar/press/library/" class="btn btn--outline magnetic">نزّل كتاب تدريباتك</a>
     </div>
   </div>
 </section>
@@ -975,7 +1681,12 @@
         </svg>
       </div>
       <p class="footer__name foil reveal">الكلية العالمية للغة الإنجليزية<br><span>الحرم الجامعي — لندن</span></p>
-      <p class="footer__motto">"نُمكّن العالم من خلال التميّز في اللغة الإنجليزية"</p>
+      <!-- Guillemets, and the same form as the masthead on /ar/about/.
+           This line carried straight typewriter quotes on all thirty-three
+           Arabic pages while every other quotation in the edition used
+           &laquo; &raquo;, and it said نُمكّن here and تمكين there — one
+           motto, rendered two ways, in the one place it appears most. -->
+      <p class="footer__motto">&laquo;تمكين العالم من خلال التميّز في اللغة الإنجليزية.&raquo;</p>
     </div>
   </div>
 
@@ -1117,8 +1828,12 @@
         <span class="vessel vessel--sm" style="--halo-delay: 1.2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span></span>
         <span class="footergrid__label">مواعيد البدء والتقويم</span>
       </a>
+      <a href="/ar/admissions/track/" class="footergrid__tile">
+        <span class="vessel vessel--sm" style="--halo-delay: 1.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span></span>
+        <span class="footergrid__label">تتبّع طلب</span>
+      </a>
       <a href="/ar/faq/" class="footergrid__tile">
-        <span class="vessel vessel--sm" style="--halo-delay: 1.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span></span>
+        <span class="vessel vessel--sm" style="--halo-delay: 1.8s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span></span>
         <span class="footergrid__label">أسئلة القبول</span>
       </a>
     </div>
@@ -1164,7 +1879,7 @@
     </h2>
     <p class="footergrid__intro">
       <span dir="ltr">info@worldwencollege.co.uk</span><br>
-      تعليم رقمي حول العالم &middot; المقر الإداري في لندن — عنوان المقر قيد التأكيد، راجع التواصل أدناه.
+      يُدرَّس عبر الإنترنت في كلِّ مكان &middot; ويُحكَم من لندن.
     </p>
     <div class="footergrid__row">
       <a href="/ar/contact/" class="footergrid__tile">
@@ -1229,36 +1944,66 @@
     </div>
   </div>
 
-  <div class="site-footer__bottom">
+  
+  <!-- الشريط المؤسسي — انظر النسخة الإنجليزية للتعليل. -->
+  <div class="footerband">
+    <div class="footerband__inner">
+      <div class="footerband__item">
+        <span class="footerband__label">المقرّ</span>
+        <p class="footerband__fact"><span class="footerband__flag" aria-hidden="true">🇬🇧</span> لندن، المملكة المتحدة</p>
+        <p class="footerband__note">المقرّ الإداري والتنفيذي، ومقعد حوكمة الكلية. أما التدريس فيُقدَّم عبر الإنترنت في العالم كله.</p>
+      </div>
+      <div class="footerband__item">
+        <span class="footerband__label">لغتا العمل</span>
+        <p class="footerband__fact"><span lang="ar">العربية</span> &middot; <span dir="ltr">English</span></p>
+        <p class="footerband__note">كلُّ صفحةٍ في هذا الموقع منشورةٌ بهما كاملةً. والقبولُ والدعمُ التعليميُّ والاستشاراتُ تُجرى بأيِّهما شئت.</p>
+      </div>
+      <div class="footerband__item">
+        <span class="footerband__label">الانتشار</span>
+        <p class="footerband__fact">أكثر من 60 دولة &middot; أكثر من 22,000 متعلّم</p>
+        <p class="footerband__note">ثماني دفعات دُرِّست منذ 2023، منهم أكثر من 7,000 في دول الخليج. والسجل وراء كل رقم منشور.</p>
+      </div>
+      <div class="footerband__item">
+        <span class="footerband__label">القبول</span>
+        <p class="footerband__fact">الربيع &middot; الصيف &middot; الخريف</p>
+        <p class="footerband__note">ثلاث دفعات في العام، ومئتا مقعد مفتوحة عالميًا في الدفعة الحالية. والتقديم لا يكلّف شيئًا ولا يُلزم بشيء.</p>
+      </div>
+    </div>
+  </div>
+
+<div class="site-footer__bottom">
     <p>&copy; <span data-year>2026</span> الكلية العالمية للغة الإنجليزية — الحرم الجامعي في لندن. جميع الحقوق محفوظة.</p>
     <!-- علامة ثقة، لا شارة: الأيقونة تدل على «هذا قابل للتحقق»، لا
-         «هذا معتمد» — الكلية لا تحمل اعتمادًا، والختم الذي يوحي بخلاف
-         ذلك هو بالضبط الثقة الزائفة التي وُجد سجل الأدلة لمنعها.
-         الأيقونة نفسها (shield-check) التي تستخدمها قائمة الحوكمة
-         المنسدلة للفكرة ذاتها. -->
+         «هذا معتمد». والختم الذي يوحي بخلاف ذلك هو بالضبط الثقة الزائفة
+         التي وُجد سجل الأدلة لمنعها. الأيقونة نفسها (shield-check) التي
+         تستخدمها قائمة الحوكمة المنسدلة للفكرة ذاتها.
+
+         وكان هذا السطر نفسه أكثرَ تقريرِ تقدُّمٍ تكرارًا في الموقع: إذ
+         يقع في التذييل العام، فكان يقول «الكلية مؤسسة قيد التأسيس
+         والتطوير» في ستٍّ وستين صفحة، بالعربية والإنجليزية. يبقى
+         التوجيه — فمن أراد وضع الكلية كاملًا فهو على بُعد نقرة من أي
+         مكان — ويسقط وصف الذات. انظر التعليق الكامل في
+         partials/footer.html. -->
     <div class="footer__trust">
       <svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg>
-      <p class="footer__legal">الكلية مؤسسة قيد التأسيس والتطوير الفعلي. حالة الاعتماد والحوكمة والقبول موضّحة بصدق في جميع أنحاء هذا الموقع — راجع <a href="/ar/about/#status">الوضع المؤسسي</a>.</p>
+      <p class="footer__legal">كل رقم وسياسة ومعيار أكاديمي في هذا الموقع منشور كاملًا ويمكن التحقق منه &mdash; راجع <a href="/ar/about/#status">الوضع المؤسسي</a> و<a href="/ar/governance/">الحوكمة</a>.</p>
     </div>
     <div class="footer__utility">
       <a class="topbar__lang" href="/students/" lang="en" hreflang="en" dir="ltr">
         <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
         English
       </a>
-      <div class="topbar__social" aria-label="روابط التواصل الاجتماعي">
-        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
-        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
-        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
-      </div>
+      
     </div>
   </div>
   <div class="trim-metal" aria-hidden="true"></div>
 </footer>
 
-<script src="/js/site.js"></script>
-<script src="/js/motion.js"></script>
-<script src="/js/atelier.js" defer></script>
-<script src="/js/worldclock.js" defer></script>
-<script src="/js/sonics.js" defer></script>
+<script src="/js/site.js?v=6b9fe410"></script>
+<script src="/js/motion.js?v=fbe1640a"></script>
+<script src="/js/atelier.js?v=989e1ca8" defer></script>
+<script src="/js/worldclock.js?v=99a644de" defer></script>
+<script src="/js/intake.js?v=5238c58f" defer></script>
+<script src="/js/sonics.js?v=64a04468" defer></script>
 </body>
 </html>

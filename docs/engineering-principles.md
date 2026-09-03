@@ -30,7 +30,7 @@ project, each of which passed a green suite:
 | An unknown `kid` was rejected without refetching the JWKS, so **Clerk rotating its signing keys would sign out every learner** for up to ten minutes | Nothing exercised verification past the 401 boundary at all | `tests/clerk-jwt.test.mjs`, real RSA keypairs and real signatures |
 | On a phone, submitting the comprehension quiz produced **no visible response** — graded correctly, result rendered below the fold, learner saw nothing | Every browser test ran at 1440px, where the result box is already on screen | A person using the real site on a real phone |
 | Enrolments had **no uniqueness constraint**, so the same learner could hold two live enrolments in one level and `completeLevel()` would mark one completed while the other stayed active | Nothing ever enrolled the same person twice; the manual SQL that did was written by hand, outside any test | Enrolling the first real learner by hand, then asking what happens if it runs twice |
-| The admin page mapped **every 403 to "you do not have staff access"** — so a staff member refused for enrolling *themselves* was told they were not staff, and would have gone asking for access they already had | Two different refusals share one status code; only the page knows they mean different things | `tests/browser/admin-enrolments.mjs`, first run |
+| The admin page mapped **every 403 to "you do not have staff access"** — so a staff member refused for enrolling *themselves* was told they were not staff, and would have gone asking for access they already had | Two different refusals share one status code; only the page knows they mean different things | `tests/browser/staff-consoles.mjs`, first run |
 
 The rule that follows:
 

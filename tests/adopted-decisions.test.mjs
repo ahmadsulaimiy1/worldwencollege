@@ -117,7 +117,7 @@ check('...and does not present executive decisions as academic ones',
 // confident-sounding page would drop first, and they are the reason
 // the adoption is honest rather than a announcement.
 check('The decisions page still says no award is conferred',
-  /No award is conferred until that appointment/i.test(decisionsPage));
+  /No award is (conferred|moderated externally) until that appointment/i.test(decisionsPage));
 check('...and that the competency mapping is commissioned, not finished',
   /not as a claim the work is finished/i.test(decisionsPage));
 

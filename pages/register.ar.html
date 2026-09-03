@@ -1,0 +1,105 @@
+<!--
+  سجل الخريجين — النسخة العربية.
+  كل مُعرِّف أدناه يخاطبه js/register.js باسمه، فلا تُترجَم الأسماء.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></p>
+    <p class="masthead__eyebrow">الكلية العالمية للغة الإنجليزية &middot; الحرم الجامعي — لندن</p>
+    <h1>سجل الخريجين</h1>
+    <p class="masthead__stake">قائمة الكلية بحاملي الشهادات. <strong>كل شهادة من شهادات دورة الطلاقة الإنجليزية الدولية تظهر هنا</strong> &mdash; من «طالب الإنجليزية» إلى «حائز الغار» &mdash; لأن كل مستوى إنجاز كامل لا محطة عبور.</p>
+    <p class="lede">{{S:CONFERRED}} ويُدرَج الخريجون هنا بموافقتهم، والشهادة غير المدرجة يمكن التحقّق منها برمزها في <a href="/ar/verify.html">التحقّق من شهادة</a>.</p>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container">
+    <div class="vfy-wrap">
+
+      <form class="vfy-form reg-form reveal" id="registerForm" novalidate>
+        <div class="reg-controls">
+          <div class="reg-control">
+            <label class="vfy-label" for="q">ابحث بالاسم</label>
+            <input id="q" name="q" type="search" autocomplete="off" spellcheck="false"
+                   placeholder="اسم العائلة أو الاسم الأول">
+          </div>
+          <div class="reg-control">
+            <label class="vfy-label" for="level">الشهادة</label>
+            <select id="level" name="level">
+              <option value="">كل الشهادات</option>
+              <option value="1">المستوى الأول &mdash; طالب الإنجليزية (A1)</option>
+              <option value="2">المستوى الثاني &mdash; مرشّح الإنجليزية (A2)</option>
+              <option value="3">المستوى الثالث &mdash; زميل مشارك (B1)</option>
+              <option value="4">المستوى الرابع &mdash; زميل الإنجليزية (B2)</option>
+              <option value="5">المستوى الخامس &mdash; عالِم الإنجليزية (C1)</option>
+              <option value="6">المستوى السادس &mdash; حائز الغار (C2)</option>
+            </select>
+          </div>
+          <button class="vfy-submit reg-go" type="submit">ابحث</button>
+        </div>
+        <p class="vfy-help">يذكر السجل الحامل كما هو مسمّى في الشهادة، والشهادة، وتاريخ منحها. ولا يُنشر هنا شيء غير ذلك.</p>
+      </form>
+
+      <section class="reg-results" id="results" aria-live="polite" aria-busy="false">
+        <p class="reg-count" id="count">جارٍ تحميل السجل&hellip;</p>
+        <ol class="reg-list" id="list"></ol>
+        <p class="reg-more" id="more" hidden></p>
+      </section>
+
+    </div>
+  </div>
+</section>
+
+<section class="leaf section--paper grain" id="about" data-contents="عن السجل">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/portico.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١</span>
+      <span class="leaf__label">القائمة</span>
+      <p class="leaf__rubric">من يظهر فيها، وبموافقة من، وما الذي يُعتمَد عليه.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
+        <h2>أربع قواعد تحكم هذه الصفحة.</h2>
+      </div>
+      <div class="grid grid--2 grid--close">
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span>
+          <h3>كل شهادة، في كل مستوى</h3>
+          <p>تمنح دورة الطلاقة الإنجليزية الدولية شهادةً في كلٍّ من مستوياتها الستة، وكلها مسجَّلة هنا. وسجلٌّ يذكر خرّيجي أعلى مستوى وحدهم يقول بالإغفال إن بقية الشهادات درجاتُ سلَّم لا إنجازات.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg></span>
+          <h3>الإدراج بالموافقة</h3>
+          <p>لا يُنشر خرّيج هنا إلا بعد موافقته. والموافقة تحكم هذه الصفحة وحدها: فهي لا تحكم التحقّق، لأن رمز التحقّق شيء اختار الخرّيج أن يسلّمه إلى أحد، واحترامه هو الغرض كله.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span>
+          <h3>كل قيدٍ قابل للفحص</h3>
+          <p>يحمل كل قيدٍ رمز تحقّقه ويصل إلى <a href="/ar/graduate.html">سجلّه الخاص</a>. وسجلُّ أسماءٍ لا يمكن فحصه دعوى على صفحة؛ وموقف الكلية أن دعاواها العلنية قابلة للتحقّق، وهذه منها.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg></span>
+          <h3>التحقّق هو المرجع</h3>
+          <p>الشهادة المسحوبة أو المستبدَلة تغادر هذه القائمة وتبقى في السجل. وتظل صفحة تحقّقها تعمل وتذكر وضعها بتاريخه. هذه الصفحة قائمة؛ و<a href="/ar/verify.html">التحقّق</a> هو الجواب.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section--dark cta-band">
+  <div class="container reveal">
+    <h2>معك رمز؟ افحصه في السجل.</h2>
+    <div class="btn-row u-center">
+      <a href="/ar/verify.html" class="btn btn--gold magnetic aurum aurum--twin">التحقّق من شهادة برمزها</a>
+      <a href="/ar/students/awards/" class="btn btn--outline magnetic">معنى كل شهادة</a>
+    </div>
+  </div>
+</section>

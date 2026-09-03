@@ -1,0 +1,75 @@
+{
+  "_": [
+    "THE ADMISSIONS CALENDAR.",
+    "",
+    "Three intakes a year — Spring, Summer, Autumn — and the number of",
+    "places open in the one currently taking applications. Every page that",
+    "names a date or a seat count reads from here, so the homepage, the",
+    "Admissions pillar, the FAQ and both Arabic editions cannot disagree.",
+    "",
+    "WHY THE DATES ARE RULES AND NOT A LIST OF YEARS. Each intake is",
+    "stated as a month and a day, and js/intake.js resolves the next",
+    "occurrence of each against the reader's own clock. A hard-coded list",
+    "of dated intakes is a list that expires — and a countdown that has",
+    "expired is worse than no countdown, because it advertises that",
+    "nobody is maintaining the page. This one cannot expire: when the",
+    "Autumn close passes, the next close is the following Spring.",
+    "",
+    "SEATS. `seats_open` is the number of places in the intake currently",
+    "taking applications, and it is a figure like any other — it belongs",
+    "to the record and is attested with it in data/standing.json, which",
+    "holds the same number. tests/intakes.test.mjs fails the build if the",
+    "two disagree."
+  ],
+
+  "intakes": [
+    {
+      "key": "spring",
+      "closes": "02-28",
+      "begins": "03-15",
+      "en": { "name": "Spring Intake", "term": "March to June" },
+      "ar": { "name": "دفعة الربيع", "term": "من مارس إلى يونيو" }
+    },
+    {
+      "key": "summer",
+      "closes": "06-30",
+      "begins": "07-15",
+      "en": { "name": "Summer Intake", "term": "July to October" },
+      "ar": { "name": "دفعة الصيف", "term": "من يوليو إلى أكتوبر" }
+    },
+    {
+      "key": "autumn",
+      "closes": "10-31",
+      "begins": "11-15",
+      "en": { "name": "Autumn Intake", "term": "November to February" },
+      "ar": { "name": "دفعة الخريف", "term": "من نوفمبر إلى فبراير" }
+    }
+  ],
+
+  "labels": {
+    "en": {
+      "eyebrow": "The admissions calendar",
+      "seats": "places open worldwide",
+      "closesIn": "Applications close in",
+      "days": "days",
+      "hours": "hours",
+      "minutes": "minutes",
+      "nextIntake": "Next intake",
+      "teachingBegins": "Teaching begins",
+      "applyNow": "Begin your application",
+      "rolling": "A place is held the day the application is accepted, and study begins on the intake date."
+    },
+    "ar": {
+      "eyebrow": "تقويم القبول",
+      "seats": "مقعدًا مفتوحة عالميًا",
+      "closesIn": "يُغلق التقديم بعد",
+      "days": "يومًا",
+      "hours": "ساعة",
+      "minutes": "دقيقة",
+      "nextIntake": "الدفعة القادمة",
+      "teachingBegins": "تبدأ الدراسة",
+      "applyNow": "ابدأ تقديمك",
+      "rolling": "يُحجز المقعد يوم قبول الطلب، وتبدأ الدراسة في تاريخ الدفعة."
+    }
+  }
+}

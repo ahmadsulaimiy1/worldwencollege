@@ -1,0 +1,148 @@
+<!--
+  التسجيلات — النسخة العربية.
+
+  المقابل العربيّ لـ pages/staff-enrolments.html، والعللُ مذكورةٌ هناك:
+  هذه الشاشةُ بديلُ «اطلب من مبرمجٍ أن يكتب أمرًا في قاعدة البيانات»، وهو
+  ما جرى به تسجيلُ أوّل متعلّمٍ على هذه المنصّة، ولا تقوم مؤسّسةٌ على مثله.
+  والسببُ مطلوبٌ لا تزيّنًا: تسجيلٌ لا دفعةَ خلفه لا قيمةَ لقيده بعد ستّة
+  أشهرٍ إن لم يقل ما هو.
+
+  وسِجلُّ مَن يبلغ سجلَّ الطالب أوّلُ ما في الصفحة لا آخرُها، فذاك سؤالٌ
+  تُسأله المؤسّسة، ولا ينبغي أن يقتضي جوابُه معرفةَ اسمٍ يُكتب أوّلًا.
+
+  وكلُّ مُعرِّفٍ وسمةِ data هنا هي التي يخاطبها js/staff-enrolments.js.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></p>
+    <p class="masthead__eyebrow">مكتب المسجِّل</p>
+    <h1>التسجيلات</h1>
+    <p class="lede">وضعُ المتعلّم على مستوًى حيث لم تفعل ذلك دفعةٌ ببطاقة &mdash; منحةٌ أو حوالةٌ مصرفيّة أو مقعدٌ مؤسّسيّ &mdash; وسِجلُّ كلِّ من يبلغ سجلَّ طالب.</p>
+    <nav class="rec-nav" aria-label="الهيئة الأكاديمية">
+      <a href="/ar/staff-desk.html">المكتب</a>
+      <a href="/ar/staff-marking.html">التصحيح</a>
+      <a href="/ar/staff-examinations.html">الامتحانات</a>
+      <a href="/ar/staff-papers.html">أوراق الامتحان</a>
+      <a href="/ar/staff-conferral.html">المنح</a>
+      <a href="/ar/staff-learners.html">متعلّموك</a>
+      <a href="/ar/staff-hours.html">ساعاتك</a>
+      <a href="/ar/staff-notices.html">الإعلانات</a>
+      <a href="/ar/staff-cases.html">القضايا</a>
+      <a href="/ar/staff-admissions.html">القبول</a>
+      <a href="/ar/staff-enrolments.html" aria-current="page">التسجيلات</a>
+      <a href="/ar/staff-finance.html">المالية</a>
+      <a href="/ar/staff-administration.html">الإدارة</a>
+    </nav>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container">
+    <div class="stf-shell">
+
+      <p class="rec-state state-plate edge-lit edge-lit--light aurum" id="state" aria-live="polite">جارٍ التحميل&hellip;</p>
+
+      <section class="acc-block reveal" id="secRegister" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg> <span data-register-head></span></h2>
+        </div>
+        <p class="stf-basis" data-register-note></p>
+        <ul class="stf-queue" data-register></ul>
+      </section>
+
+      <section class="acc-block reveal" id="secSearch" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg> <span data-search-head></span></h2>
+        </div>
+
+        <div class="stf-act">
+          <p class="stf-field__note" data-search-why></p>
+          <div class="stf-field">
+            <label for="q" data-search-label></label>
+            <input id="q" type="text" autocomplete="off" data-search-input>
+          </div>
+          <div class="stf-buttons">
+            <button class="btn btn--gold" type="button" data-search-send></button>
+            <span class="stf-said" data-search-said aria-live="polite"></span>
+          </div>
+        </div>
+
+        <ul class="stf-queue" data-results></ul>
+      </section>
+
+      <section class="acc-block reveal" id="secLearner" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg> <span data-learner-head></span></h2>
+          <div class="desk-head__tools">
+            <button class="btn btn--outline" type="button" data-learner-close></button>
+          </div>
+        </div>
+
+        <p class="stf-basis" data-audit-note></p>
+
+        <div class="stf-panel">
+          <p class="stf-panel__label" data-enrolments-label></p>
+          <ul class="stf-queue" data-enrolments></ul>
+        </div>
+
+        <div class="stf-act">
+          <h3 data-set-head></h3>
+          <p class="stf-field__note" data-set-why></p>
+          <div class="stf-field">
+            <label for="eLevel" data-set-level-label></label>
+            <select id="eLevel" data-set-level></select>
+          </div>
+          <div class="stf-field">
+            <label for="eStatus" data-set-status-label></label>
+            <select id="eStatus" data-set-status></select>
+          </div>
+          <div class="stf-field">
+            <label for="eReason" data-set-reason-label></label>
+            <textarea id="eReason" data-set-reason></textarea>
+            <p class="stf-field__note" data-set-reason-note></p>
+          </div>
+          <div class="stf-buttons">
+            <button class="btn btn--gold" type="button" data-set-send></button>
+            <span class="stf-said" data-set-said aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="stf-act" data-access hidden>
+          <h3 data-access-head></h3>
+          <p class="stf-field__note" data-access-why></p>
+          <div class="stf-field">
+            <label for="aRole" data-access-role-label></label>
+            <select id="aRole" data-access-role></select>
+          </div>
+          <div class="stf-field">
+            <label for="aReason" data-access-reason-label></label>
+            <textarea id="aReason" data-access-reason></textarea>
+            <p class="stf-field__note" data-access-reason-note></p>
+          </div>
+          <div class="stf-field">
+            <label for="aAuthority" data-access-authority-label></label>
+            <input id="aAuthority" type="text" maxlength="200" data-access-authority>
+            <p class="stf-field__note" data-access-authority-note></p>
+          </div>
+          <div class="stf-buttons">
+            <button class="btn btn--gold" type="button" data-access-send></button>
+            <span class="stf-said" data-access-said aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="stf-panel" data-appointments-panel hidden>
+          <p class="stf-panel__label" data-appointments-label></p>
+          <ul class="stf-queue" data-appointments></ul>
+        </div>
+
+        <div class="stf-panel">
+          <p class="stf-panel__label" data-history-label></p>
+          <ul class="stf-queue" data-history></ul>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>
