@@ -67,15 +67,15 @@ async function openAs(who, viewport) {
   check('A learner is shown one next step, not a menu',
     (await page.locator('#nextCard').isVisible()) === true);
   const title = await page.textContent('#nextTitle');
-  check('...naming the first module of their lowest active level',
-    /^Module 1\b/.test((title || '').trim()), (title || '').trim());
+  check('...naming the first unit of their lowest active level',
+    /^Unit 1 —/.test((title || '').trim()), (title || '').trim());
   const cta = await page.textContent('#nextCta');
   check('...with a call to action that says it is their first',
-    /Begin your first module/i.test(cta || ''), (cta || '').trim());
+    /Begin your first unit/i.test(cta || ''), (cta || '').trim());
 
   const href = await page.getAttribute('#nextCta', 'href');
-  check('...and a link that carries a module id, which is what the study surface requires',
-    /^\/my-module\.html\?unit=.+/.test(href || ''), href);
+  check('...and a link that carries a unit id, which is what the Lab requires',
+    /^\/listening-lab\.html\?unit=.+/.test(href || ''), href);
 
   // THE ASSERTION THIS FILE EXISTS FOR. A button that leads to the
   // Lab's "No unit specified" error would look identical in a
@@ -97,16 +97,12 @@ async function openAs(who, viewport) {
   check('A learner with a unit in progress is offered a RESUME, not a restart',
     /Continue where you left off/i.test(eyebrow || ''), (eyebrow || '').trim());
   const title = await page.textContent('#nextTitle');
-  // The title is the curriculum's own — "Module 2: …" — and nothing is
-  // prefixed to it. It used to read "Unit 2 — Module 2: …": the same
-  // number twice, under two words for one thing, on the last surface
-  // still calling a module a unit.
-  check('...pointing at the unfinished module, not the next untouched one',
-    /^Module 2\b/.test((title || '').trim()), (title || '').trim());
+  check('...pointing at the unfinished unit, not the next untouched one',
+    /^Unit 2 —/.test((title || '').trim()), (title || '').trim());
 
   const count = await page.textContent('#progressCount');
-  check('Progress is a fraction of modules, not a bare percentage',
-    /1 of \d+ modules completed/.test(count || ''), (count || '').trim());
+  check('Progress is a fraction of units, not a bare percentage',
+    /1 of \d+ units completed/.test(count || ''), (count || '').trim());
 
   const rows = await page.locator('.mp-unit').count();
   check('Every unit in the level is listed, not only the next one', rows >= 3, rows);
@@ -119,7 +115,7 @@ async function openAs(who, viewport) {
   // the same sentence rather than a naked percentage.
   const barLabel = await page.getAttribute('#progressBar', 'aria-label');
   check('The progress bar carries the same meaning for a screen reader',
-    /modules completed/.test(barLabel || ''), barLabel);
+    /units completed/.test(barLabel || ''), barLabel);
 
   // --- Pace ----------------------------------------------------------
   // This learner started 1 January 2026 and has finished one module, so
@@ -148,13 +144,8 @@ async function openAs(who, viewport) {
 
   // Every unit row is a link, so the list is a way in and not a display.
   const hrefs = await page.locator('.mp-unit').evaluateAll((els) => els.map((e) => e.getAttribute('href')));
-  // Into the MODULE, which is the study surface. This asserted the Lab
-  // because the Lab was the only thing that opened a module id at all;
-  // /my-module.html exists now, and unitHref() points at it. The Lab is
-  // where a module's audio work happens, and the module page sends
-  // people there.
-  check('Every module row links into the module itself',
-    hrefs.length > 0 && hrefs.every((h) => /^\/my-module\.html\?unit=/.test(h || '')), hrefs.slice(0, 2).join(' '));
+  check('Every unit row links into the Lab',
+    hrefs.length > 0 && hrefs.every((h) => /^\/listening-lab\.html\?unit=/.test(h || '')), hrefs.slice(0, 2).join(' '));
   await page.close();
 }
 
@@ -173,29 +164,15 @@ async function openAs(who, viewport) {
 
 // --- Mobile ----------------------------------------------------------
 // The one control this page exists to offer is most often tapped on a
-// phone, and a primary action nobody can find is a primary action
-// nobody takes. This is the defect class that already bit once, on the
-// quiz result card.
-//
-// MEASURED FROM THE END OF THE MASTHEAD, not from the top of the
-// document. This asserted an absolute 780px until /my-programme.html
-// was given the site's own chrome — a topbar, a quick-action rail and a
-// masthead, the same three every learner page carries. Holding this one
-// page to a fold the others cannot meet would mean either a different
-// masthead here or no masthead anywhere, and the rule that actually
-// matters is unchanged: after the page's own heading, the action is the
-// FIRST thing, within one screen, with nothing to hunt past.
+// phone, and a primary action below the fold is a primary action nobody
+// takes. This is the defect class that already bit once, on the quiz
+// result card.
 {
   const page = await openAs('usr_prog', { width: 390, height: 780 });
   const cta = page.locator('#nextCta');
   const box = await cta.boundingBox();
-  const heroBottom = await page.evaluate(() => {
-    const h = document.querySelector('.page-hero');
-    return h ? h.getBoundingClientRect().bottom + window.scrollY : 0;
-  });
-  check('On a phone the primary action is the first thing under the masthead',
-    !!box && box.y + box.height - heroBottom <= 780,
-    box ? `${Math.round(box.y + box.height - heroBottom)}px below the masthead` : 'not found');
+  check('On a phone the primary action is above the fold without scrolling',
+    !!box && box.y + box.height <= 780, box ? `${Math.round(box.y)}px` : 'not found');
   check('...and is a comfortable tap target', !!box && box.height >= 44, box ? `${Math.round(box.height)}px` : '—');
 
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);

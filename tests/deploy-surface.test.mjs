@@ -130,25 +130,14 @@ check('EVERY directory the scan treats as private is refused by the deploy',
   scanPrivate.every((d) => deployPrivate.includes(d)),
   `unscanned but shipped: ${scanPrivate.filter((d) => !deployPrivate.includes(d)).join(', ') || 'none'}`);
 
-// Three directories the deploy withholds while the scan still reads
-// them, and all three are deliberate:
-//
-//   scripts/        build tooling.
-//   publication/    the Press PDFs — three exceed Cloudflare's 25 MiB
-//                   per-file limit and none is linked from any page.
-//   .render-audit/  the screenshots tests/browser/pillar-audit.mjs
-//                   writes. An instrument's output, not source: it is
-//                   git-ignored, it is regenerated on every run, and it
-//                   reaches tens of megabytes of PNG. Excluded here as
-//                   well as ignored, because `wrangler pages deploy .`
-//                   run by hand from a working tree does not consult
-//                   .gitignore.
-//
-// The scan keeps reading all three, which costs nothing and catches
-// more.
+// Two directories the deploy withholds while the scan still reads them,
+// and both are deliberate: scripts/ is build tooling, and publication/
+// holds the Press PDFs, three of which exceed Cloudflare's 25 MiB
+// per-file limit and none of which is linked from any page. The scan
+// keeps reading both, which costs nothing and catches more.
 const stricter = deployPrivate.filter((d) => !scanPrivate.includes(d));
 check('...and where the deploy is stricter, the difference is accounted for',
-  stricter.every((d) => ['scripts', 'publication', '.render-audit'].includes(d)),
+  stricter.every((d) => ['scripts', 'publication'].includes(d)),
   `deploy withholds but scan reads: ${stricter.join(', ') || 'none'}`);
 console.log(`      deploy withholds [${deployPrivate.join(', ')}] · scan skips [${scanPrivate.join(', ')}]`);
 

@@ -56,21 +56,8 @@ const FONTS = /fonts\.(googleapis|gstatic)\.com/;
 function stubAuth(page, who) {
   const js = (body) => (route) => route.fulfill({ contentType: 'text/javascript', body });
   return Promise.all([
-    // THE TRAILING `*` IS LOAD-BEARING.
-    //
-    // scripts/build.js content-fingerprints every asset it emits, so
-    // the page now asks for `/js/auth-config.js?v=55a73de7`. A
-    // Playwright route glob matches the whole URL, and `**/js/auth-config.js`
-    // does not match a URL with a query — so the stub silently stopped
-    // applying, the page loaded the REAL auth-config, which carries no
-    // key, and eleven of this file's fourteen checks failed at once.
-    //
-    // Nothing was wrong with the page. The harness was pinned to a URL
-    // that is versioned by design, which is exactly the mistake a
-    // fingerprinting scheme is supposed to make impossible for a
-    // browser and had not yet been made impossible for a test.
-    page.route('**/js/auth-config.js*', js('window.WEC_LC_AUTH={clerkPublishableKey:"pk_test_stub"};')),
-    page.route('**/js/clerk-loader.js*', js(`
+    page.route('**/js/auth-config.js', js('window.WEC_LC_AUTH={clerkPublishableKey:"pk_test_stub"};')),
+    page.route('**/js/clerk-loader.js', js(`
       window.WEC_LC_loadClerk = function (pk, done) {
         var n = 0;
         done(null, {
@@ -190,27 +177,15 @@ function watchApi(page) {
   await page.route('**://fonts.gstatic.com/**', (r) => r.abort());
   await stubAuth(page, 'tutor');
   const api = watchApi(page);
-  // /staff-marking.html, which absorbed the standalone instructor
-  // workspace: the pronunciation queue and the written-work queue are
-  // one screen now, because a tutor sitting down to mark is marking,
-  // and two addresses for one act is how one of them stops being used.
-  await page.goto(`${BASE}/staff-marking.html`, { waitUntil: 'domcontentloaded' });
-  await page.waitForTimeout(1600);
+  await page.goto(`${BASE}/instructor-review.html`, { waitUntil: 'domcontentloaded' });
+  await page.waitForTimeout(1200);
 
   const queueCalls = api.filter((r) => r.path === '/api/lms/review-queue');
-  const markCalls = api.filter((r) => r.path === '/api/lms/marking-queue');
-  check('The marking console authenticates its recording queue request',
+  check('The instructor workspace authenticates its queue request',
     queueCalls.length > 0 && queueCalls.every((r) => /^Bearer stub-tutor#\d+$/.test(r.auth || '')),
     `${queueCalls.length} queue request(s), auth ${queueCalls[0] && queueCalls[0].auth}`);
-  check('…and its written-work queue request too',
-    markCalls.length > 0 && markCalls.every((r) => /^Bearer stub-tutor#\d+$/.test(r.auth || '')),
-    `${markCalls.length} request(s), auth ${markCalls[0] && markCalls[0].auth}`);
-  // 401 and 403 read differently to the person at the screen, and the
-  // console says which it met. Either sentence here means the header
-  // contract failed.
-  const said = (await page.textContent('#state')) || '';
-  check('…and gets a queue rather than an auth refusal',
-    !/not signed in|not a member of staff/i.test(said), said.trim().slice(0, 70));
+  const err = (await page.textContent('#qError')) || '';
+  check('…and gets a queue rather than an auth error', err.trim() === '', err.trim());
   await ctx.close();
 }
 

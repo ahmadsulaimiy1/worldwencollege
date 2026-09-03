@@ -33,26 +33,9 @@ export const INK = {
   slateText: '#8FA3C4',
 };
 
-export const SERIF = "'EB Garamond', Georgia, serif";
+export const SERIF = "'Bodoni Moda', Georgia, serif";
 export const sansFor = (lang) => (lang === 'ar' ? 'Cairo, Inter, sans-serif' : 'Inter, sans-serif');
 export const isRtl = (lang) => lang === 'ar';
-
-/**
- * The vertical gap between two stacked label lines.
- *
- * Arabic needs more of it than English at the same size, and it is not
- * a matter of taste: the script carries diacritics above the baseline
- * and descenders below it, so a glyph box is taller than a Latin one
- * set at the same point size. Two lines fifteen units apart read
- * correctly in English and TOUCH in Arabic —
- * tests/browser/diagram-fit.mjs measured the overlap on the reader
- * plate and on the six gates and reported both as collisions, which is
- * exactly what they were.
- *
- * A quarter more, rounded. Enough to clear the descenders without
- * opening a gap that reads as two separate labels.
- */
-export const lineGap = (lang, base = 15) => (isRtl(lang) ? Math.round(base * 1.25) : base);
 
 // One decimal is a tenth of a unit on the viewBoxes used here — well
 // under a device pixel at any rendered size, and it roughly halves the
@@ -126,7 +109,7 @@ export const bidi = (s) => (HAS_ARABIC.test(String(s)) ? RLI + s + PDI : String(
 
 export function text(content, {
   x, y, anchor = 'start', size = 12, weight = 400, fill = INK.slateText,
-  family, tracking = 0, opacity = 1, ltr = false, pop = false, cls = null,
+  family, tracking = 0, opacity = 1, ltr = false, pop = false,
 } = {}) {
   const arabic = !ltr && HAS_ARABIC.test(String(content));
   const attrs = [
@@ -136,11 +119,6 @@ export function text(content, {
     // The whole drawing becomes a parser error page. Inlined into HTML it
     // would have worked, which is exactly why it went unnoticed.
     pop ? 'data-pop=""' : null,
-    // A class so a plate can carry its own responsive type. An inline
-    // SVG lives in the host document, so a <style> inside it sees the
-    // document's media queries — which is how a 980-wide plate stays
-    // legible at 390 without a second drawing or a sideways scroll.
-    cls ? `class="${cls}"` : null,
     `x="${n(x)}"`, `y="${n(y)}"`,
     `text-anchor="${anchor}"`,
     `font-family="${family || SERIF}"`,
@@ -153,43 +131,6 @@ export function text(content, {
   ].filter(Boolean).join(' ');
   const body = escapeXml(content);
   return `<text ${attrs}>${arabic ? RLI + body + PDI : body}</text>`;
-}
-
-/**
- * A WRAPPED PARAGRAPH, because `text()` does not wrap and SVG has no
- * box model to wrap inside.
- *
- * This was a real fault rather than a missing feature: two generators
- * passed `width: 640` to `text()`, which silently ignores every option
- * it does not know, and the caption ran off the right edge of the plate
- * — visible only on render, and only at the width the caption happened
- * to be. A parameter that is accepted and ignored is worse than one
- * that throws.
- *
- * Wrapping is by estimated advance rather than by measurement, because
- * there is no text engine here. 0.52em per character for the Latin sans
- * at these sizes and 0.5em for Cairo are both slightly generous, which
- * is the correct direction to be wrong in: a line that breaks one word
- * early is invisible, a line that overruns the plate is the fault this
- * exists to stop.
- */
-export function paragraph(content, {
-  x, y, width, anchor = 'start', size = 12, weight = 400, fill = INK.slateText,
-  family, tracking = 0, leading = 1.5, lang = 'en', cls = null,
-} = {}) {
-  const per = (lang === 'ar' ? 0.5 : 0.52) * size;
-  const max = Math.max(8, Math.floor(width / per));
-  const words = String(content).split(/\s+/).filter(Boolean);
-  const lines = [];
-  let line = '';
-  for (const w of words) {
-    const next = line ? `${line} ${w}` : w;
-    if (next.length > max && line) { lines.push(line); line = w; } else { line = next; }
-  }
-  if (line) lines.push(line);
-  return lines.map((l, i) => text(l, {
-    x, y: y + i * size * leading, anchor, size, weight, fill, family, tracking, cls,
-  })).join('\n');
 }
 
 /** A stroked path that draws itself in. `ms` is its draw duration. */

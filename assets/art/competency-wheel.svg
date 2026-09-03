@@ -22,22 +22,22 @@
   <path d="M476.2 242.6L502.4 288.0L476.2 333.4L423.8 333.4L397.6 288.0L423.8 242.6Z" fill="none" stroke="#C7A24A" stroke-width="1.4" stroke-dasharray="4 4" stroke-opacity="0.9"/>
   <path data-draw="1400" d="M517.6 170.9L668.0 288.0L485.4 349.3L428.4 325.4L416.0 288.0L433.0 258.6Z" fill="rgba(31,61,122,0.42)" stroke="#E7C97A" stroke-width="2" stroke-linejoin="round"/>
   <g data-pop=""><circle cx="517.6" cy="170.9" r="6" fill="#0A1428" stroke="#D4AF37" stroke-width="1.8"/><circle cx="517.6" cy="170.9" r="2.2" fill="#D4AF37"/></g>
-  <text data-pop="" x="574.0" y="72.2" text-anchor="start" font-family="'EB Garamond', Georgia, serif" font-size="15" font-weight="700" fill="#F2E3C0">Clarity</text>
+  <text data-pop="" x="574.0" y="72.2" text-anchor="start" font-family="'Bodoni Moda', Georgia, serif" font-size="15" font-weight="700" fill="#F2E3C0">Clarity</text>
   <text data-pop="" x="574.0" y="90.2" text-anchor="start" font-family="Inter, sans-serif" font-size="11.5" font-weight="700" fill="#6E93C4" direction="ltr">11×</text>
   <g data-pop=""><circle cx="668.0" cy="288.0" r="6" fill="#0A1428" stroke="#D4AF37" stroke-width="1.8"/><circle cx="668.0" cy="288.0" r="2.2" fill="#D4AF37"/></g>
-  <text data-pop="" x="698.0" y="287.0" text-anchor="start" font-family="'EB Garamond', Georgia, serif" font-size="15" font-weight="700" fill="#F2E3C0">Command</text>
+  <text data-pop="" x="698.0" y="287.0" text-anchor="start" font-family="'Bodoni Moda', Georgia, serif" font-size="15" font-weight="700" fill="#F2E3C0">Command</text>
   <text data-pop="" x="698.0" y="305.0" text-anchor="start" font-family="Inter, sans-serif" font-size="11.5" font-weight="700" fill="#6E93C4" direction="ltr">20×</text>
   <g data-pop=""><circle cx="485.4" cy="349.3" r="6" fill="#0A1428" stroke="#D4AF37" stroke-width="1.8"/><circle cx="485.4" cy="349.3" r="2.2" fill="#D4AF37"/></g>
-  <text data-pop="" x="574.0" y="501.8" text-anchor="start" font-family="'EB Garamond', Georgia, serif" font-size="15" font-weight="700" fill="#F2E3C0">Judgement</text>
+  <text data-pop="" x="574.0" y="501.8" text-anchor="start" font-family="'Bodoni Moda', Georgia, serif" font-size="15" font-weight="700" fill="#F2E3C0">Judgement</text>
   <text data-pop="" x="574.0" y="519.8" text-anchor="start" font-family="Inter, sans-serif" font-size="11.5" font-weight="700" fill="#6E93C4" direction="ltr">4×</text>
   <g data-pop=""><circle cx="428.4" cy="325.4" r="6" fill="#0A1428" stroke="#C9788A" stroke-width="1.8"/><circle cx="428.4" cy="325.4" r="2.2" fill="#C9788A"/></g>
-  <text data-pop="" x="326.0" y="501.8" text-anchor="end" font-family="'EB Garamond', Georgia, serif" font-size="15" font-weight="700" fill="#F2E3C0">Reason</text>
+  <text data-pop="" x="326.0" y="501.8" text-anchor="end" font-family="'Bodoni Moda', Georgia, serif" font-size="15" font-weight="700" fill="#F2E3C0">Reason</text>
   <text data-pop="" x="326.0" y="519.8" text-anchor="end" font-family="Inter, sans-serif" font-size="11.5" font-weight="700" fill="#C9788A" direction="ltr">1×</text>
   <g data-pop=""><circle cx="416.0" cy="288.0" r="7" fill="none" stroke="#6E1F2E" stroke-width="1.4" stroke-dasharray="3 3"/></g>
-  <text data-pop="" x="202.0" y="287.0" text-anchor="end" font-family="'EB Garamond', Georgia, serif" font-size="15" font-weight="700" fill="#C9788A">Bearing</text>
+  <text data-pop="" x="202.0" y="287.0" text-anchor="end" font-family="'Bodoni Moda', Georgia, serif" font-size="15" font-weight="700" fill="#C9788A">Bearing</text>
   <text data-pop="" x="202.0" y="305.0" text-anchor="end" font-family="Inter, sans-serif" font-size="11.5" font-weight="700" fill="#C9788A">0 — not assessed</text>
   <g data-pop=""><circle cx="433.0" cy="258.6" r="7" fill="none" stroke="#6E1F2E" stroke-width="1.4" stroke-dasharray="3 3"/></g>
-  <text data-pop="" x="326.0" y="72.2" text-anchor="end" font-family="'EB Garamond', Georgia, serif" font-size="15" font-weight="700" fill="#C9788A">Reach</text>
+  <text data-pop="" x="326.0" y="72.2" text-anchor="end" font-family="'Bodoni Moda', Georgia, serif" font-size="15" font-weight="700" fill="#C9788A">Reach</text>
   <text data-pop="" x="326.0" y="90.2" text-anchor="end" font-family="Inter, sans-serif" font-size="11.5" font-weight="700" fill="#C9788A">0 — not assessed</text>
   <path d="M254.0 570.0l7 -6 7 6 -7 6Z" fill="none" stroke="#C7A24A" stroke-width="1.4" stroke-dasharray="3 3" data-pop=""/>
   <text data-pop="" x="275.0" y="574.0" text-anchor="start" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#E7C97A">the remit — assessed at least 2×</text>

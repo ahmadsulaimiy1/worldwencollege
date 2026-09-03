@@ -5,7 +5,7 @@
 data-dense interfaces — `css/dashboard.css` — demonstrated today in the
 Student Portal preview (`/student-portal/preview/`, `/student-portal/preview/profile/`)
 and, as its first real instance beyond the Student Portal, the Finance
-dashboard (`/staff-finance.html` — see § Extending, below).*
+dashboard (`/finance/preview/` — see § Extending, below).*
 
 ---
 
@@ -317,7 +317,7 @@ own purpose before any question of elegance arises.
 | Mini list | `.mini-list` | Digital Library; Finance dashboard's reconciliation alert lists |
 | Disabled note | `.disabled-note` | Small "activates once live" captions throughout |
 | Auth gate | `.auth-gate`, `.auth-gate__spinner/__text` | Full-page loading overlay while `js/portal-guard.js` checks a real Clerk session — only ever rendered once a key is configured |
-| **Empty state** | `.empty-state`, `.empty-state__icon` | Rendered live by `js/staff-finance.js`'s access-denied state for a signed-in non-staff account; otherwise not forced into a panel — see below |
+| **Empty state** | `.empty-state`, `.empty-state__icon` | Rendered live by `js/finance-dashboard.js`'s access-denied state for a signed-in non-staff account; otherwise not forced into a panel — see below |
 | **Toast / notification** | `.toast-region`, `.toast`, `.toast--error` | Live demo: a reminder toast fires ~1.6s after load |
 | **Loading skeleton** | `.skeleton`, `.skeleton--text`, `.skeleton--title` | Live demo: stat tiles load from skeleton → real content, both dashboards |
 
@@ -347,8 +347,8 @@ this portal or a future one) has genuinely nothing to show.
 
 ## Extending to Faculty / Administration / Executive / Corporate / Alumni
 
-One of these now exists: the **Finance dashboard** (`/staff-finance.html`,
-`js/staff-finance.js`) is a real, functioning first instance of
+One of these now exists: the **Finance dashboard** (`/finance/preview/`,
+`js/finance-dashboard.js`) is a real, functioning first instance of
 this pattern applied beyond the Student Portal — a staff/admin-only
 revenue and reconciliation view, backed by `GET /api/admin/reports/{revenue,reconciliation}`
 (see `docs/payments-architecture.md` § Financial reporting &

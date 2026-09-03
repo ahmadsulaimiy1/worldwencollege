@@ -14,7 +14,7 @@ attaches to it without redesign. Companion to
 | Logic | `functions/_lib/lms/content.js` | complete |
 | API | `functions/api/lms/{audio,recording,recording-review,review-queue,listening-analytics,pronunciation-profile}.js` | complete |
 | Learner UI | `listening-lab.html`, `js/listening-lab.js`, `css/listening-lab.css` | complete |
-| Staff UI | `staff-marking.html` (+ Arabic), `js/staff-marking.js` | complete |
+| Staff UI | `instructor-review.html`, `js/instructor-review.js` | complete |
 | Offline | `sw-lab.js` | complete |
 | Content | 60 listening scripts, 497 cues, 240 questions, 180 targets | complete |
 | **Recordings** | — | **not produced** |
@@ -110,7 +110,7 @@ authorisation rule deciding who may review whom.
 **Schema change: one CHECK constraint widened.** The five sub-scores,
 the optional spoken-feedback asset and the rendering all work as-is.
 The hard part is policy, not structure: peer feedback needs moderation
-before it reaches a learner, which is what the marking console's
+before it reaches a learner, which is what `instructor-review.html`'s
 queue pattern is already shaped for.
 
 ### 3.6 Certification speaking examinations

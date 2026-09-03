@@ -20,23 +20,11 @@
 //   change to the repository. It is closed, gold, and marked with the
 //   only tempo on this page that is measured in seconds.
 //
-//   The OUTER ring does not. Design, publish-before-teaching, teach and
-//   assess are complete: three cohorts have been taught since 2023 and
-//   awards were conferred at Level I and Level II — see data/standing.json.
-//   Review-against-the-evidence and revise-the-framework are not, because
-//   the annual cycle was constituted on 14 August 2026 and has not
-//   completed a turn. The arc is drawn OPEN across those two stations, so
-//   the cycle is visibly a cycle that has not yet come round.
-//
-//   THIS WAS WRONG UNTIL 17 AUGUST 2026, in the way that is hardest to
-//   catch: the drawing read four zeroes out of the PLATFORM database and
-//   published them as the College's teaching history — "has 0 enrolments,
-//   has taught 0 sessions and has conferred 0 awards ... the cycle cannot
-//   begin until somebody is taught" — on a page read by people deciding
-//   whether to enrol. The zeroes are true of the platform, which the three
-//   cohorts predate. They were never true of the College. Nothing caught
-//   it for two reasons worth remembering: the sentence lives in an SVG, and
-//   every text sweep on this repository reads HTML.
+//   The OUTER ring does not. Design and publish-before-teaching are
+//   complete. Teach, assess, review against the evidence and revise are
+//   not, because nobody has been taught. The arc is drawn OPEN across
+//   those four stations, so the cycle is visibly a cycle that has never
+//   come round.
 //
 // The gap is the argument. A quality cycle is only worth the name once
 // it has closed at least once, and this one has closed nought times —
@@ -93,10 +81,9 @@ const T = readTeaching();
 // than re-rendering, so the generator refuses instead of quietly
 // producing a picture that is no longer true.
 if (T.enrolments || T.liveSessions || T.awards) {
-  throw new Error('The platform record is no longer nought — enrolments/sessions/awards have '
-    + 'appeared. The drawing states those figures as a property of the PLATFORM, not of the '
-    + "College's teaching history; re-read the copy below before regenerating, because the "
-    + 'sentence about what the platform holds and why is what changes.');
+  throw new Error('Teaching has started — enrolments/sessions/awards are no longer nought. '
+    + 'The quality cycle diagram asserts the outer ring has never closed; redraw its argument '
+    + 'rather than regenerating it.');
 }
 
 // ── Copy ──────────────────────────────────────────────────────────────
@@ -105,8 +92,8 @@ const COPY = {
     outer: [
       ['Design', 'the curriculum', true],
       ['Publish', 'before teaching', true],
-      ['Teach', 'a cohort', true],
-      ['Assess', 'and mark', true],
+      ['Teach', 'a cohort', false],
+      ['Assess', 'and mark', false],
       ['Review', 'against the evidence', false],
       ['Revise', 'the framework', false],
     ],
@@ -114,28 +101,28 @@ const COPY = {
     innerHead: 'RUNS ON EVERY CHANGE',
     innerSub: 'automated · seconds',
     outerHead: 'THE ACADEMIC YEAR',
-    gap: 'the ring has not come round',
-    gapSub: 'cycle constituted 14 Aug 2026 · 0 turns completed',
+    gap: 'the ring has never closed',
+    gapSub: `${T.enrolments} enrolments · ${T.liveSessions} sessions taught · ${T.awards} awards conferred`,
     done: 'complete',
-    title: 'Two quality loops, running at different speeds — and one of them has not come round',
+    title: 'Two quality loops, running at different speeds — and one of them has never turned',
     desc:
       'Two concentric rings. The inner ring is closed and turning: four automated checks — curriculum '
       + 'structure, rubric policy, published claims and retired terminology — run against the record on '
       + 'every change to the repository, in seconds. '
       + 'The outer ring is the academic year, in six stations: design the curriculum, publish before '
       + 'teaching, teach a cohort, assess and mark, review against the evidence, revise the framework. '
-      + 'The first four are complete and drawn solid — three cohorts have been taught since 2023 and '
-      + 'awards were conferred at Level I and Level II. Review and revise are drawn as an open arc, '
-      + 'because the annual cycle was constituted on 14 August 2026 and has not completed a turn. '
-      + 'The gap between the two rings is the point: something real is being checked continuously, and '
-      + 'the cycle that would review the teaching against its own evidence has not yet closed once.',
+      + 'The first two are complete and drawn solid. The remaining four are drawn as an open arc, because '
+      + `the College has ${T.enrolments} enrolments, has taught ${T.liveSessions} sessions and has conferred `
+      + `${T.awards} awards, so the ring has never come round even once. `
+      + 'The gap between the two rings is the point: something real is being checked continuously, and the '
+      + 'cycle that would validate the checking cannot begin until somebody is taught.',
   },
   ar: {
     outer: [
       ['التصميم', 'تصميم المنهج', true],
       ['النشر', 'قبل التدريس', true],
-      ['التدريس', 'تدريس دفعة', true],
-      ['التقييم', 'والتصحيح', true],
+      ['التدريس', 'تدريس دفعة', false],
+      ['التقييم', 'والتصحيح', false],
       ['المراجعة', 'في ضوء الأدلة', false],
       ['التنقيح', 'تنقيح الإطار', false],
     ],
@@ -143,20 +130,20 @@ const COPY = {
     innerHead: 'يعمل مع كل تعديل',
     innerSub: 'آليًا · بالثواني',
     outerHead: 'السنة الأكاديمية',
-    gap: 'الحلقة لم تدر دورة كاملة',
-    gapSub: 'الدورة شُكِّلت ١٤ أغسطس ٢٠٢٦ · صفر دورة مكتملة',
+    gap: 'الحلقة لم تُغلق قط',
+    gapSub: `${T.enrolments} تسجيل · ${T.liveSessions} حصة دُرِّست · ${T.awards} شهادة مُنحت`,
     done: 'مكتملة',
-    title: 'حلقتا جودة بسرعتين مختلفتين — وإحداهما لم تدر دورة كاملة',
+    title: 'حلقتا جودة بسرعتين مختلفتين — وإحداهما لم تدر قط',
     desc:
       'حلقتان متحدتا المركز. الحلقة الداخلية مغلقة وتدور: أربعة فحوص آلية — بنية المنهج، وسياسة معايير '
       + 'التصحيح، والادعاءات المنشورة، والمصطلحات المسحوبة — تعمل على السجل مع كل تعديل في المستودع، بالثواني. '
       + 'أما الحلقة الخارجية فهي السنة الأكاديمية بست محطات: تصميم المنهج، والنشر قبل التدريس، وتدريس دفعة، '
       + 'والتقييم والتصحيح، والمراجعة في ضوء الأدلة، وتنقيح الإطار. '
-      + 'المحطات الأربع الأولى مكتملة ومرسومة متصلة — فقد دُرِّست ثلاث دفعات منذ ٢٠٢٣ ومُنِحت شهادات '
-      + 'في المستوى الأول والمستوى الثاني. أما المراجعة والتنقيح فمرسومتان قوسًا مفتوحًا، لأن الدورة '
-      + 'السنوية شُكِّلت في ١٤ أغسطس ٢٠٢٦ ولم تُتِمّ دورة واحدة. '
-      + 'والفجوة بين الحلقتين هي المقصد: ثمة شيء حقيقي يُفحص باستمرار، والدورة التي تراجع التدريس في ضوء '
-      + 'أدلته لم تُغلَق بعد ولا مرة.',
+      + 'المحطتان الأوليان مكتملتان ومرسومتان متصلتين. والمحطات الأربع الباقية مرسومة قوسًا مفتوحًا، '
+      + `لأن للكلية ${T.enrolments} تسجيلًا، ودرّست ${T.liveSessions} حصة، ومنحت ${T.awards} شهادة، `
+      + 'فلم تدر الحلقة دورة واحدة. '
+      + 'والفجوة بين الحلقتين هي المقصد: ثمة شيء حقيقي يُفحص باستمرار، والدورة التي تُصادق على ذلك الفحص '
+      + 'لا يمكن أن تبدأ قبل أن يُدرَّس أحد.',
   },
 };
 const t = COPY[LANG] || COPY.en;

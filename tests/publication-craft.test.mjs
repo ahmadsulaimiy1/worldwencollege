@@ -57,23 +57,8 @@ check(`Audited ${f.counts.textEls} text elements at the true measure of ${MEASUR
   // back, and it is deliberately not zero — claiming zero would mean
   // hand-binding words in curriculum text, which is not this
   // publication's text to edit.
-  // EXPRESSED AS A RATE, because the count is not a property of the
-  // document alone. This ran green here at 46 and failed the deploy at
-  // 56: line breaking is decided by rendered text metrics, and the
-  // runner rasterises the same faces at the same size to slightly
-  // different widths. A handful of paragraphs therefore break one word
-  // differently, which is not a defect in the typesetting and not
-  // something an absolute ceiling can distinguish from one.
-  //
-  // The rate keeps what the ceiling was for. Before `text-wrap: pretty`
-  // the figure was 209 of 2158 — 9.7 per cent. It is now between 2.1 and
-  // 2.6 per cent depending on the renderer, and the ceiling is 4 per
-  // cent: comfortably above the spread between two machines, and
-  // nowhere near far enough to let the old number back.
-  const runtRate = f.runts.length / Math.max(1, f.counts.multiLine);
-  check(`Runts stay within the measured floor — ${(runtRate * 100).toFixed(1)}% of multi-line elements`,
-    runtRate <= 0.04,
-    `${f.runts.length} of ${f.counts.multiLine}; the ceiling is 4% (was 9.7% before text-wrap: pretty)`);
+  check('Runts stay within the measured floor', f.runts.length <= 55,
+    `${f.runts.length} of ${f.counts.multiLine} multi-line elements`);
 
   check('No paragraph is set loose enough to open rivers', f.stress.length === 0,
     `${f.stress.length} justified blocks under 4.2 words per line`);

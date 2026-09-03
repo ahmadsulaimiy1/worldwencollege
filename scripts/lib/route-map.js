@@ -93,23 +93,7 @@ const RETIRED = [
   // retired," so the entry is removed rather than left to lie.
   { from: '/admissions/entry-requirements/', to: '/admissions/#requirements', why: 'section of Admissions', migrated: true },
   { from: '/admissions/dates/', to: '/admissions/#dates', why: 'section of Admissions', migrated: true },
-  //
-  // /admissions/international/ IS NOT IN THIS LIST EITHER, and for the
-  // same reason /admissions/apply/ is not, recorded above. It was
-  // absorbed into /admissions/#international in the Phase 5
-  // consolidation, when what lived there was three paragraphs. On
-  // 20 August 2026 it came back as a full instrument — what the award
-  // does at a border, what actually differs between countries, paying
-  // under currency controls, how a name is printed, the terms of a
-  // short educational visit — which is not a section of a marketing
-  // pillar and does not fit inside one.
-  //
-  // A retirement rule left standing beside a served page is worse than
-  // a missing one: `_redirects` is consulted before the static asset,
-  // so the rule would win and the page would be unreachable at its own
-  // address, with nothing to show anybody was wrong. Removed rather
-  // than left to lie. Run scripts/build-redirects.js after this file.
-  //
+  { from: '/admissions/international/', to: '/admissions/#international', why: 'section of Admissions', migrated: true },
   { from: '/admissions/visas/', to: '/admissions/#visas', why: 'section of Admissions', migrated: true },
   { from: '/admissions/questions/', to: '/faq/', why: 'one Questions page, sitewide', migrated: true },
 

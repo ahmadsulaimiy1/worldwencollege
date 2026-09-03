@@ -37,18 +37,18 @@ INSERT INTO audio_cues (id, audio_asset_id, sequence, speaker, text) VALUES
 ('cue_l2_m1_8', 'aud_l2_m1_listen', 8, 'Priya', 'Never. It was the best decision I''ve made.');
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body, audio_asset_id) VALUES
-('itm_l2_m1_listening', 'unt_l2_m1', 4, 'listening', 'Listening 1 — How Priya Became a Nurse',
+('itm_l2_m1_listening', 'unt_l2_m1', 4, 'listening', 'Listening 1 -- How Priya Became a Nurse',
 'LISTENING OBJECTIVES: Follow a personal narrative across several years; distinguish used to from the past simple; hear when a background action is interrupted.
 
 BEFORE YOU LISTEN: Priya tells an interviewer how she chose her career. Read the four questions first. Knowing what you are listening for is itself the skill being taught, and it is the difference between hearing words and understanding a conversation.
 
-LISTEN TWICE: First for the general situation only — who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
+LISTEN TWICE: First for the general situation only -- who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
 
 THEN: Read the synchronised transcript while listening a third time, and mark every place where what you heard and what is written surprised you. That gap is your own pronunciation target, identified by you rather than assigned to you.
 
 SHADOWING: Record yourself speaking Priya''s account of the day she changed her mind. Your recordings are kept attempt by attempt, so you can hear your own progress, and your instructor can reply in their own voice.', 'aud_l2_m1_listen'),
-('itm_l2_m1_pronunciation', 'unt_l2_m1', 5, 'pronunciation', 'Pronunciation Lab 1 — Used To, Weak Past Forms & Interrupted Actions',
-'HOW TO USE THIS LAB: For each target — listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
+('itm_l2_m1_pronunciation', 'unt_l2_m1', 5, 'pronunciation', 'Pronunciation Lab 1 -- Used To, Weak Past Forms & Interrupted Actions',
+'HOW TO USE THIS LAB: For each target -- listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
 
 FOCUS THIS MODULE: The weak forms of used to and was/were, which carry the grammar of this module and are almost inaudible at speed.
 
@@ -56,7 +56,7 @@ Your recordings are kept, so attempt one and attempt ten sit side by side. Your 
 
 INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target, example, guidance) VALUES
 ('pron_l2_m1_1', 'itm_l2_m1_pronunciation', 1, 'connected_speech', 'used to -> /ˈjuːstə/', 'I used to work in an office.', 'The d disappears entirely and to reduces. Learners who listen for a clear "used TO" miss the structure completely, and with it the whole meaning of a past habit.'),
-('pron_l2_m1_2', 'itm_l2_m1_pronunciation', 2, 'phoneme', 'was and were in their weak forms', 'I was /wəz/ walking. They were /wə/ helping.', 'Unstressed, these almost vanish. They only take their strong form in short answers — "Yes, I WAS" — and knowing that is how you tell a past continuous from a present.'),
+('pron_l2_m1_2', 'itm_l2_m1_pronunciation', 2, 'phoneme', 'was and were in their weak forms', 'I was /wəz/ walking. They were /wə/ helping.', 'Unstressed, these almost vanish. They only take their strong form in short answers -- "Yes, I WAS" -- and knowing that is how you tell a past continuous from a present.'),
 ('pron_l2_m1_3', 'itm_l2_m1_pronunciation', 3, 'intonation', 'An interrupted action drops, the interruption rises then falls', 'I was WALKing home // when I SAW an ACcident.', 'The two clauses form two groups. The junction at when is where the listener understands that one action cut across another.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
@@ -69,7 +69,7 @@ INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json
 -- Module 2: Travel & Transport
 -- ---------------------------------------------------------------------
 INSERT INTO audio_assets (id, kind, title, transcript, variety, speaker_count, target_wpm) VALUES
-('aud_l2_m2_listen', 'listening', 'Missing the Connection', 'The sixteen forty service to Manchester has been delayed by thirty minutes. | Excuse me, I''ve missed my connection. What should I do? | Where are you travelling to? | To Leeds. My ticket was for the sixteen fifteen. | Don''t worry. There''s another train at seventeen thirty from platform thirteen. | Platform thirty? | Thirteen. One-three. Your ticket is still valid — just show it to the guard. | Thank you, that''s a relief.', 'BrE', 3, 108),
+('aud_l2_m2_listen', 'listening', 'Missing the Connection', 'The sixteen forty service to Manchester has been delayed by thirty minutes. | Excuse me, I''ve missed my connection. What should I do? | Where are you travelling to? | To Leeds. My ticket was for the sixteen fifteen. | Don''t worry. There''s another train at seventeen thirty from platform thirteen. | Platform thirty? | Thirteen. One-three. Your ticket is still valid -- just show it to the guard. | Thank you, that''s a relief.', 'BrE', 3, 108),
 ('aud_l2_m2_pron', 'model_pronunciation', 'Module 2 Pronunciation Model', 'The sixteen forty service. | Platform thirteen. | I''ve missed my connection. | Is this ticket still valid?', 'BrE', 1, 93);
 
 INSERT INTO audio_cues (id, audio_asset_id, sequence, speaker, text) VALUES
@@ -79,24 +79,24 @@ INSERT INTO audio_cues (id, audio_asset_id, sequence, speaker, text) VALUES
 ('cue_l2_m2_4', 'aud_l2_m2_listen', 4, 'Traveller', 'To Leeds. My ticket was for the sixteen fifteen.'),
 ('cue_l2_m2_5', 'aud_l2_m2_listen', 5, 'Assistant', 'Don''t worry. There''s another train at seventeen thirty from platform thirteen.'),
 ('cue_l2_m2_6', 'aud_l2_m2_listen', 6, 'Traveller', 'Platform thirty?'),
-('cue_l2_m2_7', 'aud_l2_m2_listen', 7, 'Assistant', 'Thirteen. One-three. Your ticket is still valid — just show it to the guard.'),
+('cue_l2_m2_7', 'aud_l2_m2_listen', 7, 'Assistant', 'Thirteen. One-three. Your ticket is still valid -- just show it to the guard.'),
 ('cue_l2_m2_8', 'aud_l2_m2_listen', 8, 'Traveller', 'Thank you, that''s a relief.');
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body, audio_asset_id) VALUES
-('itm_l2_m2_listening', 'unt_l2_m2', 4, 'listening', 'Listening 2 — Missing the Connection',
+('itm_l2_m2_listening', 'unt_l2_m2', 4, 'listening', 'Listening 2 -- Missing the Connection',
 'LISTENING OBJECTIVES: Follow travel announcements and a service enquiry; catch platform numbers and times under pressure; recognise British transport vocabulary.
 
 BEFORE YOU LISTEN: A traveller has missed a connection and speaks to a station assistant. Read the four questions first. Knowing what you are listening for is itself the skill being taught, and it is the difference between hearing words and understanding a conversation.
 
-LISTEN TWICE: First for the general situation only — who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
+LISTEN TWICE: First for the general situation only -- who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
 
 THEN: Read the synchronised transcript while listening a third time, and mark every place where what you heard and what is written surprised you. That gap is your own pronunciation target, identified by you rather than assigned to you.
 
 SHADOWING: Record yourself speaking the traveller''s enquiry, keeping the polite rise. Your recordings are kept attempt by attempt, so you can hear your own progress, and your instructor can reply in their own voice.', 'aud_l2_m2_listen'),
-('itm_l2_m2_pronunciation', 'unt_l2_m2', 5, 'pronunciation', 'Pronunciation Lab 2 — Teen and Ty, Announcement Rhythm & Checking Back',
-'HOW TO USE THIS LAB: For each target — listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
+('itm_l2_m2_pronunciation', 'unt_l2_m2', 5, 'pronunciation', 'Pronunciation Lab 2 -- Teen and Ty, Announcement Rhythm & Checking Back',
+'HOW TO USE THIS LAB: For each target -- listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
 
-FOCUS THIS MODULE: Numbers under time pressure — the thirteen/thirty contrast that causes real missed trains.
+FOCUS THIS MODULE: Numbers under time pressure -- the thirteen/thirty contrast that causes real missed trains.
 
 Your recordings are kept, so attempt one and attempt ten sit side by side. Your instructor can reply with a spoken model rather than only written notes.', 'aud_l2_m2_pron');
 
@@ -130,25 +130,25 @@ INSERT INTO audio_cues (id, audio_asset_id, sequence, speaker, text) VALUES
 ('cue_l2_m3_9', 'aud_l2_m3_listen', 9, 'Manager', 'Ask me, or Ana if I''m out.');
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body, audio_asset_id) VALUES
-('itm_l2_m3_listening', 'unt_l2_m3', 4, 'listening', 'Listening 3 — A First Day at Work',
+('itm_l2_m3_listening', 'unt_l2_m3', 4, 'listening', 'Listening 3 -- A First Day at Work',
 'LISTENING OBJECTIVES: Follow workplace instructions; understand a sequence of responsibilities; distinguish state verbs used in simple form.
 
 BEFORE YOU LISTEN: A manager explains the job to a new employee. Read the four questions first. Knowing what you are listening for is itself the skill being taught, and it is the difference between hearing words and understanding a conversation.
 
-LISTEN TWICE: First for the general situation only — who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
+LISTEN TWICE: First for the general situation only -- who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
 
 THEN: Read the synchronised transcript while listening a third time, and mark every place where what you heard and what is written surprised you. That gap is your own pronunciation target, identified by you rather than assigned to you.
 
 SHADOWING: Record yourself speaking the new employee''s questions. Your recordings are kept attempt by attempt, so you can hear your own progress, and your instructor can reply in their own voice.', 'aud_l2_m3_listen'),
-('itm_l2_m3_pronunciation', 'unt_l2_m3', 5, 'pronunciation', 'Pronunciation Lab 3 — Final Clusters, D''you Reduction & Instruction Stress',
-'HOW TO USE THIS LAB: For each target — listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
+('itm_l2_m3_pronunciation', 'unt_l2_m3', 5, 'pronunciation', 'Pronunciation Lab 3 -- Final Clusters, D''you Reduction & Instruction Stress',
+'HOW TO USE THIS LAB: For each target -- listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
 
-FOCUS THIS MODULE: Consonant clusters at the ends of words — asked, worked, next — where learners typically drop the final sound.
+FOCUS THIS MODULE: Consonant clusters at the ends of words -- asked, worked, next -- where learners typically drop the final sound.
 
 Your recordings are kept, so attempt one and attempt ten sit side by side. Your instructor can reply with a spoken model rather than only written notes.', 'aud_l2_m3_pron');
 
 INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target, example, guidance) VALUES
-('pron_l2_m3_1', 'itm_l2_m3_pronunciation', 1, 'phoneme', 'Final consonant clusters', 'asked /ɑːskt/; worked; next; helped', 'Three consonants can meet at the end of an English word. Dropping the last one turns asked into ask and loses the past tense entirely — a grammar error caused purely by pronunciation.'),
+('pron_l2_m3_1', 'itm_l2_m3_pronunciation', 1, 'phoneme', 'Final consonant clusters', 'asked /ɑːskt/; worked; next; helped', 'Three consonants can meet at the end of an English word. Dropping the last one turns asked into ask and loses the past tense entirely -- a grammar error caused purely by pronunciation.'),
 ('pron_l2_m3_2', 'itm_l2_m3_pronunciation', 2, 'connected_speech', 'Do you -> /dʒə/ in questions', 'D''you need a uniform? What time d''you start?', 'This reduction is standard in ordinary speech. Recognising it is essential; learners often fail to notice a question has been asked at all.'),
 ('pron_l2_m3_3', 'itm_l2_m3_pronunciation', 3, 'sentence_stress', 'Instructions stress the new information', 'You START at half past EIGHT and FINish at FIVE.', 'In a list of duties the times and the verbs carry the meaning. Flat delivery makes an instruction sound optional.');
 
@@ -176,25 +176,25 @@ INSERT INTO audio_cues (id, audio_asset_id, sequence, speaker, text) VALUES
 ('cue_l2_m4_8', 'aud_l2_m4_listen', 8, 'Marco', 'Fine by me. I''ll make the popcorn.');
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body, audio_asset_id) VALUES
-('itm_l2_m4_listening', 'unt_l2_m4', 4, 'listening', 'Listening 4 — Choosing a Film',
+('itm_l2_m4_listening', 'unt_l2_m4', 4, 'listening', 'Listening 4 -- Choosing a Film',
 'LISTENING OBJECTIVES: Follow an exchange of opinions; recognise degrees of agreement and disagreement; catch polite disagreement.
 
 BEFORE YOU LISTEN: Three friends are deciding what to watch. Read the four questions first. Knowing what you are listening for is itself the skill being taught, and it is the difference between hearing words and understanding a conversation.
 
-LISTEN TWICE: First for the general situation only — who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
+LISTEN TWICE: First for the general situation only -- who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
 
 THEN: Read the synchronised transcript while listening a third time, and mark every place where what you heard and what is written surprised you. That gap is your own pronunciation target, identified by you rather than assigned to you.
 
 SHADOWING: Record yourself speaking the polite disagreement, keeping it warm rather than blunt. Your recordings are kept attempt by attempt, so you can hear your own progress, and your instructor can reply in their own voice.', 'aud_l2_m4_listen'),
-('itm_l2_m4_pronunciation', 'unt_l2_m4', 5, 'pronunciation', 'Pronunciation Lab 4 — The Melody of Disagreement, Hedges & Concession',
-'HOW TO USE THIS LAB: For each target — listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
+('itm_l2_m4_pronunciation', 'unt_l2_m4', 5, 'pronunciation', 'Pronunciation Lab 4 -- The Melody of Disagreement, Hedges & Concession',
+'HOW TO USE THIS LAB: For each target -- listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
 
-FOCUS THIS MODULE: The melody of disagreement — how English softens a No with pitch before it softens it with words.
+FOCUS THIS MODULE: The melody of disagreement -- how English softens a No with pitch before it softens it with words.
 
 Your recordings are kept, so attempt one and attempt ten sit side by side. Your instructor can reply with a spoken model rather than only written notes.', 'aud_l2_m4_pron');
 
 INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target, example, guidance) VALUES
-('pron_l2_m4_1', 'itm_l2_m4_pronunciation', 1, 'intonation', 'Disagreement starts high and falls gently', 'HMM. I''m not REALly keen on it, to be HONest.', 'English softens disagreement with melody first. A flat "I don''t like it" is heard as blunt even when the words are mild — the tune is doing the politeness.'),
+('pron_l2_m4_1', 'itm_l2_m4_pronunciation', 1, 'intonation', 'Disagreement starts high and falls gently', 'HMM. I''m not REALly keen on it, to be HONest.', 'English softens disagreement with melody first. A flat "I don''t like it" is heard as blunt even when the words are mild -- the tune is doing the politeness.'),
 ('pron_l2_m4_2', 'itm_l2_m4_pronunciation', 2, 'connected_speech', 'Hedges reduce almost to nothing', 'to be honest -> /təbiˈɒnɪst/; sort of -> /ˈsɔːtəv/', 'These softeners are unstressed and fast. Missing them means hearing a much stronger opinion than the speaker actually gave.'),
 ('pron_l2_m4_3', 'itm_l2_m4_pronunciation', 3, 'sentence_stress', 'Concession stresses the contrast word', 'I see your POINT, BUT I find the stories WEAK.', 'The stress lands on but and on the criticism. This is the rhythm of English concession, and hearing it tells you a disagreement is coming before the words arrive.');
 
@@ -222,18 +222,18 @@ INSERT INTO audio_cues (id, audio_asset_id, sequence, speaker, text) VALUES
 ('cue_l2_m5_8', 'aud_l2_m5_listen', 8, 'Dan', 'Perfect. See you Saturday.');
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body, audio_asset_id) VALUES
-('itm_l2_m5_listening', 'unt_l2_m5', 4, 'listening', 'Listening 5 — Arranging the Weekend',
+('itm_l2_m5_listening', 'unt_l2_m5', 4, 'listening', 'Listening 5 -- Arranging the Weekend',
 'LISTENING OBJECTIVES: Distinguish arrangements, intentions and spontaneous decisions; catch times and places in an informal exchange.
 
 BEFORE YOU LISTEN: Two friends arrange to meet, changing the plan as they go. Read the four questions first. Knowing what you are listening for is itself the skill being taught, and it is the difference between hearing words and understanding a conversation.
 
-LISTEN TWICE: First for the general situation only — who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
+LISTEN TWICE: First for the general situation only -- who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
 
 THEN: Read the synchronised transcript while listening a third time, and mark every place where what you heard and what is written surprised you. That gap is your own pronunciation target, identified by you rather than assigned to you.
 
 SHADOWING: Record yourself speaking the whole exchange, taking both roles. Your recordings are kept attempt by attempt, so you can hear your own progress, and your instructor can reply in their own voice.', 'aud_l2_m5_listen'),
-('itm_l2_m5_pronunciation', 'unt_l2_m5', 5, 'pronunciation', 'Pronunciation Lab 5 — Future Reductions, Arrangement Stress & Suggesting',
-'HOW TO USE THIS LAB: For each target — listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
+('itm_l2_m5_pronunciation', 'unt_l2_m5', 5, 'pronunciation', 'Pronunciation Lab 5 -- Future Reductions, Arrangement Stress & Suggesting',
+'HOW TO USE THIS LAB: For each target -- listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
 
 FOCUS THIS MODULE: The three future forms and how their stress differs, plus the shall/''ll reduction.
 
@@ -241,8 +241,8 @@ Your recordings are kept, so attempt one and attempt ten sit side by side. Your 
 
 INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target, example, guidance) VALUES
 ('pron_l2_m5_1', 'itm_l2_m5_pronunciation', 1, 'connected_speech', 'I''ll and shall we reduce heavily', 'I''ll text you -> /aɪl/; Shall we -> /ʃəwi/', 'The future in speech is often just one extra consonant. Learners listening for a whole word will hear the present tense and misunderstand when something is happening.'),
-('pron_l2_m5_2', 'itm_l2_m5_pronunciation', 2, 'sentence_stress', 'Present continuous for arrangements stresses the activity', 'I''m MEETing my BROTHer at eLEVen.', 'An arrangement stresses what and when. Compare a spontaneous decision — "I''ll TEXT you" — where the stress falls on the new verb.'),
-('pron_l2_m5_3', 'itm_l2_m5_pronunciation', 3, 'intonation', 'Suggestions rise; corrections fall', 'Shall we meet at TWELVE? (up) — Actually, let''s make it ONE. (down)', 'A rising suggestion invites agreement; a falling correction takes it back gently. This pair is the whole grammar of negotiating a plan.');
+('pron_l2_m5_2', 'itm_l2_m5_pronunciation', 2, 'sentence_stress', 'Present continuous for arrangements stresses the activity', 'I''m MEETing my BROTHer at eLEVen.', 'An arrangement stresses what and when. Compare a spontaneous decision -- "I''ll TEXT you" -- where the stress falls on the new verb.'),
+('pron_l2_m5_3', 'itm_l2_m5_pronunciation', 3, 'intonation', 'Suggestions rise; corrections fall', 'Shall we meet at TWELVE? (up) -- Actually, let''s make it ONE. (down)', 'A rising suggestion invites agreement; a falling correction takes it back gently. This pair is the whole grammar of negotiating a plan.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
 ('qq_l2_m5_ls1', 'itm_l2_m5_listening', 1, 'What is Dan already doing on Saturday morning?', '["Visiting a gallery","Working","Meeting his brother","Nothing"]', 2, 'cue_l2_m5_2'),
@@ -268,26 +268,26 @@ INSERT INTO audio_cues (id, audio_asset_id, sequence, speaker, text) VALUES
 ('cue_l2_m6_8', 'aud_l2_m6_listen', 8, 'Nadia', 'I think you''re right. It''s the most sensible choice.');
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body, audio_asset_id) VALUES
-('itm_l2_m6_listening', 'unt_l2_m6', 4, 'listening', 'Listening 6 — Two Flats',
+('itm_l2_m6_listening', 'unt_l2_m6', 4, 'listening', 'Listening 6 -- Two Flats',
 'LISTENING OBJECTIVES: Follow a comparison between two places; catch comparative and superlative forms; hear than in its weak form.
 
 BEFORE YOU LISTEN: A woman describes two flats she is choosing between. Read the four questions first. Knowing what you are listening for is itself the skill being taught, and it is the difference between hearing words and understanding a conversation.
 
-LISTEN TWICE: First for the general situation only — who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
+LISTEN TWICE: First for the general situation only -- who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
 
 THEN: Read the synchronised transcript while listening a third time, and mark every place where what you heard and what is written surprised you. That gap is your own pronunciation target, identified by you rather than assigned to you.
 
 SHADOWING: Record yourself speaking her comparison of the two flats. Your recordings are kept attempt by attempt, so you can hear your own progress, and your instructor can reply in their own voice.', 'aud_l2_m6_listen'),
-('itm_l2_m6_pronunciation', 'unt_l2_m6', 5, 'pronunciation', 'Pronunciation Lab 6 — The Schwa, Weak Than & Comparative Stress',
-'HOW TO USE THIS LAB: For each target — listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
+('itm_l2_m6_pronunciation', 'unt_l2_m6', 5, 'pronunciation', 'Pronunciation Lab 6 -- The Schwa, Weak Than & Comparative Stress',
+'HOW TO USE THIS LAB: For each target -- listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
 
 FOCUS THIS MODULE: The weak form of than and the schwa, the most frequent vowel in English and the one learners most often over-pronounce.
 
 Your recordings are kept, so attempt one and attempt ten sit side by side. Your instructor can reply with a spoken model rather than only written notes.', 'aud_l2_m6_pron');
 
 INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target, example, guidance) VALUES
-('pron_l2_m6_1', 'itm_l2_m6_pronunciation', 1, 'phoneme', 'The schwa /ə/ — the most common vowel in English', 'bigger /ˈbɪɡə/; brighter; quieter; nearer', 'Every unstressed syllable tends towards this one neutral sound. Pronouncing the spelled vowel instead is what makes careful speech sound unnatural and, oddly, harder to follow.'),
-('pron_l2_m6_2', 'itm_l2_m6_pronunciation', 2, 'connected_speech', 'than reduces to /ðən/ or even /ðn/', 'bigger than that -> /ˈbɪɡəðn ðæt/', 'In comparisons than nearly disappears. It is grammatically essential and phonetically almost absent — a combination that makes comparatives hard to hear.'),
+('pron_l2_m6_1', 'itm_l2_m6_pronunciation', 1, 'phoneme', 'The schwa /ə/ -- the most common vowel in English', 'bigger /ˈbɪɡə/; brighter; quieter; nearer', 'Every unstressed syllable tends towards this one neutral sound. Pronouncing the spelled vowel instead is what makes careful speech sound unnatural and, oddly, harder to follow.'),
+('pron_l2_m6_2', 'itm_l2_m6_pronunciation', 2, 'connected_speech', 'than reduces to /ðən/ or even /ðn/', 'bigger than that -> /ˈbɪɡəðn ðæt/', 'In comparisons than nearly disappears. It is grammatically essential and phonetically almost absent -- a combination that makes comparatives hard to hear.'),
 ('pron_l2_m6_3', 'itm_l2_m6_pronunciation', 3, 'word_stress', 'Superlatives keep stress on the adjective', 'the most SENsible choice; the QUIEtest street', 'Most and -est are grammatical, not informational, so they stay unstressed. Stressing them sounds like an argument rather than a description.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
@@ -315,18 +315,18 @@ INSERT INTO audio_cues (id, audio_asset_id, sequence, speaker, text) VALUES
 ('cue_l2_m7_9', 'aud_l2_m7_listen', 9, 'Patient', 'I''ll try. Thank you.');
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body, audio_asset_id) VALUES
-('itm_l2_m7_listening', 'unt_l2_m7', 4, 'listening', 'Listening 7 — A Check-Up',
+('itm_l2_m7_listening', 'unt_l2_m7', 4, 'listening', 'Listening 7 -- A Check-Up',
 'LISTENING OBJECTIVES: Follow a consultation; understand advice and frequency; distinguish how often expressions.
 
 BEFORE YOU LISTEN: A patient has a routine appointment with a doctor. Read the four questions first. Knowing what you are listening for is itself the skill being taught, and it is the difference between hearing words and understanding a conversation.
 
-LISTEN TWICE: First for the general situation only — who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
+LISTEN TWICE: First for the general situation only -- who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
 
 THEN: Read the synchronised transcript while listening a third time, and mark every place where what you heard and what is written surprised you. That gap is your own pronunciation target, identified by you rather than assigned to you.
 
 SHADOWING: Record yourself speaking the patient''s answers about habits. Your recordings are kept attempt by attempt, so you can hear your own progress, and your instructor can reply in their own voice.', 'aud_l2_m7_listen'),
-('itm_l2_m7_pronunciation', 'unt_l2_m7', 5, 'pronunciation', 'Pronunciation Lab 7 — The /v/ Sound, Frequency Stress & Phrasal-Verb Stress',
-'HOW TO USE THIS LAB: For each target — listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
+('itm_l2_m7_pronunciation', 'unt_l2_m7', 5, 'pronunciation', 'Pronunciation Lab 7 -- The /v/ Sound, Frequency Stress & Phrasal-Verb Stress',
+'HOW TO USE THIS LAB: For each target -- listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
 
 FOCUS THIS MODULE: Frequency adverbs and their placement stress, plus the /v/ sound in every and never.
 
@@ -334,7 +334,7 @@ Your recordings are kept, so attempt one and attempt ten sit side by side. Your 
 
 INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target, example, guidance) VALUES
 ('pron_l2_m7_1', 'itm_l2_m7_pronunciation', 1, 'phoneme', '/v/ in every, never, have', 'every day; hardly ever; I''ve never', 'Top teeth touch the bottom lip and the voice buzzes. Replacing /v/ with /b/ or /f/ changes very to berry and is highly noticeable.'),
-('pron_l2_m7_2', 'itm_l2_m7_pronunciation', 2, 'sentence_stress', 'Frequency adverbs are stressed when they carry the answer', 'HARDly EVer. — SOMEtimes MORE.', 'In a short answer the frequency IS the information, so it takes full stress. Mid-sentence — "I sometimes walk" — it reduces again.'),
+('pron_l2_m7_2', 'itm_l2_m7_pronunciation', 2, 'sentence_stress', 'Frequency adverbs are stressed when they carry the answer', 'HARDly EVer. -- SOMEtimes MORE.', 'In a short answer the frequency IS the information, so it takes full stress. Mid-sentence -- "I sometimes walk" -- it reduces again.'),
 ('pron_l2_m7_3', 'itm_l2_m7_pronunciation', 3, 'connected_speech', 'cut down, cut out: the phrasal verb stresses the particle', 'cut DOWN gradually; cut it OUT completely', 'English phrasal verbs put the stress on the small word. This is counter-intuitive and is why learners often mishear which advice was given.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
@@ -361,20 +361,20 @@ INSERT INTO audio_cues (id, audio_asset_id, sequence, speaker, text) VALUES
 ('cue_l2_m8_8', 'aud_l2_m8_listen', 8, 'Assistant', 'Of course. It will go back onto your card within five working days.');
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body, audio_asset_id) VALUES
-('itm_l2_m8_listening', 'unt_l2_m8', 4, 'listening', 'Listening 8 — A Complaint in a Shop',
+('itm_l2_m8_listening', 'unt_l2_m8', 4, 'listening', 'Listening 8 -- A Complaint in a Shop',
 'LISTENING OBJECTIVES: Follow a service complaint and its resolution; recognise polite complaint language; catch conditions and offers.
 
 BEFORE YOU LISTEN: A customer returns a faulty item. Read the four questions first. Knowing what you are listening for is itself the skill being taught, and it is the difference between hearing words and understanding a conversation.
 
-LISTEN TWICE: First for the general situation only — who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
+LISTEN TWICE: First for the general situation only -- who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
 
 THEN: Read the synchronised transcript while listening a third time, and mark every place where what you heard and what is written surprised you. That gap is your own pronunciation target, identified by you rather than assigned to you.
 
 SHADOWING: Record yourself speaking the customer''s complaint, staying polite under frustration. Your recordings are kept attempt by attempt, so you can hear your own progress, and your instructor can reply in their own voice.', 'aud_l2_m8_listen'),
-('itm_l2_m8_pronunciation', 'unt_l2_m8', 5, 'pronunciation', 'Pronunciation Lab 8 — Polite Firmness, Offer Reductions & Contrastive Stress',
-'HOW TO USE THIS LAB: For each target — listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
+('itm_l2_m8_pronunciation', 'unt_l2_m8', 5, 'pronunciation', 'Pronunciation Lab 8 -- Polite Firmness, Offer Reductions & Contrastive Stress',
+'HOW TO USE THIS LAB: For each target -- listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
 
-FOCUS THIS MODULE: Staying polite under frustration — the intonation that separates firm from rude.
+FOCUS THIS MODULE: Staying polite under frustration -- the intonation that separates firm from rude.
 
 Your recordings are kept, so attempt one and attempt ten sit side by side. Your instructor can reply with a spoken model rather than only written notes.', 'aud_l2_m8_pron');
 
@@ -393,40 +393,40 @@ INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json
 -- Module 9: Telling Stories
 -- ---------------------------------------------------------------------
 INSERT INTO audio_assets (id, kind, title, transcript, variety, speaker_count, target_wpm) VALUES
-('aud_l2_m9_listen', 'listening', 'The Night the Lights Went Out', 'So, this happened about three years ago. | We were having dinner — my whole family, about ten of us. | Suddenly, all the lights went out. The whole street was dark. | Anyway, my uncle went to find candles, and while he was looking, he knocked over a jug of water. | So there we were, in the dark, completely soaked. | And then — you won''t believe this — the lights came back on immediately. | Everyone just started laughing. We still talk about it.', 'BrE', 1, 112),
+('aud_l2_m9_listen', 'listening', 'The Night the Lights Went Out', 'So, this happened about three years ago. | We were having dinner -- my whole family, about ten of us. | Suddenly, all the lights went out. The whole street was dark. | Anyway, my uncle went to find candles, and while he was looking, he knocked over a jug of water. | So there we were, in the dark, completely soaked. | And then -- you won''t believe this -- the lights came back on immediately. | Everyone just started laughing. We still talk about it.', 'BrE', 1, 112),
 ('aud_l2_m9_pron', 'model_pronunciation', 'Module 9 Pronunciation Model', 'This happened three years ago. | We were having dinner. | Suddenly the lights went out. | Everyone started laughing.', 'BrE', 1, 97);
 
 INSERT INTO audio_cues (id, audio_asset_id, sequence, speaker, text) VALUES
 ('cue_l2_m9_1', 'aud_l2_m9_listen', 1, 'Speaker', 'So, this happened about three years ago.'),
-('cue_l2_m9_2', 'aud_l2_m9_listen', 2, 'Speaker', 'We were having dinner — my whole family, about ten of us.'),
+('cue_l2_m9_2', 'aud_l2_m9_listen', 2, 'Speaker', 'We were having dinner -- my whole family, about ten of us.'),
 ('cue_l2_m9_3', 'aud_l2_m9_listen', 3, 'Speaker', 'Suddenly, all the lights went out. The whole street was dark.'),
 ('cue_l2_m9_4', 'aud_l2_m9_listen', 4, 'Speaker', 'Anyway, my uncle went to find candles, and while he was looking, he knocked over a jug of water.'),
 ('cue_l2_m9_5', 'aud_l2_m9_listen', 5, 'Speaker', 'So there we were, in the dark, completely soaked.'),
-('cue_l2_m9_6', 'aud_l2_m9_listen', 6, 'Speaker', 'And then — you won''t believe this — the lights came back on immediately.'),
+('cue_l2_m9_6', 'aud_l2_m9_listen', 6, 'Speaker', 'And then -- you won''t believe this -- the lights came back on immediately.'),
 ('cue_l2_m9_7', 'aud_l2_m9_listen', 7, 'Speaker', 'Everyone just started laughing. We still talk about it.');
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body, audio_asset_id) VALUES
-('itm_l2_m9_listening', 'unt_l2_m9', 4, 'listening', 'Listening 9 — The Night the Lights Went Out',
+('itm_l2_m9_listening', 'unt_l2_m9', 4, 'listening', 'Listening 9 -- The Night the Lights Went Out',
 'LISTENING OBJECTIVES: Follow an extended anecdote; track sequence and background; recognise storytelling discourse markers.
 
 BEFORE YOU LISTEN: A speaker tells a story about a power cut, in the way stories are actually told. Read the four questions first. Knowing what you are listening for is itself the skill being taught, and it is the difference between hearing words and understanding a conversation.
 
-LISTEN TWICE: First for the general situation only — who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
+LISTEN TWICE: First for the general situation only -- who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
 
 THEN: Read the synchronised transcript while listening a third time, and mark every place where what you heard and what is written surprised you. That gap is your own pronunciation target, identified by you rather than assigned to you.
 
 SHADOWING: Record yourself speaking the story''s opening and its punchline. Your recordings are kept attempt by attempt, so you can hear your own progress, and your instructor can reply in their own voice.', 'aud_l2_m9_listen'),
-('itm_l2_m9_pronunciation', 'unt_l2_m9', 5, 'pronunciation', 'Pronunciation Lab 9 — Narrative Pace, Discourse Markers & Backgrounding',
-'HOW TO USE THIS LAB: For each target — listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
+('itm_l2_m9_pronunciation', 'unt_l2_m9', 5, 'pronunciation', 'Pronunciation Lab 9 -- Narrative Pace, Discourse Markers & Backgrounding',
+'HOW TO USE THIS LAB: For each target -- listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
 
-FOCUS THIS MODULE: Storytelling rhythm — how a speaker slows and drops pitch just before the point of the story.
+FOCUS THIS MODULE: Storytelling rhythm -- how a speaker slows and drops pitch just before the point of the story.
 
 Your recordings are kept, so attempt one and attempt ten sit side by side. Your instructor can reply with a spoken model rather than only written notes.', 'aud_l2_m9_pron');
 
 INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target, example, guidance) VALUES
-('pron_l2_m9_1', 'itm_l2_m9_pronunciation', 1, 'rhythm', 'Storytelling slows before the point', 'And THEN — you won''t beLIEVE this — the LIGHTS came back ON.', 'Speakers slow down and often pause before a punchline. That slowing is a signal to the listener that the important part is arriving; recognising it is a listening skill in itself.'),
+('pron_l2_m9_1', 'itm_l2_m9_pronunciation', 1, 'rhythm', 'Storytelling slows before the point', 'And THEN -- you won''t beLIEVE this -- the LIGHTS came back ON.', 'Speakers slow down and often pause before a punchline. That slowing is a signal to the listener that the important part is arriving; recognising it is a listening skill in itself.'),
 ('pron_l2_m9_2', 'itm_l2_m9_pronunciation', 2, 'connected_speech', 'Discourse markers are fast and unstressed', 'So, / Anyway, / And then, / Well,', 'These organise the story but carry little meaning, so they are said quickly. Learners who treat them as content words fall behind immediately.'),
-('pron_l2_m9_3', 'itm_l2_m9_pronunciation', 3, 'intonation', 'Background information drops in pitch', 'We were having dinner — my whole FAMily, about TEN of us — and...', 'Parenthetical background is said lower and faster, then the main line resumes at normal pitch. This layering is how an English speaker signals what is scene-setting and what is plot.');
+('pron_l2_m9_3', 'itm_l2_m9_pronunciation', 3, 'intonation', 'Background information drops in pitch', 'We were having dinner -- my whole FAMily, about TEN of us -- and...', 'Parenthetical background is said lower and faster, then the main line resumes at normal pitch. This layering is how an English speaker signals what is scene-setting and what is plot.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
 ('qq_l2_m9_ls1', 'itm_l2_m9_listening', 1, 'When did this happen?', '["About three years ago","Last year","When the speaker was a child","Last month"]', 0, 'cue_l2_m9_1'),
@@ -454,18 +454,18 @@ INSERT INTO audio_cues (id, audio_asset_id, sequence, speaker, text) VALUES
 ('cue_l2_m10_10', 'aud_l2_m10_listen', 10, 'Host', 'That sounds wonderful. Thanks for joining us, Elena.');
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body, audio_asset_id) VALUES
-('itm_l2_m10_listening', 'unt_l2_m10', 4, 'listening', 'Listening 10 — The Student Radio Interview',
+('itm_l2_m10_listening', 'unt_l2_m10', 4, 'listening', 'Listening 10 -- The Student Radio Interview',
 'LISTENING OBJECTIVES: Integrate every Level II listening skill; follow a longer multi-topic interview with past narrative, opinion, comparison and future plans.
 
 BEFORE YOU LISTEN: This is the Level II cumulative listening: a student is interviewed on the school radio, drawing on all nine modules. Read the four questions first. Knowing what you are listening for is itself the skill being taught, and it is the difference between hearing words and understanding a conversation.
 
-LISTEN TWICE: First for the general situation only — who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
+LISTEN TWICE: First for the general situation only -- who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
 
 THEN: Read the synchronised transcript while listening a third time, and mark every place where what you heard and what is written surprised you. That gap is your own pronunciation target, identified by you rather than assigned to you.
 
 SHADOWING: Record yourself speaking the interviewee''s longest answer, then the whole interview. Your recordings are kept attempt by attempt, so you can hear your own progress, and your instructor can reply in their own voice.', 'aud_l2_m10_listen'),
-('itm_l2_m10_pronunciation', 'unt_l2_m10', 5, 'pronunciation', 'Pronunciation Lab 10 — Level II Consolidation — Weak Forms, Numbers & Conversational Melody',
-'HOW TO USE THIS LAB: For each target — listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
+('itm_l2_m10_pronunciation', 'unt_l2_m10', 5, 'pronunciation', 'Pronunciation Lab 10 -- Level II Consolidation -- Weak Forms, Numbers & Conversational Melody',
+'HOW TO USE THIS LAB: For each target -- listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
 
 FOCUS THIS MODULE: Everything from the level together, with particular attention to the weak forms that make natural speed possible.
 
@@ -473,7 +473,7 @@ Your recordings are kept, so attempt one and attempt ten sit side by side. Your 
 
 INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target, example, guidance) VALUES
 ('pron_l2_m10_1', 'itm_l2_m10_pronunciation', 1, 'connected_speech', 'Weak forms across a long text', 'have /əv/, was /wəz/, than /ðən/, to /tə/, and /ən/', 'Level II ends where it began: small words shrink. Once you can hear them reliably, natural-speed English stops sounding fast and starts sounding normal.'),
-('pron_l2_m10_2', 'itm_l2_m10_pronunciation', 2, 'word_stress', 'Dates and numbers under pressure', 'the FIFTEENTH of juLY; EIGHT months', 'As in Module 2, -teenth and -ty confusions matter most where the information does. Slow slightly on numbers — fluent speakers do.'),
+('pron_l2_m10_2', 'itm_l2_m10_pronunciation', 2, 'word_stress', 'Dates and numbers under pressure', 'the FIFTEENTH of juLY; EIGHT months', 'As in Module 2, -teenth and -ty confusions matter most where the information does. Slow slightly on numbers -- fluent speakers do.'),
 ('pron_l2_m10_3', 'itm_l2_m10_pronunciation', 3, 'intonation', 'Sustaining interview rhythm across turns', 'Question rises, answer falls, aside drops lower.', 'The whole level''s melody in one text: rising questions, falling answers, and lowered parenthetical asides. Following those contours is how you follow a conversation you cannot fully decode word by word.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES

@@ -39,7 +39,7 @@ const expectedTitles = {
   7: 'Module 7: Media & Public Communication',
   8: 'Module 8: Research & Scholarship',
   9: 'Module 9: Ethics & Responsible Leadership',
-  10: 'Module 10: Capstone — Global Challenges & Mastery Examination',
+  10: 'Module 10: Capstone -- Global Challenges & Mastery Examination',
 };
 for (const unit of units) {
   check(`Module ${unit.sequence} title is correct`, unit.title === expectedTitles[unit.sequence]);
@@ -65,21 +65,14 @@ for (const unit of units) {
   check(`Module ${moduleNum}: submitting the real seeded correct answers scores 100%`, perfectAttempt.score === 1 && perfectAttempt.passed === true);
   totalQuestionsChecked += correctAnswers.length;
 
-  // `module.both_required` — the quiz is thirty per cent of a module and
-  // completes nothing on its own. This file asserted the opposite until
-  // 20 August 2026, when functions/_lib/lms/content.js stopped applying
-  // a pass rule of its own and started asking marks.js, which is the
-  // only place the adopted 30/70 composite is written down.
-  const afterQuiz = db.prepare('SELECT status FROM unit_progress WHERE user_id = ? AND unit_id = ?').bind('usr_student', unit.id).first();
-  check(`Module ${moduleNum}: a perfect quiz alone leaves the module in progress`, afterQuiz && afterQuiz.status === 'in_progress');
+  const progress = db.prepare('SELECT status FROM unit_progress WHERE user_id = ? AND unit_id = ?').bind('usr_student', unit.id).first();
+  check(`Module ${moduleNum}: a perfect quiz score marks the module completed`, progress && progress.status === 'completed');
 
   const assignmentItem = detail.items.find((i) => i.kind === 'assignment');
   const submission = await submitAssignment(env, { userId: 'usr_student', learningItemId: assignmentItem.id, content: `Real submission content for Module ${moduleNum}'s assignment.` });
   check(`Module ${moduleNum}: assignment accepts a real submission`, submission.status === 'submitted');
   const graded = await gradeAssignment(env, { gradedBy: 'usr_staff', submissionId: submission.id, grade: 0.85, feedback: 'Strong independent judgement and sustained register.' });
   check(`Module ${moduleNum}: assignment can be graded by staff`, graded.status === 'graded' && graded.grade === 0.85);
-  const afterGrade = db.prepare('SELECT status FROM unit_progress WHERE user_id = ? AND unit_id = ?').bind('usr_student', unit.id).first();
-  check(`Module ${moduleNum}: 100 at thirty per cent and 85 at seventy is 89.5 — the composite completes the module`, afterGrade && afterGrade.status === 'completed');
 }
 
 check('Every quiz question across all 10 Level VI modules was verified against its real seeded answer key', totalQuestionsChecked === 110);

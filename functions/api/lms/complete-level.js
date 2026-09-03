@@ -1,12 +1,5 @@
-// POST /api/lms/complete-level  — confirm a level is finished
-// GET  /api/lms/complete-level?userId=&levelId=  — what stands in the way
-//
-// The GET exists because the POST can now refuse. `level_mark.gates`
-// is enforced in completeLevel() as of 21 August 2026, so a member of
-// academic staff needs to be able to READ the gate before acting on it
-// rather than discovering it through a 422. Same engine, same words.
-//
-// POST body: { userId, levelId }
+// POST /api/lms/complete-level
+// Body: { userId, levelId }
 // Staff/admin only — see functions/_lib/student/progression.js for why
 // this is a human-triggered action today rather than an automated one.
 // Idempotent: completing an already-completed level is a no-op that
@@ -14,7 +7,7 @@
 
 import { jsonResponse, errorResponse, ValidationError, readJsonBody } from '../../_lib/db.js';
 import { requireStaff } from '../../_lib/auth/session.js';
-import { completeLevel, levelGateReport } from '../../_lib/student/progression.js';
+import { completeLevel } from '../../_lib/student/progression.js';
 
 export async function onRequestPost({ request, env }) {
   try {
@@ -25,20 +18,6 @@ export async function onRequestPost({ request, env }) {
 
     const result = await completeLevel(env, { userId: body.userId, levelId: body.levelId });
     return jsonResponse(result);
-  } catch (err) {
-    return errorResponse(err);
-  }
-}
-
-export async function onRequestGet({ request, env }) {
-  try {
-    await requireStaff(request, env);
-    const url = new URL(request.url);
-    const userId = url.searchParams.get('userId');
-    const levelId = Number(url.searchParams.get('levelId'));
-    if (!userId) throw new ValidationError('userId is required.', { userId: 'Required' });
-    if (!Number.isInteger(levelId)) throw new ValidationError('levelId is required.', { levelId: 'Required' });
-    return jsonResponse(await levelGateReport(env, { userId, levelId }));
   } catch (err) {
     return errorResponse(err);
   }

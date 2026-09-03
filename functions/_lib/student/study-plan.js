@@ -27,29 +27,22 @@
 // believe it.
 
 import { db } from '../db.js';
-import { LEVEL_NAMES_AR, LEVEL_ORDINALS_AR } from '../academic/level-names.js';
 
-// Kept in one place, and the reason for keeping it there has now been
-// collected on. This used to open the Listening Lab, which was the only
-// lesson surface there was; /my-module.html is the surface a module
-// actually opens into — its lessons, its quiz, its assignment and the
-// allowance the regulations leave on each — and it links onward to the
-// Lab for the items that need a microphone. One edit here moved every
-// caller, which is what this function exists for.
+// Kept in one place: the Lab is the only lesson surface today, but a
+// unit could later open into something else, and every caller building
+// this URL by hand is how a route change becomes a broken dashboard.
 export function unitHref(unitId) {
-  return `/my-module.html?unit=${encodeURIComponent(unitId)}`;
+  return `/listening-lab.html?unit=${encodeURIComponent(unitId)}`;
 }
 
 /**
  * @returns {Promise<{
  *   state: 'no_enrolment'|'awaiting_content'|'not_started'|'in_progress'|'units_complete',
- *   level: null | {id:number, roman:string, ordinalAr:string|null,
- *                   name:string, nameAr:string|null, cefr:string},
+ *   level: null | {id:number, roman:string, name:string, cefr:string},
  *   units: Array<{id:string, sequence:number, title:string, status:string, href:string}>,
  *   nextUnit: null | {id:string, sequence:number, title:string, href:string, resuming:boolean},
  *   completedCount: number, totalCount: number,
- *   completedLevels: Array<{id:number, roman:string, ordinalAr:string|null,
- *                            name:string, nameAr:string|null}>,
+ *   completedLevels: Array<{id:number, roman:string, name:string}>,
  * }>}
  */
 // How the learner's own rate compares with the designed one.
@@ -134,10 +127,7 @@ export async function buildStudyPlan(env, userId, { now = Date.now() } = {}) {
 
   const completedLevels = enrolments
     .filter((e) => e.status === 'completed')
-    .map((e) => ({
-      id: e.levelId, roman: e.roman, ordinalAr: LEVEL_ORDINALS_AR[e.levelId] || null,
-      name: e.name, nameAr: LEVEL_NAMES_AR[e.levelId] || null,
-    }));
+    .map((e) => ({ id: e.levelId, roman: e.roman, name: e.name }));
 
   // The level to work on is the LOWEST active one, not the highest.
   // Executive Decision #1 enrols a full-programme payer into Level I
@@ -158,14 +148,7 @@ export async function buildStudyPlan(env, userId, { now = Date.now() } = {}) {
     return { ...base, state: completedLevels.length ? 'programme_complete' : 'no_enrolment' };
   }
 
-  // Both namings travel, so /ar/my-programme.html can name the level a
-  // learner is working on in the language the page is written in.
-  const level = {
-    id: current.levelId, roman: current.roman,
-    ordinalAr: LEVEL_ORDINALS_AR[current.levelId] || null,
-    name: current.name, nameAr: LEVEL_NAMES_AR[current.levelId] || null,
-    cefr: current.cefr,
-  };
+  const level = { id: current.levelId, roman: current.roman, name: current.name, cefr: current.cefr };
 
   const { results: units } = await db(env)
     .prepare(`SELECT u.id, u.sequence, u.title,

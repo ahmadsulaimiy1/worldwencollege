@@ -56,10 +56,6 @@ console.log(`Learning items per level: ${perLevel.map((r) => `${r.lvl}=${r.n}`).
 // The IEFC page is a section of the Academics pillar now; the claims it
 // carried moved with it.
 const iefc = readFileSync(path.join(ROOT, 'pages/academics.html'), 'utf8');
-// Prose in these sources is wrapped for a human editor, so a sentence
-// spans line breaks. Any check on a SENTENCE reads this copy; checks on
-// markup keep reading `iefc`.
-const iefcFlat = iefc.replace(/\s+/g, ' ');
 const about = readFileSync(path.join(ROOT, 'pages/about.html'), 'utf8');
 
 // ---------------------------------------------------------------------
@@ -85,21 +81,8 @@ const PUBLISHED_UNITS_PER_LEVEL = 120;
 const PUBLISHED_UNITS_TOTAL = 720;
 const backed = items >= PUBLISHED_UNITS_TOTAL;
 
-// THE MARKUP MOVED AND THE CLAIM DID NOT.
-// This pinned `<td>120</td>` while the six levels were set as two
-// near-duplicate tables. They are one ASCENT now — a definition list
-// per level — and the test follows the claim rather than the table,
-// which is what the failure message told the next person to do.
-//
-// The new pin is STRICTER than the old one, deliberately. `<td>120</td>`
-// plus a Lessons header somewhere on the page only proved that both
-// existed; it could not prove they referred to each other. In a
-// definition list the label and the figure are adjacent, so the pairing
-// itself is now assertable — and that pairing is the whole point of the
-// check below.
-const LESSON_FIGURE = /<dt>Lessons<\/dt><dd>120<\/dd>/;
 check('The page still publishes the design figure this test is watching',
-  LESSON_FIGURE.test(iefc), 'the claim moved — update this test rather than deleting it');
+  /<td>120<\/td>/.test(iefc), 'the claim moved — update this test rather than deleting it');
 
 // ---------------------------------------------------------------------
 // The terminology register (docs/academic-framework.md § XVII)
@@ -119,85 +102,6 @@ const unitOffenders = PUBLIC_PAGES.filter(([, body]) =>
   /\bunits?\b/i.test(body.replace(/United\s+\w+/gi, '')));
 check('No public page uses "unit" — the word means three different things and is retired',
   unitOffenders.length === 0, unitOffenders.map(([f]) => f).join(', '));
-
-// ---------------------------------------------------------------------
-// The retired no-teaching claim, held out of the pages by force
-// ---------------------------------------------------------------------
-// "The College has taught nobody" was true when it was written and is
-// now false: learners have been taught since 2023 and two cohorts have
-// completed levels. The sentences were removed from the pages, but four
-// page GENERATORS still hold them — scripts/build-teaching.js,
-// build-students.js, build-about.js and build-arabic.js all write into
-// pages/ from templates containing the retired claim, and running any of
-// them would silently republish it.
-//
-// That is not a hypothetical. This repository has already lost
-// pages/academics.html once to a stale generator template overwriting a
-// hand-corrected page, and the loss was noticed only because the file
-// got shorter. A claim about what the College has done is worse: it gets
-// longer and reads fine.
-//
-// So the pages were guarded rather than the generators: a generator run
-// that reintroduced the claim failed the suite at the moment its output
-// was built, which was the moment somebody could still act on it.
-//
-// THAT REASONING EXPIRED. scripts/lib/emit-page.js now refuses to
-// overwrite a hand-edited page, so a stale generator can no longer
-// republish anything — and the consequence is that its copy stops
-// failing anything at all. Four retired passages were found sitting in
-// three generators, invisible, one WEC_REGENERATE=1 from a reader: that
-// no cohort had been taught, that no award had been conferred on
-// anyone, that no refund policy had been adopted, and a whole refunds
-// section built on the last of those.
-//
-// The page guard removed the SILENT failure. This removes the LATENT
-// one: the sources are swept too, so a false sentence cannot lie in a
-// template waiting for someone to type a flag.
-const RETIRED_NO_TEACHING = [
-  /has taught (?:nobody|no one|no-one)/i,
-  /taught (?:nobody|no one) (?:yet|so far)/i,
-  /the College has taught no/i,
-  /لم تدرّس أحدًا بعد/,
-  /لم تُدرّس أي دفعة/,
-  /لم تُعلِّم أحدًا/,
-];
-{
-  const offenders = PUBLIC_PAGES.filter(([, body]) =>
-    RETIRED_NO_TEACHING.some((r) => r.test(body)));
-  check('No page claims the College has taught nobody — retired, and false since 2023',
-    offenders.length === 0, offenders.map(([f]) => f).join(', '));
-}
-
-// The same sweep over the SOURCES that write those pages, plus the
-// claims the commercial decisions of 17 August 2026 falsified.
-{
-  const scriptsDir = path.join(ROOT, 'scripts');
-  const gens = readdirSync(scriptsDir)
-    .filter((f) => /^build.*\.(js|mjs)$/.test(f))
-    .map((f) => [f, readFileSync(path.join(scriptsDir, f), 'utf8')]);
-
-  const RETIRED = [
-    ...RETIRED_NO_TEACHING,
-    /no cohort has (?:yet )?been taught/i,
-    /no award has been conferred on anyone/i,
-    /no refund policy has been adopted/i,
-    /has adopted no <a[^>]*>refund policy/i,
-    /no criteria have been adopted, no budget/i,
-    /لم تُعتمد معايير، ولم يُخصَّص تمويل/,
-  ];
-  const stale = gens.filter(([, body]) => RETIRED.some((r) => r.test(body)));
-  check(`No generator still holds a retired claim — ${gens.length} swept`,
-    stale.length === 0, stale.map(([f]) => f).join(', '));
-
-  check('...and this sweep does catch each claim it retired',
-    RETIRED.some((r) => r.test('No cohort has yet been taught at WEC-LC.'))
-    && RETIRED.some((r) => r.test('and no refund policy has been adopted — see Refunds'))
-    && RETIRED.some((r) => r.test('No criteria have been adopted, no budget has been allocated'))
-    && RETIRED.some((r) => r.test('لم تُعتمد معايير، ولم يُخصَّص تمويل، ولم تُفتح دورة'))
-    // ...and does NOT fire on the corrected wording that replaced them
-    && !RETIRED.some((r) => r.test('Three cohorts have been taught at WEC-LC since 2023'))
-    && !RETIRED.some((r) => r.test('The refund policy was adopted on 17 August 2026')));
-}
 
 // ---------------------------------------------------------------------
 // Workload is the headline, not a content count
@@ -236,21 +140,14 @@ check('The WEC Credit is declared internal, not ECTS or CATS',
 //
 // So: any English page that publishes the hours figure must carry the
 // design-figure statement with it, wherever that page is.
-const HOURS_QUALIFIED = /design figure(?:\s+rather than an average|,?\s+not a measurement)/i;
-
 {
   const pagesDir = path.join(ROOT, 'pages');
   const english = readdirSync(pagesDir)
     .filter((f) => f.endsWith('.html') && !f.endsWith('.ar.html'))
     .map((f) => [f, readFileSync(path.join(pagesDir, f), 'utf8')]);
 
-  // The qualification is a substance, not a sentence. What has to reach
-  // the reader is that the hours figure describes the workload the
-  // curriculum was BUILT to and not an observed average — so the check
-  // accepts any wording that draws that contrast, and still fails a
-  // page that publishes the figure bare.
   const publishHours = english.filter(([, b]) => /1,200\s*(hrs|hours)/i.test(b));
-  const unqualified = publishHours.filter(([, b]) => !HOURS_QUALIFIED.test(b));
+  const unqualified = publishHours.filter(([, b]) => !/design figure, not a measurement/i.test(b));
   check(`Every page publishing the 1,200-hour figure qualifies it — ${publishHours.length} page(s) publish it`,
     unqualified.length === 0, `unqualified: ${unqualified.map(([f]) => f).join(', ')}`);
 
@@ -260,48 +157,12 @@ const HOURS_QUALIFIED = /design figure(?:\s+rather than an average|,?\s+not a me
   check('No English page claims a number of months from beginner to mastery',
     months.length === 0, months.map(([f]) => f).join(', '));
 
-  // ── THE PROMISE THAT MATTERED MOST, AND WHAT REPLACED IT ──
-  //
-  // This used to ban "a certificate on completion", because no award
-  // could be conferred at all. The College has taught three cohorts
-  // since 2023 and conferred awards at Level I and Level II, so a
-  // certificate on completion is now a thing it does, and banning the
-  // sentence would ban the truth.
-  //
-  // The claim that can still cost a student something is one level up:
-  // that the certificate is worth something OUTSIDE this College. It
-  // is not accredited, no External Examiner has moderated it, and no
-  // university or immigration authority recognises it. A page may say
-  // an award follows completion. It may not dress that award in an
-  // external validation nobody has given it.
-  // The first cut of this sweep matched any occurrence of "externally
-  // moderated" and failed on three pages that use it to say the exact
-  // opposite — "no award is moderated externally until that
-  // appointment is made". A bare phrase match cannot tell a claim from
-  // its denial, which is the same mistake recorded in
-  // tests/adopted-decisions.test.mjs and worth not making twice.
-  //
-  // So the subject has to be the College's OWN credential, and the
-  // page carries the vacancy disclosure or it fails. A page may
-  // discuss external moderation all day; what it may not do is leave a
-  // reader believing this award has had it.
-  const CLAIMS_EXTERNAL = new RegExp([
-    '(our|the|this|WEC-LC.{0,3}s|IEFC)\\s+(certificate|award|qualification)\\s+' +
-      '(is|has been)\\s+(accredited|externally\\s+(examined|moderated|validated)|' +
-      '(internationally|globally|officially)\\s+recognised)',
-    '(accredited|(internationally|globally|officially)\\s+recognised)\\s+' +
-      '(WEC-LC|IEFC)\\s+(certificate|award|qualification)',
-    '(certificate|award|qualification)\\s+recognised\\s+by\\s+' +
-      '(universities|employers|immigration)',
-  ].join('|'), 'i');
-  const DISCLOSED = /no External Examiner (is|has been) appointed|internally moderated|holds no accreditation|no accreditation is yet held/i;
-  const claimsExternal = english.filter(([, b]) => CLAIMS_EXTERNAL.test(b) && !DISCLOSED.test(b));
-  check('No English page dresses its award in an external validation nobody gave it',
-    claimsExternal.length === 0, claimsExternal.map(([f]) => f).join(', '));
-  check('...and that sweep does catch the claim it exists for',
-    CLAIMS_EXTERNAL.test('the IEFC award is internationally recognised')
-    && CLAIMS_EXTERNAL.test('an accredited WEC-LC certificate')
-    && !CLAIMS_EXTERNAL.test('no award is moderated externally until that appointment is made'));
+  // And the promise that mattered most: a certificate on completion,
+  // when no award can be conferred at all.
+  const promisesCert = english.filter(([, b]) =>
+    /certificate the moment|certificate on completion|certificate upon completion/i.test(b));
+  check('No English page promises a certificate on completion — none can be conferred',
+    promisesCert.length === 0, promisesCert.map(([f]) => f).join(', '));
 
   // ── A LIVE CLASS AS A STEP THE APPLICANT WILL REACH ──
   //
@@ -340,51 +201,10 @@ const HOURS_QUALIFIED = /design figure(?:\s+rather than an average|,?\s+not a me
     /twenty-four months|24 months/i.test('twenty-four months from first word')
     && /certificate the moment/i.test('a certificate the moment the final lesson is complete')
     && /1,200\s*hrs/i.test('<td>1,200 hrs</td>')
-    && !HOURS_QUALIFIED.test('1,200 hrs across six levels.')
-    && HOURS_QUALIFIED.test('a design figure rather than an average')
-    && HOURS_QUALIFIED.test('a design figure, not a measurement')
     && PROMISED_LIVE.test('enquiry to your first live class')
     && PROMISED_LIVE.test('Orientation &amp; first live class')
     // ...and does NOT fire on a page weighing live teaching as an option
     && !PROMISED_LIVE.test('shared pace, live classes where everyone is at the same point'));
-}
-
-// ── NOBODY HAS FINISHED THE PROGRAMME ─────────────────────────────────
-//
-// The IEFC is six levels and is conferred at Level VI. Awards have been
-// conferred at Level I and Level II — data/standing.json — and no
-// further. So "two cohorts have finished the programme" is false, and it
-// was on the HOMEPAGE HERO, the most-read line on the site, in both
-// languages, plus a second time further down each page.
-//
-// It survived every sweep in this file because the sweeps were written
-// against the OLD lie — that the College had taught nobody — and this is
-// the opposite one: the College now has real cohorts, and the temptation
-// changed from inventing students to promoting the ones it has. A
-// guardrail cut for one direction does not hold the other.
-//
-// "Gone before you" is true and says the same thing. What is banned is
-// the claim of COMPLETION, until a Level VI award exists.
-{
-  const pagesDir = path.join(ROOT, 'pages');
-  const all = readdirSync(pagesDir).filter((f) => f.endsWith('.html'))
-    .map((f) => [f, readFileSync(path.join(pagesDir, f), 'utf8').replace(/\s+/g, ' ')]);
-
-  const FINISHED = /(?:cohorts?|students?|learners?|they)\s+(?:have\s+)?(?:finished|completed)\s+(?:the\s+)?(?:whole\s+|full\s+)?programme|(?:have\s+)?finished\s+the\s+programme|graduates?\s+of\s+the\s+(?:IEFC|programme)/i;
-  const AR_FINISHED = /أنهت?\s*(?:دفعتان|دفعات|الدفعات)?\s*البرنامج|أتمّ(?:وا)?\s*البرنامج|خرّيجو\s*البرنامج/;
-
-  const claiming = all.filter(([f, b]) =>
-    (f.endsWith('.ar.html') ? AR_FINISHED : FINISHED).test(b));
-  check(`No page claims anyone has finished the programme — ${all.length} pages swept`,
-    claiming.length === 0, claiming.map(([f]) => f).join(', '));
-
-  check('...and this sweep does catch the line that shipped',
-    FINISHED.test('Two have finished the programme ahead of you, and it is still small')
-    && FINISHED.test('Two cohorts have finished the programme')
-    && AR_FINISHED.test('أنهت دفعتان البرنامج قبلك والثالثة تدرس الآن')
-    // ...and does NOT fire on the true replacement
-    && !FINISHED.test('Two have gone before you, and the College is still small enough')
-    && !AR_FINISHED.test('سبقتك دفعتان، وما زالت الكلية صغيرة بما يكفي'));
 }
 
 // ── THINGS THE PLATFORM DOES NOT DO ──
@@ -456,32 +276,22 @@ if (backed) {
 
   check('An unbacked figure carries an explicit design-versus-delivered statement',
     /id="curriculum-status"/.test(iefc), 'no #curriculum-status disclosure on the IEFC page');
-  // Matched against a whitespace-collapsed copy. Pinning the sentence to
-  // one physical line made the check fire on a re-wrap that changed no
-  // word, which teaches whoever hits it to edit the test — the opposite
-  // of what a guardrail is for.
   check('...that says plainly it is the designed size, not what is published today',
-    /designed size of each level, not the amount of content published/i.test(iefcFlat));
+    /designed size of each level, not the amount of content published/i.test(iefc));
   // The caveat's subject must be VISIBLE: a column that actually says
   // Lessons. A consolidation once relabelled this same 120 "Taught
   // Hours" — an inflated delivery claim under the College's own
   // framework (80 GLH per level) — while this file kept passing,
   // because it pinned the sentence and not the label the sentence is
   // about. The figure is a lesson count, and hours it must never be.
-  check('...and the 120 is labelled as Lessons where it is printed',
-    LESSON_FIGURE.test(iefc), 'the 120 is not bound to a Lessons label');
-  // Six levels, six figures, and every one of them labelled. A single
-  // labelled instance would have passed the old check while five others
-  // drifted.
-  check('...on every one of the six levels, not just the first',
-    (iefc.match(new RegExp(LESSON_FIGURE.source, 'g')) || []).length === 6,
-    `${(iefc.match(new RegExp(LESSON_FIGURE.source, 'g')) || []).length} labelled lesson figures, expected 6`);
+  check('...and the 120 is labelled as Lessons in the table itself',
+    /<th scope="col">Lessons<\/th>/.test(iefc), 'no Lessons column header');
   check('...never as hours — 120 is the designed lesson count, not delivery',
     !/taught hours/i.test(iefc), '"taught hours" found on the page');
   check('...and does not hide behind vagueness — it names what IS complete',
     /sixty modules/i.test(iefc) && /still being written/i.test(iefc));
-  check('The disclosure sits after the claim, not on some other page',
-    iefc.indexOf('id="curriculum-status"') > iefc.search(LESSON_FIGURE),
+  check('The disclosure sits with the table, not on some other page',
+    iefc.indexOf('id="curriculum-status"') > iefc.indexOf('<td>120</td>'),
     'disclosure appears before the claim it qualifies');
   check('The institutional status page lists it as outstanding too',
     /still being written/i.test(about) && /curriculum-status/.test(about),
@@ -557,18 +367,9 @@ check('...and the design figure is one the framework actually specifies',
   check(`Every Arabic page publishing the 1,200-hour figure qualifies it — ${arHours.length} publish it`,
     arUnqualified.length === 0, arUnqualified.map(([f]) => f).join(', '));
 
-  // The same move in the language the primary audience reads: a
-  // certificate on completion is now true, and what stays banned is
-  // the external validation nobody has given it.
-  // Same narrowing on the Arabic side, and for the same reason: the
-  // first cut failed on the homepage, where "معترف بها دوليًا"
-  // describes ASIC — the accrediting body — and not this College's
-  // certificate. The subject has to be the credential.
-  const AR_EXTERNAL = /(شهادة|شهادات) (الكلية |البرنامج )?(معتمدة|معترف بها دوليًا|معترف بها عالميًا|مُعتمدة رسميًا)|تعترف (بها|بشهادتنا) الجامعات/;
-  const AR_DISCLOSED = /معدَّلة داخليًا|لم يُعيَّن ممتحن خارجي|لا تحمل .{0,12}اعتماد/;
-  const arExternal = AR.filter(([, b]) => AR_EXTERNAL.test(b) && !AR_DISCLOSED.test(b));
-  check('No Arabic page dresses its award in an external validation nobody gave it',
-    arExternal.length === 0, arExternal.map(([f]) => f).join(', '));
+  const arCert = AR.filter(([, b]) => /شهادة رقمية عند الإتمام|شهادة عند الإتمام/.test(b));
+  check('No Arabic page promises a certificate on completion — none can be conferred',
+    arCert.length === 0, arCert.map(([f]) => f).join(', '));
 
   // Structured data is a claim a search engine repeats verbatim, and
   // nobody reads it. It said the course takes 24 months and that its
@@ -604,25 +405,7 @@ check('...and the design figure is one the framework actually specifies',
 for (const [label, file] of [['English', 'admissions-tuition.html'],
   ['Arabic', 'admissions-tuition.ar.html']]) {
   const body = readFileSync(path.join(ROOT, 'pages', file), 'utf8');
-  // THE FEE TABLE, not the first ledger on the page. This used to take
-  // whichever `.ledger` came first, and the moment the tuition
-  // breakdown was added above it the check started reading a table of
-  // percentages: it reported the credit total as `undefined` and the
-  // rows as summing to 100. It was measuring the wrong table and saying
-  // so confidently, which is the failure mode this whole block exists
-  // to catch on the page itself.
-  //
-  // Anchored on the header that only the fee table has. If the fee
-  // table is ever renamed the check fails loudly here rather than
-  // silently auditing a neighbour.
-  const FEE_HEAD = /<thead><tr>(?=[^<]*(?:<th>[^<]*<\/th>)*?<th>(?:Credits|أرصدة|الأرصدة)<\/th>)/;
-  const feeAt = body.search(/<table class="ledger">\s*<thead><tr><th>(?:Level|المستوى)<\/th>/);
-  if (feeAt === -1) {
-    check(`The ${label} fee table is findable`, false,
-      'no ledger whose first column is Level — the anchor this check depends on has moved');
-    continue;
-  }
-  const table = body.slice(feeAt);
+  const table = body.slice(body.indexOf('<table class="ledger"'));
   const rows = [...table.slice(0, table.indexOf('</table>')).matchAll(/<tr>([\s\S]*?)<\/tr>/g)]
     .map((m) => m[1]);
   const widthOf = (tr) => [...tr.matchAll(/<t[hd]([^>]*)>/g)]

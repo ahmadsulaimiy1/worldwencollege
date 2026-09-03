@@ -137,7 +137,7 @@ project.
 - It does not name a Principal, a professor, a board or a council. Those
   are real people at a real institution, and inventing them — even as
   placeholders — puts fabricated leadership on an education provider's
-  record. Appointments are made through `/staff-enrolments.html` by a
+  record. Appointments are made through `/admin-enrolments.html` by a
   real administrator, and recorded with who made them and under what
   authority.
 - It does not claim accreditation, recognition, partnership or
@@ -845,268 +845,16 @@ is much easier to change while the register is empty.
 
 ---
 
-## E. Adopted 17 August 2026 — two items that were deferred
-
-Both of the items below sat in the deferred table for the reason that
-table exists: each needed something the College did not have. Both are
-now adopted, and each entry records what supplied the missing basis,
-because a decision that leaves the deferral unexplained invites the next
-reader to assume it was simply willed away.
-
-### E1. Refund policy
-**Recommendation:** any payment is refunded in full, no reason required,
-if requested within **14 days of the payment** AND before the buyer has
-opened any assessed work in the level that payment covers. After either
-limit, the fee for that level is earned. Each instalment carries the test
-separately. Documented exceptional circumstances — serious illness,
-bereavement, or an error by the College — are considered by the Executive
-on their own facts outside the window. Every request receives a written
-decision within five working days; an approved refund is returned to the
-original payment method within ten working days of the decision, with
-nothing deducted.
-
-**What supplied the missing basis.** The deferral asked for "the
-consumer-protection rules of the jurisdiction of sale". The rule adopted
-here is deliberately set AT the widely-adopted distance-selling standard
-for services — a 14-day cancellation window which is lost once
-performance begins with the buyer's agreement — rather than at whatever
-minimum a particular jurisdiction might permit. That resolves the
-deferral without needing a jurisdiction-by-jurisdiction analysis first,
-because a policy pitched at the common standard is unlikely to fall below
-a local floor, and where it does the statutory-rights clause below makes
-the local floor win automatically.
-
-**Statutory rights are not displaced.** The policy states, on the public
-page, that it never reduces a right the buyer holds under the law of
-their own country, and that where the two differ the law prevails. This
-clause is not decoration: without it, a published policy tends to be read
-by a consumer as the whole of their protection, which would make the
-College's own document the instrument that misled them.
-
-**Not claimed:** that this policy has been reviewed by counsel, or that
-it has been assessed for compliance in any named jurisdiction. It is the
-College's own commitment, pitched at the common standard, and it is
-subject to precisely the refinement the Board's advisers direct.
-
-**Decision:** ☑ **ADOPTED 17 August 2026 (Executive).**
-
-### E2. Complaints and appeals procedure
-**Recommendation:** three stages, each heard by somebody not party to the
-one before it. Stage one, within 20 working days of the decision
-appealed: review by a member of academic staff senior to and other than
-the original decision-maker, answered in writing within 10 working days.
-Stage two: review by the Academic Senate, which sets standards and does
-not mark work, answered within 20 working days; it may uphold, substitute
-its own decision, or return the matter for fresh assessment by a
-different marker. Stage three, final: the Board of Governors — the
-Governor for Academic Affairs for academic matters, the Governor for
-Ethics and Institutional Values for conduct, welfare or fair treatment.
-No stage may be skipped by the College to reach a faster conclusion.
-
-**What supplied the missing basis.** This was previously unpublishable
-for a stated and correct reason: both academic bodies stood at zero
-appointed members, so an "independent" stage would have been the same
-people reconsidering, and publishing it would have been publishing a
-formality. **The appointments of 14 August 2026 changed that** — the
-Academic Senate and the Board of Governors are constituted, and no member
-of the Executive may sit on the Board. The independence the procedure
-rests on is now structural rather than aspirational.
-
-**What is still not claimed.** The Board of Governors is independent of
-the Executive; it is not independent of the institution. There is no
-external ombudsman in the chain and the procedure says so on the page.
-An appellant who exhausts stage three and remains dissatisfied is
-recorded as entitled to say so publicly, and doing so is expressly not a
-conduct matter — a complaints procedure whose final stage can be used
-against the complainant is a trap, not a remedy.
-
-**Decision:** ☑ **ADOPTED 17 August 2026 (Executive).** Academic aspects
-subject to Senate ratification at its first properly constituted meeting,
-on the same footing as the 14 August batch.
-
-## F. Adopted 17 August 2026 — the commercial model, as one instrument
-
-The four decisions below were taken together and must be read together.
-Taken separately they contradict each other: a page that charges an
-independent candidate to be awarded, beside a page promising an enrolled
-student no graduation fee, reads as a hidden fee unless the reason is on
-both. So the model has one principle, stated once and applied four times:
-
-> **You pay for what the College does for you. You never pay for the
-> credential itself, and the credential is the same whichever route you
-> take to it.**
-
-Every figure is held in `data/commercial.json` and rendered by
-`scripts/build-commercial.mjs`, which refuses to build if any of them
-contradicts another or the level fee in `data/tuition.json`.
-
-### F1. The independent route
-**Recommendation:** a candidate who does not enrol may take any level by
-buying three things separately — the level's **materials ($150)**, the
-level **examination ($250)**, and **conferral of the award ($200)**;
-$600 a level, $3,600 for the programme. Each step stands alone: a
-candidate may buy materials and never sit, or sit and never take the
-award, and no step is a condition of selling the one before it.
-
-The examination is the same examination, marked by a person against the
-same published rubric, second-marked, and put through the same internal
-moderation. **The award is the same award**, entered in the same
-registry, verifiable by the same open route. One re-sit is included, as
-it is for an enrolled student.
-
-*Why the fees are not the enrolled cost-share.* `tuition.json` allocates
-15% of a level fee — $475 — to *Assessment and marking*, and this route
-charges $250. The two buy different things: the enrolled line covers ten
-module quizzes, ten assignments marked **with written feedback**, the
-examination and its second marking. Marking assignments with feedback is
-teaching, and it is priced where teaching is priced. The same holds for
-materials: authoring a curriculum is a fixed cost the enrolled fees
-carry, and charging a marginal reader the average cost is how an
-institution prices itself out of its own mission.
-
-*The materials step, and a conflict caught on the day it shipped.* The
-first draft sold "every authored lesson of the level, downloadable" —
-which the Library already gives away free to anyone, in print-ready
-volumes. That would have been the College charging $150 for a book on
-one page and giving it away on another. The step is **access to the
-level inside the platform**: staged and timed lessons, the Listening
-Lab, the recording workspace that keeps a candidate's own attempts, and
-the self-checks with their answers. **The books stay free**, and the
-page says so exactly where the fee is charged.
-
-*The conferral fee, and the promise it appears to break.* An enrolled
-student pays nothing to be awarded because certification is line eight
-of their level fee, already paid. An independent candidate has not paid
-that line, so they pay it here. Both pages say so and each links to the
-other.
-
-**Decision:** ☑ **ADOPTED 17 August 2026 (Executive).** Fee levels
-subject to Board ratification with the annual fee review; the structure
-subject to Senate ratification of the assessment equivalence.
-
-### F2. Partner and sponsored places
-This item sat in the deferred table above as *Corporate/bulk terms —
-needs an actual commercial model.* It now has one.
-
-**Recommendation:** an institution enrolling a group pays a **published
-band**, not a negotiated rate: **10–24 seats, 10% off tuition; 25–99,
-15%; 100 or more, 20%.** A price that changes with who is asking is a
-price the College cannot defend, and the buyer with the least leverage
-is always the one who needed the help most.
-
-Four conditions, each of which exists to stop a foreseeable abuse:
-the band applies to **tuition only** and never to an assessment
-standard, a pass mark or a moderation step; a sponsor sees a student's
-progress **only with that student's separate written consent**,
-withdrawable at any time; a sponsored student who leaves the sponsor
-**keeps the place and the record** — the seat is bought, the person is
-not; and the refund window is **the student's**, running from their own
-start.
-
-**Decision:** ☑ **ADOPTED 17 August 2026 (Executive).** Removes
-*Corporate/bulk terms* from the deferred table.
-
-### F3. The Foundation Remission
-The College's own page said, correctly, that publishing criteria it
-could not fund would be worse than publishing nothing. The way out is
-not to promise a sum. It is to make the fund a **rule** rather than a
-figure.
-
-**Recommendation:** **five per cent of every dollar of tuition
-received** is placed in the remission fund. The fund therefore exists
-exactly when tuition does, cannot be overspent, and needs no capital the
-College does not have. The consequence is published rather than hidden:
-in a term with little tuition there is little remission.
-
-Awards are full or partial remission of a level fee, decided on two
-published criteria — **financial need (60%)** and **academic promise
-(40%)** — each with a stated test that can be applied to a stranger.
-Need is evidenced by the applicant's own statement of household
-circumstances with one supporting document *where one exists*; the
-College does not demand documents a person in hardship cannot obtain,
-and says so rather than rejecting them silently.
-
-The chain, using posts that exist on the governance register with the
-remits they actually hold: applications to the **Registrar**, who holds
-student records; a panel of three — Registrar, **Director of Student
-Success** on need, **Dean of Academic Affairs** on promise; decisions
-minuted with the score against each criterion; **every applicant told
-the outcome**, including those not awarded; and the round's report to
-the **Governor for Finance and Audit**, who may audit any decision in
-it.
-
-A round opens with each cohort, closes fourteen days before that cohort
-begins, and is decided within fourteen days of closing.
-
-**Decision:** ☑ **ADOPTED 17 August 2026 (Executive).** The first round
-opens with the next cohort. **No round has run and no remission has been
-awarded to anyone**, and the page says so.
-
-### F4. The referral credit
-**Recommendation:** a student or award-holder who refers a candidate
-receives a **$250 credit against their own next fee** — usable against
-enrolled tuition or any step of the independent route — capped at
-**three per person for the whole programme**, settling **fourteen days
-after the referred student starts**, when their refund window has
-closed.
-
-It is a remission and never a commission, and the difference is
-load-bearing. The moment a person is paid cash for bringing the College
-a student, that person has an interest in what they say about it and the
-College has bought a salesperson it cannot supervise. So: **never cash**;
-never to anyone who is not a student or an award-holder; applied to one
-fee at a time and never beyond it, with any remainder carried forward
-and never paid out; and not payable on yourself, on a person already in
-the admissions record, or on a seat bought under a partner band.
-
-**Decision:** ☑ **ADOPTED 17 August 2026 (Executive).**
-
-### F5. The open level, and access to the ones above it
-The owner's instruction, in two parts: **Level I is the open level** and
-downloads freely, because the College's proof is that a reader can take
-in a whole level before paying anything; and **Levels II to VI ship with
-enrolment or with the independent route's access step** as the Press
-produces their teaching volumes.
-
-**Recommendation:** adopt both, with three constraints that decide
-whether the policy is a standard or a gate.
-
-1. **Nothing already published is withdrawn.** All sixteen volumes in
-   the Library today are open and stay open. The rule binds volumes the
-   Press has not yet produced. It is written before them for the same
-   reason the curriculum was written before it was taught: a policy
-   announced after the fact is indistinguishable from one invented to
-   justify it.
-2. **The criteria stay open to everyone.** The Assessment Handbook, the
-   Flagship Curriculum, the Programme Architecture and the Pronunciation
-   Handbook are what a candidate is entitled to read before deciding to
-   pay, and gating any of them would make the rest of the Library
-   decorative.
-3. **No security theatre.** The page says access comes with enrolment.
-   It does not say the files are locked, and the College does not
-   pretend a published PDF can be recalled.
-
-*Mechanism.* Every volume in `data/library.json` carries an `access`
-tier. `served` — the set that gets a public `/library/…` URL and a
-download button — is computed as open-and-not-oversize, so a gated
-volume is absent from the redirects and from the page by construction
-rather than by a check somebody has to remember.
-`tests/library-access.test.mjs` holds the tier on every volume, fails if
-a gated volume keeps a URL, proves that sweep against a volume that
-really is served, and pins the open count at sixteen so that a
-withdrawal has to be a decision rather than a passing build.
-
-**Decision:** ☑ **ADOPTED 17 August 2026 (Executive).** The independent
-route's access step (F1) is the purchase route this policy refers to.
-
-## E-deferred. Still insufficient basis to recommend
+## E. Deferred — insufficient basis to recommend
 
 I am not proposing values for these. Each needs information I do not
 have, and a plausible-looking number would be worse than an open item.
 
 | Item | What it needs |
 |---|---|
+| Refund policy | The consumer-protection rules of the jurisdiction of sale |
 | Tuition currency policy beyond USD | A real FX source and a commercial decision on who carries rate risk |
+| Corporate/bulk terms | An actual commercial model |
 | Instructor:learner ratios, class sizes, contact hours | Operational reality, not a target |
 | Anything described as accreditation or recognition | An accrediting body |
 
@@ -1258,55 +1006,17 @@ language-skill mapping and its descriptor thresholds.
   framework: the blocker is no longer "somebody should map the
   curriculum" but "BASCE should be constituted and should map it".
 
-### G7 — The motto stands *(ruled 18 August 2026)*
-
-**"Empowering the World Through English Excellence."**
-
-`scripts/voice-audit.mjs` reported `Empowering` as machine register —
-correctly by its own rule. Every other sentence on this site states what
-the College does; the motto states an aspiration, and it is the single
-most-repeated line the institution has: the footer of all sixty-six
-pages, the schema.org `slogan`, and the masthead of `/about/`.
-
-It was put to the owner with two alternatives drafted in the site's own
-register — "Published before it is taught" and "English, taught to a
-published standard" — and **the owner ruled that the motto stays**.
-
-- Protected by name in the `LOAD` list of `scripts/voice-audit.mjs`,
-  not by removing `Empowering` from the machine-register patterns. The
-  distinction matters: the word still fires anywhere else it appears.
-- `tests/audit-behaviour.test.mjs` holds both halves — that the motto no
-  longer reports, and that planting `Empowering` on another page still
-  does. An exemption nobody can prove is narrow is an exemption that has
-  become a blanket.
-- The Arabic edition was inconsistent with itself when this was
-  examined: the footer carried straight typewriter quotes and the verbal
-  form نُمكّن, the `/ar/about/` masthead carried guillemets and the
-  nominal form تمكين. Both now read
-  «تمكين العالم من خلال التميّز في اللغة الإنجليزية.»
-- **Do not re-raise this.** It is settled.
-
 ---
 
 ---
 
-<!-- NOTE ON LETTERING: this section is headed H rather than F because
-     `## F. Adopted 17 August 2026 — the commercial model` already
-     claims both the letter F and the item code F1 below (F1–F5, the
-     independent route through the referral credit). Two unrelated
-     entries both citing themselves as "F1" would be ambiguous to a
-     Board member searching this register, so this section — added
-     independently and only found to collide with the commercial-model
-     section when the two were reconciled — takes the next free
-     top-level letter instead. -->
-
-## H. Corrections to published claims
+## F. Corrections to published claims
 
 Recorded here rather than in a commit message alone, because a
 correction that only exists in version control is a correction the
 Board never sees.
 
-### H1. The homepage claimed an accreditation candidacy that does not exist — CORRECTED 23 August 2026
+### F1. The homepage claimed an accreditation candidacy that does not exist — CORRECTED 23 August 2026
 
 **What was published.** The homepage's institutional status note read:
 

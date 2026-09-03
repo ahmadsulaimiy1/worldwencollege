@@ -36,7 +36,6 @@ import { buildCurriculum } from './curriculum.mjs';
 import { TYPE, C as PAL, BRAND } from './design.mjs';
 import { crest, guillocheBand, fleuron } from './ornament.mjs';
 import { publicationIdentity } from './identity.mjs';
-import { editionMark, runningHead, runningFoot, rightsPage } from './rights.mjs';
 import { CONSTITUTIONS, CLAUSES, FORCE, forceCount, contrastEvidence } from './press.mjs';
 import {
   STATUS, STATUS_ORDER, WAVES, inventory, catalogue, statusCounts, plan, FAMILIES_IN_USE,
@@ -56,13 +55,6 @@ const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').
 
 const C = buildCurriculum();
 const ID = publicationIdentity(C, { edition: 1, revision: 0, impression: 1 });
-
-// This volume's name and its edition mark, printed on every page it
-// prints. The mark is derived from the volume and from the curriculum
-// edition it was set from, so a page found somewhere else names the
-// edition it was taken from — see rights.mjs.
-const VOLUME = 'Worldwide English College Press — The Publishing Constitution';
-const MARK = editionMark('press-constitution', ID.contentDigest);
 const INV = inventory(C);
 const ROWS = catalogue(INV);
 const SERIES = FAMILIES_IN_USE;
@@ -728,16 +720,6 @@ ${legacyBlock({
   panel: PAL.softCream,
 })}
 
-${rightsPage({
-  title: VOLUME,
-  mark: MARK,
-  edition: `${ID.editionName} edition`,
-  year: ID.year,
-  palette: {
-    ink: PAL.warmCharcoal, deep: PAL.royalBlue, grey: PAL.slateGrey, gold: PAL.bronze,
-    rule: PAL.platinum, wash: PAL.softCream, serif: TYPE.serif, sans: TYPE.sans,
-  },
-})}
 </body></html>`;
 
 mkdirSync(path.join(ROOT, 'publication'), { recursive: true });
@@ -754,8 +736,10 @@ await page.pdf({
   printBackground: true,
   preferCSSPageSize: true,
   displayHeaderFooter: true,
-  headerTemplate: runningHead(MARK, { gutter: 20 }),
-  footerTemplate: runningFoot(VOLUME, { gutter: 20, size: 7.2 }),
+  headerTemplate: '<div></div>',
+  footerTemplate: `<div style="font:400 7.5pt Calibri,Arial,sans-serif;color:${PAL.slateGrey};`
+    + 'width:100%;padding:0 20mm;display:flex;justify-content:space-between;">'
+    + '<span>Worldwide English College Press</span><span class="pageNumber"></span></div>',
   margin: { top: '18mm', bottom: '15mm', left: '20mm', right: '20mm' },
   tagged: true,
   outline: true,

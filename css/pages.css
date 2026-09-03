@@ -242,26 +242,18 @@ body[data-section="contact"]    { --hero-accent: 199, 162, 74; }
    The base card is sound; it just needed the frame language the
    plates use, so a grid of cards belongs to the same institution as
    the engravings. */
-/* THE CORNER BRACKET WAS CANCELLING THE TRAVELLING LIGHT ON EVERY CARD
-   ON THE SITE, and this is where it was doing it.
-   ---------------------------------------------------------------------
-   It was drawn as `.card::after` — specificity (0,1,1), identical to
-   `.aurum::after` in css/atelier.css, and css/pages.css loads after
-   css/atelier.css, so the later rule won every time. A sixteen-pixel
-   hairline bracket was overwriting the orbiting gold point on every
-   card that wore .aurum, across all sixty-four pages. Nothing errored,
-   nothing looked broken, and the effect the whole material system is
-   built on simply never appeared on the surface it appears on most.
-
-   The bracket is background layers 3 and 4 on .card in css/brand.css
-   now, growing from 0 to 16px on hover exactly as it did. It is not
-   removed and it is not weakened — it is off the pseudo-element that
-   was never its to take. CLAUDE.md §2.
-
-   --card-pad is set rather than `padding`, because the closing rule's
-   inset is computed from it; setting padding alone would leave the
-   rule measuring to the wrong edge. */
-.card { --card-pad: clamp(26px, 2.4vw, 34px); border-radius: 6px; }
+.card { padding: clamp(26px, 2.4vw, 34px); border-radius: 6px; }
+.card::after {
+  content: ''; position: absolute; bottom: 12px; right: 12px;
+  width: 16px; height: 16px; pointer-events: none;
+  border-right: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  opacity: 0; transition: opacity var(--dur-med) var(--ease-premium);
+}
+[dir="rtl"] .card::after {
+  right: auto; left: 12px;
+  border-right: 0; border-left: 1px solid var(--line);
+}
+.card:hover::after { opacity: 1; }
 .card h3 { font-size: 1.12rem; letter-spacing: -.008em; }
 
 /* Academics and the six study-level pages carry the same cinematic
@@ -272,33 +264,34 @@ body[data-section="contact"]    { --hero-accent: 199, 162, 74; }
    above is untouched for every other page. */
 [data-section="academics"] .card, [data-section="study"] .card {
   border-radius: var(--r-lg);
+  padding: clamp(28px, 2.6vw, 38px);
   /* A grid row stretches every card to its tallest sibling, which
-     leaves short-copy cards with a slab of dead air below the last
-     line. The closing rule turns that leftover space into a
-     deliberate terminus instead of an accident — every card ends the
-     same way regardless of how much its own copy runs. It is painted
-     from --card-pad now rather than pushed by margin-top:auto on a
-     pseudo-element; see the note below and CLAUDE.md §2. */
-  --card-pad: clamp(28px, 2.6vw, 38px);
+     left short-copy cards with a slab of dead air below the last
+     line. Flex column + a closing rule pushed to the true bottom
+     turns that leftover space into a deliberate terminus instead
+     of an accident — every card ends the same way regardless of
+     how much its own copy runs. */
   display: flex; flex-direction: column;
 }
-/* THE CLOSING RULE MOVED OFF ::after, AND HAD TO.
-   ---------------------------------------------------------------------
-   This block used to draw the terminus as a flow ::after with
-   `all: unset` and margin-top:auto. It worked, and it cost these two
-   sections their travelling light: at (0,2,1) it outranks
-   `.aurum::after` at (0,1,1), and css/pages.css loads after
-   css/atelier.css, so on every Academics and Study card the orbiting
-   gold point was overwritten by a hairline. The two pages the owner
-   reported as flat were the two pages where the effect was being
-   cancelled by a rule written to fix a different problem.
-
-   The terminus is a background layer on .card in css/brand.css now —
-   held 22px off the foot, inset to the card's own padding, painted on
-   the box rather than on a pseudo-element. It closes the plate on
-   EVERY page rather than these two, and it cannot be claimed by
-   .aurum or .edge-lit because it is not a pseudo-element at all.
-   See CLAUDE.md §2. */
+[data-section="academics"] .card::after, [data-section="study"] .card::after {
+  /* brand.css's lit-rim ::after (mask-composite gradient ring) and
+     this file's own corner-bracket ::after both target the same
+     pseudo-element; `all: unset` clears every property either one
+     set — padding, background, mask — so this rule starts from a
+     blank box rather than inheriting whichever property neither
+     override happened to touch. */
+  all: unset;
+  content: ''; display: block;
+  width: 100%; height: 0; margin-top: auto; padding-top: 20px;
+  border-top: 1px solid rgba(199,162,74,.24);
+  opacity: 1;
+}
+[data-section="academics"] .card--dark::after, [data-section="study"] .card--dark::after {
+  border-top-color: rgba(231,201,122,.2);
+}
+[data-section="academics"] .card:hover::after, [data-section="study"] .card:hover::after {
+  border-top-color: rgba(199,162,74,.46);
+}
 
 /* --- Statistics ----------------------------------------------------- */
 .stat-row { border-color: var(--line-stone); border-radius: 4px; }
@@ -653,13 +646,7 @@ html { scroll-behavior: smooth; }
 .application-plate .field input:focus,
 .application-plate .field select:focus,
 .application-plate .field textarea:focus {
-  /* Transparent rather than none: High Contrast Mode forces an
-     outline's colour but cannot invent one that was never declared,
-     and the gold ring below is a box-shadow, which that mode removes.
-     Without this line a reader in High Contrast has no focus indicator
-     at all on the longest form the College asks anyone to fill in. */
-  outline: 2px solid transparent;
-  outline-offset: 2px;
+  outline: none;
   border-color: var(--gold-rich);
   background: linear-gradient(180deg, rgba(3,8,20,.4), rgba(31,61,122,.2));
   box-shadow: var(--relief-inset), 0 0 0 3px rgba(199,162,74,.22);

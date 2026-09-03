@@ -20,7 +20,7 @@ UPDATE learning_items SET sequence = 6 WHERE id = 'itm_l4_m10_examassignment';
 -- Module 1: Advanced Present & Past Systems
 -- ---------------------------------------------------------------------
 INSERT INTO audio_assets (id, kind, title, transcript, variety, speaker_count, target_wpm) VALUES
-('aud_l4_m1_listen', 'listening', 'What I Would Have Done Differently', 'By the time I took over, the team had already missed two deadlines. | I assumed they''d been badly managed. That assumption cost me six months. | What had actually happened was simpler: nobody had been told what success looked like. | I''d been solving the wrong problem, quite confidently, for half a year. | Looking back, I should have asked one question in week one — what does done mean? | I still think the diagnosis was reasonable given what I knew. | But reasonable and right aren''t the same thing, and that''s the lesson.', 'BrE', 1, 135),
+('aud_l4_m1_listen', 'listening', 'What I Would Have Done Differently', 'By the time I took over, the team had already missed two deadlines. | I assumed they''d been badly managed. That assumption cost me six months. | What had actually happened was simpler: nobody had been told what success looked like. | I''d been solving the wrong problem, quite confidently, for half a year. | Looking back, I should have asked one question in week one -- what does done mean? | I still think the diagnosis was reasonable given what I knew. | But reasonable and right aren''t the same thing, and that''s the lesson.', 'BrE', 1, 135),
 ('aud_l4_m1_pron', 'model_pronunciation', 'Module 1 Pronunciation Model', 'They had already missed two deadlines. | What had actually happened was simpler. | I''d been solving the wrong problem. | Reasonable and right aren''t the same thing.', 'BrE', 1, 120);
 
 INSERT INTO audio_cues (id, audio_asset_id, sequence, speaker, text) VALUES
@@ -28,23 +28,23 @@ INSERT INTO audio_cues (id, audio_asset_id, sequence, speaker, text) VALUES
 ('cue_l4_m1_2', 'aud_l4_m1_listen', 2, 'Speaker', 'I assumed they''d been badly managed. That assumption cost me six months.'),
 ('cue_l4_m1_3', 'aud_l4_m1_listen', 3, 'Speaker', 'What had actually happened was simpler: nobody had been told what success looked like.'),
 ('cue_l4_m1_4', 'aud_l4_m1_listen', 4, 'Speaker', 'I''d been solving the wrong problem, quite confidently, for half a year.'),
-('cue_l4_m1_5', 'aud_l4_m1_listen', 5, 'Speaker', 'Looking back, I should have asked one question in week one — what does done mean?'),
+('cue_l4_m1_5', 'aud_l4_m1_listen', 5, 'Speaker', 'Looking back, I should have asked one question in week one -- what does done mean?'),
 ('cue_l4_m1_6', 'aud_l4_m1_listen', 6, 'Speaker', 'I still think the diagnosis was reasonable given what I knew.'),
 ('cue_l4_m1_7', 'aud_l4_m1_listen', 7, 'Speaker', 'But reasonable and right aren''t the same thing, and that''s the lesson.');
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body, audio_asset_id) VALUES
-('itm_l4_m1_listening', 'unt_l4_m1', 4, 'listening', 'Listening 1 — What I Would Have Done Differently',
+('itm_l4_m1_listening', 'unt_l4_m1', 4, 'listening', 'Listening 1 -- What I Would Have Done Differently',
 'LISTENING OBJECTIVES: Follow a reflective narrative with layered time reference; distinguish past perfect from past simple; hear regret and hindsight.
 
 BEFORE YOU LISTEN: A former team leader reflects on a project that went wrong. Read the four questions first. Knowing what you are listening for is itself the skill being taught, and it is the difference between hearing words and understanding a conversation.
 
-LISTEN TWICE: First for the general situation only — who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
+LISTEN TWICE: First for the general situation only -- who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
 
 THEN: Read the synchronised transcript while listening a third time, and mark every place where what you heard and what is written surprised you. That gap is your own pronunciation target, identified by you rather than assigned to you.
 
 SHADOWING: Record yourself speaking the reflection, keeping the past perfect audible. Your recordings are kept attempt by attempt, so you can hear your own progress, and your instructor can reply in their own voice.', 'aud_l4_m1_listen'),
-('itm_l4_m1_pronunciation', 'unt_l4_m1', 5, 'pronunciation', 'Pronunciation Lab 1 — Reduced had, Hindsight Contour & Paired Abstractions',
-'HOW TO USE THIS LAB: For each target — listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
+('itm_l4_m1_pronunciation', 'unt_l4_m1', 5, 'pronunciation', 'Pronunciation Lab 1 -- Reduced had, Hindsight Contour & Paired Abstractions',
+'HOW TO USE THIS LAB: For each target -- listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
 
 FOCUS THIS MODULE: The reduced had that carries past-perfect meaning, and the intonation of hindsight.
 
@@ -65,7 +65,7 @@ INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json
 -- Module 2: Academic Writing I
 -- ---------------------------------------------------------------------
 INSERT INTO audio_assets (id, kind, title, transcript, variety, speaker_count, target_wpm) VALUES
-('aud_l4_m2_listen', 'listening', 'A Thesis Tutorial', 'Read me your thesis statement as it stands. | This essay examines the effects of remote work on productivity. | Right. That''s a topic, not a thesis. What do you actually claim? | That remote work increases productivity? | Better, but nobody would disagree with that as stated. Increases it for whom, and measured how? | For knowledge workers, measured by output rather than hours. | Now we''re somewhere. That''s arguable — which is the point. A thesis someone could contest is a thesis. | So if nobody could disagree, it isn''t one. | Precisely.', 'BrE', 2, 135),
+('aud_l4_m2_listen', 'listening', 'A Thesis Tutorial', 'Read me your thesis statement as it stands. | This essay examines the effects of remote work on productivity. | Right. That''s a topic, not a thesis. What do you actually claim? | That remote work increases productivity? | Better, but nobody would disagree with that as stated. Increases it for whom, and measured how? | For knowledge workers, measured by output rather than hours. | Now we''re somewhere. That''s arguable -- which is the point. A thesis someone could contest is a thesis. | So if nobody could disagree, it isn''t one. | Precisely.', 'BrE', 2, 135),
 ('aud_l4_m2_pron', 'model_pronunciation', 'Module 2 Pronunciation Model', 'That''s a topic, not a thesis. | Increases it for whom, and measured how? | That''s arguable, which is the point. | A thesis someone could contest is a thesis.', 'BrE', 1, 120);
 
 INSERT INTO audio_cues (id, audio_asset_id, sequence, speaker, text) VALUES
@@ -75,23 +75,23 @@ INSERT INTO audio_cues (id, audio_asset_id, sequence, speaker, text) VALUES
 ('cue_l4_m2_4', 'aud_l4_m2_listen', 4, 'Student', 'That remote work increases productivity?'),
 ('cue_l4_m2_5', 'aud_l4_m2_listen', 5, 'Tutor', 'Better, but nobody would disagree with that as stated. Increases it for whom, and measured how?'),
 ('cue_l4_m2_6', 'aud_l4_m2_listen', 6, 'Student', 'For knowledge workers, measured by output rather than hours.'),
-('cue_l4_m2_7', 'aud_l4_m2_listen', 7, 'Tutor', 'Now we''re somewhere. That''s arguable — which is the point. A thesis someone could contest is a thesis.'),
+('cue_l4_m2_7', 'aud_l4_m2_listen', 7, 'Tutor', 'Now we''re somewhere. That''s arguable -- which is the point. A thesis someone could contest is a thesis.'),
 ('cue_l4_m2_8', 'aud_l4_m2_listen', 8, 'Student', 'So if nobody could disagree, it isn''t one.'),
 ('cue_l4_m2_9', 'aud_l4_m2_listen', 9, 'Tutor', 'Precisely.');
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body, audio_asset_id) VALUES
-('itm_l4_m2_listening', 'unt_l4_m2', 4, 'listening', 'Listening 2 — A Thesis Tutorial',
+('itm_l4_m2_listening', 'unt_l4_m2', 4, 'listening', 'Listening 2 -- A Thesis Tutorial',
 'LISTENING OBJECTIVES: Follow tutorial feedback on argument structure; distinguish a topic from a thesis; hear where an argument is diagnosed as descriptive.
 
 BEFORE YOU LISTEN: A tutor works through a student''s draft thesis statement. Read the four questions first. Knowing what you are listening for is itself the skill being taught, and it is the difference between hearing words and understanding a conversation.
 
-LISTEN TWICE: First for the general situation only — who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
+LISTEN TWICE: First for the general situation only -- who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
 
 THEN: Read the synchronised transcript while listening a third time, and mark every place where what you heard and what is written surprised you. That gap is your own pronunciation target, identified by you rather than assigned to you.
 
 SHADOWING: Record yourself speaking the tutor''s diagnosis and the student''s revised statement. Your recordings are kept attempt by attempt, so you can hear your own progress, and your instructor can reply in their own voice.', 'aud_l4_m2_listen'),
-('itm_l4_m2_pronunciation', 'unt_l4_m2', 5, 'pronunciation', 'Pronunciation Lab 2 — Diagnostic Contrast, Socratic Rise & Clustered Hedges',
-'HOW TO USE THIS LAB: For each target — listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
+('itm_l4_m2_pronunciation', 'unt_l4_m2', 5, 'pronunciation', 'Pronunciation Lab 2 -- Diagnostic Contrast, Socratic Rise & Clustered Hedges',
+'HOW TO USE THIS LAB: For each target -- listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
 
 FOCUS THIS MODULE: Academic tutorial register and the stress that marks a diagnostic move.
 
@@ -99,7 +99,7 @@ Your recordings are kept, so attempt one and attempt ten sit side by side. Your 
 
 INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target, example, guidance) VALUES
 ('pron_l4_m2_1', 'itm_l4_m2_pronunciation', 1, 'sentence_stress', 'Diagnostic moves stress the corrected term', 'That''s a TOPic, not a THEsis.', 'The two nouns take equal heavy stress. In tutorial speech this contrast pattern is the diagnosis, and hearing it is how you know which word to fix.'),
-('pron_l4_m2_2', 'itm_l4_m2_pronunciation', 2, 'intonation', 'Socratic questions rise and hang', 'Increases it for WHOM? // And measured HOW?', 'A tutor''s questions rise and stop, leaving space. That hanging contour is an invitation to answer, not a rhetorical flourish — responding to it is a seminar skill.'),
+('pron_l4_m2_2', 'itm_l4_m2_pronunciation', 2, 'intonation', 'Socratic questions rise and hang', 'Increases it for WHOM? // And measured HOW?', 'A tutor''s questions rise and stop, leaving space. That hanging contour is an invitation to answer, not a rhetorical flourish -- responding to it is a seminar skill.'),
 ('pron_l4_m2_3', 'itm_l4_m2_pronunciation', 3, 'connected_speech', 'Academic hedges cluster before the point', 'nobody would disagree -> /ˈnəʊbədiwədˌdɪsəˈɡriː/', 'Even direct academic criticism arrives wrapped in fast unstressed hedging. Hearing the wrapper is what keeps the criticism proportionate.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
@@ -127,18 +127,18 @@ INSERT INTO audio_cues (id, audio_asset_id, sequence, speaker, text) VALUES
 ('cue_l4_m3_9', 'aud_l4_m3_listen', 9, 'Manager', 'So would I.');
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body, audio_asset_id) VALUES
-('itm_l4_m3_listening', 'unt_l4_m3', 4, 'listening', 'Listening 3 — The Performance Conversation',
+('itm_l4_m3_listening', 'unt_l4_m3', 4, 'listening', 'Listening 3 -- The Performance Conversation',
 'LISTENING OBJECTIVES: Follow a structured professional conversation; separate observation from judgement; hear a request for change framed as support.
 
 BEFORE YOU LISTEN: A manager holds a performance conversation with a team member. Read the four questions first. Knowing what you are listening for is itself the skill being taught, and it is the difference between hearing words and understanding a conversation.
 
-LISTEN TWICE: First for the general situation only — who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
+LISTEN TWICE: First for the general situation only -- who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
 
 THEN: Read the synchronised transcript while listening a third time, and mark every place where what you heard and what is written surprised you. That gap is your own pronunciation target, identified by you rather than assigned to you.
 
 SHADOWING: Record yourself speaking the manager''s framing and the employee''s response. Your recordings are kept attempt by attempt, so you can hear your own progress, and your instructor can reply in their own voice.', 'aud_l4_m3_listen'),
-('itm_l4_m3_pronunciation', 'unt_l4_m3', 5, 'pronunciation', 'Pronunciation Lab 3 — Observation-versus-Evaluation Stress, Consent Rise & Reflective Reduction',
-'HOW TO USE THIS LAB: For each target — listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
+('itm_l4_m3_pronunciation', 'unt_l4_m3', 5, 'pronunciation', 'Pronunciation Lab 3 -- Observation-versus-Evaluation Stress, Consent Rise & Reflective Reduction',
+'HOW TO USE THIS LAB: For each target -- listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
 
 FOCUS THIS MODULE: Professional register under mild tension, and the stress that separates observation from evaluation.
 
@@ -174,20 +174,20 @@ INSERT INTO audio_cues (id, audio_asset_id, sequence, speaker, text) VALUES
 ('cue_l4_m4_9', 'aud_l4_m4_listen', 9, 'Coach', 'Then you''ve actually won something.');
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body, audio_asset_id) VALUES
-('itm_l4_m4_listening', 'unt_l4_m4', 4, 'listening', 'Listening 4 — The Steel and the Straw',
+('itm_l4_m4_listening', 'unt_l4_m4', 4, 'listening', 'Listening 4 -- The Steel and the Straw',
 'LISTENING OBJECTIVES: Follow an argument about argument; distinguish a strong from a weak version of an opponent''s case; hear a reconstruction.
 
 BEFORE YOU LISTEN: A debating coach shows the difference between attacking a weak version and a strong one. Read the four questions first. Knowing what you are listening for is itself the skill being taught, and it is the difference between hearing words and understanding a conversation.
 
-LISTEN TWICE: First for the general situation only — who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
+LISTEN TWICE: First for the general situation only -- who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
 
 THEN: Read the synchronised transcript while listening a third time, and mark every place where what you heard and what is written surprised you. That gap is your own pronunciation target, identified by you rather than assigned to you.
 
 SHADOWING: Record yourself speaking the coach''s reconstruction of the opposing case. Your recordings are kept attempt by attempt, so you can hear your own progress, and your instructor can reply in their own voice.', 'aud_l4_m4_listen'),
-('itm_l4_m4_pronunciation', 'unt_l4_m4', 5, 'pronunciation', 'Pronunciation Lab 4 — Voicing Another Position, Weak-versus-Strong Stress & Conditional Chunking',
-'HOW TO USE THIS LAB: For each target — listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
+('itm_l4_m4_pronunciation', 'unt_l4_m4', 5, 'pronunciation', 'Pronunciation Lab 4 -- Voicing Another Position, Weak-versus-Strong Stress & Conditional Chunking',
+'HOW TO USE THIS LAB: For each target -- listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
 
-FOCUS THIS MODULE: The stress pattern of reconstruction — how a speaker signals they are voicing someone else''s view.
+FOCUS THIS MODULE: The stress pattern of reconstruction -- how a speaker signals they are voicing someone else''s view.
 
 Your recordings are kept, so attempt one and attempt ten sit side by side. Your instructor can reply with a spoken model rather than only written notes.', 'aud_l4_m4_pron');
 
@@ -220,20 +220,20 @@ INSERT INTO audio_cues (id, audio_asset_id, sequence, speaker, text) VALUES
 ('cue_l4_m5_8', 'aud_l4_m5_listen', 8, 'Officer', 'But it can''t be resolved by better paperwork, which is why the trial stayed suspended.');
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body, audio_asset_id) VALUES
-('itm_l4_m5_listening', 'unt_l4_m5', 4, 'listening', 'Listening 5 — The Trial That Was Stopped',
+('itm_l4_m5_listening', 'unt_l4_m5', 4, 'listening', 'Listening 5 -- The Trial That Was Stopped',
 'LISTENING OBJECTIVES: Follow an ethical case with technical content; distinguish procedural from moral objection; hear passive constructions at speed.
 
 BEFORE YOU LISTEN: A research ethics officer describes why a trial was halted. Read the four questions first. Knowing what you are listening for is itself the skill being taught, and it is the difference between hearing words and understanding a conversation.
 
-LISTEN TWICE: First for the general situation only — who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
+LISTEN TWICE: First for the general situation only -- who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
 
 THEN: Read the synchronised transcript while listening a third time, and mark every place where what you heard and what is written surprised you. That gap is your own pronunciation target, identified by you rather than assigned to you.
 
 SHADOWING: Record yourself speaking the officer''s explanation of the two objections. Your recordings are kept attempt by attempt, so you can hear your own progress, and your instructor can reply in their own voice.', 'aud_l4_m5_listen'),
-('itm_l4_m5_pronunciation', 'unt_l4_m5', 5, 'pronunciation', 'Pronunciation Lab 5 — Compressed Passives, Organising Contrasts & Concede-then-Conclude',
-'HOW TO USE THIS LAB: For each target — listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
+('itm_l4_m5_pronunciation', 'unt_l4_m5', 5, 'pronunciation', 'Pronunciation Lab 5 -- Compressed Passives, Organising Contrasts & Concede-then-Conclude',
+'HOW TO USE THIS LAB: For each target -- listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
 
-FOCUS THIS MODULE: Passive constructions and nominalisation at speed — the register of institutional explanation.
+FOCUS THIS MODULE: Passive constructions and nominalisation at speed -- the register of institutional explanation.
 
 Your recordings are kept, so attempt one and attempt ten sit side by side. Your instructor can reply with a spoken model rather than only written notes.', 'aud_l4_m5_pron');
 
@@ -252,13 +252,13 @@ INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json
 -- Module 6: Global Issues
 -- ---------------------------------------------------------------------
 INSERT INTO audio_assets (id, kind, title, transcript, variety, speaker_count, target_wpm) VALUES
-('aud_l4_m6_listen', 'listening', 'Two Ways to Count the Poor', 'The headline says poverty has fallen by a third. Is that right? | It''s right on that measure. The measure is an absolute income threshold. | On that basis, yes — a substantial fall, and it''s real. | It''s real and it''s incomplete. A relative measure shows almost no change. | So which is correct? | Both, and that''s the uncomfortable answer. They measure different things. | I''d agree with that. Absolute measures track whether people can eat. | And relative measures track whether they can participate. A society can feed people and still exclude them. | So the headline isn''t wrong, it''s partial. | Which is the more dangerous kind of wrong.', 'BrE', 3, 138),
+('aud_l4_m6_listen', 'listening', 'Two Ways to Count the Poor', 'The headline says poverty has fallen by a third. Is that right? | It''s right on that measure. The measure is an absolute income threshold. | On that basis, yes -- a substantial fall, and it''s real. | It''s real and it''s incomplete. A relative measure shows almost no change. | So which is correct? | Both, and that''s the uncomfortable answer. They measure different things. | I''d agree with that. Absolute measures track whether people can eat. | And relative measures track whether they can participate. A society can feed people and still exclude them. | So the headline isn''t wrong, it''s partial. | Which is the more dangerous kind of wrong.', 'BrE', 3, 138),
 ('aud_l4_m6_pron', 'model_pronunciation', 'Module 6 Pronunciation Model', 'It''s right on that measure. | A relative measure shows almost no change. | They measure different things. | It isn''t wrong, it''s partial.', 'BrE', 1, 123);
 
 INSERT INTO audio_cues (id, audio_asset_id, sequence, speaker, text) VALUES
 ('cue_l4_m6_1', 'aud_l4_m6_listen', 1, 'Presenter', 'The headline says poverty has fallen by a third. Is that right?'),
 ('cue_l4_m6_2', 'aud_l4_m6_listen', 2, 'Ahmed', 'It''s right on that measure. The measure is an absolute income threshold.'),
-('cue_l4_m6_3', 'aud_l4_m6_listen', 3, 'Ahmed', 'On that basis, yes — a substantial fall, and it''s real.'),
+('cue_l4_m6_3', 'aud_l4_m6_listen', 3, 'Ahmed', 'On that basis, yes -- a substantial fall, and it''s real.'),
 ('cue_l4_m6_4', 'aud_l4_m6_listen', 4, 'Beatriz', 'It''s real and it''s incomplete. A relative measure shows almost no change.'),
 ('cue_l4_m6_5', 'aud_l4_m6_listen', 5, 'Presenter', 'So which is correct?'),
 ('cue_l4_m6_6', 'aud_l4_m6_listen', 6, 'Beatriz', 'Both, and that''s the uncomfortable answer. They measure different things.'),
@@ -268,18 +268,18 @@ INSERT INTO audio_cues (id, audio_asset_id, sequence, speaker, text) VALUES
 ('cue_l4_m6_10', 'aud_l4_m6_listen', 10, 'Beatriz', 'Which is the more dangerous kind of wrong.');
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body, audio_asset_id) VALUES
-('itm_l4_m6_listening', 'unt_l4_m6', 4, 'listening', 'Listening 6 — Two Ways to Count the Poor',
+('itm_l4_m6_listening', 'unt_l4_m6', 4, 'listening', 'Listening 6 -- Two Ways to Count the Poor',
 'LISTENING OBJECTIVES: Follow a methodological disagreement; understand how a definition changes a finding; catch figures embedded in argument.
 
 BEFORE YOU LISTEN: Two analysts disagree about a poverty statistic on a current-affairs programme. Read the four questions first. Knowing what you are listening for is itself the skill being taught, and it is the difference between hearing words and understanding a conversation.
 
-LISTEN TWICE: First for the general situation only — who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
+LISTEN TWICE: First for the general situation only -- who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
 
 THEN: Read the synchronised transcript while listening a third time, and mark every place where what you heard and what is written surprised you. That gap is your own pronunciation target, identified by you rather than assigned to you.
 
 SHADOWING: Record yourself speaking the exchange about what the measure counts. Your recordings are kept attempt by attempt, so you can hear your own progress, and your instructor can reply in their own voice.', 'aud_l4_m6_listen'),
-('itm_l4_m6_pronunciation', 'unt_l4_m6', 5, 'pronunciation', 'Pronunciation Lab 6 — Refusing a False Choice, Subordinated Figures & Compressed Agreement',
-'HOW TO USE THIS LAB: For each target — listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
+('itm_l4_m6_pronunciation', 'unt_l4_m6', 5, 'pronunciation', 'Pronunciation Lab 6 -- Refusing a False Choice, Subordinated Figures & Compressed Agreement',
+'HOW TO USE THIS LAB: For each target -- listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
 
 FOCUS THIS MODULE: Figures embedded in argument, where the number is subordinate to the claim.
 
@@ -315,18 +315,18 @@ INSERT INTO audio_cues (id, audio_asset_id, sequence, speaker, text) VALUES
 ('cue_l4_m7_9', 'aud_l4_m7_listen', 9, 'Editor', 'It''s a story we can stand up. The other one is a story we''d retract.');
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body, audio_asset_id) VALUES
-('itm_l4_m7_listening', 'unt_l4_m7', 4, 'listening', 'Listening 7 — The Anonymous Source',
+('itm_l4_m7_listening', 'unt_l4_m7', 4, 'listening', 'Listening 7 -- The Anonymous Source',
 'LISTENING OBJECTIVES: Evaluate spoken sourcing; distinguish attribution from assertion; hear where certainty is manufactured.
 
 BEFORE YOU LISTEN: An editor questions a reporter about a story before publication. Read the four questions first. Knowing what you are listening for is itself the skill being taught, and it is the difference between hearing words and understanding a conversation.
 
-LISTEN TWICE: First for the general situation only — who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
+LISTEN TWICE: First for the general situation only -- who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
 
 THEN: Read the synchronised transcript while listening a third time, and mark every place where what you heard and what is written surprised you. That gap is your own pronunciation target, identified by you rather than assigned to you.
 
 SHADOWING: Record yourself speaking the editor''s questioning of the sourcing. Your recordings are kept attempt by attempt, so you can hear your own progress, and your instructor can reply in their own voice.', 'aud_l4_m7_listen'),
-('itm_l4_m7_pronunciation', 'unt_l4_m7', 5, 'pronunciation', 'Pronunciation Lab 7 — Fact-versus-Inference Stress, Unhedged Register & Reporting Frames',
-'HOW TO USE THIS LAB: For each target — listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
+('itm_l4_m7_pronunciation', 'unt_l4_m7', 5, 'pronunciation', 'Pronunciation Lab 7 -- Fact-versus-Inference Stress, Unhedged Register & Reporting Frames',
+'HOW TO USE THIS LAB: For each target -- listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
 
 FOCUS THIS MODULE: The audible difference between what a source said and what a reporter concluded.
 
@@ -347,7 +347,7 @@ INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json
 -- Module 8: Meetings & Negotiation
 -- ---------------------------------------------------------------------
 INSERT INTO audio_assets (id, kind, title, transcript, variety, speaker_count, target_wpm) VALUES
-('aud_l4_m8_listen', 'listening', 'Splitting the Difference', 'Our position is that the rate has to rise by eight per cent. | We can''t do eight. We could do four. | Four doesn''t cover our cost increase. What''s driving your ceiling? | Our budget is fixed until April. It''s a timing problem, not a value judgement. | Then would you do eight from April, with four until then? | If you''ll extend the term to three years, yes. | Three years at eight from April. I can take that to my board. | Good. And to be clear — I''d have said no to eight today whatever you offered. | I know. That''s why I asked what was driving it.', 'BrE', 2, 140),
+('aud_l4_m8_listen', 'listening', 'Splitting the Difference', 'Our position is that the rate has to rise by eight per cent. | We can''t do eight. We could do four. | Four doesn''t cover our cost increase. What''s driving your ceiling? | Our budget is fixed until April. It''s a timing problem, not a value judgement. | Then would you do eight from April, with four until then? | If you''ll extend the term to three years, yes. | Three years at eight from April. I can take that to my board. | Good. And to be clear -- I''d have said no to eight today whatever you offered. | I know. That''s why I asked what was driving it.', 'BrE', 2, 140),
 ('aud_l4_m8_pron', 'model_pronunciation', 'Module 8 Pronunciation Model', 'Our position is that the rate has to rise. | What''s driving your ceiling? | If you''ll extend the term, yes. | I can take that to my board.', 'BrE', 1, 125);
 
 INSERT INTO audio_cues (id, audio_asset_id, sequence, speaker, text) VALUES
@@ -358,22 +358,22 @@ INSERT INTO audio_cues (id, audio_asset_id, sequence, speaker, text) VALUES
 ('cue_l4_m8_5', 'aud_l4_m8_listen', 5, 'Okonjo', 'Then would you do eight from April, with four until then?'),
 ('cue_l4_m8_6', 'aud_l4_m8_listen', 6, 'Lindqvist', 'If you''ll extend the term to three years, yes.'),
 ('cue_l4_m8_7', 'aud_l4_m8_listen', 7, 'Okonjo', 'Three years at eight from April. I can take that to my board.'),
-('cue_l4_m8_8', 'aud_l4_m8_listen', 8, 'Lindqvist', 'Good. And to be clear — I''d have said no to eight today whatever you offered.'),
+('cue_l4_m8_8', 'aud_l4_m8_listen', 8, 'Lindqvist', 'Good. And to be clear -- I''d have said no to eight today whatever you offered.'),
 ('cue_l4_m8_9', 'aud_l4_m8_listen', 9, 'Okonjo', 'I know. That''s why I asked what was driving it.');
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body, audio_asset_id) VALUES
-('itm_l4_m8_listening', 'unt_l4_m8', 4, 'listening', 'Listening 8 — Splitting the Difference',
+('itm_l4_m8_listening', 'unt_l4_m8', 4, 'listening', 'Listening 8 -- Splitting the Difference',
 'LISTENING OBJECTIVES: Follow a negotiation to a settlement; track positions and interests; hear where a concession is traded rather than given.
 
 BEFORE YOU LISTEN: Two organisations negotiate a contract renewal. Read the four questions first. Knowing what you are listening for is itself the skill being taught, and it is the difference between hearing words and understanding a conversation.
 
-LISTEN TWICE: First for the general situation only — who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
+LISTEN TWICE: First for the general situation only -- who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
 
 THEN: Read the synchronised transcript while listening a third time, and mark every place where what you heard and what is written surprised you. That gap is your own pronunciation target, identified by you rather than assigned to you.
 
 SHADOWING: Record yourself speaking the exchange where the concession is traded. Your recordings are kept attempt by attempt, so you can hear your own progress, and your instructor can reply in their own voice.', 'aud_l4_m8_listen'),
-('itm_l4_m8_pronunciation', 'unt_l4_m8', 5, 'pronunciation', 'Pronunciation Lab 8 — Conditional Stress, Probe-versus-Offer Contours & Numeric Clarity',
-'HOW TO USE THIS LAB: For each target — listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
+('itm_l4_m8_pronunciation', 'unt_l4_m8', 5, 'pronunciation', 'Pronunciation Lab 8 -- Conditional Stress, Probe-versus-Offer Contours & Numeric Clarity',
+'HOW TO USE THIS LAB: For each target -- listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
 
 FOCUS THIS MODULE: Conditional offers, and the stress that marks a trade rather than a gift.
 
@@ -409,18 +409,18 @@ INSERT INTO audio_cues (id, audio_asset_id, sequence, speaker, text) VALUES
 ('cue_l4_m9_9', 'aud_l4_m9_listen', 9, 'Supervisor', 'Ask whether they belong in the chapter at all. Usually they don''t.');
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body, audio_asset_id) VALUES
-('itm_l4_m9_listening', 'unt_l4_m9', 4, 'listening', 'Listening 9 — The Literature Review Supervision',
+('itm_l4_m9_listening', 'unt_l4_m9', 4, 'listening', 'Listening 9 -- The Literature Review Supervision',
 'LISTENING OBJECTIVES: Follow supervision on synthesis; distinguish summarising from synthesising; hear a structural instruction.
 
 BEFORE YOU LISTEN: A supervisor reviews a student''s literature review chapter. Read the four questions first. Knowing what you are listening for is itself the skill being taught, and it is the difference between hearing words and understanding a conversation.
 
-LISTEN TWICE: First for the general situation only — who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
+LISTEN TWICE: First for the general situation only -- who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
 
 THEN: Read the synchronised transcript while listening a third time, and mark every place where what you heard and what is written surprised you. That gap is your own pronunciation target, identified by you rather than assigned to you.
 
 SHADOWING: Record yourself speaking the supervisor''s description of thematic organisation. Your recordings are kept attempt by attempt, so you can hear your own progress, and your instructor can reply in their own voice.', 'aud_l4_m9_listen'),
-('itm_l4_m9_pronunciation', 'unt_l4_m9', 5, 'pronunciation', 'Pronunciation Lab 9 — Abstract-Noun Contrast, Instruction Contour & Homophone Disambiguation',
-'HOW TO USE THIS LAB: For each target — listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
+('itm_l4_m9_pronunciation', 'unt_l4_m9', 5, 'pronunciation', 'Pronunciation Lab 9 -- Abstract-Noun Contrast, Instruction Contour & Homophone Disambiguation',
+'HOW TO USE THIS LAB: For each target -- listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
 
 FOCUS THIS MODULE: Structural academic instruction, and the stress that marks an organising principle.
 
@@ -456,18 +456,18 @@ INSERT INTO audio_cues (id, audio_asset_id, sequence, speaker, text) VALUES
 ('cue_l4_m10_9', 'aud_l4_m10_listen', 9, 'Chair', 'Then that''s the recommendation. Pilot next year, decision the year after.');
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body, audio_asset_id) VALUES
-('itm_l4_m10_listening', 'unt_l4_m10', 4, 'listening', 'Listening 10 — The Faculty Review Board',
+('itm_l4_m10_listening', 'unt_l4_m10', 4, 'listening', 'Listening 10 -- The Faculty Review Board',
 'LISTENING OBJECTIVES: Integrate every Level IV listening skill; follow a formal board discussion with evidence, procedure, disagreement and decision.
 
 BEFORE YOU LISTEN: This is the Level IV cumulative listening: a faculty board reviews a proposal, drawing on all nine modules. Read the four questions first. Knowing what you are listening for is itself the skill being taught, and it is the difference between hearing words and understanding a conversation.
 
-LISTEN TWICE: First for the general situation only — who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
+LISTEN TWICE: First for the general situation only -- who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
 
 THEN: Read the synchronised transcript while listening a third time, and mark every place where what you heard and what is written surprised you. That gap is your own pronunciation target, identified by you rather than assigned to you.
 
 SHADOWING: Record yourself speaking one full contribution, then the closing decision. Your recordings are kept attempt by attempt, so you can hear your own progress, and your instructor can reply in their own voice.', 'aud_l4_m10_listen'),
-('itm_l4_m10_pronunciation', 'unt_l4_m10', 5, 'pronunciation', 'Pronunciation Lab 10 — Level IV Consolidation — Meeting Pace, Verdict Stress & Closure',
-'HOW TO USE THIS LAB: For each target — listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
+('itm_l4_m10_pronunciation', 'unt_l4_m10', 5, 'pronunciation', 'Pronunciation Lab 10 -- Level IV Consolidation -- Meeting Pace, Verdict Stress & Closure',
+'HOW TO USE THIS LAB: For each target -- listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
 
 FOCUS THIS MODULE: Everything from the level, at close-to-natural professional speed.
 
@@ -475,7 +475,7 @@ Your recordings are kept, so attempt one and attempt ten sit side by side. Your 
 
 INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target, example, guidance) VALUES
 ('pron_l4_m10_1', 'itm_l4_m10_pronunciation', 1, 'connected_speech', 'Full professional speed with everything reduced', 'that hasn''t been done -> /ðætˈhæzntbɪnˈdʌn/; I''d still argue -> /aɪdstɪlˈɑːɡjuː/', 'Level IV closes at the pace of a real meeting. Every feature from the level appears at once, and none of it is slowed for the listener.'),
-('pron_l4_m10_2', 'itm_l4_m10_pronunciation', 2, 'sentence_stress', 'Summing up stresses the two verdicts', 'The substantive case is unPROVEN and the procedural condition is unMET.', 'A chair''s summary stresses each verdict word. That is how a decision is signalled before it is stated — and how you know a meeting is about to end.'),
+('pron_l4_m10_2', 'itm_l4_m10_pronunciation', 2, 'sentence_stress', 'Summing up stresses the two verdicts', 'The substantive case is unPROVEN and the procedural condition is unMET.', 'A chair''s summary stresses each verdict word. That is how a decision is signalled before it is stated -- and how you know a meeting is about to end.'),
 ('pron_l4_m10_3', 'itm_l4_m10_pronunciation', 3, 'intonation', 'The decision falls flat and final', 'THEN that''s the recommenDAtion. // PIlot next year, deCISion the year after.', 'No rise, no hedge. The flat final fall is the sound of a matter being closed, and it is the same contour used from here to Level VI.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES

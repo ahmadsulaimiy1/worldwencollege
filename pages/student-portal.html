@@ -1,13 +1,8 @@
 <!-- The signed-in learner's route into their own programme.
      Hidden by default and populated only by js/portal-entry.js when a
      real session exists. With no Clerk key configured — the shipped
-     default — this renders nothing, and the page stays what it is
-     below: a description of a portal that IS BUILT, and of how a
-     learner comes by the credentials for it.
-
-     It used to say "Coming Soon" and offer early access. Eleven learner
-     surfaces exist and are asserted end to end in a real browser, so
-     that badge had stopped being modest and started being untrue. -->
+     default — this renders nothing, and the page stays the honest
+     description of a portal opening with the founding cohort. -->
 <!-- The wording lives here, not in the script, so the Arabic page can
      carry its own without portal-entry.js knowing any language.
      {name} is replaced with the learner's first name where one is
@@ -17,16 +12,7 @@
          data-welcome-anon="Welcome back."
          data-lede="Your programme is open. Continue where you left off."
          data-go="Enter my programme"
-         data-go-href="/my-programme.html"
-         data-record="My academic record"
-         data-record-href="/my-record.html"
-         data-signin-title="Sign in to the Portal."
-         data-signin-body="Your classes, your work, your marks and your record are behind one sign-in."
-         data-signin="Sign in"
-         data-down-title="Sign-in is unavailable at the moment."
-         data-down-body="The College&rsquo;s sign-in service is not answering. This is a fault on our side and not a statement about your enrolment; your record is untouched. Write to us and we will confirm your standing directly while it is being restored."
-         data-contact="Write to the College"
-         data-contact-href="/contact/"></section>
+         data-record="My academic record"></section>
 
 <section class="section--dark section-pad">
   <div class="container">
@@ -43,22 +29,14 @@
       <h2>Built around the student, level by level.</h2>
     </div>
     <div class="grid grid--3">
-      <div class="card reveal tilt edge-lit edge-lit--light aurum"><span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
-        <span class="card__num">01</span><h3>Dashboard</h3><p>A live view of your current level, upcoming classes and outstanding assignments.</p></div>
-      <div class="card reveal tilt edge-lit edge-lit--light aurum"><span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
-        <span class="card__num">02</span><h3>Live Classes</h3><p>Conversation classes and tutorials, designed. The programme is taught asynchronously today, and sessions are recorded for anyone who cannot attend.</p></div>
-      <div class="card reveal tilt edge-lit edge-lit--light aurum"><span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
-        <span class="card__num">03</span><h3>Assignments &amp; Exams</h3><p>Submit assignments and sit online examinations, with automatic grading where appropriate.</p></div>
-      <div class="card reveal tilt edge-lit edge-lit--light aurum"><span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
-        <span class="card__num">04</span><h3>Your Progress</h3><p>See your progress update as you move through each module. Attendance is not tracked &mdash; the programme is asynchronous, so it would measure the wrong thing.</p></div>
-      <div class="card reveal tilt edge-lit edge-lit--light aurum"><span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span>
-        <span class="card__num">05</span><h3>Digital Library</h3><p>Reading, listening and reference resources for your current level.</p></div>
-      <div class="card reveal tilt edge-lit edge-lit--light aurum"><span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span>
-        <span class="card__num">06</span><h3>Transcripts &amp; Certificates</h3><p>A digital transcript after every level, and the level award with it. No External Examiner has been appointed, so every award is internally moderated &mdash; see <a href="/students/awards/">Awards and honours</a>.</p></div>
-      <div class="card reveal tilt edge-lit edge-lit--light aurum"><span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg></span>
-        <span class="card__num">07</span><h3>Notifications</h3><p>Stay on top of deadlines, results and announcements without checking in constantly.</p></div>
-      <div class="card reveal tilt edge-lit edge-lit--light aurum"><span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span>
-        <span class="card__num">08</span><h3>Mobile-Friendly Access</h3><p>The same portal, designed to work cleanly on a phone or tablet.</p></div>
+      <div class="card"><span class="card__num">01</span><h3>Dashboard</h3><p>A live view of your current level, upcoming classes and outstanding assignments.</p></div>
+      <div class="card"><span class="card__num">02</span><h3>Live Classes</h3><p>Live conversation classes and tutorials, designed and not yet running &mdash; no cohort has been taught. Sessions will be recorded for anyone who cannot attend.</p></div>
+      <div class="card"><span class="card__num">03</span><h3>Assignments &amp; Exams</h3><p>Submit assignments and sit online examinations, with automatic grading where appropriate.</p></div>
+      <div class="card"><span class="card__num">04</span><h3>Your Progress</h3><p>See your progress update as you move through each module. Attendance is not tracked &mdash; the programme is asynchronous, so it would measure the wrong thing.</p></div>
+      <div class="card"><span class="card__num">05</span><h3>Digital Library</h3><p>Reading, listening and reference resources for your current level.</p></div>
+      <div class="card"><span class="card__num">06</span><h3>Transcripts &amp; Certificates</h3><p>A digital transcript after every level. The IEFC award itself cannot yet be conferred &mdash; no External Examiner has been appointed &mdash; see <a href="/students/awards/">Awards and honours</a>.</p></div>
+      <div class="card"><span class="card__num">07</span><h3>Notifications</h3><p>Stay on top of deadlines, results and announcements without checking in constantly.</p></div>
+      <div class="card"><span class="card__num">08</span><h3>Mobile-Friendly Access</h3><p>The same portal, designed to work cleanly on a phone or tablet.</p></div>
     </div>
   </div>
 </section>
@@ -66,14 +44,14 @@
 <section class="section--dark section-pad" id="access">
   <div class="container reveal">
     <div class="portal-shell">
-      <span class="module-marker" style="display:block;text-align:center;margin:0 auto 16px">Your way in</span>
-      <h2>The Portal opens with your enrolment.</h2>
-      <p class="lede">Enrolled students receive their credentials from Admissions during onboarding. Everything above is behind that one sign-in &mdash; your programme, your week, your marks, your record and your statement of account.</p>
+      <span class="module-marker" style="display:block;text-align:center;margin:0 auto 16px">Coming Soon</span>
+      <h2>The Student Portal is launching with our founding cohort.</h2>
+      <p class="lede">Enrolled students will receive portal credentials directly from Admissions during onboarding. If you'd like early access as it becomes available, let us know.</p>
       <div class="btn-row u-center">
-        <a href="/student-portal/preview/" class="btn btn--gold">Walk through a preview</a>
-        <a href="/admissions/" class="btn btn--outline">How enrolment works</a>
+        <a href="mailto:info@worldwencollege.co.uk?subject=Student%20Portal%20Early%20Access" class="btn btn--gold">Request Early Access</a>
+        <a href="/student-portal/preview/" class="btn btn--ghost">See a Design Preview</a>
       </div>
-      <p class="form-note" style="text-align:center">Already enrolled? Your welcome email carries your sign-in instructions. The preview shows illustrative data and is not a live account.</p>
+      <p class="form-note" style="text-align:center">Already enrolled? Your welcome email includes direct portal instructions. The design preview shows illustrative demo data — it isn't a live account.</p>
     </div>
   </div>
 </section>

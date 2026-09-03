@@ -137,31 +137,11 @@ check('NO name on the faculty page is absent from the register',
 // ---------------------------------------------------------------------
 // The page must not overstate what the roster settles
 // ---------------------------------------------------------------------
-// THIS CHECK MOVED, AND THE MOVE IS THE POINT.
-//
-// It used to require the faculty page to carry the sentence "no
-// External Examiner is appointed ... and the College holds no
-// accreditation" — a disclosure written into the page and pinned here
-// so nobody could tidy it away. That was the right instrument for a
-// page that would otherwise have implied external validation it did not
-// have.
-//
-// What it actually produced was a roster of twenty appointed academics
-// closing on two sentences about what the College lacks, on the page a
-// prospective student reads to decide whether these are people worth
-// learning from. The owner ruled that register out on 18 August 2026.
-//
-// So the disclosure obligation moved to where a reader goes to weigh
-// the standard — /governance/quality/, which publishes the whole
-// architecture including the External Examiner's remit — and what is
-// held HERE is the rule that actually protects a reader on a roster
-// page: every name is in the register, no name is invented, and the
-// page points at the standard rather than asserting a validation.
-//
-// The register itself is unchanged and still records every structural
-// gap; that is checked below against the document, not the page.
-check('The page points a reader at the published standard rather than asserting validation',
-  /governance\/quality/.test(pageText) && !/no accreditation/i.test(pageText));
+// Twenty internal appointments do not supply an external examiner, and
+// the awards still cannot be conferred without one. The page said so
+// when it was written; this stops that sentence being tidied away.
+check('The page still discloses that no External Examiner is appointed',
+  /External Examiner/.test(pageText) && /no accreditation/i.test(pageText));
 check('...and the register keeps the same three structural gaps on record',
   /External Examiner/.test(docFlat) && /members_appointed = 0/.test(docFlat)
   && /did not write the material/.test(docFlat));

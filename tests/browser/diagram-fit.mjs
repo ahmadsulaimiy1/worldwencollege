@@ -89,27 +89,12 @@ const browser = await chromium.launch(existsSync(exe) ? { executablePath: exe } 
 // given its full 880px and has the least excuse for spilling.
 const ctx = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
 
-// THE TWO REASONS THIS TOOK FIFTEEN MINUTES AND WAS NEVER PUT IN CI.
-//
-// It opened a fresh page for each of the fifty-seven routes and let
-// every one of them try to reach fonts.googleapis.com — a host that
-// does not resolve on a build machine, so each load paid a connection
-// timeout before it could begin. An audit nobody can afford to run is
-// an audit that is not running, and this one was excluded from the
-// deploy workflow for exactly that reason.
-//
-// Blocked at the context so it applies to every page, and the pages are
-// reused rather than created per route. The self-hosted display face is
-// unaffected: it is served from this origin.
-await ctx.route('**://fonts.googleapis.com/**', (r) => r.abort());
-await ctx.route('**://fonts.gstatic.com/**', (r) => r.abort());
-const page = await ctx.newPage();
-
 const spills = [];
 const collisions = [];
 const seen = [];
 
 for (const route of routes) {
+  const page = await ctx.newPage();
   await page.goto(BASE + route, { waitUntil: 'domcontentloaded' }).catch(() => {});
 
   const found = await page.evaluate(async () => {
@@ -184,8 +169,8 @@ for (const route of routes) {
     }
   }
 
+  await page.close();
 }
-await page.close();
 
 check(`Every diagram was found and measured — ${seen.length} placements`, seen.length >= 5, seen.join(' · '));
 

@@ -25,7 +25,6 @@
  */
 import { db, NotFoundError, ValidationError } from '../db.js';
 import { awardHistory } from './awards.js';
-import { LEVEL_NAMES_AR, LEVEL_ORDINALS_AR } from '../academic/level-names.js';
 import { skillProfile } from './skills.js';
 import { forUser as distinctionsFor } from './distinctions.js';
 
@@ -149,13 +148,7 @@ export async function transcript(env, { userId }) {
     return {
       levelId: r.levelId,
       roman: r.roman,
-      // Both namings travel together so one payload serves both
-      // editions and the page chooses. An Arabic graduate record that
-      // said "Upper Intermediate Programme" in the middle of an Arabic
-      // transcript was the fault this closes.
-      ordinalAr: LEVEL_ORDINALS_AR[r.levelId] || null,
       levelName: r.levelName,
-      levelNameAr: LEVEL_NAMES_AR[r.levelId] || null,
       cefr: r.cefr,
       status: r.status,
       startedAt: r.startedAt,
@@ -167,7 +160,6 @@ export async function transcript(env, { userId }) {
         postNominal: award.postNominal,
         honour: award.honour,
         honourLabel: award.honourLabel,
-        honourLabelAr: award.honourLabelAr || null,
         credits: award.credits,
         tqtHours: award.tqtHours,
         conferredOn: award.conferredOn,
@@ -227,9 +219,7 @@ export async function studyTime(env, { userId }) {
  */
 export async function competencyAttainment(env, { userId }) {
   const { results: competencies } = await db(env)
-    .prepare(`SELECT id, code, name, description,
-                     name_ar AS nameAr, description_ar AS descriptionAr
-                FROM competencies ORDER BY sequence`).all();
+    .prepare('SELECT id, code, name, description FROM competencies ORDER BY sequence').all();
 
   const { results: marks } = await db(env)
     .prepare(`SELECT m.competency_id AS competencyId, AVG(m.mark) AS mark, COUNT(*) AS assessments
@@ -250,21 +240,12 @@ export async function competencyAttainment(env, { userId }) {
       : (mapped.n
         ? 'This graduate has not yet been assessed against the competency framework.'
         : 'The College has not yet mapped its assessments to the competency framework, so no competency attainment can be reported for anyone. This is a known gap, recorded as governance item A6d.'),
-    // Beside the English, never instead of it: one payload, both
-    // editions, and the page chooses which sentence to set.
-    noteAr: marks.length
-      ? null
-      : (mapped.n
-        ? 'لم يُقوَّم هذا الخرّيج بعدُ في إطار الكفايات.'
-        : 'لم تربط الكلية تقييماتها بعدُ بإطار الكفايات، فلا يُعلَن تحصيلُ كفاياتٍ لأحد. وهذه ثغرة معلومة مقيّدة في بند الحوكمة A6d.'),
     competencies: competencies.map((c) => {
       const m = byCompetency.get(c.id);
       return {
         code: c.code,
         name: c.name,
-        nameAr: c.nameAr || null,
         description: c.description,
-        descriptionAr: c.descriptionAr || null,
         mark: m ? Math.round(m.mark * 100) / 100 : null,
         assessments: m ? m.assessments : 0,
       };
@@ -398,12 +379,7 @@ export async function fullProfile(env, { userId }) {
       cpd: !!profile.show_cpd,
       studyTime: !!profile.show_study_time,
     },
-    awards: tr.entries.filter((e) => e.award).map((e) => ({
-      ...e.award,
-      roman: e.roman, ordinalAr: e.ordinalAr,
-      levelName: e.levelName, levelNameAr: e.levelNameAr,
-      cefr: e.cefr,
-    })),
+    awards: tr.entries.filter((e) => e.award).map((e) => ({ ...e.award, roman: e.roman, levelName: e.levelName, cefr: e.cefr })),
     transcript: tr,
     skills,
     competencies: comp,

@@ -34,7 +34,6 @@
 
 const fs = require('fs');
 const path = require('path');
-const { emitPage, reportEmit } = require('./lib/emit-page');
 
 const ROOT = path.resolve(__dirname, '..');
 const esc = (s) => String(s ?? '')
@@ -293,7 +292,6 @@ const MANIFEST = path.join(ROOT, 'pages/manifest.json');
 const manifest = JSON.parse(fs.readFileSync(MANIFEST, 'utf8'));
 const entries = Array.isArray(manifest) ? manifest : manifest.pages;
 const written = [];
-const emitted = [];
 
 for (const slug of ['learning', 'learning-platform', 'support-technical']) {
   const i = entries.findIndex((e) => e.slug === slug);
@@ -301,8 +299,7 @@ for (const slug of ['learning', 'learning-platform', 'support-technical']) {
 }
 
 for (const p of Object.values(PAGES)) {
-  const target = path.join(ROOT, 'pages', p.file);
-  emitted.push({ file: target, result: emitPage(target, p.body) });
+  fs.writeFileSync(path.join(ROOT, 'pages', p.file), p.body + '\n');
   const entry = {
     slug: p.slug, output: p.output, title: p.title, description: p.description,
     contentFile: p.file, lang: 'en', dir: 'ltr',
@@ -313,12 +310,6 @@ for (const p of Object.values(PAGES)) {
 }
 
 fs.writeFileSync(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
-// The manifest entry is written for every page; the PAGE BODY is written
-// only where the guard allows it. "Routed" rather than "Wrote" because
-// the two are no longer the same act — see scripts/lib/emit-page.js, and
-// read the guard's own summary below this list for what reached disk.
-console.log(`Routed ${written.length} Learning/Support pages through the manifest (tracker check: ${scanned.length} files clean):`);
+console.log(`Wrote ${written.length} Learning/Support pages (tracker check: ${scanned.length} files clean):`);
 for (const o of written) console.log(`  ${o}`);
 console.log('Run `npm run build` to generate the served pages.');
-
-reportEmit('build-learning.js', emitted);

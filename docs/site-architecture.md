@@ -25,20 +25,19 @@ through every page.*
 /404                       Branded not-found page
 
 /ar/...                    Full Arabic (RTL) mirror of every indexed path above (not the three
-                           /student-portal/preview* pages or the staff consoles — see below)
+                           /student-portal/preview* pages or /finance/preview — see below)
 
-/staff-*.html              The ten staff consoles — the Desk, Marking, My Learners, My Hours,
-/ar/staff-*.html           Notices, Cases, Admissions, Enrolments, Finance, Administration.
-                           Both editions, sign-in gated, noindex, and absent from the sitemap
+/finance/preview           Finance dashboard design preview — staff/admin-role-gated, English only,
+                           not part of the Student Portal's page family (see below)
 ```
 
 11 English content pages + 1 404, 11 Arabic content pages + 1 404, plus 3 hand-authored preview
 pages outside the `pages/manifest.json` build (`/student-portal/preview/`,
-`/student-portal/preview/profile/`, `/staff-finance.html`) — 25 built HTML files with a `<meta>` tag
+`/student-portal/preview/profile/`, `/finance/preview/`) — 25 built HTML files with a `<meta>` tag
 total, 20 of which are in `sitemap.xml` (the three previews and both 404 pages are intentionally
 excluded).
 
-### `/student-portal/preview*` and `/staff-*.html` — why these aren't "just another page"
+### `/student-portal/preview*` and `/finance/preview` — why these aren't "just another page"
 
 Added as the Phase 6 (dashboard UI system) and Phase 8 (Student Portal)
 design deliverable: high-fidelity, front-end mockups of the student

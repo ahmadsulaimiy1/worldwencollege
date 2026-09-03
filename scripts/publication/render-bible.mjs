@@ -17,7 +17,6 @@ import { build as buildInstitutional } from './canonical.mjs';
 import { TYPE, C as PAL } from './design.mjs';
 import { legacyBlock, ecosystem } from './legacy.mjs';
 import { publicationIdentity } from './identity.mjs';
-import { editionMark, runningFoot, rightsPage } from './rights.mjs';
 import { REGISTERS, GOVERNANCE, ALL_ENTRIES, EXECUTED, OWNER, AUDIT, AUDIT_STATUS } from './bible.mjs';
 import { writeFileSync, mkdirSync, existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
@@ -28,13 +27,6 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 const C = buildCurriculum();
 const I = buildInstitutional();
 const ID = publicationIdentity(C, { edition: 1, revision: 0, impression: 1 });
-
-// This volume's name and its edition mark, printed on every page it
-// prints. The mark is derived from the volume and from the curriculum
-// edition it was set from, so a page found somewhere else names the
-// edition it was taken from — see rights.mjs.
-const VOLUME = 'The IEFC Internal Editorial Bible';
-const MARK = editionMark('editorial-bible', ID.contentDigest);
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
 const BOOK = path.join(ROOT, 'publication', 'IEFC Complete Curriculum.pdf');
@@ -353,16 +345,6 @@ ${legacyBlock({
   ink: PAL.royalBlue, rule: PAL.platinum, soft: PAL.slateGrey, accent: PAL.royalGold,
   panel: PAL.softCream,
 })}
-${rightsPage({
-  title: VOLUME,
-  mark: MARK,
-  edition: `${ID.editionName} edition`,
-  year: ID.year,
-  palette: {
-    ink: PAL.warmCharcoal, deep: PAL.royalBlue, grey: PAL.slateGrey, gold: PAL.bronze,
-    rule: PAL.platinum, wash: PAL.softCream, serif: TYPE.serif, sans: TYPE.sans,
-  },
-})}
 </body></html>`;
 
 mkdirSync(path.join(ROOT, 'publication'), { recursive: true });
@@ -379,7 +361,8 @@ await page.pdf({
   headerTemplate: '<div style="font:700 6pt Calibri,Arial,sans-serif;color:#8C1F2F;width:100%;'
     + 'padding:0 18mm;text-align:right;letter-spacing:.16em;text-transform:uppercase;">'
     + 'Internal — not for distribution</div>',
-  footerTemplate: runningFoot(VOLUME, { gutter: 18, size: 6.6, mark: MARK }),
+  footerTemplate: '<div style="font:400 7.5pt Calibri,Arial,sans-serif;color:#6B7280;width:100%;'
+    + 'padding:0 18mm;text-align:center;"><span class="pageNumber"></span></div>',
   margin: { top: '16mm', bottom: '14mm', left: '18mm', right: '18mm' },
   tagged: true, outline: true,
 });

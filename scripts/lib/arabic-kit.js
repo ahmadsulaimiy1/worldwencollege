@@ -63,35 +63,13 @@ const EN = (href, label) => `<a href="${href}">${label} <span dir="ltr">(EN)</sp
 const esc = (s) => String(s ?? '').replace(/&(?![a-z]+;|#)/g, '&amp;');
 
 // ── Layout primitives ─────────────────────────────────────────────────
-// ── THE MATERIAL LAW, IN THE KIT ─────────────────────────────────────
-//
-// The same divergence recorded in scripts/build-levels.js, on the other
-// side of the language line: these helpers emitted bare cards while the
-// Arabic pages in pages/ carried the full atelier layer, added to the
-// FILES by a later pass and never to the generator. Running
-// build-arabic-levels.js stripped 46 domes off each of the six Arabic
-// level pages. It was found by running it.
-//
-// `icon` carries the law. Passing one produces a struck card; omitting
-// it keeps the bare markup byte-for-byte, so every call site not yet
-// given an icon renders exactly as before rather than half-dressed.
-const struckClass = (dark) => dark
-  ? 'card reveal tilt card--dark edge-lit aurum'
-  : 'card reveal tilt edge-lit edge-lit--light aurum';
-
-const domeMark = (icon, dark) => icon
-  ? `\n        <span class="tilt__sheen" aria-hidden="true"></span>` +
-    `\n        <span class="badge-dome${dark ? ' badge-dome--dark' : ''} badge-dome--lg gold-live">` +
-    `<svg class="icon" aria-hidden="true"><use href="#${icon}"/></svg></span>`
-  : '';
-
-const card = (num, title, body, icon) => `      <div class="${icon ? struckClass(false) : 'card'}">${domeMark(icon, false)}
+const card = (num, title, body) => `      <div class="card">
         <span class="card__num">${num}</span>
         <h3>${title}</h3>
         <p>${body}</p>
       </div>`;
 
-const darkCard = (num, title, body, icon) => `      <div class="${icon ? struckClass(true) : 'card card--dark'}">${domeMark(icon, true)}
+const darkCard = (num, title, body) => `      <div class="card card--dark">
         <span class="card__num">${num}</span>
         <h3>${title}</h3>
         <p>${body}</p>
@@ -133,8 +111,8 @@ const enOnly = `<div class="callout">
 /** Carried wherever the College's standing bears on a reader's decision. */
 const noAccreditation = `<div class="callout">
       <span class="callout__label">وضع الكلية</span>
-      <p>الكلية العالمية للغة الإنجليزية لا تحمل أي اعتماد أكاديمي، ولم تُعيِّن ممتحنًا خارجيًا،
-        فالشهادات التي منحتها معدَّلة داخليًا، ولم تُعتمد
+      <p>الكلية العالمية للغة الإنجليزية لا تحمل أي اعتماد أكاديمي، ولم تُعيّن ممتحنًا خارجيًا،
+        ولم تمنح أي شهادة لأي شخص حتى اليوم، ولم تُدرّس أي دفعة بعد، ولم تُعتمد
         <a href="/ar/admissions/tuition/#refunds">سياسة استرداد</a>. تُذكر هذه الحقائق في كل
         صفحة تؤثر فيها على قرارك، لا مرة واحدة في هامش.</p>
     </div>`;

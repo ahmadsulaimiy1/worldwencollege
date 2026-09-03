@@ -15,46 +15,22 @@
  * `not_instrumented` is the reason this file is shaped like a register.
  * Governance A7 named three metrics with no table anywhere in the
  * platform — attendance, academic integrity, student feedback — and all
- * three now have one. Graduate destinations remains genuinely
- * uninstrumented, and will until there are graduates.
+ * three now have one: migrations 024, 023 and 025 respectively. They
+ * report `insufficient_data` instead, which is a different and better
+ * answer. Graduate destinations remains genuinely uninstrumented, and
+ * will until there are graduates.
  *
+ * One entry is `not_instrumented` for a different reason worth noticing:
+ * `engagement.attendanceRate` has all the data it needs and no agreed
+ * DEFINITION, because governance A7's question — presence at a session,
+ * or engagement with the module? — is unsettled. The register says so
+ * rather than picking one and letting the number be quoted as though the
+ * College had decided.
  * A dashboard would simply not show them, and their absence would read
  * as "nothing to report". Here they appear with the same weight as
  * everything else, saying plainly what is missing and what would close
  * it. An accreditation reviewer asking "how do you monitor attendance"
  * gets an honest answer instead of a silence.
- *
- * ────────────────────────────────────────────────────────────────
- * A REGISTER OF GAPS GOES STALE WHEN A GAP IS CLOSED
- * ────────────────────────────────────────────────────────────────
- * That is the failure this section now guards against, because it
- * happened. This file declared attendance `not_instrumented` with the
- * words "`live_sessions` exists; nothing records who was there", and
- * academic misconduct as having neither a register nor a documented
- * procedure. Both were exactly true when written. Then migration 020
- * created `attendance_records`, `functions/api/staff/attendance.js`
- * began writing registers into it and
- * `functions/_lib/academic/attendance.js` began reading it; migration
- * 023 created `misconduct_cases` and governance decision C9 adopted the
- * misconduct procedure on 14 August 2026, published at
- * /students/integrity/; and migration 025 created `feedback_surveys`
- * for the student-voice instrument.
- *
- * All three now report `insufficient_data` instead of
- * `not_instrumented`, which is a different and better answer: the
- * instrument exists and nothing has used it yet, rather than nothing
- * existing to use.
- *
- * A register that keeps reporting a gap the College has closed is
- * making a false statement about itself in the safe-sounding direction,
- * and CLAUDE.md § 5 does not have an exemption for understatement. Each
- * entry below is re-stated to what is true on 20 August 2026, and each
- * says precisely which half is instrumented and which half is not —
- * because for attendance, one half still is not: `engagement.attendance`
- * has all the data it needs and no agreed DEFINITION for a rate, because
- * governance A7's question — presence at a session, or engagement with
- * the module? — is unsettled. The register says so rather than picking
- * one and letting a number be quoted as though the College had decided.
  *
  * ────────────────────────────────────────────────────────────────
  * SMALL COHORTS ARE SUPPRESSED, NOT ROUNDED
@@ -196,48 +172,6 @@ async function engagementMetrics(env) {
     value: recordings.n ? { recordings: recordings.n, learners: recordings.learners } : null,
     requires: 'learner_recordings',
     closes: recordings.n ? null : 'The first learner recording.',
-  });
-
-  // ATTENDANCE — instrumented since migration 020, and still only half
-  // of what the name promises.
-  //
-  // This metric stood in `uninstrumentedMetrics()` for as long as there
-  // was no table, saying "`live_sessions` exists; nothing records who
-  // was there". That is no longer true: `attendance_records` exists,
-  // POST /api/staff/attendance writes a tutor's register into it, and
-  // functions/_lib/academic/attendance.js derives states from study
-  // evidence. It is computed here now, and it reports the state its own
-  // vocabulary already had for "the instrument exists, nothing has used
-  // it yet".
-  //
-  // WHAT IS STILL NOT INSTRUMENTED, and it is named on the metric
-  // rather than hidden by a measured-looking number: nothing observes
-  // who JOINS a live session. `engage.counts.live_session` in
-  // data/academic-regulations.json is `instrumented: false,
-  // requires_host_confirmation: true`, so every live-session row in
-  // this table is a person's register, taken by hand. A percentage of
-  // the cohort attending, computed over hand-taken registers, would
-  // report tutor diligence as learner behaviour.
-  const attendance = await db(env)
-    .prepare(`SELECT COUNT(*) AS rows, COUNT(DISTINCT user_id) AS learners,
-                     SUM(CASE WHEN basis = 'live_session' THEN 1 ELSE 0 END) AS sessions,
-                     SUM(CASE WHEN recorded_via = 'staff_register' THEN 1 ELSE 0 END) AS byRegister
-                FROM attendance_records`).first();
-  out.push({
-    id: 'engagement.attendance',
-    name: 'Attendance and engagement',
-    question: 'Who was present — at a live session, or in the week\'s work — and how is that known?',
-    ...(attendance.rows === 0
-      ? { state: 'insufficient_data', value: null,
-        closes: 'The first register taken, or the first window in which a learner\'s own study evidence reaches the published measure.' }
-      : attendance.learners < MIN_COHORT
-        ? { state: 'suppressed', value: null, cohort: attendance.learners,
-          closes: `${MIN_COHORT - attendance.learners} more learners. A presence rate over a handful of people names them.` }
-        : { state: 'measured', closes: null,
-          value: { records: attendance.rows, learners: attendance.learners,
-            liveSessionRecords: attendance.sessions, takenByAPerson: attendance.byRegister } }),
-    requires: 'attendance_records',
-    note: 'Engagement is instrumented; live-session attendance is not. Nothing observes who joins a session, so every live-session row here was written by a member of staff — see engage.counts.live_session, which is recorded as not instrumented and requiring host confirmation. No proportion-of-cohort figure is published, and none should be until joining is observed rather than attested.',
   });
 
   return out;
@@ -537,31 +471,69 @@ async function accreditationReadiness(env) {
 // A dashboard would show one number and let the reader assume it meant
 // whatever they wanted. This shows the count and names the missing
 // decision.
-// `engagement.attendance` above (engagementMetrics()) already measures
-// presence from `attendance_records` — the table the live attendance
-// API actually writes. This function used to duplicate that under the
-// same metric id, reading `session_attendance` (migration 024), a
-// table nothing in the codebase writes to; it always reported
-// insufficient_data and never could report anything else. Removed
-// rather than fixed forward: `engagement.attendance`'s own note already
-// says plainly that live-session joining is not instrumented, which is
-// the fact this function existed to report.
-//
-// The one thing here worth keeping is the governance gap below: A7's
-// open decision — does "attendance" mean presence at a live session or
-// engagement with the module — is real and distinct from either
-// measurement, so it stays as its own metric.
 async function attendanceMetrics(env) {
+  const d = db(env);
+  const sessions = await d.prepare(
+    `SELECT COUNT(*) AS held,
+            SUM(CASE WHEN attendance_expected = 1 THEN 1 ELSE 0 END) AS required
+       FROM live_sessions`).first();
+  const marks = await d.prepare(
+    `SELECT COUNT(*) AS n,
+            SUM(CASE WHEN state = 'present' THEN 1 ELSE 0 END) AS present,
+            SUM(CASE WHEN state = 'excused' THEN 1 ELSE 0 END) AS excused,
+            SUM(CASE WHEN source = 'self' THEN 1 ELSE 0 END) AS selfReported,
+            COUNT(DISTINCT user_id) AS learners
+       FROM session_attendance`).first();
+
+  const held = (sessions && sessions.held) || 0;
+  const n = (marks && marks.n) || 0;
+
+  const out = [];
+  out.push({
+    id: 'engagement.attendance', name: 'Live session attendance',
+    question: 'How many live sessions has the College held, and who was recorded present?',
+    requires: 'session_attendance',
+    ...(n === 0
+      ? {
+        state: 'insufficient_data', value: null,
+        closes: held === 0
+          ? 'The first live session. None has been held, because nothing has been taught.'
+          : `${held} session(s) have been held and none has a register. The live-session workflow must write attendance, or the sessions are unevidenced.`,
+      }
+      : (marks.learners < MIN_COHORT
+        ? {
+          state: 'suppressed', value: null, cohort: marks.learners,
+          closes: `Withheld: ${marks.learners} learner(s) are recorded, below the reporting threshold of ${MIN_COHORT}.`,
+        }
+        : {
+          state: 'measured', closes: null,
+          value: {
+            sessionsHeld: held,
+            sessionsRequiringAttendance: sessions.required,
+            marksRecorded: n,
+            present: marks.present,
+            excused: marks.excused,
+            // Surfaced, not buried. A register mostly built from
+            // learners' own say-so is a weaker instrument than its row
+            // count suggests, and the reader is entitled to know.
+            selfReported: marks.selfReported,
+            learners: marks.learners,
+          },
+        })),
+  });
+
   // The decision, declared as a metric so that it cannot be quietly
   // skipped. It reports not_instrumented not because the data is
   // missing but because the QUESTION is unsettled — and the register
   // says which of the two it is.
-  return [gap(
+  out.push(gap(
     'engagement.attendanceRate', 'Attendance rate',
     'What proportion of the cohort attends the teaching the College offers?',
     'Not data — a definition. The records exist; what a rate means does not.',
     'Governance A7\'s open decision: does attendance mean presence at a live session, or engagement with the module? The platform can measure both, and will publish neither as "the attendance rate" until the Board says which one that is. This is an unsettled question, not missing information.',
-  )];
+  ));
+
+  return out;
 }
 
 // ---------------------------------------------------------------------

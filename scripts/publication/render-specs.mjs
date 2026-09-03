@@ -26,7 +26,6 @@ import { COLOURS, TYPE, LEVEL_PALETTES, BRAND, C as PAL } from './design.mjs';
 import { stageIcon, ICON_KEYS } from './icons.mjs';
 import { legacyBlock, ecosystem } from './legacy.mjs';
 import { publicationIdentity, AUTHENTICITY_NOTICE } from './identity.mjs';
-import { editionMark, runningFoot, rightsPage } from './rights.mjs';
 import { TRIM, BLEED, CALIPER_MM, spineWidth, OMISSIONS } from './covers.mjs';
 import {
   guillocheRosette, guillocheBand, girihRosette, crest, frame, cornerFan, fleuron,
@@ -39,13 +38,6 @@ import { chromium } from 'playwright';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const C = buildCurriculum();
 const ID = publicationIdentity(C, { edition: 1, revision: 0, impression: 1 });
-
-// This volume's name and its edition mark, printed on every page it
-// prints. The mark is derived from the volume and from the curriculum
-// edition it was set from, so a page found somewhere else names the
-// edition it was taken from — see rights.mjs.
-const VOLUME = 'IEFC Production Specifications';
-const MARK = editionMark('specifications', ID.contentDigest);
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
 // The bound book's real page count, read from the rendered file. If the
@@ -686,16 +678,6 @@ ${legacyBlock({
   ink: PAL.royalBlue, rule: PAL.platinum, soft: PAL.slateGrey, accent: PAL.royalGold,
   panel: PAL.softCream,
 })}
-${rightsPage({
-  title: VOLUME,
-  mark: MARK,
-  edition: `${ID.editionName} edition`,
-  year: ID.year,
-  palette: {
-    ink: PAL.warmCharcoal, deep: PAL.royalBlue, grey: PAL.slateGrey, gold: PAL.bronze,
-    rule: PAL.platinum, wash: PAL.softCream, serif: TYPE.serif, sans: TYPE.sans,
-  },
-})}
 </body></html>`;
 
 mkdirSync(path.join(ROOT, 'publication'), { recursive: true });
@@ -712,7 +694,8 @@ await page.pdf({
   headerTemplate: '<div style="font:400 6pt Calibri,Arial,sans-serif;color:#9AA0AE;width:100%;'
     + 'padding:0 18mm;text-align:right;letter-spacing:.1em;text-transform:uppercase;">'
     + 'IEFC Complete Curriculum · Production Specification</div>',
-  footerTemplate: runningFoot(VOLUME, { gutter: 18, size: 6.6, mark: MARK }),
+  footerTemplate: '<div style="font:400 7.5pt Calibri,Arial,sans-serif;color:#6B7280;width:100%;'
+    + 'padding:0 18mm;text-align:center;"><span class="pageNumber"></span></div>',
   margin: { top: '15mm', bottom: '13mm', left: '18mm', right: '18mm' },
   tagged: true, outline: true,
 });

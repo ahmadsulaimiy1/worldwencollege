@@ -106,7 +106,7 @@ persona this project has targeted from its first brief. Scope: RTL
 CSS overrides for the dashboard layer's directional properties (~10-15
 rules, mechanical), plus real Arabic translation of all UI strings
 (both static markup and the JS-generated strings in
-`portal-auth.js`/`staff-finance.js` — the latter need
+`portal-auth.js`/`finance-dashboard.js` — the latter need
 externalizing from hardcoded English first).
 
 **Alternatives.** Ship English-only at first launch and localize in a

@@ -25,127 +25,82 @@
   'use strict';
   var $ = function (s) { return document.querySelector(s); };
 
-  /* ── THIS PAGE SPEAKS THE EDITION IT IS SERVED IN ───────────────────
-   *
-   * It did not. /ar/verify.html served an Arabic form and an Arabic card
-   * and then filled both with English: "Verified — award in good
-   * standing", "Level III — Intermediate Programme", seven paragraphs
-   * about hash chains, and "Enter the verification code printed on the
-   * certificate." This is the page an Arabic employer reaches from a QR
-   * code on a printed certificate, with about eight seconds to decide
-   * whether the College is real.
-   *
-   * The same two rules as everywhere else on this site:
-   *
-   *   1. What the PAGE says is here, in both languages.
-   *   2. What the REGISTER says arrives in both languages —
-   *      `honourLabelAr`, `level.nameAr`, `labelAr`, `statementAr` — and
-   *      pick() selects. The page never translates a published fact.
-   */
-  var AR = document.documentElement.lang === 'ar';
-  var LOCALE = AR ? 'ar' : 'en-GB';
-  var VERIFY_PATH = AR ? '/ar/verify.html?code=' : '/verify.html?code=';
-
-  function pick(en, ar) { return (AR && ar) ? ar : en; }
-
-  /* Isolate a value dropped into a sentence, in plain text: U+2068 FIRST
-     STRONG ISOLATE … U+2069 POP DIRECTIONAL ISOLATE, which is what <bdi>
-     compiles to. A withdrawal reason is written by a person and may be
-     in either language; unisolated, an English reason inside an Arabic
-     sentence puts its own full stop at the wrong end. The register
-     composes its sentences the same way — see
-     functions/_lib/registry/institutional-verification.js. */
-  function iso(v) { return '\u2068' + v + '\u2069'; }
-
-  var T = AR ? {
-    noDate: 'تاريخ غير مسجَّل',
-    hours: function (n) { return n + ' ساعة'; },
-    level: function (a) { return 'المستوى ' + a.ord + ' — ' + a.name; },
-    notVerified: 'تعذّر التحقّق من هذا الرمز. راجعه في الشهادة.',
-    enterCode: 'أدخل رمز التحقّق المطبوع على الشهادة.',
-    unreachable: 'تعذّر بلوغ السجل. هذا خلل عندنا — أعد المحاولة بعد قليل.',
-    states: {
-      verified: 'مُتحقَّق منه',
-      failed: 'غير متحقَّق منه',
-      not_applicable: 'لا ينطبق',
-      unavailable: 'تعذّر فحصه',
-      development: 'توقيع تطويري',
+  // ────────────────────────────────────────────────────────────────
+  // TWO EDITIONS, ONE SCRIPT
+  // ────────────────────────────────────────────────────────────────
+  // Every sentence this file writes lives here, so the Arabic edition
+  // is a string table rather than a second copy of the logic. A
+  // duplicated verification page is a verification page that disagrees
+  // with itself after the first change to either.
+  //
+  // A page supplies window.WEC_LC_VERIFY_I18N before loading this
+  // script; anything it omits falls back to the English below, so a
+  // missing translation shows English rather than nothing. On a page an
+  // employer is using to check a credential, a blank label is worse
+  // than one in the wrong language.
+  //
+  // What is NOT translated, deliberately: the record itself. The
+  // holder's name, the award title, the College's academic statements
+  // and the CEFR band are rendered as issued. An award title is the
+  // name of a qualification, and translating it would create a second
+  // name for the same award — which is the exact question Board Paper
+  // 03 puts to the Executive about level names. The Arabic page says so
+  // in words rather than leaving a reader to wonder.
+  var EN = {
+    standingValid: 'Verified — award in good standing',
+    standingRevoked: 'Withdrawn — this award is no longer held',
+    standingReplaced: 'Superseded — a corrected certificate has been issued',
+    revokedAlert: function (a, d) {
+      return 'This award was withdrawn by Worldwide English College on ' + d + '.'
+        + (a.revokedReason ? ' Reason recorded: ' + a.revokedReason : '')
+        + ' It should not be relied upon.';
     },
-    meaningTitle: function (d) {
-      return ' (' + iso(d.postNominal) + ' \u00B7 الإطار الأوروبي ' + d.cefr + ')';
+    replacedAlert: function (a, d) {
+      return 'This certificate has been replaced by a corrected one'
+        + (d ? ' on ' + d : '') + '.'
+        + (a.replacementCode
+          ? ' The current record is ' + a.replacementCode + '.'
+          : ' The College holds the current record.');
     },
-    // The College's own published ruling, on every Arabic level page:
-    // the award's official title is published in English and explained
-    // in Arabic beside it, because translating the title would create a
-    // second award nobody defined and nobody can confer. The same
-    // reasoning governs the definition below it, which is transcribed
-    // verbatim from the award architecture.
-    definitionNote: 'عنوان الشهادة الرسمي وتعريفها منشوران بالإنجليزية، لأنّ ترجمتهما '
-      + 'تُنشئ شهادةً ثانية لم يعرّفها أحد. وشرح الشهادة بالعربية منشور في صفحة مستواها.',
-    definitionLink: 'اقرأ شرح هذا المستوى بالعربية',
-  } : {
-    noDate: 'an unrecorded date',
-    hours: function (n) { return n + ' hours'; },
-    level: function (a) { return 'Level ' + a.ord + ' — ' + a.name; },
-    notVerified: 'That code could not be verified. Check it against the certificate.',
+    unrecordedDate: 'an unrecorded date',
+    dateLocale: 'en-GB',
+    levelPrefix: 'Level ',
+    hours: ' hours',
+    notFound: 'That code could not be verified. Check it against the certificate.',
     enterCode: 'Enter the verification code printed on the certificate.',
     unreachable: 'The Register could not be reached. This is a fault on our side — please try again shortly.',
-    states: {
-      verified: 'Verified',
-      failed: 'Not verified',
-      not_applicable: 'Not applicable',
-      unavailable: 'Could not be checked',
-      development: 'Development signature',
-    },
-    meaningTitle: function (d) {
-      return ' (' + iso(d.postNominal) + ' \u00B7 CEFR ' + d.cefr + ')';
-    },
-    definitionNote: null,
-    definitionLink: null,
+    stateVerified: 'Verified',
+    stateFailed: 'Not verified',
+    stateNotApplicable: 'Not applicable',
+    stateUnavailable: 'Could not be checked',
+    stateDevelopment: 'Development signature',
+    stageSuffix: ' Stage of the Worldwide English Qualifications framework',
+    verifyPath: '/verify.html',
   };
+  var T = (function () {
+    var supplied = window.WEC_LC_VERIFY_I18N || {};
+    var out = {};
+    Object.keys(EN).forEach(function (k) {
+      out[k] = Object.prototype.hasOwnProperty.call(supplied, k) ? supplied[k] : EN[k];
+    });
+    return out;
+  })();
 
   var STANDING = {
     valid: {
       cls: 'is-valid',
-      label: 'Verified — award in good standing',
-      labelAr: 'مُتحقَّق منها — شهادة قائمة',
+      label: T.standingValid,
       alert: null,
     },
     revoked: {
       cls: 'is-revoked',
-      label: 'Withdrawn — this award is no longer held',
-      labelAr: 'مسحوبة — لم تعد هذه الشهادة قائمة',
-      alert: function (a) {
-        if (AR) {
-          return 'سحبت الكلية العالمية للغة الإنجليزية هذه الشهادة في '
-            + iso(fmtDate(a.revokedAt)) + '.'
-            + (a.revokedReason ? ' والسبب المقيَّد: ' + iso(a.revokedReason) : '')
-            + ' فلا يُعتمد عليها.';
-        }
-        return 'This award was withdrawn by Worldwide English College on '
-          + iso(fmtDate(a.revokedAt)) + '.'
-          + (a.revokedReason ? ' Reason recorded: ' + iso(a.revokedReason) : '')
-          + ' It should not be relied upon.';
-      },
+      label: T.standingRevoked,
+      alert: function (a) { return T.revokedAlert(a, fmtDate(a.revokedAt)); },
     },
     replaced: {
       cls: 'is-replaced',
-      label: 'Superseded — a corrected certificate has been issued',
-      labelAr: 'مُستبدَلة — صدرت شهادة مصوَّبة',
-      alert: function (a) {
-        if (AR) {
-          return 'استُبدلت هذه الشهادة بأخرى مصوَّبة'
-            + (a.revokedAt ? ' في ' + iso(fmtDate(a.revokedAt)) : '') + '.'
-            + (a.replacementCode
-              ? ' والسجل القائم هو ' + iso(a.replacementCode) + '.'
-              : ' والسجل القائم عند الكلية.');
-        }
-        return 'This certificate has been replaced by a corrected one'
-          + (a.revokedAt ? ' on ' + iso(fmtDate(a.revokedAt)) : '') + '.'
-          + (a.replacementCode
-            ? ' The current record is ' + iso(a.replacementCode) + '.'
-            : ' The College holds the current record.');
-      },
+      label: T.standingReplaced,
+      alert: function (a) { return T.replacedAlert(a, a.revokedAt ? fmtDate(a.revokedAt) : ''); },
     },
   };
 
@@ -161,57 +116,11 @@
     return n;
   }
 
-  /* A run of Latin text that must not be reordered by the Arabic around
-     it — a register code, an award's official title, an address. */
-  function bdi(text) {
-    var n = document.createElement('bdi');
-    n.textContent = String(text);
-    return n;
-  }
-
-  /** Replace an element's text with one isolated run. */
-  function setIsolated(sel, text) {
-    var n = $(sel);
-    n.textContent = '';
-    if (text !== undefined && text !== null && text !== '') n.appendChild(bdi(text));
-  }
-
-  /* A block of the award's own English definition, on either edition.
-     On the Arabic one it is marked as English so a screen reader
-     announces it in the right voice and the bidirectional algorithm
-     lays it out as English rather than as a run inside Arabic. */
-  function englishBlock(sel, text) {
-    var n = $(sel);
-    n.textContent = text || '';
-    if (AR) { n.setAttribute('lang', 'en'); n.setAttribute('dir', 'ltr'); }
-  }
-
-  /* Said once, above the definition, and only on the Arabic edition:
-     why this part of the page is in English, and where the College's
-     Arabic account of the same award is published. */
-  function noteTheEnglish(levelId) {
-    var host = $('#meaningNote');
-    if (!host) return;
-    host.textContent = '';
-    if (!AR || !T.definitionNote) { host.hidden = true; return; }
-    host.appendChild(document.createTextNode(T.definitionNote));
-    if (levelId) {
-      host.appendChild(document.createTextNode(' '));
-      var a = document.createElement('a');
-      a.href = '/ar/study/level-' + levelId + '/';
-      a.textContent = T.definitionLink;
-      host.appendChild(a);
-    }
-    host.hidden = false;
-  }
-
   function fmtDate(iso) {
-    if (!iso) return T.noDate;
+    if (!iso) return T.unrecordedDate;
     var d = new Date(iso.length === 10 ? iso + 'T00:00:00Z' : iso);
     if (isNaN(d.getTime())) return iso;
-    try {
-      return d.toLocaleDateString(LOCALE, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
-    } catch (e) { return iso.slice(0, 10); }
+    return d.toLocaleDateString(T.dateLocale, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
   }
 
   function show(result) {
@@ -224,37 +133,29 @@
       // rather than as an empty card: there is no record to display, and
       // a blank card would imply there is one but that something failed.
       $('#result').hidden = true;
-      $('#codeError').textContent = result.message || T.notVerified;
+      $('#codeError').textContent = result.message
+        || T.notFound;
       return;
     }
 
     $('#codeError').textContent = '';
     card.className = 'vfy-card ' + standing.cls;
-    $('#status').textContent = pick(standing.label, standing.labelAr);
+    $('#status').textContent = standing.label;
 
-    // A graduate's name and the award's official title are not the
-    // page's language and may not be either edition's: isolated, and
-    // given their own direction, so an Arabic card cannot land an
-    // English full stop at the wrong end of a name.
     $('#holder').textContent = a.holderName;
-    $('#holder').setAttribute('dir', 'auto');
-    setIsolated('#awardTitle', a.awardTitle);
-    setIsolated('#postNominal', a.postNominal || '');
+    $('#awardTitle').textContent = a.awardTitle;
+    $('#postNominal').textContent = a.postNominal || '';
 
-    $('#fLevel').textContent = T.level({
-      ord: pick(a.level.roman, a.level.ordinalAr),
-      name: pick(a.level.name, a.level.nameAr),
-    });
+    $('#fLevel').textContent = T.levelPrefix + a.level.roman + ' — ' + a.level.name;
     $('#fCefr').textContent = a.cefr;
-    $('#fHonour').textContent = pick(a.honourLabel, a.honourLabelAr);
+    $('#fHonour').textContent = a.honourLabel;
     $('#fCredits').textContent = a.credits;
-    $('#fTqt').textContent = T.hours(a.tqtHours);
+    $('#fTqt').textContent = a.tqtHours + T.hours;
     $('#fDate').textContent = fmtDate(a.conferredOn);
 
     var cite = $('#citation');
     cite.hidden = !a.citation;
     cite.textContent = a.citation || '';
-    cite.setAttribute('dir', 'auto');
 
     var alert = $('#alert');
     if (standing.alert) {
@@ -265,21 +166,16 @@
       alert.hidden = true;
     }
 
-    setIsolated('#codeOut', a.verificationCode);
+    $('#codeOut').textContent = a.verificationCode;
     // The digest is shown truncated. In full it is unreadable noise on a
     // card; truncated it is enough for someone who has been given the
     // record to compare, and the full value is in the API for anyone
     // who actually needs it.
-    setIsolated('#digest', (a.digest || '').slice(0, 16) + '…');
+    $('#digest').textContent = (a.digest || '').slice(0, 16) + '…';
 
-    // The permalink is the edition the reader is in. The QR below it is
-    // NOT: a printed certificate carries one code for the life of the
-    // award, and a code that resolved differently depending on who drew
-    // the image would be two credentials wearing one number. Only the
-    // label a screen reader announces follows the reader.
-    var link = location.origin + VERIFY_PATH + encodeURIComponent(a.verificationCode);
+    var link = location.origin + T.verifyPath + '?code=' + encodeURIComponent(a.verificationCode);
     $('#permalink').href = link;
-    setIsolated('#permalink', link);
+    $('#permalink').textContent = link;
     drawQr($('#qr'), a.verificationCode);
 
     $('#result').hidden = false;
@@ -307,7 +203,7 @@
      the state this page shipped in for months and is still correct. */
   function drawQr(host, code) {
     if (!code) { host.hidden = true; return; }
-    fetch('/api/credentials/qr?code=' + encodeURIComponent(code) + (AR ? '&lang=ar' : ''))
+    fetch('/api/credentials/qr?code=' + encodeURIComponent(code))
       .then(function (r) { return r.ok ? r.text() : Promise.reject(new Error(String(r.status))); })
       .then(function (svg) {
         // Parsed as a document, not assigned as markup: a future change
@@ -364,7 +260,13 @@
   // against each other. A verifier reading "6 of 7 passed" learns
   // nothing; a verifier reading "identity verified, integrity verified,
   // standing WITHDRAWN" knows exactly what they are holding.
-  var STATE_LABEL = T.states;
+  var STATE_LABEL = {
+    verified: T.stateVerified,
+    failed: T.stateFailed,
+    not_applicable: T.stateNotApplicable,
+    unavailable: T.stateUnavailable,
+    development: T.stateDevelopment,
+  };
 
   function renderChecks(hostId, checks) {
     var host = $(hostId);
@@ -372,19 +274,13 @@
     checks.forEach(function (c) {
       var li = el('li', 'vfy-check vfy-check--' + c.state);
       var head = el('div', 'vfy-check__head');
-      head.appendChild(el('span', 'vfy-check__label', pick(c.label, c.labelAr)));
+      head.appendChild(el('span', 'vfy-check__label', c.label));
       head.appendChild(el('span', 'vfy-check__state', STATE_LABEL[c.state] || c.state));
       li.appendChild(head);
       // Every status carries its explanation with it, so a verifier
       // never has to guess what was and was not checked.
-      li.appendChild(el('p', 'vfy-check__what', pick(c.statement, c.statementAr)));
-      // The detail is usually a code, a count or a key id — isolated,
-      // because a hyphenated Latin token in an Arabic line reorders.
-      if (c.detail) {
-        var d = el('p', 'vfy-check__detail');
-        d.appendChild(bdi(pick(c.detail, c.detailAr)));
-        li.appendChild(d);
-      }
+      li.appendChild(el('p', 'vfy-check__what', c.statement));
+      if (c.detail) li.appendChild(el('p', 'vfy-check__detail', c.detail));
       host.appendChild(li);
     });
   }
@@ -392,39 +288,28 @@
   function renderLayers(d) {
     if (!d || !d.layers) { $('#layers').hidden = true; $('#meaning').hidden = true; return; }
 
-    $('#summaryHeadline').textContent = pick(d.summary.headline, d.summary.headlineAr);
-    // Coloured from the machine answer, never from the sentence. This
-    // used to compare the headline against the literal string
-    // "Verified", which silently painted every Arabic verification as a
-    // warning the moment the headline was translated.
-    $('#summaryHeadline').className = 'is-' + (d.summary.verdict === 'verified' ? 'ok' : 'warn');
-    $('#summaryStatement').textContent = pick(d.summary.statement, d.summary.statementAr);
+    $('#summaryHeadline').textContent = d.summary.headline;
+    // Compared against the ENGLISH literal on purpose: this headline is
+    // issued by the API in English, so translating the comparison would
+    // make every Arabic verification render as a warning.
+    $('#summaryHeadline').className = 'is-' + (d.summary.headline === 'Verified' ? 'ok' : 'warn');
+    $('#summaryStatement').textContent = d.summary.statement;
     renderChecks('#checksIdentity', d.layers.identity);
     renderChecks('#checksIntegrity', d.layers.integrity);
     renderChecks('#checksStanding', d.layers.standing);
     $('#layers').hidden = false;
 
     if (d.definition) {
-      var mt = $('#mTitle');
-      mt.textContent = '';
-      mt.appendChild(bdi(d.definition.officialTitle));
-      mt.appendChild(document.createTextNode(T.meaningTitle(d.definition)));
-      // THE DEFINITION IS ENGLISH ON BOTH EDITIONS, AND SAYS SO.
-      //
-      // It is transcribed verbatim from docs/iefc-award-architecture.md
-      // and docs/curriculum-framework.md, and tests/award-definitions
-      // fails the build if a word of it drifts. Translating it here
-      // would create a second authoritative text that no document
-      // governs — the same reason /ar/study/level-3/ publishes the
-      // award's title in English and explains it in Arabic beside it,
-      // rather than translating it. So on the Arabic edition it is
-      // marked as English, and the reader is sent to the Arabic account
-      // of the level, which the College does publish.
-      englishBlock('#mStanding', d.definition.standing);
-      englishBlock('#mPurpose', d.definition.academicPurpose);
-      englishBlock('#mProfile', d.definition.graduateProfile);
-      englishBlock('#mOutcomes', d.definition.learningOutcomes);
-      noteTheEnglish(d.award && d.award.level ? d.award.level.id : null);
+      $('#mTitle').textContent = d.definition.officialTitle
+        + ' (' + d.definition.postNominal + ' \u00B7 CEFR ' + d.definition.cefr + ')';
+      $('#mStage').textContent = d.definition.stage
+        ? d.definition.stage + T.stageSuffix
+        : '\u2014';
+      $('#mStanding').textContent = d.definition.standing;
+      $('#mExit').textContent = d.definition.exitStatement || '\u2014';
+      $('#mPurpose').textContent = d.definition.academicPurpose;
+      $('#mProfile').textContent = d.definition.graduateProfile;
+      $('#mOutcomes').textContent = d.definition.learningOutcomes;
       $('#meaning').hidden = false;
     } else {
       $('#meaning').hidden = true;

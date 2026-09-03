@@ -28,15 +28,3 @@ publication/IEFC Complete Curriculum (Student Edition) — Cover Artwork.pdf
 publication/.student.html
 publication/.cover-student.html
 publication/.institutional.html
-
-# Render-audit screenshots — an instrument's output, not source.
-.render-audit/
-
-# Render harnesses. .look.mjs photographs routes at many widths and
-# .probe.mjs photographs one element; both exist because CLAUDE.md §6
-# says reasoning about CSS is not verification. They are working tools,
-# not part of the site, and Cloudflare Pages should never deploy them.
-.look.mjs
-.probe.mjs
-.pdf-harness.html
-.probe2.mjs

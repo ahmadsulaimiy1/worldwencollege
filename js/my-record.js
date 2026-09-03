@@ -33,131 +33,6 @@
   'use strict';
   var $ = function (s) { return document.querySelector(s); };
 
-  /* ── THE LEARNER'S OWN RECORD, IN THE LEARNER'S OWN EDITION ─────────
-   *
-   * /ar/my-record.html served an Arabic page and filled it in English:
-   * "Level III", "Awarded with Distinction", "Live", "Withdraw",
-   * "Copy this link now." A page where a person decides what to publish
-   * about themselves is the last page on the site that may ask them to
-   * read a second language to understand the consequence.
-   *
-   * Same two rules as the credential pages: what the PAGE says is here
-   * in both languages; what the RECORD says arrives in both and pick()
-   * selects. */
-  var AR = document.documentElement.lang === 'ar';
-  var LOCALE = AR ? 'ar' : 'en-GB';
-  var VERIFY_PATH = AR ? '/ar/verify.html?code=' : '/verify.html?code=';
-  var SHARE_PATH = AR ? '/ar/graduate.html?share=' : '/graduate.html?share=';
-
-  function pick(en, ar) { return (AR && ar) ? ar : en; }
-
-  var SECTION_NAMES = AR ? {
-    awards: 'الشهادات', transcript: 'السجل الأكاديمي',
-    skills: 'ملفّ المهارات اللغوية', competencies: 'إطار الكفايات',
-    distinctions: 'التمايز والإسهام', cpd: 'التطوير المهني',
-    studyTime: 'زمن الدراسة المقيس',
-  } : {
-    awards: 'awards', transcript: 'academic transcript',
-    skills: 'language skill profile', competencies: 'competency framework',
-    distinctions: 'distinctions and contribution', cpd: 'professional development',
-    studyTime: 'measured study time',
-  };
-
-  var T = AR ? {
-    totals: ['أرصدة الكلية', 'الزمن الكلي للمؤهل', 'مستويات دخلها', 'مستويات مُنحت'],
-    hoursShort: ' ساعة',
-    level: function (a) { return 'المستوى ' + a; },
-    modulesOf: function (a, b) { return a + ' من ' + b; },
-    awarded: 'مُنحت',
-    awardedWith: function (h) { return 'مُنحت بمرتبة ' + h; },
-    awardWithdrawn: 'شهادة مسحوبة',
-    awardSuperseded: 'شهادة مُستبدَلة',
-    inProgress: 'قيد الدراسة',
-    entered: 'دخلها',
-    noShares: 'لم تشارك سجلّك مع أحد.',
-    untitledLink: 'رابط بلا تسمية',
-    live: 'قائم', withdrawnBadge: 'مسحوب', expired: 'منتهٍ',
-    shows: function (list) { return 'يعرض ' + list; },
-    expiresOn: function (d) { return 'ينتهي في ' + d; },
-    endedOn: function (d) { return 'انتهى في ' + d; },
-    opened: function (n) {
-      return n === 0 ? 'لم يُفتح بعد' : (n === 1 ? 'فُتح مرّة' : 'فُتح ' + n + ' مرّة');
-    },
-    withdraw: 'اسحب',
-    withdrawAria: function (label) { return 'اسحب الرابط «' + label + '»'; },
-    docNames: {
-      transcript: 'كشف الدرجات',
-      diploma_supplement: 'ملحق الشهادة',
-      verification_statement: 'إفادة تحقّق',
-    },
-    noDocs: 'لم تُصدر أي وثيقة بعد.',
-    docWithdrawn: 'مسحوبة', docSuperseded: 'مُستبدَلة',
-    issuedOn: function (d) { return 'صدرت في ' + d; },
-    validUntil: function (d) { return 'سارية حتى ' + d; },
-    codeIs: function (c) { return 'الرمز ' + c; },
-    checkDoc: 'تحقّق من هذه الوثيقة',
-    notSaved: 'تعذّر حفظ هذه الإعدادات.',
-    savedPublic: 'حُفظ. ملفّك منشور.',
-    savedPrivate: 'حُفظ. ملفّك خاصّ.',
-    linkFailed: 'تعذّر إنشاء هذا الرابط.',
-    copyNow: 'انسخ هذا الرابط الآن.',
-    copyNowRest: 'لا تحفظ الكلية منه إلا بصمة، ولا تستطيع عرضه عليك مرّة أخرى. فإن ضاع منك فاسحب الرابط وأنشئ غيره.',
-    docFailed: 'تعذّر إصدار هذه الوثيقة.',
-    signedOut: 'لست مسجَّل الدخول.',
-    signedOutRest: 'سجلّك الأكاديمي خاصٌّ بك. سجّل الدخول لتراه، أو تحقّق من شهادة برمزها إن كنت تتحقّق من سجلّ غيرك.',
-    failed: 'تعذّر تحميل سجلّك.',
-    failedRest: 'هذا خلل عندنا. أعد المحاولة بعد قليل.',
-    failedShort: 'أعد المحاولة بعد قليل.',
-  } : {
-    totals: ['WEC Credits', 'Qualification time', 'Levels entered', 'Levels awarded'],
-    hoursShort: ' h',
-    level: function (a) { return 'Level ' + a; },
-    modulesOf: function (a, b) { return a + ' of ' + b; },
-    awarded: 'Awarded',
-    awardedWith: function (h) { return 'Awarded with ' + h; },
-    awardWithdrawn: 'Award withdrawn',
-    awardSuperseded: 'Award superseded',
-    inProgress: 'In progress',
-    entered: 'Entered',
-    noShares: 'You have not shared your record with anyone.',
-    untitledLink: 'Untitled link',
-    live: 'Live', withdrawnBadge: 'Withdrawn', expired: 'Expired',
-    shows: function (list) { return 'Shows ' + list; },
-    expiresOn: function (d) { return 'expires ' + d; },
-    endedOn: function (d) { return 'ended ' + d; },
-    opened: function (n) { return 'opened ' + n + (n === 1 ? ' time' : ' times'); },
-    withdraw: 'Withdraw',
-    withdrawAria: function (label) { return 'Withdraw the link "' + label + '"'; },
-    docNames: {
-      transcript: 'Academic transcript',
-      diploma_supplement: 'Diploma supplement',
-      verification_statement: 'Verification statement',
-    },
-    noDocs: 'You have not issued any documents yet.',
-    docWithdrawn: 'Withdrawn', docSuperseded: 'Superseded',
-    issuedOn: function (d) { return 'Issued ' + d; },
-    validUntil: function (d) { return 'valid until ' + d; },
-    codeIs: function (c) { return 'code ' + c; },
-    checkDoc: 'Check this document',
-    notSaved: 'Those settings could not be saved.',
-    savedPublic: 'Saved. Your profile is published.',
-    savedPrivate: 'Saved. Your profile is private.',
-    linkFailed: 'That link could not be created.',
-    copyNow: 'Copy this link now.',
-    copyNowRest: 'The College stores only a fingerprint of it and cannot show it to you again. If you lose it, withdraw the link and make another.',
-    docFailed: 'That document could not be issued.',
-    signedOut: 'You are not signed in.',
-    signedOutRest: 'Your academic record is private to you. Sign in to see it, or verify an award by its code if you are checking someone else\u2019s.',
-    failed: 'Your record could not be loaded.',
-    failedRest: 'This is a fault on our side. Please try again shortly.',
-    failedShort: 'Please try again shortly.',
-  };
-
-  /** The list separator each language expects. */
-  function joinNames(list) {
-    return AR ? list.join('، ') : list.join(', ');
-  }
-
   function el(tag, cls, text) {
     var n = document.createElement(tag);
     if (cls) n.className = cls;
@@ -165,35 +40,11 @@
     return n;
   }
 
-  /* A run that must not be reordered by the language around it — a
-     share label a learner typed, a register code, an address. */
-  function bdi(text) {
-    var n = document.createElement('bdi');
-    n.textContent = String(text);
-    return n;
-  }
-
-  function named(tag, cls, text) {
-    var n = el(tag, cls);
-    if (text !== undefined && text !== null && text !== '') n.appendChild(bdi(text));
-    return n;
-  }
-
-  /** A row of isolated facts, separated the way the site separates. */
-  function facts(host, list) {
-    list.filter(Boolean).forEach(function (f, i) {
-      if (i) host.appendChild(document.createTextNode(' \u00B7 '));
-      host.appendChild(bdi(f));
-    });
-  }
-
   function fmtDate(iso) {
     if (!iso) return '';
     var d = new Date(iso.length === 10 ? iso + 'T00:00:00Z' : iso);
     if (isNaN(d.getTime())) return iso;
-    try {
-      return d.toLocaleDateString(LOCALE, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
-    } catch (e) { return iso.slice(0, 10); }
+    return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
   }
 
   // ---- authenticated fetch ------------------------------------------
@@ -223,8 +74,8 @@
     var t = p.transcript;
     var totals = $('#totals');
     totals.textContent = '';
-    [[T.totals[0], t.creditsAwarded], [T.totals[1], t.tqtHoursAwarded + T.hoursShort],
-      [T.totals[2], t.levelsEntered], [T.totals[3], t.levelsAwarded]].forEach(function (pair) {
+    [['WEC Credits', t.creditsAwarded], ['Qualification time', t.tqtHoursAwarded + ' h'],
+      ['Levels entered', t.levelsEntered], ['Levels awarded', t.levelsAwarded]].forEach(function (pair) {
       var dl = el('dl', 'grad-total');
       dl.appendChild(el('dt', null, pair[0]));
       dl.appendChild(el('dd', null, String(pair[1])));
@@ -235,23 +86,21 @@
     body.textContent = '';
     t.entries.forEach(function (e) {
       var tr = document.createElement('tr');
-      var lvl = el('td', 'grad-table__level', T.level(pick(e.roman, e.ordinalAr)));
-      lvl.appendChild(el('span', 'grad-table__sub', pick(e.levelName, e.levelNameAr)));
+      var lvl = el('td', 'grad-table__level', 'Level ' + e.roman);
+      lvl.appendChild(el('span', 'grad-table__sub', e.levelName));
       tr.appendChild(lvl);
       tr.appendChild(el('td', null, e.cefr));
       tr.appendChild(el('td', null, fmtDate(e.startedAt)));
-      tr.appendChild(el('td', null, e.modulesTotal ? T.modulesOf(e.modulesCompleted, e.modulesTotal) : '—'));
+      tr.appendChild(el('td', null, e.modulesTotal ? e.modulesCompleted + ' of ' + e.modulesTotal : '—'));
       var out = el('td');
       if (e.award && e.award.standing === 'conferred') {
-        out.appendChild(document.createTextNode(
-          e.award.honourLabel && e.award.honour !== 'pass'
-            ? T.awardedWith(pick(e.award.honourLabel, e.award.honourLabelAr))
-            : T.awarded));
+        out.appendChild(document.createTextNode('Awarded'
+          + (e.award.honourLabel && e.award.honour !== 'pass' ? ' with ' + e.award.honourLabel : '')));
       } else if (e.award) {
         out.appendChild(document.createTextNode(
-          e.award.standing === 'revoked' ? T.awardWithdrawn : T.awardSuperseded));
+          e.award.standing === 'revoked' ? 'Award withdrawn' : 'Award superseded'));
       } else {
-        out.appendChild(document.createTextNode(e.status === 'active' ? T.inProgress : T.entered));
+        out.appendChild(document.createTextNode(e.status === 'active' ? 'In progress' : 'Entered'));
       }
       tr.appendChild(out);
       body.appendChild(tr);
@@ -275,31 +124,28 @@
     var list = $('#shares');
     list.textContent = '';
     if (!shares.length) {
-      list.appendChild(el('li', 'rec-empty', T.noShares));
+      list.appendChild(el('li', 'rec-empty', 'You have not shared your record with anyone.'));
     }
     shares.forEach(function (s) {
       var li = el('li', 'rec-share' + (s.active ? '' : ' is-inactive'));
       var main = el('div');
-      // The label is whatever the learner typed, in whatever script.
-      main.appendChild(named('p', 'rec-share__label', s.label || T.untitledLink));
+      main.appendChild(el('p', 'rec-share__label', s.label || 'Untitled link'));
       var meta = el('p', 'rec-share__meta');
       meta.appendChild(el('span', 'rec-badge ' + (s.active ? 'rec-badge--live' : 'rec-badge--ended'),
-        s.active ? T.live : (s.revokedAt ? T.withdrawnBadge : T.expired)));
-      // Seeing that a link was opened is the reassurance a graduate
-      // actually wants: it tells them the employer looked.
-      facts(meta, [
-        T.shows(joinNames(s.scope.map(function (k) { return SECTION_NAMES[k] || k; }))),
-        s.active ? T.expiresOn(fmtDate(s.expiresAt))
-          : T.endedOn(fmtDate(s.revokedAt || s.expiresAt)),
-        T.opened(s.viewCount),
-      ]);
+        s.active ? 'Live' : (s.revokedAt ? 'Withdrawn' : 'Expired')));
+      meta.appendChild(document.createTextNode(
+        'Shows ' + s.scope.join(', ')
+        + ' · ' + (s.active ? 'expires ' + fmtDate(s.expiresAt) : 'ended ' + fmtDate(s.revokedAt || s.expiresAt))
+        // Seeing that a link was opened is the reassurance a graduate
+        // actually wants: it tells them the employer looked.
+        + ' · opened ' + s.viewCount + (s.viewCount === 1 ? ' time' : ' times')));
       main.appendChild(meta);
       li.appendChild(main);
 
       if (s.active) {
-        var btn = el('button', 'rec-revoke', T.withdraw);
+        var btn = el('button', 'rec-revoke', 'Withdraw');
         btn.type = 'button';
-        btn.setAttribute('aria-label', T.withdrawAria(s.label || T.untitledLink));
+        btn.setAttribute('aria-label', 'Withdraw the link "' + (s.label || 'Untitled link') + '"');
         btn.addEventListener('click', function () {
           btn.disabled = true;
           api('/api/student/profile-shares?id=' + encodeURIComponent(s.id), { method: 'DELETE' })
@@ -319,13 +165,14 @@
   }
 
   // ---- documents ------------------------------------------------------
-  var DOC_NAME = T.docNames;
+  var DOC_NAME = { transcript: 'Academic transcript', diploma_supplement: 'Diploma supplement',
+    verification_statement: 'Verification statement' };
 
   function renderDocuments(docs) {
     var list = $('#documents');
     list.textContent = '';
     if (!docs.length) {
-      list.appendChild(el('li', 'rec-empty', T.noDocs));
+      list.appendChild(el('li', 'rec-empty', 'You have not issued any documents yet.'));
     }
     docs.forEach(function (d) {
       var li = el('li', 'rec-doc' + (d.status === 'issued' ? '' : ' is-inactive'));
@@ -334,18 +181,17 @@
       var meta = el('p', 'rec-doc__meta');
       if (d.status !== 'issued') {
         meta.appendChild(el('span', 'rec-badge rec-badge--' + (d.status === 'withdrawn' ? 'withdrawn' : 'superseded'),
-          d.status === 'withdrawn' ? T.docWithdrawn : T.docSuperseded));
+          d.status === 'withdrawn' ? 'Withdrawn' : 'Superseded'));
       }
-      facts(meta, [
-        T.issuedOn(fmtDate(d.issuedAt)),
-        d.expiresAt ? T.validUntil(fmtDate(d.expiresAt)) : null,
-        T.codeIs(d.verificationCode),
-      ]);
+      meta.appendChild(document.createTextNode(
+        'Issued ' + fmtDate(d.issuedAt)
+        + (d.expiresAt ? ' · valid until ' + fmtDate(d.expiresAt) : '')
+        + ' · code ' + d.verificationCode));
       main.appendChild(meta);
       li.appendChild(main);
 
-      var link = el('a', 'rec-doclink', T.checkDoc);
-      link.href = VERIFY_PATH + encodeURIComponent(d.verificationCode);
+      var link = el('a', 'rec-doclink', 'Check this document');
+      link.href = '/verify.html?code=' + encodeURIComponent(d.verificationCode);
       li.appendChild(link);
       list.appendChild(li);
     });
@@ -377,11 +223,14 @@
         }),
       }).then(function (r) {
         if (!r.ok) {
-          $('#handleError').textContent = (r.data && r.data.message) || T.notSaved;
+          $('#handleError').textContent = (r.data && r.data.message)
+            || 'Those settings could not be saved.';
           return;
         }
         renderPrivacy(r.data);
-        $('#saved').textContent = $('#isPublic').checked ? T.savedPublic : T.savedPrivate;
+        $('#saved').textContent = 'Saved. ' + ($('#isPublic').checked
+          ? 'Your profile is published.'
+          : 'Your profile is private.');
       });
     });
 
@@ -401,16 +250,15 @@
         box.textContent = '';
         box.hidden = false;
         if (!r.ok) {
-          box.appendChild(el('strong', null, T.linkFailed));
+          box.appendChild(el('strong', null, 'That link could not be created.'));
           box.appendChild(document.createTextNode((r.data && r.data.message) || ''));
           return;
         }
-        // The link a learner hands to an employer opens in the edition
-        // the learner is working in.
-        var url = location.origin + SHARE_PATH + encodeURIComponent(r.data.token);
-        box.appendChild(el('strong', null, T.copyNow));
-        box.appendChild(document.createTextNode(T.copyNowRest));
-        box.appendChild(named('code', null, url));
+        var url = location.origin + '/graduate.html?share=' + encodeURIComponent(r.data.token);
+        box.appendChild(el('strong', null, 'Copy this link now.'));
+        box.appendChild(document.createTextNode(
+          'The College stores only a fingerprint of it and cannot show it to you again. If you lose it, withdraw the link and make another.'));
+        box.appendChild(el('code', null, url));
         loadShares();
       });
     });
@@ -425,7 +273,8 @@
         }).then(function (r) {
           btn.disabled = false;
           if (!r.ok) {
-            $('#docError').textContent = (r.data && r.data.message) || T.docFailed;
+            $('#docError').textContent = (r.data && r.data.message)
+              || 'That document could not be issued.';
             return;
           }
           loadDocuments();
@@ -437,11 +286,13 @@
   function load() {
     api('/api/student/profile').then(function (r) {
       if (r.status === 401) {
-        state(T.signedOut, T.signedOutRest);
+        state('You are not signed in.',
+          'Your academic record is private to you. Sign in to see it, or verify an award by its code if you are checking someone else’s.');
         return;
       }
       if (!r.ok) {
-        state(T.failed, T.failedRest);
+        state('Your record could not be loaded.',
+          'This is a fault on our side. Please try again shortly.');
         return;
       }
       $('#state').textContent = '';
@@ -451,7 +302,7 @@
       loadShares();
       loadDocuments();
     }).catch(function () {
-      state(T.failed, T.failedShort);
+      state('Your record could not be loaded.', 'Please try again shortly.');
     });
   }
 

@@ -18,8 +18,6 @@
  * and only a person can approve it.
  */
 
-import { LEVEL_NAMES_AR, LEVEL_ORDINALS_AR } from '../academic/level-names.js';
-
 const KINDS = ['leadership', 'presentation', 'research', 'service', 'prize'];
 
 // What each kind means, in the words the profile shows a reader. Held
@@ -33,21 +31,10 @@ const KIND_LABEL = {
   prize: 'Prize',
 };
 
-// The same five, for an Arabic reader. Handed back beside the English
-// rather than instead of it, so one payload serves both editions and
-// the page chooses — the rule the level names and the honours follow.
-const KIND_LABEL_AR = {
-  leadership: 'قيادة',
-  presentation: 'إلقاء وعرض',
-  research: 'بحث ومشاريع',
-  service: 'خدمة الكلية',
-  prize: 'جائزة',
-};
-
 const db = (env) => env.DB;
 
 export function kinds() {
-  return KINDS.map((k) => ({ kind: k, label: KIND_LABEL[k], labelAr: KIND_LABEL_AR[k] }));
+  return KINDS.map((k) => ({ kind: k, label: KIND_LABEL[k] }));
 }
 
 /**
@@ -127,13 +114,9 @@ export async function forUser(env, { userId, audience = 'public' }) {
     id: r.id,
     kind: r.kind,
     kindLabel: KIND_LABEL[r.kind],
-    kindLabelAr: KIND_LABEL_AR[r.kind] || null,
     title: r.title,
     summary: r.summary,
-    level: r.level_id ? {
-      id: r.level_id, roman: r.roman, ordinalAr: LEVEL_ORDINALS_AR[r.level_id] || null,
-      name: r.levelName, nameAr: LEVEL_NAMES_AR[r.level_id] || null,
-    } : null,
+    level: r.level_id ? { id: r.level_id, roman: r.roman, name: r.levelName } : null,
     awardedOn: r.awarded_on,
     awardedBy: r.awarded_by,
     evidenceUrl: r.evidence_url,
@@ -152,7 +135,6 @@ export async function forUser(env, { userId, audience = 'public' }) {
     byKind: KINDS.map((k) => ({
       kind: k,
       label: KIND_LABEL[k],
-      labelAr: KIND_LABEL_AR[k] || null,
       items: items.filter((i) => i.kind === k),
     })).filter((g) => g.items.length > 0),
   };

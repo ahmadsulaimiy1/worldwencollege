@@ -171,70 +171,6 @@
   // them straight back here with the same expired token.
   var clerkInstance = null;
 
-  /* ── THE ENGINE WRITES NO PROSE, EXCEPT WHERE IT DOES ───────────────
-   *
-   * This file's own header says it "reads structure and never writes a
-   * sentence", and that was nearly true: every label and every step's
-   * copy lives in the page's HTML, in the page's own language. Eleven
-   * sentences did not. They were the ones a person sees when something
-   * goes wrong — "Please check the highlighted fields.", "Choose a file
-   * first.", "Submission did not go through." — and an Arabic applicant
-   * met all eleven in English, on the one page the whole site's Apply
-   * Now button points at.
-   *
-   * The status pill was worse than untranslated: it printed the raw
-   * machine value, so BOTH editions showed an applicant the word
-   * "placement_pending".
-   */
-  var AR = document.documentElement.lang === 'ar';
-  var HOME = AR ? '/ar' : '';
-
-  var T = AR ? {
-    checkFields: 'راجع الحقول المعلَّمة.',
-    stepOf: function (n, of) { return 'الخطوة ' + n + ' من ' + of; },
-    checkingUpload: 'جارٍ التحقّق من رفعٍ سابق…',
-    nothingUploaded: 'لم تُرفع أي وثيقة بعد — ولك أن تترك هذه الخطوة فارغة.',
-    uploadedNotVerified: 'مرفوعة، لم تُوثَّق بعد',
-    remove: 'احذف',
-    couldNotCheck: 'تعذّر التحقّق من رفعٍ سابق.',
-    chooseFile: 'اختر ملفًا أولًا.',
-    uploadFailed: 'لم يتمّ الرفع — أعد المحاولة.',
-    stepNotSaved: 'تعذّر حفظ هذه الخطوة الآن. إجاباتك ما زالت في النموذج — اضغط «متابعة» مرّة أخرى.',
-    submitFailed: 'لم يصل الطلب. ولم يضع شيء — إجاباتك محفوظة؛ اضغط «إرسال» مرّة أخرى، أو اكتب إلى إدارة القبول مباشرة.',
-    reviewYes: 'نعم', reviewNo: 'لا', reviewEmpty: '—',
-    statuses: {
-      submitted: 'أُرسل',
-      placement_pending: 'بانتظار تحديد المستوى',
-      offer_sent: 'صدر عرض',
-      accepted: 'قُبل العرض',
-      enrolled: 'مسجَّل',
-      withdrawn: 'مسحوب',
-      rejected: 'مرفوض',
-    },
-  } : {
-    checkFields: 'Please check the highlighted fields.',
-    stepOf: function (n, of) { return 'Step ' + n + ' of ' + of; },
-    checkingUpload: 'Checking for an existing upload…',
-    nothingUploaded: 'Nothing uploaded yet — this step can stay empty.',
-    uploadedNotVerified: 'uploaded, not verified',
-    remove: 'Remove',
-    couldNotCheck: 'Could not check for an existing upload.',
-    chooseFile: 'Choose a file first.',
-    uploadFailed: 'Upload did not go through — try again.',
-    stepNotSaved: 'That step could not be saved just now. Your answers are still in the form — try Continue again.',
-    submitFailed: 'Submission did not go through. Nothing has been lost — your answers are saved; try Submit again, or write to Admissions directly.',
-    reviewYes: 'Yes', reviewNo: 'No', reviewEmpty: '—',
-    statuses: {
-      submitted: 'Submitted',
-      placement_pending: 'Placement pending',
-      offer_sent: 'Offer sent',
-      accepted: 'Offer accepted',
-      enrolled: 'Enrolled',
-      withdrawn: 'Withdrawn',
-      rejected: 'Not offered a place',
-    },
-  };
-
   // One request, with the auth header attached.
   //
   // `retryOn401` exists because Clerk session tokens are short-lived —
@@ -314,7 +250,7 @@
       var input = $('[name="' + firstBad + '"]', el);
       if (input) input.focus();
     } else if (stepError) {
-      stepError.textContent = T.checkFields;
+      stepError.textContent = 'Please check the highlighted fields.';
     }
   }
 
@@ -324,7 +260,7 @@
       node.classList.toggle('is-current', i === current);
     });
     if (progressLabel) {
-      progressLabel.textContent = T.stepOf(current + 1, steps.length);
+      progressLabel.textContent = 'Step ' + (current + 1) + ' of ' + steps.length;
     }
   }
 
@@ -350,35 +286,22 @@
   function renderKycDocs() {
     var list = $('[data-kyc-doc-list]');
     if (!list) return;
-    list.textContent = '';
-    var loading = document.createElement('li');
-    loading.className = 'kyc-doc-list__loading';
-    loading.textContent = T.checkingUpload;
-    list.appendChild(loading);
+    list.innerHTML = '<li class="kyc-doc-list__loading">Checking for an existing upload…</li>';
     api('/api/admissions/document').then(function (result) {
-      list.textContent = '';
+      list.innerHTML = '';
       if (!result.documents.length) {
-        var none = document.createElement('li');
-        none.className = 'kyc-doc-list__empty';
-        none.textContent = T.nothingUploaded;
-        list.appendChild(none);
+        list.innerHTML = '<li class="kyc-doc-list__empty">Nothing uploaded yet — this step can stay empty.</li>';
         return;
       }
       result.documents.forEach(function (doc) {
         var li = document.createElement('li');
         li.className = 'kyc-doc-list__item';
-        // The filename is whatever the applicant's own device called
-        // it, in whatever script: isolated so it cannot reorder the
-        // sentence around it.
         var name = document.createElement('span');
-        var fn = document.createElement('bdi');
-        fn.textContent = doc.filename || doc.documentType;
-        name.appendChild(fn);
-        name.appendChild(document.createTextNode(' — ' + T.uploadedNotVerified));
+        name.textContent = (doc.filename || doc.documentType) + ' — uploaded, not verified';
         var del = document.createElement('button');
         del.type = 'button';
         del.className = 'kyc-doc-list__remove';
-        del.textContent = T.remove;
+        del.textContent = 'Remove';
         del.addEventListener('click', function () {
           del.disabled = true;
           api('/api/admissions/document?id=' + encodeURIComponent(doc.id), { method: 'DELETE' })
@@ -390,11 +313,7 @@
         list.appendChild(li);
       });
     }).catch(function () {
-      list.textContent = '';
-      var oops = document.createElement('li');
-      oops.className = 'kyc-doc-list__empty';
-      oops.textContent = T.couldNotCheck;
-      list.appendChild(oops);
+      list.innerHTML = '<li class="kyc-doc-list__empty">Could not check for an existing upload.</li>';
     });
   }
 
@@ -407,7 +326,7 @@
     btn.addEventListener('click', function () {
       var file = fileInput.files && fileInput.files[0];
       if (errorEl) errorEl.textContent = '';
-      if (!file) { if (errorEl) errorEl.textContent = T.chooseFile; return; }
+      if (!file) { if (errorEl) errorEl.textContent = 'Choose a file first.'; return; }
       btn.disabled = true;
       window.WEC_LC_apiAuth.headers().then(function (headers) {
         return file.arrayBuffer().then(function (bytes) {
@@ -430,7 +349,7 @@
         fileInput.value = '';
         renderKycDocs();
       }).catch(function (err) {
-        if (errorEl) errorEl.textContent = (err.body && err.body.message) || T.uploadFailed;
+        if (errorEl) errorEl.textContent = (err.body && err.body.message) || 'Upload did not go through — try again.';
       }).then(function () { btn.disabled = false; });
     });
   }
@@ -448,16 +367,12 @@
         dt.textContent = label.getAttribute('data-review-label');
         var dd = document.createElement('dd');
         if (input.type === 'checkbox') {
-          dd.textContent = input.checked
-            ? (input.getAttribute('data-review-yes') || T.reviewYes)
-            : (input.getAttribute('data-review-no') || T.reviewNo);
+          dd.textContent = input.checked ? (input.getAttribute('data-review-yes') || 'Yes') : (input.getAttribute('data-review-no') || 'No');
         } else if (input.tagName === 'SELECT') {
           var opt = input.options[input.selectedIndex];
-          dd.textContent = opt && opt.value ? opt.textContent : (input.getAttribute('data-review-empty') || T.reviewEmpty);
+          dd.textContent = opt && opt.value ? opt.textContent : (input.getAttribute('data-review-empty') || '—');
         } else {
-          // What the applicant typed, in their own script.
-          dd.textContent = input.value.trim() || (input.getAttribute('data-review-empty') || T.reviewEmpty);
-          dd.setAttribute('dir', 'auto');
+          dd.textContent = input.value.trim() || (input.getAttribute('data-review-empty') || '—');
         }
         dl.appendChild(dt);
         dl.appendChild(dd);
@@ -481,7 +396,7 @@
       if (err.status === 422 && err.body && err.body.fields) {
         showStepErrors(el, err.body.fields);
       } else if (stepError) {
-        stepError.textContent = T.stepNotSaved;
+        stepError.textContent = 'That step could not be saved just now. Your answers are still in the form — try Continue again.';
       }
       throw err;
     });
@@ -505,27 +420,10 @@
     var idEl = $('[data-status-id]', statusShell);
     var stateEl = $('[data-status-state]', statusShell);
     if (idEl) idEl.textContent = application.id;
-    // Named, not printed raw. Both editions used to show an applicant
-    // the machine value — "placement_pending" — on the page that tells
-    // them their application exists.
-    if (stateEl) stateEl.textContent = T.statuses[application.status] || application.status;
+    if (stateEl) stateEl.textContent = application.status;
     $$('[data-status-only]', statusShell).forEach(function (el) {
       el.hidden = el.getAttribute('data-status-only') !== application.status;
     });
-    // The confirmation email is a claim, so it is shown only when the
-    // API says the message actually left. `confirmationSent` is absent
-    // on a status re-read (the draft endpoint answers about the
-    // application, not about a send that happened days ago), and an
-    // absent flag renders nothing — which is the honest default.
-    var sentEl = $('[data-confirmation-sent]', statusShell);
-    if (sentEl) sentEl.hidden = application.confirmationSent !== true;
-  }
-
-  /** The one-page application, for every state in which the wizard cannot run. */
-  function revealAnonymous() {
-    var notice = $('[data-wizard-unavailable]');
-    if (notice) notice.hidden = false;
-    if (wizardShell) wizardShell.hidden = true;
   }
 
   function init() {
@@ -575,7 +473,7 @@
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify(payload),
       }).then(function (result) {
-        renderStatus({ id: result.applicationId, status: result.status, confirmationSent: result.confirmationSent });
+        renderStatus({ id: result.applicationId, status: result.status });
       }).catch(function (err) {
         if (err.status === 422 && err.body && err.body.fields) {
           var firstStepWithError = steps.find(function (el) {
@@ -586,7 +484,7 @@
             showStepErrors(firstStepWithError, err.body.fields);
           }
         } else if (stepError) {
-          stepError.textContent = T.submitFailed;
+          stepError.textContent = 'Submission did not go through. Nothing has been lost — your answers are saved; try Submit again, or write to Admissions directly.';
         }
       }).catch(function () {}).then(function () { submitBtn.disabled = false; });
     });
@@ -612,7 +510,7 @@
     });
 
     var guarded = window.WEC_LC_guardPortal({
-      signOutRedirect: HOME + '/admissions/',
+      signOutRedirect: '/admissions/',
       shellSelector: '.lab-body',
       onAuthenticated: function (clerk, done) {
         clerkInstance = clerk;
@@ -668,9 +566,11 @@
           .catch(function () { /* leave the panel as authored */ });
       },
     });
-    // No Clerk key configured at all: same answer, same form. The
-    // wizard's advantage is that it remembers you between visits, and
-    // that is worth exactly nothing to someone who cannot start it.
-    if (!guarded) revealAnonymous();
+    // No Clerk key configured: the page cannot check a session at
+    // all, so it says so rather than pretending the wizard works.
+    if (!guarded) {
+      var notice = $('[data-wizard-unavailable]');
+      if (notice) notice.hidden = false;
+    }
   });
 })();

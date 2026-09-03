@@ -2,6 +2,17 @@
    Layered on css/verify.css: the two pages are one system and a visitor
    moving between them should not feel they have changed institution. */
 
+.reg-provisional {
+  margin: 2rem 0 0;
+  padding: .95rem 1.15rem;
+  border-radius: 10px;
+  border: 1px solid rgba(154, 122, 56, .3);
+  background: rgba(198, 161, 91, .1);
+  line-height: 1.6;
+  font-size: .92rem;
+}
+.reg-provisional strong { color: var(--gold-deep, #9A7A38); }
+
 /* The form does not overlap the header the way the verification form
    does — the notice above it is the first thing to read here. */
 .reg-form { margin-top: 1.2rem; }
@@ -69,10 +80,7 @@
   font: 700 .8rem/1 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   letter-spacing: .06em;
   color: var(--gold-deep, #9A7A38);
-  /* Logical, not left: on the Arabic roll the post-nominal follows the
-     name and lands to its LEFT, where margin-left put the gap on the
-     wrong side and set "ApWEC" flush against the graduate's name. */
-  margin-inline-start: .5rem;
+  margin-left: .5rem;
 }
 .reg-entry__award { margin: .2rem 0 0; font-size: .92rem; color: var(--ink-soft, #5A6479); line-height: 1.5; }
 .reg-entry__meta {
@@ -105,7 +113,15 @@
 /* The empty state is not a failure state. Until the first conferral this
    is what every visitor sees, so it has to read as a register that is
    waiting rather than as a page that is broken. */
-/* It is `.state-plate` now — css/brand.css — struck rather than
-   dashed, which is what the paragraph above was always asking for. */
+.reg-empty {
+  margin: 0;
+  padding: 2.2rem 1.4rem;
+  text-align: center;
+  border: 1px dashed rgba(20, 38, 74, .22);
+  border-radius: 12px;
+  color: var(--ink-soft, #5A6479);
+  line-height: 1.7;
+}
+.reg-empty strong { display: block; color: var(--ink, #14264A); margin-bottom: .3rem; font-size: 1.02rem; }
 
 .reg-more { margin: 1rem 0 0; font-size: .84rem; color: var(--ink-soft, #5A6479); }

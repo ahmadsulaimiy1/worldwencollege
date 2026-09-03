@@ -33,18 +33,18 @@ INSERT INTO audio_cues (id, audio_asset_id, sequence, speaker, text) VALUES
 ('cue_l6_m1_8', 'aud_l6_m1_listen', 8, 'CEO', 'Agreed. I''ll do the all-hands myself on Thursday.');
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body, audio_asset_id) VALUES
-('itm_l6_m1_listening', 'unt_l6_m1', 4, 'listening', 'Listening 1 — The Executive Briefing',
+('itm_l6_m1_listening', 'unt_l6_m1', 4, 'listening', 'Listening 1 -- The Executive Briefing',
 'LISTENING OBJECTIVES: Follow executive-register communication at full speed; hear the subjunctive in use; identify where responsibility is assigned.
 
 BEFORE YOU LISTEN: A chief executive briefs a board committee and answers a direct challenge. Read the four questions first. Knowing what you are listening for is itself the skill being taught, and it is the difference between hearing words and understanding a conversation.
 
-LISTEN TWICE: First for the general situation only — who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
+LISTEN TWICE: First for the general situation only -- who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
 
 THEN: Read the synchronised transcript while listening a third time, and mark every place where what you heard and what is written surprised you. That gap is your own pronunciation target, identified by you rather than assigned to you.
 
 SHADOWING: Record yourself speaking the briefing''s opening and the accountability statement. Your recordings are kept attempt by attempt, so you can hear your own progress, and your instructor can reply in their own voice.', 'aud_l6_m1_listen'),
-('itm_l6_m1_pronunciation', 'unt_l6_m1', 5, 'pronunciation', 'Pronunciation Lab 1 — The Subjunctive in Speech, Ownership Stress & Holding a Position',
-'HOW TO USE THIS LAB: For each target — listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
+('itm_l6_m1_pronunciation', 'unt_l6_m1', 5, 'pronunciation', 'Pronunciation Lab 1 -- The Subjunctive in Speech, Ownership Stress & Holding a Position',
+'HOW TO USE THIS LAB: For each target -- listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
 
 FOCUS THIS MODULE: The mandative subjunctive in natural speech, and the register of unqualified accountability.
 
@@ -53,7 +53,7 @@ Your recordings are kept, so attempt one and attempt ten sit side by side. Your 
 INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target, example, guidance) VALUES
 ('pron_l6_m1_1', 'itm_l6_m1_pronunciation', 1, 'word_stress', 'Mandative subjunctive: the bare verb, unstressed but present', 'I''d recommend that the committee APPROVE... // It''s essential that the staff HEAR this.', 'The subjunctive verb takes no -s and no auxiliary. In fast speech the absence is easy to miss, and mishearing it as an indicative flattens a recommendation into a description.'),
 ('pron_l6_m1_2', 'itm_l6_m1_pronunciation', 2, 'sentence_stress', 'Accountability stresses the possessive and the modal', 'The decision was still MINE and I''D OWN the consequence.', 'Unqualified ownership is marked by stress on mine and would. This is the executive register the whole level opens with.'),
-('pron_l6_m1_3', 'itm_l6_m1_pronunciation', 3, 'intonation', 'Acknowledging criticism without conceding it', 'SOME would, and I''ve HEARD it. // My asSESSment is that it''s the amBIGuity.', 'The acknowledgement rises; the counter-assessment falls. Neither dismisses nor accepts — this contour is how senior speakers hold a position under challenge.');
+('pron_l6_m1_3', 'itm_l6_m1_pronunciation', 3, 'intonation', 'Acknowledging criticism without conceding it', 'SOME would, and I''ve HEARD it. // My asSESSment is that it''s the amBIGuity.', 'The acknowledgement rises; the counter-assessment falls. Neither dismisses nor accepts -- this contour is how senior speakers hold a position under challenge.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
 ('qq_l6_m1_ls1', 'itm_l6_m1_listening', 1, 'What does the CEO recommend?', '["Delaying the restructure","Cancelling it","Approving it this month","Consulting staff first"]', 2, 'cue_l6_m1_1'),
@@ -80,25 +80,25 @@ INSERT INTO audio_cues (id, audio_asset_id, sequence, speaker, text) VALUES
 ('cue_l6_m2_9', 'aud_l6_m2_listen', 9, 'Delegate A', 'No. They are not.');
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body, audio_asset_id) VALUES
-('itm_l6_m2_listening', 'unt_l6_m2', 4, 'listening', 'Listening 2 — The Communiqué Negotiation',
+('itm_l6_m2_listening', 'unt_l6_m2', 4, 'listening', 'Listening 2 -- The Communiqué Negotiation',
 'LISTENING OBJECTIVES: Follow diplomatic negotiation; decode litotes and impersonal constructions; distinguish position from interest.
 
 BEFORE YOU LISTEN: Two delegates negotiate the wording of a joint statement. Read the four questions first. Knowing what you are listening for is itself the skill being taught, and it is the difference between hearing words and understanding a conversation.
 
-LISTEN TWICE: First for the general situation only — who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
+LISTEN TWICE: First for the general situation only -- who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
 
 THEN: Read the synchronised transcript while listening a third time, and mark every place where what you heard and what is written surprised you. That gap is your own pronunciation target, identified by you rather than assigned to you.
 
 SHADOWING: Record yourself speaking the litotes exchange and the reframing to interests. Your recordings are kept attempt by attempt, so you can hear your own progress, and your instructor can reply in their own voice.', 'aud_l6_m2_listen'),
-('itm_l6_m2_pronunciation', 'unt_l6_m2', 5, 'pronunciation', 'Pronunciation Lab 2 — Litotes Delivery, Degree Adverbs & Impersonal Formulas',
-'HOW TO USE THIS LAB: For each target — listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
+('itm_l6_m2_pronunciation', 'unt_l6_m2', 5, 'pronunciation', 'Pronunciation Lab 2 -- Litotes Delivery, Degree Adverbs & Impersonal Formulas',
+'HOW TO USE THIS LAB: For each target -- listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
 
-FOCUS THIS MODULE: Litotes and impersonal constructions — understatement as a precision instrument.
+FOCUS THIS MODULE: Litotes and impersonal constructions -- understatement as a precision instrument.
 
 Your recordings are kept, so attempt one and attempt ten sit side by side. Your instructor can reply with a spoken model rather than only written notes.', 'aud_l6_m2_pron');
 
 INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target, example, guidance) VALUES
-('pron_l6_m2_1', 'itm_l6_m2_pronunciation', 1, 'intonation', 'Litotes is delivered level and unhurried', 'It would NOT be unHELPful to know which part.', 'Double negation said with any emphasis becomes sarcasm. Level, slow delivery is what makes it read as courteous precision — the whole point of the form.'),
+('pron_l6_m2_1', 'itm_l6_m2_pronunciation', 1, 'intonation', 'Litotes is delivered level and unhurried', 'It would NOT be unHELPful to know which part.', 'Double negation said with any emphasis becomes sarcasm. Level, slow delivery is what makes it read as courteous precision -- the whole point of the form.'),
 ('pron_l6_m2_2', 'itm_l6_m2_pronunciation', 2, 'sentence_stress', 'Comparatives carry the concession''s size', 'It would be conSIDerably more COMfortable.', 'In diplomatic register the degree adverb is the message. Considerably versus somewhat is the difference between agreement and a further round of talks.'),
 ('pron_l6_m2_3', 'itm_l6_m2_pronunciation', 3, 'connected_speech', 'Impersonal formulas compress into single units', 'would find it difficult to -> /wədˈfaɪndɪtˈdɪfɪkəltə/; may I suggest -> /meɪaɪsəˈdʒest/', 'These constructions remove the person from the objection. They are formulaic and fast, and hearing them as units rather than words is essential at this speed.');
 
@@ -127,18 +127,18 @@ INSERT INTO audio_cues (id, audio_asset_id, sequence, speaker, text) VALUES
 ('cue_l6_m3_9', 'aud_l6_m3_listen', 9, 'Director', 'Agreed. That''s why I''ve proposed it in two segments and for six months only.');
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body, audio_asset_id) VALUES
-('itm_l6_m3_listening', 'unt_l6_m3', 4, 'listening', 'Listening 3 — The Board Challenges the Assumption',
+('itm_l6_m3_listening', 'unt_l6_m3', 4, 'listening', 'Listening 3 -- The Board Challenges the Assumption',
 'LISTENING OBJECTIVES: Follow strategic reasoning at board level; separate evidence, inference and recommendation; hear an assumption stated in falsifiable terms.
 
 BEFORE YOU LISTEN: A strategy director presents and the board challenges the assumption rather than the conclusion. Read the four questions first. Knowing what you are listening for is itself the skill being taught, and it is the difference between hearing words and understanding a conversation.
 
-LISTEN TWICE: First for the general situation only — who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
+LISTEN TWICE: First for the general situation only -- who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
 
 THEN: Read the synchronised transcript while listening a third time, and mark every place where what you heard and what is written surprised you. That gap is your own pronunciation target, identified by you rather than assigned to you.
 
 SHADOWING: Record yourself speaking the statement of the working assumption. Your recordings are kept attempt by attempt, so you can hear your own progress, and your instructor can reply in their own voice.', 'aud_l6_m3_listen'),
-('itm_l6_m3_pronunciation', 'unt_l6_m3', 5, 'pronunciation', 'Pronunciation Lab 3 — Three-Layer Rhythm, Falsifiability Stress & Fronted Complements',
-'HOW TO USE THIS LAB: For each target — listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
+('itm_l6_m3_pronunciation', 'unt_l6_m3', 5, 'pronunciation', 'Pronunciation Lab 3 -- Three-Layer Rhythm, Falsifiability Stress & Fronted Complements',
+'HOW TO USE THIS LAB: For each target -- listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
 
 FOCUS THIS MODULE: The three-layer discipline made audible: evidence, inference, recommendation.
 
@@ -173,18 +173,18 @@ INSERT INTO audio_cues (id, audio_asset_id, sequence, speaker, text) VALUES
 ('cue_l6_m4_8', 'aud_l6_m4_listen', 8, 'Official B', 'Then it is a resourcing decision dressed as a drafting decision, and it should go to ministers as such.');
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body, audio_asset_id) VALUES
-('itm_l6_m4_listening', 'unt_l6_m4', 4, 'listening', 'Listening 4 — Shall, Must and May',
+('itm_l6_m4_listening', 'unt_l6_m4', 4, 'listening', 'Listening 4 -- Shall, Must and May',
 'LISTENING OBJECTIVES: Follow policy drafting discussion; distinguish the operative force of modals; hear criterion-based appraisal.
 
 BEFORE YOU LISTEN: Two officials review draft regulations and argue about a single word. Read the four questions first. Knowing what you are listening for is itself the skill being taught, and it is the difference between hearing words and understanding a conversation.
 
-LISTEN TWICE: First for the general situation only — who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
+LISTEN TWICE: First for the general situation only -- who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
 
 THEN: Read the synchronised transcript while listening a third time, and mark every place where what you heard and what is written surprised you. That gap is your own pronunciation target, identified by you rather than assigned to you.
 
 SHADOWING: Record yourself speaking the exchange about may and must. Your recordings are kept attempt by attempt, so you can hear your own progress, and your instructor can reply in their own voice.', 'aud_l6_m4_listen'),
-('itm_l6_m4_pronunciation', 'unt_l6_m4', 5, 'pronunciation', 'Pronunciation Lab 4 — Operative Modal Stress, Enumerated Options & Criterion Framing',
-'HOW TO USE THIS LAB: For each target — listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
+('itm_l6_m4_pronunciation', 'unt_l6_m4', 5, 'pronunciation', 'Pronunciation Lab 4 -- Operative Modal Stress, Enumerated Options & Criterion Framing',
+'HOW TO USE THIS LAB: For each target -- listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
 
 FOCUS THIS MODULE: The operative modals, where one unstressed word decides whether a provision binds.
 
@@ -219,18 +219,18 @@ INSERT INTO audio_cues (id, audio_asset_id, sequence, speaker, text) VALUES
 ('cue_l6_m5_8', 'aud_l6_m5_listen', 8, 'Lecturer', 'Good faith excuses the delay. It does not excuse the failure to notify at all.');
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body, audio_asset_id) VALUES
-('itm_l6_m5_listening', 'unt_l6_m5', 4, 'listening', 'Listening 5 — Notwithstanding and Subject To',
+('itm_l6_m5_listening', 'unt_l6_m5', 4, 'listening', 'Listening 5 -- Notwithstanding and Subject To',
 'LISTENING OBJECTIVES: Follow legal reasoning; distinguish overriding from subordinating provisions; hear a steelman before a critique.
 
 BEFORE YOU LISTEN: A lecturer explains two operators that are opposites in effect, then models a critique. Read the four questions first. Knowing what you are listening for is itself the skill being taught, and it is the difference between hearing words and understanding a conversation.
 
-LISTEN TWICE: First for the general situation only — who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
+LISTEN TWICE: First for the general situation only -- who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
 
 THEN: Read the synchronised transcript while listening a third time, and mark every place where what you heard and what is written surprised you. That gap is your own pronunciation target, identified by you rather than assigned to you.
 
 SHADOWING: Record yourself speaking the steelman, then the located disagreement. Your recordings are kept attempt by attempt, so you can hear your own progress, and your instructor can reply in their own voice.', 'aud_l6_m5_listen'),
-('itm_l6_m5_pronunciation', 'unt_l6_m5', 5, 'pronunciation', 'Pronunciation Lab 5 — Opposed Operators, Warm Steelmanning & Locating Disagreement',
-'HOW TO USE THIS LAB: For each target — listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
+('itm_l6_m5_pronunciation', 'unt_l6_m5', 5, 'pronunciation', 'Pronunciation Lab 5 -- Opposed Operators, Warm Steelmanning & Locating Disagreement',
+'HOW TO USE THIS LAB: For each target -- listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
 
 FOCUS THIS MODULE: Two phrases that reverse each other, and the stress that separates them.
 
@@ -266,18 +266,18 @@ INSERT INTO audio_cues (id, audio_asset_id, sequence, speaker, text) VALUES
 ('cue_l6_m6_9', 'aud_l6_m6_listen', 9, 'Researcher', 'Two things: reagent supply stable for eighteen months, and ethics approval by March.');
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body, audio_asset_id) VALUES
-('itm_l6_m6_listening', 'unt_l6_m6', 4, 'listening', 'Listening 6 — Were This to Succeed',
+('itm_l6_m6_listening', 'unt_l6_m6', 4, 'listening', 'Listening 6 -- Were This to Succeed',
 'LISTENING OBJECTIVES: Follow speculative technical register; hear inverted conditionals; distinguish disclosed risk from concealed risk.
 
 BEFORE YOU LISTEN: A researcher presents a funding proposal and is questioned on risk. Read the four questions first. Knowing what you are listening for is itself the skill being taught, and it is the difference between hearing words and understanding a conversation.
 
-LISTEN TWICE: First for the general situation only — who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
+LISTEN TWICE: First for the general situation only -- who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
 
 THEN: Read the synchronised transcript while listening a third time, and mark every place where what you heard and what is written surprised you. That gap is your own pronunciation target, identified by you rather than assigned to you.
 
 SHADOWING: Record yourself speaking the inverted conditionals and the risk disclosure. Your recordings are kept attempt by attempt, so you can hear your own progress, and your instructor can reply in their own voice.', 'aud_l6_m6_listen'),
-('itm_l6_m6_pronunciation', 'unt_l6_m6', 5, 'pronunciation', 'Pronunciation Lab 6 — Fronted Auxiliaries, Unapologetic Disclosure & Enumerated Conditions',
-'HOW TO USE THIS LAB: For each target — listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
+('itm_l6_m6_pronunciation', 'unt_l6_m6', 5, 'pronunciation', 'Pronunciation Lab 6 -- Fronted Auxiliaries, Unapologetic Disclosure & Enumerated Conditions',
+'HOW TO USE THIS LAB: For each target -- listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
 
 FOCUS THIS MODULE: Inverted conditionals with ''if'' omitted, and the register of honest risk.
 
@@ -314,18 +314,18 @@ INSERT INTO audio_cues (id, audio_asset_id, sequence, speaker, text) VALUES
 ('cue_l6_m7_10', 'aud_l6_m7_listen', 10, 'CEO', 'Then it will say so publicly, because I''ve asked for it to be published unedited.');
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body, audio_asset_id) VALUES
-('itm_l6_m7_listening', 'unt_l6_m7', 4, 'listening', 'Listening 7 — The Interview That Turned',
+('itm_l6_m7_listening', 'unt_l6_m7', 4, 'listening', 'Listening 7 -- The Interview That Turned',
 'LISTENING OBJECTIVES: Follow hostile broadcast questioning; distinguish premise correction from evasion; hear rhetorical devices used sparingly.
 
 BEFORE YOU LISTEN: A chief executive is interviewed after a product failure. Read the four questions first. Knowing what you are listening for is itself the skill being taught, and it is the difference between hearing words and understanding a conversation.
 
-LISTEN TWICE: First for the general situation only — who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
+LISTEN TWICE: First for the general situation only -- who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
 
 THEN: Read the synchronised transcript while listening a third time, and mark every place where what you heard and what is written surprised you. That gap is your own pronunciation target, identified by you rather than assigned to you.
 
 SHADOWING: Record yourself speaking the premise correction and the concession. Your recordings are kept attempt by attempt, so you can hear your own progress, and your instructor can reply in their own voice.', 'aud_l6_m7_listen'),
-('itm_l6_m7_pronunciation', 'unt_l6_m7', 5, 'pronunciation', 'Pronunciation Lab 7 — Premise Correction Speed, Partial Concession & The Single Tricolon',
-'HOW TO USE THIS LAB: For each target — listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
+('itm_l6_m7_pronunciation', 'unt_l6_m7', 5, 'pronunciation', 'Pronunciation Lab 7 -- Premise Correction Speed, Partial Concession & The Single Tricolon',
+'HOW TO USE THIS LAB: For each target -- listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
 
 FOCUS THIS MODULE: Rhetorical devices used sparingly, and the difference between correcting and dodging.
 
@@ -337,7 +337,7 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l6_m7_3', 'itm_l6_m7_pronunciation', 3, 'rhythm', 'The tricolon earns its place by being the only one', 'THREE things: verified contact DEtails, // a public REGister, // and an external AUdit.', 'One rhetorical device in a whole interview lands. Used repeatedly it reads as evasion, which is the module''s governing rule.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l6_m7_ls1', 'itm_l6_m7_listening', 1, 'What premise does the CEO correct?', '["The timeline — eleven months, not two years","That a recall happened","The number of customers","The cause of the fault"]', 0, 'cue_l6_m7_2'),
+('qq_l6_m7_ls1', 'itm_l6_m7_listening', 1, 'What premise does the CEO correct?', '["The timeline -- eleven months, not two years","That a recall happened","The number of customers","The cause of the fault"]', 0, 'cue_l6_m7_2'),
 ('qq_l6_m7_ls2', 'itm_l6_m7_listening', 2, 'What does the CEO say they would defend least?', '["The timeline","The product design","The poor reach of the recall","The audit"]', 2, 'cue_l6_m7_4'),
 ('qq_l6_m7_ls3', 'itm_l6_m7_listening', 3, 'How does the CEO answer ''So you failed''?', '["Denies it entirely","Accepts it on reach, rejects it on identification and action","Refuses to answer","Accepts it fully"]', 1, 'cue_l6_m7_6'),
 ('qq_l6_m7_ls4', 'itm_l6_m7_listening', 4, 'What has the CEO asked for regarding the audit?', '["That it be internal","That it be delayed","That it exclude them personally","That it be published unedited"]', 3, 'cue_l6_m7_10');
@@ -360,20 +360,20 @@ INSERT INTO audio_cues (id, audio_asset_id, sequence, speaker, text) VALUES
 ('cue_l6_m8_8', 'aud_l6_m8_listen', 8, 'Author', 'That''s a fair reading. I''ll change ''argues'' to ''suggests'' and quote the qualification directly.');
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body, audio_asset_id) VALUES
-('itm_l6_m8_listening', 'unt_l6_m8', 4, 'listening', 'Listening 8 — The Reviewer''s Objection',
+('itm_l6_m8_listening', 'unt_l6_m8', 4, 'listening', 'Listening 8 -- The Reviewer''s Objection',
 'LISTENING OBJECTIVES: Follow publication-standard academic exchange; hear the hedging ladder in use; distinguish calibrated from over-claimed statements.
 
 BEFORE YOU LISTEN: An author responds to a peer reviewer at a seminar. Read the four questions first. Knowing what you are listening for is itself the skill being taught, and it is the difference between hearing words and understanding a conversation.
 
-LISTEN TWICE: First for the general situation only — who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
+LISTEN TWICE: First for the general situation only -- who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
 
 THEN: Read the synchronised transcript while listening a third time, and mark every place where what you heard and what is written surprised you. That gap is your own pronunciation target, identified by you rather than assigned to you.
 
 SHADOWING: Record yourself speaking the recalibration of the claim. Your recordings are kept attempt by attempt, so you can hear your own progress, and your instructor can reply in their own voice.', 'aud_l6_m8_listen'),
-('itm_l6_m8_pronunciation', 'unt_l6_m8', 5, 'pronunciation', 'Pronunciation Lab 8 — Ladder Verb Stress, Academic Antithesis & Clean Acceptance',
-'HOW TO USE THIS LAB: For each target — listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
+('itm_l6_m8_pronunciation', 'unt_l6_m8', 5, 'pronunciation', 'Pronunciation Lab 8 -- Ladder Verb Stress, Academic Antithesis & Clean Acceptance',
+'HOW TO USE THIS LAB: For each target -- listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
 
-FOCUS THIS MODULE: The hedging ladder made audible — demonstrates, indicates, suggests, is consistent with.
+FOCUS THIS MODULE: The hedging ladder made audible -- demonstrates, indicates, suggests, is consistent with.
 
 Your recordings are kept, so attempt one and attempt ten sit side by side. Your instructor can reply with a spoken model rather than only written notes.', 'aud_l6_m8_pron');
 
@@ -407,25 +407,25 @@ INSERT INTO audio_cues (id, audio_asset_id, sequence, speaker, text) VALUES
 ('cue_l6_m9_9', 'aud_l6_m9_listen', 9, 'Chair', 'Thank you. That''s the most useful sentence anyone has said this morning.');
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body, audio_asset_id) VALUES
-('itm_l6_m9_listening', 'unt_l6_m9', 4, 'listening', 'Listening 9 — Even If That Were True',
+('itm_l6_m9_listening', 'unt_l6_m9', 4, 'listening', 'Listening 9 -- Even If That Were True',
 'LISTENING OBJECTIVES: Follow ethical deliberation; distinguish even if from even though; hear a speaker name the frame they argue from.
 
 BEFORE YOU LISTEN: A chaired deliberation on an ethical case, where a participant names the disagreement''s real source. Read the four questions first. Knowing what you are listening for is itself the skill being taught, and it is the difference between hearing words and understanding a conversation.
 
-LISTEN TWICE: First for the general situation only — who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
+LISTEN TWICE: First for the general situation only -- who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
 
 THEN: Read the synchronised transcript while listening a third time, and mark every place where what you heard and what is written surprised you. That gap is your own pronunciation target, identified by you rather than assigned to you.
 
 SHADOWING: Record yourself speaking the frame-naming turn. Your recordings are kept attempt by attempt, so you can hear your own progress, and your instructor can reply in their own voice.', 'aud_l6_m9_listen'),
-('itm_l6_m9_pronunciation', 'unt_l6_m9', 5, 'pronunciation', 'Pronunciation Lab 9 — Concessive Contrast, However-Inversion & Naming the Cost',
-'HOW TO USE THIS LAB: For each target — listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
+('itm_l6_m9_pronunciation', 'unt_l6_m9', 5, 'pronunciation', 'Pronunciation Lab 9 -- Concessive Contrast, However-Inversion & Naming the Cost',
+'HOW TO USE THIS LAB: For each target -- listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
 
 FOCUS THIS MODULE: Concessive conditionals, and the stress that separates a granted premise from an accepted one.
 
 Your recordings are kept, so attempt one and attempt ten sit side by side. Your instructor can reply with a spoken model rather than only written notes.', 'aud_l6_m9_pron');
 
 INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target, example, guidance) VALUES
-('pron_l6_m9_1', 'itm_l6_m9_pronunciation', 1, 'word_stress', 'Even though concedes a fact; even if concedes a hypothesis', 'EVEN THOUGH the forms permit it... // EVEN IF publication caused no harm...', 'The stress falls on the concessive phrase itself. Mishearing one for the other means mishearing whether the speaker accepts the premise — which reverses their position.'),
+('pron_l6_m9_1', 'itm_l6_m9_pronunciation', 1, 'word_stress', 'Even though concedes a fact; even if concedes a hypothesis', 'EVEN THOUGH the forms permit it... // EVEN IF publication caused no harm...', 'The stress falls on the concessive phrase itself. Mishearing one for the other means mishearing whether the speaker accepts the premise -- which reverses their position.'),
 ('pron_l6_m9_2', 'itm_l6_m9_pronunciation', 2, 'intonation', 'However-inversion rises through the concession, falls on the claim', 'HowEVer strong the research case, // I don''t think the obligation YIELDS to it.', 'The fronted concession rises and holds; the main clause falls hard. That contour is what makes a concession sound like strength rather than retreat.'),
 ('pron_l6_m9_3', 'itm_l6_m9_pronunciation', 3, 'sentence_stress', 'Naming the cost stresses who bears it', 'Some PARTicipants will feel deCEIVED even though nothing imPROPer occurred.', 'Stating a position''s cost, with stress on who pays it, is the module''s ethical discipline. The chair''s response marks it as the valuable move.');
 
@@ -455,18 +455,18 @@ INSERT INTO audio_cues (id, audio_asset_id, sequence, speaker, text) VALUES
 ('cue_l6_m10_10', 'aud_l6_m10_listen', 10, 'Candidate', 'The policy brief''s cost figure. I sourced it from a secondary summary and I''ve since found the original disagrees.');
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body, audio_asset_id) VALUES
-('itm_l6_m10_listening', 'unt_l6_m10', 4, 'listening', 'Listening 10 — The Oral Defence',
+('itm_l6_m10_listening', 'unt_l6_m10', 4, 'listening', 'Listening 10 -- The Oral Defence',
 'LISTENING OBJECTIVES: Integrate every listening skill in the programme; follow a capstone defence with challenge to premise, honest non-answer and reasoned concession.
 
 BEFORE YOU LISTEN: This is the final listening of the WEC programme: a candidate defends a capstone portfolio before examiners, drawing on all six levels. Read the four questions first. Knowing what you are listening for is itself the skill being taught, and it is the difference between hearing words and understanding a conversation.
 
-LISTEN TWICE: First for the general situation only — who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
+LISTEN TWICE: First for the general situation only -- who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
 
 THEN: Read the synchronised transcript while listening a third time, and mark every place where what you heard and what is written surprised you. That gap is your own pronunciation target, identified by you rather than assigned to you.
 
 SHADOWING: Record yourself speaking the whole defence, then the answer the candidate handled worst. Your recordings are kept attempt by attempt, so you can hear your own progress, and your instructor can reply in their own voice.', 'aud_l6_m10_listen'),
-('itm_l6_m10_pronunciation', 'unt_l6_m10', 5, 'pronunciation', 'Pronunciation Lab 10 — Programme Consolidation — Premise Stress, The Honest Limit & Knowing When to Stop',
-'HOW TO USE THIS LAB: For each target — listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
+('itm_l6_m10_pronunciation', 'unt_l6_m10', 5, 'pronunciation', 'Pronunciation Lab 10 -- Programme Consolidation -- Premise Stress, The Honest Limit & Knowing When to Stop',
+'HOW TO USE THIS LAB: For each target -- listen to the model, say it aloud three times, then record yourself and listen back. Listening back is the step learners skip and the step that works: you cannot correct a sound you have not heard yourself produce.
 
 FOCUS THIS MODULE: Everything the programme has taught, at unmodified professional speed.
 
@@ -475,7 +475,7 @@ Your recordings are kept, so attempt one and attempt ten sit side by side. Your 
 INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target, example, guidance) VALUES
 ('pron_l6_m10_1', 'itm_l6_m10_pronunciation', 1, 'sentence_stress', 'Defending a premise stresses the premise, not the conclusion', 'The PREMise is that near-term harm is already LOCKED IN.', 'The examiner asked for the premise; the answer must stress it. Answering the question actually asked, audibly, is the whole skill of an oral defence.'),
 ('pron_l6_m10_2', 'itm_l6_m10_pronunciation', 2, 'intonation', 'The honest non-answer falls and does not apologise', 'That''s OUTside what my evidence COVers. // I''d want to TEST it.', 'No rise, no trailing. The programme has taught this contour since Level V Module 7; here it appears under maximum pressure, which is the point.'),
-('pron_l6_m10_3', 'itm_l6_m10_pronunciation', 3, 'rhythm', 'The clean short answer as the strongest answer', 'You could simply have said YES. — I COULD. It WOULDn''t have been TRUE.', 'Six words, three stresses, complete stop. After six levels of learning to elaborate, the capstone tests whether a speaker knows when not to.');
+('pron_l6_m10_3', 'itm_l6_m10_pronunciation', 3, 'rhythm', 'The clean short answer as the strongest answer', 'You could simply have said YES. -- I COULD. It WOULDn''t have been TRUE.', 'Six words, three stresses, complete stop. After six levels of learning to elaborate, the capstone tests whether a speaker knows when not to.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
 ('qq_l6_m10_ls1', 'itm_l6_m10_listening', 1, 'What does the portfolio argue?', '["Adaptation funding should be prioritised over mitigation","Mitigation over adaptation","Both should be cut","Neither is affordable"]', 0, 'cue_l6_m10_1'),

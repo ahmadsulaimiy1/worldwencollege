@@ -50,9 +50,7 @@ const db = (env) => env.DB;
 /** Every skill the framework defines, in reading order. */
 export async function framework(env) {
   const { results } = await db(env)
-    .prepare(`SELECT id, code, name, mode, description,
-                     name_ar AS nameAr, description_ar AS descriptionAr
-                FROM language_skills ORDER BY sequence`)
+    .prepare('SELECT id, code, name, mode, description FROM language_skills ORDER BY sequence')
     .all();
   return results;
 }
@@ -118,16 +116,6 @@ export async function coverage(env) {
         : 'The College has not yet mapped its assessments to the four language skills. '
           + 'No skill profile can be reported for any graduate until that mapping is made and approved. '
           + 'This is a curriculum-mapping task awaiting academic decision, not missing data.'),
-    // The same sentence for an Arabic reader, beside the English rather
-    // than instead of it, so one payload serves both editions.
-    noteAr: approvedTotal > 0
-      ? null
-      : (proposedTotal > 0
-        ? `اقتُرح ${proposedTotal} ربطًا بين التقييمات والمهارات ولم يُعتمد منها شيء. `
-          + 'ولا يُعلن أيّ ملفّ مهارات حتى يعتمدها المسؤول الأكاديمي المختصّ.'
-        : 'لم تربط الكلية تقييماتها بعدُ بالمهارات اللغوية الأربع، فلا يُعلَن ملفّ مهارات لأيّ '
-          + 'خرّيج حتى يتمّ هذا الربط ويُعتمد. وهذه مهمّة ربطٍ منهجيّ تنتظر قرارًا أكاديميًّا، '
-          + 'لا بيانات ناقصة.'),
   };
 }
 
@@ -148,10 +136,9 @@ export async function skillProfile(env, { userId }) {
     return {
       state: cover.state === 'awaiting_approval' ? 'awaiting_approval' : 'unmapped',
       note: cover.note,
-      noteAr: cover.noteAr,
       skills: skills.map((s) => ({
-        skillId: s.id, code: s.code, name: s.name, nameAr: s.nameAr || null, mode: s.mode,
-        description: s.description, descriptionAr: s.descriptionAr || null,
+        skillId: s.id, code: s.code, name: s.name, mode: s.mode,
+        description: s.description,
         // Explicitly null. Not 0, and not the lowest descriptor —
         // "Emerging" is a judgement somebody made, and a graduate who
         // was never assessed has not been judged to be emerging.
@@ -184,8 +171,8 @@ export async function skillProfile(env, { userId }) {
     const m = bySkill.get(s.id);
     const evidence = m && m.weightSum > 0 ? m.weighted / m.weightSum : null;
     return {
-      skillId: s.id, code: s.code, name: s.name, nameAr: s.nameAr || null, mode: s.mode,
-      description: s.description, descriptionAr: s.descriptionAr || null,
+      skillId: s.id, code: s.code, name: s.name, mode: s.mode,
+      description: s.description,
       descriptor: evidence === null ? null : bandFor(evidence, bands),
       assessments: m ? m.assessments : 0,
     };
@@ -202,9 +189,6 @@ export async function skillProfile(env, { userId }) {
       note: 'Assessments are mapped to the four skills and this graduate has been assessed '
         + 'against them, but the Academic Senate has not yet approved the thresholds that turn '
         + 'assessed evidence into a descriptor. No descriptor can be reported until it does.',
-      noteAr: 'التقييمات مربوطة بالمهارات الأربع، وقد قُوِّم هذا الخرّيج عليها، غير أنّ المجلس '
-        + 'الأكاديمي لم يعتمد بعدُ العتبات التي تحوّل الأدلّة المُقوَّمة إلى وصفِ مستوى. ولا '
-        + 'يُعلَن وصفٌ حتى يعتمدها.',
       skills: rows.map((r) => ({ ...r, descriptor: null })),
     };
   }
@@ -216,10 +200,6 @@ export async function skillProfile(env, { userId }) {
       ? null
       : 'The curriculum is mapped to the four skills, but this graduate has not yet been '
         + 'assessed against any of the mapped assessments.',
-    noteAr: assessed.length
-      ? null
-      : 'المنهج مربوط بالمهارات الأربع، غير أنّ هذا الخرّيج لم يُقوَّم بعدُ في أيٍّ من '
-        + 'التقييمات المربوطة.',
     skills: rows,
   };
 }
@@ -231,9 +211,8 @@ export async function skillProfile(env, { userId }) {
  */
 export async function descriptorScale(env) {
   const { results } = await db(env).prepare(
-    `SELECT id, code, name, description,
-            name_ar AS nameAr, description_ar AS descriptionAr,
-            threshold_min AS thresholdMin, approved_at AS approvedAt
+    `SELECT id, code, name, description, threshold_min AS thresholdMin,
+            approved_at AS approvedAt
        FROM skill_descriptors ORDER BY sequence`).all();
   const approved = results.filter((d) => d.thresholdMin !== null);
   return {
@@ -246,10 +225,6 @@ export async function descriptorScale(env) {
       : 'The Academic Senate has not approved the evidence thresholds for '
         + `${results.length - approved.length} of the ${results.length} descriptors. `
         + 'The descriptors themselves are decided; what evidence earns each one is not.',
-    noteAr: approved.length === results.length ? null
-      : 'لم يعتمد المجلس الأكاديمي عتبات الأدلّة لـ'
-        + `${results.length - approved.length} من ${results.length} أوصاف. `
-        + 'فالأوصاف نفسها مقرّرة، وأمّا ما يستحقّ كلَّ وصفٍ من الأدلّة فليس مقرّرًا بعد.',
   };
 }
 
@@ -267,12 +242,7 @@ function bandFor(evidence, bands) {
   for (const b of bands) {
     if (evidence >= b.thresholdMin) found = b;
   }
-  return found ? {
-    code: found.code,
-    // Both namings travel, so an Arabic record can name its own band.
-    name: found.name, nameAr: found.nameAr || null,
-    description: found.description, descriptionAr: found.descriptionAr || null,
-  } : null;
+  return found ? { code: found.code, name: found.name, description: found.description } : null;
 }
 
 /**

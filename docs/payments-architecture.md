@@ -273,7 +273,7 @@ gateway's read API to pull their transaction list, which is a real,
 separate piece of work, not something to fake by asserting the two
 already agree.
 
-The console for both reports is `/staff-finance.html` (and its Arabic edition) — the same
+A preview UI for both reports lives at `finance/preview/` — the same
 "static illustrative demo, wired to real data the moment a Clerk key is
 configured" pattern as the Student Portal (see
 `docs/auth-architecture.md`), with one addition: it's role-gated, so a

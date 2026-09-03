@@ -170,49 +170,15 @@
           mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
           mask-composite: exclude;
-  /* STEPPED, NOT LINEAR, and the reason is measured. A registered
-     custom property driving a conic-gradient repaints a masked
-     pseudo-element on every frame, on the main thread. With the light
-     lit by default rather than on hover, twenty of these can be on
-     screen at once — the disciplines grid on /academics/ is exactly
-     that — and a linear orbit took the page from 60fps to 39.
-
-     steps(90) advances the point 4° at a time, ten times a second
-     instead of sixty. The bright arc is 12° wide, so each step moves
-     the light by a third of its own width: at this speed that reads as
-     travel, not as stutter. Same effect, roughly a sixth of the
-     repaints. */
-  animation: aurum-orbit var(--aurum-dur, 9s) steps(90) infinite;
+  animation: aurum-orbit var(--aurum-dur, 9s) linear infinite;
   animation-delay: var(--aurum-delay, 0s);
 }
 @keyframes aurum-orbit { to { --aurum-angle: 360deg; } }
 
-/* THE LIGHT TRAVELS BY DEFAULT, AND THAT IS THE CORRECTION.
-   ---------------------------------------------------------
-   `.aurum--hover` below hides the ring at opacity 0 and only reveals
-   it inside `@media (hover: hover) and (pointer: fine)`. Applied
-   broadly — as it was, to nearly every struck shape on the site — that
-   produces a site where the travelling light is invisible on every
-   phone and tablet ever made, and on a desktop appears only under the
-   pointer, one shape at a time. The owner reported not seeing it. They
-   were right, and no amount of adding more .aurum would have fixed it,
-   because the class doing the hiding was the one being added.
-
-   So the resting state of `.aurum` is now LIT AND MOVING, and the cost
-   is paid where it should be — by not animating what is off-screen.
-   js/atelier.js observes every .aurum and puts `.aurum--rest` on the
-   ones outside the viewport, which pauses the orbit without hiding it.
-
-   The default is RUNNING rather than paused, deliberately: if the
-   script never loads, or IntersectionObserver is missing, the light
-   still travels. A failsafe that fails to the invisible state is the
-   bug this block exists to correct. */
-.aurum--rest::after { animation-play-state: paused; }
-
-/* The hover-only variant is kept, and is now genuinely a variant
-   rather than the default. Use it where a grid should light ONE tile
-   under the pointer and stay quiet otherwise — a dense index, a table
-   of links. Never on a page's principal shapes. */
+/* The hover-only variant, which is the one used most — a grid of
+   tiles where the one under the pointer lights its own perimeter.
+   At rest the ring is not merely transparent: the animation is
+   PAUSED, so twenty of these off-screen cost the compositor nothing. */
 .aurum--hover::after { opacity: 0; animation-play-state: paused;
   transition: opacity .5s var(--ease-premium); }
 @media (hover: hover) and (pointer: fine) {
@@ -679,17 +645,6 @@
   }
   .diagram > svg { min-width: 560px; }
   .diagram--wide > svg { min-width: 700px; }
-  /* EXCEPT A PLATE THAT CARRIES ITS OWN TYPE SCALE.
-     The min-width above is what forces a 980-wide drawing into a
-     sideways scroller on a phone, and the owner reported it as exactly
-     what it looks like: a graph cut off at the right edge.
-
-     A plate marked `--fluid` has an internal <style> that grows its
-     labels at narrow widths (scripts/art/lib/relief.mjs, reliefType),
-     so it stays legible at the container's own width and needs no
-     floor. It shrinks to fit; it is never dragged. */
-  .diagram--fluid > svg { min-width: 0; }
-  .diagram--fluid { overflow-x: visible; }
   /* The caption must not scroll away from the figure it captions. */
   .diagram__caption { position: sticky; left: 0; }
 }
@@ -909,15 +864,6 @@
 .btn--quiet {
   color: rgba(247, 244, 236, .8);
   border-color: rgba(247, 244, 236, .2);
-  /* Transparent, EXPLICITLY. This is a dark-ground button whose text is
-     ivory at .8, and where it is written as a <button> rather than an
-     <a> the user agent paints buttonface behind it — #EFEFEF in
-     Chromium. Ivory on that computes to 1.04:1, which is not low
-     contrast so much as invisible ink. Found on the Assessment
-     Handbook, where "add it to my library" is the only way to add it to
-     a library. `.btn--outline` has carried this same line for the same
-     reason since it was written. */
-  background-color: transparent;
   padding: .78em 1.2em; font-size: .8rem;
 }
 .btn--quiet .icon { width: 15px; height: 15px; color: var(--gold-royal); }
@@ -950,150 +896,6 @@
 }
 
 /* =========================================================
-   THE MEDALLION — a struck coin, in actual three dimensions
-   ---------------------------------------------------------
-   Two faces and a rim on a preserve-3d stage. js/atelier.js
-   writes --medal-y / --medal-x; every transform lives here,
-   so the effect can be switched off from this file alone.
-
-   The reverse face is rotated 180deg and permanently
-   backface-visible:hidden on BOTH faces — that pairing is
-   what makes a coin read as one solid object rather than as
-   two cards stacked, and getting it wrong shows the obverse
-   ghosting through the reverse at shallow angles.
-   ========================================================= */
-.medallion {
-  --medal-y: 0deg;
-  --medal-x: 0deg;
-  --medal-size: 168px;
-  position: relative;
-  width: var(--medal-size);
-  height: var(--medal-size);
-  perspective: 900px;
-  flex-shrink: 0;
-  margin-inline: auto;
-}
-.medallion__stage {
-  position: absolute; inset: 0;
-  transform-style: preserve-3d;
-  transform: rotateY(var(--medal-y)) rotateX(var(--medal-x));
-  will-change: transform;
-}
-.medallion__face {
-  position: absolute; inset: 0;
-  display: grid; place-items: center;
-  border-radius: 50%;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  border: 2px solid var(--gold-royal);
-  background:
-    radial-gradient(circle at 32% 26%, rgba(255, 250, 235, .30), transparent 56%),
-    conic-gradient(from 210deg,
-      #8C6A3F 0deg, #F2E3C0 62deg, #D4AF37 128deg,
-      #A8863C 196deg, #F2E3C0 268deg, #8C6A3F 360deg);
-  box-shadow:
-    inset 0 0 0 6px rgba(20, 38, 74, .16),
-    inset 0 2px 14px rgba(255, 250, 235, .34),
-    0 18px 40px rgba(9, 18, 38, .42);
-  color: var(--midnight);
-}
-/* The milled rim: a ring of fine radial ticks, the way a struck
-   coin is knurled. Drawn with a repeating conic gradient rather
-   than 90 elements. */
-.medallion__face::before {
-  content: ""; position: absolute; inset: 5px;
-  border-radius: 50%;
-  background: repeating-conic-gradient(
-    from 0deg,
-    rgba(20, 38, 74, .22) 0deg 1.1deg,
-    transparent 1.1deg 3.2deg);
-  -webkit-mask: radial-gradient(circle, transparent 0 86%, #000 87%);
-          mask: radial-gradient(circle, transparent 0 86%, #000 87%);
-  pointer-events: none;
-}
-.medallion__face--reverse { transform: rotateY(180deg); }
-.medallion__legend {
-  font-family: var(--font-ceremonial);
-  font-size: .58rem; font-weight: 600;
-  letter-spacing: .22em; text-transform: uppercase;
-  text-align: center; line-height: 1.5;
-  color: rgba(16, 32, 62, .82);
-  padding: 0 18%;
-}
-/* THE LEGEND IN ARABIC.
-   css/arabic.css already strips the tracking site-wide — on a cursive
-   script the space between letters is the join, not a gap — so the
-   only thing left wrong here is SIZE. .58rem is roughly 9px, which is
-   legible for three tracked Latin words stamped on a coin and is not
-   legible for Arabic at all: the script carries its meaning in strokes
-   that simply vanish at that size. It is set larger, unspaced, and in
-   the Arabic display face, and `uppercase` is dropped because it never
-   meant anything here in the first place. */
-[dir="rtl"] .medallion__legend {
-  /* The family is declared rather than re-pointed at a token, which is
-     the rule css/arabic.css sets out and the reason its own heading
-     override is written this way: --font-display resolves once against
-     :root, so changing the token on a descendant changes nothing. This
-     is the same stack that file gives Arabic headings. */
-  font-family: 'Cairo', 'Amiri', 'EB Garamond', serif;
-  font-size: .82rem;
-  font-weight: 700;
-  letter-spacing: normal;
-  text-transform: none;
-  line-height: 1.85;
-  padding: 0 14%;
-}
-
-.medallion__figure {
-  display: block;
-  font-family: var(--font-display);
-  font-size: 2.3rem; font-weight: 700; line-height: 1;
-  color: var(--midnight);
-}
-.medallion .icon { width: 2.6rem; height: 2.6rem; stroke-width: 1; }
-
-/* The shadow the coin casts on the ground beneath it. Sits
-   outside the 3D stage so it does not rotate with the faces. */
-.medallion::after {
-  content: ""; position: absolute;
-  left: 12%; right: 12%; bottom: -13%;
-  height: 14%;
-  border-radius: 50%;
-  background: radial-gradient(ellipse, rgba(9, 18, 38, .42), transparent 72%);
-  filter: blur(5px);
-  pointer-events: none;
-}
-
-/* =========================================================
-   DEPTH — decorative layers on their own plane
-   js/atelier.js writes the transform. Nothing that carries
-   real text may take this class: fractional compositor
-   offsets soften glyph edges on some GPUs.
-   ========================================================= */
-[data-depth] { will-change: transform; }
-
-/* =========================================================
-   THE LIT LEDGER
-   A warm band under the row the pointer is on, brightest at
-   the pointer's own column (--lit-x). Replaces zebra
-   striping, which turns a ledger into a spreadsheet.
-   ========================================================= */
-.ledger--flagship tbody tr { position: relative; transition: background-color .22s ease; }
-.ledger--flagship tbody tr.is-lit {
-  background-image: radial-gradient(
-    ellipse 60% 300% at var(--lit-x, 50%) 50%,
-    rgba(199, 162, 74, .17), rgba(199, 162, 74, .05) 62%, transparent);
-}
-.section--light .ledger--flagship tbody tr.is-lit,
-.section--warm  .ledger--flagship tbody tr.is-lit,
-.section--cream .ledger--flagship tbody tr.is-lit,
-.section--pearl .ledger--flagship tbody tr.is-lit {
-  background-image: radial-gradient(
-    ellipse 60% 300% at var(--lit-x, 50%) 50%,
-    rgba(140, 106, 63, .16), rgba(140, 106, 63, .05) 62%, transparent);
-}
-
-/* =========================================================
    REDUCED MOTION
    Same contract as brand.css: every rule resolves to the
    FINISHED state. Nothing here may leave content invisible.
@@ -1115,12 +917,6 @@
   .assemble__d { opacity: 1; transform: none; transition: none; }
   .gilt { --gilt: 1; }
   .magnetic, .tilt { transform: none; transition: none; }
-  /* The coin keeps its struck three-quarter angle — a static object,
-     not a flattened one — and simply stops turning. js/atelier.js sets
-     the same angle and registers no tick. */
-  .medallion__stage { transition: none; }
-  [data-depth] { transform: none !important; }
-  .ledger--flagship tbody tr { transition: none; }
   .aura { display: none; }
   .constellation { display: none; }
   @view-transition { navigation: none; }
@@ -1139,140 +935,3 @@
   .lattice__bed::before, .lattice__bed::after, .aurora::before { animation: none; }
   .constellation { display: none; }
 }
-
-/* THE PLATE CREDIT.
-   A BY or BY-SA photograph that is cropped to --plate-ratio and toned
-   is an ADAPTATION, and both licences require the creator to be named
-   wherever the work appears — not in a file in the repository. Set
-   small and quiet, but present on the page itself, because an
-   attribution the visitor cannot see is not an attribution. */
-.plate__credit {
-  display: block;
-  margin-top: .5em;
-  font-family: var(--font-body);
-  font-size: .58rem;
-  letter-spacing: .06em;
-  color: var(--bronze);
-  opacity: .8;
-}
-.section--dark .plate__credit,
-.section--oxford .plate__credit,
-.section--midnight .plate__credit { color: var(--gold-soft); opacity: .62; }
-.plate__credit a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
-
-/* ═══════════════════════════════════════════════════════════════════
-   THE DOMAINS — where the decision is actually taken in English
-   ═══════════════════════════════════════════════════════════════════
-   Eight tiles carrying eight institutional facts, on the dark ground of
-   the opening chapter. They are cards in every respect the material law
-   cares about — a 106px dome, a lit rim, a travelling point, a tilt
-   sheen — and they are NOT `.card`, because `.card` is sized for a
-   heading and two sentences of prose and these carry a heading and one
-   dense one.
-
-   The glass here is heavier than elsewhere on the site by design. This
-   is the chapter that has to persuade before a reader has any reason to
-   trust the College, and it is the one place the site is permitted to
-   look expensive before it has finished arguing.
-   ══════════════════════════════════════════════════════════════════ */
-.domains { margin-top: 2em; }
-.domain {
-  position: relative; overflow: hidden;
-  padding: 30px 26px 28px; border-radius: var(--r-md);
-  background:
-    radial-gradient(130% 100% at 18% 0%, rgba(199,162,74,.13), transparent 56%),
-    linear-gradient(168deg, rgba(20,38,74,.92), rgba(10,20,40,.96));
-  border: 1px solid rgba(199,162,74,.26);
-  box-shadow:
-    0 26px 60px -34px rgba(3,8,20,.92),
-    inset 0 1px 0 rgba(255,255,255,.07);
-  transition: transform var(--dur-med) var(--ease-premium),
-              box-shadow var(--dur-med) var(--ease-premium),
-              border-color var(--dur-med) ease;
-}
-.domain:hover {
-  transform: translateY(-4px);
-  border-color: rgba(199,162,74,.5);
-  box-shadow:
-    0 40px 80px -34px rgba(3,8,20,.95),
-    inset 0 1px 0 rgba(255,255,255,.11);
-}
-.domain .badge-dome { margin-bottom: 18px; }
-.domain h3 {
-  margin: 0 0 10px; font-family: var(--font-display);
-  font-size: 1.24rem; font-weight: 600; line-height: 1.2;
-  color: var(--gold-bright, #E7C97A);
-}
-.domain p {
-  margin: 0; font-size: .93rem; line-height: 1.66;
-  color: rgba(247,244,236,.74);
-}
-@media (max-width: 1080px) { .domains { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 620px)  { .domains { grid-template-columns: 1fr; } }
-
-/* ── THE TYPEWRITER ──────────────────────────────────────────────────
-   The caret is a painted pseudo-element on the ink span rather than a
-   character in the text, so it never reaches the clipboard and never
-   reaches a screen reader. It stops blinking when the line finishes:
-   a caret that blinks forever on a finished sentence is a cursor
-   waiting for input, which is a promise the page is not making. */
-.typeset { display: block; }
-.typeset__ink::after {
-  content: ''; display: inline-block;
-  width: .06em; height: .92em; margin-inline-start: .08em;
-  vertical-align: -.12em;
-  background: currentColor; opacity: .85;
-  animation: typeset-caret 1s steps(1, end) infinite;
-}
-.typeset.is-typed .typeset__ink::after { animation: none; opacity: 0; }
-@keyframes typeset-caret { 0%, 55% { opacity: .85; } 56%, 100% { opacity: 0; } }
-
-@media (prefers-reduced-motion: reduce) {
-  /* Resolved to the FINISHED state: the full sentence, no caret.
-     js/motion.js returns before it empties the element, so the text is
-     already the real text — this only removes the ornament. */
-  .typeset__ink::after { display: none; }
-}
-
-/* ═══════════════════════════════════════════════════════════════════
-   THE SHELF — downloads that look like books
-   ═══════════════════════════════════════════════════════════════════
-   Eight volumes on the Academics pillar, each a struck card that is
-   also a link. `.card` supplies the material; these rules supply the
-   two things a download needs that a card does not have: its weight
-   before you commit to it, and a foot that says what will happen.
-
-   The size is at the TOP, not the bottom. A 26MB download over a phone
-   connection is a decision, and a reader who discovers the weight after
-   the tap has already spent it.
-   ══════════════════════════════════════════════════════════════════ */
-.shelf { margin-top: 1.6em; }
-.shelf__item { text-decoration: none; color: inherit; display: flex; flex-direction: column; }
-.shelf__size {
-  display: block; margin-bottom: 10px;
-  font-size: .68rem; letter-spacing: .14em; text-transform: uppercase;
-  font-weight: 700; color: var(--gold-royal);
-}
-[dir="rtl"] .shelf__size { letter-spacing: 0; }
-.shelf__item h3 { margin: 0 0 10px; font-size: 1.14rem; line-height: 1.24; }
-.shelf__item p { margin: 0 0 18px; font-size: .9rem; line-height: 1.62; }
-.shelf__get {
-  margin-top: auto; display: inline-flex; align-items: center; gap: .5em;
-  font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
-  color: var(--gold-bright, #E7C97A);
-  padding-top: 14px; border-top: 1px solid rgba(199,162,74,.24);
-}
-[dir="rtl"] .shelf__get { letter-spacing: 0; }
-.shelf__get .icon {
-  width: 13px; height: 13px;
-  transition: transform var(--dur-med) var(--ease-premium);
-}
-[dir="rtl"] .shelf__get .icon { transform: scaleX(-1); }
-.shelf__item:hover .shelf__get .icon { transform: translateX(4px); }
-[dir="rtl"] .shelf__item:hover .shelf__get .icon { transform: scaleX(-1) translateX(4px); }
-/* A volume heavy enough that the reader should choose the moment. Not
-   styled as a warning — it is a fact about the file, not a problem
-   with it — so it takes the muted rule rather than a colour. */
-.shelf__get--heavy { color: rgba(247,244,236,.6); font-size: .72rem; letter-spacing: .05em; }
-@media (max-width: 900px) { .shelf { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 620px) { .shelf { grid-template-columns: 1fr; } }

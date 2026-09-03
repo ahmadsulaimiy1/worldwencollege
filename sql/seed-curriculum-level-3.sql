@@ -25,18 +25,18 @@ INSERT INTO units (id, course_id, sequence, title) VALUES
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 ('itm_l3_m1_overview', 'unt_l3_m1', 1, 'reading', 'Module Overview & Key Phrases',
-'KEY PHRASES: Have you ever...? — I''ve never... — I have, actually — In fact,.../As a matter of fact,... — That''s/It''s had a real impact on me. — Looking back, I think...
+'KEY PHRASES: Have you ever...? -- I''ve never... -- I have, actually -- In fact,.../As a matter of fact,... -- That''s/It''s had a real impact on me. -- Looking back, I think...
 
-DISCOURSE MARKERS (functional set — adding emphasis or detail): "in fact", "actually", "as a matter of fact" — all used to add a stronger or more specific detail to a statement someone has just made ("I''ve travelled a lot. In fact, I''ve visited over ten countries."). These intensify or specify a claim, unlike Level II''s sequencing connectors.
+DISCOURSE MARKERS (functional set -- adding emphasis or detail): "in fact", "actually", "as a matter of fact" -- all used to add a stronger or more specific detail to a statement someone has just made ("I''ve travelled a lot. In fact, I''ve visited over ten countries."). These intensify or specify a claim, unlike Level II''s sequencing connectors.
 
 PHRASAL VERBS & COLLOCATIONS: "grow up" (spend your childhood somewhere), "look back on [something]" (think about a past experience, often reflectively), "get used to [something]" (become familiar/comfortable with something over time), "broaden your horizons" (gain wider experience/perspective), "make a lasting impression" (have a memorable, long-term effect on someone).
 
-BrE / AmE NOTE: the present perfect itself is used somewhat more in British English than American English in everyday speech (British speakers often prefer "I''ve just eaten" where American speakers often say "I just ate," both entirely correct within their own variety); the clearest concrete difference is the past participle of "get": British English uses "got" ("I''ve got better at this"), American English commonly uses "gotten" ("I''ve gotten better at this") for the "become/improve" meaning — both correct, genuinely one of the most noticeable grammatical BrE/AmE differences learners will encounter.
+BrE / AmE NOTE: the present perfect itself is used somewhat more in British English than American English in everyday speech (British speakers often prefer "I''ve just eaten" where American speakers often say "I just ate," both entirely correct within their own variety); the clearest concrete difference is the past participle of "get": British English uses "got" ("I''ve got better at this"), American English commonly uses "gotten" ("I''ve gotten better at this") for the "become/improve" meaning -- both correct, genuinely one of the most noticeable grammatical BrE/AmE differences learners will encounter.
 
 KEY VOCABULARY: experience-related nouns (achievement, milestone, turning point, perspective), reflection language (I realised, it taught me, looking back). Intercultural note: what counts as a "big" life experience varies by culture and personal circumstance.
 
-ENTRY DIAGNOSTIC (new at this level — the same diagnostic-and-revisit loop used at Levels IV and VI).
-Before Module 1''s language work begins, complete a short four-skills self-audit with your instructor. It is not graded and it is not a placement test — you are already placed. Its purpose is to make you the author of your own priorities for this level.
+ENTRY DIAGNOSTIC (new at this level -- the same diagnostic-and-revisit loop used at Levels IV and VI).
+Before Module 1''s language work begins, complete a short four-skills self-audit with your instructor. It is not graded and it is not a placement test -- you are already placed. Its purpose is to make you the author of your own priorities for this level.
 
 (1) SPEAKING: talk for 90 seconds about a change in your life. Your instructor notes, without correcting you in the moment, where you hesitated and what you avoided saying.
 (2) LISTENING: listen once to the Module 1 recording and write down what you understood. Note specifically what you MISSED, not what you caught.
@@ -47,30 +47,30 @@ THEN WRITE YOUR PERSONAL FOCUS PLAN: three sentences naming the ONE thing you wi
 
 Keep this plan. Module 10 asks you to return to it and say honestly which aims you met and which you did not. That honesty is the point: a plan you cannot fail is not a plan.'),
 
-('itm_l3_m1_lesson1', 'unt_l3_m1', 2, 'reading', 'Lesson 1.1 — Have You Ever...? — Present Perfect for Experience',
+('itm_l3_m1_lesson1', 'unt_l3_m1', 2, 'reading', 'Lesson 1.1 -- Have You Ever...? -- Present Perfect for Experience',
 'LEARNING OBJECTIVES: (1) form present perfect correctly (have/has + past participle) including common irregular participles, (2) ask "Have you ever...?" questions and answer with "I have/I haven''t (ever)...", (3) use present perfect specifically for unspecified-time life experience, not a single completed action, (4) add a brief reason or reaction to an experience answer, not just a bare "yes/no."
 
 PREREQUISITE KNOWLEDGE: Level II, Module 1 (past simple narration); Level I, Module 7 (irregular past participles overlap partly with irregular past simple forms).
 
 WARM-UP (5 min): Your instructor asks 3 rapid "Have you ever...?" questions and takes a quick show-of-hands count.
 
-PRESENTATION (10 min): "Have you ever visited another country? — Yes, I have. I''ve visited several, actually. Have you ever tried surfing? — No, I haven''t, but I''d like to." Present perfect here reports that something has happened at some point, with no specific time attached — the moment a specific time is named, the conversation naturally shifts to past simple.
+PRESENTATION (10 min): "Have you ever visited another country? -- Yes, I have. I''ve visited several, actually. Have you ever tried surfing? -- No, I haven''t, but I''d like to." Present perfect here reports that something has happened at some point, with no specific time attached -- the moment a specific time is named, the conversation naturally shifts to past simple.
 
 GUIDED PRACTICE (10 min): Pair work with 8 "Have you ever...?" prompt cards spanning travel, food, skills, achievements, and minor mishaps; interview each other, noting yes/no answers.
 
-INDEPENDENT PRACTICE / SPEAKING ACTIVITY (10 min): Write 5 real "Have you ever...?" questions of your own and interview a new partner, requiring the partner to add one sentence of reaction or reason to every "yes" answer ("Yes, I have — it was one of the best weeks of my life"). Then share your most interesting finding with the class.
+INDEPENDENT PRACTICE / SPEAKING ACTIVITY (10 min): Write 5 real "Have you ever...?" questions of your own and interview a new partner, requiring the partner to add one sentence of reaction or reason to every "yes" answer ("Yes, I have -- it was one of the best weeks of my life"). Then share your most interesting finding with the class.
 
 CRITICAL THINKING / DISCUSSION PROMPT: "Do you think it matters more what experiences someone has had, or how they think and talk about those experiences afterwards? Why?"
 
 LISTENING ACTIVITY (5 min): Listen to a short interview (6-7 exchanges) about life experiences and identify which questions use present perfect and which shift to past simple once a specific time is mentioned.
 
-READING ACTIVITY — EXTENDED READING & INFERENCE (8 min): Read a short first-person reflection (120-150 words) about a formative life experience. Answer 2 literal comprehension questions and 2 inference questions ("The writer doesn''t say this directly, but what can you infer about how they felt beforehand? What evidence in the text supports your answer?").
+READING ACTIVITY -- EXTENDED READING & INFERENCE (8 min): Read a short first-person reflection (120-150 words) about a formative life experience. Answer 2 literal comprehension questions and 2 inference questions ("The writer doesn''t say this directly, but what can you infer about how they felt beforehand? What evidence in the text supports your answer?").
 
 WRITING TASK (5 min): Write 4-5 present perfect sentences about your own real experiences, then rewrite one of them adding a specific time and switching correctly to past simple.
 
 PRONUNCIATION PRACTICE (5 min): The contracted, connected form ''ve/''s in natural speech ("I''ve been," "She''s tried") versus the full form used for emphasis or negation; rising intonation on "Have you ever...?" questions as genuinely curious in tone.
 
-VOCABULARY REINFORCEMENT: a present-perfect experience "bingo" — mingle to find a classmate who matches each experience square.
+VOCABULARY REINFORCEMENT: a present-perfect experience "bingo" -- mingle to find a classmate who matches each experience square.
 
 FORMATIVE ASSESSMENT: Instructor checks the core target error (using past simple where present perfect is needed for unspecified-time experience, and vice versa) during independent practice.
 
@@ -80,14 +80,14 @@ REVISION: Lesson 1.2 opens with learners briefly sharing their homework notes in
 
 EXTENSION: Add present perfect continuous for an experience still relevant/ongoing ("I''ve been learning Spanish for two years") as a recognition-level preview.'),
 
-('itm_l3_m1_lesson2', 'unt_l3_m1', 3, 'reading', 'Lesson 1.2 — I Went There in 2019 — Present Perfect vs. Past Simple in Conversation',
+('itm_l3_m1_lesson2', 'unt_l3_m1', 3, 'reading', 'Lesson 1.2 -- I Went There in 2019 -- Present Perfect vs. Past Simple in Conversation',
 'LEARNING OBJECTIVES: (1) correctly shift from present perfect to past simple once a specific time is mentioned or asked for, (2) ask natural specific-time follow-up questions (When did you...? What was it like?), (3) narrate a real life experience as a short connected mini-story, combining both tenses appropriately, (4) briefly explain the significance of an experience, using "which is why" to connect a fact to its consequence.
 
 PREREQUISITE KNOWLEDGE: Lesson 1.1 (present perfect for experience), Level II Module 9 (sequencing connectors and narrative shape, now extended into a mixed-tense narrative).
 
 WARM-UP (5 min): Your instructor tells a real "Have you ever...?" answer about themselves; the class asks 3 specific-time follow-up questions.
 
-PRESENTATION (10 min): "A: Have you ever lived abroad? B: Yes, I have. I lived in Berlin for a year. A: Really? When did you go? B: I went in 2019, actually. It completely changed how I see my own country — which is why I''d recommend it to anyone." Present perfect opens the topic; once a specific time is given or asked for, the conversation moves to past simple for the specific event and its details; "which is why" links a stated fact to a personal consequence or opinion.
+PRESENTATION (10 min): "A: Have you ever lived abroad? B: Yes, I have. I lived in Berlin for a year. A: Really? When did you go? B: I went in 2019, actually. It completely changed how I see my own country -- which is why I''d recommend it to anyone." Present perfect opens the topic; once a specific time is given or asked for, the conversation moves to past simple for the specific event and its details; "which is why" links a stated fact to a personal consequence or opinion.
 
 GUIDED PRACTICE (10 min): Pair work: Learner A shares a real experience (from Lesson 1.1''s homework notes) starting with present perfect; Learner B asks at least 2 specific-time follow-up questions, and Learner A answers in past simple with detail, then swap.
 
@@ -101,7 +101,7 @@ READING ACTIVITY (5 min): Read a short "This changed how I see the world" person
 
 WRITING TASK (5 min): Write your mini-story into a clean final short paragraph (6-8 sentences), checked for correct present perfect/past simple shifts.
 
-PRONUNCIATION PRACTICE (5 min): Sentence stress for contrast across a longer utterance — stressing the shift word itself ("I lived in Berlin for a YEAR" vs. "I''ve LIVED there") — how stress placement signals which part of a sentence carries new information.
+PRONUNCIATION PRACTICE (5 min): Sentence stress for contrast across a longer utterance -- stressing the shift word itself ("I lived in Berlin for a YEAR" vs. "I''ve LIVED there") -- how stress placement signals which part of a sentence carries new information.
 
 VOCABULARY REINFORCEMENT: a "specific-time" vocabulary bank review (in 2019, a few years ago, when I was younger, back then) matched against the "unspecified-time" bank from Lesson 1.1 (ever, never, so far, in my life).
 
@@ -113,12 +113,12 @@ REVISION: This lesson opens with the Lesson 1.1 homework-notes recap. Module 1''
 
 EXTENSION: Add a second "which is why" sentence connecting a different consequence, and try substituting "as a result" as an alternative connector with the same function.'),
 
-('itm_l3_m1_quiz', 'unt_l3_m1', 4, 'quiz', 'Module 1 Quiz — Present Perfect & Life Experience', NULL),
+('itm_l3_m1_quiz', 'unt_l3_m1', 4, 'quiz', 'Module 1 Quiz -- Present Perfect & Life Experience', NULL),
 
-('itm_l3_m1_assignment', 'unt_l3_m1', 5, 'assignment', 'Module 1 Assignment — A Life Experience That Changed My Perspective',
+('itm_l3_m1_assignment', 'unt_l3_m1', 5, 'assignment', 'Module 1 Assignment -- A Life Experience That Changed My Perspective',
 'INSTRUCTIONS: Write (or record) a short, connected account, 8-10 sentences, of one real life experience that mattered to you. Structure it exactly as this module practised: open with a present-perfect claim (what you have experienced); shift to past simple for the specific time and detail; include at least one discourse marker from this module (in fact/actually/as a matter of fact); include at least one significance connector (which is why/as a result) explaining why the experience mattered; and use at least one phrasal verb or collocation from this module''s list.
 
-GRADING RUBRIC: (1) Grammatical accuracy — correct present perfect formation and correct, appropriately timed shift to past simple. (2) Vocabulary range — at least one discourse marker, one significance connector, and one phrasal verb/collocation from this module used correctly. (3) Task completion — the experience is opened, narrated with specific detail, and its significance is explicitly stated. (4) Communicative quality — is the reflection genuine and specific, not generic? (5) Discourse coherence & register — does the account read as one connected, logically ordered piece of writing, and is the register appropriate to a genuine personal reflection?
+GRADING RUBRIC: (1) Grammatical accuracy -- correct present perfect formation and correct, appropriately timed shift to past simple. (2) Vocabulary range -- at least one discourse marker, one significance connector, and one phrasal verb/collocation from this module used correctly. (3) Task completion -- the experience is opened, narrated with specific detail, and its significance is explicitly stated. (4) Communicative quality -- is the reflection genuine and specific, not generic? (5) Discourse coherence & register -- does the account read as one connected, logically ordered piece of writing, and is the register appropriate to a genuine personal reflection?
 
 A grade at or above the platform''s pass threshold marks this module complete.');
 
@@ -130,7 +130,7 @@ INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json
 ('qq_l3_m1_5', 'itm_l3_m1_quiz', 5, '"I''ve never ___ sushi."', '["try","tried","tries","trying"]', 1),
 ('qq_l3_m1_6', 'itm_l3_m1_quiz', 6, 'Which sentence uses present perfect correctly for unspecified-time experience?', '["I have visited Paris last year.","I have visit Paris.","I visited Paris ever.","I have visited Paris."]', 3),
 ('qq_l3_m1_7', 'itm_l3_m1_quiz', 7, '"I lived in Berlin for a year. ___, it changed how I see my own country."', '["In fact","Which is why","Actually","It completely changed"]', 2),
-('qq_l3_m1_8', 'itm_l3_m1_quiz', 8, '"It taught me a lot about independence — ___ I''d recommend it to anyone."', '["which is why","in fact","actually","so far"]', 0),
+('qq_l3_m1_8', 'itm_l3_m1_quiz', 8, '"It taught me a lot about independence -- ___ I''d recommend it to anyone."', '["which is why","in fact","actually","so far"]', 0),
 ('qq_l3_m1_9', 'itm_l3_m1_quiz', 9, 'In American English, the past participle of "get" (meaning "become/improve") is often:', '["gotten","got","getting","get"]', 0),
 ('qq_l3_m1_10', 'itm_l3_m1_quiz', 10, 'Which phrase means "become familiar or comfortable with something over time"?', '["grow up","look back on","get used to","make an impression"]', 2);
 
@@ -143,9 +143,9 @@ INSERT INTO units (id, course_id, sequence, title) VALUES
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 ('itm_l3_m2_overview', 'unt_l3_m2', 1, 'reading', 'Module Overview & Key Phrases',
-'KEY PHRASES: I''ve been studying... for/since... — a course that.../a subject which... — What I find most useful is... — In other words,.../To put it another way,... — According to the talk/text,...
+'KEY PHRASES: I''ve been studying... for/since... -- a course that.../a subject which... -- What I find most useful is... -- In other words,.../To put it another way,... -- According to the talk/text,...
 
-DISCOURSE MARKERS (functional set — rephrasing and attributing): "in other words", "to put it another way" (signal a paraphrase); "according to" (attribute an idea to its source).
+DISCOURSE MARKERS (functional set -- rephrasing and attributing): "in other words", "to put it another way" (signal a paraphrase); "according to" (attribute an idea to its source).
 
 PHRASAL VERBS & COLLOCATIONS: "keep up with [coursework]" (stay on schedule with ongoing work), "fall behind" (stop keeping pace), "take in [information]" (absorb/understand), "make notes/take notes", "hands-on learning" (learning through direct practice).
 
@@ -153,7 +153,7 @@ BrE / AmE NOTE: British "university" and American "college" are both used for hi
 
 KEY VOCABULARY: academic vocabulary I (lecture, seminar, assignment, deadline, coursework, tutor/professor, plagiarism, independent study), study-habit vocabulary (procrastinate, revise, cram, prioritise). Intercultural note: educational systems and study expectations vary significantly by country.'),
 
-('itm_l3_m2_lesson1', 'unt_l3_m2', 2, 'reading', 'Lesson 2.1 — I''ve Been Studying... — Present Perfect Continuous & Defining Relative Clauses',
+('itm_l3_m2_lesson1', 'unt_l3_m2', 2, 'reading', 'Lesson 2.1 -- I''ve Been Studying... -- Present Perfect Continuous & Defining Relative Clauses',
 'LEARNING OBJECTIVES: (1) form present perfect continuous correctly (have/has been + -ing), (2) use it to describe an activity that started in the past and continues now, with for/since, (3) form a defining relative clause with who/which/that to specify exactly which person, course, or thing you mean, (4) combine both structures to describe your own study situation precisely.
 
 PREREQUISITE KNOWLEDGE: Level III, Module 1 (present perfect simple); Level I, Module 3 (present simple for routine, the "non-continuing" contrast point).
@@ -170,7 +170,7 @@ CRITICAL THINKING / DISCUSSION PROMPT: "Do you think the amount of time someone 
 
 LISTENING ACTIVITY (5 min): Listen to a student describing their course of study and complete a simple fact-grid worksheet.
 
-READING ACTIVITY — EXTENDED READING & INFERENCE (8 min): Read a short university-life text (150 words) about a student''s study routine. Answer 2 literal questions and 2 inference questions.
+READING ACTIVITY -- EXTENDED READING & INFERENCE (8 min): Read a short university-life text (150 words) about a student''s study routine. Answer 2 literal questions and 2 inference questions.
 
 WRITING TASK (5 min): Write 4-5 sentences describing something you''ve been doing for a period of time, including at least one defining relative clause.
 
@@ -184,16 +184,16 @@ HOMEWORK: Note 3 real facts about your own learning history, ready for Lesson 2.
 
 REVISION: Lesson 2.2 opens with a brief recap using the homework facts as note-taking material.
 
-EXTENSION: Add a non-defining relative clause example for contrast (recognition only) — e.g. "My English teacher, who has taught for ten years, ..."'),
+EXTENSION: Add a non-defining relative clause example for contrast (recognition only) -- e.g. "My English teacher, who has taught for ten years, ..."'),
 
-('itm_l3_m2_lesson2', 'unt_l3_m2', 3, 'reading', 'Lesson 2.2 — Taking Notes — Note-Taking, Summarising & Paraphrasing',
+('itm_l3_m2_lesson2', 'unt_l3_m2', 3, 'reading', 'Lesson 2.2 -- Taking Notes -- Note-Taking, Summarising & Paraphrasing',
 'LEARNING OBJECTIVES: (1) take brief, structured notes from a short spoken talk, capturing main points rather than every word, (2) summarise a short text or talk in 2-3 sentences, in your own words, (3) paraphrase a specific sentence without changing its meaning, (4) use "in other words"/"to put it another way" to signal you are rephrasing.
 
 PREREQUISITE KNOWLEDGE: Lesson 2.1 (academic vocabulary, listening for detail).
 
 WARM-UP (5 min): Your instructor reads a short paragraph aloud once, at normal speed; write down only the 3 most important words or ideas you caught.
 
-PRESENTATION (10 min): A simple, practical note-taking system: headings, short phrases (not full sentences), abbreviations and symbols (&, w/, ->, e.g.), and numbers/bullets for structure. Summarising a short paragraph aloud in one sentence, and paraphrasing a specific sentence ("Many students find it difficult to manage their time" -> "In other words, time management is a common challenge for students") — paraphrasing keeps roughly the same length and detail, just different words; summarising deliberately shortens.
+PRESENTATION (10 min): A simple, practical note-taking system: headings, short phrases (not full sentences), abbreviations and symbols (&, w/, ->, e.g.), and numbers/bullets for structure. Summarising a short paragraph aloud in one sentence, and paraphrasing a specific sentence ("Many students find it difficult to manage their time" -> "In other words, time management is a common challenge for students") -- paraphrasing keeps roughly the same length and detail, just different words; summarising deliberately shortens.
 
 GUIDED PRACTICE (10 min): Listen to a short talk (played twice) and take notes using the modelled system, then compare notes with a partner and discuss what each of you chose to include or leave out, and why.
 
@@ -207,7 +207,7 @@ READING ACTIVITY (5 min): Read a short academic-style paragraph and write one pa
 
 WRITING TASK (5 min): Using your Lesson 2.1 homework facts, write a short paragraph about your own learning journey that includes one paraphrased idea using "in other words."
 
-PRONUNCIATION PRACTICE (5 min): Natural stress and pacing for summarising aloud — slightly slower, more clearly stressed key words than casual conversation.
+PRONUNCIATION PRACTICE (5 min): Natural stress and pacing for summarising aloud -- slightly slower, more clearly stressed key words than casual conversation.
 
 VOCABULARY REINFORCEMENT: a note-taking abbreviation/symbol matching game (&, w/, ->, e.g., i.e., etc.).
 
@@ -219,12 +219,12 @@ REVISION: This lesson opens with the Lesson 2.1 fact recap used as note-taking m
 
 EXTENSION: Summarise the same talk in exactly one sentence, forcing a sharper judgement about the single most essential point.'),
 
-('itm_l3_m2_quiz', 'unt_l3_m2', 4, 'quiz', 'Module 2 Quiz — Education & Learning', NULL),
+('itm_l3_m2_quiz', 'unt_l3_m2', 4, 'quiz', 'Module 2 Quiz -- Education & Learning', NULL),
 
-('itm_l3_m2_assignment', 'unt_l3_m2', 5, 'assignment', 'Module 2 Assignment — My Learning Journey — A Short Reflective Report',
+('itm_l3_m2_assignment', 'unt_l3_m2', 5, 'assignment', 'Module 2 Assignment -- My Learning Journey -- A Short Reflective Report',
 'INSTRUCTIONS: Write (or record) a short reflective report, 10-12 sentences, about your own experience learning English (or another subject of your choice). Include: at least one present perfect continuous sentence describing how long you''ve been studying; at least two defining relative clauses specifying particular courses, resources, or people; a short summary (2-3 sentences) of what you find most useful about how you study; and at least one paraphrase using "in other words" or "to put it another way."
 
-GRADING RUBRIC: (1) Grammatical accuracy — correct present perfect continuous formation, correct defining relative clause formation. (2) Vocabulary range — at least 4 distinct academic/study-habit words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion — duration statement, defining relative clauses, a genuine summary, and a paraphrase all present. (4) Communicative quality — is the reflection genuinely specific about the writer''s own real learning process, not generic? (5) Discourse coherence & register — does the report read as one connected reflective piece with an appropriate semi-formal academic register, and is the summary genuinely condensed rather than just copied from earlier sentences?
+GRADING RUBRIC: (1) Grammatical accuracy -- correct present perfect continuous formation, correct defining relative clause formation. (2) Vocabulary range -- at least 4 distinct academic/study-habit words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- duration statement, defining relative clauses, a genuine summary, and a paraphrase all present. (4) Communicative quality -- is the reflection genuinely specific about the writer''s own real learning process, not generic? (5) Discourse coherence & register -- does the report read as one connected reflective piece with an appropriate semi-formal academic register, and is the summary genuinely condensed rather than just copied from earlier sentences?
 
 A grade at or above the platform''s pass threshold marks this module complete.');
 
@@ -249,9 +249,9 @@ INSERT INTO units (id, course_id, sequence, title) VALUES
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 ('itm_l3_m3_overview', 'unt_l3_m3', 1, 'reading', 'Module Overview & Key Phrases',
-'KEY PHRASES: If you..., you... (general fact) — If we..., we''ll... (real future possibility) — I''d like to propose... — One challenge we might face is... — My plan is to... — Any questions?
+'KEY PHRASES: If you..., you... (general fact) -- If we..., we''ll... (real future possibility) -- I''d like to propose... -- One challenge we might face is... -- My plan is to... -- Any questions?
 
-DISCOURSE MARKERS (functional set — cause/effect, professional register): "as a result", "therefore", "this means that" — used to connect a workplace cause to its consequence in a more formal register than Level II''s so/because.
+DISCOURSE MARKERS (functional set -- cause/effect, professional register): "as a result", "therefore", "this means that" -- used to connect a workplace cause to its consequence in a more formal register than Level II''s so/because.
 
 PHRASAL VERBS & COLLOCATIONS: "set up a business" (start a company), "come up with [an idea]" (think of/invent an idea), "take a risk/take on a risk", "run a company" (manage/operate a business day to day), "scale up" (grow a business''s operations).
 
@@ -259,10 +259,10 @@ BrE / AmE NOTE: job-application vocabulary differs: British "CV" (curriculum vit
 
 KEY VOCABULARY: workplace vocabulary (deadline, target, client, colleague, promotion, workload), entrepreneurship vocabulary (start-up, funding, investor, launch, competitor, revenue), leadership vocabulary (decisive, accountable, delegate, inspire). Intercultural note: attitudes toward risk-taking, hierarchy, and directness in the workplace vary significantly across cultures.'),
 
-('itm_l3_m3_lesson1', 'unt_l3_m3', 2, 'reading', 'Lesson 3.1 — If You Meet the Deadline... — Zero Conditional for Workplace Facts & Policies',
+('itm_l3_m3_lesson1', 'unt_l3_m3', 2, 'reading', 'Lesson 3.1 -- If You Meet the Deadline... -- Zero Conditional for Workplace Facts & Policies',
 'LEARNING OBJECTIVES: (1) form the zero conditional correctly (If + present simple, present simple), (2) use it to state general workplace facts, routines, and policies, (3) distinguish a general truth from a specific, real-future prediction, (4) use "as a result"/"therefore" to connect a workplace cause to its effect.
 
-PREREQUISITE KNOWLEDGE: Level I, Module 3 (present simple for routine/fact — the zero conditional''s grammatical foundation).
+PREREQUISITE KNOWLEDGE: Level I, Module 3 (present simple for routine/fact -- the zero conditional''s grammatical foundation).
 
 WARM-UP (5 min): Your instructor states one true general workplace rule and asks whether the same rule is generally true where you''ve worked or studied.
 
@@ -276,7 +276,7 @@ CRITICAL THINKING / DISCUSSION PROMPT: "Do you think most workplace rules exist 
 
 LISTENING ACTIVITY (5 min): Listen to someone describing their company''s general policies (5-6 zero-conditional sentences) and complete a simple policy-summary worksheet.
 
-READING ACTIVITY — EXTENDED READING & INFERENCE (8 min): Read a short workplace-culture article excerpt (150 words) describing general practices at a generic, unnamed company. Answer 2 literal questions and 2 inference questions.
+READING ACTIVITY -- EXTENDED READING & INFERENCE (8 min): Read a short workplace-culture article excerpt (150 words) describing general practices at a generic, unnamed company. Answer 2 literal questions and 2 inference questions.
 
 WRITING TASK (5 min): Write 4-5 zero-conditional sentences about general facts or policies in a field you''re interested in, including at least one "as a result"/"therefore" connector.
 
@@ -290,22 +290,22 @@ HOMEWORK: Think of one real or realistic business idea and jot down 3-4 rough no
 
 REVISION: Lesson 3.2 opens with learners briefly describing their homework business idea in one sentence.
 
-EXTENSION: Add one zero-conditional sentence about a scientific or natural general truth (not workplace-related) — e.g. "If you heat water to 100C, it boils."'),
+EXTENSION: Add one zero-conditional sentence about a scientific or natural general truth (not workplace-related) -- e.g. "If you heat water to 100C, it boils."'),
 
-('itm_l3_m3_lesson2', 'unt_l3_m3', 3, 'reading', 'Lesson 3.2 — If We Launch This Product... — First Conditional & Pitching a Business Idea',
+('itm_l3_m3_lesson2', 'unt_l3_m3', 3, 'reading', 'Lesson 3.2 -- If We Launch This Product... -- First Conditional & Pitching a Business Idea',
 'LEARNING OBJECTIVES: (1) form the first conditional correctly (If + present simple, will + base verb), (2) use it to describe a real, specific future possibility, (3) structure and deliver a short prepared talk (a "pitch") with a clear idea, at least one benefit, and one acknowledged challenge, (4) respond calmly and clearly to an unscripted follow-up question.
 
 PREREQUISITE KNOWLEDGE: Lesson 3.1 (zero conditional, workplace vocabulary).
 
 WARM-UP (5 min): Your instructor contrasts one zero-conditional sentence and one first-conditional sentence about the same general topic and asks you to identify the difference in meaning.
 
-PRESENTATION (10 min): "If we launch this product in spring, we''ll reach more customers before summer. If demand is high, we''ll need more funding. One challenge we might face is competition — if a competitor launches something similar first, we''ll need a clear advantage." First conditional describes one real, specific possible future situation and its likely result. A short pitch structure: the idea (what it is, in one sentence) -> the benefit (why it matters, using a first-conditional sentence) -> one challenge, acknowledged honestly -> a brief closing invitation for questions.
+PRESENTATION (10 min): "If we launch this product in spring, we''ll reach more customers before summer. If demand is high, we''ll need more funding. One challenge we might face is competition -- if a competitor launches something similar first, we''ll need a clear advantage." First conditional describes one real, specific possible future situation and its likely result. A short pitch structure: the idea (what it is, in one sentence) -> the benefit (why it matters, using a first-conditional sentence) -> one challenge, acknowledged honestly -> a brief closing invitation for questions.
 
 GUIDED PRACTICE (10 min): Pair work: take turns pitching a simple, pre-given business idea (from prompt cards) to a partner using the four-part structure, with the partner asking one follow-up question at the end.
 
 INDEPENDENT PRACTICE (10 min): Develop your own homework business idea into a full short pitch (4-5 sentences: idea, benefit using first conditional, one honest challenge, an invitation for questions), and rehearse it once.
 
-SPEAKING ACTIVITY — PRESENTATION TASK: Deliver your 60-90 second pitch to a small group (or the whole class), who listen and ask at least one genuine follow-up question each. Respond to at least one question on the spot, unscripted.
+SPEAKING ACTIVITY -- PRESENTATION TASK: Deliver your 60-90 second pitch to a small group (or the whole class), who listen and ask at least one genuine follow-up question each. Respond to at least one question on the spot, unscripted.
 
 CRITICAL THINKING / DISCUSSION PROMPT: "When someone pitches you an idea and honestly admits a challenge or weakness, does that make you trust the idea more or less? Why?"
 
@@ -327,12 +327,12 @@ REVISION: This lesson opens with the Lesson 3.1 business-idea one-sentence recap
 
 EXTENSION: Add a second first-conditional sentence addressing what happens if the acknowledged challenge actually occurs.'),
 
-('itm_l3_m3_quiz', 'unt_l3_m3', 4, 'quiz', 'Module 3 Quiz — Work, Careers & Entrepreneurship', NULL),
+('itm_l3_m3_quiz', 'unt_l3_m3', 4, 'quiz', 'Module 3 Quiz -- Work, Careers & Entrepreneurship', NULL),
 
-('itm_l3_m3_assignment', 'unt_l3_m3', 5, 'assignment', 'Module 3 Assignment — Pitch a Business Idea',
+('itm_l3_m3_assignment', 'unt_l3_m3', 5, 'assignment', 'Module 3 Assignment -- Pitch a Business Idea',
 'INSTRUCTIONS: Record yourself (or perform live) delivering a short business pitch, 60-90 seconds. Your pitch must include: at least one zero-conditional sentence stating a general truth relevant to your idea or its market; at least two first-conditional sentences describing real future possibilities (a benefit, and what happens if a challenge occurs); one honestly acknowledged challenge; and a closing invitation for questions, followed by a written answer to one likely question someone might ask.
 
-GRADING RUBRIC: (1) Grammatical accuracy — correct zero-conditional and first-conditional formation, used in the right context for each. (2) Vocabulary range — at least 4 distinct workplace/entrepreneurship words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion — idea, benefit, honest challenge, and question-response all present. (4) Communicative quality — is the idea genuinely specific and understandable, and does the acknowledged challenge sound honest rather than token? (5) Discourse coherence & register — does the pitch use professional-register connectors appropriately, and does it flow as one persuasive, connected talk?
+GRADING RUBRIC: (1) Grammatical accuracy -- correct zero-conditional and first-conditional formation, used in the right context for each. (2) Vocabulary range -- at least 4 distinct workplace/entrepreneurship words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- idea, benefit, honest challenge, and question-response all present. (4) Communicative quality -- is the idea genuinely specific and understandable, and does the acknowledged challenge sound honest rather than token? (5) Discourse coherence & register -- does the pitch use professional-register connectors appropriately, and does it flow as one persuasive, connected talk?
 
 A grade at or above the platform''s pass threshold marks this module complete.');
 
@@ -357,9 +357,9 @@ INSERT INTO units (id, course_id, sequence, title) VALUES
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 ('itm_l3_m4_overview', 'unt_l3_m4', 1, 'reading', 'Module Overview & Key Phrases',
-'KEY PHRASES: In my view,.../From my perspective,... — I would argue that... — Although..., I still think... — I see your point, but... — I''d have to disagree, because... — That''s a fair point, however...
+'KEY PHRASES: In my view,.../From my perspective,... -- I would argue that... -- Although..., I still think... -- I see your point, but... -- I''d have to disagree, because... -- That''s a fair point, however...
 
-DISCOURSE MARKERS (functional set — contrast within an argument): "although", "however", "on the other hand", "whereas" — used to hold two ideas in tension within a single, more sophisticated opinion.
+DISCOURSE MARKERS (functional set -- contrast within an argument): "although", "however", "on the other hand", "whereas" -- used to hold two ideas in tension within a single, more sophisticated opinion.
 
 PHRASAL VERBS & COLLOCATIONS: "back up [an argument]" (support a claim with evidence), "bring up [a point]" (introduce a topic), "get across [an idea]" (successfully communicate it), "stand by [an opinion]" (continue to support it when challenged), "weigh up [the pros and cons]" (carefully consider both sides).
 
@@ -367,7 +367,7 @@ BrE / AmE NOTE: the word "quite" is a genuine false-friend between the two varie
 
 KEY VOCABULARY: opinion/argument vocabulary (perspective, standpoint, counter-argument, evidence, concede, persuasive), leadership vocabulary recycled from Module 3 (decisive, accountable, delegate, inspire). Intercultural note: how directly people are expected to disagree in a discussion varies significantly by culture.'),
 
-('itm_l3_m4_lesson1', 'unt_l3_m4', 2, 'reading', 'Lesson 4.1 — In My View... — Structured Opinion Language',
+('itm_l3_m4_lesson1', 'unt_l3_m4', 2, 'reading', 'Lesson 4.1 -- In My View... -- Structured Opinion Language',
 'LEARNING OBJECTIVES: (1) state an opinion using a range of formal opinion phrases (in my view, from my perspective, I would argue that), (2) justify an opinion with at least one clear reason, (3) use although/however to acknowledge a counter-point within your own argument, (4) recognise the difference in strength between a tentative opinion and a firmly stated one.
 
 PREREQUISITE KNOWLEDGE: Level II, Module 4 (basic opinion-giving: I think.../I don''t think...).
@@ -384,7 +384,7 @@ CRITICAL THINKING / DISCUSSION PROMPT: "Do you think acknowledging the other sid
 
 LISTENING ACTIVITY (5 min): Listen to someone giving a structured opinion and identify each of the three parts on a simple worksheet.
 
-READING ACTIVITY — EXTENDED READING & INFERENCE (8 min): Read a short opinion-column excerpt (150-180 words) on a generic, everyday debatable topic. Answer 2 literal questions and 2 inference questions.
+READING ACTIVITY -- EXTENDED READING & INFERENCE (8 min): Read a short opinion-column excerpt (150-180 words) on a generic, everyday debatable topic. Answer 2 literal questions and 2 inference questions.
 
 WRITING TASK (5 min): Write a structured opinion paragraph (4-5 sentences) on a topic of your choice, using a formal opinion phrase, a reason, and an although/however counter-point.
 
@@ -400,20 +400,20 @@ REVISION: Lesson 4.2 opens with learners briefly stating their homework position
 
 EXTENSION: Add a second although counter-point addressing a different possible objection to your opinion.'),
 
-('itm_l3_m4_lesson2', 'unt_l3_m4', 3, 'reading', 'Lesson 4.2 — I See Your Point, But... — Formal Agreement, Disagreement & Debate',
+('itm_l3_m4_lesson2', 'unt_l3_m4', 3, 'reading', 'Lesson 4.2 -- I See Your Point, But... -- Formal Agreement, Disagreement & Debate',
 'LEARNING OBJECTIVES: (1) fully agree, partially agree, or disagree with an opinion using appropriate formal language, (2) respond to a counter-argument without becoming personal or dismissive, (3) participate in a structured debate: state a position, respond to a challenge, and (where genuinely warranted) concede a fair point, (4) discuss leadership qualities with justified reasons.
 
 PREREQUISITE KNOWLEDGE: Lesson 4.1 (structured opinion language), Level II Module 4 (basic agree/disagree language, now formalised).
 
 WARM-UP (5 min): Your instructor states a debatable opinion and asks 3 learners in turn to respond with full agreement, partial agreement, and disagreement respectively.
 
-PRESENTATION (10 min): The agreement/disagreement scale: FULL AGREEMENT ("I completely agree — in fact,..."), PARTIAL AGREEMENT ("I see your point, but I''m not sure that''s true in every case..."), DISAGREEMENT ("I''d have to disagree, because...", "That''s a fair point, however I think..."), and CONCEDING A POINT ("That''s true, I hadn''t considered that — although I still think..."). A strong debater genuinely listens and can concede a fair point without abandoning their overall position — a mark of a stronger arguer, not a weaker one.
+PRESENTATION (10 min): The agreement/disagreement scale: FULL AGREEMENT ("I completely agree -- in fact,..."), PARTIAL AGREEMENT ("I see your point, but I''m not sure that''s true in every case..."), DISAGREEMENT ("I''d have to disagree, because...", "That''s a fair point, however I think..."), and CONCEDING A POINT ("That''s true, I hadn''t considered that -- although I still think..."). A strong debater genuinely listens and can concede a fair point without abandoning their overall position -- a mark of a stronger arguer, not a weaker one.
 
 GUIDED PRACTICE (10 min): Pair work: Learner A states an opinion from a prompt card; Learner B responds using one of the four response types (rotating), then discuss what changed about the tone with each response type.
 
-INDEPENDENT PRACTICE (10 min): In small groups, hold a structured 3-round mini-debate on "What makes a good leader?": Round 1 — each person states their position with a reason; Round 2 — each person responds to one other person''s position; Round 3 — each person gives a brief closing statement, conceding at least one fair point if genuinely warranted.
+INDEPENDENT PRACTICE (10 min): In small groups, hold a structured 3-round mini-debate on "What makes a good leader?": Round 1 -- each person states their position with a reason; Round 2 -- each person responds to one other person''s position; Round 3 -- each person gives a brief closing statement, conceding at least one fair point if genuinely warranted.
 
-SPEAKING ACTIVITY — PRESENTATION/DISCUSSION TASK: The 3-round mini-debate above. Groups briefly report their range of positions to the class afterward.
+SPEAKING ACTIVITY -- PRESENTATION/DISCUSSION TASK: The 3-round mini-debate above. Groups briefly report their range of positions to the class afterward.
 
 CRITICAL THINKING / DISCUSSION PROMPT: "Have you ever changed your mind during a discussion because someone made a good point? What was it that convinced you?"
 
@@ -435,12 +435,12 @@ REVISION: This lesson opens with the Lesson 4.1 position recap. Module 4''s Quiz
 
 EXTENSION: Research (or reason through) a counter-argument to your own original position and present it fairly.'),
 
-('itm_l3_m4_quiz', 'unt_l3_m4', 4, 'quiz', 'Module 4 Quiz — Opinions & Debate', NULL),
+('itm_l3_m4_quiz', 'unt_l3_m4', 4, 'quiz', 'Module 4 Quiz -- Opinions & Debate', NULL),
 
-('itm_l3_m4_assignment', 'unt_l3_m4', 5, 'assignment', 'Module 4 Assignment — Structured Debate — What Makes a Good Leader?',
+('itm_l3_m4_assignment', 'unt_l3_m4', 5, 'assignment', 'Module 4 Assignment -- Structured Debate -- What Makes a Good Leader?',
 'INSTRUCTIONS: Record yourself (or perform live with a partner or small group) a structured discussion, 90 seconds to 2 minutes, on "What makes a good leader?" Your contribution must include: a clearly stated position using a formal opinion phrase and at least one reason; at least one although/however counter-point acknowledgement within your own argument; at least one response to someone else''s point using full agreement, partial agreement, or disagreement language; and one genuinely conceded point.
 
-GRADING RUBRIC: (1) Grammatical accuracy — correct formal opinion structures, correct although/however contrast formation. (2) Vocabulary range — at least 3 distinct opinion/argument words or phrases used correctly, plus one phrasal verb/collocation from this module. (3) Task completion — position, reason, counter-point acknowledgement, a response to another view, and a genuine concession all present. (4) Communicative quality — is the argument genuinely reasoned and specific, not a vague generalisation? (5) Discourse coherence & register — is the register appropriately formal for a structured debate, and does the contribution stay respectful and evidence-based throughout, even in disagreement?
+GRADING RUBRIC: (1) Grammatical accuracy -- correct formal opinion structures, correct although/however contrast formation. (2) Vocabulary range -- at least 3 distinct opinion/argument words or phrases used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- position, reason, counter-point acknowledgement, a response to another view, and a genuine concession all present. (4) Communicative quality -- is the argument genuinely reasoned and specific, not a vague generalisation? (5) Discourse coherence & register -- is the register appropriately formal for a structured debate, and does the contribution stay respectful and evidence-based throughout, even in disagreement?
 
 A grade at or above the platform''s pass threshold marks this module complete.');
 
@@ -465,24 +465,24 @@ INSERT INTO units (id, course_id, sequence, title) VALUES
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 ('itm_l3_m5_overview', 'unt_l3_m5', 1, 'reading', 'Module Overview & Key Phrases',
-'KEY PHRASES: [Something] is done/is made/is used... — [Something] was affected/was caused/was reduced... — As a consequence,.../This has led to... — Due to.../Owing to... — On the one hand..., on the other hand...
+'KEY PHRASES: [Something] is done/is made/is used... -- [Something] was affected/was caused/was reduced... -- As a consequence,.../This has led to... -- Due to.../Owing to... -- On the one hand..., on the other hand...
 
-DISCOURSE MARKERS (functional set — formal cause and consequence): "as a consequence", "this has led to", "due to", "owing to" — a more formal register than Module 3''s "as a result," suited to reporting on issues.
+DISCOURSE MARKERS (functional set -- formal cause and consequence): "as a consequence", "this has led to", "due to", "owing to" -- a more formal register than Module 3''s "as a result," suited to reporting on issues.
 
 PHRASAL VERBS & COLLOCATIONS: "carry out [a study/research]" (conduct it), "cut down [trees]", "give rise to [a problem]" (cause something to begin or develop), "take action (on)" (do something in response to an issue), "phase out [something]" (gradually stop using something over time).
 
-BrE / AmE NOTE: British "rubbish"/"bin" vs. American "trash/garbage"/"trash can"; British "petrol" vs. American "gas/gasoline" for vehicle fuel — a pair that can cause real confusion, since British "gas" usually means a cooking/heating gas, not vehicle fuel.
+BrE / AmE NOTE: British "rubbish"/"bin" vs. American "trash/garbage"/"trash can"; British "petrol" vs. American "gas/gasoline" for vehicle fuel -- a pair that can cause real confusion, since British "gas" usually means a cooking/heating gas, not vehicle fuel.
 
 KEY VOCABULARY: environmental vocabulary (emissions, sustainability, renewable, biodiversity, deforestation, pollution), ethics/global-citizenship vocabulary (dilemma, trade-off, responsible, stakeholder, impact). Intercultural note: environmental priorities and what counts as an urgent issue can differ significantly by country and circumstance.'),
 
-('itm_l3_m5_lesson1', 'unt_l3_m5', 2, 'reading', 'Lesson 5.1 — Plastic Is Recycled... — Passive Voice, Present Simple',
+('itm_l3_m5_lesson1', 'unt_l3_m5', 2, 'reading', 'Lesson 5.1 -- Plastic Is Recycled... -- Passive Voice, Present Simple',
 'LEARNING OBJECTIVES: (1) form the present simple passive correctly (is/are + past participle), (2) use it to describe general processes and facts where the action matters more than who performs it, (3) choose actively vs. passively depending on what should be emphasised, (4) use "as a consequence"/"this has led to"/"due to" to explain cause and effect formally.
 
 PREREQUISITE KNOWLEDGE: Level I, Module 3 (present simple); Level II, Module 4 (opinion language, lightly recycled for the discussion activity).
 
-WARM-UP (5 min): Your instructor shows two versions of the same sentence — one active ("Factories produce a lot of waste"), one passive ("A lot of waste is produced") — what feels different about each?
+WARM-UP (5 min): Your instructor shows two versions of the same sentence -- one active ("Factories produce a lot of waste"), one passive ("A lot of waste is produced") -- what feels different about each?
 
-PRESENTATION (10 min): "Plastic is recycled in many countries. Renewable energy is used more and more. Emissions are monitored by environmental agencies." The passive voice shifts focus onto the action or the result, not the doer — useful when the doer is unknown, unimportant, or already obvious from context.
+PRESENTATION (10 min): "Plastic is recycled in many countries. Renewable energy is used more and more. Emissions are monitored by environmental agencies." The passive voice shifts focus onto the action or the result, not the doer -- useful when the doer is unknown, unimportant, or already obvious from context.
 
 GUIDED PRACTICE (10 min): Convert 8 active sentences about environmental processes into passive voice, discussing for each whether the passive genuinely improves the sentence or whether the active would actually be clearer.
 
@@ -492,7 +492,7 @@ CRITICAL THINKING / DISCUSSION PROMPT: "Can you think of a global issue where it
 
 LISTENING ACTIVITY (5 min): Listen to a short factual report (6-7 sentences, mostly passive voice) about an environmental process and complete a simple process-sequence worksheet.
 
-READING ACTIVITY — EXTENDED READING & INFERENCE (8 min): Read a short factual article excerpt (150-180 words) about an environmental or global issue, written largely in passive voice. Answer 2 literal questions and 2 inference questions.
+READING ACTIVITY -- EXTENDED READING & INFERENCE (8 min): Read a short factual article excerpt (150-180 words) about an environmental or global issue, written largely in passive voice. Answer 2 literal questions and 2 inference questions.
 
 WRITING TASK (5 min): Rewrite 4 active-voice sentences about an environmental topic into passive voice, then explain in one sentence why the passive suits a factual report better here.
 
@@ -508,20 +508,20 @@ REVISION: Lesson 5.2 opens with learners briefly naming their chosen issue.
 
 EXTENSION: Add one present-continuous passive sentence as a recognition-level preview ("Renewable energy is being adopted more widely").'),
 
-('itm_l3_m5_lesson2', 'unt_l3_m5', 3, 'reading', 'Lesson 5.2 — The Area Was Affected... — Passive Voice, Past Simple & an Ethical Case Study',
+('itm_l3_m5_lesson2', 'unt_l3_m5', 3, 'reading', 'Lesson 5.2 -- The Area Was Affected... -- Passive Voice, Past Simple & an Ethical Case Study',
 'LEARNING OBJECTIVES: (1) form the past simple passive correctly (was/were + past participle), (2) use it to report a past event where the result matters more than the agent, (3) present both sides of an ethical dilemma using "on the one hand.../on the other hand...", (4) participate in a structured case-study discussion, weighing trade-offs rather than giving a single simple answer.
 
 PREREQUISITE KNOWLEDGE: Lesson 5.1 (present simple passive), Level I Module 7 (past simple, the past passive''s grammatical foundation).
 
 WARM-UP (5 min): Your instructor states one real generic past-event sentence in active voice and asks you to convert it to passive.
 
-PRESENTATION (10 min): "The area was affected by flooding last year. A large amount of habitat was destroyed. As a consequence, several species were displaced." Case-study structure: a short, realistic ethical dilemma is presented — e.g. a coastal town choosing between a new factory (jobs, but pollution risk) and no factory (fewer jobs, cleaner environment). Weighing it explicitly: "On the one hand, the factory would create jobs. On the other hand, it could harm the local environment."
+PRESENTATION (10 min): "The area was affected by flooding last year. A large amount of habitat was destroyed. As a consequence, several species were displaced." Case-study structure: a short, realistic ethical dilemma is presented -- e.g. a coastal town choosing between a new factory (jobs, but pollution risk) and no factory (fewer jobs, cleaner environment). Weighing it explicitly: "On the one hand, the factory would create jobs. On the other hand, it could harm the local environment."
 
 GUIDED PRACTICE (10 min): Convert 6 active past-tense sentences about an environmental event into passive voice, checking past participle accuracy including irregular forms.
 
 INDEPENDENT PRACTICE (10 min): In small groups, you are given one of 3 short ethical case-study scenarios (a resource trade-off, a technology-vs-privacy dilemma, a development-vs-conservation choice) and discuss it, each person contributing at least one "on the one hand/on the other hand" weighing statement and one past-passive sentence reporting a relevant past fact.
 
-SPEAKING ACTIVITY — PRESENTATION/DISCUSSION TASK: Each group briefly presents their case study and their range of views to the class (1-2 minutes per group).
+SPEAKING ACTIVITY -- PRESENTATION/DISCUSSION TASK: Each group briefly presents their case study and their range of views to the class (1-2 minutes per group).
 
 CRITICAL THINKING / DISCUSSION PROMPT: "Is it possible to make a decision that''s completely good for everyone, or does almost every real decision involve some kind of trade-off? Can you think of an example from your own life?"
 
@@ -543,12 +543,12 @@ REVISION: This lesson opens with the Lesson 5.1 issue-naming recap. Module 5''s 
 
 EXTENSION: Propose one possible compromise or partial solution to your case study''s dilemma.'),
 
-('itm_l3_m5_quiz', 'unt_l3_m5', 4, 'quiz', 'Module 5 Quiz — Environment, Ethics & Global Citizenship', NULL),
+('itm_l3_m5_quiz', 'unt_l3_m5', 4, 'quiz', 'Module 5 Quiz -- Environment, Ethics & Global Citizenship', NULL),
 
-('itm_l3_m5_assignment', 'unt_l3_m5', 5, 'assignment', 'Module 5 Assignment — A Global Issue — Report & Reflection',
+('itm_l3_m5_assignment', 'unt_l3_m5', 5, 'assignment', 'Module 5 Assignment -- A Global Issue -- Report & Reflection',
 'INSTRUCTIONS: Write (or record) a short factual report and reflection, 10-12 sentences, on one real global issue you''re interested in. Include: at least 2 present-simple passive sentences describing a general process or fact; at least 2 past-simple passive sentences reporting a specific past event; one "as a consequence"/"due to"-style cause-effect sentence; and a short "on the one hand/on the other hand" section weighing at least two sides of the issue.
 
-GRADING RUBRIC: (1) Grammatical accuracy — correct present-simple and past-simple passive formation. (2) Vocabulary range — at least 4 distinct environmental/ethics words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion — both passive tenses, a cause-effect sentence, and a genuinely balanced trade-off section all present. (4) Communicative quality — is the issue described with genuine, specific detail, and is the trade-off weighing genuinely balanced? (5) Discourse coherence & register — is the register appropriately formal and report-like throughout, and does the passive voice genuinely improve clarity where it''s used?
+GRADING RUBRIC: (1) Grammatical accuracy -- correct present-simple and past-simple passive formation. (2) Vocabulary range -- at least 4 distinct environmental/ethics words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- both passive tenses, a cause-effect sentence, and a genuinely balanced trade-off section all present. (4) Communicative quality -- is the issue described with genuine, specific detail, and is the trade-off weighing genuinely balanced? (5) Discourse coherence & register -- is the register appropriately formal and report-like throughout, and does the passive voice genuinely improve clarity where it''s used?
 
 A grade at or above the platform''s pass threshold marks this module complete.');
 
@@ -573,22 +573,22 @@ INSERT INTO units (id, course_id, sequence, title) VALUES
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 ('itm_l3_m6_overview', 'unt_l3_m6', 1, 'reading', 'Module Overview & Key Phrases',
-'KEY PHRASES: She said (that).../He told me (that)... — According to [the article/the review],... — It is reported that... — Apparently,... — That''s a fact, not just an opinion. — The headline suggests..., but the article actually says...
+'KEY PHRASES: She said (that).../He told me (that)... -- According to [the article/the review],... -- It is reported that... -- Apparently,... -- That''s a fact, not just an opinion. -- The headline suggests..., but the article actually says...
 
-DISCOURSE MARKERS (functional set — reporting and attributing): "according to", "it is reported that", "apparently" (a hedge marking information as secondhand, not personally verified).
+DISCOURSE MARKERS (functional set -- reporting and attributing): "according to", "it is reported that", "apparently" (a hedge marking information as secondhand, not personally verified).
 
 PHRASAL VERBS & COLLOCATIONS: "come out" (be published/released), "go viral" (spread very quickly online), "keep up with [the news/technology]", "log into/log onto [an account]", "roll out [a new feature]" (gradually release something to users).
 
-BrE / AmE NOTE: British "mobile phone" (or "mobile") vs. American "cell phone" (or "cell") for the same device — both universally understood internationally, but the default term differs by variety.
+BrE / AmE NOTE: British "mobile phone" (or "mobile") vs. American "cell phone" (or "cell") for the same device -- both universally understood internationally, but the default term differs by variety.
 
 KEY VOCABULARY: media/technology vocabulary (headline, source, bias, credible, algorithm, platform, update, feature), media-literacy vocabulary (fact-check, misleading, evidence, context). Intercultural note: trust in different types of media varies significantly by country and personal experience; the critical-evaluation method applies everywhere.'),
 
-('itm_l3_m6_lesson1', 'unt_l3_m6', 2, 'reading', 'Lesson 6.1 — She Said That... — Reported Speech for Statements',
+('itm_l3_m6_lesson1', 'unt_l3_m6', 2, 'reading', 'Lesson 6.1 -- She Said That... -- Reported Speech for Statements',
 'LEARNING OBJECTIVES: (1) report what someone said using "said (that)"/"told [someone] (that)", (2) apply the correct backshift (present -> past, will -> would, can -> could) when reporting a statement, (3) attribute a claim formally using "according to", (4) recognise when backshift is not required (when the reported statement is still generally true).
 
 PREREQUISITE KNOWLEDGE: Level I, Module 7 (past simple); Level II, Module 4 (opinion language, now reported rather than given directly).
 
-WARM-UP (5 min): Your instructor makes one true direct statement and immediately reports it in third person ("I just said that I loved this new app") — what changed?
+WARM-UP (5 min): Your instructor makes one true direct statement and immediately reports it in third person ("I just said that I loved this new app") -- what changed?
 
 PRESENTATION (10 min): Direct: "This app is really easy to use." -> Reported: "The reviewer said (that) the app was really easy to use." Direct: "I''ll update it next week." -> Reported: "She said (that) she would update it next week." The backshift pattern: is -> was, will -> would, can -> could. Exception: if a statement is still generally true at the time of reporting, backshift is often optional.
 
@@ -600,11 +600,11 @@ CRITICAL THINKING / DISCUSSION PROMPT: "When you repeat something someone else s
 
 LISTENING ACTIVITY (5 min): Listen to a short interview, then listen to someone reporting 5 statements from it, and check whether each reported statement accurately reflects what was actually said.
 
-READING ACTIVITY — EXTENDED READING & INFERENCE (8 min): Read a short news-style text (150-180 words) about a new piece of technology, containing several reported statements from named (generic) sources. Answer 2 literal questions and 2 inference questions.
+READING ACTIVITY -- EXTENDED READING & INFERENCE (8 min): Read a short news-style text (150-180 words) about a new piece of technology, containing several reported statements from named (generic) sources. Answer 2 literal questions and 2 inference questions.
 
 WRITING TASK (5 min): Write 4-5 reported-speech sentences based on real or invented statements someone has made to you about technology or media, applying correct backshift.
 
-PRONUNCIATION PRACTICE (5 min): The natural, unstressed pronunciation of "that" in reported speech (often dropped or reduced in fast, natural speech — "She said she''d update it") versus its fuller pronunciation in careful or written-style speech.
+PRONUNCIATION PRACTICE (5 min): The natural, unstressed pronunciation of "that" in reported speech (often dropped or reduced in fast, natural speech -- "She said she''d update it") versus its fuller pronunciation in careful or written-style speech.
 
 VOCABULARY REINFORCEMENT: a backshift-pairs matching game (is/was, will/would, can/could, have/had).
 
@@ -616,12 +616,12 @@ REVISION: Lesson 6.2 opens with learners reporting their homework headline using
 
 EXTENSION: Convert one reported statement back into an "according to [source]" attribution sentence.'),
 
-('itm_l3_m6_lesson2', 'unt_l3_m6', 3, 'reading', 'Lesson 6.2 — Is That Actually True? — Media Literacy & Evaluating Claims',
+('itm_l3_m6_lesson2', 'unt_l3_m6', 3, 'reading', 'Lesson 6.2 -- Is That Actually True? -- Media Literacy & Evaluating Claims',
 'LEARNING OBJECTIVES: (1) distinguish a fact from an opinion in a media text, (2) identify signs of possible bias or a misleading headline, (3) evaluate whether a claim is adequately supported by evidence, (4) discuss the impact of technology on daily life or society, with justified reasons.
 
 PREREQUISITE KNOWLEDGE: Lesson 6.1 (reported speech, attributing claims), Level III Module 4 (opinion/argument language, now applied critically to someone else''s claims).
 
-WARM-UP (5 min): Your instructor shows two headlines about the same generic, invented event — one neutral, one deliberately sensational — which seems designed to grab attention rather than simply inform?
+WARM-UP (5 min): Your instructor shows two headlines about the same generic, invented event -- one neutral, one deliberately sensational -- which seems designed to grab attention rather than simply inform?
 
 PRESENTATION (10 min): A simple evaluation checklist: Is this a fact or an opinion? (a fact can be checked; an opinion is a judgement); Does the headline match the article?; Is a source given?; Could there be bias? (who benefits if you believe this claim?). Apply it to one short example text aloud.
 
@@ -649,12 +649,12 @@ REVISION: This lesson opens with the Lesson 6.1 headline-reporting recap. Module
 
 EXTENSION: Find (or invent, plausibly) a counter-claim to your chosen technology''s impact, applying the evaluation checklist to both sides.'),
 
-('itm_l3_m6_quiz', 'unt_l3_m6', 4, 'quiz', 'Module 6 Quiz — Technology & Media', NULL),
+('itm_l3_m6_quiz', 'unt_l3_m6', 4, 'quiz', 'Module 6 Quiz -- Technology & Media', NULL),
 
-('itm_l3_m6_assignment', 'unt_l3_m6', 5, 'assignment', 'Module 6 Assignment — A Technology Review & Media Critique',
+('itm_l3_m6_assignment', 'unt_l3_m6', 5, 'assignment', 'Module 6 Assignment -- A Technology Review & Media Critique',
 'INSTRUCTIONS: Write (or record) a short review and critique, 10-12 sentences, of one piece of technology or one media claim you''ve recently encountered. Include: at least 2 reported-speech sentences relaying what someone else said or claimed, with correct backshift; at least one "according to"/"apparently"-style attribution; an evaluation of whether the claim is well-supported, referencing at least one checklist criterion from Lesson 6.2; and your own reasoned opinion on the technology''s impact.
 
-GRADING RUBRIC: (1) Grammatical accuracy — correct reported-speech formation and backshift. (2) Vocabulary range — at least 4 distinct media/technology words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion — reported claim, attribution, a reasoned evaluation, and a personal opinion all present. (4) Communicative quality — is the critique genuinely reasoned, not just a stated gut feeling? (5) Discourse coherence & register — does the piece distinguish clearly between what was reported and what is the writer''s own evaluation, and is the register appropriately measured and critical?
+GRADING RUBRIC: (1) Grammatical accuracy -- correct reported-speech formation and backshift. (2) Vocabulary range -- at least 4 distinct media/technology words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- reported claim, attribution, a reasoned evaluation, and a personal opinion all present. (4) Communicative quality -- is the critique genuinely reasoned, not just a stated gut feeling? (5) Discourse coherence & register -- does the piece distinguish clearly between what was reported and what is the writer''s own evaluation, and is the register appropriately measured and critical?
 
 A grade at or above the platform''s pass threshold marks this module complete.');
 
@@ -679,24 +679,24 @@ INSERT INTO units (id, course_id, sequence, title) VALUES
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 ('itm_l3_m7_overview', 'unt_l3_m7', 1, 'reading', 'Module Overview & Key Phrases',
-'KEY PHRASES: He must be.../She might be... — That can''t be right. — It''s likely that.../It''s possible that... — Could you describe your symptoms? — I''ve been feeling... — There''s no way that...
+'KEY PHRASES: He must be.../She might be... -- That can''t be right. -- It''s likely that.../It''s possible that... -- Could you describe your symptoms? -- I''ve been feeling... -- There''s no way that...
 
-DISCOURSE MARKERS (functional set — degrees of certainty): "it''s likely that", "it''s possible that", "there''s no way that" — hedging language expressing confidence in a claim, alongside the modal verbs themselves.
+DISCOURSE MARKERS (functional set -- degrees of certainty): "it''s likely that", "it''s possible that", "there''s no way that" -- hedging language expressing confidence in a claim, alongside the modal verbs themselves.
 
 PHRASAL VERBS & COLLOCATIONS: "come down with [an illness]" (start to suffer from it), "look after [yourself/someone]" (take care of), "get over [an illness]" (recover from), "wear off" (an effect gradually disappears), "feel run down" (feel exhausted or below your normal energy level).
 
 BrE / AmE NOTE: British "chemist''s" (the shop, also "pharmacy") vs. American "drugstore/pharmacy"; British "GP" (general practitioner) vs. American "primary care physician"; British "off sick" vs. American "out sick."
 
-KEY VOCABULARY: physical health vocabulary (symptom, diagnosis, prescription, recovery, exhausted, dizzy), mental wellbeing vocabulary (stress, anxious, overwhelmed, burnout, cope with). Intercultural note: openness about discussing mental health varies significantly by culture and personal comfort — all scenarios here are invented/generic.'),
+KEY VOCABULARY: physical health vocabulary (symptom, diagnosis, prescription, recovery, exhausted, dizzy), mental wellbeing vocabulary (stress, anxious, overwhelmed, burnout, cope with). Intercultural note: openness about discussing mental health varies significantly by culture and personal comfort -- all scenarios here are invented/generic.'),
 
-('itm_l3_m7_lesson1', 'unt_l3_m7', 2, 'reading', 'Lesson 7.1 — He Must Be Exhausted — Modals of Deduction, Present',
+('itm_l3_m7_lesson1', 'unt_l3_m7', 2, 'reading', 'Lesson 7.1 -- He Must Be Exhausted -- Modals of Deduction, Present',
 'LEARNING OBJECTIVES: (1) use must + base verb to express a confident deduction based on evidence, (2) use might/could + base verb to express a possible, less certain deduction, (3) use can''t + base verb to express that something is logically impossible given the evidence, (4) support a deduction with a stated reason.
 
 PREREQUISITE KNOWLEDGE: Level III, Module 3 (modal-adjacent conditional forms).
 
 WARM-UP (5 min): Your instructor describes a simple scenario with clear evidence ("My colleague has been yawning all day and drinking a lot of coffee") and asks you to guess what''s true.
 
-PRESENTATION (10 min): "He''s been yawning all day. He must be exhausted. She''s smiling and humming — she might be in a good mood. It can''t be that serious — she''s still laughing about it." "Must" = a confident, evidence-based conclusion (a different use from obligation); "might/could" = a plausible but uncertain guess; "can''t" = confident that something is NOT true, based on contradicting evidence.
+PRESENTATION (10 min): "He''s been yawning all day. He must be exhausted. She''s smiling and humming -- she might be in a good mood. It can''t be that serious -- she''s still laughing about it." "Must" = a confident, evidence-based conclusion (a different use from obligation); "might/could" = a plausible but uncertain guess; "can''t" = confident that something is NOT true, based on contradicting evidence.
 
 GUIDED PRACTICE (10 min): You are given 8 short scenario cards (each with 2-3 pieces of evidence) and make a deduction for each using must/might/can''t, stating your reason.
 
@@ -706,7 +706,7 @@ CRITICAL THINKING / DISCUSSION PROMPT: "Is it possible to be completely confiden
 
 LISTENING ACTIVITY (5 min): Listen to a short conversation in which two people make deductions about a third person''s wellbeing and note which modal each speaker uses and why.
 
-READING ACTIVITY — EXTENDED READING & INFERENCE (8 min): Read a short text (150 words) describing someone''s recent behaviour. Answer 2 literal questions and 2 inference questions using deduction modals in your answers.
+READING ACTIVITY -- EXTENDED READING & INFERENCE (8 min): Read a short text (150 words) describing someone''s recent behaviour. Answer 2 literal questions and 2 inference questions using deduction modals in your answers.
 
 WRITING TASK (5 min): Write 4-5 deduction sentences about an invented scenario of your choice, using must/might/could/can''t correctly with a stated reason for each.
 
@@ -722,20 +722,20 @@ REVISION: Lesson 7.2 opens with learners briefly describing their homework scena
 
 EXTENSION: Add one sentence using "must not" (a confident negative obligation-based deduction).'),
 
-('itm_l3_m7_lesson2', 'unt_l3_m7', 3, 'reading', 'Lesson 7.2 — She Might Have Been Stressed — Modals of Deduction, Past & a Healthcare Interview',
+('itm_l3_m7_lesson2', 'unt_l3_m7', 3, 'reading', 'Lesson 7.2 -- She Might Have Been Stressed -- Modals of Deduction, Past & a Healthcare Interview',
 'LEARNING OBJECTIVES: (1) form past deduction modals correctly (must have/might have/can''t have + past participle), (2) use them to deduce about a past situation based on later evidence, (3) ask and answer healthcare-interview-style questions clearly, sensitively, and with appropriate formality, (4) describe both physical and mental wellbeing using appropriate vocabulary and register.
 
 PREREQUISITE KNOWLEDGE: Lesson 7.1 (present deduction modals), Level III Module 1 (present perfect, the past participle''s other major use).
 
 WARM-UP (5 min): Your instructor describes a simple past scenario with evidence discovered afterward ("The meeting room light was still on when I left last night") and elicits a guess using must have/might have.
 
-PRESENTATION (10 min): "She looked exhausted this morning — she must have slept badly. He didn''t answer any calls yesterday — he might have been busy, or he might have been unwell. That can''t have been easy for them." Direct present->past mapping: must be -> must have been; might be -> might have been; can''t be -> can''t have been. Healthcare-interview structure: a clear opening question, specific follow-up questions, and a clear, calm closing summary.
+PRESENTATION (10 min): "She looked exhausted this morning -- she must have slept badly. He didn''t answer any calls yesterday -- he might have been busy, or he might have been unwell. That can''t have been easy for them." Direct present->past mapping: must be -> must have been; might be -> might have been; can''t be -> can''t have been. Healthcare-interview structure: a clear opening question, specific follow-up questions, and a clear, calm closing summary.
 
 GUIDED PRACTICE (10 min): Convert 6 present-deduction sentences into past-deduction sentences, checking past participle accuracy.
 
 INDEPENDENT PRACTICE (10 min): In pairs, Learner A plays a patient describing invented symptoms using present perfect ("I''ve been feeling...") from their Lesson 7.1 homework scenario; Learner B plays a healthcare professional, asking clarifying questions and making one appropriate past-deduction statement, then swap roles.
 
-SPEAKING ACTIVITY — INTERVIEW TASK: The full patient/professional interview roleplay above. All scenarios are invented; the goal is clear, sensitive communication, not medical accuracy.
+SPEAKING ACTIVITY -- INTERVIEW TASK: The full patient/professional interview roleplay above. All scenarios are invented; the goal is clear, sensitive communication, not medical accuracy.
 
 CRITICAL THINKING / DISCUSSION PROMPT: "Why do you think it''s important for a healthcare professional to ask several specific questions, rather than just guessing what''s wrong? How is this similar to the fact-finding questions you practised in Level II?"
 
@@ -757,19 +757,19 @@ REVISION: This lesson opens with the Lesson 7.1 scenario recap. Module 7''s Quiz
 
 EXTENSION: Add one "must not have" sentence, correctly distinguishing it from "can''t have."'),
 
-('itm_l3_m7_quiz', 'unt_l3_m7', 4, 'quiz', 'Module 7 Quiz — Health, Body & Mind', NULL),
+('itm_l3_m7_quiz', 'unt_l3_m7', 4, 'quiz', 'Module 7 Quiz -- Health, Body & Mind', NULL),
 
-('itm_l3_m7_assignment', 'unt_l3_m7', 5, 'assignment', 'Module 7 Assignment — A Healthcare Interview — Roleplay & Reflection',
+('itm_l3_m7_assignment', 'unt_l3_m7', 5, 'assignment', 'Module 7 Assignment -- A Healthcare Interview -- Roleplay & Reflection',
 'INSTRUCTIONS: Record yourself (or perform with a partner) a healthcare-interview roleplay, 90 seconds to 2 minutes, using entirely invented/fictional symptoms and details (never real personal health information). Include: a healthcare professional opening with "Could you describe your symptoms?" and at least 2 specific follow-up questions; a patient describing symptoms using present perfect ("I''ve been feeling..."); at least one present-deduction sentence (must/might/can''t be); at least one past-deduction sentence (must have/might have/can''t have been); and a clear closing summary from the professional.
 
-GRADING RUBRIC: (1) Grammatical accuracy — correct present- and past-deduction modal formation, correct present perfect for describing ongoing symptoms. (2) Vocabulary range — at least 4 distinct health/wellbeing words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion — opening question, follow-up questions, symptom description, both deduction types, and a closing summary all present. (4) Communicative quality — does the interview sound genuinely attentive and sensitive, not mechanical or rushed? (5) Discourse coherence & register — is the register calm, professional, and appropriately formal throughout, and does the closing summary genuinely and accurately reflect what was discussed?
+GRADING RUBRIC: (1) Grammatical accuracy -- correct present- and past-deduction modal formation, correct present perfect for describing ongoing symptoms. (2) Vocabulary range -- at least 4 distinct health/wellbeing words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- opening question, follow-up questions, symptom description, both deduction types, and a closing summary all present. (4) Communicative quality -- does the interview sound genuinely attentive and sensitive, not mechanical or rushed? (5) Discourse coherence & register -- is the register calm, professional, and appropriately formal throughout, and does the closing summary genuinely and accurately reflect what was discussed?
 
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
 ('qq_l3_m7_1', 'itm_l3_m7_quiz', 1, '"He''s been yawning all day. He ___ be exhausted." (confident deduction)', '["might","can''t","should","must"]', 3),
 ('qq_l3_m7_2', 'itm_l3_m7_quiz', 2, '"She''s smiling and humming. She ___ be in a good mood." (a plausible, less certain guess)', '["must","might","can''t","has to"]', 1),
-('qq_l3_m7_3', 'itm_l3_m7_quiz', 3, '"It ___ be that serious — she''s still laughing about it." (evidence contradicts it)', '["can''t","must","might","could"]', 0),
+('qq_l3_m7_3', 'itm_l3_m7_quiz', 3, '"It ___ be that serious -- she''s still laughing about it." (evidence contradicts it)', '["can''t","must","might","could"]', 0),
 ('qq_l3_m7_4', 'itm_l3_m7_quiz', 4, '"She looked exhausted this morning. She ___ badly." (past deduction)', '["must sleep","must slept","must have slept","must sleeping"]', 2),
 ('qq_l3_m7_5', 'itm_l3_m7_quiz', 5, '"He didn''t answer any calls. He ___ busy." (a plausible past guess)', '["might be","might have been","might been","might has been"]', 1),
 ('qq_l3_m7_6', 'itm_l3_m7_quiz', 6, '"___, he''s just tired from the journey." (a paraphrase for "must be")', '["There''s no way that","It''s impossible that","It''s certain that never","It''s likely that"]', 3),
@@ -787,20 +787,20 @@ INSERT INTO units (id, course_id, sequence, title) VALUES
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 ('itm_l3_m8_overview', 'unt_l3_m8', 1, 'reading', 'Module Overview & Key Phrases',
-'KEY PHRASES: If I travelled more, I would... — If you could live anywhere, where would you live? — That would be considered.../In my culture,... — Whereas.../In contrast,... — I don''t think there''s a "right" way — just a different one.
+'KEY PHRASES: If I travelled more, I would... -- If you could live anywhere, where would you live? -- That would be considered.../In my culture,... -- Whereas.../In contrast,... -- I don''t think there''s a "right" way -- just a different one.
 
-DISCOURSE MARKERS (functional set — comparison across two things): "whereas", "in contrast", "similarly" — used to compare two customs, places, or norms directly and evenhandedly, without implying one is better.
+DISCOURSE MARKERS (functional set -- comparison across two things): "whereas", "in contrast", "similarly" -- used to compare two customs, places, or norms directly and evenhandedly, without implying one is better.
 
 PHRASAL VERBS & COLLOCATIONS: "fit in" (feel/be accepted as part of a group or place), "stand out" (be noticeably different, not necessarily negative), "pick up [a language/habit]" (learn informally), "settle in [a new place]" (become comfortable somewhere new), "adjust to [a new culture]" (gradually adapt).
 
-BrE / AmE NOTE: "gap year" — a British-originated term (a year students often take between school and university to travel, work, or volunteer) that has spread internationally; British "fancy dress" (a costume for a themed party) vs. American "costume" for the same idea.
+BrE / AmE NOTE: "gap year" -- a British-originated term (a year students often take between school and university to travel, work, or volunteer) that has spread internationally; British "fancy dress" (a costume for a themed party) vs. American "costume" for the same idea.
 
-KEY VOCABULARY: travel vocabulary (itinerary, excursion, accommodation, local customs, jet lag), intercultural vocabulary (etiquette, norm, custom, culture shock, hospitality). Intercultural note: this module is explicitly about comparing cultures respectfully — "different, not better or worse."'),
+KEY VOCABULARY: travel vocabulary (itinerary, excursion, accommodation, local customs, jet lag), intercultural vocabulary (etiquette, norm, custom, culture shock, hospitality). Intercultural note: this module is explicitly about comparing cultures respectfully -- "different, not better or worse."'),
 
-('itm_l3_m8_lesson1', 'unt_l3_m8', 2, 'reading', 'Lesson 8.1 — If I Travelled More... — Second Conditional',
+('itm_l3_m8_lesson1', 'unt_l3_m8', 2, 'reading', 'Lesson 8.1 -- If I Travelled More... -- Second Conditional',
 'LEARNING OBJECTIVES: (1) form the second conditional correctly (If + past simple, would + base verb), (2) use it for hypothetical, imaginary, or unlikely situations, (3) ask and answer classic hypothetical questions, (4) use the second conditional to imagine a travel scenario in reasonable detail.
 
-PREREQUISITE KNOWLEDGE: Level III, Module 3 (first conditional — the essential contrast point).
+PREREQUISITE KNOWLEDGE: Level III, Module 3 (first conditional -- the essential contrast point).
 
 WARM-UP (5 min): Your instructor asks one classic hypothetical question ("If you could visit any country tomorrow, where would you go?") and takes a few quick answers.
 
@@ -814,7 +814,7 @@ CRITICAL THINKING / DISCUSSION PROMPT: "Do you think imagining a hypothetical si
 
 LISTENING ACTIVITY (5 min): Listen to someone describing a hypothetical travel dream (6-7 sentences, second conditional) and complete a simple "if / would" grid worksheet.
 
-READING ACTIVITY — EXTENDED READING & INFERENCE (8 min): Read a short "If I could travel anywhere..." blog-style excerpt (150 words). Answer 2 literal questions and 2 inference questions.
+READING ACTIVITY -- EXTENDED READING & INFERENCE (8 min): Read a short "If I could travel anywhere..." blog-style excerpt (150 words). Answer 2 literal questions and 2 inference questions.
 
 WRITING TASK (5 min): Write a short paragraph (5-6 sentences) describing your own hypothetical dream trip, using second conditional correctly at least 3 times.
 
@@ -830,7 +830,7 @@ REVISION: Lesson 8.2 opens with learners briefly naming their homework custom in
 
 EXTENSION: Add one sentence using "were" instead of "was" in the second conditional for all subjects ("If I were you, I''d...").'),
 
-('itm_l3_m8_lesson2', 'unt_l3_m8', 3, 'reading', 'Lesson 8.2 — That Would Be Considered Rude Where I''m From — Cultural Comparison',
+('itm_l3_m8_lesson2', 'unt_l3_m8', 3, 'reading', 'Lesson 8.2 -- That Would Be Considered Rude Where I''m From -- Cultural Comparison',
 'LEARNING OBJECTIVES: (1) use the second conditional to describe how a hypothetical action would be perceived in a particular cultural context, (2) compare two customs or norms respectfully using whereas/in contrast/similarly, (3) discuss what "culture shock" or adjusting to a new place might involve, (4) avoid overgeneralising when describing a culture, using appropriately hedged language.
 
 PREREQUISITE KNOWLEDGE: Lesson 8.1 (second conditional), Level III Module 4 (formal opinion/contrast language, now applied to cultural comparison).
@@ -865,12 +865,12 @@ REVISION: This lesson opens with the Lesson 8.1 custom-naming recap. Module 8''s
 
 EXTENSION: Add one sentence acknowledging that customs vary within a culture too, not just between cultures.'),
 
-('itm_l3_m8_quiz', 'unt_l3_m8', 4, 'quiz', 'Module 8 Quiz — Travel & Culture', NULL),
+('itm_l3_m8_quiz', 'unt_l3_m8', 4, 'quiz', 'Module 8 Quiz -- Travel & Culture', NULL),
 
-('itm_l3_m8_assignment', 'unt_l3_m8', 5, 'assignment', 'Module 8 Assignment — Comparing Customs — A Respectful Cultural Comparison',
+('itm_l3_m8_assignment', 'unt_l3_m8', 5, 'assignment', 'Module 8 Assignment -- Comparing Customs -- A Respectful Cultural Comparison',
 'INSTRUCTIONS: Write (or record) a short respectful comparison, 10-12 sentences, of one custom or norm from your own background and a different one you''ve learned about or experienced. Include: at least 2 second-conditional sentences describing a hypothetical situation and how it might be perceived; at least one whereas/in contrast/similarly comparison sentence; hedged, non-stereotyping language throughout; and a brief reflection on what you found interesting about the difference.
 
-GRADING RUBRIC: (1) Grammatical accuracy — correct second-conditional formation. (2) Vocabulary range — at least 4 distinct travel/intercultural words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion — hypothetical comparison, a direct whereas/in contrast comparison, and a personal reflection all present. (4) Communicative quality — is the comparison genuinely specific and thoughtful, not generic? (5) Discourse coherence & register — is the language appropriately hedged and respectful throughout, and does the piece read as a genuine, curious comparison rather than a ranking of "better" and "worse"?
+GRADING RUBRIC: (1) Grammatical accuracy -- correct second-conditional formation. (2) Vocabulary range -- at least 4 distinct travel/intercultural words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- hypothetical comparison, a direct whereas/in contrast comparison, and a personal reflection all present. (4) Communicative quality -- is the comparison genuinely specific and thoughtful, not generic? (5) Discourse coherence & register -- is the language appropriately hedged and respectful throughout, and does the piece read as a genuine, curious comparison rather than a ranking of "better" and "worse"?
 
 A grade at or above the platform''s pass threshold marks this module complete.');
 
@@ -895,9 +895,9 @@ INSERT INTO units (id, course_id, sequence, title) VALUES
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 ('itm_l3_m9_overview', 'unt_l3_m9', 1, 'reading', 'Module Overview & Key Phrases',
-'KEY PHRASES: This paragraph will focus on... — For example,.../For instance,... — In conclusion,.../To sum up,... — According to [the source],... — This idea comes from... — Firstly,.../Secondly,.../Finally,...
+'KEY PHRASES: This paragraph will focus on... -- For example,.../For instance,... -- In conclusion,.../To sum up,... -- According to [the source],... -- This idea comes from... -- Firstly,.../Secondly,.../Finally,...
 
-DISCOURSE MARKERS (a consolidation set — the level''s full connector toolkit, used together for the first time): cause (because, so), contrast (although, however), illustration (for example, for instance), sequencing an argument (firstly, secondly, finally), and closing (in conclusion, to sum up).
+DISCOURSE MARKERS (a consolidation set -- the level''s full connector toolkit, used together for the first time): cause (because, so), contrast (although, however), illustration (for example, for instance), sequencing an argument (firstly, secondly, finally), and closing (in conclusion, to sum up).
 
 PHRASAL VERBS & COLLOCATIONS: "draw on [a source/idea]" (use it as a basis for your own point), "point out [something]" (highlight or mention it explicitly), "set out [an argument]" (present it clearly, in order), "sum up" (summarise, especially at the end), "build on [an idea]" (develop or extend it further).
 
@@ -905,12 +905,12 @@ BrE / AmE NOTE: British "full stop" vs. American "period" for the "." punctuatio
 
 KEY VOCABULARY: academic-writing vocabulary (topic sentence, supporting detail, thesis, structure, coherence, source), consolidating academic vocabulary from Module 2 (lecture, seminar, coursework). Intercultural note: expectations around how directly a thesis should be stated up front can differ across academic and rhetorical traditions.'),
 
-('itm_l3_m9_lesson1', 'unt_l3_m9', 2, 'reading', 'Lesson 9.1 — One Idea, Well Supported — Paragraph Structure & Topic Sentences',
+('itm_l3_m9_lesson1', 'unt_l3_m9', 2, 'reading', 'Lesson 9.1 -- One Idea, Well Supported -- Paragraph Structure & Topic Sentences',
 'LEARNING OBJECTIVES: (1) write a clear topic sentence stating a paragraph''s one main idea, (2) support it with 2-3 specific details or examples, using for example/for instance, (3) use because/so/although/however to connect ideas smoothly within the paragraph, (4) write a concluding sentence that closes the paragraph without simply repeating the topic sentence word-for-word.
 
 PREREQUISITE KNOWLEDGE: Level III, Module 2 (note-taking, summarising); Modules 3-8 (all the discourse markers this lesson now consolidates).
 
-WARM-UP (5 min): Your instructor shows one well-organised paragraph and one disorganised list of the same facts — which is easier to follow and why?
+WARM-UP (5 min): Your instructor shows one well-organised paragraph and one disorganised list of the same facts -- which is easier to follow and why?
 
 PRESENTATION (10 min): A full annotated paragraph: TOPIC SENTENCE: "Remote work has changed how many people balance their professional and personal lives." SUPPORTING DETAIL: "For example, employees no longer lose time commuting..." SUPPORTING DETAIL WITH CONTRAST: "Although some workers miss daily in-person contact, most report feeling more in control of their schedule." CONCLUDING SENTENCE: "Overall, remote work seems to offer more flexibility than it costs in connection." One paragraph = one main idea; supporting details make it concrete; the concluding sentence closes the thought, restating significance rather than exact wording.
 
@@ -922,9 +922,9 @@ CRITICAL THINKING / DISCUSSION PROMPT: "Why do you think starting a paragraph wi
 
 LISTENING ACTIVITY (5 min): Listen to a short spoken explanation structured as a paragraph and identify each part on a simple worksheet.
 
-READING ACTIVITY — EXTENDED READING & INFERENCE (8 min): Read a well-structured paragraph (150-180 words) on a generic academic or professional topic. Answer 2 literal questions and 2 inference questions.
+READING ACTIVITY -- EXTENDED READING & INFERENCE (8 min): Read a well-structured paragraph (150-180 words) on a generic academic or professional topic. Answer 2 literal questions and 2 inference questions.
 
-WRITING TASK (5 min): Revise your independent-practice paragraph based on your partner''s one-sentence summary — does it match what you intended?
+WRITING TASK (5 min): Revise your independent-practice paragraph based on your partner''s one-sentence summary -- does it match what you intended?
 
 PRONUNCIATION PRACTICE (5 min): Clear, deliberate pausing between a paragraph''s structural parts when reading aloud.
 
@@ -938,7 +938,7 @@ REVISION: Lesson 9.2 opens with learners briefly stating their homework thesis i
 
 EXTENSION: Add a second supporting paragraph on a different aspect of the same topic.'),
 
-('itm_l3_m9_lesson2', 'unt_l3_m9', 3, 'reading', 'Lesson 9.2 — According to the Source... — Acknowledging Ideas & a Structured Talk',
+('itm_l3_m9_lesson2', 'unt_l3_m9', 3, 'reading', 'Lesson 9.2 -- According to the Source... -- Acknowledging Ideas & a Structured Talk',
 'LEARNING OBJECTIVES: (1) acknowledge where an idea, fact, or opinion comes from using basic citation-awareness language, (2) outline a short structured essay or talk (thesis + two supporting points + conclusion), (3) deliver a longer (2-3 minute) structured prepared talk using the level''s full discourse-marker toolkit, (4) respond calmly and clearly to two follow-up questions.
 
 PREREQUISITE KNOWLEDGE: Lesson 9.1 (paragraph structure), Level III Module 3 (presentation skills, now extended), Level III Module 6 (attributing a claim to a source, now formalised).
@@ -951,7 +951,7 @@ GUIDED PRACTICE (10 min): Take your Lesson 9.1 homework thesis and 2 points and 
 
 INDEPENDENT PRACTICE (10 min): Develop your outline into a full short talk script (using firstly/secondly/finally, for example, although/however, and in conclusion), and rehearse it once.
 
-SPEAKING ACTIVITY — PRESENTATION TASK (CAPSTONE): Deliver your 2-3 minute structured talk to a small group (or the class), who listen for the four structural parts and ask 2 follow-up questions each, which you answer on the spot.
+SPEAKING ACTIVITY -- PRESENTATION TASK (CAPSTONE): Deliver your 2-3 minute structured talk to a small group (or the class), who listen for the four structural parts and ask 2 follow-up questions each, which you answer on the spot.
 
 CRITICAL THINKING / DISCUSSION PROMPT: "When you don''t have an exact source for something you believe to be true, do you think it''s better to state it plainly, acknowledge the uncertainty honestly, or avoid mentioning it at all? Why?"
 
@@ -973,12 +973,12 @@ REVISION: This lesson opens with the Lesson 9.1 thesis recap. Module 9''s Quiz a
 
 EXTENSION: Add a third supporting point to your talk, adjusting your firstly/secondly/finally sequencing language accordingly.'),
 
-('itm_l3_m9_quiz', 'unt_l3_m9', 4, 'quiz', 'Module 9 Quiz — Academic Foundations', NULL),
+('itm_l3_m9_quiz', 'unt_l3_m9', 4, 'quiz', 'Module 9 Quiz -- Academic Foundations', NULL),
 
-('itm_l3_m9_assignment', 'unt_l3_m9', 5, 'assignment', 'Module 9 Assignment — A Short Structured Essay & Talk',
+('itm_l3_m9_assignment', 'unt_l3_m9', 5, 'assignment', 'Module 9 Assignment -- A Short Structured Essay & Talk',
 'INSTRUCTIONS: Prepare and deliver (record yourself, or perform live) a structured talk, 2-3 minutes, on a topic of your choice that you can genuinely argue a position on. Your talk must include: a clear one-sentence thesis; two supporting points, each with a specific example (for example/for instance); at least one although/however acknowledgement of a counter-consideration; at least one honest citation-awareness phrase; and a conclusion that restates your thesis''s significance (in conclusion/to sum up). Also submit your talk''s written outline (8-10 sentences).
 
-GRADING RUBRIC: (1) Grammatical accuracy — correct, varied use of the discourse markers practised this module. (2) Vocabulary range — at least 4 distinct academic-writing words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion — thesis, two supported points, a counter-consideration, a citation-awareness phrase, and a conclusion all present in both the spoken talk and the written outline. (4) Fluency and delivery — reasonably fluent and clearly paced for B1, with composed responses to any follow-up questions received. (5) Discourse coherence & register — does the talk read/sound as one connected, logically structured argument, and is the register appropriately academic/professional throughout?
+GRADING RUBRIC: (1) Grammatical accuracy -- correct, varied use of the discourse markers practised this module. (2) Vocabulary range -- at least 4 distinct academic-writing words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- thesis, two supported points, a counter-consideration, a citation-awareness phrase, and a conclusion all present in both the spoken talk and the written outline. (4) Fluency and delivery -- reasonably fluent and clearly paced for B1, with composed responses to any follow-up questions received. (5) Discourse coherence & register -- does the talk read/sound as one connected, logically structured argument, and is the register appropriately academic/professional throughout?
 
 A grade at or above the platform''s pass threshold marks this module complete.');
 
@@ -1003,23 +1003,23 @@ INSERT INTO units (id, course_id, sequence, title) VALUES
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 ('itm_l3_m10_revguide', 'unt_l3_m10', 1, 'reading', 'Level III Revision Guide',
-'MODULE 1 — PRESENT PERFECT & LIFE EXPERIENCE: present perfect (experience) vs. past simple; discourse markers in fact/actually/as a matter of fact; phrasal verbs grow up, look back on, get used to.
+'MODULE 1 -- PRESENT PERFECT & LIFE EXPERIENCE: present perfect (experience) vs. past simple; discourse markers in fact/actually/as a matter of fact; phrasal verbs grow up, look back on, get used to.
 
-MODULE 2 — EDUCATION & LEARNING: present perfect continuous, defining relative clauses; discourse markers in other words/to put it another way; note-taking, summarising, and paraphrasing formally introduced.
+MODULE 2 -- EDUCATION & LEARNING: present perfect continuous, defining relative clauses; discourse markers in other words/to put it another way; note-taking, summarising, and paraphrasing formally introduced.
 
-MODULE 3 — WORK, CAREERS & ENTREPRENEURSHIP: zero and first conditionals; discourse markers as a result/therefore; the programme''s first structured presentation task.
+MODULE 3 -- WORK, CAREERS & ENTREPRENEURSHIP: zero and first conditionals; discourse markers as a result/therefore; the programme''s first structured presentation task.
 
-MODULE 4 — OPINIONS & DEBATE: formal opinion language; discourse markers although/however/on the other hand/whereas; the full agree/partially-agree/disagree/concede scale; structured debate.
+MODULE 4 -- OPINIONS & DEBATE: formal opinion language; discourse markers although/however/on the other hand/whereas; the full agree/partially-agree/disagree/concede scale; structured debate.
 
-MODULE 5 — ENVIRONMENT, ETHICS & GLOBAL CITIZENSHIP: present and past simple passive voice; discourse markers as a consequence/this has led to/due to; a structured ethical case-study discussion.
+MODULE 5 -- ENVIRONMENT, ETHICS & GLOBAL CITIZENSHIP: present and past simple passive voice; discourse markers as a consequence/this has led to/due to; a structured ethical case-study discussion.
 
-MODULE 6 — TECHNOLOGY & MEDIA: reported speech for statements (with backshift); discourse markers according to/apparently; a media-literacy evaluation checklist.
+MODULE 6 -- TECHNOLOGY & MEDIA: reported speech for statements (with backshift); discourse markers according to/apparently; a media-literacy evaluation checklist.
 
-MODULE 7 — HEALTH, BODY & MIND: present and past modals of deduction (must/might/can''t, must have/might have/can''t have); discourse markers it''s likely that/there''s no way that; a healthcare-interview roleplay.
+MODULE 7 -- HEALTH, BODY & MIND: present and past modals of deduction (must/might/can''t, must have/might have/can''t have); discourse markers it''s likely that/there''s no way that; a healthcare-interview roleplay.
 
-MODULE 8 — TRAVEL & CULTURE: second conditional; discourse markers whereas/in contrast/similarly; respectful, hedged cultural comparison.
+MODULE 8 -- TRAVEL & CULTURE: second conditional; discourse markers whereas/in contrast/similarly; respectful, hedged cultural comparison.
 
-MODULE 9 — ACADEMIC FOUNDATIONS: paragraph structure and topic sentences; the full connector toolkit consolidated; basic citation awareness; a capstone thesis + two-points + conclusion structured talk.
+MODULE 9 -- ACADEMIC FOUNDATIONS: paragraph structure and topic sentences; the full connector toolkit consolidated; basic citation awareness; a capstone thesis + two-points + conclusion structured talk.
 
 STRUCTURAL THREAD ACROSS THE LEVEL: Level III moved learners from narrating their own experience through describing their learning and working lives, arguing and evaluating ideas, reasoning about health, culture, and abstract situations, before formalising everything into structured academic writing and speaking. Each module''s grammar was chosen for a real communicative job rather than taught as an abstract rule in isolation. Module 10 tests all of it together, in connected use.
 
@@ -1027,12 +1027,12 @@ CUMULATIVE DISCOURSE-MARKER TOOLKIT: emphasis/detail (in fact, actually); paraph
 
 CUMULATIVE BrE/AmE REFERENCE: got/gotten (M1); university/college, read a subject/major in, marks/grades (M2); CV/resume, made redundant/laid off, line manager/manager (M3); "quite" moderately vs. very (M4); rubbish-bin/trash-garbage, petrol/gas (M5); mobile phone/cell phone (M6); chemist''s/drugstore, GP/primary care physician, off sick/out sick (M7); gap year, fancy dress/costume (M8); full stop/period, brackets/parentheses (M9).'),
 
-('itm_l3_m10_revlesson', 'unt_l3_m10', 2, 'reading', 'Revision Lesson — Structured Consolidation Activities',
+('itm_l3_m10_revlesson', 'unt_l3_m10', 2, 'reading', 'Revision Lesson -- Structured Consolidation Activities',
 'LEARNING OBJECTIVES: (1) correctly select the right grammar structure from Modules 1-9 given a real-use context, (2) deploy at least 8 discourse markers from across the level''s functional sets fluently within one connected talk, (3) correctly identify at least 8 BrE/AmE differences from across the level, (4) self-identify at least one personal area needing further revision before the mock exam.
 
 PREREQUISITE KNOWLEDGE: All of Modules 1-9.
 
-WARM-UP (5 min): "Grammar auction" — bid points on whether 8 example sentences (each drawn from a different module) are grammatically correct or incorrect.
+WARM-UP (5 min): "Grammar auction" -- bid points on whether 8 example sentences (each drawn from a different module) are grammatically correct or incorrect.
 
 PRESENTATION/CONSOLIDATION (15 min): A structure-selection drill: real-life prompts, each requiring a different module''s grammar to answer correctly ("Describe something you''ve never done but would like to" -> Module 1/8; "Explain a general workplace policy" -> Module 3/5; "Relay what a colleague told you" -> Module 6; "Guess why someone looks tired" -> Module 7).
 
@@ -1042,7 +1042,7 @@ INDEPENDENT PRACTICE (10 min): Complete a self-assessment checklist (one line pe
 
 SPEAKING ACTIVITY: The structure-selection drill and station rotation above are both fundamentally speaking-driven.
 
-CRITICAL THINKING / DISCUSSION PROMPT: "Across this whole level, which skill do you think will be most useful to you outside the classroom — presenting, debating, deducing, or structuring an argument in writing? Why?"
+CRITICAL THINKING / DISCUSSION PROMPT: "Across this whole level, which skill do you think will be most useful to you outside the classroom -- presenting, debating, deducing, or structuring an argument in writing? Why?"
 
 LISTENING ACTIVITY (5 min): Listen to a single extended talk (someone narrating an experience, describing their work, giving a reasoned opinion, and reporting something they read).
 
@@ -1062,20 +1062,20 @@ REVISION: This entire lesson is revision by design.
 
 EXTENSION: Stronger learners help peers at weaker stations during the rotation activity.
 
-REVISITING YOUR ENTRY DIAGNOSTIC: return to the personal focus plan you wrote in Module 1. For each of your three aims, say plainly: met, partly met, or not met — and give the evidence, not the impression. "I met it" is not an answer; "I met it, and the evidence is that I no longer pause before the past simple" is.
+REVISITING YOUR ENTRY DIAGNOSTIC: return to the personal focus plan you wrote in Module 1. For each of your three aims, say plainly: met, partly met, or not met -- and give the evidence, not the impression. "I met it" is not an answer; "I met it, and the evidence is that I no longer pause before the past simple" is.
 
 Then name one aim you would set for Level IV that you could not have named at the start of this level, because you did not yet know it was a problem. That last item is usually the most valuable thing a learner produces at the end of a level.'),
 
-('itm_l3_m10_examquiz', 'unt_l3_m10', 3, 'quiz', 'Intermediate-Level Mock Exam — Grammar & Vocabulary', NULL),
+('itm_l3_m10_examquiz', 'unt_l3_m10', 3, 'quiz', 'Intermediate-Level Mock Exam -- Grammar & Vocabulary', NULL),
 
-('itm_l3_m10_examassignment', 'unt_l3_m10', 4, 'assignment', 'Intermediate-Level Mock Exam — Speaking & Writing',
+('itm_l3_m10_examassignment', 'unt_l3_m10', 4, 'assignment', 'Intermediate-Level Mock Exam -- Speaking & Writing',
 'This is your Level III final assessment. Complete both parts.
 
-PART A — SPEAKING (4-5 minutes, recorded or live with your instructor): Deliver a structured talk covering: a real life experience narrated using present perfect and past simple, with at least one discourse marker for emphasis (Module 1); a description of something you''ve been doing for a period of time, using present perfect continuous (Module 2); a stated opinion on a topic of your choice, using formal opinion language and at least one although/however counter-point (Module 4); a deduction about a hypothetical or uncertain situation, using a modal of deduction (Module 7); and a brief hypothetical reflection using the second conditional (Module 8). Structure the whole talk with a clear opening, body, and conclusion (Module 9), and respond to at least two unscripted follow-up questions from your instructor.
+PART A -- SPEAKING (4-5 minutes, recorded or live with your instructor): Deliver a structured talk covering: a real life experience narrated using present perfect and past simple, with at least one discourse marker for emphasis (Module 1); a description of something you''ve been doing for a period of time, using present perfect continuous (Module 2); a stated opinion on a topic of your choice, using formal opinion language and at least one although/however counter-point (Module 4); a deduction about a hypothetical or uncertain situation, using a modal of deduction (Module 7); and a brief hypothetical reflection using the second conditional (Module 8). Structure the whole talk with a clear opening, body, and conclusion (Module 9), and respond to at least two unscripted follow-up questions from your instructor.
 
-PART B — WRITING (a short structured essay, 15-18 sentences): Write a structured opinion essay on a topic of your choice. Include: a clear thesis stated in your opening paragraph; at least one paragraph using the passive voice to describe a general process or past event (Module 5); at least one reported-speech sentence relaying a claim you have read or heard (Module 6); at least one whereas/in contrast comparison (Module 8); correctly used topic sentences and a concluding paragraph that restates your thesis''s significance (Module 9); and at least one honest citation-awareness phrase.
+PART B -- WRITING (a short structured essay, 15-18 sentences): Write a structured opinion essay on a topic of your choice. Include: a clear thesis stated in your opening paragraph; at least one paragraph using the passive voice to describe a general process or past event (Module 5); at least one reported-speech sentence relaying a claim you have read or heard (Module 6); at least one whereas/in contrast comparison (Module 8); correctly used topic sentences and a concluding paragraph that restates your thesis''s significance (Module 9); and at least one honest citation-awareness phrase.
 
-GRADING RUBRIC (weighted toward listening and speaking per the Intermediate-level assessment strategy): (1) Grammatical range and accuracy — correct, varied use of the level''s grammar points across both parts. (2) Vocabulary range — discourse markers and phrasal verbs/collocations drawn from at least 6 of the 9 modules across both parts combined. (3) Task completion — every required element present in both Part A and Part B. (4) Communicative quality — does each part communicate a clear, followable message with genuine content, rather than correct sentences assembled around nothing? (5) Fluency and delivery (Part A) — reasonably fluent for B1, audible, able to sustain a longer structured turn and respond composedly to unscripted follow-up questions. (6) Coherence (Part B) — the essay reads as one connected, logically structured piece with clear topic sentences and paragraph-level organisation. (7) Discourse coherence & register — is the register appropriately formal/academic throughout, and does the connector toolkit genuinely aid clarity rather than being inserted mechanically?
+GRADING RUBRIC (weighted toward listening and speaking per the Intermediate-level assessment strategy): (1) Grammatical range and accuracy -- correct, varied use of the level''s grammar points across both parts. (2) Vocabulary range -- discourse markers and phrasal verbs/collocations drawn from at least 6 of the 9 modules across both parts combined. (3) Task completion -- every required element present in both Part A and Part B. (4) Communicative quality -- does each part communicate a clear, followable message with genuine content, rather than correct sentences assembled around nothing? (5) Fluency and delivery (Part A) -- reasonably fluent for B1, audible, able to sustain a longer structured turn and respond composedly to unscripted follow-up questions. (6) Coherence (Part B) -- the essay reads as one connected, logically structured piece with clear topic sentences and paragraph-level organisation. (7) Discourse coherence & register -- is the register appropriately formal/academic throughout, and does the connector toolkit genuinely aid clarity rather than being inserted mechanically?
 
 PROGRESSION REQUIREMENT: A grade at or above the platform''s pass threshold on this comprehensive assessment marks Level III as complete for the learner and, for a full-programme student, triggers Level IV''s enrolment to unlock automatically.');
 

@@ -14,14 +14,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>الرسوم والسداد والدعم — الكلية العالمية للغة الإنجليزية</title>
 <meta name="description" content="رسوم برنامج ⁦IEFC⁩ وأسعار المستويات، وكيف يجري السداد فعلًا — العملة والوسائل والاسترداد — والمنح ومسارات الدعم القائمة اليوم.">
-<!-- INDEXABLE, OR THE LEARNER'S OWN. A page that mounts
-     js/portal-guard.js is a page behind a sign-in — a statement of
-     account, a set of marks, a payment confirmation — and it belonged
-     in neither a search index nor the sitemap. Eleven of them were in
-     both. scripts/build.js decides this from the guard rather than from
-     a flag somebody has to remember to set: a page that guards itself
-     is private, and there is no case where it is not. -->
-<meta name="robots" content="index, follow">
 <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/assets/images/icon-512.png" sizes="512x512" type="image/png">
 <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
@@ -29,23 +21,16 @@
 <meta name="theme-color" content="#14264A">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- The display face is self-hosted and preloaded: it sets every
-     heading above the fold, so it must never arrive after the text it
-     shapes. The italic is not preloaded — it first appears below the
-     fold and swap covers it. -->
-<link rel="preload" href="/assets/fonts/fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Inter:wght@400;600;700;800&family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/brand.css?v=308b4850">
-<link rel="stylesheet" href="/css/atelier.css?v=9eadec1f">
-<link rel="stylesheet" href="/css/pages.css?v=e0f4b722">
-<link rel="stylesheet" href="/css/pillar.css?v=661126ed">
-<link rel="stylesheet" href="/css/admissions.css?v=1f75d17a">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500..800;1,6..96,400..600&family=Cinzel:wght@500;600&family=Inter:wght@400;600;700;800&family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/brand.css">
+<link rel="stylesheet" href="/css/atelier.css">
+<link rel="stylesheet" href="/css/pages.css">
 <!-- LAST, and that ordering is load-bearing. Script-specific typography
      has to be able to override the general stylesheets, because those
      set tracking and leading tuned to Latin faces and Arabic inherits
      it. Putting this first — which is where it started — left 951 of
      1,049 violations standing. See the header of css/arabic.css. -->
-<link rel="stylesheet" href="/css/arabic.css?v=8eca8911">
+<link rel="stylesheet" href="/css/arabic.css">
 <noscript><style>
 /* Several entrance effects are authored hidden and revealed by script:
    .reveal (js/site.js), .split-word and .rule-draw (js/motion.js),
@@ -127,34 +112,6 @@
   Inline rather than an external sprite file on purpose: `currentColor`
   does not inherit across an external <use> reference in several
   browsers, which would defeat the whole arrangement above.
-
-  TWO WEIGHTS, WHICH IS WHAT MAKES IT AN ENGRAVING.
-  ---------------------------------------------------------------------
-  A single-weight outline is what every icon library ships, and at
-  institutional scale it reads as competent rather than as commissioned.
-  Real engraving carries a cut line and a hairline: the structure at
-  full weight, the modelling — hatching, secondary rules, interior
-  detail — at roughly two-fifths of it.
-
-  So structural paths inherit the 1.25 stroke from .icon, and detail
-  paths carry `stroke-width=".55"` as a PRESENTATION ATTRIBUTE on the
-  path itself. It has to be an attribute rather than a class: content
-  cloned by <use> lives in a shadow tree that document CSS selectors
-  cannot reach, so `.icon .hair {}` would silently do nothing. Only
-  inherited properties cross that boundary, which is exactly why
-  `currentColor` works above and a class would not.
-
-  Both numbers are in the 24-unit viewBox, so the ratio between them
-  holds at every rendered size — a hairline stays a hairline at 1.25rem
-  and at 3.5rem.
-
-  THE FOUR REGION MARKS are cartographic, not cultural. A set of icons
-  standing for the Gulf, Europe, Africa and Asia is one careless
-  decision away from four national stereotypes, so each is the same
-  globe under the same graticule with a different sector engraved and a
-  different locator set into it. They read as one instrument turned
-  four ways, which is both the honest claim and the better drawing.
-  Before this they were four copies of #i-globe on one screen.
 -->
 <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false"><defs>
 
@@ -172,23 +129,11 @@
     <stop offset="100%" stop-color="#A8863C"/>
   </linearGradient>
 
-  <!-- ================================================================
-       THE INSTITUTIONAL MARKS
-       ================================================================ -->
-
   <!-- The institution's mark, reduced to a stroke. -->
   <symbol id="i-crest" viewBox="0 0 24 24">
-    <!-- A HERALDIC CREST, not a first-aid badge.
-         It was a shield with a cross bar and an upright inside it, and
-         at every size from 30px up it read as a medical shield — the
-         defect CLAUDE.md §6 records against this exact symbol. A crest
-         is a shield UNDER A CROWN with a charge on it, so that is what
-         is drawn: a three-point crown on the chief, a chevron below it,
-         and a mullet in base. Nothing in it crosses at right angles. -->
-    <path d="M12 3.4 20.4 6.2v7.2c0 5.1-3.5 9.2-8.4 11.1C7.1 22.6 3.6 18.5 3.6 13.4V6.2Z"/>
-    <path d="M6.6 6.9 8.3 4.4l1.9 1.7L12 3l1.8 3.1 1.9-1.7 1.7 2.5Z" stroke-linejoin="round"/>
-    <path d="M7.6 15.1 12 11.2l4.4 3.9" stroke-width=".55" opacity=".8"/>
-    <path d="m12 17.2.85 1.72 1.9.28-1.37 1.34.32 1.89L12 21.54l-1.7.89.32-1.89-1.37-1.34 1.9-.28Z" stroke-width=".55" opacity=".72"/>
+    <path d="M12 1.6 21 4.8v8.1c0 5.6-3.8 10-9 12.1C6.8 22.9 3 18.5 3 12.9V4.8Z"/>
+    <path d="M12 5.2 17.6 7.2v5.6c0 3.7-2.4 6.7-5.6 8.1-3.2-1.4-5.6-4.4-5.6-8.1V7.2Z"/>
+    <path d="M9.4 12.6h5.2M12 10v5.2"/>
   </symbol>
 
   <!-- Laurel — awards, honours, distinction. -->
@@ -200,18 +145,6 @@
     <path d="M12 6.4c2-1.4 4.4-1.6 6.4-.8-.2 2.2-1.6 4-3.6 4.8"/>
     <path d="M12 11c2-1.4 4.4-1.6 6.4-.8-.2 2.2-1.6 4-3.6 4.8"/>
     <path d="M12 15.6c2-1.4 4.4-1.6 6.4-.8-.2 2.2-1.6 4-3.6 4.8"/>
-    <path d="M7.6 6.6c.7.9 1.2 1.9 1.4 2.9M7.6 11.2c.7.9 1.2 1.9 1.4 2.9M7.6 15.8c.7.9 1.2 1.9 1.4 2.9" stroke-width=".55" opacity=".7"/>
-    <path d="M16.4 6.6c-.7.9-1.2 1.9-1.4 2.9M16.4 11.2c-.7.9-1.2 1.9-1.4 2.9M16.4 15.8c-.7.9-1.2 1.9-1.4 2.9" stroke-width=".55" opacity=".7"/>
-  </symbol>
-
-  <!-- Rosette — the conferred honour, ribboned. Distinct from the
-       laurel (which is the wreath) and from the wax seal (which is the
-       act of sealing): this is the thing pinned to the record. -->
-  <symbol id="i-rosette" viewBox="0 0 24 24">
-    <circle cx="12" cy="8.6" r="5.4"/>
-    <path d="M12 4.4 13.2 7l2.8.3-2.1 1.9.6 2.8L12 10.6l-2.5 1.4.6-2.8L8 7.3 10.8 7Z"/>
-    <path d="M8.4 13.2 6.4 21l5.6-2.6L17.6 21l-2-7.8" stroke-width=".55" opacity=".78"/>
-    <circle cx="12" cy="8.6" r="7.2" stroke-width=".55" opacity=".55"/>
   </symbol>
 
   <!-- Quill — writing, authorship, the written standard. -->
@@ -219,16 +152,6 @@
     <path d="M3 21c3.4-7.6 8-13 17-18-1.2 8.4-5.2 14-11.4 16.2Z"/>
     <path d="M8.6 19.2 20 3"/>
     <path d="M3 21h4.2"/>
-    <path d="M11.6 15.4c1.6-2.6 3.4-5 5.6-7.4M9.8 17.6c1.9-3.1 4.1-6 6.6-8.7" stroke-width=".55" opacity=".68"/>
-  </symbol>
-
-  <!-- Nib — the fine hand. Used where "quill" would read as decoration
-       and the point is precision: rubrics, marking, the written mark. -->
-  <symbol id="i-nib" viewBox="0 0 24 24">
-    <path d="M8.4 2.6h7.2v6.2L12 21.4 8.4 8.8Z"/>
-    <path d="M12 7.9a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z"/>
-    <path d="M12 10.9v9.2" stroke-width=".55" opacity=".76"/>
-    <path d="M8.4 5.6h7.2M9.6 12.6h4.8" stroke-width=".55" opacity=".55"/>
   </symbol>
 
   <!-- Open book — the curriculum, published. -->
@@ -236,16 +159,6 @@
     <path d="M12 6.4C10 4.9 7.2 4.2 3 4.4v13.2c4.2-.2 7 .5 9 2 2-1.5 4.8-2.2 9-2V4.4c-4.2-.2-7 .5-9 2Z"/>
     <path d="M12 6.4v13.2"/>
     <path d="M6 8.4h3.2M6 11.6h3.2M14.8 8.4H18M14.8 11.6H18"/>
-    <path d="M6 14.8h3.2M14.8 14.8H18" stroke-width=".55" opacity=".72"/>
-    <path d="M3 7.2c2.8-.1 5.2.3 7 1.2M21 7.2c-2.8-.1-5.2.3-7 1.2" stroke-width=".55" opacity=".55"/>
-  </symbol>
-
-  <!-- Scroll — a volume of the imprint, issued and sealed. -->
-  <symbol id="i-scroll" viewBox="0 0 24 24">
-    <path d="M6.4 3.4h13.2v14.2a3 3 0 0 1-3 3H6.4"/>
-    <path d="M6.4 3.4a3 3 0 0 0-3 3v1.8h3"/>
-    <path d="M6.4 20.6a3 3 0 0 0 3-3V8.2"/>
-    <path d="M12 7.4h5M12 10.6h5M12 13.8h3.2" stroke-width=".55" opacity=".78"/>
   </symbol>
 
   <!-- Portico — the campus, the institution as a place. -->
@@ -253,46 +166,21 @@
     <path d="M2 8.8 12 3l10 5.8"/>
     <path d="M4 8.8V19M9.4 8.8V19M14.6 8.8V19M20 8.8V19"/>
     <path d="M2 21.4h20M3 19h18"/>
-    <path d="M4.4 8.4 12 4.1l7.6 4.3" stroke-width=".55" opacity=".6"/>
   </symbol>
 
-  <!-- Portcullis — Westminster, and the United Kingdom residency. -->
-  <symbol id="i-portcullis" viewBox="0 0 24 24">
-    <path d="M3.6 4.4h16.8v13.2H3.6Z"/>
-    <path d="M8.2 4.4v13.2M12 4.4v13.2M15.8 4.4v13.2"/>
-    <path d="M3.6 8.8h16.8M3.6 13.2h16.8" stroke-width=".55" opacity=".78"/>
-    <path d="M6.4 17.6v2.6M9.9 17.6v2.6M14.1 17.6v2.6M17.6 17.6v2.6" stroke-width=".55" opacity=".78"/>
-    <path d="M3.6 4.4 12 1.8l8.4 2.6" stroke-width=".55" opacity=".6"/>
+  <!-- Globe with meridians — worldwide delivery. -->
+  <symbol id="i-globe" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M3 12h18"/>
+    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z"/>
+    <path d="M5 6.4c2 1.2 4.4 1.8 7 1.8s5-.6 7-1.8M5 17.6c2-1.2 4.4-1.8 7-1.8s5 .6 7 1.8"/>
   </symbol>
-
-  <!-- Columns — governance, the academic bodies. -->
-  <symbol id="i-columns" viewBox="0 0 24 24">
-    <path d="M2.6 6.6h18.8M4 21.4h16"/>
-    <path d="M6.4 6.6v14.8M12 6.6v14.8M17.6 6.6v14.8"/>
-    <path d="M2.6 6.6 12 2.6l9.4 4"/>
-    <path d="M5.2 9.2h2.4M10.8 9.2h2.4M16.4 9.2h2.4" stroke-width=".55" opacity=".7"/>
-    <path d="M5.2 19h2.4M10.8 19h2.4M16.4 19h2.4" stroke-width=".55" opacity=".7"/>
-  </symbol>
-
-  <!-- Lectern — teaching practice, the seminar, the spoken standard. -->
-  <symbol id="i-lectern" viewBox="0 0 24 24">
-    <path d="M4.4 6.6 17.8 3.4l1.8 4.4L6.2 11Z"/>
-    <path d="M11.8 10.2v8.4M7.4 21.4h8.8"/>
-    <path d="M11.8 18.6c-1.7 0-3.1.9-3.7 2.2M11.8 18.6c1.7 0 3.1.9 3.7 2.2"/>
-    <path d="M6.8 6.8 16.8 4.4M7.6 8.8l10-2.4" stroke-width=".55" opacity=".7"/>
-  </symbol>
-
-  <!-- ================================================================
-       THE RECORD, THE STANDARD, THE MEASURE
-       ================================================================ -->
 
   <!-- Wax seal — conferral, the sealed record. -->
   <symbol id="i-seal" viewBox="0 0 24 24">
     <circle cx="12" cy="9.6" r="6.6"/>
     <circle cx="12" cy="9.6" r="3.4"/>
     <path d="M8 15.4 6.6 22l5.4-2.6L17.4 22 16 15.4"/>
-    <circle cx="12" cy="9.6" r="5" stroke-width=".55" opacity=".55"/>
-    <path d="M12 4.6v1.6M12 13v1.6M7 9.6h1.6M15.4 9.6H17" stroke-width=".55" opacity=".7"/>
   </symbol>
 
   <!-- Ledger — the record, the register, the table of marks. -->
@@ -300,70 +188,11 @@
     <path d="M4 2.6h16v18.8H4Z"/>
     <path d="M8 2.6v18.8"/>
     <path d="M11 7.4h6M11 12h6M11 16.6h6"/>
-    <path d="M11 9.7h6M11 14.3h6M11 18.9h4" stroke-width=".55" opacity=".68"/>
-    <path d="M5.6 6h.8M5.6 12h.8M5.6 18h.8" stroke-width=".55" opacity=".68"/>
-  </symbol>
-
-  <!-- Scales — assessment, academic integrity, fair marking. -->
-  <symbol id="i-scales" viewBox="0 0 24 24">
-    <path d="M12 3.4v17.2M6.6 20.6h10.8"/>
-    <path d="M4 7h16"/>
-    <path d="M4 7 1.4 13.4h5.2ZM20 7l-2.6 6.4h5.2Z"/>
-    <path d="M4 7V5.2M20 7V5.2M9.6 5.6h4.8" stroke-width=".55" opacity=".7"/>
-    <circle cx="12" cy="4.4" r="1" stroke-width=".55" opacity=".7"/>
-  </symbol>
-
-  <!-- Shield with a check — quality assurance, verification. -->
-  <symbol id="i-shield-check" viewBox="0 0 24 24">
-    <path d="M12 2.2 20.4 5v7.6c0 4.8-3.4 8.6-8.4 10.2-5-1.6-8.4-5.4-8.4-10.2V5Z"/>
-    <path d="m8.4 12 2.6 2.6 4.6-5"/>
-    <path d="M12 4.2 18.4 6.4v6.2c0 3.8-2.6 6.9-6.4 8.2-3.8-1.3-6.4-4.4-6.4-8.2V6.4Z" stroke-width=".55" opacity=".5"/>
-  </symbol>
-
-  <!-- Target — the published standard, and hitting it. -->
-  <symbol id="i-target" viewBox="0 0 24 24">
-    <circle cx="12" cy="12" r="9"/>
-    <circle cx="12" cy="12" r="5"/>
-    <circle cx="12" cy="12" r="1.4"/>
-    <path d="M12 1.6v3M12 19.4v3M1.6 12h3M19.4 12h3" stroke-width=".55" opacity=".72"/>
-  </symbol>
-
-  <!-- Layers — the six levels, stacked into one pathway. -->
-  <symbol id="i-layers" viewBox="0 0 24 24">
-    <path d="M12 2.6 21.6 7 12 11.4 2.4 7Z"/>
-    <path d="m2.4 12 9.6 4.4 9.6-4.4"/>
-    <path d="m2.4 17 9.6 4.4 9.6-4.4"/>
-    <path d="M6.6 9 12 11.4 17.4 9" stroke-width=".55" opacity=".6"/>
-  </symbol>
-
-  <!-- Ascending chart — progression through the levels. -->
-  <symbol id="i-progress" viewBox="0 0 24 24">
-    <path d="M3 21h18M3 21V3"/>
-    <path d="M6.6 17.4v-3.2M11 17.4v-6.8M15.4 17.4V7.8M19.8 17.4V4.6"/>
-    <path d="M6.6 13 11 9.4l4.4-3.2 4.4-2.8" stroke-width=".55" opacity=".62"/>
-    <path d="M3 16.2h18M3 11.4h18M3 6.6h18" stroke-width=".55" opacity=".32"/>
-  </symbol>
-
-  <!-- Hourglass — hours of study, time on task. -->
-  <symbol id="i-hourglass" viewBox="0 0 24 24">
-    <path d="M5.6 2.6h12.8M5.6 21.4h12.8"/>
-    <path d="M7.2 2.6v3.6L12 12l-4.8 5.8v3.6M16.8 2.6v3.6L12 12l4.8 5.8v3.6"/>
-    <path d="M9.4 5.4h5.2" stroke-width=".55" opacity=".72"/>
-    <path d="M9.4 18.6h5.2M10.4 16.4h3.2" stroke-width=".55" opacity=".72"/>
-  </symbol>
-
-  <!-- Calendar — dates, the academic year. -->
-  <symbol id="i-calendar" viewBox="0 0 24 24">
-    <path d="M3.4 5.4h17.2v16H3.4Z"/>
-    <path d="M3.4 10.2h17.2M8.2 2.6v5M15.8 2.6v5"/>
-    <path d="M6.8 13.4h2.2M11 13.4h2.2M15.2 13.4h2.2" stroke-width=".55" opacity=".72"/>
-    <path d="M6.8 17.2h2.2M11 17.2h2.2M15.2 17.2h2.2" stroke-width=".55" opacity=".72"/>
   </symbol>
 
   <!-- Waveform — the Listening Lab, recorded speech. -->
   <symbol id="i-waveform" viewBox="0 0 24 24">
     <path d="M2 12h2.4M7 7.4v9.2M11.6 4v16M16.2 8.6v6.8M20.8 10.8v2.4"/>
-    <path d="M4.7 10.4v3.2M9.3 5.6v12.8M13.9 6.2v11.6M18.5 9.4v5.2" stroke-width=".55" opacity=".62"/>
   </symbol>
 
   <!-- Mortarboard — graduation, completion of the pathway. -->
@@ -371,36 +200,19 @@
     <path d="M12 3.4 22.4 8 12 12.6 1.6 8Z"/>
     <path d="M5.6 10v5.6c0 1.8 2.9 3.2 6.4 3.2s6.4-1.4 6.4-3.2V10"/>
     <path d="M22.4 8v5.6"/>
-    <path d="M22.4 13.6a1 1 0 1 0 0 2 1 1 0 0 0 0-2Z" stroke-width=".55" opacity=".78"/>
-    <path d="M6.4 8.4 12 5.9l5.6 2.5" stroke-width=".55" opacity=".5"/>
+  </symbol>
+
+  <!-- Scales — assessment, academic integrity, fair marking. -->
+  <symbol id="i-scales" viewBox="0 0 24 24">
+    <path d="M12 3.4v17.2M6.6 20.6h10.8"/>
+    <path d="M4 7h16"/>
+    <path d="M4 7 1.4 13.4h5.2ZM20 7l-2.6 6.4h5.2Z"/>
   </symbol>
 
   <!-- Compass — direction, guidance, the pathway. -->
   <symbol id="i-compass" viewBox="0 0 24 24">
     <circle cx="12" cy="12" r="9"/>
     <path d="m15.6 8.4-2 5.2-5.2 2 2-5.2Z"/>
-    <circle cx="12" cy="12" r="6.8" stroke-width=".55" opacity=".45"/>
-    <path d="M12 3v1.8M12 19.2V21M3 12h1.8M19.2 12H21" stroke-width=".55" opacity=".72"/>
-  </symbol>
-
-  <!-- Astrolabe — the instrument. The platform built for one programme,
-       where a compass would say "direction" and this says "measurement". -->
-  <symbol id="i-astrolabe" viewBox="0 0 24 24">
-    <!-- AN ASTROLABE, not a third globe.
-         This, #i-globe and #i-language were three circles with meridians
-         on them and were indistinguishable on a contact sheet. An
-         astrolabe is not a globe: it is a suspended disc — a shackle and
-         ring at the top, a graduated limb, a pierced rete, and an
-         alidade lying across the face on the diagonal. The suspension
-         and the alidade are what tell it apart at 30px. -->
-    <path d="M12 1.4a1.5 1.5 0 0 1 0 3 1.5 1.5 0 0 1 0-3Z" stroke-width=".7"/>
-    <path d="M12 4.4v1.2"/>
-    <circle cx="12" cy="14" r="8.2"/>
-    <circle cx="12" cy="14" r="5.9" stroke-width=".55" opacity=".72"/>
-    <path d="M12 8.1v11.8M6.1 14h11.8" stroke-width=".55" opacity=".5"/>
-    <path d="m6.2 19.8 11.6-11.6" stroke-linecap="round"/>
-    <circle cx="12" cy="14" r="1.15" stroke-width=".7"/>
-    <path d="M12 5.8v2.3M3.8 14H6.1M17.9 14h2.3M12 19.9v2.3" stroke-width=".55" opacity=".55"/>
   </symbol>
 
   <!-- Clock tower — London, the campus HQ. -->
@@ -410,13 +222,7 @@
     <circle cx="12" cy="13" r="2.6"/>
     <path d="M12 11.6V13h1.2"/>
     <path d="M6.6 21.4h10.8"/>
-    <path d="M9.4 17.4h5.2M9.4 19.2h5.2" stroke-width=".55" opacity=".68"/>
-    <path d="M12 4.6v1.6" stroke-width=".55" opacity=".68"/>
   </symbol>
-
-  <!-- ================================================================
-       ACCESS, CORRESPONDENCE, PARTNERSHIP
-       ================================================================ -->
 
   <!-- Key — access, the student portal. -->
   <symbol id="i-key" viewBox="0 0 24 24">
@@ -429,7 +235,24 @@
     <path d="M2.6 5h18.8v14H2.6Z"/>
     <path d="m2.6 5 9.4 7.4L21.4 5"/>
     <circle cx="12" cy="12.6" r="2.2"/>
-    <path d="m2.6 19 7-5.6M21.4 19l-7-5.6" stroke-width=".55" opacity=".6"/>
+  </symbol>
+
+  <!-- Shield with a check — quality assurance, verification. -->
+  <symbol id="i-shield-check" viewBox="0 0 24 24">
+    <path d="M12 2.2 20.4 5v7.6c0 4.8-3.4 8.6-8.4 10.2-5-1.6-8.4-5.4-8.4-10.2V5Z"/>
+    <path d="m8.4 12 2.6 2.6 4.6-5"/>
+  </symbol>
+
+  <!-- Ascending chart — progression through the levels. -->
+  <symbol id="i-progress" viewBox="0 0 24 24">
+    <path d="M3 21h18M3 21V3"/>
+    <path d="M6.6 17.4v-3.2M11 17.4v-6.8M15.4 17.4V7.8M19.8 17.4V4.6"/>
+  </symbol>
+
+  <!-- Calendar — dates, the academic year. -->
+  <symbol id="i-calendar" viewBox="0 0 24 24">
+    <path d="M3.4 5.4h17.2v16H3.4Z"/>
+    <path d="M3.4 10.2h17.2M8.2 2.6v5M15.8 2.6v5"/>
   </symbol>
 
   <!-- Passport — international applicants, visas. -->
@@ -437,116 +260,14 @@
     <path d="M4.6 2.6h14.8v18.8H4.6Z"/>
     <circle cx="12" cy="9.6" r="3.4"/>
     <path d="M8.6 16.6h6.8"/>
-    <path d="M12 6.2c1.2 1.4 1.8 2.6 1.8 3.4S13.2 11.8 12 13.2c-1.2-1.4-1.8-2.6-1.8-3.6S10.8 7.6 12 6.2Z" stroke-width=".55" opacity=".7"/>
-    <path d="M9.2 18.6h5.6" stroke-width=".55" opacity=".7"/>
   </symbol>
 
-  <!-- Accord — an agreement signed by two parties. Partnerships,
-       articulation, the awarding organisation. -->
-  <symbol id="i-accord" viewBox="0 0 24 24">
-    <path d="M4.4 4.4h9.2l6 6v9.2H4.4Z"/>
-    <path d="M13.6 4.4v6h6"/>
-    <path d="M7.6 14.4h8.8M7.6 17.2h5.6" stroke-width=".55" opacity=".76"/>
-    <circle cx="9.4" cy="9.4" r="2" stroke-width=".55" opacity=".76"/>
+  <!-- Columns — governance, the academic bodies. -->
+  <symbol id="i-columns" viewBox="0 0 24 24">
+    <path d="M2.6 6.6h18.8M4 21.4h16"/>
+    <path d="M6.4 6.6v14.8M12 6.6v14.8M17.6 6.6v14.8"/>
+    <path d="M2.6 6.6 12 2.6l9.4 4"/>
   </symbol>
-
-  <!-- Lock — privacy, the learner's data, what is not shared. -->
-  <symbol id="i-lock" viewBox="0 0 24 24">
-    <path d="M4.6 10.4h14.8v11H4.6Z"/>
-    <path d="M8 10.4V7.6a4 4 0 0 1 8 0v2.8"/>
-    <path d="M12 14.4v3.2" stroke-width=".55" opacity=".78"/>
-    <circle cx="12" cy="14" r="1.2" stroke-width=".55" opacity=".78"/>
-  </symbol>
-
-  <!-- A plain tick, for lists that are not shields. -->
-  <symbol id="i-check" viewBox="0 0 24 24">
-    <path d="m4.4 12.6 5 5 10.2-11.2"/>
-  </symbol>
-
-  <!-- An open ring — the counterpart to i-check, and the reason it
-       exists. A register of what is settled and what is not cannot
-       use one mark for both: /about/ listed its OUTSTANDING work
-       under the same tick as its confirmed work, so the page marked
-       unfinished things as done. This is the same diameter as the
-       tick's stroke path and deliberately empty. -->
-  <symbol id="i-ring" viewBox="0 0 24 24">
-    <circle cx="12" cy="12" r="7.6"/>
-  </symbol>
-
-  <!-- A struck seal-check: settled, and sealed. Reads as heavier than
-       a bare tick beside the open ring above. -->
-  <symbol id="i-struck" viewBox="0 0 24 24">
-    <circle cx="12" cy="12" r="7.6"/>
-    <path d="m8.4 12.2 2.5 2.5 4.7-5.4"/>
-  </symbol>
-
-  <!-- Opening quotation, for pulled quotes set as display type. -->
-  <symbol id="i-quote" viewBox="0 0 24 24">
-    <path d="M9.6 5.4C6 7 3.6 10.2 3.6 14a4.6 4.6 0 0 0 4.6 4.6A4.2 4.2 0 0 0 12.4 14a4.1 4.1 0 0 0-4-4.2c-.5 0-.9 0-1.2.2.4-1.6 1.6-3 3.4-4Z"/>
-    <path d="M20.4 5.4c-3.6 1.6-6 4.8-6 8.6a4.6 4.6 0 0 0 4.6 4.6A4.2 4.2 0 0 0 23.2 14a4.1 4.1 0 0 0-4-4.2c-.5 0-.9 0-1.2.2.4-1.6 1.6-3 3.4-4Z" stroke-width=".55" opacity=".6"/>
-  </symbol>
-
-  <!-- ================================================================
-       THE WORLD, AND THE FOUR REGIONS
-       ---------------------------------------------------------------
-       One globe under one graticule. Each region engraves a different
-       sector of it and sets a locator diamond into that sector, so the
-       four read as one instrument turned four ways rather than as four
-       flags. See the note at the head of this file.
-       ================================================================ -->
-
-  <!-- Globe with meridians — worldwide delivery. -->
-  <symbol id="i-globe" viewBox="0 0 24 24">
-    <circle cx="12" cy="12" r="9"/>
-    <path d="M3 12h18"/>
-    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z"/>
-    <path d="M5 6.4c2 1.2 4.4 1.8 7 1.8s5-.6 7-1.8M5 17.6c2-1.2 4.4-1.8 7-1.8s5 .6 7 1.8"/>
-    <path d="M4.2 9.2h15.6M4.2 14.8h15.6" stroke-width=".55" opacity=".38"/>
-  </symbol>
-
-  <!-- The Gulf — the south-eastern sector. -->
-  <symbol id="i-region-gulf" viewBox="0 0 24 24">
-    <circle cx="12" cy="12" r="9"/>
-    <path d="M3 12h18"/>
-    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z" stroke-width=".55" opacity=".45"/>
-    <path d="M12 12 13.56 20.86A9 9 0 0 0 20.97 12.78Z"/>
-    <path d="M13.4 17.6c2.4-.3 4.3-1.4 5.6-3.2M14.1 19.5c2.9-.5 5.2-2 6.6-4.4" stroke-width=".55" opacity=".62"/>
-    <path d="m16.4 15.1 1.3 1.3-1.3 1.3-1.3-1.3Z" stroke-width=".55" opacity=".95"/>
-  </symbol>
-
-  <!-- Europe — the north-western sector. -->
-  <symbol id="i-region-europe" viewBox="0 0 24 24">
-    <circle cx="12" cy="12" r="9"/>
-    <path d="M3 12h18"/>
-    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z" stroke-width=".55" opacity=".45"/>
-    <path d="M12 12 10.44 3.14A9 9 0 0 0 3.03 11.22Z"/>
-    <path d="M10.6 6.4c-2.4.3-4.3 1.4-5.6 3.2M9.9 4.5c-2.9.5-5.2 2-6.6 4.4" stroke-width=".55" opacity=".62"/>
-    <path d="m7.6 8.9-1.3-1.3 1.3-1.3 1.3 1.3Z" stroke-width=".55" opacity=".95"/>
-  </symbol>
-
-  <!-- Africa — the south-western sector. -->
-  <symbol id="i-region-africa" viewBox="0 0 24 24">
-    <circle cx="12" cy="12" r="9"/>
-    <path d="M3 12h18"/>
-    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z" stroke-width=".55" opacity=".45"/>
-    <path d="M12 12 3.03 12.78A9 9 0 0 0 10.44 20.86Z"/>
-    <path d="M10.6 17.6c-2.4-.3-4.3-1.4-5.6-3.2M9.9 19.5c-2.9-.5-5.2-2-6.6-4.4" stroke-width=".55" opacity=".62"/>
-    <path d="m7.6 15.1 1.3 1.3-1.3 1.3-1.3-1.3Z" stroke-width=".55" opacity=".95"/>
-  </symbol>
-
-  <!-- Asia — the north-eastern sector. -->
-  <symbol id="i-region-asia" viewBox="0 0 24 24">
-    <circle cx="12" cy="12" r="9"/>
-    <path d="M3 12h18"/>
-    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z" stroke-width=".55" opacity=".45"/>
-    <path d="M12 12 20.97 11.22A9 9 0 0 0 13.56 3.14Z"/>
-    <path d="M13.4 6.4c2.4.3 4.3 1.4 5.6 3.2M14.1 4.5c2.9.5 5.2 2 6.6 4.4" stroke-width=".55" opacity=".62"/>
-    <path d="m16.4 8.9-1.3-1.3 1.3-1.3 1.3 1.3Z" stroke-width=".55" opacity=".95"/>
-  </symbol>
-
-  <!-- ================================================================
-       NAVIGATION AND UTILITY
-       ================================================================ -->
 
   <!-- Arrow, used for links and CTAs. -->
   <symbol id="i-arrow" viewBox="0 0 24 24">
@@ -572,34 +293,8 @@
 
   <!-- Language switch. -->
   <symbol id="i-language" viewBox="0 0 24 24">
-    <!-- LANGUAGE, not a fourth globe.
-         A circle with meridians on it is a GLOBE, and #i-globe is
-         already that. This mark means the two languages the College
-         publishes in, so it is drawn as the two scripts: a Latin A on
-         the sinister side, an Arabic waw-and-tooth stroke on the
-         dexter, divided by a hairline rule. Unmistakable at 30px, and
-         it says the actual thing rather than gesturing at "world". -->
-    <path d="M3.1 15.6 6.4 7.4l3.3 8.2M4.4 12.9h4"/>
-    <path d="M12 4.6v14.8" stroke-width=".55" opacity=".45"/>
-    <path d="M17.9 8.1c1.7 0 2.9 1.2 2.9 2.9 0 1.6-1.1 2.7-2.6 2.7-1.2 0-2-.7-2-1.7 0-.9.6-1.5 1.4-1.5.6 0 1 .3 1.1.8"/>
-    <path d="M14.2 16.4h6.6" stroke-width=".55" opacity=".8"/>
-  </symbol>
-
-  <!-- Countermark — a sheet carrying an identifying impression, for the
-       edition mark printed on every page of every volume. Distinct from
-       i-seal, which is a seal of conferral with a ribbon: this is the
-       quieter thing, a mark that says WHERE A PAGE CAME FROM. The leaf
-       is at full weight; the impression and its radiating ticks are the
-       hairline, so the mark reads as pressed INTO the paper rather than
-       drawn on top of it. -->
-  <symbol id="i-countermark" viewBox="0 0 24 24">
-    <path d="M5 2.6h10.4L19 6.2v15.2H5Z"/>
-    <path d="M15.4 2.6v3.6H19"/>
-    <circle cx="12" cy="13.4" r="4.2"/>
-    <path d="M9.6 13.4h4.8"/>
-    <circle cx="12" cy="13.4" r="2.2" stroke-width=".55" opacity=".7"/>
-    <path d="M12 7.9v1.3M12 17.6v1.3M6.6 13.4h1.3M16.1 13.4h1.3"
-      stroke-width=".55" opacity=".75"/>
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M3 12h18M12 3c2.4 2.6 3.6 5.6 3.6 9s-1.2 6.4-3.6 9c-2.4-2.6-3.6-5.6-3.6-9S9.6 5.6 12 3Z"/>
   </symbol>
 
 </defs>
@@ -643,49 +338,32 @@
     <path d="M6.4 19.0H18.6M6.4 15.8H18.6M6.4 12.6H18.6M6.4 9.4H18.6M6.4 6.2H18.6M6.4 3.0H18.6"/>
   </symbol>
 </svg>
-<!-- شريط الأدوات: أداةٌ لا شريط اتصال. انظر النسخة الإنجليزية للتعليل. -->
-<div class="topbar" data-worldclock>
+<div class="topbar">
   <div class="topbar__inner">
-
-    <div class="seat">
-      <span class="seat__flag" aria-hidden="true">🇬🇧</span>
-      <span class="seat__place">
-        <span class="seat__city">لندن</span><span class="seat__country">، المملكة المتحدة</span>
-      </span>
-      <span class="seat__rule" aria-hidden="true"></span>
-      <span class="seat__clock">
-        <svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg>
-        <span data-clock-london dir="ltr">&mdash;</span>
-        <span class="seat__tz">بتوقيت لندن</span>
-      </span>
-    </div>
-
-    <div class="here" data-here hidden>
-      <span class="here__label">تتصفّح من</span>
-      <span class="here__flag" data-here-flag aria-hidden="true"></span>
-      <span class="here__name" data-here-name></span>
-      <span class="seat__rule" aria-hidden="true"></span>
-      <span class="here__time" data-clock-local dir="ltr"></span>
-    </div>
-
-    <div class="topbar__right">
-      <a href="/ar/contact/" class="topbar__item topbar__item--contact">
+    <div class="topbar__contacts">
+      <a href="mailto:info@worldwencollege.co.uk" class="topbar__item" dir="ltr">
         <svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg>
+        info@worldwencollege.co.uk
+      </a>
+      <span class="topbar__item topbar__item--muted">
+        <svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg>
+        الحرم الجامعي في لندن · التقديم متاح عالميًا
+      </span>
+    </div>
+    <div class="topbar__right">
+      <a href="/ar/contact/" class="topbar__item">
+        <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg>
         تواصل معنا
       </a>
-      <div class="langswitch">
-    <button type="button" class="langswitch__btn" aria-expanded="false" aria-haspopup="true">
-      <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
-      <span class="langswitch__now">العربية</span>
-      <svg class="icon langswitch__chev" aria-hidden="true"><use href="#i-arrow"/></svg>
-    </button>
-    <div class="langswitch__menu crystal" role="menu">
-      <p class="langswitch__head">الطبعات</p>
-        <a class="lang__row" href="/admissions/tuition/" hreflang="en" lang="en"><span class="lang__flag" aria-hidden="true">🇬🇧</span><span class="lang__endonym" lang="en">English</span><span class="lang__english">English</span></a>
-        <span class="lang__row lang__row--current" aria-current="true"><span class="lang__flag" aria-hidden="true">🇸🇦</span><span class="lang__endonym" dir="rtl" lang="ar">العربية</span><span class="lang__english">Arabic</span><span class="lang__state"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg></span></span>
-    </div>
-  </div>
-      
+      <a class="topbar__lang" href="/admissions/tuition/" lang="en" hreflang="en" dir="ltr">
+        <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
+        English
+      </a>
+      <div class="topbar__social" aria-label="روابط التواصل الاجتماعي">
+        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
+        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
+      </div>
     </div>
   </div>
 </div>
@@ -761,9 +439,7 @@
               <p class="mega__label">المؤسسة</p>
               <a href="/ar/about/">عن الكلية</a>
               <a href="/ar/about/#vision">الرؤية والرسالة</a>
-              <a href="/ar/why-english/">حجّة الإنجليزية</a>
-              <a href="/ar/why-english/">حجّة الإنجليزية</a>
-          <a href="/ar/about/#philosophy">الفلسفة التربوية</a>
+              <a href="/ar/about/#philosophy">الفلسفة التربوية</a>
               <a href="/ar/about/#structure">التنظيم</a>
               <a href="/ar/about/careers/">العمل في الكلية</a>
             </div>
@@ -771,7 +447,7 @@
           <a class="mega__feature" href="/ar/about/#status">
             <svg class="icon icon--lg" aria-hidden="true"><use href="#i-columns"/></svg>
             <span class="mega__feature-label">الوضع المؤسسي</span>
-            <span class="mega__feature-text">ثماني دفعات وستون دولة. أكثر من 22,000 متعلّم درسوا هنا منذ 2023، والسجل وراء الرقم منشور.</span>
+            <span class="mega__feature-text">ما هي الكلية اليوم — وما ليست بعد. مكتوب بوضوح ومحدَّث باستمرار.</span>
             <span class="mega__feature-go">اقرأ الوضع المؤسسي <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
           </a>
         </div>
@@ -792,7 +468,6 @@
               <p class="mega__label">التدريس وهيئته</p>
               <a href="/ar/academics/teaching/">ممارسة التدريس</a>
               <a href="/ar/academics/teaching/#development">تطوير المعلّمين</a>
-              <a href="/ar/academics/tutor-handbook/">دليل المدرّس</a>
               <a href="/ar/faculty/">هيئة التدريس</a>
             </div>
           </div>
@@ -842,15 +517,13 @@
               <a href="/ar/admissions/apply/">كيفية التقديم</a>
               <a href="/ar/admissions/#requirements">شروط الالتحاق</a>
               <a href="/ar/admissions/tuition/">الرسوم والتمويل</a>
-              <a href="/ar/admissions/tuition/#routes">الدراسة المستقلة</a>
               <a href="/ar/admissions/policy/">سياسة القبول</a>
-              <a href="/ar/admissions/international/">الدراسة من بلدك</a>
             </div>
           </div>
           <a class="mega__feature" href="/ar/admissions/apply/">
             <svg class="icon icon--lg" aria-hidden="true"><use href="#i-seal"/></svg>
-            <span class="mega__feature-label">ثلاث دفعات في العام</span>
-            <span class="mega__feature-text">الربيع والصيف والخريف. ومئتا مقعد مفتوحة عالميًا في الدفعة الحالية.</span>
+            <span class="mega__feature-label">القبول مستمر</span>
+            <span class="mega__feature-text">لا دفعة تنتظرها. تبدأ يوم تسجّل.</span>
             <span class="mega__feature-go">ابدأ طلبك <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
           </a>
         </div>
@@ -868,9 +541,6 @@
               <a href="/ar/students/awards/">الشهادات والمراتب</a>
               <a href="/ar/students/#support">الدعم</a>
               <a href="/ar/students/regulations/">اللوائح الأكاديمية</a>
-              <a href="/ar/students/examinations/">لوائح الامتحان</a>
-              <a href="/ar/students/handbook/">دليل الطالب</a>
-              <a href="/ar/support/complaints/">الشكاوى</a>
             </div>
           </div>
           <a class="mega__feature" href="/ar/student-portal/">
@@ -914,10 +584,6 @@
               <a href="/ar/governance/#leadership">القيادة والهيئات</a>
               <a href="/ar/governance/#quality">ضمان الجودة</a>
               <a href="/ar/governance/decisions/">سجل القرارات</a>
-              <a href="/ar/governance/quality/">بنية الجودة</a>
-              <a href="/ar/governance/quality-manual/">دليل ضمان الجودة</a>
-          <a href="/ar/governance/instruments/">سجلّ الأدوات النظامية</a>
-              <a href="/ar/governance/instruments/">سجلّ الأدوات النظامية</a>
             </div>
           </div>
           <a class="mega__feature" href="/ar/governance/decisions/">
@@ -970,39 +636,21 @@
        تكلّف الترويسة شيئًا يُذكر من الارتفاع. js/worldclock.js يملأ
        القيم الثلاث؛ الأرقام هنا هي حالة ما قبل تشغيل السكربت فقط.
 
-       شريط الترويسة العلوي (partials/topbar.ar.html) صار يحمل الساعتين
-       معًا، فاستغنينا عن هذا الشريط المكرَّر في الجوال — انظر التعليق في
-       partials/header.html لتفصيل السبب. -->
-
-  <!-- شريط الإجراءات السريعة — انظر النسخة الإنجليزية للتعليل. -->
-  <div class="utilrail" aria-label="إجراءات سريعة">
-    <div class="utilrail__track">
-      <a class="utilrail__item utilrail__item--gold" href="/ar/student-portal/">
-        <svg class="icon" aria-hidden="true"><use href="#i-key"/></svg><span>بوابة الطالب</span></a>
-      <a class="utilrail__item utilrail__item--gold" href="/ar/admissions/apply/">
-        <svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg><span>قدِّم الآن</span></a>
-      <a class="utilrail__item" href="/ar/contact/#consultation">
-        <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg><span>احجز استشارة</span></a>
-      <a class="utilrail__item" href="/ar/admissions/tuition/">
-        <svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg><span>الرسوم الدراسية</span></a>
-      <a class="utilrail__item" href="/ar/admissions/tuition/#scholarships">
-        <svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg><span>المنح</span></a>
-      <a class="utilrail__item" href="/ar/press/library/">
-        <svg class="icon" aria-hidden="true"><use href="#i-book"/></svg><span>المطبوعات</span></a>
-      <div class="utilrail__item utilrail__item--has-menu">
-        <button type="button" class="utilrail__btn" aria-expanded="false" aria-haspopup="true">
-          <svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg><span>التحقّق</span>
-          <svg class="icon utilrail__chev" aria-hidden="true"><use href="#i-arrow"/></svg>
-        </button>
-        <div class="utilrail__menu crystal" role="menu">
-          <a href="/ar/verify/?type=certificate"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg>التحقّق من شهادة</a>
-          <a href="/ar/verify/?type=transcript"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg>التحقّق من كشف درجات</a>
-          <a href="/ar/verify/?type=identity"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg>التحقّق من هوية طالب</a>
-          <a href="/ar/verify/?type=receipt"><svg class="icon" aria-hidden="true"><use href="#i-countermark"/></svg>التحقّق من إيصال</a>
-          <a href="/ar/verify/"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg>التحقّق من أي وثيقة</a>
-        </div>
-      </div>
-    </div>
+       كانت أيقونة عارية ونصًا صِرفًا على شريط مسطّح — القطعة الوحيدة في
+       الترويسة التي لم تحمل معدن الـ"vessel/badge" الذي تُبنى منه بلاطات
+       التنقّل السريع تحتها وشبكة التذييل نفسها. الشارة والوسمان الذهبيان
+       والخطوط الفاصلة هنا هي المعدن نفسه بمقياس لوحة القيادة: سطر واحد
+       يظل يكلّف الترويسة القليل من الارتفاع، لكنه لم يعد الشيء الوحيد
+       على الصفحة الذي ما زال يلبس نصًّا صِرفًا. -->
+  <div class="headerclock grain" data-worldclock>
+    <span class="headerclock__badge"><svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg></span>
+    <span class="headerclock__times tabular" dir="ltr">
+      <span class="headerclock__reading"><span data-clock-london>13:36</span><span class="headerclock__tz">LON</span></span>
+      <span class="headerclock__rule" aria-hidden="true"></span>
+      <span class="headerclock__reading"><span data-clock-local>13:36</span><span class="headerclock__tz">YOU</span></span>
+    </span>
+    <span class="headerclock__rule headerclock__rule--edge" aria-hidden="true"></span>
+    <span class="headerclock__date" data-clock-date>Sat, 15 Aug</span>
   </div>
 
   <!-- شريط التنقّل السريع: للجوال فقط (يُخفى من 861px فصاعدًا، حيث
@@ -1010,6 +658,36 @@
        بلمسة الإصبع يحمل الأركان الستة ذاتها، وبطاقة سابعة "القائمة
        الكاملة" تفتح اللوحة أدناه بدل الانتقال إلى صفحة — الشريط
        اختصار للمستوى الأول، واللوحة تبقى حيث يقيم الموقع كاملًا. -->
+  <!-- شريط الإجراءات: انظر التعليق في partials/header.html. ثلاثة مسارات
+       لا رابعة: من ينتمي إلى الكلية بالفعل، ومن يقرّر أينتمي، ومن قرّر. -->
+  <div class="actionband">
+    <div class="actionband__inner">
+      <a class="actionband__item" href="/ar/student-portal/">
+        <span class="actionband__badge"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
+        <span class="actionband__text">
+          <span class="actionband__title">ادخل إلى البوابة</span>
+          <span class="actionband__note">برنامجك وتسجيلاتك وسجلك</span>
+        </span>
+        <svg class="icon actionband__go" aria-hidden="true"><use href="#i-arrow"/></svg>
+      </a>
+      <a class="actionband__item" href="/ar/admissions/">
+        <span class="actionband__badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
+        <span class="actionband__text">
+          <span class="actionband__title">كيف يجري القبول</span>
+          <span class="actionband__note">أربع خطوات، ولا دفعة تنتظرها</span>
+        </span>
+        <svg class="icon actionband__go" aria-hidden="true"><use href="#i-arrow"/></svg>
+      </a>
+      <a class="actionband__item actionband__item--lead" href="/ar/admissions/apply/">
+        <span class="actionband__badge"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
+        <span class="actionband__text">
+          <span class="actionband__title">ابدأ طلبًا</span>
+          <span class="actionband__note">بلا رسوم، ودون طلب بيانات بطاقة</span>
+        </span>
+        <svg class="icon actionband__go" aria-hidden="true"><use href="#i-arrow"/></svg>
+      </a>
+    </div>
+  </div>
 
   <div class="quicknav grain" aria-label="التنقّل السريع">
     <div class="quicknav__track">
@@ -1074,7 +752,6 @@
           <a href="/ar/academics/#campus">الحرم الرقمي</a>
           <a href="/ar/academics/teaching/">ممارسة التدريس</a>
           <a href="/ar/academics/teaching/#development">تطوير المعلّمين</a>
-          <a href="/ar/academics/tutor-handbook/">دليل المدرّس</a>
           <a href="/ar/faculty/">هيئة التدريس</a>
         </div></div>
       </div>
@@ -1097,9 +774,7 @@
           <a href="/ar/admissions/apply/">كيفية التقديم</a>
           <a href="/ar/admissions/#requirements">شروط الالتحاق</a>
           <a href="/ar/admissions/tuition/">الرسوم والتمويل</a>
-          <a href="/ar/admissions/tuition/#routes">الدراسة المستقلة</a>
           <a href="/ar/admissions/policy/">سياسة القبول</a>
-          <a href="/ar/admissions/international/">الدراسة من بلدك</a>
           <a href="/ar/faq/">أسئلة القبول</a>
         </div></div>
       </div>
@@ -1112,9 +787,6 @@
           <a href="/ar/students/awards/">الشهادات والمراتب</a>
           <a href="/ar/students/#support">الدعم</a>
           <a href="/ar/students/regulations/">اللوائح الأكاديمية</a>
-          <a href="/ar/students/examinations/">لوائح الامتحان</a>
-          <a href="/ar/students/handbook/">دليل الطالب</a>
-          <a href="/ar/support/complaints/">الشكاوى</a>
           <a href="/ar/student-portal/">بوابة الطالب</a>
         </div></div>
       </div>
@@ -1135,8 +807,6 @@
           <a href="/ar/governance/#leadership">القيادة والهيئات</a>
           <a href="/ar/governance/#quality">ضمان الجودة</a>
           <a href="/ar/governance/decisions/">سجل القرارات</a>
-          <a href="/ar/governance/quality/">بنية الجودة</a>
-          <a href="/ar/governance/quality-manual/">دليل ضمان الجودة</a>
         </div></div>
       </div>
       <div class="accordion__item">
@@ -1160,38 +830,28 @@
         <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
         English
       </a>
-      
+      <div class="topbar__social" aria-label="روابط التواصل الاجتماعي">
+        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
+        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
+      </div>
     </div>
     <a href="/ar/admissions/apply/" class="btn btn--gold">قدّم الآن</a>
   </nav>
 </header>
 
 <main id="main">
-<!--
-  الرسوم — السُّلَّم، لا المجموع.
-  النسخة العربية من pages/admissions-tuition.html. كانت الصفحة تفتح
-  بـ 19,000$ أكبرَ رقم فيها وأولَه، وهو رقم لا يُطلب من أحد في يوم
-  واحد. الترتيب الآن ترتيب القرار: التقديم بلا شيء، والبدء بقسط،
-  والمستوى بمستوى، والبرنامج كاملًا إن اخترته. ولم يتغير رقم واحد.
--->
-<section class="page-hero masthead guilloche grain">
-  <canvas class="constellation" aria-hidden="true"></canvas>
-  <img class="masthead__plate" src="/assets/art/crest-plate.svg" alt="" aria-hidden="true" width="320" height="400" data-depth="0.05">
-  <div class="container masthead__inner">
-    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></p>
-
-    <p class="masthead__eyebrow">القبول &middot; الرسوم الدراسية</p>
-    <h1>لا يُطلب منك المبلغ كله أبدًا.</h1>
-    <p class="masthead__stake">برنامج من ستة مستويات مسعَّر برقم واحد رقمٌ لا يستطيع أحد التصرف بناءً عليه. <strong>وهذا يُؤخَذ درجةً درجة</strong> &mdash; لا شيء للتقديم، وقسط واحد للبدء، ومستوى يُقرَّر في وقته، ولا التزام يتجاوز الوحدات العشر التي أمامك.</p>
-    <p class="lede">كل رقم تتقاضاه الكلية منشور هنا، بالترتيب الذي تلقاه به، ومعه ما أنت ملتزم به عند كل خطوة. والرسوم محددة بالدولار الأمريكي ولا تتغير بعد التحاقك بمستوى.</p>
-
-    <dl class="masthead__facts">
-      <div class="masthead__fact"><dt>للتقديم</dt><dd>لا شيء</dd></div>
-      <div class="masthead__fact"><dt>للبدء</dt><dd dir="ltr">$791.67</dd></div>
-      <div class="masthead__fact"><dt>للساعة المُدرَّسة</dt><dd dir="ltr">$15.83</dd></div>
-      <div class="masthead__fact"><dt>المستويات الستة</dt><dd dir="ltr">$19,000</dd></div>
-    </dl>
-    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></p>
+<section class="page-hero section--dark section-pad">
+  <div class="container">
+    <span class="eyebrow">الرسوم الدراسية</span>
+    <h1 data-split>تسعير شفاف لمسار ⁦IEFC⁩ كاملًا.</h1>
+    <p class="lede">رسم برنامج واحد، مقسّم بالتساوي على ستة مستويات — ادفع دفعة واحدة، أو لكل مستوى، أو أقساطًا داخل المستوى بالطلب.</p>
+    <div class="stat-row" style="margin-top:40px">
+      <div class="stat-row__item"><strong>19,000$</strong><span>البرنامج كاملًا</span></div>
+      <div class="stat-row__item"><strong>3,166.67$</strong><span>لكل مستوى</span></div>
+      <div class="stat-row__item"><strong>20</strong><span>رصيد <span dir="ltr">WEC</span> لكل مستوى</span></div>
+      <div class="stat-row__item"><strong>120</strong><span>إجمالي أرصدة <span dir="ltr">WEC</span></span></div>
+    </div>
   </div>
 </section>
 
@@ -1199,200 +859,15 @@
   <div class="contents__inner">
     <span class="contents__label">في هذه الصفحة</span>
     <ul class="contents__list">
-      <li><a href="#ladder">السُّلَّم</a></li>
-      <li><a href="#breakdown">التفصيل</a></li>
-      <li><a href="#extras">الإضافات</a></li>
       <li><a href="#fees">الرسوم</a></li>
       <li><a href="#paying">السداد</a></li>
       <li><a href="#plans">طرق الدفع</a></li>
       <li><a href="#refunds">الاسترداد</a></li>
-      <li><a href="#routes">مساران</a></li>
-      <li><a href="#partners">مقاعد الشراكة</a></li>
-      <li><a href="#funding">إعفاء التأسيس</a></li>
-      <li><a href="#referral">الإحالة</a></li>
-      <li><a href="#alumni">الخريجون</a></li>
+      <li><a href="#funding">المنح والدعم</a></li>
     </ul>
   </div>
 </nav>
 
-<section class="section--light section-pad">
-  <div class="container">
-      <figure class="plate plate--drift plate--photo reveal" style="--plate-ratio: 21 / 9">
-        <div class="plate__frame tilt gold-live edge-lit edge-lit--light aurum">
-          <span class="tilt__sheen" aria-hidden="true"></span>
-          <img src="/assets/images/plates/letterpress.jpg" alt="حروف طباعة معدنية مرصوصة في مِسطرة الصفّ، وحروفها معكوسة." loading="lazy" decoding="async">
-          <span class="plate__tone" aria-hidden="true"></span>
-          <span class="plate__tone plate__tone--warm" aria-hidden="true"></span>
-        </div>
-        <figcaption class="plate__caption">
-          <svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg>
-          كل رقم في هذه الصفحة يُصفّ مرة واحدة ويُطبع كما هو في كل موضع.
-        </figcaption>
-      </figure>
-  </div>
-</section>
-
-
-<!-- ==================================================================
-     السُّلَّم
-     ================================================================== -->
-<section class="leaf section--paper grain" id="ladder" data-contents="السُّلَّم">
-  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/quality-cycle.svg)"></span>
-  <div class="container leaf__grid">
-    <div class="leaf__margin">
-      <span class="leaf__num foil">١</span>
-      <span class="leaf__label">السُّلَّم</span>
-      <p class="leaf__rubric">أربع درجات. وأنت تقرّر من جديد عند كل واحدة منها.</p>
-    </div>
-    <div class="leaf__body reveal">
-      <div class="section-head">
-      <h2>ما تلتزم به، بالترتيب الذي تلتزم به.</h2>
-      <p class="lede">الرقم المهم ليس المجموع أبدًا. بل ما أنت ملتزم به يوم تقرّر &mdash; وهو في
-        هذا البرنامج قسطٌ واحد، ثم مستوى واحد، ولا يتجاوز الوحدات العشر التي أمامك.</p>
-    </div>
-
-    <div class="tariff tariff--ladder">
-      <div class="tariff__line reveal edge-lit edge-lit--light aurum">
-        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg></span>
-        <span class="tariff__figure">لا شيء</span>
-        <span class="tariff__label">للتقديم</span>
-        <span class="tariff__note">لا رسم، ولا مستندات، ولا بطاقة. ويأتي تحديد المستوى والعرض كلاهما قبل أن يُطلب أي سداد، فتعرف مستواك وسعرك قبل أن تنفق شيئًا.</span>
-      </div>
-      <div class="tariff__line reveal edge-lit edge-lit--light aurum">
-        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
-        <span class="tariff__figure" dir="ltr">$791.67</span>
-        <span class="tariff__label">للبدء بالدراسة</span>
-        <span class="tariff__note">أول أربعة أقساط على مستواك الأول. يفتح المستوى كاملًا &mdash; الوحدات العشر، ومعمل الاستماع، وتصحيح شخصٍ لعملك &mdash; يوم يُقيَّد. وهذا أكبر مبلغ تحتفظ به الكلية منك قبل أن تدرس شيئًا.</span>
-      </div>
-      <div class="tariff__line reveal edge-lit edge-lit--light aurum">
-        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>
-        <span class="tariff__figure" dir="ltr">$3,166.67</span>
-        <span class="tariff__label">مستوى واحد كاملًا</span>
-        <span class="tariff__note">عشر وحدات، وعشرون رصيدًا، ومئتا ساعة عمل مصمَّم، وشهادة في آخره. سُدس البرنامج بالضبط. يُقرَّر مستوى بمستوى، ولا يلزمك تعليل لتتوقف.</span>
-      </div>
-      <div class="tariff__line reveal edge-lit edge-lit--light aurum">
-        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg></span>
-        <span class="tariff__figure" dir="ltr">$19,000</span>
-        <span class="tariff__label">الستة كلها، إن أخذتها</span>
-        <span class="tariff__note">من <span dir="ltr">A1</span> إلى <span dir="ltr">C2</span>، ومئة وعشرون رصيدًا، وألف ومئتا ساعة. ولا يُطلب من أحد الالتزام بهذا، ولا يشتري اختياره خصمًا &mdash; فالكلية لا تسعّر التزامًا أكبر على أنه صفقة.</span>
-      </div>
-    </div>
-
-    <div class="callout">
-      <span class="callout__label">الرقم الذي يجعل بقية الأرقام مقروءة</span>
-      <p><strong><span dir="ltr">$15.83</span> للساعة.</strong> هذا <span dir="ltr">$19,000</span>
-        على ألف ومئتي ساعة، و<span dir="ltr">$3,166.67</span> على مئتين &mdash; الرقم نفسه في
-        الحالين، لأن المستويات مسعَّرة بالتساوي. وهو يشتري دروسًا مؤلَّفة، وتقييمًا كُتب قبل
-        التدريس الذي يختبره، وعمل نطق مسجَّلًا، وكل تكليف يصححه شخص لا درجة آلية. وتنشره الكلية
-        لأن المجموع يخبرك بكم يكلّف البرنامج، أما السعر بالساعة فيخبرك بقيمة ساعة منه.</p>
-    </div>
-    </div>
-  </div>
-</section>
-
-<!-- >>> GENERATED FROM scripts/build-tuition.mjs — DO NOT EDIT BY HAND -->
-<section class="leaf section--light grain" id="breakdown" data-contents="التفصيل">
-  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/competency-wheel.svg)"></span>
-  <div class="container leaf__grid">
-    <div class="leaf__margin">
-      <span class="leaf__num foil">٢</span>
-      <span class="leaf__label">التفصيل</span>
-      <p class="leaf__rubric">كل سنت من رسم المستوى، والبند الذي يذهب إليه.</p>
-    </div>
-    <div class="leaf__body reveal">
-      <div class="section-head">
-      <h2>إلى أين يذهب المال.</h2>
-      <p class="lede">الرقم الواحد ليس معلومة. وهذا كامل $3,166.67 — رسم مستوى واحد — موزَّعًا على الأشياء العشرة التي تصرفه الكلية عليها، ومعه ما يشتريه كل بند، وما يعادله لكل رصيد، وما يعادله لكل ساعة مُدرَّسة. والصفوف تجمع الرسم بالضبط، لأن تفصيلًا لا يجمع ليس تفصيلًا.</p>
-    </div>
-    <div class="table-scroll ledger-mount edge-lit">
-      <table class="ledger">
-        <thead><tr><th>ما يدفع مقابله</th><th>النسبة</th><th>للمستوى</th><th>للرصيد</th><th>للساعة</th></tr></thead>
-        <tbody>
-          <tr><td><strong>التدريس والإشراف الأكاديمي</strong><br><span class="u-muted">مدرّس مسمّى مسؤول عن مستواك، وتغذية راجعة مكتوبة على كل عمل تُنتجه، ووقت درس خصوصي بالطلب. وهذا أكبر بند منفرد، وهو شخص لا منصة.</span></td><td>36%</td><td>$1,140.03</td><td>$57.00</td><td>$5.70</td></tr>
-          <tr><td><strong>التقييم والتصحيح</strong><br><span class="u-muted">عشرة اختبارات وحدات، وعشرة تكاليف يصححها شخص وفق معيار منشور، وامتحان المستوى، والتصحيح الثاني الذي تمر به كل نتيجة.</span></td><td>15%</td><td>$475.00</td><td>$23.75</td><td>$2.38</td></tr>
-          <tr><td><strong>المنهج وموارد التعلّم</strong><br><span class="u-muted">الدروس المؤلَّفة، ومجموعات الاستماع، ومعامل النطق، والمراجعات الذاتية، وكتاب التدريبات للمستوى &mdash; كُتبت قبل التحاقك ونُشرت كاملةً قبل أن تدفع.</span></td><td>11%</td><td>$348.33</td><td>$17.42</td><td>$1.74</td></tr>
-          <tr><td><strong>منصة التعلّم والبنية التقنية</strong><br><span class="u-muted">الحرم الرقمي: تقديم الدروس، ومعمل الاستماع، وحفظ التسجيلات الذي يبقي محاولاتك، وتتبّع التقدّم، ونظام السجل الذي تسكنه درجاتك.</span></td><td>8%</td><td>$253.33</td><td>$12.67</td><td>$1.27</td></tr>
-          <tr><td><strong>الإرشاد الأكاديمي والدعم</strong><br><span class="u-muted">تحديد المستوى، والمشورة في التسلسل، وردٌّ من عضو في الفريق المؤسِّس على أي سؤال ترسله &mdash; لا طابور تذاكر ولا نصّ جاهز.</span></td><td>6%</td><td>$190.00</td><td>$9.50</td><td>$0.95</td></tr>
-          <tr><td><strong>المكتبة والمنشورات</strong><br><span class="u-muted">المجلدات الأربعة عشر المركَّبة من منهج الكلية وتقييمها وعملها التدريسي &mdash; وهي مجانية لكل أحد، مُلتحِقًا كان أو غير ملتحق، وتُحسَب هنا لأن إنتاجها يكلّف الكلية مالًا.</span></td><td>4%</td><td>$126.66</td><td>$6.33</td><td>$0.63</td></tr>
-          <tr><td><strong>السجلات والقيد والإدارة</strong><br><span class="u-muted">القيد، وسجلك الأكاديمي، وإصدار كشف الدرجات، والسجل الذي يجب أن يحفظ ذلك كله ما دام له قيمة عندك.</span></td><td>4%</td><td>$126.66</td><td>$6.33</td><td>$0.63</td></tr>
-          <tr><td><strong>الشهادة والتحقق</strong><br><span class="u-muted">الشهادة نفسها: المستند الرقمي، والتوقيع التشفيري عليه، ومسار تحقق يستطيع أي أحد استعماله بلا حساب ما دامت الكلية قائمة.</span></td><td>5%</td><td>$158.33</td><td>$7.92</td><td>$0.79</td></tr>
-          <tr><td><strong>ضمان الجودة والتعديل</strong><br><span class="u-muted">تدقيق معايير التصحيح، ومعاينة العمل المصحَّح، والتعديل الداخلي الذي تمر به كل شهادة. ولا ممتحن خارجي معيَّن، فهذا البند يشتري تعديلًا داخليًا، والكلية تسمّيه باسمه.</span></td><td>5%</td><td>$158.33</td><td>$7.92</td><td>$0.79</td></tr>
-          <tr><td><strong>التطوير المؤسسي</strong><br><span class="u-muted">مراجعة المنهج في ضوء ما ينتجه التدريس فعلًا، وتطوير المعلمين، ومطبعة الكلية. وهو الجزء من رسمك الذي يحسّن البرنامج للدفعة التي تليك.</span></td><td>6%</td><td>$190.00</td><td>$9.50</td><td>$0.95</td></tr>
-          <tr><td colspan="2"><strong>مستوى واحد كاملًا</strong></td>
-              <td><strong>$3,166.67</strong></td>
-              <td><strong>$158.33</strong></td>
-              <td><strong>$15.83</strong></td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="form-note">تُنشر الأوزان بنقاط أساس من رسم المستوى وتُحسَب المبالغ منها بالسنتات الصحيحة، فلا تنحرف الصفوف عن المجموع. وحيث تُبقي القسمة باقيًا يُضاف إلى بند <em>التدريس والإشراف الأكاديمي</em> بدل توزيعه على نحو غير مرئي. وأرقام الرصيد تقسم على 20 رصيدًا؛ وأرقام الساعة على 200 ساعة من الزمن الكلي للمؤهل الذي بُني عليه المستوى. مُعتمد من الإدارة التنفيذية، نافذ، على أن يصادق عليه المجلس الأكاديمي حين تُعيَّن أعضاؤه.</p>
-    <div class="callout">
-      <span class="callout__label">السنتان اللذان لا تتقاضاهما الكلية</span>
-      <p>6 مستويات بـ$3,166.67 تبلغ 19,000.02$، لأن 19,000 لا تقبل القسمة على ستة. ويُحصَّل المجموع <strong>19,000$</strong> ويُتنازَل عن السنتين الأخيرين. فسنتان ليسا مبلغًا مؤثرًا؛ أما مجموع منشور لا يجمع فعيب مؤثر.</p>
-    </div>
-    </div>
-  </div>
-</section>
-
-<section class="leaf section--paper grain" id="extras" data-contents="الإضافات">
-  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/quality-cycle.svg)"></span>
-  <div class="container leaf__grid">
-    <div class="leaf__margin">
-      <span class="leaf__num foil">٣</span>
-      <span class="leaf__label">الإضافات</span>
-      <p class="leaf__rubric">ما يكلّف أكثر ومعه سعره، والقائمة الأطول لما لا يكلّف.</p>
-    </div>
-    <div class="leaf__body reveal">
-      <div class="section-head">
-      <h2>مُسعَّرة، بشطريها.</h2>
-      <p class="lede">الأشياء الوحيدة التي تتقاضى الكلية عليها مالًا زيادةً على الرسوم موادُّ مادية تُرسلها إليك، لأن المادة المادية تكلّف الكلية مالًا في صناعتها وإرسالها. وكل واحدة منها تحمل سعرها هنا. والقائمة الثانية أطول عن قصد: فهي تسمّي ما يتقاضى عليه غيرها.</p>
-    </div>
-    <h3 style="margin-top:1.4em">ما يكلّف زيادة</h3>
-    <div class="tariff tariff--ladder">
-      <div class="tariff__line reveal edge-lit edge-lit--light aurum">
-        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
-        <span class="tariff__figure" dir="ltr">$45</span>
-        <span class="tariff__label">شهادة مطبوعة</span>
-        <span class="tariff__note">طباعة بارزة على ورق قطني، موقَّعة ومختومة، تُرسَل إلى أي مكان في العالم. أما الشهادة الرقمية فمجانية وهي التي يفحصها التحقق.</span>
-      </div>
-      <div class="tariff__line reveal edge-lit edge-lit--light aurum">
-        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
-        <span class="tariff__figure" dir="ltr">$25</span>
-        <span class="tariff__label">كشف درجات مطبوع ومعتمد</span>
-        <span class="tariff__note">كشف ورقي مختوم لجهة عمل أو جامعة لا تقبل الرقمي. وأي عدد من الكشوف الرقمية مجاني.</span>
-      </div>
-      <div class="tariff__line reveal edge-lit edge-lit--light aurum">
-        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
-        <span class="tariff__figure" dir="ltr">$15</span>
-        <span class="tariff__label">بطاقة طالب مادية</span>
-        <span class="tariff__note">اختيارية. وهويتك الطلابية الرقمية مجانية، وتعمل في كل ما تعمل فيه المنصة، وهي ما تستعمله الكلية نفسها. والبطاقة لمن يريدها في يده.</span>
-      </div>
-      <div class="tariff__line reveal edge-lit edge-lit--light aurum">
-        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
-        <span class="tariff__figure" dir="ltr">$35</span>
-        <span class="tariff__label">بريد سريع دولي متتبَّع</span>
-        <span class="tariff__note">فقط إن أردت إرسال مادة مطبوعة بالبريد السريع بدل البريد العادي. والبريد العادي داخل في ثمن المادة.</span>
-      </div>
-    </div>
-    <h3 style="margin-top:2.4em">ما لا يكلّف زيادة أبدًا</h3>
-    <ul class="check-list">
-        <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span><strong>التقديم</strong> &mdash; لا رسم تقديم ولا معالجة ولا تسجيل، ولا مستندات.</span></li>
-        <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span><strong>تقييم تحديد المستوى</strong> &mdash; يُؤدَّى قبل أن تدفع شيئًا، فتعرف مستواك وسعرك أولًا.</span></li>
-        <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span><strong>كل شهادة رقمية وكشف درجات</strong> &mdash; يُصدَر بعد كل مستوى، ويُعاد إصداره كلما احتجت، بلا رسم أبدًا.</span></li>
-        <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span><strong>هويتك الطلابية الرقمية</strong> &mdash; الهوية التي تستعملها المنصة فعلًا. مجانية، ولا تنتهي ما دمت مُلتحِقًا.</span></li>
-        <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span><strong>عمليات التحقق</strong> &mdash; بلا حد، من أي أحد، بلا حساب. فالوثيقة التي لا يستطيع أحد فحصها مجانًا ليست وثيقة.</span></li>
-        <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span><strong>إعادة أداء التقييم</strong> &mdash; لا رسم إعادة. فتحصيل مال على محاولة ثانية يحوّل التقييم إلى مكوس.</span></li>
-        <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span><strong>خطة التقسيط</strong> &mdash; أربع دفعات لكل مستوى، تُعرض على الجميع، بلا رسم على استعمالها.</span></li>
-        <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span><strong>كل مجلد في المكتبة</strong> &mdash; أربعة عشر كتابًا مركَّبًا، حرةَ التنزيل والطباعة والنسخ &mdash; التحقت أو لم تلتحق.</span></li>
-        <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span><strong>الإرشاد الأكاديمي</strong> &mdash; تحديد المستوى، والتسلسل، وأي سؤال ترسله. يجيب عنه شخص.</span></li>
-        <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span><strong>تصدير سجلك كاملًا</strong> &mdash; كل ما تحفظه الكلية عنك، بالطلب، في صورة تستطيع الاحتفاظ بها. فهو سجلك أنت.</span></li>
-        <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span><strong>الانسحاب</strong> &mdash; لا رسم إداري على التوقف. أما ما دفعته ولم تدرسه فمسألة أخرى، جوابها في الاسترداد.</span></li>
-    </ul>
-    <p class="form-note">هذه هي الرسوم الوحيدة التي يلقاها الطالب الملتحق. لا رسم تقديم، ولا رسم تسجيل، ولا رسم امتحان، ولا رسم إعادة، ولا رسم تقسيط، ولا رسم تقني، ولا رسم مكتبة، ولا رسم تخرّج، ولا رسم انسحاب. وما ليس في القائمة اليمنى فلا وجود له. أما من لم يلتحق فيشتري الامتحان والشهادة منفصلَين، وسبب ذلك مبسوط في <a href="#routes">مساران إلى الشهادة نفسها</a>. فالرسم الذي يظهر بلا تفسير في صفحة، ووعدٌ بعدم وجوده في أخرى، هو الطريق الذي يفقد به جدول الرسوم تصديق الناس.</p>
-    </div>
-  </div>
-</section>
-<!-- <<< END TUITION BREAKDOWN -->
 
 <section class="section--light section-pad" id="fees" data-contents="الرسوم">
   <div class="container reveal">
@@ -1400,7 +875,7 @@
       <span class="module-marker">التفصيل حسب المستوى</span>
       <h2>الاستثمار ذاته، في كل مستوى.</h2>
     </div>
-    <div class="table-scroll ledger-mount edge-lit">
+    <div class="table-scroll">
       <table class="ledger">
         <thead><tr><th>المستوى</th><th dir="ltr">CEFR</th><th>الأرصدة</th><th>الزمن الكلي للمؤهل</th><th>الرسوم</th></tr></thead>
         <tbody>
@@ -1415,19 +890,42 @@
         </tbody>
       </table>
     </div>
-    <p class="form-note">الزمن الكلي للمؤهل رقم تصميم لا معدّل: هو حجم العمل الذي بُني عليه كل مستوى، ويجمع الساعات المُدرَّسة والدراسة الموجَّهة والتقييم معًا. وكم يستغرق ذلك بالأشهر يعتمد على الساعات التي تستطيع منحها أسبوعيًا. ورصيد الكلية مقياس داخلي، وليس رصيدًا أوروبيًا ولا بريطانيًا معترفًا به.</p>
+    <p class="form-note"><strong>السنتان فرق حقيقي، وهذا الجدول كان يخفيهما.</strong>
+      مبلغ 19,000$ لا يقبل القسمة على ستة قسمة تامة: السدس يساوي 316,666&frac23; سنتًا، ويُنشر
+      3,166.67$ لأن السعر يجب أن يكون قابلاً للدفع بسنتات كاملة. ستة من هذه المبالغ تساوي
+      19,000.02$، أي أن الدفع مستوى بمستوى يكلّف سنتين أكثر من الدفع دفعة واحدة. حتى الآن كان
+      العمود يعرض ستة صفوف بقيمة 3,166.67$ فوق إجمالي 19,000$، وهو حساب لا يستقيم &mdash; أمر صغير،
+      ومن النوع الذي يخبر القارئ المدقّق بحجم ما ينبغي التحقق منه أيضًا. تفضّل الكلية أن تعرض
+      عليك الحساب بدل أن تُخفيه بالتقريب.</p>
+    <p class="form-note">الزمن الكلي للمؤهل رقم تصميم لا قياس: هو حجم العمل الذي بُني عليه المنهج، ولم يُقَس على متعلمين حقيقيين لأنه لم يوجد متعلمون. وكم يستغرق ذلك بالأشهر يعتمد على الساعات التي تستطيع منحها أسبوعيًا. ورصيد الكلية وحدة داخلية، وليس رصيدًا أوروبيًا ولا بريطانيًا معترفًا به.</p>
   </div>
 </section>
 
-<!--
-  أُلغي هنا زوجُ «تشمل الرسوم / خدمات اختيارية» غير المسعَّر.
-  كان يسرد ما تغطيه الرسوم ويسمّي ثلاث خدمات اختيارية بلا سعر لأيٍّ
-  منها، وهي الفجوة نفسها التي طُلب سدُّها: الكلية التي لا تستطيع أن
-  تقول كم تكلّف بطاقة الطالب لديها رسوم خفية سواء كانت لديها أو لا.
-  وورقة «الإضافات» أعلاه تحلّ محلّه — المحتوى نفسه، وكل رسم مسعَّر،
-  ومعه القائمة الأطول لما لا يُتقاضى عليه أبدًا. ولم يُحذف شيء؛
-  انظر scripts/build-tuition.mjs.
--->
+<section class="section--paper section-pad">
+  <div class="container reveal two-col">
+    <div>
+      <span class="module-marker">تشمل الرسوم الدراسية</span>
+      <ul class="check-list">
+        <li>جميع الوحدات التعليمية للمستوى</li>
+        <li>الحصص المباشرة والدروس متى بدأ تشغيلها — لم تُعقد أي حصة بعد، لأنه لم يُدرَّس أي فوج</li>
+        <li>الموارد التعليمية والوصول إلى المكتبة الرقمية</li>
+        <li>التقييمات والامتحانات</li>
+        <li>تقارير التقدّم والإرشاد الأكاديمي</li>
+        <li>كشف الدرجات الرقمي</li>
+        <li>الشهادة الرقمية عند الإتمام بنجاح — متى أمكن منح الشهادة؛ لم يُعيَّن ممتحن خارجي بعد</li>
+      </ul>
+    </div>
+    <div>
+      <span class="module-marker">خدمات اختيارية</span>
+      <ul class="check-list">
+        <li>الشهادة المطبوعة (اختياري)</li>
+        <li>الشحن الدولي (اختياري)</li>
+        <li>التحقق من الشهادة (اختياري)</li>
+      </ul>
+      <p class="form-note">التقديم بلا تكلفة — لا رسوم تقديم ولا معالجة ولا تسجيل. الخدمات الاختيارية الثلاث أعلاه هي الإضافات الوحيدة، وتُؤكَّد أسعارها قبل الطلب.</p>
+    </div>
+  </div>
+</section>
 
 <section class="section--light section-pad" id="paying" data-contents="السداد">
   <div class="container reveal">
@@ -1439,16 +937,12 @@
         بعد.</p>
     </div>
     <div class="grid grid--2">
-      <div class="card reveal tilt edge-lit edge-lit--light aurum">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg></span>
+      <div class="card">
         <span class="card__num">معتمدة</span>
         <h3>الدولار الأمريكي</h3>
         <p>كل رسم يُحدَّد ويُحصَّل بالدولار. <span dir="ltr">$19,000</span> تعني <span dir="ltr">$19,000</span>.</p>
       </div>
-      <div class="card reveal tilt edge-lit edge-lit--light aurum">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>
+      <div class="card">
         <span class="card__num">غير معتمدة</span>
         <h3>الجنيه الإسترليني والنيرة والريال والدرهم والدينار</h3>
         <p>يحوّل مصرفك أو مُصدِر بطاقتك بسعره في يومه. لا تنشر الكلية سعرًا بعملة محلية، لأن نشر سعر بلا سعر صرف ثابت خلفه هو نشر رقم يتغيّر دون إشعار.</p>
@@ -1464,8 +958,6 @@
     <div class="section-head">
       <span class="module-marker">وسائل الدفع</span>
       <h2>ما يصلك منها يعتمد على مكانك.</h2>
-      <p class="lede">تحمل المنصة تفضيلات توجيه لعدة بلدان، وتعرض منها ما تملك الكلية له بيانات
-        تاجر فعّالة اليوم. تقترح ولا تُلزم أبدًا.</p>
     </div>
     <div class="callout">
       <span class="callout__label">نيجيريا تحديدًا</span>
@@ -1473,21 +965,25 @@
         <span dir="ltr">Flutterwave</span>، ثم <span dir="ltr">OPay</span>، وبوابة البطاقات
         الدولية أخيرًا. هذا الترتيب ليس زينة: عدة بوابات دولية لا تدعم البطاقات النيجيرية ولا
         التجار النيجيريين، وصفحة دفع لا تعرض غيرها ستفشل بصمت مع نسبة كبيرة من متقدمي الكلية.
-        وإن لم تظهر وسيلة عند السداد فهي غير مفتوحة في بلدك — اكتب
+        وإن لم تظهر وسيلة عند السداد فذلك لأن بيانات التاجر الخاصة بها لم تُفعَّل بعد — اكتب
         إلى إدارة القبول وادفع بالتحويل في هذه الأثناء.</p>
     </div>
-    <div class="table-scroll ledger-mount edge-lit">
-      <table class="ledger">
-        <thead><tr><th>الدولة</th><th>الترتيب المفضَّل</th></tr></thead>
-        <tbody>
-          <tr><td><strong>الإمارات العربية المتحدة</strong></td><td dir="ltr">Card (Stripe) &rarr; Flutterwave</td></tr>
-          <tr><td><strong>المملكة المتحدة</strong></td><td dir="ltr">Card (Stripe)</td></tr>
-          <tr><td><strong>الكويت</strong></td><td dir="ltr">Card (Stripe)</td></tr>
-          <tr><td><strong>نيجيريا</strong></td><td dir="ltr">Paystack &rarr; Flutterwave &rarr; OPay &rarr; Card (Stripe)</td></tr>
-          <tr><td><strong>قطر</strong></td><td dir="ltr">Card (Stripe)</td></tr>
-          <tr><td><strong>السعودية</strong></td><td dir="ltr">Card (Stripe) &rarr; Flutterwave</td></tr>
-        </tbody>
-      </table>
+    <div class="grid grid--3">
+      <div class="card">
+        <span class="card__num">الخليج والمملكة المتحدة</span>
+        <h3>بطاقة دولية</h3>
+        <p>السعودية والإمارات وقطر والكويت والمملكة المتحدة تُوجَّه إلى بوابة البطاقات الدولية، مع خيارات محلية حيث تتوفر.</p>
+      </div>
+      <div class="card">
+        <span class="card__num">اقتراح لا إلزام</span>
+        <h3>تختار أنت</h3>
+        <p>يقترح النظام الوسيلة الأنسب لبلدك ولا يفرضها. إن كانت وسيلة أخرى أيسر عليك فاستخدمها.</p>
+      </div>
+      <div class="card">
+        <span class="card__num">البطاقة لا تصل الكلية</span>
+        <h3>بيانات بطاقتك عند البوابة</h3>
+        <p>تُدخَل بيانات البطاقة لدى مزوّد الدفع لا لدى الكلية. تسجّل الكلية أن السداد تم ومبلغه ومرجعه، ولا ترى رقم بطاقة ولا تخزنه.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -1496,29 +992,23 @@
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">طرق الدفع</span>
-      <h2>ثلاثة ترتيبات، أصغرها أولًا.</h2>
+      <h2>ثلاثة ترتيبات.</h2>
     </div>
     <div class="grid grid--3">
-      <div class="card card--dark reveal tilt edge-lit aurum">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg></span>
-        <span class="card__num">التقسيط &middot; الترتيب الافتراضي</span>
-        <h3>أربع دفعات قدر كلٍّ منها <span dir="ltr">$791.67</span></h3>
-        <p>رسوم المستوى في أربعة أجزاء متساوية، تُعرض على الجميع لا تُمنح بالطلب، ولا رسم على استعمالها. وتتحمّل الكلية فرق التقريب بدل أن تناولك كسر سنت. والتقسيم متساوٍ لأنه لم تُعتمد سياسة إيقاع مبنية على أدلة؛ وحين تُعتمد ستُنشر هنا لا تُغيَّر بصمت.</p>
-      </div>
-      <div class="card card--dark reveal tilt edge-lit aurum">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
-        <span class="card__num">مستوى بمستوى</span>
-        <h3><span dir="ltr">$3,166.67</span> في كل مرة</h3>
-        <p>مستوى واحد يُدفع في بدايته، والذي بعده يُقرَّر حين تبلغه. وهذا ما يختاره أكثر الناس، وهو ما كانت الكلية ستختاره في موضعك: يلزمك بعشر وحدات ولا يلزمك بشيء بعدها.</p>
-      </div>
-      <div class="card card--dark reveal tilt edge-lit aurum">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg></span>
+      <div class="card card--dark">
         <span class="card__num">البرنامج كاملًا</span>
         <h3><span dir="ltr">$19,000</span> مرة واحدة</h3>
-        <p>دفعة واحدة تغطي المستويات الستة. تسجّلك في المستوى الأول فورًا، وتُضاف المستويات من الثاني إلى السادس واحدًا تلو الآخر مع إتمام كل مستوى قبله، فيكون المستوى المدفوع مستوىً أنت مستعد له. ولا يشتري خصمًا، ولن تعرضه الكلية بوصفه الخيار الأفضل: هو الالتزام الأكبر، والقسم التالي يقول ذلك.</p>
+        <p>دفعة واحدة تغطي المستويات الستة. تسجّلك في المستوى الأول فورًا، وتُضاف المستويات من الثاني إلى السادس إلى حسابك واحدًا تلو الآخر مع إتمام كل مستوى قبله. لا شيء يُحجب عنك — الترتيب موجود ليكون المستوى المدفوع مستوىً أنت مستعد له فعلًا.</p>
+      </div>
+      <div class="card card--dark">
+        <span class="card__num">مستوى بمستوى</span>
+        <h3><span dir="ltr">$3,166.67</span> في كل مرة</h3>
+        <p>تدفع عند بداية كل مستوى. وهو الترتيب الأشيع، والأقل التزامًا قبل أن ترى كيف تُدرّس الكلية.</p>
+      </div>
+      <div class="card card--dark">
+        <span class="card__num">تقسيط</span>
+        <h3><span dir="ltr">4</span> دفعات لكل مستوى</h3>
+        <p>رسوم المستوى مقسّمة إلى <span dir="ltr">4</span> أجزاء متساوية. التقسيم متساوٍ لأنه لم تُعتمد سياسة إيقاع مبنية على أدلة؛ وحين تُعتمد ستُنشر هنا لا تُغيَّر بصمت.</p>
       </div>
     </div>
   </div>
@@ -1528,74 +1018,27 @@
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">الاسترداد</span>
-      <h2>سياسة الاسترداد، المعتمدة في ١٧ أغسطس ٢٠٢٦.</h2>
-      <p class="lede">القرار <span dir="ltr">E1</span>، اتخذته الإدارة التنفيذية، وهو نافذ على كل
-        سداد من ذلك التاريخ. والقاعدة بسيطة بقصد: مدة يُرَدّ فيها السداد كاملًا، وحدٌّ واضح
-        يُعَدّ المستوى بعده مُسلَّمًا.</p>
+      <h2>لا توجد سياسة استرداد بعد، ومن حقك أن تعرف ذلك قبل أن تدفع.</h2>
     </div>
     <div class="callout">
-      <span class="callout__label">القاعدة</span>
-      <p>أي سداد &mdash; قسطًا كان أو مستوى كاملًا أو البرنامج كاملًا &mdash; يُرَدّ كاملًا، دون
-        حاجة إلى ذكر سبب، إن طلبته خلال <strong>أربعة عشر يومًا من سداده</strong> وقبل أن تفتح أي
-        عمل مُقيَّم في المستوى الذي دفعه. ومتى انقضى أحد الحدّين، صار رسم ذلك المستوى مستحقًّا:
-        فالمستوى يُسعَّر ويُسلَّم مؤهلًا واحدًا، لا سلسلةَ دروسٍ تُعاد غير مفتوحة. أما مستوى لم
-        تدفعه بعد فليس معرَّضًا لشيء أبدًا، مهما جرى لمستوى دفعته.</p>
-    </div>
-    <div class="callout">
-      <span class="callout__label">هذه السياسة لا تُلغي حقوقك في القانون</span>
-      <p>حيث يمنحك قانون بلدك حقًّا أقوى مما تمنحه هذه السياسة، فالقانون هو المطبَّق وتتنحّى هذه
-        السياسة له. ولا شيء هنا يطلب منك التنازل عن شيء، ولن تستشهد الكلية بسياستها في مواجهة حق
-        قانوني. ويُذكر هذا لأن سياسة استرداد منشورة تُقرأ عادةً بوصفها كل ما يحمي المشتري، ووثيقةٌ
-        تترك هذا الانطباع دون تصحيح هي نفسها ما يضلّلك.</p>
+      <span class="callout__label">ما هو صحيح</span>
+      <p>تستطيع الكلية تنفيذ الاسترداد تقنيًا — الآلية مبنية ومختبرة مع بوابات الدفع. ما لا يوجد
+        هو <em>سياسة</em>: من يأذن بالاسترداد، وعلى أي أساس، وخلال أي مدة، وبأي نسبة. هذه قرارات
+        تنفيذية لم يُتخذ أي منها. وإلى أن تُتخذ، يُبتّ في طلب الاسترداد حالةً بحالة من الفريق
+        المؤسس، كتابةً، ويُسجَّل القرار على السداد. هذا ضمان أضعف من سياسة منشورة، ويُذكر
+        بوصفه كذلك.</p>
     </div>
     <div class="grid grid--2">
-      <div class="card reveal tilt edge-lit edge-lit--light aurum">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
-        <span class="card__num">السداد بالتقسيط</span>
-        <h3>لكل قسط مدته الخاصة</h3>
-        <p>يُطبَّق اختبار الأربعة عشر يومًا وعدم فتح العمل على كل قسط وحده. فمن انسحب بعد سداد
-          الأول من أربعة وقبل فتح عمل المستوى، رُدّ إليه ذلك المبلغ <span dir="ltr">$791.67</span>؛
-          والأقساط الثلاثة الباقية لا تُحصَّل ببساطة. ولا شيء مستحق على قسط لم يُحصَّل قط.</p>
+      <div class="card">
+        <span class="card__num">إن أردت اليقين أولًا</span>
+        <h3>ادفع مستوى بمستوى</h3>
+        <p>التزامك في السداد بالمستوى هو <span dir="ltr">$3,166.67</span>، وفي السداد الكامل <span dir="ltr">$19,000</span>. إلى أن توجد سياسة استرداد، هذا الفرق هو الحماية العملية المتاحة لك، وتفضّل الكلية أن تقول لك ذلك على أن تبيعك الحزمة الأكبر.</p>
       </div>
-      <div class="card reveal tilt edge-lit edge-lit--light aurum">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
-        <span class="card__num">السداد بالمستوى أو كاملًا</span>
-        <h3>الاختبار نفسه، على المبلغ الأكبر</h3>
-        <p>مستوى دُفع دفعةً واحدة قدرها <span dir="ltr">$3,166.67</span>، أو برنامج كامل دُفع
-          بـ<span dir="ltr">$19,000</span>، يُرَدّ كاملًا بالقاعدة نفسها &mdash; أربعة عشر يومًا،
-          والعمل لم يُفتح. والسداد كاملًا لا يشتري يقينًا لا يمنحه سعر المستوى أصلًا؛ إنما يضع
-          مبلغًا أكبر وراء المدة نفسها، ولهذا تظل الكلية توصي بالسداد مستوى بمستوى.</p>
+      <div class="card">
+        <span class="card__num">ما تلتزم به الكلية الآن</span>
+        <h3>جواب مكتوب، وسجل له</h3>
+        <p>كل طلب استرداد يُجاب كتابةً وبسبب. وأيًا كانت السياسة التي تُعتمد لاحقًا، تبقى القرارات السابقة عليها في السجل ولا يُعاد تفسيرها بصمت.</p>
       </div>
-    </div>
-    <div class="grid grid--2" style="margin-top:26px">
-      <div class="card reveal tilt edge-lit edge-lit--light aurum">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
-        <span class="card__num">خارج المدة المعتادة</span>
-        <h3>يُنظر فيه فرديًا، ولا يُرفض تلقائيًا</h3>
-        <p>الظروف الاستثنائية الموثَّقة &mdash; مرض جسيم، أو وفاة، أو خطأ ارتكبته الكلية نفسها
-          &mdash; تنظر فيها الإدارة التنفيذية على وقائعها، كتابةً، انقضت الأربعة عشر يومًا أو أول
-          عمل مُقيَّم أو لم تنقضِ. ولا وعد بنتيجة معيّنة؛ إنما وعدٌ بأن يقرأ الطلبَ شخصٌ ويُجاب
-          بسبب، لا أن يُرَدّ بحكم تاريخ وحده.</p>
-      </div>
-      <div class="card reveal tilt edge-lit edge-lit--light aurum">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg></span>
-        <span class="card__num">كيف يُدفع</span>
-        <h3>جواب كتابي في خمسة أيام عمل، وسداد في عشرة</h3>
-        <p>كل طلب يتلقّى قرارًا كتابيًا خلال خمسة أيام عمل. والاسترداد الموافَق عليه يُرَدّ إلى
-          وسيلة السداد الأصلية خلال عشرة أيام عمل من ذلك القرار. ولا يُخصم منه شيء: فلا رسم تقديم
-          يُحتجز، وهذه السياسة لا تسمّي رسمًا إداريًا خاصًّا بها.</p>
-      </div>
-    </div>
-    <div class="callout">
-      <span class="callout__label">المبالغ المسدَّدة قبل هذه السياسة</span>
-      <p>تنطبق السياسة على كل سداد من ١٧&nbsp;أغسطس&nbsp;٢٠٢٦ فصاعدًا. والطلب المتعلق بسدادٍ قبل
-        ذلك التاريخ يُبتّ فيه بهذه السياسة أيضًا، كأنها كانت نافذة. والاستثناء الوحيد في مصلحة
-        الدافع: فحيث يكون معيار الحالة بالحالة الذي وعدت به الكلية حينها أكرم له، طُبِّق ذلك
-        المعيار الأسبق. فلا أحد يخسر لأنه دفع مبكرًا.</p>
     </div>
   </div>
 </section>
@@ -1604,335 +1047,49 @@
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">الإيصالات</span>
-      <h2>كل دفعة تُوثَّق بإيصال.</h2>
+      <h2>ما تحصل عليه، وما لا تحصل عليه بعد.</h2>
     </div>
     <div class="grid grid--2">
-      <div class="card reveal tilt edge-lit edge-lit--light aurum">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
+      <div class="card">
         <span class="card__num">يُصدَر</span>
         <h3>إيصال مرقّم</h3>
         <p>كل دفعة ناجحة تُمنح رقم إيصال تسلسليًا لحظة تأكيد بوابة الدفع لها، وهذا الرقم فريد ودائم. وهو المرجع الذي تذكره في أي مراسلة تتعلق بالمال.</p>
       </div>
-      <div class="card reveal tilt edge-lit edge-lit--light aurum">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
-        <span class="card__num">بناءً على الطلب</span>
-        <h3>مستند إيصال منسّق</h3>
-        <p>تنزيل مستند إيصال منسّق بنفسك غير متاح. وإن احتاجه صاحب عمل أو راعٍ أو وزارة على ورق الكلية الرسمي، فاطلبه من إدارة القبول ويُصدَر مقابل رقم إيصالك.</p>
+      <div class="card">
+        <span class="card__num">لا يُصدَر بعد</span>
+        <h3>إيصال PDF قابل للتنزيل</h3>
+        <p>الإيصال موجود سجلًا؛ أما مستند منسّق تنزّله فغير مبني بعد. إن احتجت واحدًا لجهة عمل أو راعٍ، فاطلبه من فريق القبول ويُعَدّ يدويًا.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- >>> GENERATED FROM scripts/build-commercial.mjs — DO NOT EDIT BY HAND -->
-<section class="leaf section--paper grain" id="routes" data-contents="مساران">
-  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/crest-plate.svg)"></span>
-  <div class="container leaf__grid">
-    <div class="leaf__margin">
-      <span class="leaf__num foil">١</span>
-      <span class="leaf__label">مساران</span>
-      <p class="leaf__rubric">الشهادة نفسها، يُبلغ إليها من طريقين، وسعر كلٍّ بقدر ما يطلبه من الكلية.</p>
+<section class="section--light section-pad" id="funding" data-contents="المنح والدعم">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">الوضع</span>
+      <h2>توجد آلية. ولا يوجد برنامج.</h2>
     </div>
-    <div class="leaf__body reveal">
-      <div class="section-head">
-        <h2>مساران إلى الشهادة نفسها.</h2>
-        <p class="lede">أكثر الناس يلتحقون، وهذا هو الأولى. أما المسار المستقل فلمن أراد المؤهل بلا تدريس &mdash; وهو يمنح الشهادة نفسها، تُمتحن بالطريقة نفسها، وتُقيَّد في السجل نفسه. والذي يفرّق بين السعرين ليس الوثيقة، بل هل يعلّمك إنسان أم لا.</p>
+    <div class="grid grid--2">
+      <div class="card">
+        <span class="card__num">موجود</span>
+        <h3>آلية المنح</h3>
+        <p>تستطيع الكلية تسجيل منحة باسم شخص محدد، نسبةً أو مبلغًا ثابتًا أو إعفاءً كاملًا، مع تسجيل الموظف المُقِر إلى جانبها. وتُطبَّق تلقائيًا عند السداد لصاحبها وحده. هذا مبنيّ ومختبر.</p>
       </div>
-
-      <!-- THE DRAWING, before the two cards. Two prices for one award
-           invite two wrong readings: that the cheaper figure buys less
-           of a credential, or that the dearer one is padded. The plate
-           runs both columns into a single seal — the same examination,
-           the same award, the same entry in the register — so
-           everything that differs is visibly above it and nothing that
-           differs is below. It also shows where conferral is paid for
-           on each route, which is what lets the promise of no
-           graduation fee and a priced conferral step both be true.
-           Figures are read from data/commercial.json and
-           data/tuition.json by scripts/art/generate-two-routes.mjs,
-           which refuses to render if the two ledgers disagree. -->
-      <figure class="diagram diagram--wide">
-        <!-- Generated by scripts/art/ — do not hand-edit. -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 654" width="900" height="654"
-     data-diagram="two-routes" role="img" lang="ar" direction="ltr"
-     aria-labelledby="two-routes-title two-routes-desc">
-  <title id="two-routes-title">طريقان إلى الشهادة نفسها، وأين يُدفع ثمن المنح في كل منهما</title>
-  <desc id="two-routes-desc">عمودان من الرسوم ينحدران إلى ختم واحد. العمود الأول طريق الملتحق: كتلة واحدة غير مجزّأة قدرها $3,166.67 للمستوى، والمنح داخلها، ولذلك لا يلقى الملتحق رسم تخرّج. وفي المستويات الستة يبلغ ذلك $19,000، وهو يشتري التدريس — أن يعلّمك إنسان. والعمود الثاني طريق المستقل، مرسوم في ثلاث قطع تُشترى منفصلة: الوصول إلى المستوى بـ $150، امتحان المستوى بـ $250، الشهادة وسجلها بـ $200. ومجموعها $600 للمستوى و$3,600 للمستويات الستة، ولا تشتري تدريسًا البتة. وينحدر العمودان إلى ختم واحد في الأسفل، لأن الامتحان والشهادة والقيد في السجل واحدة في الطريقين. وكل ما يفترق بينهما فوق الختم، ولا شيء يفترق تحته. والعمودان مرسومان بارتفاع واحد لأنهما يبيّنان مِمَّ يتركّب كل رسم لا كم يبلغ.</desc>
-  <text x="808.0" y="52.0" text-anchor="end" font-family="Cairo, Inter, sans-serif" font-size="10.5" font-weight="700" fill="#6E93C4">⁧طريقان، وشهادة واحدة⁩</text>
-  <text x="808.0" y="80.0" text-anchor="end" font-family="Cairo, Inter, sans-serif" font-size="14" fill="#8FA3C4">⁧ما يفرّق بين السعرين ليس الشهادة، بل أن يعلّمك إنسان أو لا يعلّمك.⁩</text>
-  <text data-pop="" x="650.0" y="136.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="15" font-weight="700" fill="#F2E3C0">⁧الملتحق⁩</text>
-  <text data-pop="" x="650.0" y="160.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="11.5" fill="#8FA3C4" opacity="0.9">⁧يعلّمك إنسان⁩</text>
-  <text data-pop="" x="250.0" y="136.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="15" font-weight="700" fill="#F2E3C0">⁧المستقل⁩</text>
-  <text data-pop="" x="250.0" y="160.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="11.5" fill="#8FA3C4" opacity="0.9">⁧لا أحد يعلّمك⁩</text>
-  <rect data-pop="" x="550.0" y="182.0" width="200.0" height="210.0" fill="#1F3D7A" fill-opacity="0.3"/>
-  <path data-draw="1100" d="M550.0 392.0L550.0 182.0L750.0 182.0L750.0 392.0" stroke="#27508F" stroke-width="1.6" stroke-linecap="butt" fill="none"/>
-  <text data-pop="" x="650.0" y="258.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="30" font-weight="700" fill="#F2E3C0" direction="ltr">$3,166.67</text>
-  <text data-pop="" x="650.0" y="280.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="11" font-weight="700" fill="#6E93C4">⁧للمستوى الواحد⁩</text>
-  <text data-pop="" x="650.0" y="324.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="11" fill="#8FA3C4">⁧رسم واحد غير مجزّأ —⁩</text>
-  <text data-pop="" x="650.0" y="341.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="11" fill="#8FA3C4">⁧والمنح داخله⁩</text>
-  <rect data-pop="" x="150.0" y="182.0" width="200.0" height="52.5" fill="#1D5C63" fill-opacity="0.28"/>
-  <path data-draw="900" d="M150.0 234.5L150.0 182.0L350.0 182.0L350.0 234.5" stroke="#1D5C63" stroke-width="1.4" stroke-linecap="butt" fill="none"/>
-  <text data-pop="" x="250.0" y="213.3" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="15" font-weight="700" fill="#F2E3C0" direction="ltr">$150</text>
-  <text data-pop="" x="366.0" y="212.3" text-anchor="start" font-family="Cairo, Inter, sans-serif" font-size="11" fill="#8FA3C4">⁧الوصول إلى المستوى⁩</text>
-  <rect data-pop="" x="150.0" y="234.5" width="200.0" height="87.5" fill="#1D5C63" fill-opacity="0.28"/>
-  <path data-draw="1050" d="M150.0 322.0L150.0 234.5L350.0 234.5L350.0 322.0" stroke="#1D5C63" stroke-width="1.4" stroke-linecap="butt" fill="none"/>
-  <text data-pop="" x="250.0" y="283.3" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="15" font-weight="700" fill="#F2E3C0" direction="ltr">$250</text>
-  <text data-pop="" x="366.0" y="282.3" text-anchor="start" font-family="Cairo, Inter, sans-serif" font-size="11" fill="#8FA3C4">⁧امتحان المستوى⁩</text>
-  <rect data-pop="" x="150.0" y="322.0" width="200.0" height="70.0" fill="#C7A24A" fill-opacity="0.28"/>
-  <path data-draw="1200" d="M150.0 392.0L150.0 322.0L350.0 322.0L350.0 392.0" stroke="#D4AF37" stroke-width="1.4" stroke-linecap="butt" fill="none"/>
-  <text data-pop="" x="250.0" y="362.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="15" font-weight="700" fill="#F2E3C0" direction="ltr">$200</text>
-  <text data-pop="" x="366.0" y="361.0" text-anchor="start" font-family="Cairo, Inter, sans-serif" font-size="11" fill="#E7C97A">⁧الشهادة وقيدها⁩</text>
-  <text data-pop="" x="650.0" y="422.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="17" font-weight="700" fill="#E7C97A" direction="ltr">$19,000</text>
-  <text data-pop="" x="650.0" y="440.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="10.5" fill="#4A6491">⁧المستويات الستة⁩</text>
-  <text data-pop="" x="250.0" y="422.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="17" font-weight="700" fill="#E7C97A" direction="ltr">$3,600</text>
-  <text data-pop="" x="250.0" y="440.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="10.5" fill="#4A6491">⁧المستويات الستة⁩</text>
-  <path data-draw="1400" d="M650.0 460.0C650.0 486.0 450.0 470.0 450.0 501.0" stroke="#C7A24A" stroke-width="1.2" stroke-opacity="0.6" stroke-linecap="round" fill="none"/>
-  <path data-draw="1400" d="M250.0 460.0C250.0 486.0 450.0 470.0 450.0 501.0" stroke="#C7A24A" stroke-width="1.2" stroke-opacity="0.6" stroke-linecap="round" fill="none"/>
-  <g data-pop=""><circle cx="450.0" cy="526.0" r="21" fill="none" stroke="#D4AF37" stroke-width="1.5"/><circle cx="450.0" cy="526.0" r="15" fill="none" stroke="#C7A24A" stroke-width="0.8" stroke-opacity="0.6"/><circle cx="450.0" cy="526.0" r="4" fill="#D4AF37"/></g>
-  <text data-pop="" x="450.0" y="570.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="12.5" fill="#F2E3C0">⁧الامتحان نفسه، والشهادة نفسها،⁩</text>
-  <text data-pop="" x="450.0" y="589.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="12.5" fill="#F2E3C0">⁧والقيد نفسه في السجل⁩</text>
-  <text data-pop="" x="450.0" y="628.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="10.5" fill="#4A6491">⁧العمودان يبيّنان مِمَّ يتركّب كل رسم، لا كم يبلغ.⁩</text>
-  <path d="M92.0 454.0L808.0 454.0" stroke="#4A6491" stroke-width="0.9" stroke-opacity="0.22" fill="none"/>
-</svg>
-        <figcaption class="diagram__caption">
-          <svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg>
-          كل ما يفترق فوق الختم
-        </figcaption>
-      </figure>
-
-      <div class="grid grid--2">
-      <div class="card reveal tilt edge-lit edge-lit--light aurum">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-lectern"/></svg></span>
-        <span class="card__num">ملتحق</span>
-        <h3><span dir="ltr">$3,166.67</span> &middot; للمستوى</h3>
-        <p>مدرّس مسمّى، وتغذية راجعة مكتوبة على كل عمل تنتجه، ودروس خصوصية، وإرشاد، والمنصة، والتقييم، والشهادة. أربع دفعات في المستوى، بلا رسم على استعمالها.</p>
+      <div class="card">
+        <span class="card__num">غير موجود</span>
+        <h3>معايير وصندوق وموعد</h3>
+        <p>لم تُعتمد معايير، ولم يُخصَّص تمويل، ولم تُفتح دورة، ولم تُمنح منحة لأحد. نشر معايير لا تستطيع الكلية تمويلها أسوأ من عدم نشر شيء.</p>
       </div>
-      <div class="card reveal tilt edge-lit edge-lit--light aurum">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
-        <span class="card__num">مستقل</span>
-        <h3><span dir="ltr">$600</span> &middot; للمستوى</h3>
-        <p>تشتري المادة، وتؤدّي الامتحان، وتأخذ الشهادة. بلا مدرّس، وبلا تغذية راجعة على أعمال التمرين، وبلا دروس خصوصية، وبلا إرشاد.</p>
-      </div>
-      </div>
-
-      <div class="section-head" style="margin-top:44px">
-        <h3 style="font-size:1.2rem">المسار المستقل، مفصَّلًا.</h3>
-        <p class="lede">ثلاث خطوات، تُشترى كل واحدة وحدها. وللمرشح أن يشتري المواد ولا يمتحن، وأن يمتحن ولا يأخذ الشهادة. ولا تشترط الكلية الخطوة التالية لتبيعك التي قبلها.</p>
-      </div>
-      <div class="table-scroll ledger-mount edge-lit">
-        <table class="ledger">
-          <thead><tr><th>الخطوة</th><th>ماذا يشتري</th><th>الرسم</th></tr></thead>
-          <tbody>
-          <tr><td><strong>الوصول إلى المستوى</strong></td><td>المستوى داخل المنصة: دروسه مرتَّبة موقوتة، ومعمل الاستماع، ومساحة التسجيل التي تحفظ محاولاتك، والمراجعات الذاتية بأجوبتها. <strong>ويبقى المستوى الأول مفتوحًا للجميع</strong> &mdash; فمنهجه وكتاب تدريباته ودليل مدرّسه تُنزَّل مجانًا من <a href="/ar/press/library/#access">المكتبة</a>، التحقت أو لم تلتحق، ومعها كل مجلد من حق المرشح أن يقرأه قبل أن يقرر. وهذه الخطوة تشتري المستوى مكانًا تعمل فيه، لا مستندًا تقرؤه.</td><td><span dir="ltr">$150</span></td></tr>
-          <tr><td><strong>امتحان المستوى</strong></td><td>الامتحان نفسه الذي يؤدّيه الملتحق، يصححه شخص وفق المعيار المنشور نفسه، ويُصحَّح ثانيةً، ويمر بالتعديل الداخلي نفسه. وتدخل فيه إعادة واحدة؛ ولا رسم إعادة في أي من المسارين.</td><td><span dir="ltr">$250</span></td></tr>
-          <tr><td><strong>الشهادة وسجلها</strong></td><td>الشهادة نفسها: المستند الرقمي، والتوقيع عليه، وقيدك في السجل، وكشف الدرجات، وتحقّقٌ يجريه أي أحد بلا حساب ما دامت الكلية قائمة.</td><td><span dir="ltr">$200</span></td></tr>
-            <tr><td colspan="2"><strong>مستوى واحد بالمسار المستقل</strong></td><td><strong><span dir="ltr">$600</span></strong></td></tr>
-            <tr><td colspan="2"><strong>البرنامج كله</strong></td><td><strong><span dir="ltr">$3,600</span></strong></td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="callout">
-        <span class="callout__label">لماذا لا يدفع الملتحق رسم منح، ويدفعه هذا المرشح</span>
-        <p>تَعِد صفحة الرسوم الملتحقَ بألّا رسم تخرّج، وتعني ما تقول: فالشهادة هي البند الثامن في رسم مستواه، مدفوعًا سلفًا. أما المرشح المستقل فلم يدفع ذلك البند، فيدفعه هنا. والشهادة واحدة في الحالين &mdash; والفرق في أي فاتورة كانت لا غير.</p>
-      </div>
+    </div>
+    <div class="callout">
+      <span class="callout__label">لماذا لا يُكتب ويُنشر ببساطة</span>
+      <p>برنامج المنح التزام مالي والتزام بالإنصاف في آن. تقريره يحتاج صندوقًا، ومعايير يمكن
+        تطبيقها على غرباء تطبيقًا متسقًا، وشخصًا مسؤولًا عن تطبيقها — وهي الأمور الثلاثة نفسها
+        الناقصة في كل منصب شاغر آخر في الكلية. القرار تنفيذي، ولم يُتخذ.</p>
     </div>
   </div>
 </section>
-
-<section class="leaf section--light grain" id="partners" data-contents="مقاعد الشراكة">
-  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/crest-plate.svg)"></span>
-  <div class="container leaf__grid">
-    <div class="leaf__margin">
-      <span class="leaf__num foil">٢</span>
-      <span class="leaf__label">مقاعد الشراكة</span>
-      <p class="leaf__rubric">شرائح منشورة، فمن لا يُحسن المساومة يأخذ السعر الذي يأخذه من يُحسنها.</p>
-    </div>
-    <div class="leaf__body reveal">
-      <div class="section-head">
-        <h2>المؤسسات التي تشتري مقاعد.</h2>
-        <p class="lede">المدرسة أو جهة العمل أو الوزارة التي تُلحق مجموعة تدفع شريحة منشورة لا سعرًا متفاوَضًا عليه. فالسعر الذي يتغيّر بتغيّر السائل سعرٌ لا تستطيع الكلية الدفاع عنه، والمشتري الأضعف موقفًا هو دائمًا من كان أحوج إلى العون.</p>
-      </div>
-      <div class="table-scroll ledger-mount edge-lit">
-        <table class="ledger">
-          <thead><tr><th>المقاعد</th><th>خصم على الرسوم</th><th>للمستوى، للمقعد</th></tr></thead>
-          <tbody>
-          <tr><td><strong><span dir="ltr">10–24</span></strong></td><td><span dir="ltr">10%</span></td><td><span dir="ltr">$2,850.00</span></td></tr>
-          <tr><td><strong><span dir="ltr">25–99</span></strong></td><td><span dir="ltr">15%</span></td><td><span dir="ltr">$2,691.67</span></td></tr>
-          <tr><td><strong><span dir="ltr">100+</span></strong></td><td><span dir="ltr">20%</span></td><td><span dir="ltr">$2,533.34</span></td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="callout">
-        <span class="callout__label">ما لا تشتريه الشريحة</span>
-        <ul class="check-list">
-          <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>تنطبق الشريحة على الرسوم الدراسية. ولا تنطبق أبدًا على معيار تقييم ولا درجة نجاح ولا خطوة تعديل.</span></li>
-          <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>لا يرى الراعي تقدّم الطالب إلا بموافقة خطية من الطالب نفسه، تُعطى منفصلة عن الرعاية ويجوز سحبها في أي وقت. فالسجل ملك الطالب.</span></li>
-          <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>الطالب المكفول الذي يترك راعيه يحتفظ بمقعده وبسجله. فالمقعد يُشترى، أما الشخص فلا.</span></li>
-          <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>نافذة الاسترداد للطالب لا للراعي، وتبدأ من تاريخ بدئه هو.</span></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<span id="scholarships" class="anchor-alias" aria-hidden="true"></span>
-<section class="leaf section--dark grain aurora" id="funding" data-contents="إعفاء التأسيس">
-  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/crest-plate.svg)"></span>
-  <div class="container leaf__grid">
-    <div class="leaf__margin">
-      <span class="leaf__num foil">٣</span>
-      <span class="leaf__label">إعفاء التأسيس</span>
-      <p class="leaf__rubric">برنامج منح يموّله قاعدة، لا رقمٌ يُعلَن.</p>
-    </div>
-    <div class="leaf__body reveal">
-      <div class="section-head">
-        <h2>إعفاء التأسيس.</h2>
-        <p class="lede">خمسة في المئة من كل دولار رسوم تقبضه الكلية يذهب إلى صندوق الإعفاء. فالصندوق قائم متى قامت الرسوم، ولا يمكن أن يُنفَق أكثر مما فيه، ولا يحتاج مالًا لا تملكه الكلية. والنتيجة تُذكر ولا تُخفى: في فصلٍ رسومه قليلة يكون الإعفاء قليلًا.</p>
-      </div>
-      <div class="section-head" style="margin-top:36px">
-        <h3 style="font-size:1.2rem">ما الذي يُوزَن، وبكم</h3>
-      </div>
-      <div class="grid grid--2">
-      <div class="card reveal tilt edge-lit edge-lit--light aurum">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-accord"/></svg></span>
-        <span class="card__num"><span dir="ltr">60%</span></span>
-        <h3>الحاجة المالية</h3>
-        <p>ظروف الأسرة كما يذكرها المتقدم، مع مستند مؤيد واحد إن وُجد. ولا تطلب الكلية مستندات يعجز عن استخراجها من هو في ضائقة، وتقول ذلك صراحةً بدل أن ترفضه بصمت.</p>
-      </div>
-      <div class="card reveal tilt edge-lit edge-lit--light aurum">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span>
-        <span class="card__num"><span dir="ltr">40%</span></span>
-        <h3>الوعد الأكاديمي</h3>
-        <p>تقييم تحديد المستوى المؤدَّى أصلًا، وبيان مكتوب في ثلاثمئة كلمة عمّا سيغيّره إتقان الإنجليزية في حياة المتقدم. يُقيَّم وفق وصف منشور لا وفق انطباع.</p>
-      </div>
-      </div>
-      <div class="callout">
-        <span class="callout__label">من يقرر، ومن يستطيع مراجعته</span>
-        <ol class="dot-list">
-          <li><span class="num"><span dir="ltr">1</span></span><span>يتلقّى الطلبات مسجّل الكلية، وهو من يحفظ سجلات الطلاب ويتحقق من الاستحقاق.</span></li>
-          <li><span class="num"><span dir="ltr">2</span></span><span>وتنظر فيها لجنة ثلاثية: مسجّل الكلية، ومديرة نجاح الطلاب في باب الحاجة، وعميد الشؤون الأكاديمية في باب الوعد الأكاديمي.</span></li>
-          <li><span class="num"><span dir="ltr">3</span></span><span>وتُثبَّت قرارات اللجنة في محضر مع درجة كل معيار. ويُبلَّغ كل متقدم بالنتيجة، بمن فيهم من لم يُمنح.</span></li>
-          <li><span class="num"><span dir="ltr">4</span></span><span>وتتلقى عضوة مجلس الأمناء للمالية والمراجعة تقرير الدورة، ولها أن تراجع أي قرار فيه.</span></li>
-        </ol>
-      </div>
-      <div class="callout">
-        <span class="callout__label">متى تُفتح الدورة</span>
-        <p>تُفتح دورة مع كل دفعة، وتُغلق قبل بدء الدفعة بأربعة عشر يومًا، ويُبتّ فيها خلال أربعة عشر يومًا من إغلاقها.</p>
-        <ol class="dot-list">
-          <li><span class="num"><span dir="ltr">1</span></span><span>إعفاء كامل من رسوم مستوى</span></li>
-          <li><span class="num"><span dir="ltr">2</span></span><span>إعفاء جزئي، يُذكر بالنسبة المئوية</span></li>
-        </ol>
-      </div>
-      <div class="callout">
-        <span class="callout__label">أين يقف هذا اليوم</span>
-        <p>اعتُمِد في ١٧ أغسطس ٢٠٢٦. وتُفتح الدورة الأولى مع الدفعة القادمة؛ ولم تجرِ دورة بعد، ولم يُمنح إعفاء لأحد.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="leaf section--paper grain" id="referral" data-contents="الإحالة">
-  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/crest-plate.svg)"></span>
-  <div class="container leaf__grid">
-    <div class="leaf__margin">
-      <span class="leaf__num foil">٤</span>
-      <span class="leaf__label">الإحالة</span>
-      <p class="leaf__rubric">إعفاء من رسمك أنت. لا نقد أبدًا، ولا لأحد من خارج الكلية.</p>
-    </div>
-    <div class="leaf__body reveal">
-      <div class="section-head">
-        <h2>رصيد، لا عمولة.</h2>
-        <p class="lede">ما إن يُدفع لإنسان نقدٌ مقابل أن يأتي الكلية بطالب، حتى يصير له مصلحة فيما يقوله عنها، وتكون الكلية قد اشترت بائعًا لا تستطيع الإشراف عليه. فالمنفعة إذًا رصيد على رسم المُحيل نفسه، ومحدودة بسقف، ولا تُسوّى إلا بعد إغلاق نافذة استرداد الطالب المُحال.</p>
-      </div>
-      <div class="grid grid--3">
-      <div class="card reveal tilt edge-lit edge-lit--light aurum">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg></span>
-        <span class="card__num">القيمة</span>
-        <h3><span dir="ltr">$250</span></h3>
-        <p>للإحالة الواحدة، رصيدًا</p>
-      </div>
-      <div class="card reveal tilt edge-lit edge-lit--light aurum">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
-        <span class="card__num">السقف</span>
-        <h3><span dir="ltr">3</span></h3>
-        <p>3 إحالات للشخص، في البرنامج كله</p>
-      </div>
-      <div class="card reveal tilt edge-lit edge-lit--light aurum">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg></span>
-        <span class="card__num">التسوية</span>
-        <h3><span dir="ltr">14</span></h3>
-        <p>بعد 14 يومًا من بدء الطالب المُحال</p>
-      </div>
-      </div>
-      <div class="callout">
-        <span class="callout__label">أي رسم يستحق على المُحيل للكلية — رسم مستوى للملتحق، أو أي خطوة من خطوات المسار المستقل.</span>
-        <ul class="check-list">
-          <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>تُدفع رصيدًا لا نقدًا، ولا تُدفع أبدًا لمن ليس طالبًا في الكلية ولا حاملًا لشهادة منها.</span></li>
-          <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>يُطبَّق على رسم واحد في المرة ولا يتجاوزه. وما بقي منه يُرحَّل إلى رسمك التالي، ولا يُدفَع نقدًا أبدًا.</span></li>
-          <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>ثلاث إحالات للشخص الواحد في البرنامج كله. والحدّ هو ما يفصل الشكر عن الوظيفة.</span></li>
-          <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>تُسوّى بعد أربعة عشر يومًا من بدء الطالب المُحال، حين تُغلق نافذة استرداده.</span></li>
-          <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>ولا تُستحق على نفسك، ولا على شخص مقيَّد في سجل القبول أصلًا، ولا على مقعد مكفول ضمن شريحة شراكة.</span></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="leaf section--dark section--oxford grain aurora" id="alumni" data-contents="الخريجون">
-  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/crest-plate.svg)"></span>
-  <div class="container leaf__grid">
-    <div class="leaf__margin">
-      <span class="leaf__num foil">٥</span>
-      <span class="leaf__label">الخريجون</span>
-      <p class="leaf__rubric">ما يملكه حامل الشهادة ولا يملكه غيره.</p>
-    </div>
-    <div class="leaf__body reveal">
-      <div class="section-head">
-        <h2>مكانة، لا خصم.</h2>
-        <p class="lede">أكثر ما تبيعه الكليات لخريجيها تعطيه هذه الكلية مجانًا أصلًا: فالمكتبة مجانية لأي أحد، والتحقق مجاني لأي أحد، والشهادات وكشوف الدرجات تُعاد إصدارًا مجانيًا مدى الحياة لصاحبها. فلم يبقَ خصم يُخترَع إلا وكان إقرارًا بأن الرسم الأول كان أعلى مما ينبغي. والذي يملكه حامل الشهادة بدل ذلك هو المكانة.</p>
-      </div>
-      <div class="grid grid--2">
-      <div class="card card--dark reveal tilt edge-lit aurum">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
-        <span class="card__num"><span dir="ltr">01</span></span>
-        <h3>المسار المستقل، بلا التحاق جديد</h3>
-        <p>لحامل الشهادة أن يأخذ أي مستوى لاحق بالمسار المستقل بالرسوم المنشورة، دون تقديم طلب جديد. فتحديد مستواه قائم.</p>
-      </div>
-      <div class="card card--dark reveal tilt edge-lit aurum">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg></span>
-        <span class="card__num"><span dir="ltr">02</span></span>
-        <h3>رصيد الإحالة، صالح في المسارين</h3>
-        <p>حامل الشهادة الذي يُحيل مرشحًا يأخذ الرصيد نفسه، وله أن يضعه مقابل رسم في المسار المستقل بدل الرسوم الدراسية.</p>
-      </div>
-      <div class="card card--dark reveal tilt edge-lit aurum">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
-        <span class="card__num"><span dir="ltr">03</span></span>
-        <h3>السجل، بالاختيار</h3>
-        <p>سجل عام بحملة الشهادات، لمن أراد أن يتثبّت من شخص لا من مستند. والظهور فيه قرار الخريج، لا نتيجة تلقائية لتخرجه.</p>
-      </div>
-      <div class="card card--dark reveal tilt edge-lit aurum">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
-        <span class="card__num"><span dir="ltr">04</span></span>
-        <h3>وما عدا ذلك، مجاني أصلًا</h3>
-        <p>كل مجلد في المكتبة، وكل عملية تحقق، وكل إعادة إصدار لشهادة أو كشف درجات &mdash; مجانية للخريجين لأنها مجانية للجميع.</p>
-      </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- <<< END COMMERCIAL MODEL -->
 
 <section class="section--paper section-pad">
   <div class="container reveal">
@@ -1941,23 +1098,17 @@
       <h2>ثلاثة مسارات حقيقية.</h2>
     </div>
     <div class="grid grid--3">
-      <div class="card reveal tilt edge-lit edge-lit--light aurum">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
+      <div class="card">
         <span class="card__num">الأول</span>
         <h3>ادفع مستوى بمستوى</h3>
         <p>البرنامج قابل للتجزئة عن قصد. <span dir="ltr">$3,166.67</span> لمستوى واحد، يُقرَّر مستوىً بمستوى، التزام مختلف جوهريًا عن <span dir="ltr">$19,000</span>، ولا يلزمك شرح لاختياره.</p>
       </div>
-      <div class="card reveal tilt edge-lit edge-lit--light aurum">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
+      <div class="card">
         <span class="card__num">الثاني</span>
         <h3>وزّع المستوى على <span dir="ltr">4</span> دفعات</h3>
         <p>خطة التقسيط تقسم رسوم مستوى واحد إلى أجزاء متساوية. متاحة بالطلب لا بالتقديم، ولا رسوم على استخدامها.</p>
       </div>
-      <div class="card reveal tilt edge-lit edge-lit--light aurum">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
+      <div class="card">
         <span class="card__num">الثالث</span>
         <h3>اكتب واسأل</h3>
         <p>إن كانت الرسوم هي الحائل الوحيد بينك وبين البرنامج، فقل ذلك لإدارة القبول بكلماتك. لا صندوق يُسحب منه ولا وعد مرتبط بهذا، لكن طلبًا لم يُقدَّم لا يمكن النظر فيه حين يوجد صندوق.</p>
@@ -1973,16 +1124,12 @@
       <h2>إن كان غيرك يدفع.</h2>
     </div>
     <div class="grid grid--2">
-      <div class="card card--dark reveal tilt edge-lit aurum">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
+      <div class="card card--dark">
         <span class="card__num">ممكن</span>
         <h3>أن تدفع جهة ثالثة عن متعلم مسمّى</h3>
         <p>يمكن لصاحب عمل أو وزارة أو فرد من الأسرة أن يدفع اليوم عن متعلم مسمّى. تُسجَّل الدفعة على تسجيل المتعلم، والمتعلم — لا الدافع — هو من يملك سجله الأكاديمي.</p>
       </div>
-      <div class="card card--dark reveal tilt edge-lit aurum">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
+      <div class="card card--dark">
         <span class="card__num">غير مبني</span>
         <h3>فوترة المؤسسات والمقاعد المؤسسية</h3>
         <p>حساب مؤسسي بفوترة أوامر شراء ومقاعد قابلة للإسناد موجود في نموذج البيانات ولا عملية تشغيلية خلفه. سيُبنى وفق متطلبات مؤسسة حقيقية لا تخمينًا مسبقًا. إن كانت هذه حالتك فاكتب لفريق القبول.</p>
@@ -1993,7 +1140,7 @@
 
 <section class="section--light cta-band">
   <div class="container reveal">
-    <h2>أنت تشتري مستوًى، والمستوى كمّ منشور.</h2>
+    <h2>مستعد لتأمين مقعدك؟</h2>
     <div class="btn-row u-center">
       <a href="/ar/admissions/#apply" class="btn btn--red">ابدأ طلبك الآن</a>
     </div>
@@ -2031,12 +1178,7 @@
         </svg>
       </div>
       <p class="footer__name foil reveal">الكلية العالمية للغة الإنجليزية<br><span>الحرم الجامعي — لندن</span></p>
-      <!-- Guillemets, and the same form as the masthead on /ar/about/.
-           This line carried straight typewriter quotes on all thirty-three
-           Arabic pages while every other quotation in the edition used
-           &laquo; &raquo;, and it said نُمكّن here and تمكين there — one
-           motto, rendered two ways, in the one place it appears most. -->
-      <p class="footer__motto">&laquo;تمكين العالم من خلال التميّز في اللغة الإنجليزية.&raquo;</p>
+      <p class="footer__motto">"نُمكّن العالم من خلال التميّز في اللغة الإنجليزية"</p>
     </div>
   </div>
 
@@ -2178,12 +1320,8 @@
         <span class="vessel vessel--sm" style="--halo-delay: 1.2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span></span>
         <span class="footergrid__label">مواعيد البدء والتقويم</span>
       </a>
-      <a href="/ar/admissions/track/" class="footergrid__tile">
-        <span class="vessel vessel--sm" style="--halo-delay: 1.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span></span>
-        <span class="footergrid__label">تتبّع طلب</span>
-      </a>
       <a href="/ar/faq/" class="footergrid__tile">
-        <span class="vessel vessel--sm" style="--halo-delay: 1.8s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span></span>
+        <span class="vessel vessel--sm" style="--halo-delay: 1.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span></span>
         <span class="footergrid__label">أسئلة القبول</span>
       </a>
     </div>
@@ -2229,7 +1367,7 @@
     </h2>
     <p class="footergrid__intro">
       <span dir="ltr">info@worldwencollege.co.uk</span><br>
-      يُدرَّس عبر الإنترنت في كلِّ مكان &middot; ويُحكَم من لندن.
+      تعليم رقمي حول العالم &middot; المقر الإداري في لندن — عنوان المقر قيد التأكيد، راجع التواصل أدناه.
     </p>
     <div class="footergrid__row">
       <a href="/ar/contact/" class="footergrid__tile">
@@ -2294,66 +1432,36 @@
     </div>
   </div>
 
-  
-  <!-- الشريط المؤسسي — انظر النسخة الإنجليزية للتعليل. -->
-  <div class="footerband">
-    <div class="footerband__inner">
-      <div class="footerband__item">
-        <span class="footerband__label">المقرّ</span>
-        <p class="footerband__fact"><span class="footerband__flag" aria-hidden="true">🇬🇧</span> لندن، المملكة المتحدة</p>
-        <p class="footerband__note">المقرّ الإداري والتنفيذي، ومقعد حوكمة الكلية. أما التدريس فيُقدَّم عبر الإنترنت في العالم كله.</p>
-      </div>
-      <div class="footerband__item">
-        <span class="footerband__label">لغتا العمل</span>
-        <p class="footerband__fact"><span lang="ar">العربية</span> &middot; <span dir="ltr">English</span></p>
-        <p class="footerband__note">كلُّ صفحةٍ في هذا الموقع منشورةٌ بهما كاملةً. والقبولُ والدعمُ التعليميُّ والاستشاراتُ تُجرى بأيِّهما شئت.</p>
-      </div>
-      <div class="footerband__item">
-        <span class="footerband__label">الانتشار</span>
-        <p class="footerband__fact">أكثر من 60 دولة &middot; أكثر من 22,000 متعلّم</p>
-        <p class="footerband__note">ثماني دفعات دُرِّست منذ 2023، منهم أكثر من 7,000 في دول الخليج. والسجل وراء كل رقم منشور.</p>
-      </div>
-      <div class="footerband__item">
-        <span class="footerband__label">القبول</span>
-        <p class="footerband__fact">الربيع &middot; الصيف &middot; الخريف</p>
-        <p class="footerband__note">ثلاث دفعات في العام، ومئتا مقعد مفتوحة عالميًا في الدفعة الحالية. والتقديم لا يكلّف شيئًا ولا يُلزم بشيء.</p>
-      </div>
-    </div>
-  </div>
-
-<div class="site-footer__bottom">
+  <div class="site-footer__bottom">
     <p>&copy; <span data-year>2026</span> الكلية العالمية للغة الإنجليزية — الحرم الجامعي في لندن. جميع الحقوق محفوظة.</p>
     <!-- علامة ثقة، لا شارة: الأيقونة تدل على «هذا قابل للتحقق»، لا
-         «هذا معتمد». والختم الذي يوحي بخلاف ذلك هو بالضبط الثقة الزائفة
-         التي وُجد سجل الأدلة لمنعها. الأيقونة نفسها (shield-check) التي
-         تستخدمها قائمة الحوكمة المنسدلة للفكرة ذاتها.
-
-         وكان هذا السطر نفسه أكثرَ تقريرِ تقدُّمٍ تكرارًا في الموقع: إذ
-         يقع في التذييل العام، فكان يقول «الكلية مؤسسة قيد التأسيس
-         والتطوير» في ستٍّ وستين صفحة، بالعربية والإنجليزية. يبقى
-         التوجيه — فمن أراد وضع الكلية كاملًا فهو على بُعد نقرة من أي
-         مكان — ويسقط وصف الذات. انظر التعليق الكامل في
-         partials/footer.html. -->
+         «هذا معتمد» — الكلية لا تحمل اعتمادًا، والختم الذي يوحي بخلاف
+         ذلك هو بالضبط الثقة الزائفة التي وُجد سجل الأدلة لمنعها.
+         الأيقونة نفسها (shield-check) التي تستخدمها قائمة الحوكمة
+         المنسدلة للفكرة ذاتها. -->
     <div class="footer__trust">
       <svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg>
-      <p class="footer__legal">كل رقم وسياسة ومعيار أكاديمي في هذا الموقع منشور كاملًا ويمكن التحقق منه &mdash; راجع <a href="/ar/about/#status">الوضع المؤسسي</a> و<a href="/ar/governance/">الحوكمة</a>.</p>
+      <p class="footer__legal">الكلية مؤسسة قيد التأسيس والتطوير الفعلي. حالة الاعتماد والحوكمة والقبول موضّحة بصدق في جميع أنحاء هذا الموقع — راجع <a href="/ar/about/#status">الوضع المؤسسي</a>.</p>
     </div>
     <div class="footer__utility">
       <a class="topbar__lang" href="/admissions/tuition/" lang="en" hreflang="en" dir="ltr">
         <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
         English
       </a>
-      
+      <div class="topbar__social" aria-label="روابط التواصل الاجتماعي">
+        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
+        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
+      </div>
     </div>
   </div>
   <div class="trim-metal" aria-hidden="true"></div>
 </footer>
 
-<script src="/js/site.js?v=6b9fe410"></script>
-<script src="/js/motion.js?v=fbe1640a"></script>
-<script src="/js/atelier.js?v=989e1ca8" defer></script>
-<script src="/js/worldclock.js?v=99a644de" defer></script>
-<script src="/js/intake.js?v=5238c58f" defer></script>
-<script src="/js/sonics.js?v=64a04468" defer></script>
+<script src="/js/site.js"></script>
+<script src="/js/motion.js"></script>
+<script src="/js/atelier.js" defer></script>
+<script src="/js/worldclock.js" defer></script>
+<script src="/js/sonics.js" defer></script>
 </body>
 </html>

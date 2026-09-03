@@ -11,8 +11,6 @@
  * token rather than trusting that they agree.
  */
 import { FRONT, BODY } from './blocks.mjs';
-import { editionMark, runningFoot } from './rights.mjs';
-import { build as buildInstitutional } from './canonical.mjs';
 import { writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -20,11 +18,6 @@ import { chromium } from 'playwright';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-
-// The edition mark for the running foot, computed exactly as blocks.mjs
-// and render-docx.mjs compute it so all three agree — the same parity the
-// publication test enforces on the text.
-const MARK = editionMark('iefc-reference', buildInstitutional().generatedFrom || 'canonical');
 const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 function render(b) {
@@ -191,11 +184,11 @@ await page.pdf({
   printBackground: true,       // the panels and table heads carry meaning
   preferCSSPageSize: true,
   displayHeaderFooter: true,
-  headerTemplate: `<div style="box-sizing:border-box;font:400 6.5pt Calibri,Arial,sans-serif;
-    color:#8A90A0;width:100%;padding:0 25mm;text-align:right;letter-spacing:.08em;
-    text-transform:uppercase;">The International English Fluency Certificate</div>`,
-  footerTemplate: runningFoot('The International English Fluency Certificate',
-    { gutter: 25, size: 6.6, mark: MARK }),
+  headerTemplate: `<div style="font:400 6.5pt Calibri,Arial,sans-serif;color:#8A90A0;
+    width:100%;padding:0 25mm;text-align:right;letter-spacing:.08em;text-transform:uppercase;">
+    The International English Fluency Certificate</div>`,
+  footerTemplate: `<div style="font:400 7.5pt Calibri,Arial,sans-serif;color:#6B7280;
+    width:100%;padding:0 25mm;text-align:center;"><span class="pageNumber"></span></div>`,
   margin: { top: '22mm', bottom: '20mm', left: '25mm', right: '25mm' },
   tagged: true,                // accessibility: a tagged PDF has structure
   outline: true,               // bookmarks, from the heading hierarchy

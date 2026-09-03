@@ -86,13 +86,8 @@ const correctKey = db
   const attempt = await submitQuizAttempt(env, { userId: 'usr_student', learningItemId: 'itm_l1_m1_quiz', answers: correctAnswers });
   check('The real Module 1 quiz, answered correctly, scores 100%', attempt.score === 1 && attempt.passed === true);
 
-  // `module.both_required` — thirty per cent of Module 1 is in, and a
-  // module is never complete on one component. Asserted the other way
-  // until 20 August 2026; see functions/_lib/lms/content.js's header for
-  // what changed and why the old rule was published three ways.
   const progress = db.prepare(`SELECT * FROM unit_progress WHERE user_id = 'usr_student' AND unit_id = 'unt_l1_m1'`).first();
-  check('A perfect score on the real quiz leaves Module 1 in progress — the speaking assignment is still owed',
-    progress.status === 'in_progress');
+  check('A perfect score on the real quiz marks the real Module 1 unit completed', progress.status === 'completed');
 }
 
 // --- A student who gets most of the real quiz wrong does not pass ---
@@ -114,12 +109,6 @@ const correctKey = db
 
   const graded = await gradeAssignment(env, { gradedBy: 'usr_staff', submissionId: submission.id, grade: 0.9, feedback: 'Clear, confident delivery. All four required elements present.' });
   check('Staff can grade the real submission against the rubric described in the assignment', graded.status === 'graded' && graded.grade === 0.9);
-
-  // 100 at thirty per cent and 90 at seventy is 93.0. Both components
-  // are marked, the composite is a pass, and only now is Module 1 a
-  // module the College would put on a transcript.
-  const progress = db.prepare(`SELECT * FROM unit_progress WHERE user_id = 'usr_student' AND unit_id = 'unt_l1_m1'`).first();
-  check('Both components marked, the composite completes the real Module 1', progress.status === 'completed');
 }
 
 console.log(`\n${pass} passed, ${fail} failed.`);

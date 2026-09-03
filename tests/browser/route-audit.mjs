@@ -222,32 +222,10 @@ for (const route of routes) {
     // Interactive targets under 44px. Measured on rendered geometry
     // rather than declared CSS, so padding and line-height count — which
     // is what a thumb encounters.
-    // WCAG 2.5.8 EXEMPTS A LINK IN A SENTENCE, and so does this now.
-    //
-    // The count read every anchor on the page, so a page with rich
-    // cross-referencing scored worse than a page with none: /academics/
-    // reported 21, and fifteen of those were links inside running
-    // prose — a photograph's credit line, "see Dates", an email address
-    // in a note. An inline link cannot be 44px tall without wrecking the
-    // line it sits in, and the standard says so in as many words:
-    // targets "in a sentence or block of text" are excepted.
-    //
-    // What remains is what the rule is actually about. The same page
-    // kept six — the level cards, each titled `<h3><a>` and 21px tall,
-    // with nothing around them. Those are targets, they were too small,
-    // and they were invisible in a number fifteen false positives deep.
     smallTaps: [...document.querySelectorAll('a, button, input, select, [role="button"]')]
       .filter((e) => {
         const r = e.getBoundingClientRect();
-        if (!(r.height > 0 && r.width > 0 && r.height < 44)) return false;
-        // "In a sentence or block of text": laid out inline, and sitting
-        // inside more text than its own. A heading that IS the link has
-        // no surrounding text and stays counted.
-        const own = (e.textContent || '').trim();
-        const parent = e.parentElement;
-        const around = parent ? (parent.textContent || '').trim() : '';
-        const inline = getComputedStyle(e).display === 'inline';
-        return !(inline && around.length > own.length + 2);
+        return r.height > 0 && r.width > 0 && r.height < 44;
       }).length,
   })).catch(() => null);
   // The in-between width, measured for overflow and for anything the

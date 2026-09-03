@@ -20,14 +20,8 @@
  * than argued for.
  */
 import { build } from './canonical.mjs';
-import { editionMark, rightsBlocks } from './rights.mjs';
 
 const d = build();
-
-// This publication's edition mark. Derived from the institutional record
-// this block list is built from, so it moves when the content moves — the
-// property that makes it worth printing on every page.
-const MARK = editionMark('iefc-reference', d.generatedFrom || 'canonical');
 
 const STATE_WORD = {
   evidenced: 'Evidenced', partial: 'Partial',
@@ -77,10 +71,8 @@ export const FRONT = [
   B.p('The Curriculum, Award Architecture and Academic Framework', { italic: true }),
   B.p('First edition, reference edition.'),
   B.p('Published by Worldwide English College Press, London Campus.'),
-  B.p('© Worldwide English College. All rights reserved except as granted on the Rights and '
-    + 'Permissions page that follows.'),
+  B.p('© Worldwide English College. All rights reserved.'),
   B.small('ISBN [to be assigned]  ·  DOI [not registered]'),
-  B.small(`Edition mark ${MARK} — printed in the foot of every page. See Rights and Permissions.`),
   B.panel('A note on this edition', [
     'This edition is generated directly from the College\'s academic database and its approved '
     + 'institutional documents. Every figure in it is counted from that source at the moment of '
@@ -92,15 +84,6 @@ export const FRONT = [
   ]),
   B.small(`Generated from: ${d.generatedFrom}`),
   B.pageBreak(),
-
-  // The rights instrument, on the recto after the imprint — the place a
-  // reader looks for it, and the place its absence was noticed. See
-  // rights.mjs for why a stated licence is the protection and a lock is
-  // not.
-  ...rightsBlocks(B, {
-    title: 'The International English Fluency Certificate',
-    mark: MARK,
-  }),
 
   B.h1('Contents', { noBreak: true }),
   B.rule(),

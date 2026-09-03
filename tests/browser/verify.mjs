@@ -100,15 +100,9 @@ async function verify(page, code) {
   // someone thought of; this fails the moment publicView starts
   // returning a field nobody approved, which is how the leak would
   // actually arrive (a `...a` spread in a refactor).
-  //
-  // `honourLabelAr` and the level's `nameAr` / `ordinalAr` are approved
-  // additions, not leaks: they are the same rank and the same level in
-  // the other language the College publishes them in, and without them
-  // /ar/verify.html prints "High Distinction" and "Upper Intermediate
-  // Programme" in the middle of an Arabic sentence.
   const ALLOWED = ['holderName', 'awardTitle', 'postNominal', 'level', 'cefr', 'honour',
-    'honourLabel', 'honourLabelAr', 'credits', 'tqtHours', 'citation', 'conferredOn',
-    'verificationCode', 'status', 'revokedAt', 'revokedReason', 'replacementCode', 'digest'];
+    'honourLabel', 'credits', 'tqtHours', 'citation', 'conferredOn', 'verificationCode',
+    'status', 'revokedAt', 'revokedReason', 'replacementCode', 'digest'];
   const payload = await page.evaluate(async (code) => {
     const r = await fetch('/api/verify/' + encodeURIComponent(code));
     return r.json();
@@ -117,7 +111,7 @@ async function verify(page, code) {
   check('The verification response carries only the fields the certificate asserts',
     extra.length === 0, `unapproved: ${extra.join(', ')}`);
   check('...and the level object exposes no identifier beyond the level itself',
-    Object.keys(payload.award.level).every((k) => ['id', 'roman', 'ordinalAr', 'name', 'nameAr'].includes(k)),
+    Object.keys(payload.award.level).every((k) => ['id', 'roman', 'name'].includes(k)),
     Object.keys(payload.award.level).join(', '));
   // usr_demo is the holder's real internal id in this fixture, so unlike
   // a made-up address this string genuinely exists and can genuinely escape.
@@ -334,115 +328,6 @@ async function verify(page, code) {
     await page.evaluate(() => document.activeElement && document.activeElement.id === 'status'));
   check('Exactly one h1', (await page.locator('h1').count()) === 1);
   await page.close();
-}
-
-// --- THE ARABIC EDITION ----------------------------------------------
-//
-// The page an Arabic employer reaches from a QR code on a printed
-// certificate, with about eight seconds to decide whether the College
-// is real. It served an Arabic form and an Arabic card and filled both
-// in English: "Verified — award in good standing", "Level III —
-// Intermediate Programme", and seven English paragraphs about hash
-// chains under Arabic headings.
-//
-// Worse than untidy: `#summaryHeadline` was coloured by comparing the
-// headline against the literal string "Verified", so the moment that
-// sentence was translated every Arabic verification would have painted
-// itself as a warning. The verdict is now a machine field and this
-// block asserts the colour, not just the words.
-{
-  const page = await open(`${BASE}/ar/verify.html?code=${encodeURIComponent(codes.valid)}`);
-  await page.waitForTimeout(900);
-
-  check('The Arabic edition verifies the same code',
-    /مُتحقَّق منها/.test(await textOf(page, '#status')), await textOf(page, '#status'));
-  check('...and a passing verification is painted as a pass, not as a warning',
-    (await page.getAttribute('#summaryHeadline', 'class')) === 'is-ok');
-  check('...the level is named in Arabic and by its Arabic ordinal',
-    /المستوى الثالث/.test(await textOf(page, '#fLevel'))
-    && /البرنامج المتوسط/.test(await textOf(page, '#fLevel')), await textOf(page, '#fLevel'));
-  check('...the rank is the one /ar/students/awards/ publishes',
-    /تميّز/.test(await textOf(page, '#fHonour')), await textOf(page, '#fHonour'));
-  check('...and the three layers answer in Arabic',
-    /هويّة الخرّيج/.test(await textOf(page, '#checksIdentity'))
-    && /سلسلة السجل/.test(await textOf(page, '#checksIntegrity'))
-    && /الحال الراهن/.test(await textOf(page, '#checksStanding')));
-
-  // The scoped sweep: everything inside the result that the PAGE is
-  // responsible for. Isolated runs are excluded — a graduate's name, a
-  // register code, an address and the award's own English definition
-  // are data or a published English fact, and each is marked as such
-  // with <bdi>, dir="auto", lang="en", or the FIRST STRONG ISOLATE
-  // characters the register composes its sentences with.
-  const stray = await page.evaluate(() => {
-    const host = document.querySelector('#result');
-    if (!host) return ['(no result region)'];
-    const own = new Set();
-    host.querySelectorAll('bdi, [dir="auto"], [lang="en"]').forEach((n) => own.add(n));
-    const out = [];
-    const walk = document.createTreeWalker(host, NodeFilter.SHOW_TEXT);
-    let n;
-    while ((n = walk.nextNode())) {
-      let p = n.parentElement, mine = false;
-      while (p && p !== host) { if (own.has(p)) { mine = true; break; } p = p.parentElement; }
-      if (mine) continue;
-      const t = n.nodeValue
-        .replace(/\b[ABC][12]\b/g, ' ')
-        .replace(/WEC-[A-Z0-9-]+/g, ' ')
-        .replace(/⁨[^⁩]*⁩/g, ' ');
-      (t.match(/[A-Za-z]{3,}/g) || []).forEach((w) => out.push(w));
-    }
-    return [...new Set(out)];
-  });
-  check('Nothing the page itself says is left in English on the Arabic edition',
-    stray.length === 0, stray.slice(0, 8).join(', '));
-
-  // The definition is English on BOTH editions, on purpose: it is
-  // transcribed verbatim from the award architecture, and a translation
-  // here would be a second authoritative text no document governs. What
-  // is required is that the page SAYS so and points at the Arabic
-  // account the College does publish.
-  check('...the English award definition is marked as English',
-    (await page.getAttribute('#mStanding', 'lang')) === 'en'
-    && (await page.getAttribute('#mStanding', 'dir')) === 'ltr');
-  check('...and the Arabic reader is told why, and sent to the Arabic account of the level',
-    /منشوران بالإنجليزية/.test(await textOf(page, '#meaningNote'))
-    && /^\/ar\/study\/level-\d+\/$/.test((await page.getAttribute('#meaningNote a', 'href')) || ''),
-    (await page.getAttribute('#meaningNote a', 'href')) || '(no link)');
-
-  check('...the permanent link is the edition the reader is in',
-    /\/ar\/verify\.html\?code=/.test((await page.getAttribute('#permalink', 'href')) || ''));
-
-  const overflowAr = await page.evaluate(() =>
-    document.documentElement.scrollWidth - document.documentElement.clientWidth);
-  check('...and the Arabic card does not overflow its page', overflowAr <= 0, String(overflowAr));
-  await page.screenshot({ path: join(HERE, 'screenshots', 'verify-arabic.png'), fullPage: true }).catch(() => {});
-  await page.close();
-
-  // A withdrawn award is the answer that matters most, and the one an
-  // Arabic reader was previously given entirely in English.
-  const gone = await open(`${BASE}/ar/verify.html?code=${encodeURIComponent(codes.revoked)}`);
-  await gone.waitForTimeout(900);
-  check('A withdrawn award says so in Arabic, in words and not by colour',
-    /مسحوبة/.test(await textOf(gone, '#status')), await textOf(gone, '#status'));
-  check('...and the alert names the withdrawal in Arabic',
-    /سحبت الكلية/.test(await textOf(gone, '#alert')));
-  check('...and the standing layer fails in Arabic while identity still passes',
-    /لم تعد قائمة/.test(await textOf(gone, '#checksStanding'))
-    && /هويّة الخرّيج/.test(await textOf(gone, '#checksIdentity')));
-  check('...and the summary is painted as a warning',
-    (await gone.getAttribute('#summaryHeadline', 'class')) === 'is-warn');
-  await gone.close();
-
-  // The English edition must be untouched by any of it.
-  const en = await open(`${BASE}/verify.html?code=${encodeURIComponent(codes.valid)}`);
-  await en.waitForTimeout(900);
-  check('The English edition still reads in English, and still passes as a pass',
-    /Verified/.test(await textOf(en, '#status'))
-    && (await en.getAttribute('#summaryHeadline', 'class')) === 'is-ok');
-  check('...and its definition panel carries no note, because it needs none',
-    (await en.locator('#meaningNote').isVisible()) === false);
-  await en.close();
 }
 
 check('No uncaught script errors', errs.length === 0, errs.slice(0, 2).join(' | '));

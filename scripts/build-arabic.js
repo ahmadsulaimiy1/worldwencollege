@@ -50,7 +50,6 @@
 
 const fs = require('fs');
 const path = require('path');
-const { emitPage, reportEmit } = require('./lib/emit-page');
 const { DatabaseSync } = require('node:sqlite');
 const GOV = require('./lib/governance-register');
 
@@ -952,16 +951,24 @@ ${card('لا يُصدَر بعد', 'إيصال PDF قابل للتنزيل', 'ا
   </div>
 </section>
 
-<!-- قسم المنح الذي كان هنا مسحوب.
-     كان يقول «توجد آلية ولا يوجد برنامج»، وكان صحيحًا إلى أن اعتُمد
-     «إعفاء التأسيس» في ١٧ أغسطس ٢٠٢٦ (القرار F3 في
-     docs/governance-decisions.md). ويملك scripts/build-commercial.mjs
-     الآن ورقة #funding ويولّدها من data/commercial.json، فالنص أدناه
-     كان سيصير جوابًا ثانيًا قديمًا للسؤال نفسه.
-
-     حُذف ولم يُعَد كتابته: فالجملة الخاطئة القابعة في ملف مصدر تبعد
-     أمرًا واحدًا عن أن تُنشر. -->
-
+<section class="section--light section-pad" id="funding" data-contents="المنح والدعم">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">الوضع</span>
+      <h2>توجد آلية. ولا يوجد برنامج.</h2>
+    </div>
+    <div class="grid grid--2">
+${card('موجود', 'آلية المنح', 'تستطيع الكلية تسجيل منحة باسم شخص محدد، نسبةً أو مبلغًا ثابتًا أو إعفاءً كاملًا، مع تسجيل الموظف المُقِر إلى جانبها. وتُطبَّق تلقائيًا عند السداد لصاحبها وحده. هذا مبنيّ ومختبر.')}
+${card('غير موجود', 'معايير وصندوق وموعد', 'لم تُعتمد معايير، ولم يُخصَّص تمويل، ولم تُفتح دورة، ولم تُمنح منحة لأحد. نشر معايير لا تستطيع الكلية تمويلها أسوأ من عدم نشر شيء.')}
+    </div>
+    <div class="callout">
+      <span class="callout__label">لماذا لا يُكتب ويُنشر ببساطة</span>
+      <p>برنامج المنح التزام مالي والتزام بالإنصاف في آن. تقريره يحتاج صندوقًا، ومعايير يمكن
+        تطبيقها على غرباء تطبيقًا متسقًا، وشخصًا مسؤولًا عن تطبيقها — وهي الأمور الثلاثة نفسها
+        الناقصة في كل منصب شاغر آخر في الكلية. القرار تنفيذي، ولم يُتخذ.</p>
+    </div>
+  </div>
+</section>
 
 <section class="section--paper section-pad">
   <div class="container reveal">
@@ -1371,7 +1378,7 @@ ${darkCard('المسودات تبقى محلية', 'النص غير المكتم
         مقيدة وتكرار ودعم بصري لا عبر الترجمة؛ ويُكتب التقييم قبل التدريس الذي يختبره؛ ويُقيَّم
         التحدث بالتحدث، تسجيلًا يصححه شخص لا خوارزمية؛ ويخطط كل درس للمتعلم الذي لا يتابع —
         شرح ثانٍ، والأخطاء التي يثيرها الموضع، مكتوبة سلفًا لا مرتجلة. والعمود الوحيد الفارغ في
-        سجل الدعم التعليمي هو المشاهدة الصفية: لم تُدوَّن فيه مشاهدةُ صفٍّ بعد، والسجل يفصل التصميم
+        سجل الدعم التعليمي هو المشاهدة الصفية: الكلية لم تدرّس أحدًا بعد، والسجل يفصل التصميم
         عن الدليل كي لا يقوم أحدهما مقام الآخر. التفاصيل الكاملة منشورة في
         <a href="/ar/academics/teaching/">ممارسة التدريس</a>.</p>
     </div>
@@ -2064,7 +2071,6 @@ const MANIFEST = path.join(ROOT, 'pages/manifest.json');
 const manifest = JSON.parse(fs.readFileSync(MANIFEST, 'utf8'));
 const entries = Array.isArray(manifest) ? manifest : manifest.pages;
 const written = [];
-const emitted = [];
 
 // Retired by the Governance pillar: the old Arabic governance slug and
 // the two pages absorbed into it. Pruned so a manifest that once
@@ -2092,8 +2098,7 @@ for (const p of Object.values(PAGES)) {
 }
 
 for (const p of Object.values(PAGES)) {
-  const target = path.join(ROOT, 'pages', p.file);
-  emitted.push({ file: target, result: emitPage(target, p.body) });
+  fs.writeFileSync(path.join(ROOT, 'pages', p.file), p.body + '\n');
   const entry = {
     slug: p.slug, output: p.output, title: p.title, description: p.description,
     contentFile: p.file, lang: 'ar', dir: 'rtl', altHref: p.altHref,
@@ -2114,12 +2119,6 @@ for (const p of Object.values(PAGES)) {
 }
 
 fs.writeFileSync(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
-// The manifest entry is written for every page; the PAGE BODY is written
-// only where the guard allows it. "Routed" rather than "Wrote" because
-// the two are no longer the same act — see scripts/lib/emit-page.js, and
-// read the guard's own summary below this list for what reached disk.
-console.log(`Routed ${written.length} Arabic editions and paired them with their English pages:`);
+console.log(`Wrote ${written.length} Arabic editions and paired them with their English pages:`);
 for (const o of written) console.log(`  ${o}`);
 console.log('Run `npm run build` to generate the served pages.');
-
-reportEmit('build-arabic.js', emitted);

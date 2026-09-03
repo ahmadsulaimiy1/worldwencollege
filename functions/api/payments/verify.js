@@ -1,32 +1,27 @@
 // GET /api/payments/verify?id=pay_xxx
-//
-// Read by /student-portal/payment-complete/, the page a gateway returns
-// a learner to — `create-checkout.js` names it as every checkout's
-// successUrl. It is polled while the webhook lands (gateway → our
-// webhook is usually fast, but the browser redirect back from checkout
-// can arrive first), and it is also what tells that page whether an
-// enrolment still has to be asked for.
-//
-// The four keys this route has always answered with — id, status,
-// currency, amountCents, levelId — are unchanged and still first in the
-// payload. Everything beside them comes from
-// functions/_lib/payments/confirmation.js, which decides the single
-// `standing` a person can be told rather than leaving two editions of a
-// page to work it out from six statuses and get different answers.
-//
-// The subject is the session. The payment is bound to the account in
-// the query itself, so somebody else's reference is indistinguishable
-// from one that does not exist.
+// Used by the checkout success page to poll status while waiting for
+// the webhook to land (gateway → our webhook is usually fast, but the
+// browser redirect back from checkout can arrive first).
 
-import { jsonResponse, errorResponse } from '../../_lib/db.js';
+import { db, jsonResponse, errorResponse, NotFoundError } from '../../_lib/db.js';
 import { requireUser } from '../../_lib/auth/session.js';
-import { paymentStanding } from '../../_lib/payments/confirmation.js';
 
 export async function onRequestGet({ request, env }) {
   try {
     const user = await requireUser(request, env);
     const id = new URL(request.url).searchParams.get('id');
-    return jsonResponse(await paymentStanding(env, { user, paymentId: id }));
+    if (!id) throw new NotFoundError('Provide ?id=<paymentId>.');
+
+    const payment = await db(env)
+      .prepare('SELECT id, status, currency, amount_cents, level_id FROM payments WHERE id = ? AND user_id = ?')
+      .bind(id, user.id)
+      .first();
+    if (!payment) throw new NotFoundError('No payment found with that id for this account.');
+
+    // camelCase in the response, matching every other endpoint's
+    // convention (raw snake_case DB columns never cross this API
+    // boundary) — see docs/api-reference.md.
+    return jsonResponse({ id: payment.id, status: payment.status, currency: payment.currency, amountCents: payment.amount_cents, levelId: payment.level_id });
   } catch (err) {
     return errorResponse(err);
   }

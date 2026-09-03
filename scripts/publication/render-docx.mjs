@@ -6,10 +6,8 @@ import { fileURLToPath } from 'node:url';
 import {
   Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, PageBreak,
   Table, TableRow, TableCell, WidthType, ShadingType, BorderStyle, TableOfContents,
-  Header, Footer, PageNumber, LevelFormat, convertInchesToTwip, TabStopType,
+  Header, Footer, PageNumber, LevelFormat, convertInchesToTwip,
 } from 'docx';
-import { HOLDER, editionMark } from './rights.mjs';
-import { build as buildInstitutional } from './canonical.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 
@@ -180,15 +178,6 @@ const PAGE = {
   },
 };
 
-// The type block's right edge, for the running foot's right tab stop.
-// Derived from PAGE so it follows the geometry instead of drifting from it.
-const TYPE_BLOCK_DXA = PAGE.size.width - PAGE.margin.left - PAGE.margin.right;
-
-// The edition mark printed in the foot of every page, computed the same
-// way blocks.mjs computes it so the two artefacts agree — the parity that
-// tests/publication.test.mjs enforces token by token.
-const MARK = editionMark('iefc-reference', buildInstitutional().generatedFrom || 'canonical');
-
 const doc = new Document({
   creator: 'Worldwide English College',
   title: 'The International English Fluency Certificate — Curriculum, Award Architecture and Academic Framework',
@@ -229,25 +218,11 @@ const doc = new Document({
           })],
         }),
       },
-      // Attribution in the foot of every page, not only the folio: the
-      // volume, the holder, the edition mark. A page lifted out of the
-      // file still says whose page it is and which edition it came from.
-      // See rights.mjs.
       footers: {
         default: new Footer({
           children: [new Paragraph({
-            // The tab stop is the type block's right edge: page width less
-            // both margins. Stated as a computation so it follows PAGE
-            // rather than drifting from it.
-            tabStops: [{ type: TabStopType.RIGHT, position: TYPE_BLOCK_DXA }],
-            children: [
-              new TextRun({
-                text: `The International English Fluency Certificate  ·  © ${HOLDER}\t`,
-                font: SANS, size: 13, color: SOFT,
-              }),
-              new TextRun({ text: `${MARK}  ·  `, font: SANS, size: 13, color: SOFT }),
-              new TextRun({ children: [PageNumber.CURRENT], font: SANS, size: 13, color: SOFT }),
-            ],
+            alignment: AlignmentType.CENTER,
+            children: [new TextRun({ children: [PageNumber.CURRENT], font: SANS, size: 16, color: SOFT })],
           })],
         }),
       },

@@ -47,31 +47,10 @@ check('status: 200 for real id', resp3.status === 200);
 check('status: matches submitted application', body3.id === body1.applicationId && body3.status === 'submitted');
 check('status: response is camelCase (createdAt, not created_at)', 'createdAt' in body3 && !('created_at' in body3));
 
-// --- Test 4: an unknown reference is REFUSED, and refused the same way
-// a malformed one is.
-//
-// It used to be 404 "No application found with that id.", which is a
-// distinct answer and therefore an answer: a caller enumerating
-// references could read which ones exist off the difference. Since
-// 20 August 2026 this route shares the bearer check in
-// functions/_lib/admissions/lifecycle.js with /api/admissions/track, so
-// a miss and a malformation are one refusal, at one status, in constant
-// time. The assertion here is the property, not the number: the two
-// must be indistinguishable. ---
-const unknown = await status({
-  request: new Request('http://x/api/admissions/status?id=app_00000000-0000-4000-8000-000000000000'), env,
-});
-const malformed = await status({ request: new Request('http://x/api/admissions/status?id=not-a-reference'), env });
-check('status: an unknown reference is refused, not answered', unknown.status === 401, unknown.status);
-const unknownBody = await unknown.json();
-const malformedBody = await malformed.json();
-check('status: a malformed reference is refused identically — no answer says "that one exists"',
-  malformed.status === unknown.status && malformedBody.message === unknownBody.message,
-  `${malformed.status} / ${unknown.status}`);
-check('status: the refusal does not name the applicant or their email',
-  !/@/.test(JSON.stringify(unknownBody)));
-const noRef = await status({ request: new Request('http://x/api/admissions/status'), env });
-check('status: no reference at all is 401 — the route has an authentication boundary', noRef.status === 401, noRef.status);
+// --- Test 4: status lookup for unknown id returns 404 ---
+const req4 = new Request('http://x/api/admissions/status?id=app_does_not_exist');
+const resp4 = await status({ request: req4, env });
+check('status: 404 for unknown id', resp4.status === 404);
 
 // --- Test 5: currency conversion refuses inactive currencies (no fabricated FX) ---
 let threw = false;

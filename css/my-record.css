@@ -35,9 +35,16 @@
 }
 .rec-nav a:focus-visible { outline: 2px solid var(--gold-bright, #E7C97A); outline-offset: 3px; }
 
-/* The state line every portal page opens with is `.state-plate`, in
-   css/brand.css — one component, worn here, on /graduate/ and on the
-   public register. Nothing about it is specific to this file. */
+.rec-state {
+  margin: 2.4rem 0;
+  padding: 2rem 1.4rem;
+  text-align: center;
+  border: 1px dashed rgba(20, 38, 74, .22);
+  border-radius: 12px;
+  color: var(--ink-soft, #4B5768);
+  line-height: 1.7;
+}
+.rec-state:empty { display: none; }
 
 /* ---- Privacy --------------------------------------------------------- */
 .rec-privacy { display: grid; gap: .8rem; }
@@ -148,7 +155,7 @@
 
 .rec-badge {
   display: inline-block; padding: .1rem .5rem; border-radius: 999px;
-  font: 700 .7rem/1.6 var(--font-body, Inter, sans-serif); margin-inline-end: .4rem;
+  font: 700 .7rem/1.6 var(--font-body, Inter, sans-serif); margin-right: .4rem;
 }
 .rec-badge--live { background: rgba(30, 107, 58, .12); color: #1E6B3A; }
 .rec-badge--ended { background: rgba(75, 87, 104, .12); color: var(--ink-soft, #4B5768); }

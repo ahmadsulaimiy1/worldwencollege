@@ -19,21 +19,13 @@ environment** — see § 1.*
   contract
 - Confirmed live in a browser, not inferred from a green build: the
   home page renders on the real typography, and
-  `GET /api/admissions/status?id=nope` returned
-  `No application found with that id.` — which exercised the whole
+  `GET /api/admissions/status?id=nope` returns
+  `No application found with that id.` — which exercises the whole
   chain end to end (Pages route → Functions runtime → `env.DB`
   binding → a real query against the seeded schema). A missing or
   unbound D1 fails this with a binding error rather than a clean
   not-found, so the *shape* of the answer is the evidence, not merely
   that a response arrived.
-
-  **The probe still works; its expected answer changed on 20 August
-  2026.** That route now resolves the reference through the shared
-  bearer check, so an unknown or malformed id answers 401 with "That
-  reference does not open an application…" rather than 404. The
-  evidence is the same either way — a refusal in that wording is a
-  refusal formed after a real query, and a binding failure still looks
-  nothing like it.
 
 Not yet configured: Clerk (so the Portal, Listening Lab and instructor
 workspace render but 401 on every API call — § 4), payment gateways,
@@ -348,7 +340,7 @@ preview URL exists.)
 
 ## 7. Enrolling a learner who did not pay by card
 
-`/staff-enrolments.html` — staff only. Search a learner, see all six
+`/admin-enrolments.html` — staff only. Search a learner, see all six
 levels, grant or withdraw one, and give a reason that is recorded
 against your name. This replaces writing SQL into the D1 console, which
 is how the platform's first learner was enrolled and is not a process.
