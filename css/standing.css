@@ -176,6 +176,9 @@
   background:
     linear-gradient(100deg, color-mix(in oklab, var(--gold, #C6A15B) 11%, transparent), transparent 62%),
     color-mix(in oklab, var(--paper, #FBF8F2) 90%, var(--ink, #10203A) 10%);
+  /* An earned milestone is an honour (CLAUDE.md §2) — same gold-accent
+     and relief idiom as .grad-award, .rec-share and .rec-doc. */
+  box-shadow: 0 18px 44px -40px rgba(16, 31, 60, .7);
 }
 .std-milestones li[data-kind="unearned"] { border-inline-start-style: dashed; }
 .std-milestones li[data-kind="withdrawn"] { border-inline-start-color: #8E2B36; }

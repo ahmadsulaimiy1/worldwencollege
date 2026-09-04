@@ -220,6 +220,9 @@
   border-radius: 12px;
   border: 1px solid color-mix(in oklab, var(--ink, #10203A) 12%, transparent);
   background: color-mix(in oklab, var(--paper, #FBF8F2) 92%, var(--ink, #10203A) 8%);
+  /* Sitting directly beneath the elevated .acc-balance plate, a flat box
+     here read as a hole in the page (CLAUDE.md §2). */
+  box-shadow: var(--relief-raised, 0 14px 32px -30px rgba(16, 31, 60, .55));
 }
 .acc-plan + .acc-plan { margin-top: 1rem; }
 .acc-plan__head { display: flex; flex-wrap: wrap; gap: .5rem 1rem; align-items: baseline; margin-bottom: .9rem; }

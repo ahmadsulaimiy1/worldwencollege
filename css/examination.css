@@ -335,6 +335,9 @@
   border-radius: 12px;
   background: linear-gradient(160deg, var(--midnight, #0E1B33), var(--oxford, #0A1428));
   border: 1px solid color-mix(in oklab, var(--gold, #C7A24A) 40%, transparent);
+  /* Same relief as .exm-running — the countdown is a gauge, and a flat
+     one sitting inside an already-struck plate reads as a hole in it. */
+  box-shadow: var(--relief-raised, 0 14px 34px -18px rgba(16, 32, 58, .42));
 }
 .exm-clock__label {
   margin: 0;
