@@ -432,7 +432,7 @@ const LANG = {
     accessKept: 'What this does not do',
     accessKeptP: '<strong>Nothing already published is withdrawn.</strong> Every volume in the catalogue below is open today and stays open. The rule is written now, before the volumes it governs exist, for the same reason the curriculum was written before it was taught \u2014 a policy announced after the fact is indistinguishable from one invented to justify it.',
     onRequestCta: 'Request a volume',
-    excludedNote: 'Produced on demand rather than kept in the published set: it is the Teacher&rsquo;s Edition with the answer keys and the teaching guide removed, and the same material is downloadable above. Supplied in full on request.',
+    excludedNote: 'Not kept in the published file set, so it is not offered here as a direct download. Supplied in full on request.',
     // The volumes are English documents in both editions, so the
     // English page needs no marker and the Arabic page needs one.
     enNote: '',
@@ -466,7 +466,7 @@ const LANG = {
     accessKept: 'وما لا تفعله هذه القاعدة',
     accessKeptP: '<strong>لا يُسحب شيء نُشر من قبل.</strong> فكل مجلد في الفهرس أدناه مفتوح اليوم ويبقى مفتوحًا. وتُكتب القاعدة الآن، قبل وجود المجلدات التي تحكمها، للسبب نفسه الذي كُتب به المنهج قبل أن يُدرَّس \u2014 فالسياسة التي تُعلَن بعد الواقعة لا تُميَّز عن سياسة اخترعت لتبريرها.',
     onRequestCta: 'اطلب مجلدًا',
-    excludedNote: 'يُنتَج عند الطلب لا يُحفظ في المجموعة المنشورة: فهو نسخة المعلم منزوعةَ مفاتيح الأجوبة ودليل التدريس، والمادة نفسها قابلة للتنزيل أعلاه. ويُسلَّم كاملًا بالطلب.',
+    excludedNote: 'غير محفوظ في مجموعة الملفات المنشورة، فلا يُعرض هنا للتنزيل المباشر. ويُسلَّم كاملًا بالطلب.',
     // tests/bilingual-links.test.mjs: a crossing into English is marked
     // in its own anchor text, never in a footnote, because a reader
     // scanning a list of downloads reads the link.

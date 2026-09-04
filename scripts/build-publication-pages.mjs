@@ -95,6 +95,9 @@ const T = {
     signIn: 'Already enrolled? Sign in',
     oversize: 'Too large to serve from this host',
     oversizeNote: (t, mb) => `${t} is ${mb} MB, over the 25 MiB per-file limit of the College’s host. It cannot be handed over as a direct download from this page. It is issued inside the portal, where no such limit applies.`,
+    excluded: 'Not part of the served set',
+    excludedNote: (t) => `${t} is not kept in the College’s published file set. It is supplied in full on request.`,
+    onRequestCta: 'Request this volume',
     inside: 'Inside',
     insideH: 'A few real pages, taken from the volume itself.',
     insideLede: (t, n, k) => (n === 1
@@ -144,6 +147,9 @@ const T = {
     signIn: 'مقيَّد بالفعل؟ سجِّل الدخول',
     oversize: 'أكبر من أن يُقدَّم من هذا المستضيف',
     oversizeNote: (t, mb) => `حجم «${t}» ${mb} ميغابايت، فوق حدِّ الخمسة والعشرين ميبي‑بايت للملف الواحد لدى مستضيف الكلية. فلا يمكن تسليمه تنزيلًا مباشرًا من هذه الصفحة. ويُصدَر داخل البوابة حيث لا يسري هذا الحد.`,
+    excluded: 'ليس ضمن المجموعة المقدَّمة',
+    excludedNote: (t) => `«${t}» غير محفوظ في مجموعة الملفات المنشورة لدى الكلية. ويُسلَّم كاملًا بالطلب.`,
+    onRequestCta: 'اطلب هذا المجلد',
     inside: 'في الداخل',
     insideH: 'صفحات حقيقية من المجلد نفسه.',
     insideLede: (t, n, k) => (n === 1
@@ -252,6 +258,10 @@ function actions(v, meta, L, lang) {
           <svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg>${esc(L.apply)}</a>`);
     rows.push(`<a class="btn btn--outline vol__act" href="${p}/student-portal/">
           <svg class="icon" aria-hidden="true"><use href="#i-key"/></svg>${esc(L.signIn)}</a>`);
+  } else if (v.excluded && !v.oversize) {
+    rows.unshift(`<a class="btn btn--gold magnetic gold-live aurum aurum--twin vol__act"
+          href="mailto:info@worldwencollege.co.uk?subject=${encodeURIComponent(v.title || v.slug)}">
+          <svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg>${esc(L.onRequestCta)}</a>`);
   }
 
   rows.push(`<button type="button" class="btn btn--quiet vol__act vol__save"
@@ -272,11 +282,18 @@ function accessNote(v, meta, L, lang) {
           <p>${esc((ar && meta.access_note_ar) || meta.access_note || '')}</p></div>
         </div>`;
   }
-  if (v.oversize || v.excluded) {
+  if (v.oversize) {
     return `<div class="vol__access vol__access--held">
           <span class="badge-dome badge-dome--sm" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
           <div><p class="vol__accessh">${esc(L.oversize)}</p>
           <p>${esc(L.oversizeNote((ar && PUBS.volumes[v.slug].cover_title_ar) || PUBS.volumes[v.slug].cover_title, v.mb))}</p></div>
+        </div>`;
+  }
+  if (v.excluded) {
+    return `<div class="vol__access vol__access--held">
+          <span class="badge-dome badge-dome--sm" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
+          <div><p class="vol__accessh">${esc(L.excluded)}</p>
+          <p>${esc(L.excludedNote((ar && PUBS.volumes[v.slug].cover_title_ar) || PUBS.volumes[v.slug].cover_title))}</p></div>
         </div>`;
   }
   return `<div class="vol__access vol__access--open">

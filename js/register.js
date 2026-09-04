@@ -52,8 +52,8 @@
     },
     noMatch: 'لا شهادة مقيَّدة تطابق هذا البحث.',
     noMatchRest: 'وليس كلُّ خرّيج يأذن بالظهور هنا. والشهادة غير المقيَّدة يمكن التحقّق منها برمزها في صفحة التحقّق من الشهادات.',
-    noneYet: 'لم تُمنح شهادات بعد.',
-    noneYetRest: 'يُنشر السجل قبل أول منحٍ ليكون التحقّق قائمًا من الشهادة الأولى لا بعدها. وسيمتلئ بمنح الشهادات.',
+    noneYet: 'لم تُقيَّد شهادة في السجل حتى الآن.',
+    noneYetRest: 'مُنحت شهادات في المستويين الأول والثاني، وهذه السجلات سابقة لهذا السجل ولا تزال تُقيَّد فيه. والشهادة غير المدرجة بعد يمكن التحقّق منها برمزها في صفحة التحقّق من الشهادات.',
     unreachable: 'تعذّر بلوغ السجل.',
     unreachableRest: 'هذا خلل عندنا، لا قولٌ في أيّ شهادة. أعد المحاولة بعد قليل، أو تحقّق من شهادة بعينها برمزها.',
   } : {
@@ -68,8 +68,8 @@
     },
     noMatch: 'No listed award matches that search.',
     noMatchRest: 'Not every graduate consents to appear here. An award that is not listed can still be checked by its code at Award Verification.',
-    noneYet: 'No awards have yet been conferred.',
-    noneYetRest: 'The Register is published in advance of the first conferral so that verification exists from the first award rather than after it. It will fill as awards are made.',
+    noneYet: 'No award has yet been entered into the Register.',
+    noneYetRest: 'Awards have been conferred at Level I and Level II. Those records predate the Register and are still being entered against it. An award not yet listed can still be checked by its code at Award Verification.',
     unreachable: 'The Register could not be reached.',
     unreachableRest: 'This is a fault on our side, not a statement about any award. Please try again shortly, or check a specific award by its code.',
   };
