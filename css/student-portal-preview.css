@@ -1,0 +1,30 @@
+/* Student Portal — the real, signed-in dashboard at /student-portal/preview/.
+   Layered on css/dashboard.css, which this page shares with the
+   admissions wizard's stepper and other dashboard-component consumers —
+   dashboard.css itself stays at its own restrained baseline (var(--shadow-sm),
+   no gold accent) so every consumer starts from the same floor, and each
+   page adds its own relief on top, the same way css/admissions-wizard.css
+   layers relief onto .wizard-card and css/my-programme.css onto .mp-next.
+
+   This page never had that second layer, and its .aurum/.edge-lit classes
+   had nowhere to resolve to at all — css/atelier.css, where those live,
+   was never linked here (CLAUDE.md §2's exact warning: a page shipping
+   with none of the material law while the rest of the institution wears
+   it 43 times over). Fixed by linking atelier.css and giving this page's
+   two hero shapes — the programme-progress stepper and the profile
+   identity card — the same struck-object treatment as their equivalents
+   elsewhere in the authenticated portal (.mp-next, .wizard-card). The
+   supporting tiles and panels get relief only, the same restraint used
+   for settings rows elsewhere (.rec-toggle, .acc-plan) — not everything
+   on a page needs to compete for attention. */
+
+.stepper-card,
+.profile-header {
+  box-shadow: var(--shadow-sm), var(--relief-raised, inset 0 1px 0 rgba(255,252,240,.3), inset 0 -1px 0 rgba(8,16,34,.42));
+}
+
+.stat-tile,
+.panel,
+.settings-group {
+  box-shadow: var(--shadow-sm), var(--relief-raised, 0 14px 32px -30px rgba(16, 31, 60, .55));
+}
