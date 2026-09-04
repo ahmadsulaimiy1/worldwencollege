@@ -22,13 +22,16 @@
    functions/_lib/admissions/fields.js's WIZARD_STEPS still has 9 real
    backend step keys, unchanged, each saved via its own
    PUT /api/admissions/draft call. This file groups those 9 fieldsets
-   into 5 VISUAL stages (matched to each fieldset's data-stage-index
-   attribute) so an applicant sees "Stage 2 of 5," not "Step 4 of 9" —
-   advancing a stage fires one PUT per backend step key it contains,
-   sequentially, exactly as before; the backend sees no difference.
+   into 4 VISUAL stages (matched to each fieldset's data-stage-index
+   attribute — see admissions/apply/index.html) so an applicant sees
+   "Stage 2 of 4," not "Step 5 of 9" — the same four groups the
+   pillar page (pages/admissions.html, "1–4 / 5–6 / 7–8 / 9") already
+   promised. Advancing a stage fires one PUT per backend step key it
+   contains, sequentially, exactly as before; the backend sees no
+   difference.
 
    STATE, kept deliberately small:
-     currentStage      — which stage index is visible (0-4)
+     currentStage      — which stage index is visible (0-3)
      completedSteps    — from the server, drives the stepper's dots
      application       — non-null once a real application has been
                          submitted (from that point on, the wizard is
@@ -44,9 +47,9 @@
   var steps = $$('[data-step]', form);
   var stepKeys = steps.map(function (el) { return el.getAttribute('data-step'); });
   // Groups steps into visual stages via each fieldset's data-stage-index
-  // attribute, when the page's HTML supplies one. This page's markup
-  // does not yet — every step is currently its own stage — so this
-  // degrades to the identity mapping rather than breaking on NaN.
+  // attribute. Falls back to the identity mapping (one stage per step)
+  // rather than breaking on NaN, so a page that omits the attribute
+  // still works — just without the grouping.
   var stageOf = steps.map(function (el, i) {
     var v = parseInt(el.getAttribute('data-stage-index'), 10);
     return isNaN(v) ? i : v;
@@ -86,7 +89,6 @@
 
   var T = AR ? {
     checkFields: 'راجع الحقول المعلَّمة.',
-    stepOf: function (n, of) { return 'الخطوة ' + n + ' من ' + of; },
     stageOf: function (n, of) { return 'المرحلة ' + n + ' من ' + of; },
     checkingUpload: 'جارٍ التحقّق من رفعٍ سابق…',
     nothingUploaded: 'لم تُرفع أي وثيقة بعد — ولك أن تترك هذه الخطوة فارغة.',
@@ -109,7 +111,6 @@
     },
   } : {
     checkFields: 'Please check the highlighted fields.',
-    stepOf: function (n, of) { return 'Step ' + n + ' of ' + of; },
     stageOf: function (n, of) { return 'Stage ' + n + ' of ' + of; },
     checkingUpload: 'Checking for an existing upload…',
     nothingUploaded: 'Nothing uploaded yet — this step can stay empty.',
@@ -202,7 +203,7 @@
       if (btn) btn.disabled = !done;
     });
     if (progressLabel) {
-      progressLabel.textContent = T.stepOf(current + 1, steps.length);
+      progressLabel.textContent = T.stageOf(current + 1, stageCount);
     }
   }
 

@@ -139,34 +139,24 @@
   <div data-wizard-shell hidden>
     <span class="eyebrow" style="margin-bottom:8px">القبول والتسجيل</span>
     <h1>طلبك.</h1>
-    <p class="lede" style="margin-bottom:28px">تسع خطوات قصيرة، تُحفَظ أولًا بأول. أغلق الصفحة في أي وقت واستأنف تمامًا من حيث توقفت &mdash; لا شيء يضيع بين الزيارات. خطوة واحدة، وثيقة الهوية، اختيارية بالكامل: تخطَّها الآن وأضفها لاحقًا، أو ارفعها اليوم إن كنت تفضّل تقديم طلب كامل من البداية.</p>
+    <p class="lede" style="margin-bottom:28px">أربع مراحل قصيرة، تُحفَظ أولًا بأول. أغلق الصفحة في أي وقت واستأنف تمامًا من حيث توقفت &mdash; لا شيء يضيع بين الزيارات. جزء واحد من المرحلة الأولى، وثيقة الهوية، اختياري بالكامل: تخطَّه الآن وأضفه لاحقًا، أو ارفعه اليوم إن كنت تفضّل تقديم طلب كامل من البداية.</p>
 
-    <p class="wizard-progress-label" data-wizard-progress-label>الخطوة ١ من ٩</p>
+    <p class="wizard-progress-label" data-wizard-progress-label>المرحلة ١ من ٤</p>
 
     <div class="stepper" data-stepper style="margin-bottom:32px">
       <div class="stepper__node" data-stepper-node><div class="stepper__dot">١</div><div class="stepper__label">من أنت</div></div>
       <div class="stepper__line"></div>
-      <div class="stepper__node" data-stepper-node><div class="stepper__dot">٢</div><div class="stepper__label">وثيقة الهوية<br>(اختياري)</div></div>
+      <div class="stepper__node" data-stepper-node><div class="stepper__dot">٢</div><div class="stepper__label">برنامجك</div></div>
       <div class="stepper__line"></div>
-      <div class="stepper__node" data-stepper-node><div class="stepper__dot">٣</div><div class="stepper__label">التواصل</div></div>
+      <div class="stepper__node" data-stepper-node><div class="stepper__dot">٣</div><div class="stepper__label">الرسوم<br>والإقرار</div></div>
       <div class="stepper__line"></div>
-      <div class="stepper__node" data-stepper-node><div class="stepper__dot">٤</div><div class="stepper__label">جهة اتصال<br>الطوارئ</div></div>
-      <div class="stepper__line"></div>
-      <div class="stepper__node" data-stepper-node><div class="stepper__dot">٥</div><div class="stepper__label">البرنامج</div></div>
-      <div class="stepper__line"></div>
-      <div class="stepper__node" data-stepper-node><div class="stepper__dot">٦</div><div class="stepper__label">التعليم</div></div>
-      <div class="stepper__line"></div>
-      <div class="stepper__node" data-stepper-node><div class="stepper__dot">٧</div><div class="stepper__label">الرسوم</div></div>
-      <div class="stepper__line"></div>
-      <div class="stepper__node" data-stepper-node><div class="stepper__dot">٨</div><div class="stepper__label">الإقرار</div></div>
-      <div class="stepper__line"></div>
-      <div class="stepper__node" data-stepper-node><div class="stepper__dot">٩</div><div class="stepper__label">المراجعة</div></div>
+      <div class="stepper__node" data-stepper-node><div class="stepper__dot">٤</div><div class="stepper__label">المراجعة والإرسال</div></div>
     </div>
 
     <div class="wizard-card edge-lit edge-lit--light aurum reveal">
       <form data-wizard-form>
 
-        <fieldset data-step="identity">
+        <fieldset data-step="identity" data-stage-index="0">
           <legend><h2>من أنت</h2></legend>
           <p class="step-intro">الاسم في سجلك، والحقيقتان اللتان تحددان خيارات إقامتك التطبيقية لاحقًا.</p>
           <div class="form-grid">
@@ -212,7 +202,7 @@
           </div>
         </fieldset>
 
-        <fieldset data-step="identity-document" hidden>
+        <fieldset data-step="identity-document" data-stage-index="0" hidden>
           <legend><h2>وثيقة الهوية <span class="field__optional">اختياري</span></h2></legend>
           <p class="step-intro">تخطَّ هذه الخطوة وأضفها لاحقًا، أو ارفع الوثيقة الآن إن كنت تفضّل تقديم طلب كامل من البداية. تُحفَظ الوثيقة ولا تُتحقَّق منها &mdash; لا شيء هنا يقابلها بسجل رسمي؛ يحدث ذلك لاحقًا في إجراءات الإقامة.</p>
           <div class="form-grid">
@@ -243,7 +233,7 @@
           </div>
         </fieldset>
 
-        <fieldset data-step="contact" hidden>
+        <fieldset data-step="contact" data-stage-index="0" hidden>
           <legend><h2>بيانات التواصل</h2></legend>
           <p class="step-intro">كيف يصل إليك القبول، وأين أنت اليوم.</p>
           <div class="form-grid">
@@ -274,7 +264,7 @@
           </div>
         </fieldset>
 
-        <fieldset data-step="emergency" hidden>
+        <fieldset data-step="emergency" data-stage-index="0" hidden>
           <legend><h2>جهة اتصال الطوارئ</h2></legend>
           <p class="step-intro">شخص يمكن للكلية التواصل معه إن احتاجت ذلك فعلًا. لا يُشارَك ولا يُستخدم لأي غرض آخر.</p>
           <div class="form-grid">
@@ -299,7 +289,7 @@
           </div>
         </fieldset>
 
-        <fieldset data-step="programme" hidden>
+        <fieldset data-step="programme" data-stage-index="1" hidden>
           <legend><h2>برنامجك</h2></legend>
           <p class="step-intro">ما الغرض من الإنجليزية، وأين تتوقّع أن تبدأ.</p>
           <div class="form-grid">
@@ -359,7 +349,7 @@
           </div>
         </fieldset>
 
-        <fieldset data-step="education" hidden>
+        <fieldset data-step="education" data-stage-index="1" hidden>
           <legend><h2>الخلفية التعليمية</h2></legend>
           <p class="step-intro">خلفية لإدارة القبول ولإرشاد تحديد المستوى &mdash; لا شيء هنا يُتحقَّق منه في هذه المرحلة.</p>
           <div class="form-grid">
@@ -386,7 +376,7 @@
           </div>
         </fieldset>
 
-        <fieldset data-step="funding" hidden>
+        <fieldset data-step="funding" data-stage-index="2" hidden>
           <legend><h2>الرسوم</h2></legend>
           <p class="step-intro">من يدفع، وكيف &mdash; يُسأل الآن حتى لا يخسر المتقدّم المموَّل من جهة عمله أسبوعًا في اكتشاف ذلك بعد العرض. <strong>لا يُستوفى أي مبلغ هنا</strong>، ولن تطلب الكلية أبدًا بيانات بطاقة أو حساب بنكي عبر البريد الإلكتروني.</p>
           <div class="form-grid">
@@ -442,7 +432,7 @@
           </div>
         </fieldset>
 
-        <fieldset data-step="declaration" hidden>
+        <fieldset data-step="declaration" data-stage-index="2" hidden>
           <legend><h2>الإقرار</h2></legend>
           <p class="step-intro">آخر التفاصيل، والأمران اللذان تحتاج الكلية إلى تأكيدهما منك.</p>
           <div class="form-grid">
@@ -473,7 +463,7 @@
           </div>
         </fieldset>
 
-        <fieldset data-step="review" hidden>
+        <fieldset data-step="review" data-stage-index="3" hidden>
           <legend><h2>راجع طلبك</h2></legend>
           <p class="step-intro">كل ما يلي هو ما سيُرسَل. عد إلى أي خطوة لتغيير شيء فيها.</p>
           <dl class="review-summary" data-review-summary></dl>
@@ -526,6 +516,6 @@
      the anonymous application and falls back to mailto. Without it
      the form above is a form nothing listens to. -->
 <script src="/js/site.js?v=2899dc22" defer></script>
-<script src="/js/admissions-wizard.js?v=56cd6d1a"></script>
+<script src="/js/admissions-wizard.js?v=b615a020"></script>
 </body>
 </html>
