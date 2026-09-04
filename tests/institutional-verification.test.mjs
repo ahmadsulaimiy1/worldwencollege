@@ -29,7 +29,7 @@ const check = (label, cond, detail) => {
 
 const schema = readFileSync(`${ROOT}/sql/schema.sql`, 'utf8');
 const AWARD = {
-  awardTitle: 'English Envoy of Worldwide English College', postNominal: 'EnWEC',
+  awardTitle: 'English Envoy of WorldWide English College', postNominal: 'EnWEC',
   cefr: 'B2', credits: 20, tqtHours: 200,
 };
 
@@ -167,7 +167,7 @@ const state = (layer, id) => (layer.find((c) => c.id === id) || {}).state;
   const r = await V.institutionalVerification(env, { code: a.verification_code });
 
   check('The verification carries the award\'s official definition', !!r.definition);
-  check('...its official title', r.definition.officialTitle === 'English Envoy of Worldwide English College',
+  check('...its official title', r.definition.officialTitle === 'English Envoy of WorldWide English College',
     r.definition.officialTitle);
   check('...the standing it confers', r.definition.standing === 'Trusted representative and communicator',
     r.definition.standing);

@@ -174,18 +174,18 @@ const DEMO = {};
   });
   DEMO.valid = await conf({
     userId: 'usr_demo', levelId: 3, holderName: 'Demonstration Graduate',
-    awardTitle: 'English Associate of Worldwide English College', postNominal: 'AsWEC',
+    awardTitle: 'English Associate of WorldWide English College', postNominal: 'AsWEC',
     cefr: 'B1', honour: 'distinction', publicConsent: true,
     citation: 'In recognition of a structured presentation delivered and defended under questioning.',
   });
   DEMO.revokedSrc = await conf({
     userId: 'usr_prog', levelId: 2, holderName: 'Withdrawn Demonstration',
-    awardTitle: 'English Candidate of Worldwide English College', postNominal: 'CnWEC', cefr: 'A2',
+    awardTitle: 'English Candidate of WorldWide English College', postNominal: 'CnWEC', cefr: 'A2',
   });
   await registry.revokeAward(env, { awardId: DEMO.revokedSrc.id, reason: 'Conferred in error during a demonstration.' });
   DEMO.replacedSrc = await conf({
     userId: 'usr_none', levelId: 1, holderName: 'Corrected Demonstratoin',
-    awardTitle: 'English Aspirant of Worldwide English College', postNominal: 'ApWEC', cefr: 'A1',
+    awardTitle: 'English Aspirant of WorldWide English College', postNominal: 'ApWEC', cefr: 'A1',
   });
   DEMO.replacement = (await registry.replaceAward(env, {
     awardId: DEMO.replacedSrc.id, reason: 'Holder name corrected.',
@@ -202,9 +202,9 @@ const DEMO = {};
   // level is enforced by a partial unique index, not by convention.
   DEMO.listed = [];
   const ROLL = [
-    ['usr_none', 6, 'English Laureate of Worldwide English College', 'LrWEC', 'C2', 'Laureate Demonstration', 'college_distinction'],
-    ['usr_prog', 4, 'English Fellow of Worldwide English College', 'FlWEC', 'B2', 'Fellow Demonstration', 'merit'],
-    ['usr_tutor', 1, 'English Aspirant of Worldwide English College', 'ApWEC', 'A1', 'Aspirant Demonstration', 'pass'],
+    ['usr_none', 6, 'English Laureate of WorldWide English College', 'LrWEC', 'C2', 'Laureate Demonstration', 'college_distinction'],
+    ['usr_prog', 4, 'English Fellow of WorldWide English College', 'FlWEC', 'B2', 'Fellow Demonstration', 'merit'],
+    ['usr_tutor', 1, 'English Aspirant of WorldWide English College', 'ApWEC', 'A1', 'Aspirant Demonstration', 'pass'],
   ];
   for (let i = 0; i < ROLL.length; i++) {
     const [userId, levelId, awardTitle, postNominal, cefr, holderName, honour] = ROLL[i];
@@ -241,7 +241,7 @@ const DEMO = {};
     userId: 'usr_demo', kind: 'presentation',
     title: 'Presented at the demonstration colloquium',
     summary: 'Demonstration data. Not a record of a real presentation by a real person.',
-    awardedOn: '2027-06-14', awardedBy: 'Worldwide English College',
+    awardedOn: '2027-06-14', awardedBy: 'WorldWide English College',
   });
   await distinctions.approve(env, { id: approved.id, approvedBy: 'usr_admin' });
   // One withdrawn and one still proposed: the page must show the first
@@ -261,7 +261,7 @@ const DEMO = {};
 
   DEMO.unlisted = await conf({
     userId: 'usr_prog', levelId: 5, holderName: 'Unlisted Demonstration',
-    awardTitle: 'English Scholar of Worldwide English College', postNominal: 'ScWEC', cefr: 'C1',
+    awardTitle: 'English Scholar of WorldWide English College', postNominal: 'ScWEC', cefr: 'C1',
   });
 }
 // ── THE WEEK, for /my-week/ ───────────────────────────────────────────

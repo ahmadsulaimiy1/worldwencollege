@@ -423,11 +423,23 @@ for (const f of files) {
 
   db.exec('DROP TABLE schema_migrations');
 
+  // 027 does not belong in this list. Every migration above adds a
+  // structure this reconstruction can genuinely remove and force to be
+  // rebuilt; 027 corrects a VALUE that migrations 013 and 014 write
+  // themselves, and both of those files now write the corrected value
+  // directly — so replaying them here, for real, already leaves the
+  // database in the state 027 exists to reach. 027 baselining itself
+  // in exactly this scenario is the correct outcome, not a gap: it is
+  // the migration that repairs a database which ran the OLD text of
+  // 013/014 before this fix, and that state cannot be reconstructed by
+  // replaying the NOW-corrected files. See the dedicated coverage
+  // below.
+  const STRUCTURAL = files.filter((f) => f !== '027-award-title-casing.sql');
   const out = await runMigrations(io(db));
   check('Against a pre-migration database, every migration is applied for real',
-    out.applied.length === files.length, JSON.stringify(out.applied));
+    out.applied.length === STRUCTURAL.length, JSON.stringify(out.applied));
   check('...in filename order, so 003 cannot land before 002',
-    JSON.stringify(out.applied) === JSON.stringify(files), out.applied.join(', '));
+    JSON.stringify(out.applied) === JSON.stringify(STRUCTURAL), out.applied.join(', '));
 
   for (const [label, sql] of [
     ['recording_upload_parts', "SELECT 1 FROM sqlite_master WHERE name='recording_upload_parts'"],
@@ -444,6 +456,39 @@ for (const f of files) {
   check('...and migration 001 really added its columns',
     ['object_key', 'content_type', 'bytes', 'sha256', 'upload_status'].every((c) => cols.includes(c)),
     cols.join(', '));
+}
+
+// ---------------------------------------------------------------------
+// E. 027 against the database it actually exists for: one that ran the
+//    OLD text of 013/014 — award_definitions and alumni_chapters both
+//    seeded with the unstyled "Worldwide" — before this fix, and has
+//    not been rebuilt since. That state cannot come from replaying
+//    013/014 as they stand today (see the note above), only from
+//    writing it in directly, exactly as the two rows themselves would
+//    have been written by the pre-fix files.
+// ---------------------------------------------------------------------
+{
+  const db = new DatabaseSync(':memory:');
+  db.exec(SCHEMA);
+  db.exec(`UPDATE award_definitions SET official_title = REPLACE(official_title, 'WorldWide', 'Worldwide');
+    UPDATE alumni_chapters SET award_title = REPLACE(award_title, 'WorldWide', 'Worldwide');`);
+
+  const out = await runMigrations(io(db));
+  check('027 is the only migration a stale-cased database still needs',
+    JSON.stringify(out.applied) === JSON.stringify(['027-award-title-casing.sql']), JSON.stringify(out.applied));
+
+  const titles = db.prepare('SELECT official_title FROM award_definitions ORDER BY level_id').all()
+    .map((r) => r.official_title);
+  const chapterTitles = db.prepare('SELECT award_title FROM alumni_chapters ORDER BY level_id').all()
+    .map((r) => r.award_title);
+  check('...and every award_definitions title is corrected',
+    titles.every((t) => t.includes('WorldWide English College')), titles.join(' | '));
+  check('...and every alumni_chapters title is corrected',
+    chapterTitles.every((t) => t.includes('WorldWide English College')), chapterTitles.join(' | '));
+
+  const again = await runMigrations(io(db));
+  check('...and running it again does nothing further',
+    again.applied.length === 0 && again.baselined.length === 0, JSON.stringify(again));
 }
 
 // ---------------------------------------------------------------------

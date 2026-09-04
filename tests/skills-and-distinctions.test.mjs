@@ -246,7 +246,7 @@ function freshEnv() {
   const env = freshEnv();
   const d = await D.propose(env, {
     userId: 'usr_grad', kind: 'presentation', title: 'Presented at the Level IV colloquium',
-    awardedOn: '2027-06-14', awardedBy: 'Worldwide English College',
+    awardedOn: '2027-06-14', awardedBy: 'WorldWide English College',
   });
   check('A distinction is created as proposed, never approved', d.status === 'proposed', d.status);
 

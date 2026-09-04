@@ -35,7 +35,7 @@ function freshEnv() {
 
 const CLAIMS = {
   holderName: 'Demonstration Graduate',
-  awardTitle: 'English Associate of Worldwide English College',
+  awardTitle: 'English Associate of WorldWide English College',
   honour: 'distinction', credits: 20, tqtHours: 200, conferredOn: '2027-09-01',
 };
 

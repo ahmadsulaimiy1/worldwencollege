@@ -42,7 +42,7 @@ function freshEnv() {
   return env;
 }
 const AWARD = {
-  awardTitle: 'English Associate of Worldwide English College', postNominal: 'AsWEC',
+  awardTitle: 'English Associate of WorldWide English College', postNominal: 'AsWEC',
   cefr: 'B1', credits: 20, tqtHours: 200,
 };
 

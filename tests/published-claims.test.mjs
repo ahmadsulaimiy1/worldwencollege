@@ -764,7 +764,7 @@ for (const [label, file] of [['English', 'admissions-tuition.html'],
     && OTHER.test('كلية البلاغ الدولية المتميّزة')
     && OTHER.test('name = "aipc"')
     && OTHER.test('wrangler r2 bucket create aipc-recordings')
-    && !OTHER.test('Worldwide English College, London Campus')
+    && !OTHER.test('WorldWide English College, London Campus')
     && !OTHER.test('إن ذهبت البلاغات سدى'));
 }
 

@@ -34,7 +34,7 @@ function freshEnv(n = 3) {
 
 const AWARD = {
   levelId: 3,
-  awardTitle: 'English Associate of Worldwide English College',
+  awardTitle: 'English Associate of WorldWide English College',
   postNominal: 'AsWEC',
   cefr: 'B1',
   credits: 20,
@@ -329,8 +329,8 @@ const AWARD = {
 // worth recording.
 {
   const env = freshEnv();
-  await reg.conferAward(env, { userId: 'usr_1', ...AWARD, levelId: 1, awardTitle: 'English Aspirant of Worldwide English College', postNominal: 'ApWEC', cefr: 'A1', now: T0 });
-  await reg.conferAward(env, { userId: 'usr_1', ...AWARD, levelId: 2, awardTitle: 'English Candidate of Worldwide English College', postNominal: 'CnWEC', cefr: 'A2', now: T0 + 1000 });
+  await reg.conferAward(env, { userId: 'usr_1', ...AWARD, levelId: 1, awardTitle: 'English Aspirant of WorldWide English College', postNominal: 'ApWEC', cefr: 'A1', now: T0 });
+  await reg.conferAward(env, { userId: 'usr_1', ...AWARD, levelId: 2, awardTitle: 'English Candidate of WorldWide English College', postNominal: 'CnWEC', cefr: 'A2', now: T0 + 1000 });
   await reg.conferAward(env, { userId: 'usr_1', ...AWARD, levelId: 3, honour: 'merit', now: T0 + 2000 });
 
   const hist = await reg.awardHistory(env, { userId: 'usr_1' });
@@ -498,12 +498,12 @@ const AWARD = {
       VALUES ('usr_${i}','clerk','c_${i}','g${i}@example.com','student')`).bind().run();
   }
   const LEVELS = [
-    [1, 'English Aspirant of Worldwide English College', 'ApWEC', 'A1'],
-    [2, 'English Candidate of Worldwide English College', 'CnWEC', 'A2'],
-    [3, 'English Associate of Worldwide English College', 'AsWEC', 'B1'],
-    [4, 'English Fellow of Worldwide English College', 'FlWEC', 'B2'],
-    [5, 'English Scholar of Worldwide English College', 'ScWEC', 'C1'],
-    [6, 'English Laureate of Worldwide English College', 'LrWEC', 'C2'],
+    [1, 'English Aspirant of WorldWide English College', 'ApWEC', 'A1'],
+    [2, 'English Candidate of WorldWide English College', 'CnWEC', 'A2'],
+    [3, 'English Associate of WorldWide English College', 'AsWEC', 'B1'],
+    [4, 'English Fellow of WorldWide English College', 'FlWEC', 'B2'],
+    [5, 'English Scholar of WorldWide English College', 'ScWEC', 'C1'],
+    [6, 'English Laureate of WorldWide English College', 'LrWEC', 'C2'],
   ];
   for (let i = 0; i < LEVELS.length; i++) {
     const [levelId, awardTitle, postNominal, cefr] = LEVELS[i];
@@ -521,7 +521,7 @@ const AWARD = {
   check('The register lists award holders at every level, not only the highest',
     levelsShown.size === 6, [...levelsShown].join(','));
   check('...naming the award in full for each of them',
-    all.entries.every((e) => /of Worldwide English College$/.test(e.awardTitle)));
+    all.entries.every((e) => /of WorldWide English College$/.test(e.awardTitle)));
   check('...and carrying the honour in words the reader understands',
     all.entries.every((e) => typeof e.honourLabel === 'string' && e.honourLabel.length > 0));
 

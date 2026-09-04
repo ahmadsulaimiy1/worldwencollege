@@ -381,8 +381,8 @@ check('a publication with no artefact reports why rather than an empty history',
 // The citation and cataloguing apparatus.
 const cite = citation({ title: 'T', edition: 'First', year: 2026, documentId: 'ABCD' });
 check('the citation names the corporate author, edition, place, publisher and document',
-  /Worldwide English College\./.test(cite.note) && /First edition/.test(cite.note)
-  && /London: Worldwide English College Press, 2026/.test(cite.note)
+  /WorldWide English College\./.test(cite.note) && /First edition/.test(cite.note)
+  && /London: WorldWide English College Press, 2026/.test(cite.note)
   && /Document ID ABCD/.test(cite.note), cite.note);
 
 const cip = cataloguing({ title: 'T', family: 'WEC Governance Series', edition: 'First',

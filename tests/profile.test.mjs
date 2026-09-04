@@ -41,7 +41,7 @@ function freshEnv() {
 }
 
 const AWARD = {
-  levelId: 1, awardTitle: 'English Aspirant of Worldwide English College',
+  levelId: 1, awardTitle: 'English Aspirant of WorldWide English College',
   postNominal: 'ApWEC', cefr: 'A1', credits: 20, tqtHours: 200,
   holderName: 'Demonstration Graduate',
 };

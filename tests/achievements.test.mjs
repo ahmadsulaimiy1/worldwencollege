@@ -291,7 +291,7 @@ let awardSeq = 0;
 const award = (id, userId, levelId, honour, on, digest) => run(
   `INSERT INTO awards (id, user_id, level_id, award_title, post_nominal, cefr, honour, credits, tqt_hours,
                        holder_name, conferred_on, verification_code, status, prev_digest, digest, seq)
-   VALUES (?, ?, ?, 'English Aspirant of Worldwide English College', 'ApWEC', 'A1', ?, 20, 200, ?, ?, ?, 'conferred', ?, ?, ?)`,
+   VALUES (?, ?, ?, 'English Aspirant of WorldWide English College', 'ApWEC', 'A1', ?, 20, 200, ?, ?, ?, 'conferred', ?, ?, ?)`,
   id, userId, levelId, honour, userId, on, `VC-${digest}`, `prev-${digest}`, `dig-${digest}`, ++awardSeq);
 
 await award('awd_1', 'usr_learner', 1, 'distinction', '2026-07-01', 'a1');

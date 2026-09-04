@@ -43,7 +43,7 @@ function freshEnv() {
 }
 
 const AWARD = {
-  levelId: 1, awardTitle: 'English Aspirant of Worldwide English College',
+  levelId: 1, awardTitle: 'English Aspirant of WorldWide English College',
   postNominal: 'ApWEC', cefr: 'A1', credits: 20, tqtHours: 200,
   holderName: 'Demonstration Graduate',
 };
@@ -74,7 +74,7 @@ const AWARD = {
     VALUES ('enr_2','usr_grad',2,'active','2027-11-01T00:00:00.000Z')`).bind().run();
   await reg.conferAward(env, {
     userId: 'usr_grad', ...AWARD, levelId: 2,
-    awardTitle: 'English Candidate of Worldwide English College', postNominal: 'CnWEC', cefr: 'A2',
+    awardTitle: 'English Candidate of WorldWide English College', postNominal: 'CnWEC', cefr: 'A2',
     now: T0 + 300 * DAY,
   });
 
