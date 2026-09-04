@@ -63,8 +63,8 @@ for (const i of D.instruments) {
 }
 
 const ar = (lang) => lang === 'ar';
-const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
-const AR_NUM = ['١', '٢', '٣', '٤', '٥', '٦', '٧'];
+const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII'];
+const AR_NUM = ['١', '٢', '٣', '٤', '٥', '٦', '٧', '٨'];
 
 const MONTHS = {
   en: ['January', 'February', 'March', 'April', 'May', 'June', 'July',
@@ -150,7 +150,7 @@ const COPY = {
       + `${undated} are published under the standing authority of the Executive, which is the `
       + 'College’s constituted decision-making body, and this register prints that authority '
       + 'without a date rather than a date without a minute.',
-    sitting: 'decisions adopted',
+    sitting: () => 'decisions adopted',
     honestHead: 'What this register does not do',
     honestBody: 'It does not date an instrument the College has not dated, it does not promote '
       + 'an instrument awaiting Senate ratification to settled academic policy, and it does not '
@@ -200,7 +200,11 @@ const COPY = {
       + `مذكور واحدٌ منها. وأمّا الـ${undated} الباقية فمنشورة بالسلطة القائمة للإدارة `
       + 'التنفيذية، وهي هيئة القرار المكوَّنة في الكلية، ويطبع هذا السجل تلك السلطة بلا تاريخ، '
       + 'بدل أن يطبع تاريخًا بلا محضر.',
-    sitting: 'قرارًا اعتُمدت',
+    // Arabic counted-noun agreement: 3-10 takes the plural ("قرارات"),
+    // 11-99 the singular accusative ("قرارًا") — a single fixed suffix
+    // is only ever right for one of the two ranges a real sittings
+    // table mixes (5 and 25 in the same grid).
+    sitting: (n) => ((n >= 3 && n <= 10) ? 'قرارات اعتُمدت' : 'قرارًا اعتُمدت'),
     honestHead: 'ما لا يفعله هذا السجل',
     honestBody: 'لا يؤرّخ أداةً لم تؤرّخها الكلية، ولا يرقّي أداةً تنتظر تصديق المجلس الأكاديمي '
       + 'إلى سياسةٍ أكاديمية مستقرّة، ولا يسمّي جهةً خارجية بأنّها راجعت شيئًا من هذا. وحيث '
@@ -348,7 +352,7 @@ ${D.register.sittings.map((s) => `        <div class="card tilt gold-live edge-l
           <span class="tilt__sheen" aria-hidden="true"></span>
           <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
           <span class="card__num"><span dir="ltr">${longDate(s.on, lang)}</span></span>
-          <h3>${s.decisions} ${L.sitting}</h3>
+          <h3>${s.decisions} ${L.sitting(s.decisions)}</h3>
           <p>${A[s.by][lang].name}</p>
         </div>`).join('\n')}
       </div>
