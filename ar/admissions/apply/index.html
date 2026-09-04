@@ -11,13 +11,22 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/brand.css?v=15f3e776">
+<link rel="stylesheet" href="/css/brand.css?v=7d798c90">
 <link rel="stylesheet" href="/css/atelier.css?v=9eadec1f">
 <link rel="stylesheet" href="/css/dashboard.css?v=2c527a5e">
 <link rel="stylesheet" href="/css/admissions-wizard.css?v=aae2e922">
 <link rel="stylesheet" href="/css/arabic.css?v=8eca8911">
 </head>
 <body class="apply-shell">
+
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false"><defs>
+  <symbol id="i-check" viewBox="0 0 24 24">
+    <path d="m4.4 12.6 5 5 10.2-11.2"/>
+  </symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24">
+    <path d="M12 15V4M6 9l6-6 6 6M4 19h16"/>
+  </symbol>
+</defs></svg>
 
 <header class="apply-head">
   <div class="apply-head__wrap">
@@ -220,10 +229,15 @@
                 <option value="other">أخرى</option>
               </select>
             </div>
-            <div class="field">
+            <div class="field field--full">
               <label for="w-docFile">ارفع نسخة ممسوحة أو صورة</label>
-              <input id="w-docFile" type="file" accept="application/pdf,image/jpeg,image/png" data-kyc-file-input>
-              <span class="field__optional">PDF أو JPEG أو PNG، حتى 10 ميغابايت</span>
+              <div class="dropzone" data-kyc-dropzone>
+                <span class="dropzone__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-upload"/></svg></span>
+                <p class="dropzone__label">اسحب ملفًا إلى هنا، أو اضغط لاختيار واحد</p>
+                <p class="dropzone__hint">PDF أو JPEG أو PNG، حتى 10 ميغابايت</p>
+                <p class="dropzone__filename" data-dropzone-filename hidden></p>
+                <input id="w-docFile" type="file" accept="application/pdf,image/jpeg,image/png" data-kyc-file-input>
+              </div>
             </div>
             <div class="field field--full">
               <button type="button" class="btn btn--outline" data-kyc-upload-btn>ارفع الوثيقة</button>
