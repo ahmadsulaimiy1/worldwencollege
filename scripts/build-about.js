@@ -91,8 +91,8 @@ PAGES.pillar = {
   slug: 'about', output: 'about/index.html', file: 'about.html',
   contents: true,
   altHref: '/ar/about/',
-  title: 'About the College &mdash; Worldwide English College',
-  description: 'Who Worldwide English College is: its vision, mission and educational '
+  title: 'About the College &mdash; WorldWide English College',
+  description: 'Who WorldWide English College is: its vision, mission and educational '
     + 'philosophy, how it is organised, and its institutional status stated plainly.',
   manifestOnly: true,
 };
@@ -105,8 +105,8 @@ PAGES.pillar = {
 // where nobody reads it and one override would publish it.
 PAGES.careers = {
   slug: 'about-careers', output: 'about/careers/index.html', file: 'about-careers.html',
-  title: 'Careers &mdash; Worldwide English College',
-  description: 'Working at Worldwide English College: the posts the College is seeking to fill, '
+  title: 'Careers &mdash; WorldWide English College',
+  description: 'Working at WorldWide English College: the posts the College is seeking to fill, '
     + 'what each one unblocks, and how to express interest.',
   manifestOnly: true,
 };

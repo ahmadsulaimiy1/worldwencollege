@@ -36,7 +36,7 @@
 import { GatewayNotConfiguredError } from '../payments/provider-interface.js';
 
 const ENDPOINT = 'https://api.brevo.com/v3/smtp/email';
-const DEFAULT_FROM_NAME = 'Worldwide English College';
+const DEFAULT_FROM_NAME = 'WorldWide English College';
 
 export const brevoAdapter = {
   // Written into notification_log.provider. See the note in events.js.

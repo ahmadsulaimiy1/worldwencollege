@@ -211,7 +211,7 @@
   var GLASS = '.utilrail__item, .utilrail__btn, .utilrail__menu a, '
             + '.lang__row, .langswitch__btn, .intake__row, '
             + '.topbar__item, .topbar__social a, .contents__list a';
-  var TAP   = 'a, button, .card, .audience, .region, .case, .principle, .badge-dome, '
+  var TAP   = 'a, button, .card, .lab-card, .audience, .region, .case, .principle, .badge-dome, '
             + '.quad__skill, .quad__gauge, .sep__role, .sep__disc, .creed__item, .creed__mark, '
             + '.clause, .tenet, .register__col, .vacancy, .footergrid__tile, .quicknav__tile, '
             /* The hero's struck eyebrow pill — it wears .aurum, so it

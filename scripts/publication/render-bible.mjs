@@ -173,7 +173,7 @@ table.auditsum td { padding:4pt 8pt 4pt 0; border-bottom:.4pt solid #E8EBF1; ver
 
 <section class="cover">
   <p class="cover__stamp">Internal — not for distribution</p>
-  <p class="eyebrow">Worldwide English College · London Campus</p>
+  <p class="eyebrow">WorldWide English College · London Campus</p>
   <h1>The Internal Editorial Bible</h1>
   <p class="lead">Working registers for <i>The International English Fluency Certificate:
     The Complete Curriculum</i>${pages ? `, ${pages} pages` : ''}.</p>

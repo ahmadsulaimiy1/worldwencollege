@@ -434,8 +434,8 @@ const ENTRIES = [
   {
     slug: 'governance-quality',
     output: 'governance/quality/index.html',
-    title: 'The Quality Architecture &mdash; Worldwide English College',
-    description: 'Every standing body of Worldwide English College, what each decides, who it '
+    title: 'The Quality Architecture &mdash; WorldWide English College',
+    description: 'Every standing body of WorldWide English College, what each decides, who it '
       + 'reports to, and whether it has ever met &mdash; with the annual review cycle, the '
       + 'teaching observation framework and the teaching excellence measures.',
     contentFile: 'governance-quality.html',

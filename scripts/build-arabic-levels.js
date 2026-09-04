@@ -39,7 +39,7 @@
  *
  * Award titles and post-nominals stay in Latin script entirely. An
  * award is a defined object with an official title; translating
- * "English Associate of Worldwide English College" would create a
+ * "English Associate of WorldWide English College" would create a
  * second award that nobody has defined and nobody can confer. The
  * Arabic prose says what the award is for, beside the title itself.
  *

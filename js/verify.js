@@ -122,7 +122,7 @@
             + (a.revokedReason ? ' والسبب المقيَّد: ' + iso(a.revokedReason) : '')
             + ' فلا يُعتمد عليها.';
         }
-        return 'This award was withdrawn by Worldwide English College on '
+        return 'This award was withdrawn by WorldWide English College on '
           + iso(fmtDate(a.revokedAt)) + '.'
           + (a.revokedReason ? ' Reason recorded: ' + iso(a.revokedReason) : '')
           + ' It should not be relied upon.';

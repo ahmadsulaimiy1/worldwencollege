@@ -55,7 +55,7 @@
     "id": "wec.academic_regulations",
     "version": "1.0.0",
     "title": {
-      "en": "The Academic Regulations of Worldwide English College",
+      "en": "The Academic Regulations of WorldWide English College",
       "ar": "اللوائح الأكاديمية لكلية العالم للغة الإنجليزية"
     },
     "programme": {
@@ -63,7 +63,7 @@
       "en": "International English Fluency Certificate",
       "ar": "شهادة الطلاقة في اللغة الإنجليزية الدولية"
     },
-    "adopted_by": "The Executive of Worldwide English College",
+    "adopted_by": "The Executive of WorldWide English College",
     "adopted_on": "2026-08-20",
     "ratification": {
       "body": "Academic Senate",
@@ -1135,7 +1135,7 @@
         "post_nominal": "ApWEC",
         "credits": 20,
         "label": {
-          "en": "English Aspirant of Worldwide English College",
+          "en": "English Aspirant of WorldWide English College",
           "ar": "طالب اللغة الإنجليزية بكلية العالم للغة الإنجليزية"
         },
         "source": "sql/schema.sql"
@@ -1146,7 +1146,7 @@
         "post_nominal": "CnWEC",
         "credits": 20,
         "label": {
-          "en": "English Candidate of Worldwide English College",
+          "en": "English Candidate of WorldWide English College",
           "ar": "مرشّح اللغة الإنجليزية بكلية العالم للغة الإنجليزية"
         },
         "source": "sql/schema.sql"
@@ -1157,7 +1157,7 @@
         "post_nominal": "AsWEC",
         "credits": 20,
         "label": {
-          "en": "English Associate of Worldwide English College",
+          "en": "English Associate of WorldWide English College",
           "ar": "زميل اللغة الإنجليزية بكلية العالم للغة الإنجليزية"
         },
         "source": "sql/schema.sql"
@@ -1168,7 +1168,7 @@
         "post_nominal": "EnWEC",
         "credits": 20,
         "label": {
-          "en": "English Envoy of Worldwide English College",
+          "en": "English Envoy of WorldWide English College",
           "ar": "موفد اللغة الإنجليزية بكلية العالم للغة الإنجليزية"
         },
         "source": "sql/schema.sql"
@@ -1179,7 +1179,7 @@
         "post_nominal": "OrWEC",
         "credits": 20,
         "label": {
-          "en": "English Orator of Worldwide English College",
+          "en": "English Orator of WorldWide English College",
           "ar": "خطيب اللغة الإنجليزية بكلية العالم للغة الإنجليزية"
         },
         "source": "sql/schema.sql"
@@ -1190,7 +1190,7 @@
         "post_nominal": "LrWEC",
         "credits": 20,
         "label": {
-          "en": "English Laureate of Worldwide English College",
+          "en": "English Laureate of WorldWide English College",
           "ar": "متوَّج اللغة الإنجليزية بكلية العالم للغة الإنجليزية"
         },
         "source": "sql/schema.sql"

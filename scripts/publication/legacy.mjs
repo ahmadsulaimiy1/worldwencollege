@@ -256,8 +256,8 @@ export function revisionHistory(artefact, { limit = 8, siblings = [] } = {}) {
 // ─────────────────────────────────────────────────────────────────────
 
 export const IMPRINT = {
-  publisher: 'Worldwide English College Press',
-  parent: 'Worldwide English College — London Campus',
+  publisher: 'WorldWide English College Press',
+  parent: 'WorldWide English College — London Campus',
   place: 'London',
   language: 'English (en-GB)',
 };
@@ -271,11 +271,11 @@ export const IMPRINT = {
 export function citation({ title, edition, year, documentId, subtitle, artefact }) {
   const full = subtitle ? `${title}: ${subtitle}` : title;
   return {
-    note: `Worldwide English College. ${full}. ${edition} edition. ${IMPRINT.place}: `
+    note: `WorldWide English College. ${full}. ${edition} edition. ${IMPRINT.place}: `
       + `${IMPRINT.publisher}, ${year}. Document ID ${documentId}.`,
-    inText: `(Worldwide English College ${year})`,
+    inText: `(WorldWide English College ${year})`,
     fields: [
-      ['Corporate author', 'Worldwide English College — London Campus'],
+      ['Corporate author', 'WorldWide English College — London Campus'],
       ['Title', full],
       ['Edition', `${edition} edition`],
       ['Place of publication', IMPRINT.place],
@@ -298,7 +298,7 @@ export function cataloguing({ title, subtitle, family, edition, year, pages, aud
   const fam = familyOf(family);
   return [
     ['Title', subtitle ? `${title}: ${subtitle}` : title],
-    ['Statement of responsibility', 'Worldwide English College — London Campus'],
+    ['Statement of responsibility', 'WorldWide English College — London Campus'],
     ['Family', fam ? fam.key : family],
     ['Edition', `${edition} edition`],
     ['Imprint', `${IMPRINT.place}: ${IMPRINT.publisher}, ${year}`],

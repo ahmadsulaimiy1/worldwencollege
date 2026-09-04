@@ -277,7 +277,7 @@ export function crest({ size = 120, gold = '#B4933E', ink = '#0F1D38', mono = fa
   // units the path coordinates already use.
   const s = (v) => v;
   return `<svg viewBox="0 0 120 140" width="${size}" height="${n(size * 140 / 120)}"
-    role="img" aria-label="Worldwide English College crest"
+    role="img" aria-label="WorldWide English College crest"
     xmlns="http://www.w3.org/2000/svg">
     <path d="M8 6 H112 V78 C112 104 92 122 60 134 C28 122 8 104 8 78 Z"
       fill="${mono ? 'none' : ink}" stroke="${g}" stroke-width="${s(2)}"/>

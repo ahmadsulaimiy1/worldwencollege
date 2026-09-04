@@ -95,7 +95,7 @@
       <text x="70.0" y="308.0" text-anchor="start" font-family="'EB Garamond', Georgia, serif" font-size="10.6" fill="rgba(247,244,236,.68)">The features each set is built to target</text>
   <path d="M54.0 338.0 h9.0"
         stroke="#E4D5A8" stroke-width="1" opacity=".7"/>
-      <text x="70.0" y="342.0" text-anchor="start" font-family="'EB Garamond', Georgia, serif" font-size="10.6" fill="rgba(247,244,236,.68)">A statement of what is published as script and what</text><text x="70.0" y="356.8" text-anchor="start" font-family="'EB Garamond', Georgia, serif" font-size="10.6" fill="rgba(247,244,236,.68)">is not yet recorded</text>
+      <text x="70.0" y="342.0" text-anchor="start" font-family="'EB Garamond', Georgia, serif" font-size="10.6" fill="rgba(247,244,236,.68)">A front matter that states the form plainly: these</text><text x="70.0" y="356.8" text-anchor="start" font-family="'EB Garamond', Georgia, serif" font-size="10.6" fill="rgba(247,244,236,.68)">are the scripts, and recording them is a separate</text><text x="70.0" y="371.7" text-anchor="start" font-family="'EB Garamond', Georgia, serif" font-size="10.6" fill="rgba(247,244,236,.68)">undertaking</text>
 
   <path d="M54 430 H366" stroke="#E4D5A8" stroke-width=".5" opacity=".35"/>
   <text x="114.0" y="470.0" text-anchor="middle" font-family="Inter, 'Helvetica Neue', sans-serif" font-size="7.0" font-weight="600" letter-spacing="1.4" fill="#E4D5A8" opacity="0.5">PAGES</text>

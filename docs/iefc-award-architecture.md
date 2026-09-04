@@ -19,7 +19,7 @@ graduate what they can do — which the qualification descriptors already
 say, at length, in the place designed for it. A standing ladder tells
 them **what they are within the College**, and that is what a person
 still identifies with twenty years later. "I am an Associate of
-Worldwide English College" is an identity. "I am an English
+WorldWide English College" is an identity. "I am an English
 Communicator" is a skill assessment wearing a title.
 
 The test the Executive set — *what will still sound credible in fifty
@@ -82,7 +82,7 @@ fellowship** (§XII), not an invented rung.
 
 Nothing here is accredited, recognised, validated, or equivalent to
 anything. Where standing must be described, the sentence is: *an award of
-Worldwide English College.* That is complete and honourable.
+WorldWide English College.* That is complete and honourable.
 
 ---
 
@@ -90,16 +90,16 @@ Worldwide English College.* That is complete and honourable.
 
 | # | CEFR | Award | Post-nominal | Standing conferred |
 |---|---|---|---|---|
-| I | A1 | **English Aspirant of Worldwide English College** | ApWEC | Entry into the tradition |
-| II | A2 | **English Candidate of Worldwide English College** | CnWEC | Recognised learner of the College |
-| III | B1 | **English Associate of Worldwide English College** | AsWEC | Established member of the academic community |
-| IV | B2 | **English Envoy of Worldwide English College** | EnWEC | Trusted representative and communicator |
-| V | C1 | **English Orator of Worldwide English College** | OrWEC | High-level intellectual and professional communicator |
-| VI | C2 | **English Laureate of Worldwide English College** | LrWEC | Distinguished master of the programme |
+| I | A1 | **English Aspirant of WorldWide English College** | ApWEC | Entry into the tradition |
+| II | A2 | **English Candidate of WorldWide English College** | CnWEC | Recognised learner of the College |
+| III | B1 | **English Associate of WorldWide English College** | AsWEC | Established member of the academic community |
+| IV | B2 | **English Envoy of WorldWide English College** | EnWEC | Trusted representative and communicator |
+| V | C1 | **English Orator of WorldWide English College** | OrWEC | High-level intellectual and professional communicator |
+| VI | C2 | **English Laureate of WorldWide English College** | LrWEC | Distinguished master of the programme |
 
 **Each award is complete in itself.** A learner who stops at Level III
 has not failed to become something — they **are** an English Associate
-of Worldwide English College, permanently, and the College says so in
+of WorldWide English College, permanently, and the College says so in
 those words. An award that only means something as a step toward the
 next is not an award; it is a receipt. This remains the load-bearing
 decision of the architecture.
@@ -108,7 +108,7 @@ decision of the architecture.
 
 **Fellow is not available for Level IV.** In a college, a Fellow is
 ordinarily *academic staff* — the governing academic body. "Fellow of
-Worldwide English College" would tell a reader the holder teaches here.
+WorldWide English College" would tell a reader the holder teaches here.
 It also borrows the senior grade of professional bodies, and placing it
 at Level IV inverts every external expectation, since a Fellow elsewhere
 outranks almost everything. The Executive's Option B already resolves
@@ -133,7 +133,7 @@ that is the opposite of what the award is for.
 line always appears beneath the award and always reads in the perfect
 tense —
 
-> **English Candidate of Worldwide English College**
+> **English Candidate of WorldWide English College**
 > *International English Fluency Certificate — Level II (CEFR A2),
 > conferred 14 March 2027*
 
@@ -216,8 +216,8 @@ is unmistakably WEC's. All six are distinct.
 **Display forms, descending formality:**
 
 ```
-Aisha Rahman, English Orator of Worldwide English College
-Aisha Rahman, OrWEC (Worldwide English College)
+Aisha Rahman, English Orator of WorldWide English College
+Aisha Rahman, OrWEC (WorldWide English College)
 Aisha Rahman, OrWEC
 ```
 
@@ -257,7 +257,7 @@ would eventually have to defend. The rubrics already score criteria
 separately, so the floors cost nothing to enforce.
 
 **On Chancellor's Distinction — one thing must be settled first.**
-Worldwide English College has no Chancellor. It has, deliberately, no
+WorldWide English College has no Chancellor. It has, deliberately, no
 named academic leadership at all, and the standing rule against
 fabricating leadership is not suspended for a good idea.
 
@@ -305,7 +305,7 @@ the other five.
 
 ---
 
-## VI. The traditions of Worldwide English College
+## VI. The traditions of WorldWide English College
 
 ### 1. The First Word
 
@@ -523,7 +523,7 @@ certification against them.
 ## X. Alumni: one Society, six Chapters
 
 The Executive asked for six societies. The Board recommends **one Alumni
-Society of Worldwide English College with six Chapters**, one per award,
+Society of WorldWide English College with six Chapters**, one per award,
 and the Laureates Society as a distinct body within it.
 
 **Why not six independent societies.** Six societies means six
@@ -565,21 +565,21 @@ hosting cost.)*
 Every conferral carries a citation naming what *this* graduate did — not
 a template with a name dropped in.
 
-> *Worldwide English College confers upon **[Name]** the award of
+> *WorldWide English College confers upon **[Name]** the award of
 > **[Title]**, with [honour], in recognition of [the specific
 > achievement], demonstrated in [the assessed work], on [date].*
 
 **Illustrative only — the names and details below are invented to show
 the form and are not real graduates:**
 
-> *Worldwide English College confers upon Aisha Rahman the award of
-> English Orator of Worldwide English College, with High Distinction, in
+> *WorldWide English College confers upon Aisha Rahman the award of
+> English Orator of WorldWide English College, with High Distinction, in
 > recognition of an address on urban water policy delivered without notes
 > and defended under questioning, and of written work of consistent
 > precision across the level. 14 March 2027.*
 
-> *Worldwide English College confers upon Daniel Okonkwo the award of
-> English Aspirant of Worldwide English College, in recognition of ten
+> *WorldWide English College confers upon Daniel Okonkwo the award of
+> English Aspirant of WorldWide English College, in recognition of ten
 > modules completed from no prior English, and of a first spoken address
 > delivered in a language he did not speak eleven months ago.
 > 14 March 2027.*
@@ -603,7 +603,7 @@ parallel structure entered *after* the Ascent, not a continuation of it.
 
 | Fellowship | Entry | Standing |
 |---|---|---|
-| **Fellowship in Executive Communication** | Laureate | Fellow of Worldwide English College in Executive Communication |
+| **Fellowship in Executive Communication** | Laureate | Fellow of WorldWide English College in Executive Communication |
 | **Fellowship in Academic Writing** | Laureate | Fellow … in Academic Writing |
 | **Fellowship in Business Communication** | Laureate | Fellow … in Business Communication |
 

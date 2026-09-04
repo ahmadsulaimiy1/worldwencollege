@@ -61,7 +61,7 @@ const ID = publicationIdentity(C, { edition: 1, revision: 0, impression: 1 });
 // prints. The mark is derived from the volume and from the curriculum
 // edition it was set from, so a page found somewhere else names the
 // edition it was taken from — see rights.mjs.
-const VOLUME = 'Worldwide English College Press — The Publishing Constitution';
+const VOLUME = 'WorldWide English College Press — The Publishing Constitution';
 const MARK = editionMark('press-constitution', ID.contentDigest);
 const INV = inventory(C);
 const ROWS = catalogue(INV);
@@ -155,7 +155,7 @@ const pairs = (rows) => `<table class="pairs"><tbody>${rows.map(([k, v]) =>
   `<tr><td class="pairs__k">${esc(k)}</td><td>${esc(v)}</td></tr>`).join('')}</tbody></table>`;
 
 const html = `<!doctype html><html lang="en-GB"><head><meta charset="utf-8">
-<title>Worldwide English College Press — The Publishing Constitution</title>
+<title>WorldWide English College Press — The Publishing Constitution</title>
 <style>
 @page { size:A4; margin:22mm 20mm 18mm; }
 @page :left  { margin-left:20mm; margin-right:24mm; }
@@ -296,8 +296,8 @@ table.pairs th, table.pairs td { border-bottom:.4pt solid #EDEFF4; }
 
 <section class="cover">
   <div class="cover__crest">${crest({ size: 74, gold: PAL.royalGold, ink: 'none', mono: true })}</div>
-  <p class="eyebrow">Worldwide English College · London Campus</p>
-  <h1>Worldwide English College Press</h1>
+  <p class="eyebrow">WorldWide English College · London Campus</p>
+  <h1>WorldWide English College Press</h1>
   <div class="cover__rule"></div>
   <p class="cover__sub">The Publishing Constitution, the Ten-Year Publication Architecture,
     and the House Visual Identity.</p>
@@ -316,7 +316,7 @@ table.pairs th, table.pairs td { border-bottom:.4pt solid #EDEFF4; }
 <section>
   <p class="eyebrow">Preface</p>
   <h2>What this volume is, and what it is not</h2>
-  <p class="lead">Worldwide English College Press is an imprint, not a company.</p>
+  <p class="lead">WorldWide English College Press is an imprint, not a company.</p>
   <p>It has no separate legal personality, no appointed staff, no ISBN publisher prefix and no
     distribution agreement. It has published ${ROWS.filter((r) => r.status === STATUS.PUBLISHED).length}
     artefacts, all of them derived from one academic programme. This volume states that in its
@@ -708,14 +708,14 @@ ${planHtml}
     publishing house that cannot say which of its plans are its own to execute will eventually
     execute one that was not.</p>
   <p class="small" style="margin-top:14pt">${esc(ID.publicationId)} · Document ID
-    ${esc(ID.documentId)} · Generated ${esc(ID.generated)} · Worldwide English College Press,
-    an imprint of Worldwide English College — London Campus · London,
+    ${esc(ID.documentId)} · Generated ${esc(ID.generated)} · WorldWide English College Press,
+    an imprint of WorldWide English College — London Campus · London,
     ${new Date().getFullYear()}</p>
 </section>
 
 ${legacyBlock({
   id: ID,
-  title: 'Worldwide English College Press',
+  title: 'WorldWide English College Press',
   subtitle: 'The Publishing Constitution',
   family: OWN.family.key,
   audience: OWN.audience,

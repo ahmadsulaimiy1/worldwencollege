@@ -893,7 +893,7 @@ export const TITLES = [
   }),
   t({
     n: 62, family: 'WEC Governance Series', wave: 1,
-    name: 'The Worldwide English College Canon', edition: 'The Canon Index',
+    name: 'The WorldWide English College Canon', edition: 'The Canon Index',
     audience: 'Every reader of a WEC Press publication, and every editor of a future one',
     artefact: 'publication/WEC Canon Index.pdf', build: 'canon',
     htmlSource: 'publication/.canon.html',

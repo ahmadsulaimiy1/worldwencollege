@@ -104,7 +104,7 @@ function front(v, meta, lang) {
 
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}"
   width="${W}" height="${H}" role="img"
-  aria-label="${esc(`${title}${under ? ` — ${under}` : ''}, Worldwide English College Press`)}"
+  aria-label="${esc(`${title}${under ? ` — ${under}` : ''}, WorldWide English College Press`)}"
   preserveAspectRatio="xMidYMid slice">
   ${coverDefs(id, g)}
   ${groundFor(id, g, { w: W, h: H })}
@@ -135,7 +135,7 @@ function front(v, meta, lang) {
     : ''}
 
   ${wave(56, 520, W - 112, 13, { opacity: 0.42 })}
-  ${caps(ar ? 'مطبعة الكلية العالمية للغة الإنجليزية · لندن' : 'Worldwide English College Press · London',
+  ${caps(ar ? 'مطبعة الكلية العالمية للغة الإنجليزية · لندن' : 'WorldWide English College Press · London',
     { x: cx, y: 560, size: 8, opacity: 0.6, tracking: 0.2 })}
 </svg>
 `;
@@ -205,7 +205,7 @@ function back(v, meta, lang, pages) {
   ${groundFor(id, g, { w: W, h: H, hinge: false })}
   ${border(id, W, H)}
 
-  ${caps(ar ? 'مطبعة الكلية العالمية للغة الإنجليزية' : 'Worldwide English College Press',
+  ${caps(ar ? 'مطبعة الكلية العالمية للغة الإنجليزية' : 'WorldWide English College Press',
     { x: cx, y: 62, size: 8, opacity: 0.6, tracking: 0.24 })}
   ${flourish(cx, 76, 96, 0.6)}
 

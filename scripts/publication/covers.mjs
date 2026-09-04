@@ -72,7 +72,7 @@ export function coverSpread(id, spine, levels) {
       <div class="face__field">${girihField({ w: 420, h: 594, cell: 104, opacity: 0.035 })}</div>
       <div class="face__frame">${frame({ w: 420, h: 594, colour: C.champagneGold, inset: 16, corner: 30 })}</div>
       <div class="back__in">
-        <p class="back__eyebrow">Worldwide English College · London Campus</p>
+        <p class="back__eyebrow">WorldWide English College · London Campus</p>
         <div class="back__orn">${fleuron({ colour: C.royalGold, width: 96 })}</div>
         ${blurb.map((b) => `<p class="back__b">${esc(b)}</p>`).join('')}
         <div class="back__stats">
@@ -105,7 +105,7 @@ export function coverSpread(id, spine, levels) {
           </div>
         </div>
         <div class="back__band">${guillocheBand({ width: 420, height: 16, stroke: C.champagneGold, opacity: 0.55 })}</div>
-        <p class="back__press">Worldwide English College Press</p>
+        <p class="back__press">WorldWide English College Press</p>
       </div>
     </section>
 
@@ -131,7 +131,7 @@ export function coverSpread(id, spine, levels) {
       </div>
       <div class="fc__in">
         <div class="fc__crest">${crest({ size: 76, gold: C.champagneGold, ink: 'none', mono: true })}</div>
-        <p class="fc__inst">Worldwide English College</p>
+        <p class="fc__inst">WorldWide English College</p>
         <p class="fc__camp">London Campus</p>
         <div class="fc__hair"></div>
 
@@ -169,7 +169,7 @@ export function coverSpread(id, spine, levels) {
         </div>
         <p class="fc__ed">${esc(id.editionName)} Edition · ${esc(id.year)}</p>
         <div class="fc__band">${guillocheBand({ width: 420, height: 14, stroke: C.champagneGold, opacity: 0.5 })}</div>
-        <p class="fc__press">Worldwide English College Press</p>
+        <p class="fc__press">WorldWide English College Press</p>
       </div>
     </section>
   </div>`;
@@ -234,7 +234,7 @@ export function frontMatter(id, I, contentsHtml, howtoHtml) {
   <div class="tp__frame">${frame({ w: 420, h: 594, colour: C.royalGold, inset: 14, corner: 28, thick: 1.1, thin: 0.4 })}</div>
   <div class="tp__in">
     <div class="tp__crest">${crest({ size: 66, gold: C.royalGold, ink: C.midnightNavy })}</div>
-    <p class="tp__inst">Worldwide English College</p>
+    <p class="tp__inst">WorldWide English College</p>
     <p class="tp__camp">London Campus</p>
     <div class="tp__hair"></div>
     <p class="tp__the">The</p>
@@ -245,7 +245,7 @@ export function frontMatter(id, I, contentsHtml, howtoHtml) {
       ${t.questions} Assessment Questions</p>
     <div class="tp__spacer"></div>
     <p class="tp__ed">${esc(id.editionName)} Edition</p>
-    <p class="tp__press">Worldwide English College Press · London</p>
+    <p class="tp__press">WorldWide English College Press · London</p>
     <p class="tp__year">${esc(id.year)}</p>
   </div>
 </section>
@@ -254,9 +254,9 @@ export function frontMatter(id, I, contentsHtml, howtoHtml) {
 <section class="imprint">
   <h2>Publication Information</h2>
   <p class="imp__title"><b>The International English Fluency Certificate: The Complete Curriculum</b></p>
-  <p>${esc(id.editionName)} edition, ${esc(id.year)}. Published by Worldwide English College Press,
+  <p>${esc(id.editionName)} edition, ${esc(id.year)}. Published by WorldWide English College Press,
     London Campus.</p>
-  <p>© Worldwide English College. All rights reserved except as granted below. ${esc(SUMMARY)}</p>
+  <p>© WorldWide English College. All rights reserved except as granted below. ${esc(SUMMARY)}</p>
   <p>The curriculum in this volume is set from the College's academic database. Typography,
     ornament and page design are original to this edition and were generated from their own
     geometry; no third-party artwork, photography or typeface licence is embedded.</p>
@@ -342,7 +342,7 @@ export function frontMatter(id, I, contentsHtml, howtoHtml) {
   <p>The house structure of a lesson is documented in <em>How to Read a Lesson</em>, which
     follows the contents. A reader new to the programme should begin there; it takes two minutes
     and makes every subsequent page faster to use.</p>
-  <p class="pre__sign">Worldwide English College Press</p>
+  <p class="pre__sign">WorldWide English College Press</p>
   <p class="pre__note">This preface is issued by the publisher and is unsigned. A signed
     foreword is a text an officer of the College writes; none has been written for this edition,
     and the Press does not compose words on a named person&rsquo;s behalf.</p>

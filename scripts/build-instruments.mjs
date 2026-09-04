@@ -113,7 +113,7 @@ for (const e of ESTATES) {
 
 const COPY = {
   en: {
-    heroEyebrow: 'Governance &middot; Worldwide English College',
+    heroEyebrow: 'Governance &middot; WorldWide English College',
     h1: 'Every rule this College operates under, and the authority behind each one.',
     stake: 'A panel’s first question is never "what is your policy on X". It is "what are your instruments, and on whose authority does each one stand". '
       + '<strong>This page answers both, for all twenty-four, without anybody having to ask.</strong>',
@@ -391,8 +391,8 @@ const ENTRIES = [
   {
     slug: 'governance-instruments',
     output: 'governance/instruments/index.html',
-    title: 'The Register of Instruments &mdash; Worldwide English College',
-    description: 'Every rule Worldwide English College operates under, in one register: '
+    title: 'The Register of Instruments &mdash; WorldWide English College',
+    description: 'Every rule WorldWide English College operates under, in one register: '
       + 'twenty-four instruments, what each governs, the body that owns the subject matter and '
       + 'the body that adopted the text.',
     contentFile: 'governance-instruments.html',

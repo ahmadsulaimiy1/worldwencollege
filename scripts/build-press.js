@@ -136,8 +136,8 @@ const PAGES = {};
 PAGES.press = {
   slug: 'press', output: 'press/index.html', file: 'press.html',
   contents: true,
-  title: 'WEC Press &mdash; Worldwide English College',
-  description: 'The publishing arm of Worldwide English College: what it has produced, the rule '
+  title: 'WEC Press &mdash; WorldWide English College',
+  description: 'The publishing arm of WorldWide English College: what it has produced, the rule '
     + 'it publishes under, and the review it has not yet had.',
   body: `${hero('WEC Press', 'The College&rsquo;s publishing arm.',
     `${publicVolumes.length} volumes produced, typeset for print, composed from the same record `

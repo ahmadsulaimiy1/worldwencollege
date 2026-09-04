@@ -75,7 +75,7 @@ async function composePayload(env, { documentType, userId, now }) {
     documentType,
     issuedOn: new Date(now).toISOString().slice(0, 10),
     holderName,
-    institution: 'Worldwide English College — London Campus',
+    institution: 'WorldWide English College — London Campus',
     programme: 'International English Fluency Course',
   };
 
@@ -122,7 +122,7 @@ async function composePayload(env, { documentType, userId, now }) {
       cpdVerifiedHours: cpd.verifiedHours,
       // Said on the document, because a supplement is exactly where a
       // reader looks for it and its absence would be read as an answer.
-      recognitionStatement: 'Worldwide English College is not accredited by, or affiliated with, any external accreditation body or awarding organisation. This document records the College\'s own assessment of its own programme.',
+      recognitionStatement: 'WorldWide English College is not accredited by, or affiliated with, any external accreditation body or awarding organisation. This document records the College\'s own assessment of its own programme.',
     };
   }
 

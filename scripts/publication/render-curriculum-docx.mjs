@@ -164,8 +164,8 @@ const H1 = (t) => new Paragraph({ heading: HeadingLevel.HEADING_1, spacing: { af
 children.push(H1('Publication Information'));
 children.push(P([{ t: 'The International English Fluency Certificate: The Complete Curriculum', bold: true }],
   { size: 21 }));
-children.push(P(`${ID.editionName} edition, ${ID.year}. Published by Worldwide English College Press, `
-  + 'London Campus. © Worldwide English College. All rights reserved.'));
+children.push(P(`${ID.editionName} edition, ${ID.year}. Published by WorldWide English College Press, `
+  + 'London Campus. © WorldWide English College. All rights reserved.'));
 children.push(P('IDENTIFICATION AND SECURITY FEATURES', { font: SANS, size: 14, bold: true,
   caps: true, tracking: 60, color: hex(BRAND.ink), before: 180, after: 60 }));
 for (const [k, v] of [
@@ -214,7 +214,7 @@ for (const para of [
   + 'rubric. The structure repeats without variation across all six levels, which is deliberate. A '
   + 'teacher who has taught one module of this programme has learned the shape of all sixty.',
 ]) children.push(P(para, { size: 20 }));
-children.push(P('Worldwide English College Press', { font: SANS, size: 15, bold: true, caps: true,
+children.push(P('WorldWide English College Press', { font: SANS, size: 15, bold: true, caps: true,
   tracking: 70, color: hex(BRAND.ink), before: 200, after: 40 }));
 children.push(P('This preface is issued by the publisher and is unsigned. A signed foreword is a '
   + 'text an officer of the College writes; none has been written for this edition, and the Press '
@@ -507,12 +507,12 @@ const PAGE = {
 };
 
 const doc = new Document({
-  creator: 'Worldwide English College',
+  creator: 'WorldWide English College',
   title: 'The International English Fluency Certificate — The Complete Curriculum',
   description: `The complete IEFC curriculum: ${C.totals.lessons} authored items across `
     + `${C.totals.modules} modules and six levels.`,
   subject: 'English language curriculum; complete teaching programme',
-  keywords: 'IEFC, Worldwide English College, CEFR, curriculum, lesson plans',
+  keywords: 'IEFC, WorldWide English College, CEFR, curriculum, lesson plans',
   styles: {
     default: {
       document: { run: { font: SERIF, size: 19 } },

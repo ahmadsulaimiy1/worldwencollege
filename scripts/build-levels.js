@@ -678,7 +678,7 @@ function upsert(entry, contentFile, body) {
 upsert({
   slug: 'academics',
   output: 'academics/index.html',
-  title: 'Academics &mdash; Worldwide English College',
+  title: 'Academics &mdash; WorldWide English College',
   description: 'The IEFC in six CEFR-aligned levels: what each contains, how learning works, '
     + 'the digital campus it runs on, and the standard the whole programme is taught to.',
   contentFile: 'academics.html',
@@ -698,7 +698,7 @@ levels.forEach((lv, i) => {
   upsert({
     slug: `study-${SLUG[lv.roman]}`,
     output: `study/${SLUG[lv.roman]}/index.html`,
-    title: `Level ${lv.roman}: ${lv.name} (${lv.cefr}) &mdash; Worldwide English College`,
+    title: `Level ${lv.roman}: ${lv.name} (${lv.cefr}) &mdash; WorldWide English College`,
     description: `Level ${lv.roman} of the IEFC: ${lv.modules.length} modules, ${lv.units} `
       + `designed lessons over ${lv.duration_months} months, aligned to CEFR ${lv.cefr} — modules, `
       + 'outcomes, assessment, teaching methods and the award.',

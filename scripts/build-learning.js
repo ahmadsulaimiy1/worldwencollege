@@ -106,7 +106,7 @@ const PAGES = {};
 // ACCESSIBILITY ───────────────────────────────────────────────────
 PAGES.accessibility = {
   slug: 'support-accessibility', output: 'support/accessibility/index.html', file: 'support-accessibility.html',
-  title: 'Accessibility &mdash; Worldwide English College',
+  title: 'Accessibility &mdash; WorldWide English College',
   description: 'What WEC has built for accessibility, what has not been audited, and what the '
     + 'College will do on request.',
   body: `${hero('Support', 'Accessibility.',
@@ -171,7 +171,7 @@ ${cta('What the College can and cannot support.', 'Support', '/students/#support
 // PRIVACY ───────────────────────────────────────────────────────
 PAGES.privacy = {
   slug: 'support-privacy', output: 'support/privacy/index.html', file: 'support-privacy.html',
-  title: 'Privacy &amp; Your Data &mdash; Worldwide English College',
+  title: 'Privacy &amp; Your Data &mdash; WorldWide English College',
   description: 'What this site collects, what it does not, who else is involved, and the '
     + 'accountability WEC has not yet appointed.',
   body: `${hero('Support', 'Privacy and your data.',

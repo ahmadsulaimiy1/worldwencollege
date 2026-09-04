@@ -190,11 +190,11 @@ const TYPE_BLOCK_DXA = PAGE.size.width - PAGE.margin.left - PAGE.margin.right;
 const MARK = editionMark('iefc-reference', buildInstitutional().generatedFrom || 'canonical');
 
 const doc = new Document({
-  creator: 'Worldwide English College',
+  creator: 'WorldWide English College',
   title: 'The International English Fluency Certificate — Curriculum, Award Architecture and Academic Framework',
   description: 'The reference edition of the IEFC curriculum and academic framework, generated from the College\'s academic database.',
   subject: 'English language qualification; curriculum; academic framework',
-  keywords: 'IEFC, Worldwide English College, CEFR, English, curriculum, qualification',
+  keywords: 'IEFC, WorldWide English College, CEFR, English, curriculum, qualification',
   numbering: {
     config: [{
       reference: 'wec-bullets',

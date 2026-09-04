@@ -145,7 +145,7 @@ const PAGES = {};
 PAGES.pillar = {
   slug: 'admissions', output: 'admissions/index.html', file: 'admissions.html',
   contents: true,
-  title: 'Admissions &mdash; Worldwide English College',
+  title: 'Admissions &mdash; WorldWide English College',
   description: 'The whole admissions decision in one place: whether you qualify, how to apply, '
     + 'when you can start, and what applies to international applicants — visas included.',
   body: `<section class="section--dark section-pad">
@@ -622,7 +622,7 @@ ${darkCard('Cannot', 'Substitute for a recognised qualification', 'No External E
 
 PAGES.faq = {
   slug: 'faq', output: 'faq/index.html', file: 'faq.html',
-  title: 'FAQ &mdash; Worldwide English College',
+  title: 'FAQ &mdash; WorldWide English College',
   description: 'Frequently asked questions about the IEFC, admissions, fees, and studying with '
     + 'WEC-LC — including the questions applicants actually ask during admissions.',
   body: `<section class="section--dark section-pad">
@@ -829,7 +829,7 @@ PAGES.tuition = {
   slug: 'admissions-tuition', output: 'admissions/tuition/index.html', file: 'admissions-tuition.html',
   contents: true,
   altHref: '/ar/admissions/tuition/',
-  title: 'Tuition, Fees &amp; Funding &mdash; Worldwide English College',
+  title: 'Tuition, Fees &amp; Funding &mdash; WorldWide English College',
   description: 'IEFC tuition and per-level pricing, how paying actually works — currency, '
     + 'methods, refunds — and the scholarships and funding routes that exist today.',
   body: `<section class="section--dark section-pad">
@@ -1048,7 +1048,7 @@ ${darkCard('Not built', 'Organisational invoicing and seats', 'A corporate accou
 
 PAGES.policy = {
   slug: 'admissions-policy', output: 'admissions/policy/index.html', file: 'admissions-policy.html',
-  title: 'Admissions Policy &mdash; Worldwide English College',
+  title: 'Admissions Policy &mdash; WorldWide English College',
   description: 'The rules WEC-LC applies to admissions decisions, the data it collects from '
     + 'applicants, and the policies that have not yet been adopted.',
   body: `${hero('Admissions', 'Admissions policy.',

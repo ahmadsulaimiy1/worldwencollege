@@ -419,7 +419,7 @@ td { vertical-align:top; padding:4pt 5pt 4pt 0; border-bottom:.4pt solid ${PAL.p
 </style></head><body>
 
 <section class="title">
-  <p class="eyebrow">Worldwide English College Press</p>
+  <p class="eyebrow">WorldWide English College Press</p>
   <h1>The IEFC Level I Student Workbook</h1>
   <div class="title__rule"></div>
   <p class="title__sub">${esc(LV.name)} · ${esc(LV.cefr)} · ${LESSONS.length} lessons,

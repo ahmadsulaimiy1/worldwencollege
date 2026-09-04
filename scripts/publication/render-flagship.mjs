@@ -1956,9 +1956,9 @@ const scaleType = (css) => (LARGE
 const HEAD = `<!doctype html><html lang="en-GB"><head><meta charset="utf-8">
 <title>The International English Fluency Certificate — ${EDITION.name}${
   LARGE ? ' · Large Print' : ''}</title>
-<meta name="author" content="Worldwide English College">
+<meta name="author" content="WorldWide English College">
 <meta name="subject" content="English language curriculum; complete teaching programme">
-<meta name="keywords" content="IEFC, Worldwide English College, CEFR, English curriculum, lesson plans">
+<meta name="keywords" content="IEFC, WorldWide English College, CEFR, English curriculum, lesson plans">
 <style>${scaleType(CSS)}</style></head><body>${DUOTONES}`;
 
 const SECTIONS = [FRONT, ...C.levels.map(renderLevel), BACK];

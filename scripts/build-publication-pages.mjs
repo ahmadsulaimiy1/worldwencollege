@@ -78,7 +78,7 @@ const T = {
     fileSize: 'File', rights: 'Rights', identifiers: 'Identifiers',
     pages: (n) => (n === 1 ? '1 page' : `${n} pages`),
     a4: '210 × 297 mm, portrait',
-    imprintLine: 'London: Worldwide English College Press',
+    imprintLine: 'London: WorldWide English College Press',
     rightsLine: 'Free to download, print, photocopy and quote, with attribution.',
     idsLine: 'ISBN not assigned · DOI not registered',
     allLevels: 'All six',

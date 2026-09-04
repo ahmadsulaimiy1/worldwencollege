@@ -130,7 +130,7 @@ const PAGES = {};
 PAGES.hub = {
   slug: 'students', output: 'students/index.html', file: 'students.html',
   contents: true,
-  title: 'Students &mdash; Worldwide English College',
+  title: 'Students &mdash; WorldWide English College',
   description: 'What a WEC-LC student meets: the platform, the assessment scheme, the academic '
     + 'record, and the rules that govern all three.',
   body: `${hero('Students', 'What you will meet.',
@@ -305,7 +305,7 @@ ${cta('See what a level contains.', 'The Six Levels', '/academics/#levels', 'How
 // 2 · ASSESSMENT ──────────────────────────────────────────────────────
 PAGES.assessment = {
   slug: 'students-assessment', output: 'students/assessment/index.html', file: 'students-assessment.html',
-  title: 'How You Are Assessed &mdash; Worldwide English College',
+  title: 'How You Are Assessed &mdash; WorldWide English College',
   description: 'The four language skills, the six competencies, published rubrics, and the '
     + 'threshold the WEC-LC platform enforces today.',
   body: `${hero('Students', 'How you are assessed.',
@@ -438,7 +438,7 @@ ${cta('See the assessments themselves.', 'The Six Levels', '/academics/#levels',
 // 3 · ACADEMIC RECORD ─────────────────────────────────────────────────
 PAGES.record = {
   slug: 'students-record', output: 'students/academic-record/index.html', file: 'students-record.html', altHref: '/ar/students/academic-record/',
-  title: 'Your Academic Record &mdash; Worldwide English College',
+  title: 'Your Academic Record &mdash; WorldWide English College',
   description: 'What WEC-LC records about a student, who can see it, what the student controls, '
     + 'and how a third party verifies it.',
   body: `${hero('Students', 'Your academic record.',
@@ -521,7 +521,7 @@ ${cta('See how marks are arrived at.', 'How You Are Assessed', '/students/assess
 // 5 · AWARDS ──────────────────────────────────────────────────────────
 PAGES.awards = {
   slug: 'students-awards', output: 'students/awards/index.html', file: 'students-awards.html',
-  title: 'Awards &amp; Honours &mdash; Worldwide English College',
+  title: 'Awards &amp; Honours &mdash; WorldWide English College',
   description: 'The six WEC-LC awards, their post-nominals, the adopted honours scheme, and '
     + 'why no award has yet been conferred on anyone.',
   body: `${hero('Students', 'Awards and honours.',
@@ -599,7 +599,7 @@ ${cta('See how the standard is set.', 'Quality Assurance', '/governance/#quality
 // 6 · INTEGRITY ───────────────────────────────────────────────────────
 PAGES.integrity = {
   slug: 'students-integrity', output: 'students/integrity/index.html', file: 'students-integrity.html', altHref: '/ar/students/integrity/',
-  title: 'Academic Integrity &mdash; Worldwide English College',
+  title: 'Academic Integrity &mdash; WorldWide English College',
   description: 'The WEC-LC position on work that is not the learner’s own: assessment design '
     + 'rather than detection software, and the adopted procedure for a suspected breach.',
   body: `${hero('Students', 'Academic integrity.',
@@ -681,7 +681,7 @@ ${cta('See how assessments are designed.', 'How You Are Assessed', '/students/as
 // 7 · REGULATIONS ─────────────────────────────────────────────────────
 PAGES.regulations = {
   slug: 'students-regulations', output: 'students/regulations/index.html', file: 'students-regulations.html', altHref: '/ar/students/regulations/',
-  title: 'Academic Regulations &mdash; Worldwide English College',
+  title: 'Academic Regulations &mdash; WorldWide English College',
   description: 'Progression, resits, academic standing and appeals at WEC-LC, separated into '
     + 'when each rule took effect and on whose authority.',
   body: `${hero('Students', 'Academic regulations.',

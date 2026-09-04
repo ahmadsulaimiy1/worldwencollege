@@ -298,7 +298,7 @@ tr { break-inside:avoid; }
 
 <section class="title">
   <div class="title__orn">${crest({ size: 76, gold: PAL.royalGold, ink: PAL.midnightNavy })}</div>
-  <p class="eyebrow">Worldwide English College Press</p>
+  <p class="eyebrow">WorldWide English College Press</p>
   <h1>Production Specification</h1>
   <p class="lead">The International English Fluency Certificate — The Complete Curriculum</p>
   <div class="title__orn" style="margin:14pt 0">${fleuron({ colour: PAL.royalGold, width: 150 })}</div>

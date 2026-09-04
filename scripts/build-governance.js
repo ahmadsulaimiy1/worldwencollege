@@ -210,7 +210,7 @@ const senateExtra = `
 PAGES.pillar = {
   slug: 'governance', output: 'governance/index.html', file: 'governance.html',
   contents: true,
-  title: 'Governance &mdash; Worldwide English College',
+  title: 'Governance &mdash; WorldWide English College',
   // Under 160 characters — see the note in scripts/build-teaching.js.
   description: 'How WEC-LC is governed: its Board, Senate and Executive, the academic bodies and their '
     + 'remits, how quality is assured, and which posts remain unfilled.',
@@ -468,7 +468,7 @@ ${card('The register', 'Browsable, and opt-in', 'A public roll of award-holders 
     <div class="section-head">
       <span class="module-marker">Research</span>
       <h2>No findings. Four answerable questions.</h2>
-      <p class="lede">Worldwide English College conducts no research: no papers, no conference
+      <p class="lede">WorldWide English College conducts no research: no papers, no conference
         contributions, no funded projects, no research staff, no findings. A new
         institution&rsquo;s research position is an agenda, not an output &mdash; these four
         questions came out of building the programme, and each is answerable with evidence a
@@ -535,7 +535,7 @@ ${cta('Read the full institutional position.', 'Institutional Status', '/about/#
 PAGES.evidence = {
   slug: 'governance-evidence', output: 'governance/evidence/index.html', file: 'governance-evidence.html',
   altHref: '/ar/governance/evidence/',
-  title: 'The Evidence Record &mdash; Worldwide English College',
+  title: 'The Evidence Record &mdash; WorldWide English College',
   description: `WEC-LC's register of quality-assurance evidence: ${E.total} items, what state `
     + 'each is in, and why none has been approved.',
   body: `${hero('Governance', 'The evidence record.',
@@ -641,7 +641,7 @@ ${cta('See what is waiting on a decision.', 'The Decisions Register', '/governan
 PAGES.decisions = {
   slug: 'governance-decisions', output: 'governance/decisions/index.html', file: 'governance-decisions.html',
   altHref: '/ar/governance/decisions/',
-  title: 'The Decisions Register &mdash; Worldwide English College',
+  title: 'The Decisions Register &mdash; WorldWide English College',
   description: `All ${totalAdopted} of the College's institutional decisions, in force, with the `
     + 'date and the authority that took each one.',
   body: `${hero('Governance', 'The decisions register.',

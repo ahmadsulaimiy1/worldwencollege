@@ -45,7 +45,7 @@ const ID = publicationIdentity(C, { edition: 1, revision: 0, impression: 1 });
 // prints. The mark is derived from the volume and from the curriculum
 // edition it was set from, so a page found somewhere else names the
 // edition it was taken from — see rights.mjs.
-const VOLUME = 'The Worldwide English College Canon';
+const VOLUME = 'The WorldWide English College Canon';
 const MARK = editionMark('canon', ID.contentDigest);
 const INV = inventory(C);
 const ROWS = catalogue(INV);
@@ -114,7 +114,7 @@ const divisionSection = (d) => {
 
 const LEGACY = legacyBlock({
   id: ID,
-  title: 'The Worldwide English College Canon',
+  title: 'The WorldWide English College Canon',
   subtitle: 'The Canon Index',
   family: FAMILY,
   audience: 'Every reader of a WEC Press publication, and every editor of a future one',
@@ -129,7 +129,7 @@ const LEGACY = legacyBlock({
 });
 
 const html = `<!doctype html><html lang="en-GB"><head><meta charset="utf-8">
-<title>The Worldwide English College Canon — The Canon Index</title>
+<title>The WorldWide English College Canon — The Canon Index</title>
 <style>
 @page { size:${FMT.w}mm ${FMT.h}mm; margin:${M.head}mm ${M.fore}mm ${M.foot}mm ${M.gutter}mm; }
 @page :left  { margin-left:${M.fore}mm; margin-right:${M.gutter}mm; }
@@ -227,8 +227,8 @@ td.no { color:${PAL.deepCrimson}; font-weight:700; }
 
 <section class="title">
   <div>${crest({ size: 60, gold: PAL.royalGold, ink: 'none', mono: true })}</div>
-  <p class="eyebrow" style="margin-top:12pt">Worldwide English College · London Campus</p>
-  <h1>The Worldwide English College Canon</h1>
+  <p class="eyebrow" style="margin-top:12pt">WorldWide English College · London Campus</p>
+  <h1>The WorldWide English College Canon</h1>
   <div class="title__rule"></div>
   <p class="title__sub">The Canon Index: five divisions, every title, and what to read before,
     alongside and after each of them.</p>

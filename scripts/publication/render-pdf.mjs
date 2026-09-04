@@ -168,9 +168,9 @@ tr { break-inside: avoid; }
 
 const html = `<!doctype html><html lang="en"><head><meta charset="utf-8">
 <title>The International English Fluency Certificate — Curriculum, Award Architecture and Academic Framework</title>
-<meta name="author" content="Worldwide English College">
+<meta name="author" content="WorldWide English College">
 <meta name="subject" content="English language qualification; curriculum; academic framework">
-<meta name="keywords" content="IEFC, Worldwide English College, CEFR, English, curriculum, qualification">
+<meta name="keywords" content="IEFC, WorldWide English College, CEFR, English, curriculum, qualification">
 <style>${CSS}</style></head><body>
 ${FRONT.map(render).join('\n')}
 ${BODY.map(render).join('\n')}

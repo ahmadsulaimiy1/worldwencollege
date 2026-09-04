@@ -423,7 +423,7 @@ function levelAwardDefinitions() {
     evidenceSource: 'awards',
     name: { en: a.en, ar: a.ar },
     academicFact: {
-      en: `The Level ${a.roman} award — ${a.en} of Worldwide English College, ${a.post}, CEFR ${a.cefr}, 20 credits — has been conferred and stands on the register.`,
+      en: `The Level ${a.roman} award — ${a.en} of WorldWide English College, ${a.post}, CEFR ${a.cefr}, 20 credits — has been conferred and stands on the register.`,
       ar: `مُنحت شهادة المستوى ${a.arOrdinal} — ${a.ar} بكلية العالم للغة الإنجليزية، ${a.post}، الإطار الأوروبي ${a.cefr}، عشرون اعتمادًا — وهي قائمة في السجلّ.`,
     },
     rule: 'level_award_conferred',

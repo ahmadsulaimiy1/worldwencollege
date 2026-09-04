@@ -127,7 +127,7 @@
       ' هذا خللٌ عندنا، لا قولٌ في أيّ خرّيج. أعد المحاولة بعد قليل.'],
   } : {
     fallbackName: 'Graduate record',
-    titleSuffix: ' \u2014 Worldwide English College',
+    titleSuffix: ' \u2014 WorldWide English College',
     withdrawn: 'Withdrawn',
     superseded: 'Superseded',
     verified: 'Verified',

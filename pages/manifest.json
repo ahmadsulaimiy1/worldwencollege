@@ -15,8 +15,8 @@
   {
     "slug": "about",
     "output": "about/index.html",
-    "title": "About the College &mdash; Worldwide English College",
-    "description": "Who Worldwide English College is: its vision, mission and educational philosophy, how it is organised, and its institutional status stated plainly.",
+    "title": "About the College &mdash; WorldWide English College",
+    "description": "Who WorldWide English College is: its vision, mission and educational philosophy, how it is organised, and its institutional status stated plainly.",
     "contentFile": "about.html",
     "extraCss": [
       "/css/pillar.css"
@@ -29,7 +29,7 @@
   {
     "slug": "academics",
     "output": "academics/index.html",
-    "title": "Academics &mdash; Worldwide English College",
+    "title": "Academics &mdash; WorldWide English College",
     "description": "The IEFC in six CEFR-aligned levels: what each contains, how learning works, the digital campus it runs on, and the standard the whole programme is taught to.",
     "contentFile": "academics.html",
     "lang": "en",
@@ -44,7 +44,7 @@
   {
     "slug": "admissions",
     "output": "admissions/index.html",
-    "title": "Admissions &mdash; Worldwide English College",
+    "title": "Admissions &mdash; WorldWide English College",
     "description": "The whole admissions decision in one place: whether you qualify, how to apply, when you can start, and what applies internationally — visas included.",
     "contentFile": "admissions.html",
     "lang": "en",
@@ -59,7 +59,7 @@
   {
     "slug": "admissions-tuition",
     "output": "admissions/tuition/index.html",
-    "title": "Tuition, Fees &amp; Funding &mdash; Worldwide English College",
+    "title": "Tuition, Fees &amp; Funding &mdash; WorldWide English College",
     "description": "IEFC tuition and per-level pricing, how paying actually works — currency, methods, refunds — and the scholarships and funding routes that exist today.",
     "contentFile": "admissions-tuition.html",
     "lang": "en",
@@ -99,7 +99,7 @@
   {
     "slug": "faq",
     "output": "faq/index.html",
-    "title": "FAQ &mdash; Worldwide English College",
+    "title": "FAQ &mdash; WorldWide English College",
     "description": "Frequently asked questions about the IEFC, admissions, fees, and studying with WEC-LC — including the questions applicants actually ask during admissions.",
     "contentFile": "faq.html",
     "lang": "en",
@@ -256,7 +256,7 @@
   {
     "slug": "study-level-1",
     "output": "study/level-1/index.html",
-    "title": "Level I: Foundation Programme (A1) &mdash; Worldwide English College",
+    "title": "Level I: Foundation Programme (A1) &mdash; WorldWide English College",
     "description": "Level I of the IEFC: 10 modules, 120 designed lessons over 4 months, aligned to CEFR A1 — modules, outcomes, assessment, teaching methods and the award.",
     "contentFile": "study-level-1.html",
     "lang": "en",
@@ -271,7 +271,7 @@
   {
     "slug": "study-level-2",
     "output": "study/level-2/index.html",
-    "title": "Level II: Elementary Programme (A2) &mdash; Worldwide English College",
+    "title": "Level II: Elementary Programme (A2) &mdash; WorldWide English College",
     "description": "Level II of the IEFC: 10 modules, 120 designed lessons over 4 months, aligned to CEFR A2 — modules, outcomes, assessment, teaching methods and the award.",
     "contentFile": "study-level-2.html",
     "lang": "en",
@@ -286,7 +286,7 @@
   {
     "slug": "study-level-3",
     "output": "study/level-3/index.html",
-    "title": "Level III: Intermediate Programme (B1) &mdash; Worldwide English College",
+    "title": "Level III: Intermediate Programme (B1) &mdash; WorldWide English College",
     "description": "Level III of the IEFC: 10 modules, 120 designed lessons over 4 months, aligned to CEFR B1 — modules, outcomes, assessment, teaching methods and the award.",
     "contentFile": "study-level-3.html",
     "lang": "en",
@@ -301,7 +301,7 @@
   {
     "slug": "study-level-4",
     "output": "study/level-4/index.html",
-    "title": "Level IV: Upper Intermediate Programme (B2) &mdash; Worldwide English College",
+    "title": "Level IV: Upper Intermediate Programme (B2) &mdash; WorldWide English College",
     "description": "Level IV of the IEFC: 10 modules, 120 designed lessons over 4 months, aligned to CEFR B2 — modules, outcomes, assessment, teaching methods and the award.",
     "contentFile": "study-level-4.html",
     "lang": "en",
@@ -316,7 +316,7 @@
   {
     "slug": "study-level-5",
     "output": "study/level-5/index.html",
-    "title": "Level V: Advanced Programme (C1) &mdash; Worldwide English College",
+    "title": "Level V: Advanced Programme (C1) &mdash; WorldWide English College",
     "description": "Level V of the IEFC: 10 modules, 120 designed lessons over 4 months, aligned to CEFR C1 — modules, outcomes, assessment, teaching methods and the award.",
     "contentFile": "study-level-5.html",
     "lang": "en",
@@ -331,7 +331,7 @@
   {
     "slug": "study-level-6",
     "output": "study/level-6/index.html",
-    "title": "Level VI: English Mastery Programme (C2) &mdash; Worldwide English College",
+    "title": "Level VI: English Mastery Programme (C2) &mdash; WorldWide English College",
     "description": "Level VI of the IEFC: 10 modules, 120 designed lessons over 4 months, aligned to CEFR C2 — modules, outcomes, assessment, teaching methods and the award.",
     "contentFile": "study-level-6.html",
     "lang": "en",
@@ -346,8 +346,8 @@
   {
     "slug": "about-careers",
     "output": "about/careers/index.html",
-    "title": "Careers &mdash; Worldwide English College",
-    "description": "Working at Worldwide English College: the posts the College is seeking to fill, what each one unblocks, and how to express interest.",
+    "title": "Careers &mdash; WorldWide English College",
+    "description": "Working at WorldWide English College: the posts the College is seeking to fill, what each one unblocks, and how to express interest.",
     "contentFile": "about-careers.html",
     "extraCss": [
       "/css/pillar.css"
@@ -359,7 +359,7 @@
   {
     "slug": "admissions-policy",
     "output": "admissions/policy/index.html",
-    "title": "Admissions Policy &mdash; Worldwide English College",
+    "title": "Admissions Policy &mdash; WorldWide English College",
     "description": "The rules WEC-LC applies to admissions decisions, the data it collects from applicants, and the policies that have not yet been adopted.",
     "contentFile": "admissions-policy.html",
     "lang": "en",
@@ -373,7 +373,7 @@
   {
     "slug": "students",
     "output": "students/index.html",
-    "title": "Students &mdash; Worldwide English College",
+    "title": "Students &mdash; WorldWide English College",
     "description": "What a WEC-LC student meets: the platform, the assessment scheme, the academic record, and the rules that govern all three.",
     "contentFile": "students.html",
     "extraCss": [
@@ -388,7 +388,7 @@
   {
     "slug": "students-assessment",
     "output": "students/assessment/index.html",
-    "title": "How You Are Assessed &mdash; Worldwide English College",
+    "title": "How You Are Assessed &mdash; WorldWide English College",
     "description": "The four language skills, the six competencies, published rubrics, and the threshold the WEC-LC platform enforces today.",
     "contentFile": "students-assessment.html",
     "extraCss": [
@@ -402,7 +402,7 @@
   {
     "slug": "students-record",
     "output": "students/academic-record/index.html",
-    "title": "Your Academic Record &mdash; Worldwide English College",
+    "title": "Your Academic Record &mdash; WorldWide English College",
     "description": "What WEC-LC records about a student, who can see it, what the student controls, and how a third party verifies it.",
     "contentFile": "students-record.html",
     "extraCss": [
@@ -416,7 +416,7 @@
   {
     "slug": "students-awards",
     "output": "students/awards/index.html",
-    "title": "Awards &amp; Honours &mdash; Worldwide English College",
+    "title": "Awards &amp; Honours &mdash; WorldWide English College",
     "description": "The six WEC-LC awards, their post-nominals, the adopted honours scheme, and why no award has yet been conferred on anyone.",
     "contentFile": "students-awards.html",
     "extraCss": [
@@ -430,7 +430,7 @@
   {
     "slug": "students-integrity",
     "output": "students/integrity/index.html",
-    "title": "Academic Integrity &mdash; Worldwide English College",
+    "title": "Academic Integrity &mdash; WorldWide English College",
     "description": "The WEC-LC position on work that is not the learner’s own: assessment design rather than detection software, and the adopted procedure for a suspected breach.",
     "contentFile": "students-integrity.html",
     "extraCss": [
@@ -444,7 +444,7 @@
   {
     "slug": "students-regulations",
     "output": "students/regulations/index.html",
-    "title": "Academic Regulations &mdash; Worldwide English College",
+    "title": "Academic Regulations &mdash; WorldWide English College",
     "description": "Progression, resits, academic standing and appeals at WEC-LC, separated into when each rule took effect and on whose authority.",
     "contentFile": "students-regulations.html",
     "extraCss": [
@@ -458,8 +458,8 @@
   {
     "slug": "press",
     "output": "press/index.html",
-    "title": "WEC Press &mdash; Worldwide English College",
-    "description": "The publishing arm of Worldwide English College: what it has produced, the rule it publishes under, and the review it has not yet had.",
+    "title": "WEC Press &mdash; WorldWide English College",
+    "description": "The publishing arm of WorldWide English College: what it has produced, the rule it publishes under, and the review it has not yet had.",
     "contentFile": "press.html",
     "lang": "en",
     "dir": "ltr",
@@ -485,7 +485,7 @@
   {
     "slug": "support-accessibility",
     "output": "support/accessibility/index.html",
-    "title": "Accessibility &mdash; Worldwide English College",
+    "title": "Accessibility &mdash; WorldWide English College",
     "description": "What WEC-LC has built for accessibility, what has not been audited, and what the College will do on request.",
     "contentFile": "support-accessibility.html",
     "lang": "en",
@@ -495,7 +495,7 @@
   {
     "slug": "support-privacy",
     "output": "support/privacy/index.html",
-    "title": "Privacy &amp; Your Data &mdash; Worldwide English College",
+    "title": "Privacy &amp; Your Data &mdash; WorldWide English College",
     "description": "What this site collects, what it does not, who else is involved, and the accountability WEC-LC has not yet appointed.",
     "contentFile": "support-privacy.html",
     "lang": "en",
@@ -633,7 +633,7 @@
   {
     "slug": "governance",
     "output": "governance/index.html",
-    "title": "Governance &mdash; Worldwide English College",
+    "title": "Governance &mdash; WorldWide English College",
     "description": "How WEC-LC is governed: its Board, Senate and Executive, the academic bodies and their remits, how quality is assured, and which posts remain unfilled.",
     "contentFile": "governance.html",
     "lang": "en",
@@ -648,7 +648,7 @@
   {
     "slug": "governance-evidence",
     "output": "governance/evidence/index.html",
-    "title": "The Evidence Record &mdash; Worldwide English College",
+    "title": "The Evidence Record &mdash; WorldWide English College",
     "description": "WEC-LC's register of quality-assurance evidence: 37 items, what state each is in, and why none has been approved.",
     "contentFile": "governance-evidence.html",
     "lang": "en",
@@ -662,7 +662,7 @@
   {
     "slug": "governance-decisions",
     "output": "governance/decisions/index.html",
-    "title": "The Decisions Register &mdash; Worldwide English College",
+    "title": "The Decisions Register &mdash; WorldWide English College",
     "description": "All 37 of the College's institutional decisions, in force, with the date and the authority that took each one.",
     "contentFile": "governance-decisions.html",
     "lang": "en",
@@ -691,7 +691,7 @@
   {
     "slug": "academics-teaching",
     "output": "academics/teaching/index.html",
-    "title": "Teaching Practice &mdash; Worldwide English College",
+    "title": "Teaching Practice &mdash; WorldWide English College",
     "description": "How WEC-LC teaches: the method, how a lesson is designed, the support record a teacher works from, the Companion, and how development is meant to work.",
     "contentFile": "academics-teaching.html",
     "lang": "en",
@@ -902,8 +902,8 @@
   {
     "slug": "governance-quality",
     "output": "governance/quality/index.html",
-    "title": "The Quality Architecture &mdash; Worldwide English College",
-    "description": "Every standing body of Worldwide English College, what each decides, who it reports to, whether it has met — with the annual review and observation cycle.",
+    "title": "The Quality Architecture &mdash; WorldWide English College",
+    "description": "Every standing body of WorldWide English College, what each decides, who it reports to, whether it has met — with the annual review and observation cycle.",
     "contentFile": "governance-quality.html",
     "lang": "en",
     "dir": "ltr",
@@ -933,7 +933,7 @@
   {
     "slug": "why-english",
     "output": "why-english/index.html",
-    "title": "Why English &mdash; Worldwide English College",
+    "title": "Why English &mdash; WorldWide English College",
     "description": "Where the decision is actually taken in English: diplomacy, aviation, law, science, higher education, commerce, technology and government — and why.",
     "contentFile": "why-english.html",
     "lang": "en",
@@ -1062,7 +1062,7 @@
     "slug": "publication-programme-architecture",
     "output": "press/programme-architecture/index.html",
     "title": "Programme Architecture — Institutional Edition — WEC Press",
-    "description": "How the programme is constructed: the credit and competency frameworks, the mapping from lesson to outcome to assessment, and where it is still interim.",
+    "description": "How the programme is constructed: the credit framework, the competency framework, and the mapping from lesson to outcome to assessment.",
     "contentFile": "publication-programme-architecture.html",
     "lang": "en",
     "dir": "ltr",
@@ -1098,7 +1098,7 @@
     "slug": "publication-assessment-handbook",
     "output": "press/assessment-handbook/index.html",
     "title": "The Assessment Handbook — Rubrics, criteria and marking standards — WEC Press",
-    "description": "Every rubric, pass criterion and skill floor, and the marking standard each is applied to — published in full, since an unreadable criterion is not one.",
+    "description": "Every rubric, every pass criterion and every skill floor, published in full — a criterion a candidate cannot read is not a criterion.",
     "contentFile": "publication-assessment-handbook.html",
     "lang": "en",
     "dir": "ltr",
@@ -1134,7 +1134,7 @@
     "slug": "publication-teachers-companion-level-1",
     "output": "press/teachers-companion-level-1/index.html",
     "title": "Teacher's Companion — Level I · Foundations — WEC Press",
-    "description": "For each Level I lesson: what commonly goes wrong, why, a second way to explain it, and what to do for the learner behind and the one who finished early.",
+    "description": "For each lesson of Level I: what commonly goes wrong, why, a second way to explain it, and what to do for a learner behind or ahead of pace.",
     "contentFile": "publication-teachers-companion-level-1.html",
     "lang": "en",
     "dir": "ltr",
@@ -1152,7 +1152,7 @@
     "slug": "publication-teachers-companion-level-1-ar",
     "output": "ar/press/teachers-companion-level-1/index.html",
     "title": "رفيق المعلّم — المستوى الأول · الأساسات — مطبعة الكلية",
-    "description": "لكل درس من دروس المستوى الأول: ما يُخطئ فيه المتعلمون عادةً، ولماذا، وطريقة ثانية للشرح، وما يُفعَل مع من تأخّر ومع من أنهى مبكرًا.",
+    "description": "لكل درس من دروس المستوى الأول: ما يُخطئ فيه المتعلمون عادةً، ولماذا، وطريقة ثانية للشرح، وما يُفعَل مع من تأخّر أو تقدّم عن الوتيرة.",
     "contentFile": "publication-teachers-companion-level-1.ar.html",
     "lang": "ar",
     "dir": "rtl",
@@ -1206,7 +1206,7 @@
     "slug": "publication-listening-scripts",
     "output": "press/listening-scripts/index.html",
     "title": "The Listening Scripts — Every set, in full script — WEC Press",
-    "description": "All 120 listening sets in full script, with speakers marked and the features each targets. Published as scripts; the audio needs voices and a studio.",
+    "description": "All 120 listening sets in full script, the speakers marked and the features each targets. Published as scripts; the audio requires voices and a studio.",
     "contentFile": "publication-listening-scripts.html",
     "lang": "en",
     "dir": "ltr",
@@ -1314,7 +1314,7 @@
     "slug": "publication-canon-index",
     "output": "press/canon-index/index.html",
     "title": "The Canon Index — Every volume produced or planned — WEC Press",
-    "description": "Every volume the Press has produced or planned, what each requires, and whether the material exists — computed against the record, not typed by hand.",
+    "description": "Every volume the Press has produced or planned, what each requires, and whether the material exists — computed against the record, not typed.",
     "contentFile": "publication-canon-index.html",
     "lang": "en",
     "dir": "ltr",
@@ -1529,8 +1529,8 @@
   {
     "slug": "verify",
     "output": "verify.html",
-    "title": "Verify an Award &mdash; Worldwide English College",
-    "description": "Verify a Worldwide English College award. Enter the code from any WEC-LC certificate to confirm the award, the holder, the level and its standing.",
+    "title": "Verify an Award &mdash; WorldWide English College",
+    "description": "Verify a WorldWide English College award. Enter the code from any WEC-LC certificate to confirm the award, the holder, the level and its standing.",
     "contentFile": "verify.html",
     "lang": "en",
     "dir": "ltr",
@@ -1563,7 +1563,7 @@
   {
     "slug": "register",
     "output": "register.html",
-    "title": "The Graduate Register &mdash; Worldwide English College",
+    "title": "The Graduate Register &mdash; WorldWide English College",
     "description": "The College's roll of award holders. Search the Graduate Register by name or by award, from English Aspirant to English Laureate.",
     "contentFile": "register.html",
     "lang": "en",
@@ -1599,7 +1599,7 @@
   {
     "slug": "my-programme",
     "output": "my-programme.html",
-    "title": "My Programme &mdash; Worldwide English College",
+    "title": "My Programme &mdash; WorldWide English College",
     "description": "Your place in the International English Fluency Course: the next thing to open, your progress through the current level, and the levels you have completed.",
     "contentFile": "my-programme.html",
     "lang": "en",
@@ -1651,7 +1651,7 @@
   {
     "slug": "my-record",
     "output": "my-record.html",
-    "title": "My Academic Record &mdash; Worldwide English College",
+    "title": "My Academic Record &mdash; WorldWide English College",
     "description": "Everything the College holds about your studies, who else can see it, the links you have shared, and the documents you have had issued.",
     "contentFile": "my-record.html",
     "lang": "en",
@@ -1677,7 +1677,7 @@
   {
     "slug": "my-account",
     "output": "my-account.html",
-    "title": "My Account &mdash; Worldwide English College",
+    "title": "My Account &mdash; WorldWide English College",
     "description": "Your statement of account: what the College has assessed and remitted, every payment, receipt and refund, your instalment schedule, and the balance.",
     "contentFile": "my-account.html",
     "lang": "en",
@@ -1701,7 +1701,7 @@
   {
     "slug": "payment-complete",
     "output": "student-portal/payment-complete/index.html",
-    "title": "Payment &mdash; Worldwide English College",
+    "title": "Payment &mdash; WorldWide English College",
     "description": "What the College has received, the receipt issued against it, the level it opens, and the fourteen-day window that runs from the charge.",
     "contentFile": "student-portal-payment-complete.html",
     "lang": "en",
@@ -1726,7 +1726,7 @@
   {
     "slug": "my-standing",
     "output": "my-standing.html",
-    "title": "Where I Stand &mdash; Worldwide English College",
+    "title": "Where I Stand &mdash; WorldWide English College",
     "description": "Your module, level and skill marks, your academic standing and what the College owes you under it, and every milestone the College has honoured.",
     "contentFile": "my-standing.html",
     "lang": "en",
@@ -1751,7 +1751,7 @@
   {
     "slug": "my-week",
     "output": "my-week.html",
-    "title": "My Week &mdash; Worldwide English College",
+    "title": "My Week &mdash; WorldWide English College",
     "description": "One merged feed of every class, tutorial and dated obligation, in your own time zone — plus a calendar file to keep your own copy of it all.",
     "contentFile": "my-week.html",
     "lang": "en",
@@ -1777,7 +1777,7 @@
   {
     "slug": "my-desk",
     "output": "my-desk.html",
-    "title": "My Desk &mdash; Worldwide English College",
+    "title": "My Desk &mdash; WorldWide English College",
     "description": "Every notice the College has addressed to you, and every open conversation with your tutors or the Registrar's desk — nothing marked read unseen.",
     "contentFile": "my-desk.html",
     "lang": "en",
@@ -1804,7 +1804,7 @@
   {
     "slug": "my-cases",
     "output": "my-cases.html",
-    "title": "My Cases &mdash; Worldwide English College",
+    "title": "My Cases &mdash; WorldWide English College",
     "description": "Your appeals, complaints and requests to the Registrar: the stage each has reached, the day an answer is owed, and the procedure that governs it.",
     "contentFile": "my-cases.html",
     "lang": "en",
@@ -1832,7 +1832,7 @@
   {
     "slug": "my-engagement",
     "output": "my-engagement.html",
-    "title": "My Engagement &mdash; Worldwide English College",
+    "title": "My Engagement &mdash; WorldWide English College",
     "description": "Week by week and module by module, what reached the College: the evidence behind every state, its own reading, and what it cannot see at all.",
     "contentFile": "my-engagement.html",
     "lang": "en",
@@ -1861,7 +1861,7 @@
   {
     "slug": "my-module",
     "output": "my-module.html",
-    "title": "My Module &mdash; Worldwide English College",
+    "title": "My Module &mdash; WorldWide English College",
     "description": "One module of your level: its lessons, its assessments, what you have submitted, what the regulations leave you, and the College's live hours for the level.",
     "contentFile": "my-module.html",
     "lang": "en",
@@ -2131,7 +2131,7 @@
   {
     "slug": "graduate",
     "output": "graduate.html",
-    "title": "Graduate Record &mdash; Worldwide English College",
+    "title": "Graduate Record &mdash; WorldWide English College",
     "description": "A graduate's own record, published by them: awards conferred, transcript, competencies and the verification that lets a reader check any of it.",
     "contentFile": "graduate.html",
     "lang": "en",
@@ -2171,7 +2171,7 @@
   {
     "slug": "listening-lab",
     "output": "listening-lab.html",
-    "title": "Listening Lab &mdash; Worldwide English College",
+    "title": "Listening Lab &mdash; WorldWide English College",
     "description": "The IEFC listening instrument: a waveform you can loop, a synchronised transcript, comprehension marked on the server, and a recorder that keeps every take.",
     "contentFile": "listening-lab.html",
     "lang": "en",
@@ -2215,7 +2215,7 @@
   {
     "slug": "academics-ai-policy",
     "output": "academics/ai-policy/index.html",
-    "title": "Artificial Intelligence Policy &mdash; Worldwide English College",
+    "title": "Artificial Intelligence Policy &mdash; WorldWide English College",
     "description": "The four permission bands, which assessment sits on each, what a learner must declare, how an allegation is answered, and the rules the College holds itself to.",
     "contentFile": "academics-ai-policy.html",
     "extraCss": [
@@ -2243,7 +2243,7 @@
   {
     "slug": "academics-digital-learning",
     "output": "academics/digital-learning/index.html",
-    "title": "The Digital Learning Environment &mdash; Worldwide English College",
+    "title": "The Digital Learning Environment &mdash; WorldWide English College",
     "description": "What the College guarantees about the platform, what it records about study and why, how long a recording is kept, and the remedy if it fails.",
     "contentFile": "academics-digital-learning.html",
     "extraCss": [
@@ -2271,7 +2271,7 @@
   {
     "slug": "academics-tutor-handbook",
     "output": "academics/tutor-handbook/index.html",
-    "title": "The Tutor Handbook &mdash; Worldwide English College",
+    "title": "The Tutor Handbook &mdash; WorldWide English College",
     "description": "The operating instrument behind teaching and assessment: the post, the lesson, the marking clock, and the route for every case a tutor meets.",
     "contentFile": "academics-tutor-handbook.html",
     "extraCss": [
@@ -2299,7 +2299,7 @@
   {
     "slug": "governance-intellectual-property",
     "output": "governance/intellectual-property/index.html",
-    "title": "Intellectual Property &mdash; Worldwide English College",
+    "title": "Intellectual Property &mdash; WorldWide English College",
     "description": "Four estates of material and who holds each: the College’s volumes, a learner’s own work, the material a tutor produces, and the College’s name and marks.",
     "contentFile": "governance-intellectual-property.html",
     "extraCss": [
@@ -2327,7 +2327,7 @@
   {
     "slug": "governance-research",
     "output": "governance/research/index.html",
-    "title": "Research &amp; Publication &mdash; Worldwide English College",
+    "title": "Research &amp; Publication &mdash; WorldWide English College",
     "description": "What counts as evidence at this College, who may evaluate work they did not run, how a learner's data enters a study, and when a result is published.",
     "contentFile": "governance-research.html",
     "extraCss": [
@@ -2355,7 +2355,7 @@
   {
     "slug": "students-alumni",
     "output": "students/alumni/index.html",
-    "title": "Alumni Standing &mdash; Worldwide English College",
+    "title": "Alumni Standing &mdash; WorldWide English College",
     "description": "What the College owes a graduate after conferral: what alumni standing is, what it carries for life, what a chapter is, and how one is constituted.",
     "contentFile": "students-alumni.html",
     "extraCss": [
@@ -2383,7 +2383,7 @@
   {
     "slug": "students-careers",
     "output": "students/careers/index.html",
-    "title": "What the Qualification Is For &mdash; Worldwide English College",
+    "title": "What the Qualification Is For &mdash; WorldWide English College",
     "description": "What the College does with the use a learner names, what an employer can verify, the terms sponsors work under, and the graduate-outcomes method.",
     "contentFile": "students-careers.html",
     "extraCss": [
@@ -2411,7 +2411,7 @@
   {
     "slug": "students-conduct",
     "output": "students/conduct/index.html",
-    "title": "Conduct &amp; Learner Rights &mdash; Worldwide English College",
+    "title": "Conduct &amp; Learner Rights &mdash; WorldWide English College",
     "description": "One instrument in three parts: what the College owes the learner, what the learner owes the College, and what happens when either half breaks.",
     "contentFile": "students-conduct.html",
     "extraCss": [
@@ -2439,7 +2439,7 @@
   {
     "slug": "students-examinations",
     "output": "students/examinations/index.html",
-    "title": "Examination &amp; Assessment Regulations &mdash; Worldwide English College",
+    "title": "Examination &amp; Assessment Regulations &mdash; WorldWide English College",
     "description": "How an assessment is conducted: entry, identity, a dropped connection, lateness, mitigation, release, resit, challenge and retention.",
     "contentFile": "students-examinations.html",
     "extraCss": [
@@ -2467,7 +2467,7 @@
   {
     "slug": "students-handbook",
     "output": "students/handbook/index.html",
-    "title": "The Student Handbook &mdash; Worldwide English College",
+    "title": "The Student Handbook &mdash; WorldWide English College",
     "description": "The compact of enrolment, the shape of a week, the office that answers each kind of problem, what a pause is worth, and what equipment is genuinely required.",
     "contentFile": "students-handbook.html",
     "extraCss": [
@@ -2495,7 +2495,7 @@
   {
     "slug": "support-complaints",
     "output": "support/complaints/index.html",
-    "title": "Complaints &mdash; Worldwide English College",
+    "title": "Complaints &mdash; WorldWide English College",
     "description": "What may be complained about, who investigates, how long each step takes, what an upheld complaint gets you — and why complaining costs nothing.",
     "contentFile": "support-complaints.html",
     "extraCss": [
@@ -2523,7 +2523,7 @@
   {
     "slug": "support-inclusion",
     "output": "support/inclusion/index.html",
-    "title": "Equality, Diversity &amp; Inclusion &mdash; Worldwide English College",
+    "title": "Equality, Diversity &amp; Inclusion &mdash; WorldWide English College",
     "description": "Equality written as things the College does, each with an office that owns it and a deadline — including why identity is not what it monitors.",
     "contentFile": "support-inclusion.html",
     "extraCss": [
@@ -2551,7 +2551,7 @@
   {
     "slug": "support-safeguarding",
     "output": "support/safeguarding/index.html",
-    "title": "Safeguarding &amp; Learner Wellbeing &mdash; Worldwide English College",
+    "title": "Safeguarding &amp; Learner Wellbeing &mdash; WorldWide English College",
     "description": "Written for a College without a building: who is protected, the boundaries every instructor works inside, and what the College can and cannot reach.",
     "contentFile": "support-safeguarding.html",
     "extraCss": [
@@ -2579,7 +2579,7 @@
   {
     "slug": "admissions-international",
     "output": "admissions/international/index.html",
-    "title": "Studying From Your Own Country &mdash; Worldwide English College",
+    "title": "Studying From Your Own Country &mdash; WorldWide English College",
     "description": "Guidance for applicants outside the UK: what the award does at a border, what genuinely differs between countries, and what the College can do.",
     "contentFile": "admissions-international.html",
     "extraCss": [
@@ -2593,7 +2593,7 @@
   {
     "slug": "admissions-track",
     "output": "admissions/track/index.html",
-    "title": "Track your application &mdash; Worldwide English College",
+    "title": "Track your application &mdash; WorldWide English College",
     "description": "Enter your reference for the whole of what the College holds: which of five stages you're at, the audited record, what's outstanding, and your offer.",
     "contentFile": "admissions-track.html",
     "lang": "en",
@@ -2643,7 +2643,7 @@
   {
     "slug": "governance-quality-manual",
     "output": "governance/quality-manual/index.html",
-    "title": "The Quality Assurance Manual &mdash; Worldwide English College",
+    "title": "The Quality Assurance Manual &mdash; WorldWide English College",
     "description": "Adopted by the Executive on the Institutional Quality Commission's recommendation: ten leaves where every station carries a month, owner and deadline.",
     "contentFile": "governance-quality-manual.html",
     "extraCss": [
@@ -2671,7 +2671,7 @@
   {
     "slug": "staff-desk",
     "output": "staff-desk.html",
-    "title": "The Tutor&rsquo;s Desk &mdash; Worldwide English College",
+    "title": "The Tutor&rsquo;s Desk &mdash; WorldWide English College",
     "description": "Everything the College is waiting on a member of staff for — marking, a register, a learner who wrote in, a case falling due — in the order it arrived.",
     "contentFile": "staff-desk.html",
     "lang": "en",
@@ -2721,7 +2721,7 @@
   {
     "slug": "staff-marking",
     "output": "staff-marking.html",
-    "title": "Marking &mdash; Worldwide English College",
+    "title": "Marking &mdash; WorldWide English College",
     "description": "The written work and the spoken work waiting to be marked, oldest first, each piece carrying the rubric it was set against and the mark it is a resit of.",
     "contentFile": "staff-marking.html",
     "lang": "en",
@@ -2771,7 +2771,7 @@
   {
     "slug": "staff-learners",
     "output": "staff-learners.html",
-    "title": "My Learners &mdash; Worldwide English College",
+    "title": "My Learners &mdash; WorldWide English College",
     "description": "The learners in a tutor's care, how each has engaged beside the platform's own reading of it, the register a tutor may take, and level completion.",
     "contentFile": "staff-learners.html",
     "lang": "en",
@@ -2821,7 +2821,7 @@
   {
     "slug": "staff-hours",
     "output": "staff-hours.html",
-    "title": "My Hours &mdash; Worldwide English College",
+    "title": "My Hours &mdash; WorldWide English College",
     "description": "The hours a member of staff has opened for learners to book, who is in each one, and a withdrawal's reason travelling to everybody it affects.",
     "contentFile": "staff-hours.html",
     "lang": "en",
@@ -2871,7 +2871,7 @@
   {
     "slug": "staff-notices",
     "output": "staff-notices.html",
-    "title": "Notices &mdash; Worldwide English College",
+    "title": "Notices &mdash; WorldWide English College",
     "description": "The notice board a member of staff writes from — drafted, published, amended or withdrawn with the reason on record — and every open thread.",
     "contentFile": "staff-notices.html",
     "lang": "en",
@@ -2921,7 +2921,7 @@
   {
     "slug": "staff-cases",
     "output": "staff-cases.html",
-    "title": "Cases &mdash; Worldwide English College",
+    "title": "Cases &mdash; WorldWide English College",
     "description": "Every appeal, complaint, withdrawal, deferral and transfer the College has open, in due order, with who may not hear each one named beside it.",
     "contentFile": "staff-cases.html",
     "lang": "en",
@@ -2971,7 +2971,7 @@
   {
     "slug": "staff-admissions",
     "output": "staff-admissions.html",
-    "title": "Admissions &mdash; Worldwide English College",
+    "title": "Admissions &mdash; WorldWide English College",
     "description": "Everyone who has asked to be admitted, in order, with what each application awaits, what may lawfully happen next, and the offer that answers it.",
     "contentFile": "staff-admissions.html",
     "lang": "en",
@@ -3021,7 +3021,7 @@
   {
     "slug": "staff-enrolments",
     "output": "staff-enrolments.html",
-    "title": "Enrolments &mdash; Worldwide English College",
+    "title": "Enrolments &mdash; WorldWide English College",
     "description": "Placing a learner on a level where no card payment did it — a scholarship, a transfer, a corporate seat — and the register of who may reach a record.",
     "contentFile": "staff-enrolments.html",
     "lang": "en",
@@ -3071,7 +3071,7 @@
   {
     "slug": "staff-finance",
     "output": "staff-finance.html",
-    "title": "Finance &mdash; Worldwide English College",
+    "title": "Finance &mdash; WorldWide English College",
     "description": "What the College has taken over any period, and the standing question of whether its payments, receipts and enrolments still agree with one another.",
     "contentFile": "staff-finance.html",
     "lang": "en",
@@ -3121,7 +3121,7 @@
   {
     "slug": "staff-administration",
     "output": "staff-administration.html",
-    "title": "Administration &mdash; Worldwide English College",
+    "title": "Administration &mdash; WorldWide English College",
     "description": "What the College measures and can evidence about itself, the keys it signs an award with, who may query the Register, and what retention destroys.",
     "contentFile": "staff-administration.html",
     "lang": "en",
@@ -3171,8 +3171,8 @@
   {
     "slug": "governance-instruments",
     "output": "governance/instruments/index.html",
-    "title": "The Register of Instruments &mdash; Worldwide English College",
-    "description": "Every rule Worldwide English College operates under, in one register: what each instrument governs, who owns it, and who adopted the text.",
+    "title": "The Register of Instruments &mdash; WorldWide English College",
+    "description": "Every rule WorldWide English College operates under, in one register: what each instrument governs, who owns it, and who adopted the text.",
     "contentFile": "governance-instruments.html",
     "lang": "en",
     "dir": "ltr",
@@ -3202,7 +3202,7 @@
   {
     "slug": "staff-examinations",
     "output": "staff-examinations.html",
-    "title": "Examinations &mdash; Worldwide English College",
+    "title": "Examinations &mdash; WorldWide English College",
     "description": "Level examination scripts waiting for a first reading and for a second, the reconciliations to be settled in writing, and the release that follows all of it.",
     "contentFile": "staff-examinations.html",
     "lang": "en",
@@ -3254,7 +3254,7 @@
   {
     "slug": "staff-papers",
     "output": "staff-papers.html",
-    "title": "Examination Papers &mdash; Worldwide English College",
+    "title": "Examination Papers &mdash; WorldWide English College",
     "description": "The paper set at each level, the rubric it is marked against, and the dated act of publishing one.",
     "contentFile": "staff-papers.html",
     "lang": "en",
@@ -3306,7 +3306,7 @@
   {
     "slug": "my-examination",
     "output": "my-examination.html",
-    "title": "My Examination &mdash; Worldwide English College",
+    "title": "My Examination &mdash; WorldWide English College",
     "description": "What you're entered for, the sitting reference you read aloud, the window and the three-hour clock, and what happens to the paper you hand in.",
     "contentFile": "my-examination.html",
     "lang": "en",
@@ -3362,7 +3362,7 @@
   {
     "slug": "my-award",
     "output": "my-award.html",
-    "title": "My Awards &mdash; Worldwide English College",
+    "title": "My Awards &mdash; WorldWide English College",
     "description": "Every award the College has conferred on you, drawn as the certificate itself, with the verification code and the signing key a stranger checks.",
     "contentFile": "my-award.html",
     "lang": "en",
@@ -3418,7 +3418,7 @@
   {
     "slug": "my-downloads",
     "output": "my-downloads.html",
-    "title": "My Files &mdash; Worldwide English College",
+    "title": "My Files &mdash; WorldWide English College",
     "description": "The identity the College holds you under, and every file it has issued or licensed to you — certificates, documents, invoices and the Library.",
     "contentFile": "my-downloads.html",
     "lang": "en",
@@ -3474,7 +3474,7 @@
   {
     "slug": "staff-conferral",
     "output": "staff-conferral.html",
-    "title": "Conferral &mdash; Worldwide English College",
+    "title": "Conferral &mdash; WorldWide English College",
     "description": "Who may be conferred on, who is waiting on the College rather than themselves, and who already holds an award — with each certificate's wording.",
     "contentFile": "staff-conferral.html",
     "lang": "en",

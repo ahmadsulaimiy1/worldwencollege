@@ -62,7 +62,7 @@ export const CONSTITUTIONS = [
     name: 'Institutional Publishing Constitution',
     purpose: 'What the Press is, and what it may say it is.',
     clauses: [
-      c(F.ADOPTED, 'Worldwide English College Press is an imprint of Worldwide English College, '
+      c(F.ADOPTED, 'WorldWide English College Press is an imprint of WorldWide English College, '
         + 'London Campus. It has no separate legal personality, no appointed staff, no ISBN '
         + 'publisher prefix and no distribution agreement. No publication may imply otherwise.'),
       c(F.ENFORCED, 'No publication may state or imply that the College is accredited, recognised, '

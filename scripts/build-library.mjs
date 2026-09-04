@@ -419,7 +419,7 @@ const LANG = {
     onRequest: 'On request',
     overNote: 'Over the 25&nbsp;MB limit this host accepts for a single file. That is a hosting constraint and nothing else: the volume is supplied in full on request, and the same material is downloadable above in the Flagship Curriculum and the Programme Architecture.',
     citeLabel: 'How to cite, and what you may do with these',
-    cite: 'Cite as <em>Worldwide English College</em>, WEC Press, with the volume title and the edition year. Every page of every volume prints its title, the College&rsquo;s name and its edition mark, so a quotation can be traced to the page it came from &mdash; the full terms are in <a href="#licence">The Licence</a> below. Every volume is authored inside the College and has not yet been read by a qualified reader from outside it &mdash; <a href="/press/#review">On review</a> sets out what that means, and offers a copy to anyone willing to change it.',
+    cite: 'Cite as <em>WorldWide English College</em>, WEC Press, with the volume title and the edition year. Every page of every volume prints its title, the College&rsquo;s name and its edition mark, so a quotation can be traced to the page it came from &mdash; the full terms are in <a href="#licence">The Licence</a> below. Every volume is authored inside the College and has not yet been read by a qualified reader from outside it &mdash; <a href="/press/#review">On review</a> sets out what that means, and offers a copy to anyone willing to change it.',
     ctaH2: 'The curriculum is open. The programme is the part you enrol in.',
     ctaA: ['/academics/#levels', 'The Six Levels'],
     ctaB: ['/admissions/tuition/#ladder', 'What It Costs'],

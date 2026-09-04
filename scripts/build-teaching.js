@@ -161,7 +161,7 @@ const PAGES = {};
 PAGES.hub = {
   slug: 'academics-teaching', output: 'academics/teaching/index.html', file: 'academics-teaching.html',
   contents: true, altHref: '/ar/academics/teaching/',
-  title: 'Teaching Practice &mdash; Worldwide English College',
+  title: 'Teaching Practice &mdash; WorldWide English College',
   description: 'How WEC-LC teaches: the method, how a lesson is designed, the support record a '
     + 'teacher works from, the Companion, and how development and observation are meant to work.',
   body: `${hero('Academics', 'How the College teaches.',

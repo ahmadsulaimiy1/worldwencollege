@@ -95,7 +95,7 @@
       <text x="350.0" y="308.0" text-anchor="end" font-family="'EB Garamond', Georgia, serif" font-size="10.6" fill="rgba(247,244,236,.68)">السمات التي بُنيت كل مجموعة لاستهدافها</text>
   <path d="M366.0 338.0 h-9.0"
         stroke="#E4D5A8" stroke-width="1" opacity=".7"/>
-      <text x="350.0" y="342.0" text-anchor="end" font-family="'EB Garamond', Georgia, serif" font-size="10.6" fill="rgba(247,244,236,.68)">بيانٌ لما يُنشر نصًّا وما لم يُسجَّل صوتًا بعد</text>
+      <text x="350.0" y="342.0" text-anchor="end" font-family="'EB Garamond', Georgia, serif" font-size="10.6" fill="rgba(247,244,236,.68)">صدرٌ يذكر الصورة صراحةً: هذه هي النصوص، وتسجيلها عملٌ</text><text x="350.0" y="356.8" text-anchor="end" font-family="'EB Garamond', Georgia, serif" font-size="10.6" fill="rgba(247,244,236,.68)">مستقل</text>
 
   <path d="M54 430 H366" stroke="#E4D5A8" stroke-width=".5" opacity=".35"/>
   <text x="114.0" y="470.0" text-anchor="middle" font-family="Inter, 'Helvetica Neue', sans-serif" font-size="7.0" font-weight="600" letter-spacing="1.4" fill="#E4D5A8" opacity="0.5">صفحة</text>

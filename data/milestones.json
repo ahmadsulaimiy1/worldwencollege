@@ -60,7 +60,7 @@
     "id": "wec.milestone_register",
     "version": "1.0.0",
     "title": {
-      "en": "The Milestone Register of Worldwide English College",
+      "en": "The Milestone Register of WorldWide English College",
       "ar": "سجلّ المحطّات في كلية العالم للغة الإنجليزية"
     },
     "status": "proposed",
@@ -426,7 +426,7 @@
       "evidence_source": "awards",
       "name": { "en": "English Aspirant", "ar": "طالب اللغة الإنجليزية" },
       "academic_fact": {
-        "en": "The Level I award — English Aspirant of Worldwide English College, ApWEC, CEFR A1, 20 credits — has been conferred and stands on the register.",
+        "en": "The Level I award — English Aspirant of WorldWide English College, ApWEC, CEFR A1, 20 credits — has been conferred and stands on the register.",
         "ar": "مُنحت شهادة المستوى الأول — طالب اللغة الإنجليزية بكلية العالم للغة الإنجليزية، ApWEC، الإطار الأوروبي A1، عشرون اعتمادًا — وهي قائمة في السجلّ."
       },
       "condition": {
@@ -465,7 +465,7 @@
       "evidence_source": "awards",
       "name": { "en": "English Candidate", "ar": "مرشّح اللغة الإنجليزية" },
       "academic_fact": {
-        "en": "The Level II award — English Candidate of Worldwide English College, CnWEC, CEFR A2, 20 credits — has been conferred and stands on the register.",
+        "en": "The Level II award — English Candidate of WorldWide English College, CnWEC, CEFR A2, 20 credits — has been conferred and stands on the register.",
         "ar": "مُنحت شهادة المستوى الثاني — مرشّح اللغة الإنجليزية بكلية العالم للغة الإنجليزية، CnWEC، الإطار الأوروبي A2، عشرون اعتمادًا — وهي قائمة في السجلّ."
       },
       "condition": {
@@ -504,7 +504,7 @@
       "evidence_source": "awards",
       "name": { "en": "English Associate", "ar": "زميل اللغة الإنجليزية" },
       "academic_fact": {
-        "en": "The Level III award — English Associate of Worldwide English College, AsWEC, CEFR B1, 20 credits — has been conferred and stands on the register.",
+        "en": "The Level III award — English Associate of WorldWide English College, AsWEC, CEFR B1, 20 credits — has been conferred and stands on the register.",
         "ar": "مُنحت شهادة المستوى الثالث — زميل اللغة الإنجليزية بكلية العالم للغة الإنجليزية، AsWEC، الإطار الأوروبي B1، عشرون اعتمادًا — وهي قائمة في السجلّ."
       },
       "condition": {
@@ -543,7 +543,7 @@
       "evidence_source": "awards",
       "name": { "en": "English Envoy", "ar": "موفد اللغة الإنجليزية" },
       "academic_fact": {
-        "en": "The Level IV award — English Envoy of Worldwide English College, EnWEC, CEFR B2, 20 credits — has been conferred and stands on the register.",
+        "en": "The Level IV award — English Envoy of WorldWide English College, EnWEC, CEFR B2, 20 credits — has been conferred and stands on the register.",
         "ar": "مُنحت شهادة المستوى الرابع — موفد اللغة الإنجليزية بكلية العالم للغة الإنجليزية، EnWEC، الإطار الأوروبي B2، عشرون اعتمادًا — وهي قائمة في السجلّ."
       },
       "condition": {
@@ -582,7 +582,7 @@
       "evidence_source": "awards",
       "name": { "en": "English Orator", "ar": "خطيب اللغة الإنجليزية" },
       "academic_fact": {
-        "en": "The Level V award — English Orator of Worldwide English College, OrWEC, CEFR C1, 20 credits — has been conferred and stands on the register.",
+        "en": "The Level V award — English Orator of WorldWide English College, OrWEC, CEFR C1, 20 credits — has been conferred and stands on the register.",
         "ar": "مُنحت شهادة المستوى الخامس — خطيب اللغة الإنجليزية بكلية العالم للغة الإنجليزية، OrWEC، الإطار الأوروبي C1، عشرون اعتمادًا — وهي قائمة في السجلّ."
       },
       "condition": {
@@ -621,7 +621,7 @@
       "evidence_source": "awards",
       "name": { "en": "English Laureate", "ar": "متوَّج اللغة الإنجليزية" },
       "academic_fact": {
-        "en": "The Level VI award — English Laureate of Worldwide English College, LrWEC, CEFR C2, 20 credits — has been conferred and stands on the register.",
+        "en": "The Level VI award — English Laureate of WorldWide English College, LrWEC, CEFR C2, 20 credits — has been conferred and stands on the register.",
         "ar": "مُنحت شهادة المستوى السادس — متوَّج اللغة الإنجليزية بكلية العالم للغة الإنجليزية، LrWEC، الإطار الأوروبي C2، عشرون اعتمادًا — وهي قائمة في السجلّ."
       },
       "condition": {
