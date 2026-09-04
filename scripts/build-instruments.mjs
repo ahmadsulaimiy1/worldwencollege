@@ -145,11 +145,14 @@ const COPY = {
     datesRubric: 'Three sittings, and what was adopted at each.',
     datesHead: 'Where a date comes from, when there is one.',
     datesLede: (dated, undated) => `${dated} of the ${dated + undated} instruments state a date of `
-      + 'adoption. The dates below are the three sittings on the record at the Decisions '
-      + 'Register, and every stated date is one of them. The other '
-      + `${undated} are published under the standing authority of the Executive, which is the `
-      + 'College’s constituted decision-making body, and this register prints that authority '
-      + 'without a date rather than a date without a minute.',
+      + 'adoption. Four of those dates are drawn from the three Executive sittings on the '
+      + 'Decisions Register, shown below. The other three carry a different kind of date: the '
+      + 'Academic Regulations and the Examination &amp; Assessment Regulations are dated '
+      + '20&nbsp;August&nbsp;2026, and the Quality Architecture 18&nbsp;August&nbsp;2026. Each '
+      + 'marks when the instrument was formally adopted, on decisions already taken at an '
+      + 'earlier sitting; neither carries a sitting of its own in the Decisions Register. The '
+      + `remaining ${undated} are published under the Executive’s standing authority, and this `
+      + 'register prints that authority without a date rather than a date without a minute.',
     sitting: () => 'decisions adopted',
     honestHead: 'What this register does not do',
     honestBody: 'It does not date an instrument the College has not dated, it does not promote '
@@ -196,8 +199,12 @@ const COPY = {
     datesRubric: 'ثلاث جلسات، وما اعتُمد في كلٍّ منها.',
     datesHead: 'من أين يأتي التاريخ، حين يوجد.',
     datesLede: (dated, undated) => `${dated} من الأدوات الـ${dated + undated} تذكر تاريخ `
-      + 'اعتمادها. والتواريخ أدناه هي الجلسات الثلاث المقيَّدة في سجلّ القرارات، وكلّ تاريخ '
-      + `مذكور واحدٌ منها. وأمّا الـ${undated} الباقية فمنشورة بالسلطة القائمة للإدارة `
+      + 'اعتمادها. أربعة من هذه التواريخ مأخوذة من الجلسات التنفيذية الثلاث المقيَّدة في سجلّ '
+      + 'القرارات، الموضّحة أدناه. أمّا الثلاثة الباقية — اللوائح الأكاديمية ولوائح الامتحانات '
+      + 'والتقييم، وكلتاهما بتاريخ ٢٠ أغسطس ٢٠٢٦، وبنية الجودة، بتاريخ ١٨ أغسطس ٢٠٢٦ — فتُبيّن '
+      + 'متى اعتُمدت الأداة نفسها رسميًّا، بناءً على قرارات اتُّخذت في جلسة سابقة؛ ولا يحمل '
+      + 'أيٌّ من هذين التاريخين جلسته الخاصة في سجلّ القرارات. '
+      + `وأمّا الـ${undated} الباقية فمنشورة بالسلطة القائمة للإدارة `
       + 'التنفيذية، وهي هيئة القرار المكوَّنة في الكلية، ويطبع هذا السجل تلك السلطة بلا تاريخ، '
       + 'بدل أن يطبع تاريخًا بلا محضر.',
     // Arabic counted-noun agreement: 3-10 takes the plural ("قرارات"),
@@ -396,9 +403,8 @@ const ENTRIES = [
     slug: 'governance-instruments',
     output: 'governance/instruments/index.html',
     title: 'The Register of Instruments &mdash; WorldWide English College',
-    description: 'Every rule WorldWide English College operates under, in one register: '
-      + 'twenty-four instruments, what each governs, the body that owns the subject matter and '
-      + 'the body that adopted the text.',
+    description: 'Every rule the College operates under, in one register: twenty-four '
+      + 'instruments, each with what it governs and the body that adopted it.',
     contentFile: 'governance-instruments.html',
     lang: 'en', dir: 'ltr', contents: true,
     altHref: '/ar/governance/instruments/',
