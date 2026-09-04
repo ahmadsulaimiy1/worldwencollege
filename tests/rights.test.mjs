@@ -290,13 +290,8 @@ const RENDERERS = [
         // The holder's name may carry a year between the symbol and the
         // name — "© 2026 WorldWide English College" on a cover panel,
         // "© WorldWide English College" in a running foot. Both are the
-        // notice; only the absence of one is a fault. Casing is matched
-        // loosely here on purpose: the source now spells the holder's
-        // name "WorldWide" throughout, but not every already-rendered
-        // volume has been regenerated to carry it — that is tracked
-        // separately as a full 16-volume re-render, not a defect this
-        // check exists to catch.
-        if (!/©\s*(?:\d{4}\s*)?worldwide\s*english\s*college/i.test(text)) {
+        // notice; only the absence of one is a fault.
+        if (!/©\s*(?:\d{4}\s*)?WorldWide\s*English\s*College/.test(text)) {
           bad.push(`${v.slug} p${i}: no copyright notice`);
         }
         if (!/WEC-LC[·.·]/.test(text)) bad.push(`${v.slug} p${i}: no edition mark`);
