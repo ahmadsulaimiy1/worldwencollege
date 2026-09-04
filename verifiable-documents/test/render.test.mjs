@@ -116,7 +116,7 @@ test('the engine is COLLECTIVE — a second institution renders with no engine e
   });
   const cert = R.renderAwardCertificate(AWARD, { issuer: AMICAS });
   assert.ok(cert.includes('Al-Madeenah International College') && cert.includes('almadeenah.example'));
-  assert.ok(!cert.includes('Worldwide English College'), 'default institution leaked in');
+  assert.ok(!cert.includes('WorldWide English College'), 'default institution leaked in');
 
   assert.equal(
     REG.certificateSecretLabel({ code: 'AMIC-4K7P-9WQ2-MXR8T', kind: 'signing-key', year: '2026', issuer: AMICAS }),
@@ -178,7 +178,7 @@ test('an ID card for a different institution renders with no engine edits', () =
   });
   const card = R.renderIdCard({ holderName: 'Sumayyah Q', role: 'Alumnus', verificationCode: 'AMIC-4K7P-9WQ2-MXR8T' }, { issuer: AMICAS });
   assert.ok(card.includes('Al-Madeenah International College') && card.includes('almadeenah.example'));
-  assert.ok(!card.includes('Worldwide English College'));
+  assert.ok(!card.includes('WorldWide English College'));
 });
 
 test('the document-type registry catalogues the built-ins and dispatches generically', () => {

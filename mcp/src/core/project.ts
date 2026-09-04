@@ -203,7 +203,7 @@ export function parseProjects(raw: string | undefined): ProjectProfileInput[] {
     throw new StromexError({
       code: 'CONFIG_INVALID',
       message: 'STROMEX_MCP_PROJECTS is not valid JSON.',
-      remediation: 'Expected an array, e.g. [{"key":"wec","name":"Worldwide English College","protectedResources":["wec-production*"]}]',
+      remediation: 'Expected an array, e.g. [{"key":"wec","name":"WorldWide English College","protectedResources":["wec-production*"]}]',
       cause,
     });
   }

@@ -63,7 +63,7 @@ export function defineIssuer({ key, legalName, codePrefix, verifyOrigin, sealMar
  */
 export const WEC = defineIssuer({
   key: 'wec',
-  legalName: 'Worldwide English College — London Campus',
+  legalName: 'WorldWide English College — London Campus',
   codePrefix: 'WEC',
   verifyOrigin: 'https://www.worldwencollege.co.uk',
   sealMark: 'WEC',
@@ -98,7 +98,7 @@ export function resolveIssuer(issuer) {
   return Object.isFrozen(issuer) && issuer.key ? issuer : defineIssuer(issuer);
 }
 
-/** The verification-code shape for one issuer, e.g. /^WEC-…$/ for Worldwide English College. */
+/** The verification-code shape for one issuer, e.g. /^WEC-…$/ for WorldWide English College. */
 export function codePattern(codePrefix) {
   return new RegExp(`^${codePrefix}-[0-9A-Z]{4}-[0-9A-Z]{4}-[0-9A-Z]{5}$`);
 }
