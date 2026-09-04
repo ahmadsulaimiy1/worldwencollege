@@ -100,6 +100,13 @@
     stepNotSaved: 'تعذّر حفظ هذه الخطوة الآن. إجاباتك ما زالت في النموذج — اضغط «متابعة» مرّة أخرى.',
     submitFailed: 'لم يصل الطلب. ولم يضع شيء — إجاباتك محفوظة؛ اضغط «إرسال» مرّة أخرى، أو اكتب إلى إدارة القبول مباشرة.',
     reviewYes: 'نعم', reviewNo: 'لا', reviewEmpty: '—',
+    reviewDocumentLabel: 'وثيقة الهوية',
+    reviewDocumentCount: function (n) {
+      if (n === 1) return 'ملف واحد مرفوع';
+      if (n === 2) return 'ملفان مرفوعان';
+      if (n >= 3 && n <= 10) return n + ' ملفات مرفوعة';
+      return n + ' ملفًا مرفوعًا';
+    },
     statuses: {
       submitted: 'أُرسل',
       placement_pending: 'بانتظار تحديد المستوى',
@@ -122,6 +129,8 @@
     stepNotSaved: 'That step could not be saved just now. Your answers are still in the form — try Continue again.',
     submitFailed: 'Submission did not go through. Nothing has been lost — your answers are saved; try Submit again, or write to Admissions directly.',
     reviewYes: 'Yes', reviewNo: 'No', reviewEmpty: '—',
+    reviewDocumentLabel: 'Identity document',
+    reviewDocumentCount: function (n) { return n + (n === 1 ? ' file uploaded' : ' files uploaded'); },
     statuses: {
       submitted: 'Submitted',
       placement_pending: 'Placement pending',
@@ -363,12 +372,34 @@
     });
   }
 
+  // One ledger per stage, not one twenty-odd-row list — grouped under
+  // the same headings the stepper above already uses (read straight
+  // from its own label text, so the two cannot drift apart), plus a
+  // status row for the identity document, which travels through its
+  // own binary endpoint and so has no [name] field of its own to be
+  // picked up by the loop below. Without it an applicant who just
+  // uploaded a passport scan got no confirmation of it anywhere on the
+  // one screen meant to build confidence before they submit.
   function renderReview() {
-    var dl = $('[data-review-summary]');
-    if (!dl) return;
-    dl.innerHTML = '';
-    steps.forEach(function (el) {
+    var container = $('[data-review-summary]');
+    if (!container) return;
+    container.innerHTML = '';
+    var dl = null;
+    var openStage = -1;
+    steps.forEach(function (el, i) {
       if (el.getAttribute('data-step') === 'review') return;
+      var stage = stageOf[i];
+      if (stage !== openStage) {
+        openStage = stage;
+        var stepperLabel = stepperNodes[stage] && $('.stepper__label', stepperNodes[stage]);
+        var heading = document.createElement('h3');
+        heading.className = 'review-summary__heading';
+        heading.textContent = stepperLabel ? stepperLabel.textContent : '';
+        container.appendChild(heading);
+        dl = document.createElement('dl');
+        dl.className = 'review-summary';
+        container.appendChild(dl);
+      }
       $$('[name]', el).forEach(function (input) {
         var label = input.closest('.field') && input.closest('.field').querySelector('[data-review-label]');
         if (!label) return;
@@ -390,6 +421,23 @@
         dl.appendChild(dt);
         dl.appendChild(dd);
       });
+      if (el.getAttribute('data-step') === 'identity-document') {
+        var docDt = document.createElement('dt');
+        docDt.textContent = T.reviewDocumentLabel;
+        var docDd = document.createElement('dd');
+        docDd.textContent = T.checkingUpload;
+        docDd.setAttribute('data-review-document', '');
+        dl.appendChild(docDt);
+        dl.appendChild(docDd);
+      }
+    });
+    api('/api/admissions/document').then(function (result) {
+      var docDd = $('[data-review-document]', container);
+      if (!docDd) return;
+      docDd.textContent = result.documents.length ? T.reviewDocumentCount(result.documents.length) : T.nothingUploaded;
+    }).catch(function () {
+      var docDd = $('[data-review-document]', container);
+      if (docDd) docDd.textContent = T.couldNotCheck;
     });
   }
 

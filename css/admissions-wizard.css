@@ -137,7 +137,21 @@
    review screen has always been, given the paper it deserves — one
    bordered ledger, a gold rule under every row, the label carrying the
    quiet weight (a small-caps eyebrow, not a bare word) so a page of
-   twenty-odd facts still reads as one considered document. */
+   twenty-odd facts still reads as one considered document.
+
+   One ledger PER STAGE, not one twenty-odd-row list — the same four
+   groups the stepper above already named, so a reader can find "did I
+   answer the tuition question" without scanning past everything else.
+   Each heading reuses the stepper's own label text (see renderReview()
+   in js/admissions-wizard.js) rather than a second, separately
+   authored copy that could drift from it. */
+.review-summary__heading {
+  margin: 28px 0 10px;
+  font: 700 .78rem/1.3 var(--font-body, Inter, sans-serif);
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--royal-deep, #14264A);
+}
+.review-summary__heading:first-child { margin-top: 0; }
 .review-summary {
   display: grid; grid-template-columns: minmax(170px, 1fr) 2fr;
   gap: 0; margin: 0 0 24px; font-size: .92rem;
