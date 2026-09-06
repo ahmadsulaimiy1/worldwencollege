@@ -30,6 +30,18 @@ Three classes, and the class decides — not the tool's own code
   authority, and it is meant to be exercised.
 - **protected** — permanently destroys; never autonomous.
 
+**Credential-management carve-out** (ruled by the owner, 6 September
+2026, `SEB §16.4`): creating, rotating and deleting a secret, an API key,
+or an environment variable — a credential the operator itself manages —
+is **write**, not `protected`, across every provider, and needs no
+per-call approval. Deleting the *account* that holds those credentials
+(a GitHub, Cloudflare, Clerk, Vercel or Resend account itself) is not
+covered — no tool performs that action, and none is to be added, the same
+way no tool deletes a repository. Every other `protected` classification
+(a database, a bucket, a domain, a Worker, a Clerk user or organisation,
+a Pages project) governs a resource with real data or a real person
+behind it and stays gated pending a separate ruling.
+
 Above them, two absolutes:
 
 1. **A protected resource is never destroyed by this server**, with or

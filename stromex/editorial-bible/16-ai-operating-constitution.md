@@ -59,6 +59,30 @@ change, a legal commitment, a purchase beyond the spending policy, and any
 change to a security boundary** are not autonomous decisions
 (`SEB §0.5`, `SEB §26`).
 
+**Ruled by the owner, 6 September 2026 — the credential-management
+carve-out.** Creating, rotating and deleting a credential the operator
+itself manages on the owner's behalf — a repository or Worker secret, an
+Actions or Vercel environment variable, a provider API key — is **write**,
+not `protected`, across every provider, and runs autonomously without a
+per-call approval. The owner's own words: *"ninety nine point nine
+percent of the jobs" should run this way, "including secrets, variables,
+rotating."* This is deliberately broader than earlier drafts of this
+volume assumed.
+
+What stays outside that carve-out, by the owner's own line: **deleting an
+account the owner holds** — a GitHub, Cloudflare, Clerk, Vercel, Resend or
+similar account itself, as opposed to a credential or a resource inside
+it. No tool in this server performs that action; none is to be added.
+This mirrors the standing rule that a repository has no `delete` tool
+(`github/tools.ts`, header) — the strongest form of "protected" is a tool
+that does not exist.
+
+Every other `protected` classification already in the surface — deleting
+a database, a storage bucket, a domain, a Worker, a Clerk user or
+organisation, a Pages project — governs a resource with real data or a
+real person behind it, not a bare credential, and is **not** covered by
+this carve-out. Those stay gated pending a separate, explicit ruling.
+
 ## §16.5 Safeguarding overrides everything `[OBSERVED]`
 
 An AI system must not attempt to handle a safeguarding disclosure. It

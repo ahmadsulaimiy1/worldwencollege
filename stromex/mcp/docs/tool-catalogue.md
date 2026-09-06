@@ -6,25 +6,25 @@ disagree — which is how the entire OpenAI provider came to be missing from
 it for a release (`SEB-D 29`).
 
 **181 tools** across **9 providers**:
-**85 read**, **79 write**, **17 protected**.
+**85 read**, **83 write**, **13 protected**.
 
 | Provider | Tools | read | write | protected |
 |---|---|---|---|---|
-| `cloudflare` | 46 | 22 | 16 | 8 |
-| `github` | 24 | 13 | 10 | 1 |
+| `cloudflare` | 46 | 22 | 17 | 7 |
+| `github` | 24 | 13 | 11 | 0 |
 | `clerk` | 19 | 7 | 10 | 2 |
 | `brevo` | 17 | 9 | 7 | 1 |
 | `neon` | 17 | 9 | 7 | 1 |
 | `openai` | 17 | 1 | 16 | 0 |
-| `vercel` | 17 | 8 | 7 | 2 |
+| `vercel` | 17 | 8 | 8 | 1 |
 | `stromex` | 13 | 12 | 1 | 0 |
-| `resend` | 11 | 4 | 5 | 2 |
-| **total** | **181** | **85** | **79** | **17** |
+| `resend` | 11 | 4 | 6 | 1 |
+| **total** | **181** | **85** | **83** | **13** |
 
 ## The protected operations
 
 Every one requires an explicit approval bound to the exact arguments, and
-captures a pre-image first. There are **17**.
+captures a pre-image first. There are **13**.
 
 - `brevo.contact.delete`
 - `clerk.organization.delete`
@@ -36,13 +36,9 @@ captures a pre-image first. There are **17**.
 - `cloudflare.queue.delete`
 - `cloudflare.r2.delete`
 - `cloudflare.worker.delete`
-- `cloudflare.worker.secret.delete`
-- `github.secret.delete`
 - `neon.branch.delete`
-- `resend.api-key.delete`
 - `resend.domain.delete`
 - `vercel.domain.remove`
-- `vercel.env.delete`
 
 ## The tools that spend money
 
@@ -154,7 +150,7 @@ Prefer `valueFromHandle` in every case (`SEB-D 31`).
 | `cloudflare.worker.deploy` | write | Cloudflare — deploy a Worker |
 | `cloudflare.worker.get` | read | Cloudflare — get Worker settings |
 | `cloudflare.worker.list` | read | Cloudflare — list Workers |
-| `cloudflare.worker.secret.delete` | protected | Cloudflare — delete a Worker secret |
+| `cloudflare.worker.secret.delete` | write | Cloudflare — delete a Worker secret |
 | `cloudflare.worker.secret.list` | read | Cloudflare — list Worker secrets |
 | `cloudflare.worker.secret.put` | write | Cloudflare — set a Worker secret |
 | `cloudflare.worker.tail.create` | write | Cloudflare — start a log tail |
@@ -178,7 +174,7 @@ Prefer `valueFromHandle` in every case (`SEB-D 31`).
 | `github.repo.create` | write | GitHub — create a repository |
 | `github.repo.get` | read | GitHub — get a repository |
 | `github.repo.list` | read | GitHub — list repositories |
-| `github.secret.delete` | protected | GitHub — delete a repository secret |
+| `github.secret.delete` | write | GitHub — delete a repository secret |
 | `github.secret.list` | read | GitHub — list repository secrets |
 | `github.secret.put` | write | GitHub — set a repository secret |
 | `github.tag.list` | read | GitHub — list tags |
@@ -238,7 +234,7 @@ Prefer `valueFromHandle` in every case (`SEB-D 31`).
 | Tool | Class | Title |
 |---|---|---|
 | `resend.api-key.create` | write | Resend — create an API key |
-| `resend.api-key.delete` | protected | Resend — revoke an API key |
+| `resend.api-key.delete` | write | Resend — revoke an API key |
 | `resend.api-key.list` | read | Resend — list API keys |
 | `resend.domain.create` | write | Resend — add a sending domain |
 | `resend.domain.delete` | protected | Resend — remove a sending domain |
@@ -282,7 +278,7 @@ Prefer `valueFromHandle` in every case (`SEB-D 31`).
 | `vercel.domain.check` | read | Vercel — check domain availability and price |
 | `vercel.domain.list` | read | Vercel — list project domains |
 | `vercel.domain.remove` | protected | Vercel — detach a domain from a project |
-| `vercel.env.delete` | protected | Vercel — delete an environment variable |
+| `vercel.env.delete` | write | Vercel — delete an environment variable |
 | `vercel.env.list` | read | Vercel — list environment variables |
 | `vercel.env.set` | write | Vercel — set an environment variable |
 | `vercel.project.create` | write | Vercel — create a project |
