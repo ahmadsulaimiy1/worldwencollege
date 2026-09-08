@@ -1,0 +1,88 @@
+name: StromeX MCP — doctor check
+
+# The first real-credential milestone for stromex/mcp (SEB-D 45,
+# security.md §5): proves, on a free schedule with no hosting to pay
+# for, that ONE real provider credential actually authenticates —
+# nothing more. This is deliberately not yet "autonomous write-tier
+# work"; it is the honest first rung: continuous, unattended proof
+# that the credential is alive, committed as a verifiable record every
+# run rather than asserted. Broaden the job only once this has run
+# clean for a while.
+#
+# Requires a repository secret named STROMEX_MCP_GITHUB_TOKEN (a
+# GitHub personal access token, scoped to the minimum this needs) —
+# added via the GitHub web UI (Settings -> Secrets and variables ->
+# Actions), never pasted into a chat or committed to this repo.
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  doctor:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: stromex/mcp
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Run doctor against the one configured provider
+        id: doctor
+        env:
+          GITHUB_TOKEN: ${{ secrets.STROMEX_MCP_GITHUB_TOKEN }}
+          # Least privilege (security.md §5): only the provider this
+          # workflow actually has a credential for is exposed. Widen
+          # this list only alongside adding that provider's own secret.
+          STROMEX_MCP_PROFILES: github
+        run: |
+          set -o pipefail
+          node dist/index.js doctor 2>&1 | tee doctor-output.txt
+
+      - name: Record the result (runs even if doctor failed)
+        if: always()
+        run: |
+          mkdir -p .status
+          {
+            echo "# StromeX MCP doctor — last run"
+            echo ""
+            echo "Ran: $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+            echo "Outcome: ${{ steps.doctor.outcome }}"
+            echo ""
+            echo '```'
+            cat doctor-output.txt
+            echo '```'
+          } > .status/doctor-last-run.md
+
+      - name: Commit the status if it changed
+        if: always()
+        run: |
+          git config user.name "stromex-mcp-doctor-bot"
+          git config user.email "doctor@stromex-mcp.local"
+          git add .status/doctor-last-run.md
+          if git diff --cached --quiet; then
+            echo "No change in doctor status."
+          else
+            git commit -m "StromeX MCP doctor check: ${{ steps.doctor.outcome }}"
+            git push
+          fi
+
+      - name: Fail the job if doctor reported the credential unhealthy
+        if: steps.doctor.outcome == 'failure'
+        run: exit 1
