@@ -22,6 +22,13 @@ on:
 permissions:
   contents: write
 
+env:
+  # stromex/ lives only on this branch, not on the branch this workflow
+  # file itself must sit on to be schedulable (GitHub only discovers
+  # workflow_dispatch/schedule triggers from the default branch). Same
+  # cross-branch pattern sync-foundation.yml already uses.
+  SOURCE_REF: claude/stromex-enterprise-mcp-z1ejxd
+
 jobs:
   doctor:
     runs-on: ubuntu-latest
@@ -29,8 +36,10 @@ jobs:
       run:
         working-directory: stromex/mcp
     steps:
-      - name: Checkout
+      - name: Checkout the branch that actually holds stromex/
         uses: actions/checkout@v4
+        with:
+          ref: ${{ env.SOURCE_REF }}
 
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -80,7 +89,7 @@ jobs:
             echo "No change in doctor status."
           else
             git commit -m "StromeX MCP doctor check: ${{ steps.doctor.outcome }}"
-            git push
+            git push origin HEAD:${{ env.SOURCE_REF }}
           fi
 
       - name: Fail the job if doctor reported the credential unhealthy
