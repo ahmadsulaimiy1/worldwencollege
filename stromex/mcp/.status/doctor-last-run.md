@@ -1,6 +1,6 @@
 # StromeX MCP doctor — last run
 
-Ran: 2026-09-08T16:34:03Z
+Ran: 2026-09-08T16:45:15Z
 Outcome: success
 
 ```
@@ -31,7 +31,7 @@ Credentials
       needed to consult the engineering council — independent review, alternatives, drafting and validation
 
 Live checks (one authenticated read each)
-  ✓ github        267ms  authenticated as ahmadsulaimiy1
+  ✓ github        383ms  authenticated as ahmadsulaimiy1
 
 All configured providers answered.
 ```
