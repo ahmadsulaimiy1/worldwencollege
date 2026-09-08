@@ -193,7 +193,7 @@ export function resendTools(): ToolDefinition[] {
     defineTool({
       name: 'resend.api-key.delete',
       title: 'Resend — revoke an API key',
-      description: 'Revokes a Resend API key. Permitted autonomously (SEB §16.4, credential-management carve-out): anything still using it stops sending immediately, and the token cannot be recovered — create a replacement with resend.api-key.create.',
+      description: 'Revokes a Resend API key. Permitted autonomously (SEB §16.8, credential-management carve-out): anything still using it stops sending immediately, and the token cannot be recovered — create a replacement with resend.api-key.create.',
       provider: 'resend',
       operationClass: 'write',
       inputSchema: { id: z.string().min(1), name: z.string().min(1) },

@@ -31,7 +31,7 @@ Three classes, and the class decides — not the tool's own code
 - **protected** — permanently destroys; never autonomous.
 
 **Credential-management carve-out** (ruled by the owner, 6 September
-2026, `SEB §16.4`): creating, rotating and deleting a secret, an API key,
+2026, `SEB §16.8`): creating, rotating and deleting a secret, an API key,
 or an environment variable — a credential the operator itself manages —
 is **write**, not `protected`, across every provider, and needs no
 per-call approval. Deleting the *account* that holds those credentials
