@@ -115,7 +115,7 @@ export function vercelTools(): ToolDefinition[] {
         name: z.string().min(1).describe('Project name.'),
         project: z.string().optional().describe('Project id.'),
         target: z.enum(['production', 'staging']).optional(),
-        gitSource: z.record(z.string(), z.unknown()).optional().describe('Vercel gitSource object — type, repoId+org+repo, and ref.'),
+        gitSource: z.record(z.string(), z.unknown()).optional().describe('Vercel gitSource object — type, repoId/org+repo, and ref.'),
       },
       resource: (args) => args.name,
       handler: async (args, ctx) => {
