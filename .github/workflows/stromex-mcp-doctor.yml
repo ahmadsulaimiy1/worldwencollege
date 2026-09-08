@@ -1,16 +1,20 @@
-name: StromeX MCP — doctor check
+name: StromeX MCP — doctor check and autonomous write
 
-# The first real-credential milestone for stromex/mcp (SEB-D 45,
-# security.md §5): proves, on a free schedule with no hosting to pay
-# for, that ONE real provider credential actually authenticates —
-# nothing more. This is deliberately not yet "autonomous write-tier
-# work"; it is the honest first rung: continuous, unattended proof
-# that the credential is alive, committed as a verifiable record every
-# run rather than asserted. Broaden the job only once this has run
-# clean for a while.
+# Two real, verified milestones for stromex/mcp (SEB-D 45, security.md
+# §5, SEB §16.8's credential carve-out), on a free schedule with no
+# hosting to pay for:
+#
+#   1. `doctor` proves ONE real provider credential authenticates.
+#   2. `call github.variable.put` proves an actual WRITE, unattended,
+#      through the real policy/audit gate (`core/registry.ts`'s
+#      `invokeTool` -- the same path an MCP client's call takes, not a
+#      shortcut around it). It sets a harmless repository variable to
+#      the run's own timestamp, so the write is real, reversible, and
+#      independently checkable in Settings -> Secrets and variables ->
+#      Actions -> Variables.
 #
 # Requires a repository secret named STROMEX_MCP_GITHUB_TOKEN (a
-# GitHub personal access token, scoped to the minimum this needs) —
+# GitHub personal access token, scoped to the minimum this needs) --
 # added via the GitHub web UI (Settings -> Secrets and variables ->
 # Actions), never pasted into a chat or committed to this repo.
 
@@ -64,18 +68,37 @@ jobs:
           set -o pipefail
           node dist/index.js doctor 2>&1 | tee doctor-output.txt
 
-      - name: Record the result (runs even if doctor failed)
+      - name: Set a real repository variable through the real gate
+        id: write
+        if: steps.doctor.outcome == 'success'
+        env:
+          GITHUB_TOKEN: ${{ secrets.STROMEX_MCP_GITHUB_TOKEN }}
+          STROMEX_MCP_PROFILES: github
+        run: |
+          set -o pipefail
+          node dist/index.js call github.variable.put \
+            --args "{\"owner\":\"ahmadsulaimiy1\",\"repo\":\"worldwencollege\",\"name\":\"STROMEX_MCP_LAST_AUTONOMOUS_RUN\",\"value\":\"$(date -u +'%Y-%m-%dT%H:%M:%SZ')\"}" \
+            2>&1 | tee write-output.txt
+
+      - name: Record the result (runs even if a step failed)
         if: always()
         run: |
           mkdir -p .status
           {
-            echo "# StromeX MCP doctor — last run"
+            echo "# StromeX MCP — last run"
             echo ""
             echo "Ran: $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
-            echo "Outcome: ${{ steps.doctor.outcome }}"
+            echo "Doctor outcome: ${{ steps.doctor.outcome }}"
+            echo "Write outcome: ${{ steps.write.outcome || 'skipped (doctor did not succeed)' }}"
             echo ""
+            echo "## doctor"
             echo '```'
             cat doctor-output.txt
+            echo '```'
+            echo ""
+            echo "## call github.variable.put"
+            echo '```'
+            cat write-output.txt 2>/dev/null || echo "(skipped)"
             echo '```'
           } > .status/doctor-last-run.md
 
@@ -88,10 +111,10 @@ jobs:
           if git diff --cached --quiet; then
             echo "No change in doctor status."
           else
-            git commit -m "StromeX MCP doctor check: ${{ steps.doctor.outcome }}"
+            git commit -m "StromeX MCP: doctor ${{ steps.doctor.outcome }}, write ${{ steps.write.outcome || 'skipped' }}"
             git push origin HEAD:${{ env.SOURCE_REF }}
           fi
 
-      - name: Fail the job if doctor reported the credential unhealthy
-        if: steps.doctor.outcome == 'failure'
+      - name: Fail the job if the credential or the write failed
+        if: steps.doctor.outcome == 'failure' || steps.write.outcome == 'failure'
         run: exit 1
