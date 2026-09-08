@@ -18,6 +18,7 @@ import { ApprovalStore } from './core/approval.js';
 import { AuditLog } from './core/audit.js';
 import { StromexError, toStromexError } from './core/errors.js';
 import { Logger } from './core/logger.js';
+import { invokeTool } from './core/registry.js';
 import { SERVER_VERSION, buildServer } from './server.js';
 import { HEALTH_PROBES, buildProviders } from './providers/index.js';
 
@@ -81,6 +82,8 @@ async function main(): Promise<number> {
       return audit(config, flags);
     case 'catalogue':
       return catalogue(config, flags);
+    case 'call':
+      return call(config, positional[0], flags);
     default:
       process.stderr.write(`Unknown command: ${command}\n\n`);
       printHelp();
@@ -265,6 +268,42 @@ function catalogue(config: ReturnType<typeof loadConfig>, flags: Record<string, 
   return 0;
 }
 
+/**
+ * Runs one tool through the real gate — the exact same policy, audit and
+ * approval pipeline an MCP client's call goes through — without a
+ * transport or a client. Built for headless/scripted callers (a GitHub
+ * Actions job, a cron) that need to exercise real write-tier autonomy
+ * without speaking the MCP protocol. It is deliberately NOT a shortcut
+ * around the gate: `invokeTool` is the same function `registerTools`
+ * wires every MCP-transport call through (`server.ts`).
+ */
+async function call(config: ReturnType<typeof loadConfig>, toolName: string | undefined, flags: Record<string, string | boolean>): Promise<number> {
+  if (!toolName) {
+    process.stderr.write('Usage: stromex-mcp call <tool.name> --args \'{"key":"value"}\'\n');
+    return 2;
+  }
+  let args: Record<string, unknown> = {};
+  if (typeof flags['args'] === 'string') {
+    try {
+      args = JSON.parse(flags['args']) as Record<string, unknown>;
+    } catch (cause) {
+      process.stderr.write(`--args is not valid JSON: ${(cause as Error).message}\n`);
+      return 2;
+    }
+  }
+
+  const built = buildServer({ config, logger: new Logger({ level: config.logLevel }) });
+  const definition = built.toolsByName.get(toolName);
+  if (!definition) {
+    process.stderr.write(`Unknown tool: ${toolName}\n\nRun 'stromex-mcp catalogue' to see what this instance exposes.\n`);
+    return 2;
+  }
+
+  const envelope = await invokeTool(definition, args, built.contextFor());
+  process.stdout.write(`${JSON.stringify(envelope, null, 2)}\n`);
+  return envelope.ok ? 0 : 1;
+}
+
 function printHelp(): void {
   process.stdout.write(
     [
@@ -281,6 +320,7 @@ function printHelp(): void {
       '  audit [--limit N]            Print recent audit records.',
       '  audit --verify               Recompute the audit hash chain.',
       '  catalogue [--format=markdown] Print the tool catalogue.',
+      '  call <tool> --args \'{...}\'   Run one tool through the real gate (policy, audit, approvals) headlessly.',
       '  version                      Print the version.',
       '',
       'Options',

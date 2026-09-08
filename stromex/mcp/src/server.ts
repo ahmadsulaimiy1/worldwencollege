@@ -61,6 +61,14 @@ export interface BuiltServer {
   rotation: RotationRegister;
   policy: PolicyEngine;
   logger: Logger;
+  /**
+   * Builds a fresh `ToolContext`, identical to the one every MCP-transport
+   * call gets. Exported so a headless caller (the CLI's `call` command,
+   * a script) can run a tool through the real gate — policy, audit,
+   * approvals, everything — rather than reaching a provider client
+   * directly and bypassing it. One construction path, not two.
+   */
+  contextFor: () => ToolContext;
 }
 
 export function buildServer(options: BuildServerOptions): BuiltServer {
@@ -184,7 +192,20 @@ export function buildServer(options: BuildServerOptions): BuiltServer {
   });
   for (const warning of config.warnings) logger.warn('configuration warning', { warning });
 
-  return { server, tools, toolsByName, active: providers.active, audit, approvals, journal, vault, rotation, policy, logger };
+  return {
+    server,
+    tools,
+    toolsByName,
+    active: providers.active,
+    audit,
+    approvals,
+    journal,
+    vault,
+    rotation,
+    policy,
+    logger,
+    contextFor: () => contextFor(),
+  };
 }
 
 /**
