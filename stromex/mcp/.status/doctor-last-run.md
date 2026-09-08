@@ -1,6 +1,6 @@
 # StromeX MCP — last run
 
-Ran: 2026-09-08T16:47:19Z
+Ran: 2026-09-08T20:38:53Z
 Doctor outcome: success
 Write outcome: success
 
@@ -33,27 +33,27 @@ Credentials
       needed to consult the engineering council — independent review, alternatives, drafting and validation
 
 Live checks (one authenticated read each)
-  ✓ github        271ms  authenticated as ahmadsulaimiy1
+  ✓ github        518ms  authenticated as ahmadsulaimiy1
 
 All configured providers answered.
 ```
 
 ## call github.variable.put
 ```
-{"ts":"2026-09-08T16:47:18.769Z","level":"info","msg":"server assembled","providers":["github"],"tools":37,"protectedOperations":"approval","readOnly":false,"spending":false}
+{"ts":"2026-09-08T20:38:53.559Z","level":"info","msg":"server assembled","providers":["github"],"tools":37,"protectedOperations":"approval","readOnly":false,"spending":false}
 {
   "tool": "github.variable.put",
   "provider": "github",
   "operation": "variable.put",
   "operationClass": "write",
   "dryRun": false,
-  "requestId": "req_7e088c0fcacb47f3a50f",
-  "durationMs": 499,
+  "requestId": "req_59abac7ab6d04ec9949f",
+  "durationMs": 310,
   "ok": true,
-  "summary": "Created variable STROMEX_MCP_LAST_AUTONOMOUS_RUN",
+  "summary": "Updated variable STROMEX_MCP_LAST_AUTONOMOUS_RUN",
   "data": {
     "name": "STROMEX_MCP_LAST_AUTONOMOUS_RUN",
-    "created": true
+    "created": false
   },
   "auditSeq": 1
 }
