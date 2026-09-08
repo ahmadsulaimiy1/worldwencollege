@@ -56,14 +56,27 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Run doctor against the one configured provider
+      - name: Run doctor against every provider that has a credential
         id: doctor
         env:
           GITHUB_TOKEN: ${{ secrets.STROMEX_MCP_GITHUB_TOKEN }}
-          # Least privilege (security.md §5): only the provider this
-          # workflow actually has a credential for is exposed. Widen
-          # this list only alongside adding that provider's own secret.
-          STROMEX_MCP_PROFILES: github
+          CLOUDFLARE_API_TOKEN: ${{ secrets.STROMEX_MCP_CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.STROMEX_MCP_CLOUDFLARE_ACCOUNT_ID }}
+          NEON_API_KEY: ${{ secrets.STROMEX_MCP_NEON_API_KEY }}
+          VERCEL_TOKEN: ${{ secrets.STROMEX_MCP_VERCEL_TOKEN }}
+          VERCEL_TEAM_ID: ${{ secrets.STROMEX_MCP_VERCEL_TEAM_ID }}
+          CLERK_SECRET_KEY: ${{ secrets.STROMEX_MCP_CLERK_SECRET_KEY }}
+          RESEND_API_KEY: ${{ secrets.STROMEX_MCP_RESEND_API_KEY }}
+          BREVO_API_KEY: ${{ secrets.STROMEX_MCP_BREVO_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.STROMEX_MCP_OPENAI_API_KEY }}
+          # Least privilege (security.md §5): a provider only becomes
+          # "configured" (config.ts activeProviders) once its own required
+          # secret above is a non-empty GitHub Actions secret -- an unset
+          # secret resolves to an empty string, which the resolver treats
+          # as absent, so listing every provider name here is safe. Add a
+          # provider's credential once, as a repo secret; nothing in this
+          # file needs to change again.
+          STROMEX_MCP_PROFILES: cloudflare,github,neon,vercel,clerk,resend,brevo,openai
         run: |
           set -o pipefail
           node dist/index.js doctor 2>&1 | tee doctor-output.txt
