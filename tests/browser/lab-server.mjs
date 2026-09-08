@@ -697,6 +697,21 @@ const reconciliationLib = await import(pathToFileURL(`${ROOT}/functions/_lib/rep
               'Set aside on the tutor''s register: the learner was in hospital for this week and told the College at the time.',
               '${inWindow(2, 1)}')`);
   }
+
+  // A LIVE SESSION WITH NO REGISTER, anchored the same way as the rows
+  // above rather than to wall-clock "now" as lvs_demo_1/lvs_demo_2
+  // (seeded for /my-week/, further up this file) are. Those two are
+  // always a fixed number of days ahead of whenever the suite runs,
+  // but the window this endpoint checks against is anchored to
+  // enrolments.started_at and is only ever SEVEN days wide — so on a
+  // day when the current window happens to end sooner than that fixed
+  // offset lands, lvs_demo_1 falls just outside it and the section
+  // renders empty. This row is timed off the same anchor the window
+  // itself uses, so it is inside every page size the interface offers
+  // on every day, not most of them.
+  sqlite.exec(`INSERT INTO live_sessions (id, level_id, unit_id, title, starts_at, duration_minutes, join_url, host_user_id)
+    VALUES ('lvs_eng_no_register', 1, NULL, 'Reading circle — no register taken',
+            '${inWindow(1, 0)}', 60, 'https://example.com/join/eng-no-register', 'usr_tutor')`);
 }
 
 // ── THE LEVEL EXAMINATION ───────────────────────────────────────────
