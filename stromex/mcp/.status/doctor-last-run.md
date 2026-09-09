@@ -1,8 +1,8 @@
 # StromeX MCP — last run
 
-Ran: 2026-09-09T23:02:14Z
-Doctor outcome: failure
-Write outcome: skipped
+Ran: 2026-09-09T23:15:46Z
+Doctor outcome: success
+Write outcome: success
 
 ## doctor
 ```
@@ -31,15 +31,30 @@ Credentials
       needed to consult the engineering council — independent review, alternatives, drafting and validation
 
 Live checks (one authenticated read each)
-  ✓ cloudflare    312ms  1 account(s) visible
-  ✓ github        225ms  authenticated as ahmadsulaimiy1
-  ✗ neon           90ms  INPUT_INVALID: neon project.list failed with HTTP 400: org_id is required, you can find it on your organization settings page
-      → The provider rejected the arguments. Read `details` for the field it named and call again with corrected arguments.
+  ✓ cloudflare    300ms  1 account(s) visible
+  ✓ github        126ms  authenticated as ahmadsulaimiy1
+  ✓ neon          250ms  2 project(s) visible
 
-1 provider(s) failed. Nothing was changed.
+All configured providers answered.
 ```
 
 ## call github.variable.put
 ```
-(skipped)
+{"ts":"2026-09-09T23:15:45.738Z","level":"info","msg":"server assembled","providers":["github"],"tools":37,"protectedOperations":"approval","readOnly":false,"spending":false}
+{
+  "tool": "github.variable.put",
+  "provider": "github",
+  "operation": "variable.put",
+  "operationClass": "write",
+  "dryRun": false,
+  "requestId": "req_88ef75c8aadf428dbff8",
+  "durationMs": 391,
+  "ok": true,
+  "summary": "Updated variable STROMEX_MCP_LAST_AUTONOMOUS_RUN",
+  "data": {
+    "name": "STROMEX_MCP_LAST_AUTONOMOUS_RUN",
+    "created": false
+  },
+  "auditSeq": 1
+}
 ```
