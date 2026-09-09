@@ -1,6 +1,6 @@
 # StromeX MCP — last run
 
-Ran: 2026-09-09T23:36:42Z
+Ran: 2026-09-09T23:39:17Z
 Doctor outcome: failure
 Write outcome: skipped
 
@@ -27,13 +27,13 @@ Credentials
       needed to consult the engineering council — independent review, alternatives, drafting and validation
 
 Live checks (one authenticated read each)
-  ✓ cloudflare    241ms  1 account(s) visible
-  ✓ github        235ms  authenticated as ahmadsulaimiy1
-  ✓ neon          212ms  2 project(s) visible
-  ✓ vercel         88ms  1 project(s) in the first page
-  ✓ clerk         562ms  1 user(s)
-  ✓ resend        166ms  2 sending domain(s)
-  ✗ brevo         529ms  CREDENTIAL_REJECTED: brevo account.get failed with HTTP 401: unauthorized: Key not found
+  ✓ cloudflare    281ms  1 account(s) visible
+  ✓ github        151ms  authenticated as ahmadsulaimiy1
+  ✓ neon          175ms  2 project(s) visible
+  ✓ vercel        252ms  1 project(s) in the first page
+  ✓ clerk         447ms  1 user(s)
+  ✓ resend        143ms  2 sending domain(s)
+  ✗ brevo         286ms  CREDENTIAL_REJECTED: brevo account.get failed with HTTP 401: unauthorized: Key not found
       → The brevo credential was rejected or lacks the required scope. Run `stromex-mcp doctor` and re-check the token's permissions against mcp/docs/installation.md.
 
 1 provider(s) failed. Nothing was changed.
