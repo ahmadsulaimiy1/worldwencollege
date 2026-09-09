@@ -1,8 +1,8 @@
 # StromeX MCP — last run
 
-Ran: 2026-09-09T22:56:46Z
-Doctor outcome: success
-Write outcome: success
+Ran: 2026-09-09T23:02:14Z
+Doctor outcome: failure
+Write outcome: skipped
 
 ## doctor
 ```
@@ -18,8 +18,7 @@ Protected patterns 15 (see stromex.policy.describe)
 Credentials
   ✓ cloudflare  CLOUDFLARE_API_TOKEN=env:9b74cb0e8f00
   ✓ github      GITHUB_TOKEN=env:56d166a7ff99
-  ✗ neon        not configured — missing NEON_API_KEY
-      needed to manage Postgres projects, branches, databases and migrations
+  ✓ neon        NEON_API_KEY=env:865808907697
   ✗ vercel      not configured — missing VERCEL_TOKEN
       needed to manage projects, deployments, environment variables and domains
   ✗ clerk       not configured — missing CLERK_SECRET_KEY
@@ -32,29 +31,15 @@ Credentials
       needed to consult the engineering council — independent review, alternatives, drafting and validation
 
 Live checks (one authenticated read each)
-  ✓ cloudflare    407ms  1 account(s) visible
-  ✓ github        176ms  authenticated as ahmadsulaimiy1
+  ✓ cloudflare    312ms  1 account(s) visible
+  ✓ github        225ms  authenticated as ahmadsulaimiy1
+  ✗ neon           90ms  INPUT_INVALID: neon project.list failed with HTTP 400: org_id is required, you can find it on your organization settings page
+      → The provider rejected the arguments. Read `details` for the field it named and call again with corrected arguments.
 
-All configured providers answered.
+1 provider(s) failed. Nothing was changed.
 ```
 
 ## call github.variable.put
 ```
-{"ts":"2026-09-09T22:56:46.101Z","level":"info","msg":"server assembled","providers":["github"],"tools":37,"protectedOperations":"approval","readOnly":false,"spending":false}
-{
-  "tool": "github.variable.put",
-  "provider": "github",
-  "operation": "variable.put",
-  "operationClass": "write",
-  "dryRun": false,
-  "requestId": "req_a7e7e62cbab447f6b64c",
-  "durationMs": 295,
-  "ok": true,
-  "summary": "Updated variable STROMEX_MCP_LAST_AUTONOMOUS_RUN",
-  "data": {
-    "name": "STROMEX_MCP_LAST_AUTONOMOUS_RUN",
-    "created": false
-  },
-  "auditSeq": 1
-}
+(skipped)
 ```
