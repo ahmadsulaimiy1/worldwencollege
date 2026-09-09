@@ -1,6 +1,6 @@
 # StromeX MCP — last run
 
-Ran: 2026-09-09T23:15:46Z
+Ran: 2026-09-09T23:22:19Z
 Doctor outcome: success
 Write outcome: success
 
@@ -19,8 +19,7 @@ Credentials
   ✓ cloudflare  CLOUDFLARE_API_TOKEN=env:9b74cb0e8f00
   ✓ github      GITHUB_TOKEN=env:56d166a7ff99
   ✓ neon        NEON_API_KEY=env:865808907697
-  ✗ vercel      not configured — missing VERCEL_TOKEN
-      needed to manage projects, deployments, environment variables and domains
+  ✓ vercel      VERCEL_TOKEN=env:1a1f5cfb7195
   ✗ clerk       not configured — missing CLERK_SECRET_KEY
       needed to manage users, organisations, memberships and invitations
   ✗ resend      not configured — missing RESEND_API_KEY
@@ -31,24 +30,25 @@ Credentials
       needed to consult the engineering council — independent review, alternatives, drafting and validation
 
 Live checks (one authenticated read each)
-  ✓ cloudflare    300ms  1 account(s) visible
-  ✓ github        126ms  authenticated as ahmadsulaimiy1
-  ✓ neon          250ms  2 project(s) visible
+  ✓ cloudflare    309ms  1 account(s) visible
+  ✓ github        127ms  authenticated as ahmadsulaimiy1
+  ✓ neon          187ms  2 project(s) visible
+  ✓ vercel        281ms  1 project(s) in the first page
 
 All configured providers answered.
 ```
 
 ## call github.variable.put
 ```
-{"ts":"2026-09-09T23:15:45.738Z","level":"info","msg":"server assembled","providers":["github"],"tools":37,"protectedOperations":"approval","readOnly":false,"spending":false}
+{"ts":"2026-09-09T23:22:19.270Z","level":"info","msg":"server assembled","providers":["github"],"tools":37,"protectedOperations":"approval","readOnly":false,"spending":false}
 {
   "tool": "github.variable.put",
   "provider": "github",
   "operation": "variable.put",
   "operationClass": "write",
   "dryRun": false,
-  "requestId": "req_88ef75c8aadf428dbff8",
-  "durationMs": 391,
+  "requestId": "req_48afc0ea466142c49b05",
+  "durationMs": 310,
   "ok": true,
   "summary": "Updated variable STROMEX_MCP_LAST_AUTONOMOUS_RUN",
   "data": {
