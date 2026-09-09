@@ -1,6 +1,6 @@
 # StromeX MCP — last run
 
-Ran: 2026-09-09T23:39:17Z
+Ran: 2026-09-09T23:44:04Z
 Doctor outcome: failure
 Write outcome: skipped
 
@@ -22,18 +22,18 @@ Credentials
   ✓ vercel      VERCEL_TOKEN=env:1a1f5cfb7195
   ✓ clerk       CLERK_SECRET_KEY=env:aa9db8c80ade
   ✓ resend      RESEND_API_KEY=env:26dee232ef8d
-  ✓ brevo       BREVO_API_KEY=env:a6c9d21b0bf2
+  ✓ brevo       BREVO_API_KEY=env:5bea9e30202d
   ✗ openai      not configured — missing OPENAI_API_KEY
       needed to consult the engineering council — independent review, alternatives, drafting and validation
 
 Live checks (one authenticated read each)
-  ✓ cloudflare    281ms  1 account(s) visible
+  ✓ cloudflare    372ms  1 account(s) visible
   ✓ github        151ms  authenticated as ahmadsulaimiy1
-  ✓ neon          175ms  2 project(s) visible
-  ✓ vercel        252ms  1 project(s) in the first page
-  ✓ clerk         447ms  1 user(s)
-  ✓ resend        143ms  2 sending domain(s)
-  ✗ brevo         286ms  CREDENTIAL_REJECTED: brevo account.get failed with HTTP 401: unauthorized: Key not found
+  ✓ neon          169ms  2 project(s) visible
+  ✓ vercel        264ms  1 project(s) in the first page
+  ✓ clerk         287ms  1 user(s)
+  ✓ resend        157ms  2 sending domain(s)
+  ✗ brevo         280ms  CREDENTIAL_REJECTED: brevo account.get failed with HTTP 401: unauthorized: Key not found
       → The brevo credential was rejected or lacks the required scope. Run `stromex-mcp doctor` and re-check the token's permissions against mcp/docs/installation.md.
 
 1 provider(s) failed. Nothing was changed.
