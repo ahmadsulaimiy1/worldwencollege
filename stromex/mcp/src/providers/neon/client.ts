@@ -33,6 +33,13 @@ export interface NeonClientOptions {
   rateLimit?: { refillPerSecond: number; capacity: number };
   /** Injected in tests so SQL paths can be exercised without a database. */
   sqlRunner?: SqlRunner;
+  /**
+   * Required by Neon's own API for an organization-scoped key: `GET
+   * /projects` and `POST /projects` 400 with "org_id is required" when
+   * the caller has no personal account to default to. Every other
+   * endpoint takes a project ID directly and needs nothing extra.
+   */
+  orgId?: string;
 }
 
 export interface SqlResult {
@@ -48,9 +55,11 @@ export class NeonClient {
   readonly http: HttpClient;
   private readonly apiKey: SecretRef;
   private readonly sqlRunner: SqlRunner;
+  private readonly orgId?: string;
 
   constructor(options: NeonClientOptions) {
     this.apiKey = options.apiKey;
+    this.orgId = options.orgId;
     this.sqlRunner = options.sqlRunner ?? defaultSqlRunner;
     this.http = new HttpClient({
       provider: 'neon',
@@ -76,7 +85,12 @@ export class NeonClient {
   // ── Projects ───────────────────────────────────────────────────────
 
   async listProjects(): Promise<unknown[]> {
-    const response = await this.http.request<{ projects: unknown[] }>({ method: 'GET', path: '/projects', operation: 'project.list' });
+    const response = await this.http.request<{ projects: unknown[] }>({
+      method: 'GET',
+      path: '/projects',
+      operation: 'project.list',
+      query: { org_id: this.orgId },
+    });
     return response.body.projects ?? [];
   }
 
@@ -92,7 +106,10 @@ export class NeonClient {
       operation: 'project.create',
       body: {
         kind: 'json',
-        value: { project: { name: params.name, region_id: params.regionId, pg_version: params.pgVersion } },
+        value: {
+          project: { name: params.name, region_id: params.regionId, pg_version: params.pgVersion },
+          ...(this.orgId ? { org_id: this.orgId } : {}),
+        },
       },
     });
     return response.body;

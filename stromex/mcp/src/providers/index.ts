@@ -65,7 +65,11 @@ export function buildProviders(options: BuildProvidersOptions): ProviderBundle {
         tools.push(...githubTools());
         break;
       case 'neon':
-        clients[name] = new NeonClient({ ...shared, apiKey: config.secrets.require('NEON_API_KEY', 'operate Neon') });
+        clients[name] = new NeonClient({
+          ...shared,
+          apiKey: config.secrets.require('NEON_API_KEY', 'operate Neon'),
+          orgId: config.secrets.resolve('NEON_ORG_ID')?.reveal(),
+        });
         tools.push(...neonTools());
         break;
       case 'vercel':

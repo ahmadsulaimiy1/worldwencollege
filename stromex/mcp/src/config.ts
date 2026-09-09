@@ -56,7 +56,7 @@ export const PROVIDER_CREDENTIALS: Record<
   },
   neon: {
     required: ['NEON_API_KEY'],
-    optional: ['NEON_PROJECT_ID'],
+    optional: ['NEON_PROJECT_ID', 'NEON_ORG_ID'],
     purpose: 'manage Postgres projects, branches, databases and migrations',
   },
   vercel: {
