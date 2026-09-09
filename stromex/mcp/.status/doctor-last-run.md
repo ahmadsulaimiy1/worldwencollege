@@ -1,6 +1,6 @@
 # StromeX MCP — last run
 
-Ran: 2026-09-09T20:20:10Z
+Ran: 2026-09-09T22:56:46Z
 Doctor outcome: success
 Write outcome: success
 
@@ -16,8 +16,7 @@ Spending          disabled
 Protected patterns 15 (see stromex.policy.describe)
 
 Credentials
-  ✗ cloudflare  not configured — missing CLOUDFLARE_API_TOKEN
-      needed to manage Workers, Pages, D1, R2, KV, Queues and DNS
+  ✓ cloudflare  CLOUDFLARE_API_TOKEN=env:9b74cb0e8f00
   ✓ github      GITHUB_TOKEN=env:56d166a7ff99
   ✗ neon        not configured — missing NEON_API_KEY
       needed to manage Postgres projects, branches, databases and migrations
@@ -33,22 +32,23 @@ Credentials
       needed to consult the engineering council — independent review, alternatives, drafting and validation
 
 Live checks (one authenticated read each)
-  ✓ github        215ms  authenticated as ahmadsulaimiy1
+  ✓ cloudflare    407ms  1 account(s) visible
+  ✓ github        176ms  authenticated as ahmadsulaimiy1
 
 All configured providers answered.
 ```
 
 ## call github.variable.put
 ```
-{"ts":"2026-09-09T20:20:09.721Z","level":"info","msg":"server assembled","providers":["github"],"tools":37,"protectedOperations":"approval","readOnly":false,"spending":false}
+{"ts":"2026-09-09T22:56:46.101Z","level":"info","msg":"server assembled","providers":["github"],"tools":37,"protectedOperations":"approval","readOnly":false,"spending":false}
 {
   "tool": "github.variable.put",
   "provider": "github",
   "operation": "variable.put",
   "operationClass": "write",
   "dryRun": false,
-  "requestId": "req_91706ca49e9d48449c27",
-  "durationMs": 480,
+  "requestId": "req_a7e7e62cbab447f6b64c",
+  "durationMs": 295,
   "ok": true,
   "summary": "Updated variable STROMEX_MCP_LAST_AUTONOMOUS_RUN",
   "data": {
