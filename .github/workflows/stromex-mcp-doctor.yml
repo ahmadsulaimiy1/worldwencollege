@@ -84,7 +84,15 @@ jobs:
 
       - name: Set a real repository variable through the real gate
         id: write
-        if: steps.doctor.outcome == 'success'
+        # `always()` plus a skip-check, not `steps.doctor.outcome ==
+        # 'success'`: doctor's own exit code is 1 whenever ANY configured
+        # provider's live check fails, so a single known-bad credential
+        # (Brevo, left unresolved by the owner's own choice) would
+        # otherwise block every other provider's write too. This runs
+        # whenever doctor actually executed, regardless of its overall
+        # verdict -- each write step still only fires for the provider it
+        # names, and only that provider's own credential has to be good.
+        if: always() && steps.doctor.conclusion != 'skipped'
         env:
           GITHUB_TOKEN: ${{ secrets.STROMEX_MCP_GITHUB_TOKEN }}
           STROMEX_MCP_PROFILES: github
@@ -105,7 +113,7 @@ jobs:
       # is that ruling exercised, not just documented (SEB §16.8).
       - name: Cloudflare -- create a KV namespace and write a key through the real gate
         id: write_cloudflare
-        if: steps.doctor.outcome == 'success'
+        if: always() && steps.doctor.conclusion != 'skipped'  # see the `write` step above
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.STROMEX_MCP_CLOUDFLARE_API_TOKEN }}
           STROMEX_MCP_PROFILES: cloudflare
@@ -126,7 +134,7 @@ jobs:
 
       - name: Neon -- create a branch through the real gate
         id: write_neon
-        if: steps.doctor.outcome == 'success'
+        if: always() && steps.doctor.conclusion != 'skipped'  # see the `write` step above
         env:
           NEON_API_KEY: ${{ secrets.STROMEX_MCP_NEON_API_KEY }}
           NEON_ORG_ID: ${{ secrets.STROMEX_MCP_NEON_ORG_ID }}
@@ -139,7 +147,7 @@ jobs:
 
       - name: Vercel -- set a preview env var through the real gate
         id: write_vercel
-        if: steps.doctor.outcome == 'success'
+        if: always() && steps.doctor.conclusion != 'skipped'  # see the `write` step above
         env:
           VERCEL_TOKEN: ${{ secrets.STROMEX_MCP_VERCEL_TOKEN }}
           STROMEX_MCP_PROFILES: vercel
@@ -151,7 +159,7 @@ jobs:
 
       - name: Resend -- send a real email through the real gate
         id: write_resend
-        if: steps.doctor.outcome == 'success'
+        if: always() && steps.doctor.conclusion != 'skipped'  # see the `write` step above
         env:
           RESEND_API_KEY: ${{ secrets.STROMEX_MCP_RESEND_API_KEY }}
           STROMEX_MCP_PROFILES: resend
