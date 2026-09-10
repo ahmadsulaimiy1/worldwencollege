@@ -118,19 +118,61 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.STROMEX_MCP_CLOUDFLARE_API_TOKEN }}
           STROMEX_MCP_PROFILES: cloudflare
         run: |
-          set -o pipefail
-          # The CLI's own logging goes to stderr (core/logger.ts) and the
-          # `call` result envelope is the only thing on stdout, so
-          # redirecting stdout alone here -- not `2>&1` -- keeps the
-          # captured file pure JSON to parse the new namespace's id from.
-          node dist/index.js call cloudflare.kv.namespace.create \
-            --args '{"title":"stromex-mcp-proof"}' \
-            > ns-create-output.txt
-          cat ns-create-output.txt | tee -a write-cloudflare-output.txt
-          NS_ID=$(node -e "console.log(JSON.parse(require('fs').readFileSync('ns-create-output.txt','utf8')).data.id)")
-          node dist/index.js call cloudflare.kv.value.put \
-            --args "{\"namespaceId\":\"$NS_ID\",\"key\":\"last_autonomous_run\",\"value\":\"$(date -u +'%Y-%m-%dT%H:%M:%SZ')\"}" \
-            2>&1 | tee -a write-cloudflare-output.txt
+          # `set +e`, not `set -o pipefail`: this script makes a call,
+          # parses an id out of its result, then makes a second call --
+          # and the default `bash -e {0}` GitHub Actions runs under
+          # aborts the WHOLE script the instant any command exits
+          # non-zero, before the `tee` that would have shown or
+          # persisted the real error. That is exactly what made an
+          # earlier failure here unrecoverable: the detail existed only
+          # in the ephemeral runner and was never displayed or saved.
+          # Every failure path below explicitly captures, displays,
+          # persists, then exits -- nothing is allowed to vanish.
+          set +e
+
+          # Idempotent by lookup, not by a fixed id: a namespace TITLE
+          # isn't unique to Cloudflare, so a bare create on every 6-hourly
+          # run would keep minting duplicate "stromex-mcp-proof"
+          # namespaces forever. List first and reuse what's there.
+          LIST_OUTPUT=$(node dist/index.js call cloudflare.kv.namespace.list --args '{}')
+          LIST_STATUS=$?
+          echo "$LIST_OUTPUT" | tee write-cloudflare-output.txt
+          if [ $LIST_STATUS -ne 0 ]; then
+            exit 1
+          fi
+
+          NS_ID=$(node -e '
+            const body = JSON.parse(process.argv[1]);
+            const raw = body.data;
+            const items = Array.isArray(raw) ? raw : Array.isArray(raw && raw.data) ? raw.data : (raw && raw.items) || [];
+            const found = items.find((n) => n.title === "stromex-mcp-proof");
+            console.log(found ? found.id : "");
+          ' "$LIST_OUTPUT")
+
+          if [ -z "$NS_ID" ]; then
+            CREATE_OUTPUT=$(node dist/index.js call cloudflare.kv.namespace.create --args '{"title":"stromex-mcp-proof"}')
+            CREATE_STATUS=$?
+            { echo ""; echo "$CREATE_OUTPUT"; } | tee -a write-cloudflare-output.txt
+            if [ $CREATE_STATUS -ne 0 ]; then
+              exit 1
+            fi
+            NS_ID=$(node -e '
+              const body = JSON.parse(process.argv[1]);
+              console.log((body.data && body.data.id) || "");
+            ' "$CREATE_OUTPUT")
+          else
+            { echo ""; echo "Namespace stromex-mcp-proof already exists ($NS_ID) from an earlier run; reusing it instead of creating a duplicate."; } | tee -a write-cloudflare-output.txt
+          fi
+
+          if [ -z "$NS_ID" ]; then
+            echo "Could not determine a namespace id to write to." | tee -a write-cloudflare-output.txt
+            exit 1
+          fi
+
+          PUT_OUTPUT=$(node dist/index.js call cloudflare.kv.value.put --args "{\"namespaceId\":\"$NS_ID\",\"key\":\"last_autonomous_run\",\"value\":\"$(date -u +'%Y-%m-%dT%H:%M:%SZ')\"}")
+          PUT_STATUS=$?
+          { echo ""; echo "$PUT_OUTPUT"; } | tee -a write-cloudflare-output.txt
+          exit $PUT_STATUS
 
       - name: Neon -- create a branch through the real gate
         id: write_neon
@@ -140,10 +182,38 @@ jobs:
           NEON_ORG_ID: ${{ secrets.STROMEX_MCP_NEON_ORG_ID }}
           STROMEX_MCP_PROFILES: neon
         run: |
-          set -o pipefail
-          node dist/index.js call neon.branch.create \
-            --args '{"projectId":"orange-dawn-28507285","name":"stromex-mcp-proof"}' \
-            2>&1 | tee write-neon-output.txt
+          # Idempotent by lookup: a fixed branch name on a recurring
+          # 6-hourly schedule collided with itself on the very first
+          # re-run (BRANCH_ALREADY_EXISTS) -- `neon.branch.delete` is
+          # protected-tier and not autonomously usable for a
+          # delete-then-recreate cycle, so the fix is to check first and
+          # only create once, ever. `set +e` for the same
+          # abort-before-display reason as the Cloudflare step above.
+          set +e
+
+          LIST_OUTPUT=$(node dist/index.js call neon.branch.list --args '{"projectId":"orange-dawn-28507285"}')
+          LIST_STATUS=$?
+          echo "$LIST_OUTPUT" | tee write-neon-output.txt
+          if [ $LIST_STATUS -ne 0 ]; then
+            exit 1
+          fi
+
+          EXISTING_ID=$(node -e '
+            const body = JSON.parse(process.argv[1]);
+            const items = (body.data && body.data.items) || [];
+            const found = items.find((b) => b.name === "stromex-mcp-proof");
+            console.log(found ? found.id : "");
+          ' "$LIST_OUTPUT")
+
+          if [ -n "$EXISTING_ID" ]; then
+            { echo ""; echo "Branch stromex-mcp-proof already exists ($EXISTING_ID) from an earlier run -- the create-write was already proven then, and is deliberately not repeated every 6 hours to avoid BRANCH_ALREADY_EXISTS and unbounded branch accumulation."; } | tee -a write-neon-output.txt
+            exit 0
+          fi
+
+          CREATE_OUTPUT=$(node dist/index.js call neon.branch.create --args '{"projectId":"orange-dawn-28507285","name":"stromex-mcp-proof"}')
+          CREATE_STATUS=$?
+          { echo ""; echo "$CREATE_OUTPUT"; } | tee -a write-neon-output.txt
+          exit $CREATE_STATUS
 
       - name: Vercel -- set a preview env var through the real gate
         id: write_vercel
@@ -169,25 +239,65 @@ jobs:
             --args "{\"from\":\"stromex-mcp@mail.worldwencollege.co.uk\",\"to\":[\"ahmadbinibrohim@gmail.com\"],\"subject\":\"StromeX MCP -- autonomous write proof\",\"text\":\"This email was sent unattended by stromex-mcp's resend.email.send tool, through the real policy and audit gate, at $(date -u +'%Y-%m-%dT%H:%M:%SZ').\"}" \
             2>&1 | tee write-resend-output.txt
 
-      - name: Clerk -- invite the owner and revoke it through the real gate
+      - name: Clerk -- invite a dedicated proof address and revoke it through the real gate
         id: write_clerk
         if: always() && steps.doctor.conclusion != 'skipped'  # see the `write` step above
         env:
           CLERK_SECRET_KEY: ${{ secrets.STROMEX_MCP_CLERK_SECRET_KEY }}
           STROMEX_MCP_PROFILES: clerk
         run: |
-          set -o pipefail
-          # Same stdout-only capture as the Cloudflare step above, for the
-          # same reason: the invitation id has to be parsed back out to
-          # revoke it, and the CLI's own logging on stderr would break that.
-          node dist/index.js call clerk.invitation.create \
-            --args '{"emailAddress":"ahmadbinibrohim@gmail.com"}' \
-            > clerk-invite-output.txt
-          cat clerk-invite-output.txt | tee -a write-clerk-output.txt
-          INV_ID=$(node -e "console.log(JSON.parse(require('fs').readFileSync('clerk-invite-output.txt','utf8')).data.id)")
-          node dist/index.js call clerk.invitation.revoke \
-            --args "{\"invitationId\":\"$INV_ID\"}" \
-            2>&1 | tee -a write-clerk-output.txt
+          # `set +e` for the same abort-before-display reason as the
+          # Cloudflare/Neon steps above: this run's own failure (create
+          # rejected with INPUT_INVALID) had its real detail lost the
+          # same way. A `+alias` address, not the owner's bare inbox: the
+          # owner's own address is very likely already a real Clerk user
+          # on this instance (from ordinary sign-in testing), and Clerk
+          # refuses to invite an email that already belongs to a user --
+          # a permanent conflict no retry fixes. The alias is still the
+          # owner's real inbox (Gmail plus-addressing), just a distinct
+          # identity to Clerk. `notify:false` so a real proof run every 6
+          # hours doesn't put an actual invite email in that inbox.
+          set +e
+          PROOF_EMAIL="ahmadbinibrohim+stromexmcpproof@gmail.com"
+
+          LIST_OUTPUT=$(node dist/index.js call clerk.invitation.list --args '{"status":"pending"}')
+          LIST_STATUS=$?
+          echo "$LIST_OUTPUT" | tee write-clerk-output.txt
+          if [ $LIST_STATUS -eq 0 ]; then
+            STALE_ID=$(node -e '
+              const body = JSON.parse(process.argv[1]);
+              const raw = body.data;
+              const items = Array.isArray(raw) ? raw : Array.isArray(raw && raw.data) ? raw.data : (raw && raw.items) || [];
+              const found = items.find((i) => i.email_address === process.argv[2]);
+              console.log(found ? found.id : "");
+            ' "$LIST_OUTPUT" "$PROOF_EMAIL")
+            if [ -n "$STALE_ID" ]; then
+              { echo ""; echo "Found a stale pending invitation ($STALE_ID) for $PROOF_EMAIL left over from an earlier run (e.g. one whose revoke step didn't complete); revoking it before creating a fresh one."; } | tee -a write-clerk-output.txt
+              REVOKE_STALE_OUTPUT=$(node dist/index.js call clerk.invitation.revoke --args "{\"invitationId\":\"$STALE_ID\"}")
+              { echo ""; echo "$REVOKE_STALE_OUTPUT"; } | tee -a write-clerk-output.txt
+            fi
+          fi
+
+          CREATE_OUTPUT=$(node dist/index.js call clerk.invitation.create --args "{\"emailAddress\":\"$PROOF_EMAIL\",\"notify\":false}")
+          CREATE_STATUS=$?
+          { echo ""; echo "$CREATE_OUTPUT"; } | tee -a write-clerk-output.txt
+          if [ $CREATE_STATUS -ne 0 ]; then
+            exit 1
+          fi
+
+          INV_ID=$(node -e '
+            const body = JSON.parse(process.argv[1]);
+            console.log((body.data && body.data.id) || "");
+          ' "$CREATE_OUTPUT")
+          if [ -z "$INV_ID" ]; then
+            echo "Invitation created but no id was found in the response." | tee -a write-clerk-output.txt
+            exit 1
+          fi
+
+          REVOKE_OUTPUT=$(node dist/index.js call clerk.invitation.revoke --args "{\"invitationId\":\"$INV_ID\"}")
+          REVOKE_STATUS=$?
+          { echo ""; echo "$REVOKE_OUTPUT"; } | tee -a write-clerk-output.txt
+          exit $REVOKE_STATUS
 
       - name: Record the result (runs even if a step failed)
         if: always()
