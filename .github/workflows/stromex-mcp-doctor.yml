@@ -169,6 +169,26 @@ jobs:
             --args "{\"from\":\"stromex-mcp@mail.worldwencollege.co.uk\",\"to\":[\"ahmadbinibrohim@gmail.com\"],\"subject\":\"StromeX MCP -- autonomous write proof\",\"text\":\"This email was sent unattended by stromex-mcp's resend.email.send tool, through the real policy and audit gate, at $(date -u +'%Y-%m-%dT%H:%M:%SZ').\"}" \
             2>&1 | tee write-resend-output.txt
 
+      - name: Clerk -- invite the owner and revoke it through the real gate
+        id: write_clerk
+        if: always() && steps.doctor.conclusion != 'skipped'  # see the `write` step above
+        env:
+          CLERK_SECRET_KEY: ${{ secrets.STROMEX_MCP_CLERK_SECRET_KEY }}
+          STROMEX_MCP_PROFILES: clerk
+        run: |
+          set -o pipefail
+          # Same stdout-only capture as the Cloudflare step above, for the
+          # same reason: the invitation id has to be parsed back out to
+          # revoke it, and the CLI's own logging on stderr would break that.
+          node dist/index.js call clerk.invitation.create \
+            --args '{"emailAddress":"ahmadbinibrohim@gmail.com"}' \
+            > clerk-invite-output.txt
+          cat clerk-invite-output.txt | tee -a write-clerk-output.txt
+          INV_ID=$(node -e "console.log(JSON.parse(require('fs').readFileSync('clerk-invite-output.txt','utf8')).data.id)")
+          node dist/index.js call clerk.invitation.revoke \
+            --args "{\"invitationId\":\"$INV_ID\"}" \
+            2>&1 | tee -a write-clerk-output.txt
+
       - name: Record the result (runs even if a step failed)
         if: always()
         run: |
@@ -183,6 +203,7 @@ jobs:
             echo "Neon write outcome: ${{ steps.write_neon.outcome || 'skipped (doctor did not succeed)' }}"
             echo "Vercel write outcome: ${{ steps.write_vercel.outcome || 'skipped (doctor did not succeed)' }}"
             echo "Resend write outcome: ${{ steps.write_resend.outcome || 'skipped (doctor did not succeed)' }}"
+            echo "Clerk write outcome: ${{ steps.write_clerk.outcome || 'skipped (doctor did not succeed)' }}"
             echo ""
             echo "## doctor"
             echo '```'
@@ -213,6 +234,11 @@ jobs:
             echo '```'
             cat write-resend-output.txt 2>/dev/null || echo "(skipped)"
             echo '```'
+            echo ""
+            echo "## call clerk.invitation.create / clerk.invitation.revoke"
+            echo '```'
+            cat write-clerk-output.txt 2>/dev/null || echo "(skipped)"
+            echo '```'
           } > .status/doctor-last-run.md
 
       - name: Commit the status if it changed
@@ -224,7 +250,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "No change in doctor status."
           else
-            git commit -m "StromeX MCP: doctor ${{ steps.doctor.outcome }}, writes gh=${{ steps.write.outcome || 'skipped' }} cf=${{ steps.write_cloudflare.outcome || 'skipped' }} neon=${{ steps.write_neon.outcome || 'skipped' }} vercel=${{ steps.write_vercel.outcome || 'skipped' }} resend=${{ steps.write_resend.outcome || 'skipped' }}"
+            git commit -m "StromeX MCP: doctor ${{ steps.doctor.outcome }}, writes gh=${{ steps.write.outcome || 'skipped' }} cf=${{ steps.write_cloudflare.outcome || 'skipped' }} neon=${{ steps.write_neon.outcome || 'skipped' }} vercel=${{ steps.write_vercel.outcome || 'skipped' }} resend=${{ steps.write_resend.outcome || 'skipped' }} clerk=${{ steps.write_clerk.outcome || 'skipped' }}"
             git push origin HEAD:${{ env.SOURCE_REF }}
           fi
 
@@ -235,5 +261,6 @@ jobs:
           steps.write_cloudflare.outcome == 'failure' ||
           steps.write_neon.outcome == 'failure' ||
           steps.write_vercel.outcome == 'failure' ||
-          steps.write_resend.outcome == 'failure'
+          steps.write_resend.outcome == 'failure' ||
+          steps.write_clerk.outcome == 'failure'
         run: exit 1
