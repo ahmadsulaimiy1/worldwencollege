@@ -64,7 +64,16 @@ async function open_(path, viewport) {
   const page = await browser.newPage({ viewport: viewport || { width: 1280, height: 1000 } });
   await page.route('**://fonts.googleapis.com/**', (r) => r.abort());
   await page.route('**://fonts.gstatic.com/**', (r) => r.abort());
-  page.on('pageerror', (e) => errs.push(`${path}: ${e.message}`));
+  page.on('pageerror', (e) => {
+    // css/atelier.css's `@view-transition { navigation: auto; }` is a
+    // real, deliberate cross-document transition (with its own
+    // prefers-reduced-motion carve-out) -- not a script bug. Under CI's
+    // timing a fresh navigation can occasionally interrupt it, and
+    // Chromium surfaces that exact skip as a pageerror even though
+    // nothing on the page called the View Transition API itself.
+    if (/Transition was skipped/.test(e.message)) return;
+    errs.push(`${path}: ${e.message}`);
+  });
   page.on('console', (m) => {
     if (m.type() !== 'error') return;
     const txt = m.text();
