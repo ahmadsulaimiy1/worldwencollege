@@ -1,8 +1,12 @@
 # StromeX MCP — last run
 
-Ran: 2026-09-09T23:53:29Z
+Ran: 2026-09-10T00:54:58Z
 Doctor outcome: failure
-Write outcome: skipped
+GitHub write outcome: skipped
+Cloudflare write outcome: skipped
+Neon write outcome: skipped
+Vercel write outcome: skipped
+Resend write outcome: skipped
 
 ## doctor
 ```
@@ -26,20 +30,40 @@ Credentials
   ✓ openai      OPENAI_API_KEY=env:edd5edfe3874
 
 Live checks (one authenticated read each)
-  ✓ cloudflare    572ms  1 account(s) visible
-  ✓ github        165ms  authenticated as ahmadsulaimiy1
-  ✓ neon          227ms  2 project(s) visible
-  ✓ vercel        269ms  1 project(s) in the first page
-  ✓ clerk         251ms  1 user(s)
-  ✓ resend        181ms  2 sending domain(s)
-  ✗ brevo         402ms  CREDENTIAL_REJECTED: brevo account.get failed with HTTP 401: unauthorized: Key not found
+  ✓ cloudflare    312ms  1 account(s) visible
+  ✓ github        198ms  authenticated as ahmadsulaimiy1
+  ✓ neon          172ms  2 project(s) visible
+  ✓ vercel        228ms  1 project(s) in the first page
+  ✓ clerk         282ms  1 user(s)
+  ✓ resend        188ms  2 sending domain(s)
+  ✗ brevo         321ms  CREDENTIAL_REJECTED: brevo account.get failed with HTTP 401: unauthorized: Key not found
       → The brevo credential was rejected or lacks the required scope. Run `stromex-mcp doctor` and re-check the token's permissions against mcp/docs/installation.md.
-  ✓ openai        740ms  123 model(s) visible; default gpt-5
+  ✓ openai        706ms  123 model(s) visible; default gpt-5
 
 1 provider(s) failed. Nothing was changed.
 ```
 
 ## call github.variable.put
+```
+(skipped)
+```
+
+## call cloudflare.kv.namespace.create / cloudflare.kv.value.put
+```
+(skipped)
+```
+
+## call neon.branch.create
+```
+(skipped)
+```
+
+## call vercel.env.set
+```
+(skipped)
+```
+
+## call resend.email.send
 ```
 (skipped)
 ```
