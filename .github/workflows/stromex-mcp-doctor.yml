@@ -94,6 +94,73 @@ jobs:
             --args "{\"owner\":\"ahmadsulaimiy1\",\"repo\":\"worldwencollege\",\"name\":\"STROMEX_MCP_LAST_AUTONOMOUS_RUN\",\"value\":\"$(date -u +'%Y-%m-%dT%H:%M:%SZ')\"}" \
             2>&1 | tee write-output.txt
 
+      # Four more real writes, one per remaining provider that has a
+      # credential and a genuinely inert target -- proving autonomy is
+      # not a GitHub-only trick. Each creates or updates something new
+      # and harmless rather than touching a real institution's live
+      # data: a dedicated KV namespace, a database branch (Neon's own
+      # backup mechanism, not the live data), a preview-only env var,
+      # and an email to the owner's own address. Ruled 2026-09-10: every
+      # [write] tool runs unattended once its credential exists -- this
+      # is that ruling exercised, not just documented (SEB §16.8).
+      - name: Cloudflare -- create a KV namespace and write a key through the real gate
+        id: write_cloudflare
+        if: steps.doctor.outcome == 'success'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.STROMEX_MCP_CLOUDFLARE_API_TOKEN }}
+          STROMEX_MCP_PROFILES: cloudflare
+        run: |
+          set -o pipefail
+          # The CLI's own logging goes to stderr (core/logger.ts) and the
+          # `call` result envelope is the only thing on stdout, so
+          # redirecting stdout alone here -- not `2>&1` -- keeps the
+          # captured file pure JSON to parse the new namespace's id from.
+          node dist/index.js call cloudflare.kv.namespace.create \
+            --args '{"title":"stromex-mcp-proof"}' \
+            > ns-create-output.txt
+          cat ns-create-output.txt | tee -a write-cloudflare-output.txt
+          NS_ID=$(node -e "console.log(JSON.parse(require('fs').readFileSync('ns-create-output.txt','utf8')).data.id)")
+          node dist/index.js call cloudflare.kv.value.put \
+            --args "{\"namespaceId\":\"$NS_ID\",\"key\":\"last_autonomous_run\",\"value\":\"$(date -u +'%Y-%m-%dT%H:%M:%SZ')\"}" \
+            2>&1 | tee -a write-cloudflare-output.txt
+
+      - name: Neon -- create a branch through the real gate
+        id: write_neon
+        if: steps.doctor.outcome == 'success'
+        env:
+          NEON_API_KEY: ${{ secrets.STROMEX_MCP_NEON_API_KEY }}
+          NEON_ORG_ID: ${{ secrets.STROMEX_MCP_NEON_ORG_ID }}
+          STROMEX_MCP_PROFILES: neon
+        run: |
+          set -o pipefail
+          node dist/index.js call neon.branch.create \
+            --args '{"projectId":"orange-dawn-28507285","name":"stromex-mcp-proof"}' \
+            2>&1 | tee write-neon-output.txt
+
+      - name: Vercel -- set a preview env var through the real gate
+        id: write_vercel
+        if: steps.doctor.outcome == 'success'
+        env:
+          VERCEL_TOKEN: ${{ secrets.STROMEX_MCP_VERCEL_TOKEN }}
+          STROMEX_MCP_PROFILES: vercel
+        run: |
+          set -o pipefail
+          node dist/index.js call vercel.env.set \
+            --args "{\"project\":\"prj_42YG9LlfYzxjW0st9hN4h6k0ZHtv\",\"key\":\"STROMEX_MCP_LAST_AUTONOMOUS_RUN\",\"value\":\"$(date -u +'%Y-%m-%dT%H:%M:%SZ')\",\"target\":[\"preview\"]}" \
+            2>&1 | tee write-vercel-output.txt
+
+      - name: Resend -- send a real email through the real gate
+        id: write_resend
+        if: steps.doctor.outcome == 'success'
+        env:
+          RESEND_API_KEY: ${{ secrets.STROMEX_MCP_RESEND_API_KEY }}
+          STROMEX_MCP_PROFILES: resend
+        run: |
+          set -o pipefail
+          node dist/index.js call resend.email.send \
+            --args "{\"from\":\"stromex-mcp@mail.worldwencollege.co.uk\",\"to\":[\"ahmadbinibrohim@gmail.com\"],\"subject\":\"StromeX MCP -- autonomous write proof\",\"text\":\"This email was sent unattended by stromex-mcp's resend.email.send tool, through the real policy and audit gate, at $(date -u +'%Y-%m-%dT%H:%M:%SZ').\"}" \
+            2>&1 | tee write-resend-output.txt
+
       - name: Record the result (runs even if a step failed)
         if: always()
         run: |
@@ -103,7 +170,11 @@ jobs:
             echo ""
             echo "Ran: $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
             echo "Doctor outcome: ${{ steps.doctor.outcome }}"
-            echo "Write outcome: ${{ steps.write.outcome || 'skipped (doctor did not succeed)' }}"
+            echo "GitHub write outcome: ${{ steps.write.outcome || 'skipped (doctor did not succeed)' }}"
+            echo "Cloudflare write outcome: ${{ steps.write_cloudflare.outcome || 'skipped (doctor did not succeed)' }}"
+            echo "Neon write outcome: ${{ steps.write_neon.outcome || 'skipped (doctor did not succeed)' }}"
+            echo "Vercel write outcome: ${{ steps.write_vercel.outcome || 'skipped (doctor did not succeed)' }}"
+            echo "Resend write outcome: ${{ steps.write_resend.outcome || 'skipped (doctor did not succeed)' }}"
             echo ""
             echo "## doctor"
             echo '```'
@@ -113,6 +184,26 @@ jobs:
             echo "## call github.variable.put"
             echo '```'
             cat write-output.txt 2>/dev/null || echo "(skipped)"
+            echo '```'
+            echo ""
+            echo "## call cloudflare.kv.namespace.create / cloudflare.kv.value.put"
+            echo '```'
+            cat write-cloudflare-output.txt 2>/dev/null || echo "(skipped)"
+            echo '```'
+            echo ""
+            echo "## call neon.branch.create"
+            echo '```'
+            cat write-neon-output.txt 2>/dev/null || echo "(skipped)"
+            echo '```'
+            echo ""
+            echo "## call vercel.env.set"
+            echo '```'
+            cat write-vercel-output.txt 2>/dev/null || echo "(skipped)"
+            echo '```'
+            echo ""
+            echo "## call resend.email.send"
+            echo '```'
+            cat write-resend-output.txt 2>/dev/null || echo "(skipped)"
             echo '```'
           } > .status/doctor-last-run.md
 
@@ -125,10 +216,16 @@ jobs:
           if git diff --cached --quiet; then
             echo "No change in doctor status."
           else
-            git commit -m "StromeX MCP: doctor ${{ steps.doctor.outcome }}, write ${{ steps.write.outcome || 'skipped' }}"
+            git commit -m "StromeX MCP: doctor ${{ steps.doctor.outcome }}, writes gh=${{ steps.write.outcome || 'skipped' }} cf=${{ steps.write_cloudflare.outcome || 'skipped' }} neon=${{ steps.write_neon.outcome || 'skipped' }} vercel=${{ steps.write_vercel.outcome || 'skipped' }} resend=${{ steps.write_resend.outcome || 'skipped' }}"
             git push origin HEAD:${{ env.SOURCE_REF }}
           fi
 
-      - name: Fail the job if the credential or the write failed
-        if: steps.doctor.outcome == 'failure' || steps.write.outcome == 'failure'
+      - name: Fail the job if the credential or any write failed
+        if: |
+          steps.doctor.outcome == 'failure' ||
+          steps.write.outcome == 'failure' ||
+          steps.write_cloudflare.outcome == 'failure' ||
+          steps.write_neon.outcome == 'failure' ||
+          steps.write_vercel.outcome == 'failure' ||
+          steps.write_resend.outcome == 'failure'
         run: exit 1
