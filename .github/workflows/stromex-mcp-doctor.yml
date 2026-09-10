@@ -326,7 +326,7 @@ jobs:
           # policy-gated write path -- it is not meant to be an expensive
           # consultation, just a genuine one.
           node dist/index.js call openai.validate.independent \
-            --args '{"subject":"This GitHub Actions run proves stromex-mcp can perform a real, autonomous, policy-gated OpenAI write action, unattended, inside its configured spending cap.","question":"Does this run, by itself, constitute genuine proof of that claim, or is something still missing?","effort":"low","maxOutputTokens":256}' \
+            --args '{"subject":"This GitHub Actions run proves stromex-mcp can perform a real, autonomous, policy-gated OpenAI write action, unattended, inside its configured spending cap.","question":"Does this run, by itself, constitute genuine proof of that claim, or is something still missing?","effort":"low","maxOutputTokens":2000}' \
             2>&1 | tee write-openai-output.txt
 
       - name: Record the result (runs even if a step failed)
