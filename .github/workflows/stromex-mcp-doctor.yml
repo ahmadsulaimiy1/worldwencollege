@@ -299,6 +299,36 @@ jobs:
           { echo ""; echo "$REVOKE_OUTPUT"; } | tee -a write-clerk-output.txt
           exit $REVOKE_STATUS
 
+      - name: OpenAI -- run one real, priced consultation through the real gate
+        id: write_openai
+        if: always() && steps.doctor.conclusion != 'skipped'  # see the `write` step above
+        env:
+          OPENAI_API_KEY: ${{ secrets.STROMEX_MCP_OPENAI_API_KEY }}
+          STROMEX_MCP_PROFILES: openai
+          # SEB §26.6: a spending policy must be turned on deliberately,
+          # with both limits, before any metered call is allowed to run
+          # unattended -- this is the owner's own explicit choice
+          # (2026-09-10: $25 single / $50 monthly), not a default this
+          # file invented. Rates are installation.md's own documented,
+          # sourced published rate for the default model (2026-08-18),
+          # not a guessed figure -- an unpriced consultation is refused
+          # outright once the policy is in force (see openai/tools.ts).
+          STROMEX_SPEND_ENABLED: 'true'
+          STROMEX_SPEND_CURRENCY: USD
+          STROMEX_SPEND_MAX_SINGLE: '25'
+          STROMEX_SPEND_MONTHLY_CAP: '50'
+          OPENAI_PRICE_INPUT_PER_MTOK: '2.00'
+          OPENAI_PRICE_OUTPUT_PER_MTOK: '12.00'
+          OPENAI_PRICE_CURRENCY: USD
+        run: |
+          set -o pipefail
+          # Low effort, small output cap: this proves the real, priced,
+          # policy-gated write path -- it is not meant to be an expensive
+          # consultation, just a genuine one.
+          node dist/index.js call openai.validate.independent \
+            --args '{"subject":"This GitHub Actions run proves stromex-mcp can perform a real, autonomous, policy-gated OpenAI write action, unattended, inside its configured spending cap.","question":"Does this run, by itself, constitute genuine proof of that claim, or is something still missing?","effort":"low","maxOutputTokens":256}' \
+            2>&1 | tee write-openai-output.txt
+
       - name: Record the result (runs even if a step failed)
         if: always()
         run: |
@@ -314,6 +344,7 @@ jobs:
             echo "Vercel write outcome: ${{ steps.write_vercel.outcome || 'skipped (doctor did not succeed)' }}"
             echo "Resend write outcome: ${{ steps.write_resend.outcome || 'skipped (doctor did not succeed)' }}"
             echo "Clerk write outcome: ${{ steps.write_clerk.outcome || 'skipped (doctor did not succeed)' }}"
+            echo "OpenAI write outcome: ${{ steps.write_openai.outcome || 'skipped (doctor did not succeed)' }}"
             echo ""
             echo "## doctor"
             echo '```'
@@ -349,6 +380,11 @@ jobs:
             echo '```'
             cat write-clerk-output.txt 2>/dev/null || echo "(skipped)"
             echo '```'
+            echo ""
+            echo "## call openai.validate.independent"
+            echo '```'
+            cat write-openai-output.txt 2>/dev/null || echo "(skipped)"
+            echo '```'
           } > .status/doctor-last-run.md
 
       - name: Commit the status if it changed
@@ -360,7 +396,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "No change in doctor status."
           else
-            git commit -m "StromeX MCP: doctor ${{ steps.doctor.outcome }}, writes gh=${{ steps.write.outcome || 'skipped' }} cf=${{ steps.write_cloudflare.outcome || 'skipped' }} neon=${{ steps.write_neon.outcome || 'skipped' }} vercel=${{ steps.write_vercel.outcome || 'skipped' }} resend=${{ steps.write_resend.outcome || 'skipped' }} clerk=${{ steps.write_clerk.outcome || 'skipped' }}"
+            git commit -m "StromeX MCP: doctor ${{ steps.doctor.outcome }}, writes gh=${{ steps.write.outcome || 'skipped' }} cf=${{ steps.write_cloudflare.outcome || 'skipped' }} neon=${{ steps.write_neon.outcome || 'skipped' }} vercel=${{ steps.write_vercel.outcome || 'skipped' }} resend=${{ steps.write_resend.outcome || 'skipped' }} clerk=${{ steps.write_clerk.outcome || 'skipped' }} openai=${{ steps.write_openai.outcome || 'skipped' }}"
             git push origin HEAD:${{ env.SOURCE_REF }}
           fi
 
@@ -372,5 +408,6 @@ jobs:
           steps.write_neon.outcome == 'failure' ||
           steps.write_vercel.outcome == 'failure' ||
           steps.write_resend.outcome == 'failure' ||
-          steps.write_clerk.outcome == 'failure'
+          steps.write_clerk.outcome == 'failure' ||
+          steps.write_openai.outcome == 'failure'
         run: exit 1
