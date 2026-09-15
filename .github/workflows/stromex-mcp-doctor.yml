@@ -68,7 +68,6 @@ jobs:
           VERCEL_TEAM_ID: ${{ secrets.STROMEX_MCP_VERCEL_TEAM_ID }}
           CLERK_SECRET_KEY: ${{ secrets.STROMEX_MCP_CLERK_SECRET_KEY }}
           RESEND_API_KEY: ${{ secrets.STROMEX_MCP_RESEND_API_KEY }}
-          BREVO_API_KEY: ${{ secrets.STROMEX_MCP_BREVO_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.STROMEX_MCP_OPENAI_API_KEY }}
           # Least privilege (security.md §5): a provider only becomes
           # "configured" (config.ts activeProviders) once its own required
@@ -77,7 +76,14 @@ jobs:
           # as absent, so listing every provider name here is safe. Add a
           # provider's credential once, as a repo secret; nothing in this
           # file needs to change again.
-          STROMEX_MCP_PROFILES: cloudflare,github,neon,vercel,clerk,resend,brevo,openai
+          #
+          # Brevo is deliberately excluded (owner's ruling, 2026-09-15):
+          # three distinct API keys were all rejected with "Key not
+          # found" and the owner chose to leave it out entirely rather
+          # than carry a permanently-failing credential. This is why
+          # `doctor` can now report a genuine overall success instead of
+          # failing every run on a provider nobody is pursuing.
+          STROMEX_MCP_PROFILES: cloudflare,github,neon,vercel,clerk,resend,openai
         run: |
           set -o pipefail
           node dist/index.js doctor 2>&1 | tee doctor-output.txt
