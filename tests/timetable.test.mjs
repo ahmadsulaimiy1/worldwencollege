@@ -725,18 +725,28 @@ for (const src of ['functions/api/student/timetable.js', 'functions/api/student/
   // which is a fixed time of day — and every fixture slot above sits at
   // 15:00Z. On 21 August 2026 the arithmetic landed exactly on
   // `slt_theirs`, the overlap rule fired as designed, and a test that
-  // had passed for weeks failed on a date rather than on a change. A
-  // round offset from the real clock will always eventually collide
-  // with a fixture written at a round time; :37 past cannot.
-  const soon = new Date(Date.now() + 14 * 86400000 + 37 * 60000 + 3 * 3600000)
-    .toISOString().replace(/\.\d{3}Z$/, 'Z');
-  const published = await slotsRoute.onRequestPost({
-    request: send('POST', `${BASE}/staff/slots`, TOK.tutor, {
-      title: 'Speaking practice', kind: 'tutorial', startsAt: soon, durationMinutes: 30, capacity: 1, levelId: 3,
-    }),
-    env,
-  });
-  const pubBody = await published.json();
+  // had passed for weeks failed on a date rather than on a change. The
+  // `:37 past` offset only postponed the same failure: on 17 September
+  // 2026 it landed inside the fixed 2026-10-01T10:00–10:45Z fixture
+  // published above instead. A fixed offset from the real clock will
+  // always eventually collide with SOME fixture written at a fixed
+  // calendar time — the fix is to ask the real route whether the day is
+  // free, the same way a caller would, and move a whole day later on a
+  // real "Overlaps time you already offer" refusal rather than guess
+  // another magic number that will collide again on some future date.
+  let soon, published, pubBody;
+  for (let daysOut = 14; daysOut < 14 + 30; daysOut += 1) {
+    soon = new Date(Date.now() + daysOut * 86400000 + 37 * 60000 + 3 * 3600000)
+      .toISOString().replace(/\.\d{3}Z$/, 'Z');
+    published = await slotsRoute.onRequestPost({
+      request: send('POST', `${BASE}/staff/slots`, TOK.tutor, {
+        title: 'Speaking practice', kind: 'tutorial', startsAt: soon, durationMinutes: 30, capacity: 1, levelId: 3,
+      }),
+      env,
+    });
+    pubBody = await published.json();
+    if (published.status !== 422 || pubBody.fields?.startsAt !== 'Overlaps time you already offer') break;
+  }
   check('a tutor publishes an hour through the route', published.status === 201 && pubBody.slot.status === 'open');
 
   const booked = await bookingRoute.onRequestPost({
