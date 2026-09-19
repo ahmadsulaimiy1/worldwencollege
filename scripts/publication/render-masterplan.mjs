@@ -13,6 +13,8 @@ import { writeFileSync, mkdirSync } from 'node:fs';
 import { chromium } from 'playwright';
 import { model, allScenarios, allocation, breakEven, sensitivity, alternativeA, basis, PLAN } from './masterplan.mjs';
 import * as A from './masterplan-art.mjs';
+import * as PR from './pricing.mjs';
+import { architectures, scenarios as priceScenarios } from './projection.mjs';
 
 const { K, SERIF, SANS, esc, usd, m$, num, pct, figure, table, chip } = A;
 const FIGURES = () => A.figureCount();
@@ -28,6 +30,18 @@ const ALT = alternativeA();
 const Y10 = BASE.years[9];
 const Y1 = BASE.years[0];
 const FIRST_CLEAR = BE.find((b) => b.clears);
+
+// ── The pricing analysis, and the projection it produces ─────────────
+const ARCH = architectures();
+const PSC = priceScenarios();
+const CORE = PSC.core;
+const TARIFF = Object.fromEntries(['directed', 'tutored', 'execCore', 'execPremium', 'execBespoke']
+  .map((k) => [k, PR.tariff(k)]));
+const PATH = PR.PROPOSED.committed;
+const PA = PLAN.proposed_architecture;
+const AA = PLAN.alternative_architecture_a;
+const CY10 = CORE.years[9];
+const FIRST_SURPLUS = CORE.years.find((y) => y.surplus > 0);
 
 const PERIOD = `${PLAN.planning_period.first_year}–${PLAN.planning_period.first_year + PLAN.planning_period.years - 1}`;
 
@@ -148,19 +162,19 @@ function document() {
   S(`<div class="body">
     ${lead(`WorldWide English College teaches a <strong>${num(B.totalHours)}-hour</strong> qualification pathway in six levels from A1 to C2, at an adopted tariff of <strong>${usd(B.programmeTotal)}</strong> — ${usd(B.levelFee, 2)} a level, ${usd(B.perHour, 2)} an academic hour. This plan models what that institution becomes over ${PLAN.planning_period.years} years, and it is built forwards from what the College spends to be found and whom it can actually teach, rather than backwards from a revenue the plan would like to reach.`)}
     ${kpi([
-      { v: m$(BASE.totals.netTuition), l: 'Ten-year net tuition', n: 'Expected case' },
-      { v: m$(Y10.netTuition), l: 'Year-10 net tuition' },
-      { v: num(Y10.activeStudents), l: 'Active learners, Year 10' },
-      { v: num(Math.round(BASE.totals.awardsConferred)), l: 'Awards conferred over the decade' },
-      { v: m$(BASE.totals.surplus), l: 'Ten-year operating surplus', n: pct(BASE.totals.surplus / BASE.totals.netTuition, 0) + ' of net tuition' },
-      { v: m$(BASE.totals.closingReserve), l: 'Closing reserve', n: num(Y10.reserveMonths) + ' months of operating cost' },
+      { v: m$(CORE.totals.revenue), l: 'Ten-year gross revenue', n: 'Core Management Plan, proposed architecture' },
+      { v: m$(CORE.totals.y10Revenue), l: 'Year-10 revenue' },
+      { v: num(CORE.totals.y10Active), l: 'Active learners, Year 10', n: num(CORE.totals.y10New) + ' new in the year' },
+      { v: num(Math.round(CORE.totals.awards)), l: 'Awards conferred over the decade' },
+      { v: m$(CORE.totals.surplus), l: 'Ten-year operating surplus', n: pct(CORE.totals.surplus / CORE.totals.revenue, 0) + ' of revenue' },
+      { v: String(FIRST_SURPLUS ? FIRST_SURPLUS.calendar : '—'), l: 'First surplus year', n: 'Cumulative surplus from ' + (CORE.years.find((y) => y.cumulativeSurplus > 0) || {}).calendar },
     ])}
     ${h2('The thesis, in one paragraph')}
     ${p(`The College sells teaching, not a credential. The credential is identical whichever route a candidate takes to it — same examination, same rubric published before the work, same second marking, same moderation, same registry entry, same public verification — and the routes differ in price by a factor of five because what they differ in is <em>human attention</em>. That single commitment is what makes a ${usd(B.programmeTotal)} tariff defensible and a ${usd(B.independentPerLevel)} independent route honest at the same time, and it is the reason ${pct(B.lines.find((l) => l.key === 'teaching').share, 0)} of every fee is allocated to a named instructor. This model staffs to that allocation rather than beneath it.`)}
     ${h2('The four findings a board should take from this plan')}
     ${p(`<strong>One.</strong> The institution breaks even in <strong>${FIRST_CLEAR ? FIRST_CLEAR.calendar : 'no modelled year'}</strong>, at ${FIRST_CLEAR ? num(FIRST_CLEAR.breakEvenLearners) : '—'} active learners, and clears it in every subsequent year of the expected case. It does not require a step change in enrolment to become self-funding; it requires the third year.`)}
     ${p(`<strong>Two.</strong> Continuation between levels, not acquisition, is the decisive variable. A ten-point fall in continuation costs more over the decade than a thirty per cent rise in the cost of acquiring a learner. From Year 4 the marginal pound is better spent keeping a learner than finding one.`)}
-    ${p(`<strong>Three.</strong> The commissioning brief's alternative tariff — ten levels of 120 hours at $7,400 directed and $14,800 tutored — <strong>converts a ${m$(BASE.totals.surplus)} ten-year surplus into a ${m$(Math.abs(ALT.effect.surplusProposed))} loss</strong>. The cost of teaching does not fall because the price does. Section 19 sets out the arithmetic.`)}
+    ${p(`<strong>Three.</strong> <strong>Management proposes a new commercial architecture</strong> ${chip('board')}, built from delivery cost upward rather than adjusted from an existing figure: a Directed pathway at ${usd(PATH.directed)}, Tutored at ${usd(PATH.tutored)}, and Executive tiers at ${usd(PATH.execCore)}, ${usd(PATH.execPremium)} and ${usd(PATH.execBespoke)}. Against the adopted flat tariff it earns ${m$(ARCH.proposed.totals.revenue - ARCH.adopted.totals.revenue)} more revenue and confers ${pct(ARCH.proposed.totals.awards / ARCH.adopted.totals.awards - 1, 0)} more awards, for ${m$(ARCH.adopted.totals.surplus - ARCH.proposed.totals.surplus)} less surplus. Against the brief's ${usd(AA.directed_total_usd)} / ${usd(AA.tutored_total_usd)} it earns ${m$(ARCH.proposed.totals.surplus - ARCH.briefA.totals.surplus)} more surplus at ${pct(ARCH.proposed.totals.y10Active / ARCH.briefA.totals.y10Active, 0)} of its scale. Sections 19 to 21 set out the whole analysis.`)}
     ${p(`<strong>Four.</strong> The two things standing between this College and its first conferred award are not engineering. The Board of Academic Standards has no appointed members and cannot approve the competency mappings; no External Examiner has been appointed. Both are appointments. Every surface that would carry those names already exists and already renders, and the platform refuses to publish a person into an office they have not accepted.`)}
     ${note(`This document is a planning instrument. Every financial figure in it is a projection computed from stated assumptions, and none of it is a record of trading. Classifications are printed beside the figures throughout: ${chip('verified')} for what the College has adopted and published, ${chip('assumption')} for what this plan asserts, ${chip('board')} for what nobody has yet decided.`)}
   </div>`);
@@ -419,34 +433,93 @@ function document() {
     ${p(`The tornado carries the finding that should change how the budget is set. <strong>${esc(SENS.slice().sort((a, b) => Math.abs(b.netDelta) - Math.abs(a.netDelta))[0].label)}</strong> is the largest single exposure in the plan. Continuation — whether a learner who finishes a level begins the next one — moves the decade more than the cost of acquiring a learner does, which is why the roadmap turns the budget toward retention from Phase II.`)}
   </div>`);
 
-  // ── 19 ALTERNATIVE ARCHITECTURE ────────────────────────────────
-  S(opener('19', 'Alternative Architecture A', 'The commissioning brief\'s tariff, computed rather than dismissed.',
-    [{ v: usd(ALT.proposed.blendedProgramme), l: 'Proposed blended programme' }, { v: usd(ALT.adopted.programmeTotal), l: 'Adopted programme' }, { v: pct(ALT.effect.priceRatio - 1, 0), l: 'Change in price' }]));
+  // ── 19 THE PRICING DECISION ────────────────────────────────────
+  S(opener('19', 'The Pricing Decision', 'What WEC-LC should charge, arrived at from delivery economics rather than from an existing number.',
+    [{ v: usd(PATH.directed), l: 'Directed pathway, proposed' }, { v: usd(PATH.tutored), l: 'Tutored pathway, proposed' }, { v: usd(PATH.execBespoke), l: 'Executive Bespoke, proposed' }]));
   S(`<div class="body">
-    ${lead('The brief for this plan carried a different architecture: ten levels of 120 hours, sold as a directed pathway at $7,400 and a tutored pathway at $14,800. It is modelled here in full, against the same enrolment the adopted architecture produces, so the comparison is of price and structure rather than of two different institutions.')}
-    ${table('Adopted against proposed', '',
-      ['', 'ADOPTED — verified and published', 'PROPOSED — requires a Board decision'],
+    ${lead(`This section does not adjust the adopted tariff. It rebuilds the price from what each product costs to deliver — tutorial hours, group hours at their real group size, pieces of produced work at the hours they take to read, assessment, second marking, moderation and adviser time — and lets the answer land where the arithmetic puts it. ${chip('board')}`)}
+    ${h2('What an hour of academic attention costs')}
+    ${p(`A loaded instructor costs ${usd(PLAN.delivery_capacity.instructor_cost_usd * (1 + PLAN.delivery_capacity.instructor_oncost_rate))} a year against ${num(PR.CONTRACTED_HOURS)} contracted hours, of which ${pct(PR.PRODUCTIVE_FRACTION, 0)} is contact, marking and tutorial time. The remainder is preparation, moderation, standardisation and the meetings an academic body must hold to keep a standard — real time no learner is billed for. That gives <strong>${usd(PR.ACADEMIC_HOUR_COST, 2)}</strong> an academic hour, and every price below is built from it.`)}
+    ${table('What each product costs to deliver', 'Fully loaded, per level and across the six-level pathway',
+      ['Product', 'What the learner receives', 'L I', 'L III', 'L VI', 'Pathway'],
+      Object.keys(PR.PRODUCTS).map((k) => [
+        `<strong>${esc(PR.PRODUCTS[k].name)}</strong>`, esc(PR.PRODUCTS[k].blurb),
+        usd(PR.fullCost(k, 0)), usd(PR.fullCost(k, 2)), usd(PR.fullCost(k, 5)),
+        `<strong>${usd([0, 1, 2, 3, 4, 5].reduce((a, i) => a + PR.fullCost(k, i), 0))}</strong>`,
+      ]),
+      'WEC-LC Pricing Model. Delivery cost only; acquisition and institutional overhead are carried separately.')}
+    ${h2('The first answer, and why management rejected it')}
+    ${p(`Unconstrained surplus maximisation has an unambiguous answer: serve roughly 1,500 Gulf executives at about ${usd(PA.boutique_price_usd)} and let the rest of the world go. It produces the highest ten-year surplus in the whole search. It also produces an institution conferring 236 awards a year at C2 — which is a consultancy with a syllabus, not a college, and not what this plan was commissioned to build.`)}
+    ${p(`The frontier that matters runs the other way. <strong>Revenue is nearly flat above about ${usd(PA.revenue_plateau_usd)}</strong>: beyond that point the College is not earning more, it is serving fewer people and keeping the difference. Below about ${usd(PA.institutional_floor_usd)} the margin cannot fund an examinations office, an External Examiner, a registry and a platform. The decision is therefore where on that flat stretch the institution stops being one.`)}
+  </div>`);
+
+  S(opener('20', 'Management\'s Proposed Architecture', 'The prices management recommends, and the trade they represent.'));
+  S(`<div class="body">
+    ${lead(`<strong>Management proposes the following WEC-LC commercial architecture.</strong> Every figure is ${chip('board')} — proposed, modelled, and not adopted. The published tariff remains ${usd(B.programmeTotal)} until the Board resolves otherwise.`)}
+    ${table('The proposed qualification tariff', 'Committed pathway prices, shaped to what each level costs to deliver',
+      ['Code', 'CEFR', 'Qualification', 'Directed', 'Tutored', 'Exec Core', 'Exec Premium', 'Exec Bespoke'],
+      PR.QUALIFICATIONS.map((q, i) => [
+        `<strong>${q.code}</strong>`, q.cefr, esc(q.name),
+        usd(TARIFF.directed[i]), usd(TARIFF.tutored[i]), usd(TARIFF.execCore[i]),
+        usd(TARIFF.execPremium[i]), usd(TARIFF.execBespoke[i]),
+      ]).concat([
+        { strong: true, cells: ['', '', 'COMPLETE A1–C2 PATHWAY', usd(PATH.directed), usd(PATH.tutored), usd(PATH.execCore), usd(PATH.execPremium), usd(PATH.execBespoke)] },
+        ['', '', 'Per academic hour', usd(PATH.directed / 1200, 2), usd(PATH.tutored / 1200, 2), usd(PATH.execCore / 1200, 2), usd(PATH.execPremium / 1200, 2), usd(PATH.execBespoke / 1200, 2)],
+      ]),
+      'PROPOSED / MODELLED. Pay-as-you-go carries a ' + pct(PR.PROPOSED.payAsYouGoUplift, 0) + ' premium over the committed pathway, because continuation is the single most valuable variable in the model.')}
+    ${h2('Why these five products and not one price')}
+    ${p('The College does not have to choose between reaching West Africa and serving a Gulf executive. Those buyers want different amounts of a named person\'s attention, and attention is the only thing here that actually costs money. Five delivery specifications priced to five cost structures serve all of them — and the cheapest is not a discount on the dearest, it is a different service. The credential is identical in every case: same syllabus, same examination, same rubric published before the work, same second marking, same registry entry, same public verification.')}
+    ${h2('Executive education, designed and priced rather than deferred')}
+    ${table('Executive economics', 'What the premium tiers cost to deliver and what they earn',
+      ['Tier', 'Individual hours across the pathway', 'Delivery cost', 'Proposed price', 'Gross margin', 'Per one-to-one hour'],
+      ['execCore', 'execPremium', 'execBespoke'].map((k) => {
+        const cost = [0, 1, 2, 3, 4, 5].reduce((a, i) => a + PR.fullCost(k, i), 0);
+        const hrs = PR.PRODUCTS[k].individual * 6;
+        const price = PATH[k];
+        return [`<strong>${esc(PR.PRODUCTS[k].name)}</strong>`, num(hrs), usd(cost), usd(price),
+          pct((price - cost) / price, 0), hrs ? usd(price / hrs) : '—'];
+      }),
+      'PROPOSED / MODELLED. Executive Core is a cohort of six; Premium and Bespoke are one to one throughout.')}
+    ${p('Executive is not left as a decision for somebody else. It is specified, costed and priced: Core is a cohort of no more than six scheduled around professional obligations; Premium is one to one with a named academic adviser; Bespoke adds material authored to the holder\'s own professional domain. They are substantially dearer than the standard pathway because they consume substantially more of a specialist\'s time, and the table above shows exactly how much.')}
+  </div>`);
+
+  S(opener('21', 'Three Architectures, One Basis', 'What the proposal is worth against the adopted tariff and against the brief\'s.',
+    [{ v: m$(ARCH.proposed.totals.revenue), l: 'Proposed, ten-year revenue' }, { v: m$(ARCH.proposed.totals.surplus), l: 'Ten-year surplus' }, { v: num(ARCH.proposed.totals.y10Active), l: 'Year-10 active learners' }]));
+  S(`<div class="body">
+    ${lead('All three run through the same demand model, the same delivery costs, the same acquisition budget and the same capacity gate. The only thing that differs is what the College charges.')}
+    ${table('The three architectures compared', 'Ten years, Core assumptions throughout',
+      ['Architecture', 'Ten-year revenue', 'Ten-year surplus', 'Year-10 revenue', 'Year-10 active', 'Awards conferred', 'Closing reserve'],
       [
-        ['Levels', num(ALT.adopted.levels), num(ALT.proposed.levels)],
-        ['Hours per level', num(ALT.adopted.hoursPerLevel), num(ALT.proposed.hoursPerLevel)],
-        ['Total academic hours', num(ALT.adopted.totalHours), num(ALT.proposed.totalHours)],
-        ['Programme price', usd(ALT.adopted.programmeTotal), `${usd(ALT.proposed.directed)} directed / ${usd(ALT.proposed.tutored)} tutored`],
-        ['Blended programme price', usd(ALT.adopted.programmeTotal), usd(ALT.proposed.blendedProgramme)],
-        ['Per academic hour', usd(ALT.adopted.perHour, 2), usd(ALT.proposed.perHour, 2)],
-        { strong: true, cells: ['Ten-year net tuition', usd(ALT.effect.tenYearNetAdopted), usd(ALT.effect.tenYearNetProposed)] },
-        ['Ten-year cost of delivery', usd(ALT.effect.tenYearCost), usd(ALT.effect.tenYearCost)],
-        { strong: true, cells: ['TEN-YEAR SURPLUS', usd(ALT.effect.surplusAdopted), usd(ALT.effect.surplusProposed)] },
+        [`Brief A — ${usd(AA.directed_total_usd)} / ${usd(AA.tutored_total_usd)}`, m$(ARCH.briefA.totals.revenue), m$(ARCH.briefA.totals.surplus), m$(ARCH.briefA.totals.y10Revenue), num(ARCH.briefA.totals.y10Active), num(Math.round(ARCH.briefA.totals.awards)), m$(ARCH.briefA.totals.reserve)],
+        [`Adopted flat ${usd(B.programmeTotal)}`, m$(ARCH.adopted.totals.revenue), m$(ARCH.adopted.totals.surplus), m$(ARCH.adopted.totals.y10Revenue), num(ARCH.adopted.totals.y10Active), num(Math.round(ARCH.adopted.totals.awards)), m$(ARCH.adopted.totals.reserve)],
+        { strong: true, cells: ['<strong>PROPOSED PORTFOLIO</strong>', m$(ARCH.proposed.totals.revenue), m$(ARCH.proposed.totals.surplus), m$(ARCH.proposed.totals.y10Revenue), num(ARCH.proposed.totals.y10Active), num(Math.round(ARCH.proposed.totals.awards)), m$(ARCH.proposed.totals.reserve)] },
       ],
-      'WEC-LC Financial Model § Alternative A. The proposed column assumes the same learners, the same markets and the same delivery.')}
-    ${h2('The finding')}
-    ${p(`At a blended ${usd(ALT.proposed.blendedProgramme)} against an adopted ${usd(ALT.adopted.programmeTotal)}, the proposed architecture prices the pathway at <strong>${pct(ALT.effect.priceRatio, 0)}</strong> of the adopted tariff. Net tuition over the decade falls from ${m$(ALT.effect.tenYearNetAdopted)} to ${m$(ALT.effect.tenYearNetProposed)}. <strong>The cost of delivering it does not fall</strong> — the same learners sit the same ${num(B.totalHours)} hours, need the same written feedback on the same produced work, and require the same number of instructors. A ${m$(ALT.effect.surplusAdopted)} surplus becomes a <strong>${m$(Math.abs(ALT.effect.surplusProposed))} loss</strong>.`)}
-    ${h2('What it would take to make the proposed architecture work')}
-    ${p(`It is not impossible; it is a different institution. At ${usd(ALT.proposed.perHour, 2)} an academic hour against ${usd(ALT.adopted.perHour, 2)}, the teaching commitment printed on the College's own fee page — a named instructor, written feedback on every produced piece, tutorials on request — cannot be funded. The directed tier would have to mean genuinely unsupervised study with assessment attached, which is what the College already sells as the independent route at ${usd(B.independentPerLevel)} a level. Adopting the proposed tariff without changing the teaching promise would be selling supervision the institution could not staff.`)}
-    ${p(`${chip('board')} The recommendation of this plan is to retain the adopted architecture and to treat the directed/tutored split as what it already is in the adopted model: the enrolled route and the independent route, priced apart because they differ in human attention rather than in credential.`)}
+      'WEC-LC Pricing and Projection Model. PROPOSED / MODELLED throughout.')}
+    ${h2('The trade, stated plainly')}
+    ${p(`Against the adopted flat tariff the proposal gives up <strong>${m$(ARCH.adopted.totals.surplus - ARCH.proposed.totals.surplus)}</strong> of ten-year surplus. It gains <strong>${pct(ARCH.proposed.totals.y10Active / ARCH.adopted.totals.y10Active - 1, 0)}</strong> more active learners by Year 10 and <strong>${pct(ARCH.proposed.totals.awards / ARCH.adopted.totals.awards - 1, 0)}</strong> more awards conferred across the decade, on ${m$(ARCH.proposed.totals.revenue - ARCH.adopted.totals.revenue)} more revenue. Management recommends that trade for two reasons. The alumni it produces lower the cost of every later acquisition, so the position compounds beyond Year 10 in the proposal's favour. And an institution is measured by what it confers.`)}
+    ${p(`Against the brief's ${usd(AA.directed_total_usd)} / ${usd(AA.tutored_total_usd)} architecture the proposal earns <strong>${m$(ARCH.proposed.totals.surplus - ARCH.briefA.totals.surplus)}</strong> more surplus while still reaching ${pct(ARCH.proposed.totals.y10Active / ARCH.briefA.totals.y10Active, 0)} of its scale. The brief's tariff is not too low because it is cheap; it is too low because it does not cover the teaching it promises.`)}
+    ${table('The Core Management Plan, year by year', 'Proposed architecture, Core assumptions',
+      ['Year', 'New learners', 'Active', 'Instructors', 'Revenue', 'Delivery', 'Acquisition', 'Fixed', 'Surplus', 'Margin', 'Cumulative surplus'],
+      CORE.years.map((y) => [
+        `<strong>${y.calendar}</strong>`, num(y.newLearners), num(y.activeLearners), num(y.instructors),
+        usd(y.revenue), usd(y.delivery), usd(y.acquisition), usd(y.fixed),
+        usd(y.surplus), pct(y.margin, 0), usd(y.cumulativeSurplus),
+      ]).concat([{ strong: true, cells: ['TEN YEARS', num(Math.round(CORE.totals.newLearners)), `peak ${num(CORE.totals.y10Active)}`, num(CY10.instructors), usd(CORE.totals.revenue), usd(CORE.totals.delivery), usd(CORE.totals.acquisition), usd(CORE.totals.fixed), usd(CORE.totals.surplus), pct(CORE.totals.surplus / CORE.totals.revenue, 0), usd(CORE.totals.surplus)] }]),
+      'WEC-LC Projection Model. STRATEGIC PROJECTION — not a trading record.')}
+    ${table('Three scenarios under the proposed architecture', 'Conservative is not a haircut on Core; it is weaker continuation, narrower reach and dearer acquisition',
+      ['Scenario', 'Ten-year revenue', 'Ten-year surplus', 'Year-10 revenue', 'Year-10 new', 'Year-10 active', 'Awards'],
+      ['conservative', 'core', 'growth'].map((k) => {
+        const t = PSC[k].totals;
+        const row = [`<strong>${esc(PSC[k].label)}</strong>`, m$(t.revenue), m$(t.surplus), m$(t.y10Revenue), num(t.y10New), num(t.y10Active), num(Math.round(t.awards))];
+        return k === 'core' ? { strong: true, cells: row } : row;
+      }),
+      'WEC-LC Projection Model. The Core Plan is management\'s recommended execution case, not the midpoint of the other two.')}
+    ${p(`The Conservative case does not reach cumulative surplus inside the decade — it ends at ${m$(PSC.conservative.totals.surplus)}. That is stated rather than smoothed, because it is the plan's real exposure: the Core case requires continuation and reach to hold broadly as modelled, and Section 18's sensitivity shows which of those matters most.`)}
+    ${note(`The Core Plan reaches full modelled reach of its four markets in Year 9, which is why Years 9 and 10 are flat. Growth beyond that point is a market-entry question rather than a pricing one, and Phase V of the roadmap is where it belongs.`)}
   </div>`);
 
   // ── 20 METHODOLOGY AND RECONCILIATION ──────────────────────────
-  S(opener('20', 'Assumptions, Methodology and Reconciliation', 'Where every figure came from, and the audit that proves the document agrees with itself.'));
+  S(opener('22', 'Assumptions, Methodology and Reconciliation', 'Where every figure came from, and the audit that proves the document agrees with itself.'));
   S(`<div class="body">
     ${lead('Every number in this publication is computed by one engine from three files. None is typed into a page, and the reconciliation below is run as a test rather than asserted as a claim.')}
     ${table('The sources', '',

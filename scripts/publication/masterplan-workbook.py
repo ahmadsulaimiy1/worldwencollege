@@ -62,13 +62,13 @@ NUM = '#,##0'
 NUM1 = '#,##0.0'
 
 
-def engine(expr):
+def engine(expr, mod="masterplan"):
     """Ask the model for a JSON value. One process per call is slower and
     simpler than a server, and this script runs once."""
     js = (
-        "import('file://%s/scripts/publication/masterplan.mjs')"
+        "import('file://%s/scripts/publication/%s.mjs')"
         ".then(M => { const out = (%s); "
-        "process.stdout.write(JSON.stringify(out)); })" % (ROOT, expr)
+        "process.stdout.write(JSON.stringify(out)); })" % (ROOT, mod, expr)
     )
     r = subprocess.run([ "node", "-e", js ], capture_output=True, text=True, cwd=ROOT)
     if r.returncode != 0:
@@ -451,6 +451,75 @@ def build():
     put(ws, rr, 3, "=C%d-C%d" % (rr - 2, rr - 1), MONEY, bold=True); rr += 2
     classification_note(ws, rr,
         "The cost of teaching does not fall because the price does. That is the whole finding, and it is arithmetic rather than opinion.")
+
+    # ── 17 · PROPOSED TARIFF ─────────────────────────────────────────
+    tariff = engine("{d:M.tariff('directed'),t:M.tariff('tutored'),ec:M.tariff('execCore'),"
+                    "ep:M.tariff('execPremium'),eb:M.tariff('execBespoke'),"
+                    "q:M.QUALIFICATIONS,p:M.PROPOSED}", mod="pricing")
+    ws = sheet(wb, "17 Proposed tariff", "PROPOSED / MODELLED. Not adopted. The published tariff remains $19,000.")
+    header_row(ws, 6, ["Code", "CEFR", "Qualification", "Directed", "Tutored",
+                       "Exec Core", "Exec Premium", "Exec Bespoke"], [9, 8, 46] + [15] * 5)
+    keys = ["d", "t", "ec", "ep", "eb"]
+    for i, q in enumerate(tariff["q"]):
+        rr = 7 + i
+        put(ws, rr, 1, q["code"], bold=True); put(ws, rr, 2, q["cefr"]); put(ws, rr, 3, q["name"])
+        for ci, k in enumerate(keys):
+            put(ws, rr, 4 + ci, tariff[k][i], MONEY)
+    tr = 7 + len(tariff["q"])
+    put(ws, tr, 3, "COMPLETE A1–C2 PATHWAY", bold=True)
+    for ci, k in enumerate(keys):
+        L = get_column_letter(4 + ci)
+        put(ws, tr, 4 + ci, "=SUM(%s7:%s%d)" % (L, L, tr - 1), MONEY, bold=True)
+    put(ws, tr + 1, 3, "Per academic hour (1,200 hours)", bold=True)
+    for ci in range(len(keys)):
+        L = get_column_letter(4 + ci)
+        put(ws, tr + 1, 4 + ci, "=%s%d/1200" % (L, tr), MONEY2)
+
+    # ── 18 · ARCHITECTURE COMPARISON ─────────────────────────────────
+    arch = engine("M.architectures()", mod="projection")
+    ws = sheet(wb, "18 Architectures", "Three architectures through one demand model, one cost model, one capacity gate.")
+    header_row(ws, 6, ["Architecture", "Ten-year revenue", "Ten-year surplus", "Year-10 revenue",
+                       "Year-10 active", "Awards conferred", "Closing reserve"], [32] + [18] * 6)
+    for i, k in enumerate(["briefA", "adopted", "proposed"]):
+        rr, t = 7 + i, arch[k]["totals"]
+        put(ws, rr, 1, arch[k]["label"], bold=(k == "proposed"))
+        for ci, v, fmt in [(2, t["revenue"], MONEY), (3, t["surplus"], MONEY), (4, t["y10Revenue"], MONEY),
+                           (5, t["y10Active"], NUM), (6, round(t["awards"]), NUM), (7, t["reserve"], MONEY)]:
+            put(ws, rr, ci, v, fmt, bold=(k == "proposed"))
+
+    # ── 19 · THE CORE MANAGEMENT PLAN ────────────────────────────────
+    scen = engine("M.scenarios()", mod="projection")
+    core = scen["core"]
+    ws = sheet(wb, "19 Core Plan", "Management's recommended execution case under the proposed architecture.")
+    header_row(ws, 6, ["Year", "Calendar", "New learners", "Active", "Instructors", "Revenue",
+                       "Delivery", "Acquisition", "Fixed", "Surplus", "Margin", "Cumulative surplus"],
+               [7, 10] + [15] * 10)
+    for i, y in enumerate(core["years"]):
+        rr = 7 + i
+        for ci, v, fmt in [(1, y["year"], NUM), (2, y["calendar"], NUM), (3, y["newLearners"], NUM),
+                           (4, y["activeLearners"], NUM), (5, y["instructors"], NUM),
+                           (6, y["revenue"], MONEY), (7, y["delivery"], MONEY),
+                           (8, y["acquisition"], MONEY), (9, y["fixed"], MONEY)]:
+            put(ws, rr, ci, v, fmt)
+        put(ws, rr, 10, "=F%d-G%d-H%d-I%d" % (rr, rr, rr, rr), MONEY, bold=True)
+        put(ws, rr, 11, "=IF(F%d=0,0,J%d/F%d)" % (rr, rr, rr), PCT)
+        put(ws, rr, 12, ("=J7" if i == 0 else "=L%d+J%d" % (rr - 1, rr)), MONEY, bold=True)
+    tr = 7 + len(core["years"])
+    put(ws, tr, 2, "TEN YEARS", bold=True)
+    for ci in (6, 7, 8, 9, 10):
+        L = get_column_letter(ci)
+        put(ws, tr, ci, "=SUM(%s7:%s%d)" % (L, L, tr - 1), MONEY, bold=True)
+
+    # ── 20 · SCENARIOS UNDER THE PROPOSAL ────────────────────────────
+    ws = sheet(wb, "20 Price scenarios", "Conservative is not a haircut on Core: weaker continuation, narrower reach, dearer acquisition.")
+    header_row(ws, 6, ["Scenario", "Ten-year revenue", "Ten-year surplus", "Year-10 revenue",
+                       "Year-10 new", "Year-10 active", "Awards"], [26] + [18] * 6)
+    for i, k in enumerate(["conservative", "core", "growth"]):
+        rr, t = 7 + i, scen[k]["totals"]
+        put(ws, rr, 1, scen[k]["label"], bold=(k == "core"))
+        for ci, v, fmt in [(2, t["revenue"], MONEY), (3, t["surplus"], MONEY), (4, t["y10Revenue"], MONEY),
+                           (5, t["y10New"], NUM), (6, t["y10Active"], NUM), (7, round(t["awards"]), NUM)]:
+            put(ws, rr, ci, v, fmt, bold=(k == "core"))
 
     # ── 16 · TEN-YEAR SUMMARY ────────────────────────────────────────
     ws = sheet(wb, "16 Summary", "The decade in one view, expected case.")

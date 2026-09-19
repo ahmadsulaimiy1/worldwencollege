@@ -215,3 +215,94 @@ for (const key of ['conservative', 'base', 'growth']) {
 
 console.log(`\n${pass} passed, ${fail} failed.`);
 if (fail) process.exit(1);
+
+// ═══════════════════════════════════════════════════════════════════
+// 9 · THE PRICING DECISION
+// ═══════════════════════════════════════════════════════════════════
+//
+// Section 20 of the plan says "Management proposes the following WEC-LC
+// commercial architecture". A proposal in a board paper has to be three
+// things at once: internally consistent, clearly marked as not adopted,
+// and derived rather than asserted. These check all three.
+{
+  const PR = await import(loadUrl('scripts/publication/pricing.mjs'));
+  const J = await import(loadUrl('scripts/publication/projection.mjs'));
+
+  // ── It must never be mistaken for the adopted price ──────────────
+  check('the proposed architecture is classified as proposed, not adopted',
+    PR.PROPOSED.classification === 'proposed');
+  check('...and the adopted tariff is untouched by it',
+    B.programmeTotal === TUITION.programme_total_usd && TUITION.programme_total_usd === 19000,
+    String(TUITION.programme_total_usd));
+
+  // ── Every price must clear what it costs to deliver ──────────────
+  for (const [key, price] of Object.entries(PR.PROPOSED.committed)) {
+    const cost = [0, 1, 2, 3, 4, 5].reduce((a, i) => a + PR.fullCost(key, i), 0);
+    check(`${PR.PRODUCTS[key].name}: the price covers the cost of delivering it`,
+      price > cost, `$${price} against $${Math.round(cost)} of delivery`);
+    check(`...with a gross margin that can carry acquisition and the institution`,
+      (price - cost) / price > 0.45, `${(((price - cost) / price) * 100).toFixed(0)}%`);
+  }
+
+  // ── The ladder must be shaped to cost, and must sum to the pathway
+  for (const key of Object.keys(PR.PROPOSED.committed)) {
+    const t = PR.tariff(key);
+    check(`${PR.PRODUCTS[key].name}: the six qualification prices sum to the published pathway`,
+      Math.abs(t.reduce((a, b) => a + b, 0) - PR.PROPOSED.committed[key]) <= 50,
+      `${t.reduce((a, b) => a + b, 0)} against ${PR.PROPOSED.committed[key]}`);
+    check(`...and the ladder rises with level, as delivery cost does`,
+      t.every((v, i) => i === 0 || v >= t[i - 1]), t.join(' '));
+  }
+
+  // ── The tiers must be ordered ────────────────────────────────────
+  const order = ['directed', 'tutored', 'execCore', 'execPremium', 'execBespoke'];
+  check('the five products are priced in ascending order of what they deliver',
+    order.every((k, i) => i === 0 || PR.PROPOSED.committed[k] > PR.PROPOSED.committed[order[i - 1]]),
+    order.map((k) => PR.PROPOSED.committed[k]).join(' < '));
+  check('...and Executive is dearer than the standard tutored pathway, not cheaper',
+    PR.PROPOSED.committed.execCore > PR.PROPOSED.committed.tutored * 1.5);
+
+  // ── The comparison must be like for like ─────────────────────────
+  const arch = J.architectures();
+  check('all three architectures run through the same ten years',
+    [arch.proposed, arch.adopted, arch.briefA].every((a) => a.years.length === PLAN.planning_period.years));
+  check('...and each reconciles: surplus is revenue less delivery, acquisition and fixed',
+    [arch.proposed, arch.adopted, arch.briefA].every((a) => a.years.every((y) =>
+      near(y.surplus, y.revenue - y.delivery - y.acquisition - y.fixed, 2))));
+  check('...and each ten-year total is the sum of its ten years',
+    [arch.proposed, arch.adopted, arch.briefA].every((a) =>
+      near(a.totals.revenue, a.years.reduce((n, y) => n + y.revenue, 0), 3)
+      && near(a.totals.surplus, a.years.reduce((n, y) => n + y.surplus, 0), 3)));
+  check('...and cumulative surplus carries forward correctly',
+    arch.proposed.years.every((y, i) => near(y.cumulativeSurplus,
+      arch.proposed.years.slice(0, i + 1).reduce((n, z) => n + z.surplus, 0), 3)));
+
+  // ── The finding the plan actually rests on ───────────────────────
+  check('the proposed architecture confers more awards than the adopted flat tariff',
+    arch.proposed.totals.awards > arch.adopted.totals.awards,
+    `${Math.round(arch.proposed.totals.awards)} against ${Math.round(arch.adopted.totals.awards)}`);
+  check('...and earns more revenue',
+    arch.proposed.totals.revenue > arch.adopted.totals.revenue);
+  check('...and earns more surplus than the brief\'s tariff, which is the point of the comparison',
+    arch.proposed.totals.surplus > arch.briefA.totals.surplus,
+    `${Math.round(arch.proposed.totals.surplus)} against ${Math.round(arch.briefA.totals.surplus)}`);
+  // The plan states the trade honestly rather than claiming a free lunch.
+  check('...and the plan does NOT claim it also beats the adopted tariff on surplus',
+    arch.proposed.totals.surplus < arch.adopted.totals.surplus,
+    'the trade is real and the document says so');
+
+  // ── Scenarios ────────────────────────────────────────────────────
+  const sc = J.scenarios();
+  check('conservative < core < growth on ten-year revenue',
+    sc.conservative.totals.revenue < sc.core.totals.revenue
+    && sc.core.totals.revenue < sc.growth.totals.revenue);
+  check('...and the Core Plan is not the arithmetic midpoint of the other two',
+    Math.abs(sc.core.totals.revenue - (sc.conservative.totals.revenue + sc.growth.totals.revenue) / 2)
+      > sc.core.totals.revenue * 0.02,
+    'it is a distinct execution case, not an average');
+
+  // ── Nothing typed ────────────────────────────────────────────────
+  const pricingSrc = readFileSync(path.join(ROOT, 'scripts/publication/pricing.mjs'), 'utf8');
+  check('the delivery cost is computed from an hourly rate, not tabulated',
+    /ACADEMIC_HOUR_COST\s*=/.test(pricingSrc) && /deliveryCost/.test(pricingSrc));
+}

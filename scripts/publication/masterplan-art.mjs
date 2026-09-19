@@ -79,16 +79,34 @@ const figure = (title, sub, svg, source) => {
 };
 
 let TAB = 0;
+
+/* A COLUMN IS RIGHT-ALIGNED BECAUSE IT HOLDS FIGURES, NOT BECAUSE IT IS
+   NOT THE FIRST ONE. The first draft right-aligned every column after
+   column one, which is correct for a financial ledger and wrong the
+   moment a table carries a qualification name or a mitigation in the
+   middle of it: the prose ragged left, wrapped against the number
+   beside it, and read as a fault. Alignment is decided per column from
+   what the column actually contains. */
+const NUMERIC = /^[-+(]?[$£€]?[\d.,]+[%)MKk]*$|^[—–-]$|^$/;
+const columnIsNumeric = (rows, i) => {
+  const cells = rows.map((r) => (r.cells || r)[i])
+    .map((c) => String(c ?? '').replace(/<[^>]*>/g, '').trim());
+  const real = cells.filter((c) => c !== '');
+  return real.length > 0 && real.every((c) => NUMERIC.test(c));
+};
+
 const table = (title, sub, head, rows, source, opts = {}) => {
   TAB += 1;
   const cls = opts.compact ? ' ledger--compact' : '';
+  const right = head.map((_, i) => (i === 0 ? false : columnIsNumeric(rows, i)));
+  const a = (i) => (right[i] ? ' class="r"' : '');
   return `<div class="tbl">
     <div class="tbl__cap"><span class="tbl__n">Table ${TAB}</span><span class="tbl__t">${esc(title)}</span>
     ${sub ? `<span class="tbl__s">${esc(sub)}</span>` : ''}</div>
     <table class="ledger${cls}">
-      <thead><tr>${head.map((h, i) => `<th${i ? ' class="r"' : ''}>${h}</th>`).join('')}</tr></thead>
+      <thead><tr>${head.map((h, i) => `<th${a(i)}>${h}</th>`).join('')}</tr></thead>
       <tbody>${rows.map((r) => `<tr${r.strong ? ' class="strong"' : ''}${r.rule ? ' class="ruled"' : ''}>${
-        (r.cells || r).map((c, i) => `<td${i ? ' class="r"' : ''}>${c}</td>`).join('')}</tr>`).join('')}</tbody>
+        (r.cells || r).map((c, i) => `<td${a(i)}>${c}</td>`).join('')}</tr>`).join('')}</tbody>
     </table>
     <p class="tbl__src">${esc(source || 'WEC-LC Financial Model.')}</p>
   </div>`;
