@@ -118,6 +118,12 @@ const chip = (kind) => {
     assumption: ['MODELLED ASSUMPTION', K.imperial],
     board: ['BOARD DECISION REQUIRED', K.crimson],
     illustrative: ['ILLUSTRATIVE / DIRECTIONAL', K.soft],
+    /* Not the same as a modelled assumption, and the difference is the
+       whole point of the market-validation section: this one marks a
+       quantity somebody went looking for evidence on and did not find. */
+    insufficient: ['MODELLED — INSUFFICIENT DIRECT MARKET EVIDENCE', K.soft],
+    evidenced: ['EVIDENCED', K.sage],
+    nocomparable: ['NO DIRECT COMPARABLE FOUND', K.crimson],
     target: ['TARGET', K.gold],
   };
   const [label, colour] = map[kind] || map.assumption;

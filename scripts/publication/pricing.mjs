@@ -251,7 +251,14 @@ export const fullCost = (productKey, levelIndex) =>
  * `reachable` is the number of people a year the College could
  * realistically put a considered proposition in front of at maturity,
  * given the acquisition budget in data/masterplan.json. It is an
- * addressable-attention figure and NOT a market-share claim.
+ * addressable-attention figure and NOT a market-share claim. It is also
+ * MODELLED and was never researched, and the projection shows it moving
+ * the decade further than any price in the tariff does.
+ *
+ * `wtpAssumed` is what the pre-validation draft asserted for the same
+ * segment. It is carried as a field rather than left in a comment so
+ * that the published plan can put the two side by side: a revision the
+ * reader cannot see is a revision the reader has to take on trust.
  */
 export const SEGMENTS = [
   /* EVIDENCE-INFORMED, 19 September 2026. Sources and the reasoning
@@ -265,7 +272,7 @@ export const SEGMENTS = [
     // $10,600–$14,100, and one-to-one corporate language training runs
     // $50–$120 an hour. An executive pays above the listed market for
     // scheduling, privacy and a credential — but not three times it.
-    wtpFull: 24000, elasticity: -0.62, credibilityFloor: 11000,
+    wtpAssumed: 31000, wtpFull: 24000, elasticity: -0.62, credibilityFloor: 11000,
     execShare: 0.58, tutoredShare: 0.34,
     evidence: 'british_council_saudi_ladder + corporate_1to1_rates', confidence: 'medium',
   },
@@ -273,7 +280,7 @@ export const SEGMENTS = [
     key: 'gccProf', name: 'Gulf professionals and graduate families', reachable: 11500,
     // WAS $17,500, MODELLED. This is the segment the British Council
     // Saudi tariff speaks to directly, and that tariff is published.
-    wtpFull: 13000, elasticity: -1.05, credibilityFloor: 5200,
+    wtpAssumed: 17500, wtpFull: 13000, elasticity: -1.05, credibilityFloor: 5200,
     execShare: 0.09, tutoredShare: 0.56,
     evidence: 'british_council_saudi_ladder', confidence: 'high',
   },
@@ -282,7 +289,7 @@ export const SEGMENTS = [
     // WAS $19,500, MODELLED. Anchored on university pre-sessional
     // English, the closest credentialed comparable: Stirling's ONLINE
     // eight-week course is £5,150, Sheffield £525 a week.
-    wtpFull: 15500, elasticity: -0.94, credibilityFloor: 6200,
+    wtpAssumed: 19500, wtpFull: 15500, elasticity: -0.94, credibilityFloor: 6200,
     execShare: 0.07, tutoredShare: 0.61,
     evidence: 'uk_presessional', confidence: 'high',
   },
@@ -294,7 +301,7 @@ export const SEGMENTS = [
     // study at the going rate is about $1,176. This single correction
     // removes more demand from the model than every other change
     // combined, and it is the most important result of the research.
-    wtpFull: 2200, elasticity: -1.62, credibilityFloor: 900,
+    wtpAssumed: 6400, wtpFull: 2200, elasticity: -1.62, credibilityFloor: 900,
     execShare: 0.01, tutoredShare: 0.22,
     evidence: 'nigeria_published_rates', confidence: 'high',
   },
@@ -304,7 +311,7 @@ export const SEGMENTS = [
     // published tariff was found for this group and it is not a
     // founding market. Scaled between the Gulf and West African
     // findings rather than researched, and marked as such.
-    wtpFull: 5200, elasticity: -1.28, credibilityFloor: 2100,
+    wtpAssumed: 9800, wtpFull: 5200, elasticity: -1.28, credibilityFloor: 2100,
     execShare: 0.02, tutoredShare: 0.38,
     evidence: null, confidence: 'modelled — insufficient direct market evidence',
   },
@@ -625,27 +632,27 @@ export function portfolio(prices, opts = {}) {
 /*
  * WHERE THIS LANDED, AND WHY IT IS NOT A CORNER.
  *
- * Unconstrained surplus maximisation says: serve about 1,500 Gulf
- * executives at $34,000 and let the rest of the world go. That is a
- * genuine result of the arithmetic and it is the wrong institution —
- * 236 learners a year reaching C2 is a consultancy with a syllabus.
+ * Unconstrained surplus maximisation says: serve about fifteen hundred
+ * Gulf executives at the top of the executive range and let the rest of
+ * the world go. That is a genuine result of the arithmetic and it is the
+ * wrong institution — a few hundred learners a year reaching C2 is a
+ * consultancy with a syllabus.
  *
- * The frontier that matters runs the other way: revenue is nearly FLAT
- * from $8,000 upward, so beyond that point the College is not earning
- * more, it is simply serving fewer people and keeping the difference.
- * Below $7,000 the margin cannot fund an examinations office, an
- * External Examiner, a registry and a platform.
+ * The frontier that matters runs the other way. Revenue is nearly FLAT
+ * above the plateau price recorded in data/masterplan.json, so beyond
+ * that point the College is not earning more; it is serving fewer people
+ * and keeping the difference. Below the institutional floor recorded
+ * beside it, margin cannot fund an examinations office, an External
+ * Examiner, a registry and a platform. The decision is where on that
+ * flat stretch the institution stops being one, and it is taken on that
+ * ground rather than because a spreadsheet ran out of grid.
  *
- * $8,900 is where revenue is within one per cent of its maximum, the
- * margin reaches the high twenties, and the College still admits about
- * 2,500 learners a year with roughly 400 reaching C2. That is the point
- * at which it is both an institution and solvent, and it is chosen on
- * that ground rather than because a spreadsheet ran out of grid.
- *
- * Tutored sits at $18,500 because that is between what a Gulf
- * professional family and a European buyer will pay for it. Pushing it
- * higher does not raise revenue — it moves those buyers to Directed,
- * which the model shows directly.
+ * The figures that used to sit in this comment — a plateau at $8,000, a
+ * floor at $7,000, Directed at $8,900 and Tutored at $18,500 — are gone
+ * because market validation moved all four. They are recorded, with the
+ * reason they were withdrawn, in data/masterplan.json
+ * § proposed_architecture.superseded_pathway_usd. This comment no longer
+ * names any of them, so that it cannot go stale behind the model again.
  *
  * EVERY FIGURE HERE IS PROPOSED / MODELLED. None has been adopted.
  */
@@ -695,12 +702,41 @@ export const PROPOSED = {
        $150 + $250 + $200 a level across six levels. Unchanged by this
        plan, and now carrying the markets the taught tiers cannot. */
     independent: 3600,
-    directed: 8500,
+    /* THE HIGHEST PRICE AT WHICH WEC-LC IS STILL A TEACHING INSTITUTION.
+
+       An earlier revision of this file put Directed at $8,500 on the
+       argument that revenue was flat above it. On researched demand
+       that argument is simply false: revenue rises to about $15,000 and
+       surplus rises with it, because a buyer priced out of Directed
+       does not disappear — they step down to the Independent route and
+       sit the same examinations unsupervised. Learner COUNT barely
+       moves across the whole range. What moves is whether the College
+       is teaching them.
+
+       At the price below the College teaches 60 per cent of the
+       candidates it credentials. At $15,000 it teaches 46 per cent and
+       earns roughly $2M more across the decade. The optimiser, left
+       alone, takes the $2M and turns WEC-LC into an examination board
+       with a syllabus attached — a corner solution wearing a different
+       costume from the boutique one it proposed the first time.
+
+       So the constraint is institutional, and it is stated rather than
+       smuggled in: THE COLLEGE TEACHES A CLEAR MAJORITY OF THE PEOPLE
+       IT CREDENTIALS. The price is the OUTPUT of that constraint — the
+       most the College can charge while it still holds — and the Board
+       can move the constraint and read the price off the published
+       frontier. It cannot be moved quietly: directedAtConstraint()
+       recomputes it and the test suite checks this figure against it. */
+    directed: 9500,
     tutored: 15500,
     execCore: 28000,
     execPremium: 46000,
     execBespoke: 76000,
   },
+  /** What the College teaches, as a share of what it credentials. The
+   *  Board may set this differently; the Directed price follows from
+   *  it rather than the other way round. */
+  teachingMajority: 0.60,
   previous: {
     _: 'The pre-validation proposal, kept so the change is auditable.',
     directed: 8900, tutored: 18500, execCore: 34000, execPremium: 58000, execBespoke: 96000,
@@ -730,3 +766,39 @@ export const QUALIFICATIONS = [
   { code: 'ACEC',  cefr: 'C1', level: 5, name: 'Advanced Certificate in English Communication' },
   { code: 'WEPC',  cefr: 'C2', level: 6, name: 'WorldWide English Proficiency Certificate' },
 ];
+
+// ══════════════════════════════════════════════════════════════════
+// THE CONSTRAINT THAT DECIDES THE DIRECTED PRICE
+// ══════════════════════════════════════════════════════════════════
+
+/** The share of credentialed candidates the College actually teaches,
+ *  at a given tariff. Independent candidates sit the same examinations
+ *  and receive the same award; they are not taught. */
+export function taughtShare(prices, opts = {}) {
+  const by = portfolio(prices, opts).byProduct;
+  const n = (k) => by[k]?.learners || 0;
+  const independent = n('independent');
+  const taught = n('directed') + n('tutored') + n('execCore') + n('execPremium') + n('execBespoke');
+  const total = taught + independent;
+  return total > 0 ? taught / total : 0;
+}
+
+/** The Directed price against the share the College teaches at it — the
+ *  frontier the Board is asked to choose a point on, published rather
+ *  than described. */
+export function teachingFrontier(step = 500, lo = 6000, hi = 16000) {
+  const out = [];
+  for (let d = lo; d <= hi; d += step) {
+    out.push({ directed: d, taughtShare: taughtShare({ ...PROPOSED.committed, directed: d }) });
+  }
+  return out;
+}
+
+/** The highest Directed price at which the constraint still holds. This
+ *  is where PROPOSED.committed.directed comes from, and the test suite
+ *  checks that it still does — so the price cannot drift away from the
+ *  reason for it. */
+export function directedAtConstraint(majority = PROPOSED.teachingMajority, step = 500) {
+  const holding = teachingFrontier(step).filter((f) => f.taughtShare >= majority);
+  return holding.length ? holding[holding.length - 1].directed : null;
+}

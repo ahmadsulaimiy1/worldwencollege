@@ -491,22 +491,30 @@ def build():
     scen = engine("M.scenarios()", mod="projection")
     core = scen["core"]
     ws = sheet(wb, "19 Core Plan", "Management's recommended execution case under the proposed architecture.")
-    header_row(ws, 6, ["Year", "Calendar", "New learners", "Active", "Instructors", "Revenue",
-                       "Delivery", "Acquisition", "Fixed", "Surplus", "Margin", "Cumulative surplus"],
-               [7, 10] + [15] * 10)
+    # Gross fees, the refunds the College undertakes to return, and then
+    # every cost the model actually charges. The surplus formula must be
+    # the same arithmetic the engine performs, or the workbook and the
+    # published plan quietly disagree about the answer.
+    header_row(ws, 6, ["Year", "Calendar", "New learners", "Active", "Instructors",
+                       "Gross fees", "Refunds", "Net tuition",
+                       "Delivery", "Acquisition", "Fixed", "Development",
+                       "Surplus", "Margin", "Cumulative surplus"],
+               [7, 10] + [15] * 13)
     for i, y in enumerate(core["years"]):
         rr = 7 + i
         for ci, v, fmt in [(1, y["year"], NUM), (2, y["calendar"], NUM), (3, y["newLearners"], NUM),
                            (4, y["activeLearners"], NUM), (5, y["instructors"], NUM),
-                           (6, y["revenue"], MONEY), (7, y["delivery"], MONEY),
-                           (8, y["acquisition"], MONEY), (9, y["fixed"], MONEY)]:
+                           (6, y["revenue"], MONEY), (7, y["refunds"], MONEY),
+                           (9, y["delivery"], MONEY), (10, y["acquisition"], MONEY),
+                           (11, y["fixed"], MONEY), (12, y["development"], MONEY)]:
             put(ws, rr, ci, v, fmt)
-        put(ws, rr, 10, "=F%d-G%d-H%d-I%d" % (rr, rr, rr, rr), MONEY, bold=True)
-        put(ws, rr, 11, "=IF(F%d=0,0,J%d/F%d)" % (rr, rr, rr), PCT)
-        put(ws, rr, 12, ("=J7" if i == 0 else "=L%d+J%d" % (rr - 1, rr)), MONEY, bold=True)
+        put(ws, rr, 8, "=F%d-G%d" % (rr, rr), MONEY)
+        put(ws, rr, 13, "=H%d-I%d-J%d-K%d-L%d" % (rr, rr, rr, rr, rr), MONEY, bold=True)
+        put(ws, rr, 14, "=IF(F%d=0,0,M%d/F%d)" % (rr, rr, rr), PCT)
+        put(ws, rr, 15, ("=M7" if i == 0 else "=O%d+M%d" % (rr - 1, rr)), MONEY, bold=True)
     tr = 7 + len(core["years"])
     put(ws, tr, 2, "TEN YEARS", bold=True)
-    for ci in (6, 7, 8, 9, 10):
+    for ci in (6, 7, 8, 9, 10, 11, 12, 13):
         L = get_column_letter(ci)
         put(ws, tr, ci, "=SUM(%s7:%s%d)" % (L, L, tr - 1), MONEY, bold=True)
 
@@ -520,6 +528,94 @@ def build():
         for ci, v, fmt in [(2, t["revenue"], MONEY), (3, t["surplus"], MONEY), (4, t["y10Revenue"], MONEY),
                            (5, t["y10New"], NUM), (6, t["y10Active"], NUM), (7, round(t["awards"]), NUM)]:
             put(ws, rr, ci, v, fmt, bold=(k == "core"))
+
+    # ── 21 · MARKET EVIDENCE ─────────────────────────────────────────
+    # Everything the plan believes about the outside world, with the
+    # address it came from, so a reader can check it rather than take it.
+    ev = json.loads((ROOT / "data" / "market-evidence.json").read_text())
+    ws = sheet(wb, "21 Market evidence",
+               "Published prices, converted. Gathered %s. %s" % (ev["researched_on"], ev["fx_note"]))
+    header_row(ws, 6, ["Market", "Provider", "What it buys", "Local price", "USD",
+                       "Hours", "Per contact hour", "Confidence", "Source"],
+               [24, 28, 46, 22, 12, 8, 16, 12, 62])
+    rr = 7
+    for key, name in [("gcc", "Saudi Arabia and the Gulf"),
+                      ("west_africa", "Nigeria and West Africa"),
+                      ("uk_europe", "United Kingdom and Europe"),
+                      ("executive_and_corporate", "Executive and corporate")]:
+        first = True
+        for o in ev[key]["observations"]:
+            if not (o.get("price_local") or o.get("price_usd")):
+                continue
+            put(ws, rr, 1, name if first else "", bold=first)
+            put(ws, rr, 2, o.get("provider", ""))
+            put(ws, rr, 3, o.get("product", ""))
+            put(ws, rr, 4, o.get("price_local", "—"))
+            usd_v = o.get("price_usd")
+            put(ws, rr, 5, usd_v, MONEY if isinstance(usd_v, (int, float)) else None)
+            put(ws, rr, 6, o.get("hours", "—"), NUM if isinstance(o.get("hours"), (int, float)) else None)
+            pch = o.get("per_contact_hour_usd")
+            put(ws, rr, 7, pch, MONEY2 if isinstance(pch, (int, float)) else None)
+            put(ws, rr, 8, o.get("confidence", "—"))
+            put(ws, rr, 9, o.get("source", "—"))
+            rr, first = rr + 1, False
+    rr += 1
+    put(ws, rr, 1, "WHERE THE EVIDENCE DOES NOT EXIST", bold=True)
+    rr += 1
+    header_row(ws, rr, ["Market or question", "Status", "What the model does instead"], [24, 46, 96])
+    rr += 1
+    for g in ev["gaps"]:
+        put(ws, rr, 1, g.get("market") or g.get("topic"), bold=True)
+        put(ws, rr, 2, g["status"])
+        put(ws, rr, 3, g.get("note", "Scaled from the segments that carry direct observations."))
+        rr += 1
+    rr += 1
+    classification_note(ws, rr, "Assumed against researched willingness to pay — the revision this plan rests on.")
+    rr += 1
+    header_row(ws, rr, ["Segment", "Assumed", "Researched", "Change", "Elasticity",
+                        "Credibility floor", "Evidential confidence"], [34] + [16] * 5 + [46])
+    segs = engine("M.SEGMENTS", mod="pricing")
+    for seg in segs:
+        rr += 1
+        put(ws, rr, 1, seg["name"], bold=True)
+        put(ws, rr, 2, seg.get("wtpAssumed"), MONEY)
+        put(ws, rr, 3, seg["wtpFull"], MONEY)
+        if seg.get("wtpAssumed"):
+            put(ws, rr, 4, "=C%d/B%d-1" % (rr, rr), PCT, bold=True)
+        put(ws, rr, 5, seg["elasticity"], MONEY2)
+        put(ws, rr, 6, seg["credibilityFloor"], MONEY)
+        put(ws, rr, 7, seg["confidence"])
+
+    # ── 22 · THE TEACHING-MAJORITY FRONTIER ──────────────────────────
+    # The constraint the Directed price is the output of. The Board
+    # resolves on the share; the price is read off this sheet.
+    tm = plan["proposed_architecture"]["teaching_majority"]
+    ws = sheet(wb, "22 Teaching frontier",
+               "The College teaches at least %.0f%% of the people it credentials. The Directed price "
+               "is the most it can charge while that holds — BOARD DECISION REQUIRED on the share, "
+               "not on the price." % (tm["share"] * 100))
+    header_row(ws, 6, ["Directed price", "Taught share", "Meets the constraint?"], [18, 16, 22])
+    frontier = engine("M.teachingFrontier()", mod="pricing")
+    proposed = engine("M.PROPOSED.committed.directed", mod="pricing")
+    for i, f in enumerate(frontier):
+        rr = 7 + i
+        is_proposed = f["directed"] == proposed
+        put(ws, rr, 1, f["directed"], MONEY, bold=is_proposed)
+        put(ws, rr, 2, f["taughtShare"], PCT, bold=is_proposed)
+        put(ws, rr, 3, "=IF(B%d>=%s,\"yes\",\"no\")" % (rr, tm["share"]), bold=is_proposed)
+    rr = 8 + len(frontier)
+    put(ws, rr, 1, "Constraint", bold=True)
+    put(ws, rr, 2, tm["share"], PCT, bold=True)
+    put(ws, rr, 3, "Set by the Board. Change it and the price below changes.")
+    rr += 1
+    put(ws, rr, 1, "Directed price", bold=True)
+    put(ws, rr, 2, proposed, MONEY, bold=True)
+    put(ws, rr, 3, "The highest price in the table above at which the constraint still holds.")
+    rr += 2
+    classification_note(ws, rr, "A buyer priced out of Directed does not leave — they step down to the "
+                                "adopted Independent route and sit the same examinations untaught. The "
+                                "number of people the College credentials barely moves across this "
+                                "range. What moves is whether it teaches them.")
 
     # ── 16 · TEN-YEAR SUMMARY ────────────────────────────────────────
     ws = sheet(wb, "16 Summary", "The decade in one view, expected case.")

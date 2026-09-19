@@ -235,13 +235,43 @@ if (fail) process.exit(1);
     B.programmeTotal === TUITION.programme_total_usd && TUITION.programme_total_usd === 19000,
     String(TUITION.programme_total_usd));
 
-  // ── Every price must clear what it costs to deliver ──────────────
+  /* ── Every price must clear what it costs to deliver ──────────────
+     The 45 per cent standard is a standard for prices MANAGEMENT IS
+     PROPOSING. Independent is not one of those: $600 a level is the
+     College’s adopted, published price in data/commercial.json, and a
+     test that demanded it clear a management threshold would be a test
+     demanding the past comply with a proposal made after it.
+
+     It is still checked, on the two things that are actually true of
+     it: it clears its delivery cost, and it clears the cost of
+     acquiring the candidate who buys it. And because the correction to
+     the serving charge pushed it below the standard — 40 per cent, not
+     the 52 it showed when serving cost was understated at $148 — the
+     shortfall is asserted to be DISCLOSED rather than allowed to pass
+     out of the record quietly. */
+  const ADOPTED_PRICES = new Set(['independent']);
+  const MARGIN_STANDARD = 0.45;
   for (const [key, price] of Object.entries(PR.PROPOSED.committed)) {
     const cost = [0, 1, 2, 3, 4, 5].reduce((a, i) => a + PR.fullCost(key, i), 0);
+    const margin = (price - cost) / price;
     check(`${PR.PRODUCTS[key].name}: the price covers the cost of delivering it`,
       price > cost, `$${price} against $${Math.round(cost)} of delivery`);
-    check(`...with a gross margin that can carry acquisition and the institution`,
-      (price - cost) / price > 0.45, `${(((price - cost) / price) * 100).toFixed(0)}%`);
+    if (ADOPTED_PRICES.has(key)) {
+      // The cheapest CAC in the plan is the fair test for the route
+      // that reaches the market the plan says buys it.
+      const cheapestCac = Math.min(...Object.values(PR.CAC));
+      check(`${PR.PRODUCTS[key].name} (adopted): the margin still carries the cost of finding the candidate`,
+        price - cost > cheapestCac,
+        `$${Math.round(price - cost)} of margin against $${cheapestCac} of acquisition`);
+      check(`...and its shortfall against the ${MARGIN_STANDARD * 100}% management standard is disclosed, not buried`,
+        margin < MARGIN_STANDARD
+          ? /independent/i.test(PLAN.proposed_architecture.margin_disclosure || '')
+          : true,
+        `${(margin * 100).toFixed(1)}%`);
+    } else {
+      check(`...with a gross margin that can carry acquisition and the institution`,
+        margin > MARGIN_STANDARD, `${(margin * 100).toFixed(0)}%`);
+    }
   }
 
   // ── The ladder must be shaped to cost, and must sum to the pathway
@@ -254,6 +284,38 @@ if (fail) process.exit(1);
       t.every((v, i) => i === 0 || v >= t[i - 1]), t.join(' '));
   }
 
+  /* ── The Directed price must still be the output of its reason ────
+     Management set Directed by a stated institutional constraint: the
+     College teaches a clear majority of the people it credentials, and
+     the price is the most it can charge while that holds. A price that
+     drifts away from the constraint it was derived from is a price
+     nobody can defend to a Board, so the constraint is recomputed here
+     rather than trusted. */
+  check('Directed is the highest price at which the teaching-majority constraint holds',
+    PR.PROPOSED.committed.directed === PR.directedAtConstraint(),
+    `$${PR.PROPOSED.committed.directed} committed against $${PR.directedAtConstraint()} computed`);
+  check('...and the College does teach a clear majority at it',
+    PR.taughtShare(PR.PROPOSED.committed) >= PR.PROPOSED.teachingMajority,
+    `${(PR.taughtShare(PR.PROPOSED.committed) * 100).toFixed(1)}% taught against a ${PR.PROPOSED.teachingMajority * 100}% floor`);
+  check('...and one step dearer would break it, which is what makes it the highest',
+    PR.taughtShare({ ...PR.PROPOSED.committed, directed: PR.PROPOSED.committed.directed + 500 })
+      < PR.PROPOSED.teachingMajority);
+  check('...and the frontier the Board chooses on falls monotonically, as a frontier must',
+    PR.teachingFrontier().every((f, i, a) => i === 0 || f.taughtShare <= a[i - 1].taughtShare + 1e-9));
+
+  /* The old argument for this price was that revenue was flat above it.
+     On researched demand that is false, and the plan must not keep
+     claiming it. If revenue ever does go flat again the claim can come
+     back — but it has to be true when it does. */
+  {
+    const J2 = J;
+    const at = (d) => J2.project({ ...PR.PROPOSED.committed, directed: d }, {}).totals.revenue;
+    const unconstrained = PLAN.proposed_architecture.teaching_majority.unconstrained_price_usd;
+    check('the plan does NOT rest on a revenue plateau that researched demand removed',
+      at(unconstrained) > at(PR.PROPOSED.committed.directed) * 1.02,
+      'revenue still rises materially above the proposed price, and the plan says so');
+  }
+
   // ── The tiers must be ordered ────────────────────────────────────
   const order = ['directed', 'tutored', 'execCore', 'execPremium', 'execBespoke'];
   check('the five products are priced in ascending order of what they deliver',
@@ -262,13 +324,58 @@ if (fail) process.exit(1);
   check('...and Executive is dearer than the standard tutored pathway, not cheaper',
     PR.PROPOSED.committed.execCore > PR.PROPOSED.committed.tutored * 1.5);
 
+  /* ── The document must be able to count its own sections ────────
+     It could not. The numbering ran 02, 04, 05, 06, 08, 10 — four holes
+     left where sections had been merged away without renumbering what
+     followed — and the cross-references in the prose were typed
+     literals pointing at whatever those numbers used to mean. Both are
+     now derived from one ordered list in the renderer, and this reads
+     the rendered document back to check it. */
+  {
+    const { readFileSync } = await import('node:fs');
+    const staged = readFileSync(new URL('../publication/.masterplan.html', import.meta.url), 'utf8');
+    /* Capture whatever is in the number slot, not only digits. An
+       earlier version of this check matched /\d+/ and so a section
+       rendering "undefined" simply disappeared from the list, leaving
+       the survivors contiguous and the test green. A guard that a
+       mutation walks through is not a guard. */
+    const numbers = [...staged.matchAll(/class="opener__n">([^<]*)</g)].map((m) => m[1]);
+    check('the publication numbers its sections contiguously from 00',
+      numbers.length > 0 && numbers.every((n, i) => n === String(i).padStart(2, '0')),
+      numbers.join(' '));
+    const text = staged.replace(/<(script|style|svg)\b[\s\S]*?<\/\1>/g, '').replace(/<[^>]+>/g, ' ');
+    const refs = [...new Set([...text.matchAll(/Section (\d+)/g)].map((m) => m[1]))];
+    check('...and every cross-reference in the prose names a section that exists',
+      refs.every((r) => numbers.includes(r)),
+      refs.filter((r) => !numbers.includes(r)).join(' ') || `${refs.length} references, all resolved`);
+  }
+
+  /* ── The institutional floor must be the floor the model has ─────
+     The plan publishes a Directed price "below which the decade never
+     closes in surplus at all". It carried $6,000 while the model's own
+     answer was $7,550 — a published floor a quarter below the real one,
+     which is the kind of figure that survives because nobody re-derives
+     it. This re-derives it. */
+  {
+    const floor = PLAN.proposed_architecture.institutional_floor_usd;
+    const decadeAt = (d) => J.project({ ...PR.PROPOSED.committed, directed: d }, {}).totals.surplus;
+    check('the published institutional floor is where the decade actually stops closing in surplus',
+      decadeAt(floor + 100) > 0 && decadeAt(floor - 100) < 0,
+      `$${floor}: $${Math.round(decadeAt(floor - 100))} below, $${Math.round(decadeAt(floor + 100))} above`);
+    check('...and the proposed price clears it',
+      PR.PROPOSED.committed.directed > floor);
+  }
+
   // ── The comparison must be like for like ─────────────────────────
   const arch = J.architectures();
   check('all three architectures run through the same ten years',
     [arch.proposed, arch.adopted, arch.briefA].every((a) => a.years.length === PLAN.planning_period.years));
-  check('...and each reconciles: surplus is revenue less delivery, acquisition and fixed',
+  check('...and each reconciles: surplus is net tuition less delivery, acquisition, fixed cost and development',
     [arch.proposed, arch.adopted, arch.briefA].every((a) => a.years.every((y) =>
-      near(y.surplus, y.revenue - y.delivery - y.acquisition - y.fixed, 2))));
+      near(y.surplus, y.netTuition - y.delivery - y.acquisition - y.fixed - y.development, 2))));
+  check('...and net tuition is gross revenue less the refunds the College has undertaken to pay',
+    [arch.proposed, arch.adopted, arch.briefA].every((a) => a.years.every((y) =>
+      near(y.netTuition, y.revenue - y.refunds, 2) && y.refunds >= 0)));
   check('...and each ten-year total is the sum of its ten years',
     [arch.proposed, arch.adopted, arch.briefA].every((a) =>
       near(a.totals.revenue, a.years.reduce((n, y) => n + y.revenue, 0), 3)
