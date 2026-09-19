@@ -151,14 +151,34 @@ check(`The register holds volumes — ${reg.total} listed, ${reg.downloadable} d
      rendering of the `bytes` beside it, needs no file on disk and holds
      for every volume including these two. What is skipped here is only
      the comparison that has no authoritative file to make. */
+  /* AND WHY THIS COMPARES THE PUBLISHED SIZE RATHER THAN THE BYTE.
+
+     It compared bytes exactly, and two tests in this suite could not
+     then both pass after any commit. tests/publication-companion.test
+     .mjs RE-RENDERS the Teacher's Companion rather than trusting a
+     committed artefact — rightly, since a test that reads last week's
+     PDF proves the PDF exists and not that the renderer still works —
+     and that volume prints its own revision history, read from the
+     repository at generation. So its bytes move every time anything is
+     committed, including the commit that refreshes the register.
+
+     An exact byte is also more than the product promises. The register
+     publishes `mb` to one decimal and the Library page shows the reader
+     "0.7 MB". What must be true is that the size beside a volume is the
+     size of that volume as a reader would see it stated, and that is
+     what this now checks. It still catches what it was written for: the
+     ten volumes whose recorded size described a file that no longer
+     existed were wrong by whole megabytes, not by a timestamp. */
   const present = reg.volumes.filter((v) => !v.excluded
     && existsSync(path.join(ROOT, 'publication', v.file)));
   const skipped = reg.volumes.filter((v) => v.excluded).length;
-  const stale = present.filter((v) => statSync(path.join(ROOT, 'publication', v.file)).size !== v.bytes);
-  check(`Every recorded byte count is the file's own (${present.length} carried in the repository; ${skipped} excluded, measured from the register)`,
+  const asPublished = (bytes) => (bytes / 1048576).toFixed(1);
+  const stale = present.filter((v) =>
+    asPublished(statSync(path.join(ROOT, 'publication', v.file)).size) !== asPublished(v.bytes));
+  check(`Every recorded size is the file's own as the Library states it (${present.length} carried in the repository; ${skipped} excluded, measured from the register)`,
     present.length > 0 && stale.length === 0,
-    stale.map((v) => `${v.slug}: recorded ${v.bytes}, file `
-      + `${statSync(path.join(ROOT, 'publication', v.file)).size}`).join(', '));
+    stale.map((v) => `${v.slug}: register ${asPublished(v.bytes)} MB, file `
+      + `${asPublished(statSync(path.join(ROOT, 'publication', v.file)).size)} MB`).join(', '));
 }
 
 // ── 3 · EVERY DOWNLOADABLE VOLUME HAS A SERVING RULE ─────────────────

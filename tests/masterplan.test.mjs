@@ -366,6 +366,26 @@ if (fail) process.exit(1);
       PR.PROPOSED.committed.directed > floor);
   }
 
+  /* ── The workbook must still be the same institution ───────────
+     One engine renders both the PDF and the xlsx, which is why they
+     cannot disagree about a figure either of them READS. It is not why
+     they cannot disagree about a figure the workbook RECOMPUTES in an
+     Excel formula, and the Core Plan sheet did exactly that: it carried
+     revenue less delivery, acquisition and fixed for a while after the
+     engine had begun charging refunds and institutional development
+     too. A Board reading the workbook beside the plan would have been
+     given two answers. This reads the built workbook back. */
+  {
+    const { spawnSync } = await import('node:child_process');
+    const r = spawnSync('python3', ['scripts/publication/check-workbook-sync.py'],
+      { cwd: new URL('..', import.meta.url).pathname, encoding: 'utf8' });
+    const built = !/workbook not built/.test(r.stdout + r.stderr);
+    check('the built workbook agrees with the engine that published the plan',
+      built && r.status === 0,
+      built ? (r.stdout || r.stderr).trim().split('\n').slice(-3).join(' | ')
+            : 'workbook not built — run npm run masterplan');
+  }
+
   // ── The comparison must be like for like ─────────────────────────
   const arch = J.architectures();
   check('all three architectures run through the same ten years',
