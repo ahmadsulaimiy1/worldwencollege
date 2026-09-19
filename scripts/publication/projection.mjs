@@ -64,25 +64,35 @@ export function project(prices, opts = {}) {
     continuationScale = 1,
     reachMultiplier = 1,
     cacMultiplier = 1,
-    fixedFloor = 620000,
-    fixedAtScale = P.FIXED_INSTITUTIONAL,
   } = opts;
 
   const budgets = PLAN.acquisition_budget_usd.by_year;
+  const productiveHours = P.CONTRACTED_HOURS * P.PRODUCTIVE_FRACTION;
   const years = [];
   let alumni = 0;
   let cumSurplus = 0;
   let cumRevenue = 0;
   let reserve = 0;
   let instructors = 0;
+  let prevNew = 0;
+  let prevProgression = null;
+  /* Teaching, revenue and cost carried into this year by the cohort
+     admitted last year, which is halfway through its pathway and has
+     not stopped needing an instructor merely because the year ended. */
+  let carried = { revenue: 0, delivery: 0, hours: 0, awards: 0, c2: 0 };
 
   for (let y = 0; y < PLAN.planning_period.years; y++) {
     const reach = reachFor(y, alumni, budgets) * reachMultiplier;
-    // Fixed institutional cost grows from a founding floor toward the
-    // steady-state establishment as the College actually builds it.
-    const fixed = fixedFloor + (fixedAtScale - fixedFloor) * Math.min(1, (y + 1) / 7);
+    // Fixed institutional cost is read from the establishment itself,
+    // which is why it steps at Year 2 rather than ramping: that is when
+    // the Director of Academic Standards and the External Examiner take
+    // up post. An invented ramp here would be a smoothing of the plan’s
+    // own hiring decisions, and it would hide the year the cost lands.
+    const fixed = P.fixedEstablishment(y + 1);
 
     const snap = P.portfolio(prices, { continuationScale, reachScale: reach, fixed });
+    const lag0 = snap.byLag[0];
+    const lag1 = snap.byLag[1];
 
     // ── Acquisition is bounded by the budget actually available ──────
     const wantSpend = snap.acquisition * cacMultiplier;
@@ -90,42 +100,94 @@ export function project(prices, opts = {}) {
     const afford = wantSpend > 0 ? Math.min(1, budget / wantSpend) : 1;
 
     // ── And by the instructors the College can put in front of them ──
-    const taughtLearners = (snap.byProduct.tutored?.learners || 0)
-      + (snap.byProduct.execCore?.learners || 0)
-      + (snap.byProduct.execPremium?.learners || 0)
-      + (snap.byProduct.execBespoke?.learners || 0)
-      + (snap.byProduct.directed?.learners || 0) * 0.34; // directed group time is real teaching
-    const caseload = 26;
-    const want = Math.ceil((taughtLearners * afford) / caseload);
+    /* NOT A CASELOAD. This used to divide taught learners by 26, with
+       Directed counted at 0.34 of a learner because "group time is real
+       teaching". Both numbers were typed, and a capacity constraint
+       invented at the keyboard is not a constraint — it is whatever the
+       author needed it to be.
+
+       The College publishes what each product buys: tutorial hours,
+       group hours at a stated group size, pieces of produced work and
+       the hours they take to read. pricing.mjs adds those up. An
+       instructor has CONTRACTED_HOURS a year of which PRODUCTIVE_FRACTION
+       reaches a learner. Dividing one by the other gives the
+       establishment the timetable actually requires, and it moves when
+       the product specification moves, which is the point.
+
+       Last year’s cohort is served FIRST. A College that admits a new
+       class while its continuing students go untaught has not managed a
+       capacity constraint; it has broken a promise. */
+    const wantHours = carried.hours + lag0.hours * afford;
+    const want = Math.ceil(wantHours / productiveHours);
     instructors = Math.max(instructors, Math.min(want, instructors + Math.ceil(instructors * 0.4) + 3));
-    const capacityFactor = want > 0 ? Math.min(1, (instructors * caseload) / (taughtLearners * afford)) : 1;
+    const freeHours = Math.max(0, instructors * productiveHours - carried.hours);
+    const capacityFactor = lag0.hours * afford > 0
+      ? Math.min(1, freeHours / (lag0.hours * afford))
+      : 1;
 
     const scale = afford * capacityFactor;
     const newLearners = snap.learners * scale;
-    const revenue = snap.revenue * scale;
-    const delivery = snap.delivery * scale;
-    const acquisition = Math.min(budget, wantSpend * scale);
-    const surplus = revenue - delivery - acquisition - fixed;
 
-    alumni += snap.awardsToC2 * scale * 2.7; // awards at every level, not only C2
+    // ── Recognised in the year it is taught, not the year it is sold ─
+    const revenue = carried.revenue + lag0.revenue * scale;
+    const delivery = carried.delivery + lag0.delivery * scale;
+    const acquisition = Math.min(budget, wantSpend * scale);
+    const refunds = revenue * P.REFUND_RATE;
+    const netTuition = revenue - refunds;
+    const development = netTuition * P.DEVELOPMENT_SHARE;
+    const surplus = netTuition - delivery - acquisition - fixed - development;
+
+    /* An award is conferred at the end of every level passed, so the
+       number of awards is the number of levels delivered — read from
+       the model rather than multiplied by a factor somebody chose. */
+    const totalAwards = carried.awards + snap.levelsDelivered * scale * (lag0.revenue / snap.revenue);
+    const awardsToC2 = carried.c2;
+
+    /* Learners under instruction this year: everybody admitted this
+       year, plus last year’s entrants who carried on into Level IV. */
+    const continuing = prevProgression ? prevNew * prevProgression[3] : 0;
+    const activeLearners = newLearners + continuing;
+
+    /* ALUMNI ARE PEOPLE, NOT CERTIFICATES. The pull a College exerts on
+       its next applicant comes from the number of human beings who hold
+       one of its awards and will say so — not from the number of awards
+       conferred, which is several times larger because a learner who
+       reaches C2 collects six of them. Counting certificates here would
+       have quietly multiplied the College’s reach by its own pass
+       structure. */
+    alumni += newLearners * snap.progression[0];
     cumRevenue += revenue;
     cumSurplus += surplus;
     reserve = Math.max(0, reserve + (surplus > 0 ? surplus * PLAN.reserve.contribution_share_of_surplus : surplus));
+
+    carried = {
+      revenue: lag1.revenue * scale,
+      delivery: lag1.delivery * scale,
+      hours: lag1.hours * scale,
+      awards: snap.levelsDelivered * scale * (lag1.revenue / snap.revenue),
+      c2: snap.awardsToC2 * scale,
+    };
+    prevNew = newLearners;
+    prevProgression = snap.progression;
 
     years.push({
       year: y + 1,
       calendar: PLAN.planning_period.first_year + y,
       reach: round(reach, 3),
       newLearners: round(newLearners),
-      activeLearners: round(newLearners * 1.9),
-      awardsToC2: round(snap.awardsToC2 * scale),
-      totalAwards: round(snap.awardsToC2 * scale * 2.7),
+      activeLearners: round(activeLearners),
+      awardsToC2: round(awardsToC2),
+      totalAwards: round(totalAwards),
+      alumni: round(alumni),
       instructors,
       turnedAwayByCapacity: round(snap.learners * afford * (1 - capacityFactor)),
       revenue: round(revenue),
+      refunds: round(refunds),
+      netTuition: round(netTuition),
       delivery: round(delivery),
       acquisition: round(acquisition),
       fixed: round(fixed),
+      development: round(development),
       surplus: round(surplus),
       margin: revenue > 0 ? round(surplus / revenue, 4) : 0,
       cumulativeRevenue: round(cumRevenue),
@@ -145,9 +207,13 @@ export function project(prices, opts = {}) {
       delivery: round(years.reduce((a, b) => a + b.delivery, 0)),
       acquisition: round(years.reduce((a, b) => a + b.acquisition, 0)),
       fixed: round(years.reduce((a, b) => a + b.fixed, 0)),
+      development: round(years.reduce((a, b) => a + b.development, 0)),
+      refunds: round(years.reduce((a, b) => a + b.refunds, 0)),
       surplus: round(years.reduce((a, b) => a + b.surplus, 0)),
       newLearners: round(years.reduce((a, b) => a + b.newLearners, 0)),
       awards: round(years.reduce((a, b) => a + b.totalAwards, 0)),
+      awardsToC2: round(years.reduce((a, b) => a + b.awardsToC2, 0)),
+      alumni: years[years.length - 1].alumni,
       y10Revenue: years[years.length - 1].revenue,
       y10Active: years[years.length - 1].activeLearners,
       y10New: years[years.length - 1].newLearners,

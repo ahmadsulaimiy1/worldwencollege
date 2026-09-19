@@ -1,0 +1,215 @@
+{
+  "_": [
+    "MARKET EVIDENCE — what comparable programmes actually charge.",
+    "",
+    "──────────────────────────────────────────────────────────────────",
+    "WHY THIS FILE EXISTS",
+    "──────────────────────────────────────────────────────────────────",
+    "The ten-year model identified its own weakest point and said so in",
+    "writing: segment willingness-to-pay was MODELLED and not researched,",
+    "and everything downstream — $61.6M of revenue, $14.1M of surplus —",
+    "rested on it. This file is the research that was done in answer.",
+    "",
+    "EVERY ROW CARRIES ITS SOURCE. A figure without a URL and a date is",
+    "not evidence, and none appears below. Where the research did not",
+    "find a reliable public figure, the gap is recorded as a gap and the",
+    "assumption that fills it is marked",
+    "",
+    "    MODELLED — INSUFFICIENT DIRECT MARKET EVIDENCE",
+    "",
+    "rather than dressed up with a number that looks researched. Several",
+    "of the most interesting entries below are of exactly that kind: the",
+    "premium providers in Saudi Arabia do not publish prices at all, and",
+    "that refusal is itself a finding about the segment.",
+    "",
+    "──────────────────────────────────────────────────────────────────",
+    "THE COMPARISON THAT MATTERS IS NOT HEADLINE TUITION",
+    "──────────────────────────────────────────────────────────────────",
+    "A cheaper English course existing somewhere does not make WEC-LC",
+    "overpriced, and an expensive one existing does not make it cheap.",
+    "The comparison that carries information is PRICE PER HOUR OF",
+    "INDIVIDUAL INSTRUCTOR ATTENTION, because attention is the only",
+    "thing any of these providers actually spends money on.",
+    "",
+    "A group class of twelve at 90 contact hours gives each learner 7.5",
+    "hours of an instructor's attention. A WEC-LC Tutored level gives",
+    "roughly 16 hours per learner — six individual tutorial hours, a",
+    "share of the group hours, and six hours of a person reading and",
+    "answering produced work. Those are the units this file compares.",
+    "",
+    "Researched 19 September 2026. Currency conversions at the rates",
+    "noted; they move, and a figure quoted in its own currency is the",
+    "durable one."
+  ],
+
+  "researched_on": "2026-09-19",
+  "fx_note": "USD conversions use approximate mid-market rates at the research date: SAR 3.75, AED 3.67, GBP 0.79, NGN 1540. Local-currency figures are authoritative; USD is indicative.",
+
+  "gcc": {
+    "_": "The Gulf anchor, and the single most useful comparable found: a British Council, CEFR-levelled, certificated adult English ladder priced publicly in Saudi Arabia.",
+    "observations": [
+      {
+        "provider": "British Council Saudi Arabia",
+        "product": "Adult English, modular. 5 levels A2–C1. Module = 6 lessons of 90 minutes.",
+        "price_local": "SAR 7,992.50 incl. VAT",
+        "price_usd": 2131,
+        "hours": 90,
+        "duration": "6 months (60 credits)",
+        "per_contact_hour_local": "SAR 77 excl. VAT",
+        "per_contact_hour_usd": 20.53,
+        "includes": "Same teacher and classmates; digital certificate and badge on module completion; no registration fee",
+        "source": "https://saudiarabia.britishcouncil.org/en/english/courses-adults/classes/programmes-pricing",
+        "confidence": "high"
+      },
+      {
+        "provider": "British Council Saudi Arabia",
+        "product": "Adult English, 40 credits",
+        "price_local": "SAR 6,037.50 incl. VAT",
+        "price_usd": 1610,
+        "hours": 60,
+        "duration": "4 months",
+        "source": "https://saudiarabia.britishcouncil.org/en/english/courses-adults/classes/programmes-pricing",
+        "confidence": "high"
+      },
+      {
+        "provider": "British Council Saudi Arabia",
+        "product": "Adult English, 20 credits",
+        "price_local": "SAR 3,795 incl. VAT",
+        "price_usd": 1012,
+        "hours": 30,
+        "duration": "2 months",
+        "source": "https://saudiarabia.britishcouncil.org/en/english/courses-adults/classes/programmes-pricing",
+        "confidence": "high"
+      },
+      {
+        "provider": "British Council Saudi Arabia",
+        "product": "IELTS test fee (Academic / General Training)",
+        "price_local": "SAR 1,636 incl. VAT",
+        "price_usd": 436,
+        "source": "https://ieltsbiz.com/ielts-fees/saudi-arabia",
+        "confidence": "medium",
+        "note": "Secondary source; the figure is consistent across several aggregators."
+      },
+      {
+        "provider": "British Council United Arab Emirates",
+        "product": "IELTS preparation course",
+        "price_local": "AED 2,950",
+        "price_usd": 804,
+        "hours": 24,
+        "per_contact_hour_usd": 33.5,
+        "source": "https://www.britishcouncil.ae/en/english/adults/ielts-preparation",
+        "confidence": "medium"
+      },
+      {
+        "provider": "Berlitz UAE",
+        "product": "English group classes (promotional)",
+        "price_local": "AED 2,900",
+        "price_usd": 790,
+        "source": "https://www.berlitz.com/en-ae/blog/english-group-classes",
+        "confidence": "medium",
+        "note": "Stated as a limited-time promotion; the undiscounted price is not published."
+      },
+      {
+        "provider": "Dubai market survey",
+        "product": "Intensive English programmes, 2–3 months",
+        "price_local": "AED 4,000 – 8,000+",
+        "price_usd": "1,090 – 2,180+",
+        "source": "https://expressenglish.ae/english-course-fees-dubai-complete-price-guide/",
+        "confidence": "low",
+        "note": "A market-guide range rather than a provider's published tariff."
+      },
+      {
+        "provider": "Wall Street English Saudi Arabia",
+        "product": "English course packages",
+        "price_local": "NOT PUBLISHED",
+        "source": "https://wallstreetenglish.edu.sa/en/prices",
+        "confidence": "n/a",
+        "finding": "The page offers a personalised quote and publishes no tariff at all. That is itself evidence about this segment: the premium GCC English market is negotiated rather than listed, which means a published WEC-LC tariff is a differentiator and not merely a price."
+      }
+    ],
+    "derived_ladder_estimate_usd": {
+      "_": "A full A2–C1 ladder at British Council Saudi rates. Five levels at roughly 90–120 contact hours each, at SAR 77/hour excl. VAT.",
+      "low": 10600,
+      "high": 14100,
+      "basis": "450–600 contact hours × SAR 77, converted at 3.75",
+      "confidence": "medium — the per-hour rate is published; the hours a full ladder takes are inferred"
+    }
+  },
+
+  "west_africa": {
+    "_": "The finding that changed the plan. The Nigerian market pays an order of magnitude less than the model assumed, and no WEC-LC taught tier reaches it.",
+    "observations": [
+      {
+        "provider": "PEI Centre, Lagos",
+        "product": "IELTS training, monthly",
+        "price_local": "NGN 75,000 per month",
+        "price_usd": 49,
+        "source": "https://peicentre.com/ielts-training-fees/",
+        "confidence": "high"
+      },
+      {
+        "provider": "British Council Nigeria / IDP",
+        "product": "IELTS test fee",
+        "price_local": "NGN 279,500 – 299,000",
+        "price_usd": "181 – 194",
+        "source": "https://studyabroadly.com/updated-ielts-fees-in-nigeria-and-registration/",
+        "confidence": "medium"
+      },
+      {
+        "provider": "Nigeria market aggregate",
+        "product": "IELTS and English course fees, full range",
+        "price_local": "NGN 1,000 – 2,798,000",
+        "price_usd": "0.65 – 1,817",
+        "source": "https://courses.laimoon.com/nigeria/languages/english/ielts/fees",
+        "confidence": "low",
+        "note": "An aggregator range across every listed provider. The top of it — about $1,800 — is the ceiling any Nigerian English programme is publicly asking."
+      }
+    ],
+    "ghana": {
+      "status": "MODELLED — INSUFFICIENT DIRECT MARKET EVIDENCE",
+      "note": "No reliable published Ghanaian programme tariff was found in this research. Ghana is modelled at Nigerian levels, which is an assumption and is marked as one."
+    }
+  },
+
+  "uk_europe": {
+    "_": "University pre-sessional English is the closest credentialed comparable in the UK: academic, levelled, assessed, and priced publicly.",
+    "observations": [
+      { "provider": "University of Sheffield ELTC", "product": "Pre-sessional English", "price_local": "GBP 525 per week", "price_usd": 665, "source": "https://sheffield.ac.uk/eltc/full-time/pre-sessional", "confidence": "high" },
+      { "provider": "University of Chester", "product": "Pre-sessional English, 13 weeks", "price_local": "GBP 3,350", "price_usd": 4241, "per_week_local": "GBP 258", "source": "https://www.chester.ac.uk/international/pre-sessional-english-language-courses/", "confidence": "high" },
+      { "provider": "University of Chester", "product": "Pre-sessional English, 9 weeks", "price_local": "GBP 2,600", "price_usd": 3291, "per_week_local": "GBP 289", "source": "https://www.chester.ac.uk/international/pre-sessional-english-language-courses/", "confidence": "high" },
+      { "provider": "University of Oxford Language Centre", "product": "Pre-sessional Academic English, 6 weeks", "price_local": "GBP 3,250", "price_usd": 4114, "per_week_local": "GBP 542", "source": "https://www.lang.ox.ac.uk/summer-presessional-english-course", "confidence": "high" },
+      { "provider": "University of Stirling", "product": "Pre-sessional English, 8 weeks, ONLINE", "price_local": "GBP 5,150", "price_usd": 6519, "per_week_local": "GBP 644", "source": "https://www.stir.ac.uk/international/international-students/pre-sessional-english-language-courses/", "confidence": "high", "note": "The most directly comparable delivery model found: online, credentialed, university-run." }
+    ]
+  },
+
+  "executive_and_corporate": {
+    "_": [
+      "Two different markets are often conflated here, and the difference",
+      "decides WEC-LC's executive tariff.",
+      "",
+      "EXECUTIVE COACHING — leadership, not language — runs $200–$600 an",
+      "hour with a median near $500. EXECUTIVE LANGUAGE TRAINING runs far",
+      "below that: $50–$120 an hour for one to one.",
+      "",
+      "WEC-LC executive sits between them: it is language delivered one to",
+      "one, but it terminates in a verifiable credential rather than in a",
+      "set of sessions. Pricing it at coaching rates would be borrowing",
+      "credibility from a different market; pricing it at corporate",
+      "language rates would ignore the qualification."
+    ],
+    "observations": [
+      { "provider": "US corporate language training market", "product": "One-to-one instruction", "price_usd_per_hour": "50 – 120", "source": "https://edlingo.com/resources/corporate-language-training-cost/", "confidence": "medium" },
+      { "provider": "US corporate language training market", "product": "Small group", "price_usd": "15 – 35 per learner per session", "source": "https://edlingo.com/resources/corporate-language-training-cost/", "confidence": "medium" },
+      { "provider": "Executive coaching market (leadership, not language)", "product": "One to one", "price_usd_per_hour": "200 – 600, median ~500; boutique 400–750; enterprise 600–1,500+", "source": "https://www.leadersadapt.com/executive-coaching-cost-index/", "confidence": "medium", "note": "Quoted as the upper reference, NOT as a WEC-LC comparable. WEC-LC does not sell leadership coaching." },
+      { "provider": "Independent business English tutors", "product": "One to one", "price_usd_per_hour": "17 average; 26–29 for UK/US native speakers", "source": "https://www.smoothenglishcompany.com/best-business-english-coaching-2026/", "confidence": "low", "note": "Marketplace tutors, no credential, no assessment, no institution behind them." }
+    ]
+  },
+
+  "gaps": [
+    { "market": "Qatar, Kuwait, Bahrain, Oman", "status": "MODELLED — INSUFFICIENT DIRECT MARKET EVIDENCE", "note": "No published provider tariffs found. Modelled at Saudi/UAE levels, which is an assumption about four distinct markets and is marked as one." },
+    { "market": "Ghana and wider West Africa beyond Nigeria", "status": "MODELLED — INSUFFICIENT DIRECT MARKET EVIDENCE" },
+    { "market": "North America", "status": "MODELLED — INSUFFICIENT DIRECT MARKET EVIDENCE", "note": "Not a founding market in the roadmap; not researched in depth." },
+    { "market": "Asia and rest of world", "status": "MODELLED — INSUFFICIENT DIRECT MARKET EVIDENCE" },
+    { "topic": "Willingness to pay for a MULTI-YEAR credentialed English pathway", "status": "NO DIRECT COMPARABLE FOUND", "note": "This is the honest centre of the problem. No provider found sells a six-level, 1,200-hour, credentialed A1–C2 pathway as one purchase. Every comparable is either a single level, a test preparation course, or a university pre-sessional. WEC-LC's product does not have a market price because the product is not on the market. The pathway prices below are therefore built UP from per-level comparables rather than read off a competitor." }
+  ]
+}
