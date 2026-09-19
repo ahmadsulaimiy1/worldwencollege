@@ -1,0 +1,296 @@
+{
+  "_": [
+    "THE TEN-YEAR MASTER PLAN — every assumption, in one auditable file.",
+    "",
+    "──────────────────────────────────────────────────────────────────",
+    "WHY THIS FILE EXISTS AND WHAT IT IS NOT",
+    "──────────────────────────────────────────────────────────────────",
+    "scripts/publication/masterplan.mjs computes the entire ten-year",
+    "model from this file and from the VERIFIED commercial and academic",
+    "records already held in data/tuition.json and data/commercial.json.",
+    "Nothing in the model is typed twice and nothing is typed into a",
+    "page. If a figure in the published plan cannot be traced to this",
+    "file or to those two, tests/masterplan.test.mjs fails the build.",
+    "",
+    "THE DISTINCTION THIS FILE TURNS ON, and it is the whole of its",
+    "integrity: every quantity below is classified. `verified` means the",
+    "College has adopted it and it is published. `assumption` means this",
+    "plan asserts it for the purpose of modelling and it has not been",
+    "adopted. `board` means it requires a decision nobody has taken.",
+    "",
+    "A plan that blurs those three is not a plan; it is a wish with a",
+    "table in it.",
+    "",
+    "──────────────────────────────────────────────────────────────────",
+    "THE ARCHITECTURE CONFLICT, RECORDED RATHER THAN RESOLVED QUIETLY",
+    "──────────────────────────────────────────────────────────────────",
+    "The commissioning brief for this plan carried a different academic",
+    "and commercial architecture from the one the College has adopted:",
+    "ten levels of 120 hours at $7,400 (directed) or $14,800 (tutored),",
+    "against the adopted six levels of 200 hours at $19,000. The two",
+    "agree on one figure only — 1,200 total academic hours.",
+    "",
+    "The model is built on the ADOPTED architecture, because that is",
+    "what data/tuition.json holds, what tests/commercial-model.test.mjs",
+    "enforces, and what /admissions/tuition/ publishes to the public. A",
+    "ten-year plan whose base price contradicts the College's own",
+    "published fee schedule is not a plan anybody can act on.",
+    "",
+    "The brief's architecture is not discarded. It is modelled in full",
+    "as ALTERNATIVE ARCHITECTURE A, with its financial and academic",
+    "effect computed rather than asserted, in section 19 of the plan."
+  ],
+
+  "planning_period": { "first_year": 2027, "years": 10, "classification": "assumption" },
+
+  "verified_basis": {
+    "_": "Read from data/tuition.json and data/commercial.json at build time. Listed here only so a reader knows what the model treats as given. The engine never copies these numbers; it imports them.",
+    "sources": ["data/tuition.json", "data/commercial.json", "sql/schema.sql:programme_levels"]
+  },
+
+  "market": {
+    "_": [
+      "FOUR MARKETS, ENTERED IN SEQUENCE RATHER THAN AT ONCE.",
+      "",
+      "An institution with one campus, one platform and a finite number",
+      "of instructors cannot open four markets in its first year and",
+      "serve any of them well. The sequence below is a strategic choice:",
+      "the College earns its reputation where the qualification is most",
+      "legible before it spends to be understood somewhere new.",
+      "",
+      "`cac_usd` is the fully-loaded cost of acquiring ONE paying",
+      "learner in that market — advertising, content, the admissions",
+      "conversation and the consultation, divided by learners enrolled.",
+      "It is higher in the Gulf because the sale is longer and more",
+      "personal, and lower in West Africa because reach is cheaper and",
+      "the qualification is already understood there."
+    ],
+    "classification": "assumption",
+    "regions": [
+      { "key": "gcc",     "name": "Saudi Arabia and the Gulf", "name_ar": "السعودية والخليج", "opens_year": 1, "cac_usd": 1450, "enrolled_share": 0.46, "independent_share": 0.10, "partner_share": 0.44 },
+      { "key": "waf",     "name": "Nigeria and West Africa",   "name_ar": "نيجيريا وغرب أفريقيا", "opens_year": 1, "cac_usd": 420,  "enrolled_share": 0.34, "independent_share": 0.58, "partner_share": 0.08 },
+      { "key": "ukeu",    "name": "United Kingdom and Europe", "name_ar": "المملكة المتحدة وأوروبا", "opens_year": 2, "cac_usd": 980,  "enrolled_share": 0.62, "independent_share": 0.26, "partner_share": 0.12 },
+      { "key": "row",     "name": "Asia and the rest of the world", "name_ar": "آسيا وبقية العالم", "opens_year": 4, "cac_usd": 610, "enrolled_share": 0.41, "independent_share": 0.47, "partner_share": 0.12 }
+    ]
+  },
+
+  "acquisition_budget_usd": {
+    "_": [
+      "WHAT THE COLLEGE SPENDS TO BE FOUND, year by year, in total.",
+      "",
+      "THE MODEL RUNS FORWARD FROM THIS, not backwards from a revenue",
+      "target. Enrolment is budget divided by the cost of acquiring a",
+      "learner, then capped by how many learners the College can",
+      "actually teach. That ordering is the difference between a plan",
+      "and a hope: it is impossible to produce a flattering number here",
+      "without either spending the money or hiring the instructors.",
+      "",
+      "Year 1 is deliberately small. The College has no cohort, no",
+      "completion record and no alumni; money spent before there is",
+      "anything to point at buys enquiries that do not convert."
+    ],
+    "classification": "assumption",
+    "by_year": [180000, 420000, 760000, 1150000, 1520000, 1880000, 2180000, 2420000, 2610000, 2760000],
+    "regional_weights_by_year": {
+      "_": "How the budget divides across open markets each year. Weights for a market that has not opened are zero and the engine redistributes.",
+      "gcc":  [0.62, 0.55, 0.44, 0.38, 0.34, 0.32, 0.31, 0.30, 0.30, 0.30],
+      "waf":  [0.38, 0.30, 0.26, 0.22, 0.20, 0.19, 0.18, 0.18, 0.17, 0.17],
+      "ukeu": [0.00, 0.15, 0.30, 0.28, 0.27, 0.26, 0.25, 0.24, 0.24, 0.24],
+      "row":  [0.00, 0.00, 0.00, 0.12, 0.19, 0.23, 0.26, 0.28, 0.29, 0.29]
+    }
+  },
+
+  "funnel": {
+    "_": [
+      "THE STAGES BETWEEN A STRANGER AND A MATRICULATED LEARNER.",
+      "",
+      "The rates below are applied to the enquiries the acquisition",
+      "budget buys. They are stated as an explicit chain rather than as",
+      "one blended conversion figure, because a blended figure hides the",
+      "stage that is actually failing and cannot be managed.",
+      "",
+      "`consultation_to_application` is high because the consultation is",
+      "where placement happens: a person who has had the conversation",
+      "and been placed at a level has already chosen. `offer_to_paid` is",
+      "the hardest step in the chain and is modelled as such."
+    ],
+    "classification": "assumption",
+    "enquiry_to_qualified": 0.41,
+    "qualified_to_consultation": 0.52,
+    "consultation_to_application": 0.68,
+    "application_to_offer": 0.81,
+    "offer_to_paid": 0.58
+  },
+
+  "progression": {
+    "_": [
+      "WHAT HAPPENS AFTER SOMEBODY PAYS, which is where most education",
+      "financial models quietly assume perfection.",
+      "",
+      "`level_completion` is the share of learners who finish a level",
+      "they started. `continues_to_next` is the share of those who then",
+      "enrol on the following level. The two compound: at the rates",
+      "below, roughly a third of learners who begin Level I reach",
+      "Level VI, which is a defensible figure for a 24-month part-time",
+      "qualification and is far from the 100% an unexamined model",
+      "assumes.",
+      "",
+      "Continuation rises with level because a learner who has completed",
+      "three levels has demonstrated they will complete a fourth. That",
+      "is the single most valuable fact in the whole commercial model",
+      "and it is why retention spending outperforms acquisition spending",
+      "from Year 4 onward."
+    ],
+    "classification": "assumption",
+    "level_completion": [0.83, 0.86, 0.88, 0.89, 0.90, 0.91],
+    "continues_to_next": [0.74, 0.78, 0.81, 0.84, 0.87, null],
+    "months_per_level": 4,
+    "refund_rate_of_gross": 0.022
+  },
+
+  "delivery_capacity": {
+    "_": [
+      "THE CONSTRAINT THAT MAKES THIS A MODEL RATHER THAN A CURVE.",
+      "",
+      "Teaching is 36 per cent of a level fee and it is a named person:",
+      "written feedback on every produced piece, tutorials on request,",
+      "and academic responsibility for the level. That person can carry",
+      "a finite number of learners, and the model refuses to enrol more",
+      "learners in a year than the instructors hired that year can",
+      "teach. Revenue the College could not deliver is not revenue.",
+      "",
+      "`learners_per_instructor` is concurrent, not annual."
+    ],
+    "classification": "assumption",
+    "_learners_per_instructor": [
+      "NOT ASSERTED — DERIVED, and the derivation is the point.",
+      "",
+      "The first draft of this plan asserted 48 learners per instructor.",
+      "The model then spent 19.4 per cent of net tuition on instruction",
+      "while data/tuition.json promises 36 per cent of every fee to",
+      "'Teaching and academic supervision — a named instructor, written",
+      "feedback on every piece of produced work, and tutorial time on",
+      "request'. A plan that charges for a named instructor at 36 per",
+      "cent and staffs at 19 is not an efficient plan; it is a plan that",
+      "does not intend to keep the promise printed on its own fee page.",
+      "",
+      "The engine now computes the figure from the published teaching",
+      "allocation and the pace at which learners actually complete",
+      "levels, so the establishment cannot drift away from what the fee",
+      "says it buys. tests/masterplan.test.mjs fails the build if the",
+      "modelled instruction spend departs from the published share."
+    ],
+    "instructor_cost_usd": 62000,
+    "instructor_oncost_rate": 0.21,
+    "hiring_lead_months": 4
+  },
+
+  "staffing": {
+    "_": "Non-teaching establishment. Each role is a real post with a real salary, and the model hires them against thresholds rather than as a percentage of revenue.",
+    "classification": "assumption",
+    "roles": [
+      { "key": "registrar",   "name": "Registrar",                        "salary_usd": 78000, "from_year": 1, "per_n_students": null },
+      { "key": "admissions",  "name": "Admissions officer",               "salary_usd": 46000, "from_year": 1, "per_n_students": 350 },
+      { "key": "academic_director", "name": "Director of Academic Standards", "salary_usd": 96000, "from_year": 2, "per_n_students": null },
+      { "key": "examiner",    "name": "Examinations officer",             "salary_usd": 54000, "from_year": 2, "per_n_students": 800 },
+      { "key": "support",     "name": "Student support officer",          "salary_usd": 41000, "from_year": 1, "per_n_students": 420 },
+      { "key": "finance",     "name": "Finance and compliance officer",   "salary_usd": 58000, "from_year": 2, "per_n_students": null },
+      { "key": "engineer",    "name": "Platform engineer",                "salary_usd": 92000, "from_year": 1, "per_n_students": 1200 },
+      { "key": "marketing",   "name": "Marketing and partnerships lead",  "salary_usd": 64000, "from_year": 1, "per_n_students": null }
+    ],
+    "oncost_rate": 0.21
+  },
+
+  "technology_usd": {
+    "_": "Platform, hosting, authentication, storage, media and security. Grows with active learners but not linearly — the architecture is serverless and the marginal cost of one more learner is small. The floor is what it costs to run the platform at all.",
+    "classification": "assumption",
+    "floor_per_year": 74000,
+    "per_active_learner": 41
+  },
+
+  "operating_usd": {
+    "_": "Legal, accounting, insurance, audit, professional services, the London registered office and institutional administration.",
+    "classification": "assumption",
+    "floor_per_year": 118000,
+    "per_active_learner": 26
+  },
+
+  "institutional_development_usd": {
+    "_": [
+      "THE LINE MOST PLANS LEAVE OUT, and the one this College cannot.",
+      "",
+      "Publishing, the External Examiner, accreditation work, academic",
+      "research and international partnership development. It is funded",
+      "as a share of net tuition rather than from surplus, because a",
+      "line funded from surplus is a line that is cut in the year it is",
+      "most needed."
+    ],
+    "classification": "assumption",
+    "share_of_net_tuition": 0.055,
+    "external_examiner_usd_from_year": 2,
+    "external_examiner_usd": 38000
+  },
+
+  "reserve": {
+    "_": [
+      "WHAT THE COLLEGE KEEPS, and the rule it keeps it by.",
+      "",
+      "The target is stated in MONTHS OF OPERATING COST rather than as a",
+      "percentage of revenue, because the thing a reserve has to survive",
+      "is a year when revenue falls and cost does not. A percentage-of-",
+      "revenue reserve shrinks exactly when it is needed."
+    ],
+    "classification": "assumption",
+    "contribution_share_of_surplus": 0.60,
+    "target_months_of_operating_cost": 9
+  },
+
+  "scenarios": {
+    "_": [
+      "THREE FUTURES, DIFFERING IN STRUCTURE RATHER THAN IN OPTIMISM.",
+      "",
+      "A scenario set whose only variable is 'more students' tests",
+      "nothing. Each of these changes something the College would",
+      "actually have to do differently: what it costs to be found, how",
+      "many learners stay, and what share of enrolment arrives through a",
+      "sponsoring institution rather than one at a time."
+    ],
+    "classification": "assumption",
+    "conservative": { "name": "Conservative", "cac_multiplier": 1.28, "continuation_delta": -0.07, "partner_share_delta": -0.09, "offer_to_paid_delta": -0.08 },
+    "base":         { "name": "Expected",     "cac_multiplier": 1.00, "continuation_delta": 0.00,  "partner_share_delta": 0.00,  "offer_to_paid_delta": 0.00 },
+    "growth":       { "name": "Growth",       "cac_multiplier": 0.86, "continuation_delta": 0.05,  "partner_share_delta": 0.11,  "offer_to_paid_delta": 0.06 }
+  },
+
+  "sensitivity": {
+    "_": "Each is a single-variable shock applied to the expected case, so the effect of one thing can be read without another moving underneath it.",
+    "classification": "assumption",
+    "cases": [
+      { "key": "enrol_down_20", "label": "Enrolment 20% below plan",        "field": "enrolment",     "delta": -0.20 },
+      { "key": "enrol_up_20",   "label": "Enrolment 20% above plan",        "field": "enrolment",     "delta": 0.20 },
+      { "key": "cac_up_30",     "label": "Cost of acquisition 30% higher",  "field": "cac",           "delta": 0.30 },
+      { "key": "tutor_up_15",   "label": "Instructor cost 15% higher",      "field": "instructor",    "delta": 0.15 },
+      { "key": "cont_down_10",  "label": "Continuation 10 points lower",    "field": "continuation",  "delta": -0.10 },
+      { "key": "gcc_half",      "label": "Gulf enrolment at half plan",     "field": "gcc",           "delta": -0.50 },
+      { "key": "refund_double", "label": "Refunds at twice the modelled rate", "field": "refund",     "delta": 1.00 },
+      { "key": "tech_up_50",    "label": "Technology cost 50% higher",      "field": "technology",    "delta": 0.50 }
+    ]
+  },
+
+  "alternative_architecture_a": {
+    "_": [
+      "THE COMMISSIONING BRIEF'S ARCHITECTURE, modelled rather than",
+      "dismissed: ten levels of 120 hours, sold as a directed pathway at",
+      "$7,400 and a tutored pathway at $14,800, against the adopted six",
+      "levels of 200 hours at $19,000.",
+      "",
+      "Section 19 computes what adopting it would do to the institution.",
+      "The figures here are its inputs, not a recommendation."
+    ],
+    "classification": "board",
+    "levels": 10,
+    "hours_per_level": 120,
+    "directed_total_usd": 7400,
+    "tutored_total_usd": 14800,
+    "assumed_tutored_share": 0.34
+  }
+}
