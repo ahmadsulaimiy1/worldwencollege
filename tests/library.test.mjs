@@ -137,9 +137,25 @@ check(`The register holds volumes — ${reg.total} listed, ${reg.downloadable} d
      And it says how many it could not ask about, because a run that
      skipped every volume would otherwise print the same PASS as one
      that checked all sixteen. */
-  const present = reg.volumes.filter((v) => existsSync(path.join(ROOT, 'publication', v.file)));
+  /* EXCLUDED VOLUMES ARE MEASURED FROM THE REGISTER, NOT FROM DISK, and
+     that is the generator's own documented rule rather than a
+     concession made to get this test green. The two oversize curriculum
+     volumes are in .gitignore: they are not carried in the repository,
+     so `git checkout` cannot restore them and any copy on a given
+     machine is whatever that machine last rendered. scripts/build-library
+     .mjs says so in as many words — "its size is taken from the register
+     it was measured into" — and re-measuring a local rebuild would
+     overwrite the canonical figure with a transient one.
+
+     They are not unchecked. The assertion above, that `mb` is a
+     rendering of the `bytes` beside it, needs no file on disk and holds
+     for every volume including these two. What is skipped here is only
+     the comparison that has no authoritative file to make. */
+  const present = reg.volumes.filter((v) => !v.excluded
+    && existsSync(path.join(ROOT, 'publication', v.file)));
+  const skipped = reg.volumes.filter((v) => v.excluded).length;
   const stale = present.filter((v) => statSync(path.join(ROOT, 'publication', v.file)).size !== v.bytes);
-  check(`Every recorded byte count is the file's own (${present.length} of ${reg.volumes.length} present to check)`,
+  check(`Every recorded byte count is the file's own (${present.length} carried in the repository; ${skipped} excluded, measured from the register)`,
     present.length > 0 && stale.length === 0,
     stale.map((v) => `${v.slug}: recorded ${v.bytes}, file `
       + `${statSync(path.join(ROOT, 'publication', v.file)).size}`).join(', '));
