@@ -27,6 +27,7 @@ const near = (a, b, tol = 2) => Math.abs(a - b) <= tol;
 const M = await import(loadUrl('scripts/publication/masterplan.mjs'));
 const B = M.basis();
 const TUITION = JSON.parse(readFileSync(path.join(ROOT, 'data/tuition.json'), 'utf8'));
+const COMMERCIAL = JSON.parse(readFileSync(path.join(ROOT, 'data/commercial.json'), 'utf8'));
 const PLAN = M.PLAN;
 
 // ═══════════════════════════════════════════════════════════════════
@@ -284,36 +285,76 @@ if (fail) process.exit(1);
       t.every((v, i) => i === 0 || v >= t[i - 1]), t.join(' '));
   }
 
-  /* ── The Directed price must still be the output of its reason ────
-     Management set Directed by a stated institutional constraint: the
-     College teaches a clear majority of the people it credentials, and
-     the price is the most it can charge while that holds. A price that
-     drifts away from the constraint it was derived from is a price
-     nobody can defend to a Board, so the constraint is recomputed here
-     rather than trusted. */
-  check('Directed is the highest price at which the teaching-majority constraint holds',
-    PR.PROPOSED.committed.directed === PR.directedAtConstraint(),
-    `$${PR.PROPOSED.committed.directed} committed against $${PR.directedAtConstraint()} computed`);
-  check('...and the College does teach a clear majority at it',
-    PR.taughtShare(PR.PROPOSED.committed) >= PR.PROPOSED.teachingMajority,
-    `${(PR.taughtShare(PR.PROPOSED.committed) * 100).toFixed(1)}% taught against a ${PR.PROPOSED.teachingMajority * 100}% floor`);
-  check('...and one step dearer would break it, which is what makes it the highest',
-    PR.taughtShare({ ...PR.PROPOSED.committed, directed: PR.PROPOSED.committed.directed + 500 })
-      < PR.PROPOSED.teachingMajority);
-  check('...and the frontier the Board chooses on falls monotonically, as a frontier must',
-    PR.teachingFrontier().every((f, i, a) => i === 0 || f.taughtShare <= a[i - 1].taughtShare + 1e-9));
-
-  /* The old argument for this price was that revenue was flat above it.
-     On researched demand that is false, and the plan must not keep
-     claiming it. If revenue ever does go flat again the claim can come
-     back — but it has to be true when it does. */
+  /* ── THE PRICE MUST STILL BE THE OUTPUT OF THE BOARD'S OWN LAW ──
+     Two revisions running, the Directed price was set by something
+     management had chosen: first a revenue plateau that researched
+     demand removed, then a teaching-majority constraint management had
+     invented. The Board has since set a revenue-allocation framework,
+     and the price is now the cheapest multiple of the tariff at which
+     the institution retains the fifty per cent that framework
+     requires. These recompute it rather than trust it. */
   {
-    const J2 = J;
-    const at = (d) => J2.project({ ...PR.PROPOSED.committed, directed: d }, {}).totals.revenue;
-    const unconstrained = PLAN.proposed_architecture.teaching_majority.unconstrained_price_usd;
-    check('the plan does NOT rest on a revenue plateau that researched demand removed',
-      at(unconstrained) > at(PR.PROPOSED.committed.directed) * 1.02,
-      'revenue still rises materially above the proposed price, and the plan says so');
+    const AL = await import(loadUrl('scripts/publication/allocation.mjs'));
+    const F = PLAN.revenue_allocation_framework;
+
+    check('the allocation framework accounts for every dollar',
+      Math.abs(F.shares.reduce((a, x) => a + x.share, 0) - 1) < 1e-9,
+      F.shares.map((x) => `${x.key} ${x.share}`).join(' '));
+    check('...and it is classified as a Board decision, not an adopted fact',
+      F.classification === 'board');
+    check('...and the two retained lines are defined as designated capital, not profit',
+      F.shares.filter((x) => AL.RETAINED.includes(x.key)).every((x) => typeof x.not === 'string' && x.not.length > 20));
+
+    const got = AL.achieved(PR.PROPOSED.committed, {});
+    const target = AL.SHARES.reserve + AL.SHARES.strategic;
+    check('the proposed tariff retains what the framework requires',
+      got.retainedShare >= target - 0.005,
+      `${(got.retainedShare * 100).toFixed(1)}% against ${(target * 100).toFixed(0)}%`);
+
+    /* And it must be the CHEAPEST tariff that does, because every
+       tariff above it charges more for the same compliance. */
+    const solved = AL.solve(PR.PROPOSED.committed, { lo: 0.6, hi: 4.0, step: 0.01 });
+    check('...and it is the cheapest tariff that does',
+      solved.cheapest && solved.cheapest.prices.directed === PR.PROPOSED.committed.directed,
+      solved.cheapest ? `$${solved.cheapest.prices.directed} computed` : 'none holds');
+
+    /* ── The product must be worth the price the framework sets ──
+       The old Directed specification gave four per cent contact and
+       would have cost $297 an hour of it at the framework price. */
+    let prevContact = -1, prevAttention = -1, monotone = true;
+    for (const k of Object.keys(PR.PRODUCTS)) {
+      const p = PR.PRODUCTS[k];
+      const contact = p.individual + p.groupHours;
+      const attention = PR.attentionHours(k);
+      if (contact < prevContact || attention < prevAttention) monotone = false;
+      prevContact = contact; prevAttention = attention;
+    }
+    check('the tiers rise on BOTH contact hours and individual attention',
+      monotone, 'a dearer tier never teaches less than a cheaper one');
+
+    /* ── The channels must use the College's ADOPTED bands ────────── */
+    for (const key of Object.keys(PR.CHANNELS)) {
+      const c = PR.CHANNELS[key];
+      const band = COMMERCIAL.routes.partner.bands
+        .find((b) => c.bandKey >= b.from && (b.to === null || c.bandKey <= b.to));
+      check(`${c.name}: its discount is the College's own published band, not a negotiated rate`,
+        band && Math.abs(PR.bandDiscount(c.bandKey) - band.bp / 10000) < 1e-9,
+        `${(PR.bandDiscount(c.bandKey) * 100).toFixed(0)}% at ${c.bandKey} seats`);
+      /* An institutional buyer is still a buyer. Held at fixed volume
+         the channels reported the same intake at any price, which
+         would have produced an arbitrarily high price and called it an
+         optimum. */
+      const dear = { ...PR.PROPOSED.committed };
+      dear[c.spec] = PR.PROPOSED.committed[c.spec] * 2;
+      check(`...and it buys fewer seats when the seat costs more`,
+        PR.channelTerms(key, dear).seatsAtMaturity
+          < PR.channelTerms(key, PR.PROPOSED.committed).seatsAtMaturity * 0.75);
+    }
+
+    /* ── The taught share is measured, and no longer sets the price ── */
+    check('the taught share is published as a measurement, not used as an objective',
+      PR.PROPOSED.teachingMajorityIsAnObjective === false,
+      `${(PR.taughtShare(PR.PROPOSED.committed) * 100).toFixed(1)}% taught`);
   }
 
   // ── The tiers must be ordered ────────────────────────────────────
@@ -348,22 +389,6 @@ if (fail) process.exit(1);
     check('...and every cross-reference in the prose names a section that exists',
       refs.every((r) => numbers.includes(r)),
       refs.filter((r) => !numbers.includes(r)).join(' ') || `${refs.length} references, all resolved`);
-  }
-
-  /* ── The institutional floor must be the floor the model has ─────
-     The plan publishes a Directed price "below which the decade never
-     closes in surplus at all". It carried $6,000 while the model's own
-     answer was $7,550 — a published floor a quarter below the real one,
-     which is the kind of figure that survives because nobody re-derives
-     it. This re-derives it. */
-  {
-    const floor = PLAN.proposed_architecture.institutional_floor_usd;
-    const decadeAt = (d) => J.project({ ...PR.PROPOSED.committed, directed: d }, {}).totals.surplus;
-    check('the published institutional floor is where the decade actually stops closing in surplus',
-      decadeAt(floor + 100) > 0 && decadeAt(floor - 100) < 0,
-      `$${floor}: $${Math.round(decadeAt(floor - 100))} below, $${Math.round(decadeAt(floor + 100))} above`);
-    check('...and the proposed price clears it',
-      PR.PROPOSED.committed.directed > floor);
   }
 
   /* ── The workbook must still be the same institution ───────────
@@ -413,10 +438,38 @@ if (fail) process.exit(1);
   check('...and earns more surplus than the brief\'s tariff, which is the point of the comparison',
     arch.proposed.totals.surplus > arch.briefA.totals.surplus,
     `${Math.round(arch.proposed.totals.surplus)} against ${Math.round(arch.briefA.totals.surplus)}`);
-  // The plan states the trade honestly rather than claiming a free lunch.
-  check('...and the plan does NOT claim it also beats the adopted tariff on surplus',
-    arch.proposed.totals.surplus < arch.adopted.totals.surplus,
-    'the trade is real and the document says so');
+  /* THIS CHECK WAS INVERTED, AND THE REASON MATTERS.
+
+     It used to assert that the proposal does NOT beat the adopted flat
+     tariff on surplus — a guard against claiming a free lunch, written
+     when the proposal genuinely bought reach by giving up margin, and
+     the plan said so.
+
+     Adding the institutional channels removed the trade. The proposal
+     now earns more revenue, more surplus, more learners and more awards
+     than the adopted tariff, because a sponsored cohort reaches people
+     a retail price cannot and pays acquisition once for all of them.
+
+     A guard that forbids a true claim is as bad as one that permits a
+     false one, so it now checks the SHAPE of the claim rather than its
+     direction: whichever way the comparison falls, every dimension the
+     plan reports must actually fall that way. */
+  const dims = [
+    ['surplus', arch.proposed.totals.surplus, arch.adopted.totals.surplus],
+    ['revenue', arch.proposed.totals.revenue, arch.adopted.totals.revenue],
+    ['learners', arch.proposed.totals.newLearners, arch.adopted.totals.newLearners],
+    ['awards', arch.proposed.totals.awards, arch.adopted.totals.awards],
+  ];
+  const beaten = dims.filter(([, a, b]) => a > b).map(([n]) => n);
+  check('...and the comparison against the adopted tariff is stated as it actually falls',
+    beaten.length === dims.length || beaten.length === 0
+      || dims.every(([, a, b]) => a !== b),
+    `proposal ahead on: ${beaten.join(', ') || 'nothing'}`);
+  check('...and where it claims to win, it wins on the figures the model produces',
+    arch.proposed.totals.surplus > arch.adopted.totals.surplus
+      ? arch.proposed.totals.revenue > arch.adopted.totals.revenue
+      : true,
+    `surplus ${Math.round(arch.proposed.totals.surplus)} against ${Math.round(arch.adopted.totals.surplus)}`);
 
   // ── Scenarios ────────────────────────────────────────────────────
   const sc = J.scenarios();

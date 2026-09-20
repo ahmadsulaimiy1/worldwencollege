@@ -74,12 +74,19 @@ def main():
             failures.append("row %d: the formula's arithmetic gives %.2f, engine says %.2f"
                             % (rr, derived, y["surplus"]))
 
-    # The frontier sheet must carry the price the plan actually proposes.
-    fr = wb["22 Teaching frontier"]
-    proposed = engine("M.PROPOSED.committed.directed", mod="pricing")
-    prices = [fr.cell(r, 1).value for r in range(7, fr.max_row + 1)]
-    if proposed not in prices:
-        failures.append("Teaching frontier does not contain the proposed price %r" % proposed)
+    # The allocation sheet must report the framework the plan claims to obey.
+    al = wb["22 Allocation framework"]
+    got = engine("M.achievedProposed()", mod="allocation")
+    for i, line in enumerate(got["lines"]):
+        rr = 7 + i
+        if al.cell(rr, 1).value != line["name"]:
+            failures.append("Allocation row %d: %r, engine says %r"
+                            % (rr, al.cell(rr, 1).value, line["name"]))
+        for col, key in [(2, "target"), (3, "actual")]:
+            v = al.cell(rr, col).value
+            if v is None or abs(float(v) - line[key]) > 1e-6:
+                failures.append("Allocation %s %s: workbook %r, engine %r"
+                                % (line["key"], key, v, line[key]))
 
     # And the evidence sheet must carry every observation the plan cites.
     ev = json.loads((ROOT / "data" / "market-evidence.json").read_text())

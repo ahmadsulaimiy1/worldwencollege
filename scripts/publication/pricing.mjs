@@ -43,7 +43,7 @@
  * of the uncertain ones rather than resting on a single guess.
  */
 
-import { basis, PLAN } from './masterplan.mjs';
+import { basis, PLAN, COMMERCIAL } from './masterplan.mjs';
 
 export const B = basis();
 
@@ -108,25 +108,52 @@ export const PRODUCTS = {
   directed: {
     name: 'Directed',
     blurb: 'The syllabus, the platform, group tutorials and the full assessment. Feedback on the pieces that carry the level.',
-    individual: 0, groupHours: 8, groupSize: 14, markedPieces: 4, markHours: 0.55, adviser: 0.4,
+    /* RE-SPECIFIED. The published specification gave 8 group hours a
+       level — 48 across a 1,200-hour pathway, or four per cent contact
+       — and the tariff solved from the allocation framework then priced
+       that at $297 a contact hour against a British Council ladder at
+       $23.68. It was dear on contact AND dear on individual attention,
+       which meant it had neither the classroom of a course nor the
+       attention of tuition, and no amount of pricing fixes a product
+       that is between two things.
+
+       At group size fourteen, teaching time is the cheapest thing the
+       College can add: tripling it to 24 hours a level raises delivery
+       cost by about 13 per cent and cuts the contact-hour price from
+       $297 to $96. The specification was the defect. */
+    individual: 0, groupHours: 24, groupSize: 14, markedPieces: 4, markHours: 0.55, adviser: 0.4,
     specialist: false,
   },
   tutored: {
     name: 'Tutored',
     blurb: 'A named instructor, written feedback on every piece of produced work, and individual tutorial time.',
-    individual: 6, groupHours: 6, groupSize: 10, markedPieces: 10, markHours: 0.6, adviser: 0.8,
+    /* AND SO MUST THIS ONE. With Directed at 24 group hours a level,
+       a Tutored pathway at 6 would have inverted the ladder: the dearer
+       product giving less teaching. Tutored now carries the Directed
+       seminar in a smaller room, and adds the individual tutorial that
+       is what the tier is actually for. */
+    individual: 8, groupHours: 24, groupSize: 10, markedPieces: 10, markHours: 0.6, adviser: 0.8,
     specialist: false,
   },
   execCore: {
     name: 'Executive Core',
     blurb: 'A cohort of no more than six, scheduled around professional obligations, with individual tutorial time throughout.',
-    individual: 10, groupHours: 18, groupSize: 6, markedPieces: 10, markHours: 0.7, adviser: 2.5,
+    /* Above Tutored on both contact and individual attention, which is
+       what a cohort of six has to be to justify the tier. */
+    individual: 14, groupHours: 24, groupSize: 6, markedPieces: 10, markHours: 0.7, adviser: 2.5,
     specialist: true,
   },
   execPremium: {
     name: 'Executive Premium',
     blurb: 'One to one throughout, scheduled to the learner, with a named academic adviser and quarterly progress review.',
-    individual: 30, groupHours: 0, groupSize: 1, markedPieces: 12, markHours: 0.8, adviser: 5,
+    /* Raised from 30. With Executive Core re-specified to 38 contact
+       hours a level, a Premium tier at 30 would have read as less
+       teaching on the one column a Board scans first — true only if a
+       seminar of six and a private tutorial are the same hour, which
+       they are not, but a table that needs a footnote to stop being
+       misread is a table that should be fixed instead. Premium is now
+       ahead on both measures and needs no footnote. */
+    individual: 40, groupHours: 0, groupSize: 1, markedPieces: 12, markHours: 0.8, adviser: 5,
     specialist: true,
   },
   execBespoke: {
@@ -425,6 +452,142 @@ export function evaluateProduct(productKey, pathwayPrice, opts = {}) {
 
 const CAC = { gccExec: 2100, gccProf: 1250, ukeu: 980, waf: 420, row: 610 };
 
+// ══════════════════════════════════════════════════════════════════
+// THE TWO CHANNELS THE PORTFOLIO WAS MISSING
+// ══════════════════════════════════════════════════════════════════
+/*
+ * WHY THE ALLOCATION FRAMEWORK COULD NOT BE SATISFIED, and it was not
+ * the price.
+ *
+ * data/masterplan.json § revenue_allocation_framework puts marketing and
+ * student acquisition at ten per cent of revenue. Swept across a
+ * twelvefold range of prices and a sixteenfold range of scale, the
+ * model could not get that line below TWENTY-TWO. Price did not fix it
+ * and scale did not fix it, because the cost of acquiring a learner is
+ * incurred ONE LEARNER AT A TIME and therefore never amortises: a
+ * College twice the size simply pays it twice as often.
+ *
+ * There is one thing that does fix it, and the College has already
+ * adopted it. data/commercial.json carries PARTNER BANDS — ten per cent
+ * off for ten to twenty-four places, fifteen for twenty-five to
+ * ninety-nine, twenty for a hundred and above — published rather than
+ * negotiated, "because a price that depends on who asks is a price the
+ * College cannot defend". Those bands describe a buyer the financial
+ * model had never contained: an institution buying places for other
+ * people.
+ *
+ * One negotiation then acquires a cohort. The business development cost
+ * is real and it is large, but it is divided by the seats it wins
+ * rather than paid per learner, and that is the only mechanism in this
+ * model that moves the acquisition line.
+ *
+ * Both channels below are MODELLED. No agreement has been signed, no
+ * sponsor has been approached, and the seat counts and win rates are
+ * assumptions. What is NOT assumed is the discount: the bands are the
+ * College's own published policy.
+ */
+export const CHANNELS = {
+  corporate: {
+    name: 'Corporate',
+    blurb: 'An employer buying places for its own staff, taught to the Executive Core specification and scheduled around professional obligations.',
+    spec: 'execCore',
+    /** The adopted 25–99 band. data/commercial.json § routes.partner. */
+    bandKey: 25,
+    seatsPerAgreement: 22,
+    /** Business development, travel, proposal and the negotiation — per
+     *  agreement WON, so it carries the cost of the ones that were not. */
+    agreementCost: 9800,
+    agreementsAtMaturity: 34,
+    /** The seat price those figures were estimated at. Above it a
+     *  sponsor buys fewer seats and fewer sponsors sign at all. */
+    referenceSeatPrice: 23800,
+    /** How seats per agreement respond to price. An employer training
+     *  budget is finite, so a dearer seat buys fewer of them — but not
+     *  proportionally fewer, because the need that opened the
+     *  conversation does not shrink with the invoice. */
+    seatElasticity: -0.62,
+    /** And how many employers sign at all. Steeper, because a budget
+     *  holder who cannot reach the price does not buy a smaller
+     *  programme; they buy nothing from this College. */
+    agreementElasticity: -0.94,
+    opensYear: 2,
+    classification: 'modelled',
+  },
+  sponsored: {
+    name: 'Institutional and Sponsored',
+    blurb: 'A ministry, university, employer federation or foundation buying places at scale, taught to the Tutored specification.',
+    spec: 'tutored',
+    /** The adopted 100+ band. */
+    bandKey: 100,
+    seatsPerAgreement: 185,
+    /** A longer sale against an institutional budget cycle, and a
+     *  relationship built before it is opened. */
+    agreementCost: 42000,
+    agreementsAtMaturity: 11,
+    referenceSeatPrice: 12400,
+    /** A ministry buys against an appropriation. It is the most
+     *  budget-bound buyer in the portfolio and the most price-elastic
+     *  on volume: double the seat and it halves the intake. */
+    seatElasticity: -0.96,
+    /** But an institution that has decided to do this does not abandon
+     *  it over price as readily as an employer does. */
+    agreementElasticity: -0.58,
+    opensYear: 3,
+    classification: 'modelled',
+  },
+};
+
+/** The published discount for a band, read from the College’s own
+ *  adopted policy rather than restated here. */
+export function bandDiscount(seats) {
+  const band = COMMERCIAL.routes.partner.bands
+    .find((b) => seats >= b.from && (b.to === null || seats <= b.to));
+  return band ? band.bp / 10000 : 0;
+}
+
+/** The delivery specification behind a portfolio key. A channel is a
+ *  way of SELLING a specification, not a different thing to teach: a
+ *  sponsored seat receives the Tutored pathway and sits the Tutored
+ *  examination. Anything reasoning about cost must resolve through
+ *  this, or it will look for a product definition a channel does not
+ *  have and get `undefined`. */
+export const specOf = (key) => (CHANNELS[key] ? CHANNELS[key].spec : key);
+
+/** Every key the portfolio can report, channels included. */
+export const PORTFOLIO_KEYS = [...Object.keys(PRODUCTS), ...Object.keys(CHANNELS)];
+
+/** What a channel charges a seat, and what it costs to win one. */
+export function channelTerms(key, prices) {
+  const c = CHANNELS[key];
+  const list = prices[c.spec];
+  const discount = bandDiscount(c.bandKey);
+  const seatPrice = Math.round(list * (1 - discount));
+  /* AN INSTITUTIONAL BUYER IS STILL A BUYER.
+
+     The first version of this held seats and agreements fixed, so the
+     model reported the same 4,800 learners whether Tutored cost $6,200
+     or $76,000 — which said, in effect, that a ministry will buy the
+     same number of places at any price. No honest reading of a public
+     appropriation supports that, and a model that says it will produce
+     an arbitrarily high price and call it an optimum.
+
+     Two separate responses, because they are separate decisions. How
+     many seats an agreement carries is a budget question. How many
+     agreements are signed at all is a decision about whether to do this
+     with WEC-LC. */
+  const ratio = seatPrice / c.referenceSeatPrice;
+  const seats = c.seatsPerAgreement * Math.pow(Math.max(0.05, ratio), c.seatElasticity);
+  const agreements = c.agreementsAtMaturity * Math.pow(Math.max(0.05, ratio), c.agreementElasticity);
+  return {
+    key, name: c.name, spec: c.spec, list, discount, seatPrice,
+    cacPerSeat: c.agreementCost / Math.max(1, seats),
+    seatsPerAgreement: seats,
+    agreements,
+    seatsAtMaturity: Math.max(0, seats * agreements),
+  };
+}
+
+
 /** Sweep a product's pathway price and return the whole curve. */
 export function sweep(productKey, { from, to, step = 250, shareKey = 'tutoredShare' } = {}) {
   const out = [];
@@ -531,7 +694,7 @@ function allocate(seg, prices) {
  * product, revenue, delivery, acquisition, fixed cost and surplus.
  */
 export function portfolio(prices, opts = {}) {
-  const { continuationScale = 1, reachScale = 1, fixed = FIXED_INSTITUTIONAL } = opts;
+  const { continuationScale = 1, reachScale = 1, fixed = FIXED_INSTITUTIONAL, channels = true } = opts;
   const prog = levelsPerEntrant(continuationScale);
   const ladders = Object.fromEntries(
     Object.keys(PRODUCTS).map((k) => [k, ladderFor(k, prices[k] || prices.tutored)]),
@@ -594,6 +757,41 @@ export function portfolio(prices, opts = {}) {
   const refunds = revenue * REFUND_RATE;
   const netTuition = revenue - refunds;
   const development = netTuition * DEVELOPMENT_SHARE;
+  /* ── THE TWO INSTITUTIONAL CHANNELS ──────────────────────────
+     These do not come out of the segment model, because the buyer is
+     not a person weighing a price against a salary — it is an
+     institution spending a budget on other people. Volume is therefore
+     driven by agreements won, not by conversion, and the acquisition
+     cost is divided by the seats an agreement carries.
+
+     They ramp with reach because a partnership function has to be built
+     before it can sign anything, and they open in the year the channel
+     plan says they open rather than in Year 1. */
+  if (channels) {
+    for (const key of Object.keys(CHANNELS)) {
+      const c = CHANNELS[key];
+      const t = channelTerms(key, prices);
+      const n = t.seatsAtMaturity * Math.max(0, Math.min(1, reachScale));
+      if (n <= 0) continue;
+      const ladder = ladderFor(c.spec, t.seatPrice);
+      let rev = 0, del = 0, hrs = 0;
+      const perLevelHours = attentionHours(c.spec) / 6;
+      for (let i = 0; i < 6; i++) {
+        const r = n * prog.each[i] * ladder[i];
+        const d = n * prog.each[i] * fullCost(c.spec, i);
+        rev += r; del += d;
+        const lag = Math.min(1, Math.floor(i / LEVELS_PER_YEAR_INT));
+        byLag[lag].revenue += r; byLag[lag].delivery += d;
+        byLag[lag].hours += n * prog.each[i] * perLevelHours;
+        hrs += n * prog.each[i] * perLevelHours;
+      }
+      learners += n; revenue += rev; delivery += del;
+      acquisition += n * t.cacPerSeat;
+      levels += n * prog.levels; c2 += n * prog.reachC2; hours += hrs;
+      byProduct[key] = { learners: n, revenue: rev, delivery: del };
+    }
+  }
+
   const surplus = netTuition - delivery - acquisition - fixed - development;
   return {
     prices: Object.fromEntries(Object.entries(prices).map(([k, v]) => [k, Math.round(v)])),
@@ -702,41 +900,60 @@ export const PROPOSED = {
        $150 + $250 + $200 a level across six levels. Unchanged by this
        plan, and now carrying the markets the taught tiers cannot. */
     independent: 3600,
-    /* THE HIGHEST PRICE AT WHICH WEC-LC IS STILL A TEACHING INSTITUTION.
+    /* SOLVED BACKWARDS FROM THE ALLOCATION FRAMEWORK, NOT CHOSEN.
 
-       An earlier revision of this file put Directed at $8,500 on the
-       argument that revenue was flat above it. On researched demand
-       that argument is simply false: revenue rises to about $15,000 and
-       surplus rises with it, because a buyer priced out of Directed
-       does not disappear — they step down to the Independent route and
-       sit the same examinations unsupervised. Learner COUNT barely
-       moves across the whole range. What moves is whether the College
-       is teaching them.
+       The previous revision set this at $9,500 by a teaching-majority
+       constraint management had invented, and the constraint was doing
+       the work a financial law should have been doing. The Board has
+       since set one: data/masterplan.json § revenue_allocation_framework
+       — payroll 25, technology 5, operating 10, marketing 10, reserve
+       25, strategic 25.
 
-       At the price below the College teaches 60 per cent of the
-       candidates it credentials. At $15,000 it teaches 46 per cent and
-       earns roughly $2M more across the decade. The optimiser, left
-       alone, takes the $2M and turns WEC-LC into an examination board
-       with a syllabus attached — a corner solution wearing a different
-       costume from the boutique one it proposed the first time.
+       scripts/publication/allocation.mjs sweeps the tariff and reports
+       the cheapest multiple of it at which the institution retains the
+       fifty per cent the framework requires. That is the price below.
+       It is the LOWEST price consistent with the College obeying its
+       own constitution, which is the form of the objective that
+       maximises reach without pretending the constraint is optional.
 
-       So the constraint is institutional, and it is stated rather than
-       smuggled in: THE COLLEGE TEACHES A CLEAR MAJORITY OF THE PEOPLE
-       IT CREDENTIALS. The price is the OUTPUT of that constraint — the
-       most the College can charge while it still holds — and the Board
-       can move the constraint and read the price off the published
-       frontier. It cannot be moved quietly: directedAtConstraint()
-       recomputes it and the test suite checks this figure against it. */
-    directed: 9500,
-    tutored: 15500,
-    execCore: 28000,
-    execPremium: 46000,
-    execBespoke: 76000,
+       Three things had to be true before this number meant anything,
+       and none of them was true a revision ago:
+
+       · THE PORTFOLIO HAD TO CONTAIN THE INSTITUTIONAL CHANNELS. Swept
+         over twelvefold price and sixteenfold scale, a purely
+         individual College could not get acquisition below 22 per cent
+         of revenue against a 10 per cent target, because a cost
+         incurred one learner at a time never amortises. Corporate and
+         Sponsored agreements divide it by the seats they carry.
+
+       · THE INSTITUTIONAL BUYER HAD TO BEHAVE LIKE A BUYER. Held at
+         fixed volume, the channels reported the same intake whether
+         Tutored cost $6,200 or $76,000, which would have produced an
+         arbitrarily high price and called it an optimum.
+
+       · AND THE PRODUCT HAD TO BE WORTH IT. At the framework price the
+         old Directed specification cost $297 a contact hour against a
+         British Council ladder at $23.68, on four per cent contact. It
+         was re-specified rather than defended. */
+    directed: 17100,
+    tutored: 27900,
+    execCore: 50400,
+    execPremium: 82800,
+    execBespoke: 136800,
   },
-  /** What the College teaches, as a share of what it credentials. The
-   *  Board may set this differently; the Directed price follows from
-   *  it rather than the other way round. */
+  /** WITHDRAWN AS AN OBJECTIVE, kept as a measurement.
+
+      Management set the Directed price by this constraint for one
+      revision, and it was the wrong instrument: a sixty per cent
+      teaching share is a statement about what the College is, not a
+      financial law, and using it to pick a price meant an assumption of
+      management's was silently governing the institution's economics.
+      The Board's revenue-allocation framework governs that now. The
+      taught share is still computed and still published, because it is
+      the thing the Board should watch — it is simply no longer the
+      thing that sets the price. */
   teachingMajority: 0.60,
+  teachingMajorityIsAnObjective: false,
   previous: {
     _: 'The pre-validation proposal, kept so the change is auditable.',
     directed: 8900, tutored: 18500, execCore: 34000, execPremium: 58000, execBespoke: 96000,

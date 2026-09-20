@@ -586,36 +586,55 @@ def build():
         put(ws, rr, 6, seg["credibilityFloor"], MONEY)
         put(ws, rr, 7, seg["confidence"])
 
-    # ── 22 · THE TEACHING-MAJORITY FRONTIER ──────────────────────────
-    # The constraint the Directed price is the output of. The Board
-    # resolves on the share; the price is read off this sheet.
-    tm = plan["proposed_architecture"]["teaching_majority"]
-    ws = sheet(wb, "22 Teaching frontier",
-               "The College teaches at least %.0f%% of the people it credentials. The Directed price "
-               "is the most it can charge while that holds — BOARD DECISION REQUIRED on the share, "
-               "not on the price." % (tm["share"] * 100))
-    header_row(ws, 6, ["Directed price", "Taught share", "Meets the constraint?"], [18, 16, 22])
-    frontier = engine("M.teachingFrontier()", mod="pricing")
-    proposed = engine("M.PROPOSED.committed.directed", mod="pricing")
-    for i, f in enumerate(frontier):
+    # ── 22 · THE REVENUE-ALLOCATION FRAMEWORK ────────────────────────
+    # The Board's financial law, and the sweep the proposed price is the
+    # output of. This sheet replaced a teaching-majority frontier, which
+    # was management's own assumption doing a financial law's work.
+    fw = plan["revenue_allocation_framework"]
+    ws = sheet(wb, "22 Allocation framework",
+               "BOARD DECISION REQUIRED. Every figure below is a proposed governance target, "
+               "not a historical result. The tariff is solved backwards from it.")
+    header_row(ws, 6, ["Allocation", "Target", "At the proposed tariff", "Variance", "Definition"],
+               [34, 12, 22, 12, 120])
+    got = engine("M.achievedProposed()", mod="allocation")
+    for i, line in enumerate(got["lines"]):
         rr = 7 + i
-        is_proposed = f["directed"] == proposed
-        put(ws, rr, 1, f["directed"], MONEY, bold=is_proposed)
-        put(ws, rr, 2, f["taughtShare"], PCT, bold=is_proposed)
-        put(ws, rr, 3, "=IF(B%d>=%s,\"yes\",\"no\")" % (rr, tm["share"]), bold=is_proposed)
-    rr = 8 + len(frontier)
-    put(ws, rr, 1, "Constraint", bold=True)
-    put(ws, rr, 2, tm["share"], PCT, bold=True)
-    put(ws, rr, 3, "Set by the Board. Change it and the price below changes.")
-    rr += 1
-    put(ws, rr, 1, "Directed price", bold=True)
-    put(ws, rr, 2, proposed, MONEY, bold=True)
-    put(ws, rr, 3, "The highest price in the table above at which the constraint still holds.")
+        spec = next(x for x in fw["shares"] if x["key"] == line["key"])
+        put(ws, rr, 1, line["name"], bold=True)
+        put(ws, rr, 2, line["target"], PCT)
+        put(ws, rr, 3, line["actual"], PCT, bold=True)
+        put(ws, rr, 4, "=C%d-B%d" % (rr, rr), PCT)
+        put(ws, rr, 5, spec["definition"])
+    rr = 7 + len(got["lines"]) + 1
+    put(ws, rr, 1, "Gross collected revenue", bold=True)
+    put(ws, rr, 2, got["revenue"], MONEY, bold=True)
+    put(ws, rr + 1, 1, "Retained (reserve + strategic)", bold=True)
+    put(ws, rr + 1, 2, got["retained"], MONEY, bold=True)
+    put(ws, rr + 1, 3, got["retainedShare"], PCT, bold=True)
+    rr += 3
+    classification_note(ws, rr, "The two retained lines are designated institutional capital. The "
+                                "Strategic and Founders' Allocation is NOT automatically withdrawable "
+                                "founder income, and no distribution from it is modelled anywhere in "
+                                "this workbook.")
     rr += 2
-    classification_note(ws, rr, "A buyer priced out of Directed does not leave — they step down to the "
-                                "adopted Independent route and sit the same examinations untaught. The "
-                                "number of people the College credentials barely moves across this "
-                                "range. What moves is whether it teaches them.")
+    put(ws, rr, 1, "THE SWEEP THE PRICE IS SOLVED FROM", bold=True)
+    rr += 1
+    header_row(ws, rr, ["Tariff multiple", "Directed", "Tutored", "Executive Core",
+                        "Revenue", "Learners", "Payroll", "Marketing", "Retained"],
+               [16] + [15] * 8)
+    solved = engine("M.solveProposed({ lo: 0.6, hi: 3.0, step: 0.1 })", mod="allocation")
+    for c in solved["curve"]:
+        rr += 1
+        L = {x["key"]: x["actual"] for x in c["result"]["lines"]}
+        is_it = c["prices"]["directed"] == solved["cheapest"]["prices"]["directed"]
+        put(ws, rr, 1, c["multiplier"], NUM1, bold=is_it)
+        for ci, v in [(2, c["prices"]["directed"]), (3, c["prices"]["tutored"]),
+                      (4, c["prices"]["execCore"]), (5, c["result"]["revenue"])]:
+            put(ws, rr, ci, v, MONEY, bold=is_it)
+        put(ws, rr, 6, c["result"]["learners"], NUM, bold=is_it)
+        put(ws, rr, 7, L["payroll"], PCT, bold=is_it)
+        put(ws, rr, 8, L["marketing"], PCT, bold=is_it)
+        put(ws, rr, 9, c["result"]["retainedShare"], PCT, bold=is_it)
 
     # ── 16 · TEN-YEAR SUMMARY ────────────────────────────────────────
     ws = sheet(wb, "16 Summary", "The decade in one view, expected case.")
