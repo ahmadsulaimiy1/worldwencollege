@@ -1,9 +1,9 @@
 {
   "name": "wec-lc",
   "private": true,
-  "description": "WorldWide English College, London Campus \u2014 public site (static, no framework) + backend (Cloudflare Pages Functions, no npm runtime dependencies).",
-  "comment_on_modules": "No root-level \"type\" field, deliberately: scripts/build.js (the existing static-site generator) is CommonJS, while functions/**/*.js (Pages Functions) use ES module import/export. Node 22's built-in CJS/ESM syntax auto-detection handles both correctly from one tree without a type field \u2014 verified by running both. Do not add \"type\": \"module\" here without also converting scripts/build.js, or it breaks the static build.",
-  "comment_on_engines": "scripts/build.js alone would run on much older Node, but `npm test` needs 22+ for node:sqlite (see tests/README.md) \u2014 the honest minimum for full local development, not just the static build.",
+  "description": "WorldWide English College, London Campus — public site (static, no framework) + backend (Cloudflare Pages Functions, no npm runtime dependencies).",
+  "comment_on_modules": "No root-level \"type\" field, deliberately: scripts/build.js (the existing static-site generator) is CommonJS, while functions/**/*.js (Pages Functions) use ES module import/export. Node 22's built-in CJS/ESM syntax auto-detection handles both correctly from one tree without a type field — verified by running both. Do not add \"type\": \"module\" here without also converting scripts/build.js, or it breaks the static build.",
+  "comment_on_engines": "scripts/build.js alone would run on much older Node, but `npm test` needs 22+ for node:sqlite (see tests/README.md) — the honest minimum for full local development, not just the static build.",
   "scripts": {
     "build": "node scripts/build.js",
     "faculty": "node scripts/build-faculty.js && node scripts/build.js",
@@ -34,7 +34,10 @@
     "commercial": "node scripts/build-commercial.mjs && node scripts/build.js",
     "tuition": "node scripts/build-tuition.mjs && node scripts/build.js",
     "comment_on_masterplan": "The Ten-Year Institutional Roadmap. The model is scripts/publication/masterplan.mjs and it is the single source: the PDF and the workbook are two renderings of one computation, so they cannot disagree. tests/masterplan.test.mjs runs the reconciliation audit the plan claims in its own Section 20.",
-    "masterplan": "node scripts/publication/render-masterplan.mjs && python3 scripts/publication/masterplan-workbook.py"
+    "masterplan": "node scripts/publication/render-masterplan.mjs && python3 scripts/publication/masterplan-workbook.py",
+    "comment_on_monograph": "The flagship monograph. Its art direction lives in scripts/publication/monograph.mjs and its four typefaces are embedded by fetch-fonts.mjs — the publication previously asked for Cambria, Nimbus Roman and Georgia, none of which exist on the machine that renders it, so every version was set in a fallback nobody chose. The renderer FAILS the build if any page overflows, clips at the trim, or sets text on top of text.",
+    "fonts": "node scripts/publication/fetch-fonts.mjs",
+    "monograph": "node scripts/publication/render-monograph.mjs"
   },
   "devDependencies": {
     "@fontsource-variable/eb-garamond": "^5.3.0",
