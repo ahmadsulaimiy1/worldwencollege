@@ -100,7 +100,17 @@ function setWidth(text, size, opts = {}) {
  * book and not how it falls out of a text box.
  */
 function wrapTo(text, maxWidth, size, opts = {}) {
-  const words = String(text).split(/\s+/).filter(Boolean);
+  const raw = String(text).split(/\s+/).filter(Boolean);
+  /* A dash may not begin a line. The risk matrix broke "above the
+     line — likely enough" exactly there and set the em dash as the
+     first mark of its second line, which is a fault in any book. A
+     token that is nothing but punctuation is glued to the word in
+     front of it and the pair breaks as one. */
+  const words = [];
+  for (const w of raw) {
+    if (words.length && /^[—–-]+$/.test(w)) words[words.length - 1] += ` ${w}`;
+    else words.push(w);
+  }
   const fill = (measure) => {
     const lines = [];
     let line = '';
@@ -812,32 +822,117 @@ export function amortisation(retail, channels) {
 /** Twenty risks placed on likelihood against impact. A register is a
  *  list; a matrix is a judgement about where attention goes. */
 export function riskMatrix(risks) {
-  const W = 168, H = 128;
+  /* WHAT THE FIRST VERSION DID NOT SAY.
+     It drew nine cells, put a numeral in the six that had risks in
+     them, and left the other three blank — so a cell that holds no
+     risk looked exactly like a cell the plate had forgotten, which is
+     dead space in a figure whose entire subject is where attention
+     goes. It also hatched the two cells that were both hot AND
+     occupied, which drew a band across the middle of the grid rather
+     than the region a board would actually watch.
+
+     Redrawn, it carries three readings instead of one: the count in
+     every cell, the weight of each cell as hatch density, and a struck
+     gold threshold around the region where likelihood is at least
+     medium and impact at least high — the region whose contents are
+     the ones that get managed. The figure closes on how many of the
+     register stand inside it. */
+  const W = 168;
   const L = ['Low', 'Medium', 'High'];
   const I = ['Medium', 'High', 'Severe'];
-  const x0 = 34, y0 = 14, cw = (W - x0 - 12) / L.length, ch = (H - y0 - 22) / I.length;
-  let defs = hatchDefs('cell', 2.2, K.faint, 45, 0.4);
+  const x0 = 34, y0 = 15;
+  const gridW = W - x0 - 10, gridH = 74;
+  const cw = gridW / L.length, ch = gridH / I.length;
+  const cellX = (a) => x0 + a * cw;
+  const cellY = (b) => y0 + (I.length - 1 - b) * ch;
+  const count = (a, b) => risks.filter((r) => r[2] === L[a] && r[3] === I[b]).length;
+  /* ABOVE THE LINE: likely enough to expect and heavy enough to hurt. */
+  const above = (a, b) => a >= 1 && b >= 1;
+
+  const counts = [];
+  for (let a = 0; a < L.length; a += 1) for (let b = 0; b < I.length; b += 1) counts.push(count(a, b));
+  const heaviest = Math.max(1, ...counts);
+
+  /* One hatch per distinct count, pitched by weight — a denser cell is
+     a fuller cell, which is the same rule every other plate uses. */
+  /* On the square root, not the count. Pitched linearly, a cell of one
+     and a cell of six hatched at 3.2 and 1.6 units and the grid read
+     as uniformly busy; the difference has to be visible at a glance or
+     the density is decoration. */
+  const pitchFor = (n) => r2(4.8 - 3.7 * Math.sqrt(n / heaviest));
+  let defs = '';
+  const seen = new Set();
+  for (const n of counts) {
+    if (!n || seen.has(n)) continue;
+    seen.add(n);
+    defs += hatchDefs(`rk${n}`, pitchFor(n), K.faint, 45, 0.42);
+  }
+
   let body = '';
-  for (let a = 0; a < L.length; a++) {
-    for (let b = 0; b < I.length; b++) {
-      const n = risks.filter((r) => r[2] === L[a] && r[3] === I[b]).length;
-      const x = x0 + a * cw, y = y0 + (I.length - 1 - b) * ch;
-      const hot = a >= 1 && b >= 1;
+  for (let a = 0; a < L.length; a += 1) {
+    for (let b = 0; b < I.length; b += 1) {
+      const n = count(a, b);
+      const x = cellX(a), y = cellY(b);
       body += `<rect x="${r2(x)}" y="${r2(y)}" width="${r2(cw)}" height="${r2(ch)}"
-        fill="${n ? (hot ? 'url(#cell)' : 'none') : 'none'}"
-        stroke="${K.rule}" stroke-width="0.35"/>`;
-      if (n) {
-        body += `<text x="${r2(x + cw / 2)}" y="${r2(y + ch / 2 + 3)}" font-family="${DISPLAY}"
-          font-size="17" fill="${hot ? K.crimson : K.midnight}" text-anchor="middle">${n}</text>`;
-      }
+        fill="${n ? `url(#rk${n})` : 'none'}" stroke="${K.rule}" stroke-width="${RULE.grid}"/>`;
+      /* Optically centred on the CAP LINE, not on the baseline. A
+         17-point figure hung three units under the middle of its cell
+         sat visibly in the upper half of it and disagreed with the row
+         label beside it. */
+      const cx = x + cw / 2, cy = y + ch / 2;
+      body += n
+        ? `<text x="${r2(cx)}" y="${r2(cy + 6)}" font-family="${DISPLAY}" font-size="17"
+            font-weight="500" letter-spacing="${r2(-17 * 0.012)}"
+            fill="${above(a, b) ? K.crimson : K.midnight}" text-anchor="middle"
+            style="font-variant-numeric:lining-nums tabular-nums">${n}</text>`
+        : `<line x1="${r2(cx - 3)}" y1="${r2(cy)}" x2="${r2(cx + 3)}" y2="${r2(cy)}"
+            stroke="${K.rule}" stroke-width="0.6"/>`;
     }
   }
-  L.forEach((l, a) => { body += label(x0 + a * cw + cw / 2, H - 13, l, { anchor: 'middle', size: 5.2 }); });
-  I.forEach((l, b) => { body += label(x0 - 4, y0 + (I.length - 1 - b) * ch + ch / 2 + 1.6, l, { anchor: 'end', size: 5.2 }); });
-  body += label(x0 + (W - x0 - 12) / 2, H - 5, 'Likelihood', { anchor: 'middle', size: 6, fill: K.gold, weight: 500 });
-  body += `<text transform="translate(9 ${r2(y0 + (H - y0 - 22) / 2)}) rotate(-90)" font-family="${DATA}"
-    font-size="6" font-weight="500" fill="${K.gold}" text-anchor="middle">Impact</text>`;
-  return figure(W, H, body, defs);
+
+  /* THE THRESHOLD, struck in gold along the two sides that divide the
+     watched region from the rest. Gold marks a threshold in this
+     library and never an outline, so it traces the boundary rather
+     than boxing the corner. */
+  const tx = cellX(1), ty = cellY(I.length - 1);
+  body += `<path d="M ${r2(tx)} ${r2(ty + gridH - ch * 1)} L ${r2(tx)} ${r2(ty)}
+    L ${r2(x0 + gridW)} ${r2(ty)}" fill="none" stroke="${K.gold}" stroke-width="${RULE.struck}"
+    stroke-linejoin="miter"/>`;
+
+  const bot = y0 + gridH;
+  L.forEach((l, a) => { body += label(cellX(a) + cw / 2, bot + 7, l, { anchor: 'middle', size: 5.4, fill: K.soft }); });
+  I.forEach((l, b) => { body += label(x0 - 4, cellY(b) + ch / 2 + 1.8, l, { anchor: 'end', size: 5.4, fill: K.soft }); });
+  body += label(x0 + gridW / 2, bot + 15, 'Likelihood', { anchor: 'middle', size: 6, fill: K.gold, weight: 600 });
+  body += `<text transform="translate(9 ${r2(y0 + gridH / 2)}) rotate(-90)" font-family="${DATA}"
+    font-size="6" font-weight="600" fill="${K.gold}" text-anchor="middle">Impact</text>`;
+
+  /* THE READING. A matrix that does not say how much of the register
+     is above its own line has made the reader count nine cells. */
+  const watched = counts.reduce((t, n, i) => {
+    const a = Math.floor(i / I.length), b = i % I.length;
+    return t + (above(a, b) ? n : 0);
+  }, 0);
+  const footY = bot + 36;
+  body += `<line x1="4" y1="${r2(footY - 11)}" x2="${r2(W - 4)}" y2="${r2(footY - 11)}"
+    stroke="${K.rule}" stroke-width="0.35"/>`;
+  const nW = setWidth(String(watched), 13, { face: DISPLAY, weight: 500 });
+  const tx0 = 4 + nW + 5;
+  const lines = wrapTo(`of ${risks.length} stand above the line — likely enough to expect, `
+    + 'heavy enough to plan for.', W - 4 - tx0, 6.8, { face: TEXT, weight: 400 });
+  /* Aligned on the CAP LINE with the first line beside it, not on its
+     own baseline — a 13-point figure and a 6.8-point line share a
+     baseline only by accident. */
+  body += figureValue(4, footY + 0.9, String(watched), 13, { weight: 500 });
+  lines.forEach((ln, i) => {
+    body += `<text x="${r2(tx0)}" y="${r2(footY - 3.4 + i * 7)}" font-family="${TEXT}" font-size="6.8"
+      fill="${K.inkSoft}">${esc(ln)}</text>`;
+  });
+
+  /* The plate is exactly as tall as it needs to be — the foot rule,
+     the struck total, and however many lines the statement takes,
+     with room under the last baseline for its descenders. */
+  const lastBaseline = footY - 3.4 + (lines.length - 1) * 7;
+  return figure(W, Math.max(lastBaseline + 6, footY + 8), body, defs);
 }
 
 export { K as FIG_COLOURS };
