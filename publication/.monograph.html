@@ -437,18 +437,111 @@ strong { font-weight: 600; }
 .mark--modelled { color: #79828F; }
 .mark--board { color: #7E1F2D; }
 .mark--proposed { color: #A9843C; }
+
+/* ── 14 · PART OPENER ──────────────────────────────────────────────
+   Above a chapter. Six of these divide the book, and they are set on
+   midnight so that turning to one is unmistakable — the reader should
+   feel a section end without reading a word. */
+.m-part { background: #0A1A2F; color: #FCFAF5; }
+.m-part__n {
+  font-family: 'Cinzel', 'Bitstream Charter', serif; font-size: 13pt; letter-spacing: .46em;
+  color: #C9A961; margin: 0 0 8mm;
+}
+.m-part__rule { width: 25.667mm; height: 1.4pt; background: #A9843C; margin: 0 0 12mm; }
+.m-part__wrap { position: absolute; top: 46%; left: 0; right: 0; transform: translateY(-50%); }
+.m-part h1 {
+  font-family: 'Cormorant Garamond', 'Bitstream Charter', serif; font-weight: 300; font-size: 50pt; line-height: 54pt;
+  margin: 0 0 9mm; color: #FCFAF5; max-width: 130.2mm; letter-spacing: -.01em;
+}
+.m-part__say {
+  font-family: 'Cormorant Garamond', 'Bitstream Charter', serif; font-style: italic; font-weight: 300;
+  font-size: 16pt; line-height: 24pt; color: #E8D9B4;
+  max-width: 100.333mm; margin: 0;
+}
+.m-part__list {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  border-top: .5pt solid rgba(201,169,97,.3); padding-top: 5mm;
+  font-family: 'Inter', 'Liberation Sans', sans-serif; font-size: 6.8pt; font-weight: 500;
+  letter-spacing: .2em; text-transform: uppercase; color: rgba(252,250,245,.5);
+  line-height: 14pt; columns: 2; column-gap: 8.4mm;
+}
+
+/* ── 15 · CONTENTS ─────────────────────────────────────────────────*/
+.m-toc h1 {
+  font-family: 'Cormorant Garamond', 'Bitstream Charter', serif; font-weight: 300; font-size: 31pt; line-height: 34pt;
+  margin: 0 0 7mm; color: #0A1A2F;
+}
+.m-toc__part {
+  font-family: 'Cinzel', 'Bitstream Charter', serif; font-size: 8.4pt; letter-spacing: .3em;
+  color: #A9843C; margin: 5mm 0 2mm; padding-top: 2.2mm;
+  border-top: .9pt solid #A9843C;
+}
+.m-toc__part:first-of-type { margin-top: 0; }
+.m-toc__row { display: flex; align-items: baseline; gap: 3mm; padding: 0.9mm 0; }
+.m-toc__row t { flex: none; font-family: 'EB Garamond', 'Bitstream Charter', serif; font-size: 10.5pt; color: #16202C; }
+.m-toc__row d { flex: 1; border-bottom: .35pt dotted #D9D2C2; transform: translateY(-1mm); }
+.m-toc__row f { flex: none; font-family: 'Inter', 'Liberation Sans', sans-serif; font-size: 9.2pt;
+  color: #79828F; font-variant-numeric: tabular-nums; }
+
+/* ── 16 · TIMELINE ─────────────────────────────────────────────────
+   Vertical, because five phases with three lines of text each read as
+   a list when set horizontally and as a chronology when set down the
+   page. The spine is a hairline and the markers are struck gold. */
+.m-time { position: relative; padding-left: 10.733mm; }
+.m-time__spine { position: absolute; left: 1.4mm; top: 3mm; bottom: 6mm; width: .4pt; background: #D9D2C2; }
+.m-time__e { position: relative; padding: 0 0 7.5mm 0; }
+.m-time__e:last-child { padding-bottom: 0; }
+.m-time__e::before {
+  content: ''; position: absolute; left: -10.733mm; top: 2.6mm;
+  width: 3.2mm; height: 3.2mm; background: #A9843C; border-radius: 50%;
+  box-shadow: 0 0 0 1.6mm #FFFFFF;
+}
+.m-time__h { display: flex; align-items: baseline; gap: 4mm; margin: 0 0 1.8mm; }
+.m-time__h n {
+  font-family: 'Cinzel', 'Bitstream Charter', serif; font-size: 10.5pt; letter-spacing: .24em; color: #A9843C;
+}
+.m-time__h t {
+  font-family: 'Cormorant Garamond', 'Bitstream Charter', serif; font-size: 15.6pt; line-height: 19pt; color: #0A1A2F;
+}
+.m-time__h y {
+  margin-left: auto; font-family: 'Inter', 'Liberation Sans', sans-serif; font-size: 6.8pt; font-weight: 500;
+  letter-spacing: .2em; text-transform: uppercase; color: #79828F;
+}
+.m-time__d { font-size: 9.2pt; line-height: 14.6pt; color: #3D4654; margin: 0 0 2mm;
+  max-width: 130.2mm; }
+.m-time__f {
+  font-family: 'Inter', 'Liberation Sans', sans-serif; font-size: 6.8pt; font-weight: 600; letter-spacing: .14em;
+  color: #0A1A2F; font-variant-numeric: tabular-nums; margin: 0;
+}
+
+/* ── 17 · THE COLOPHON ─────────────────────────────────────────────*/
+.m-colo { background: #06111F; color: rgba(252,250,245,.72); }
+.m-colo__wrap { position: absolute; left: 0; right: 0; bottom: 0; }
+.m-colo h2 {
+  font-family: 'Cormorant Garamond', 'Bitstream Charter', serif; font-weight: 300; font-size: 26pt; line-height: 32pt;
+  color: #FCFAF5; margin: 0 0 7mm;
+}
+.m-colo p { font-size: 9.2pt; line-height: 15pt; max-width: 100.333mm;
+  color: rgba(252,250,245,.66); }
+.m-colo .rule-hair { background: rgba(201,169,97,.3); margin: 8mm 0 6mm; }
+.m-colo__meta { font-family: 'Inter', 'Liberation Sans', sans-serif; font-size: 6.8pt; letter-spacing: .2em;
+  text-transform: uppercase; color: rgba(201,169,97,.7); line-height: 13pt; }
+
+/* A continued table carries its title once and says so thereafter. */
+.tbl__cont { font-family: 'Inter', 'Liberation Sans', sans-serif; font-size: 6.8pt; letter-spacing: .2em;
+  text-transform: uppercase; color: #79828F; margin: 0 0 4mm; }
 </style></head>
 <body><section class="pg m-cover">
-  <div class="m-cover__frame"></div>
-  <div class="m-cover__mark"><span class="inscr">WorldWide English College</span></div>
-  <div class="m-cover__rule"></div>
-  <div class="m-cover__title">
-    <h1>The Ten-Year<br>Institutional Roadmap</h1>
-    <p class="sub">Strategic Charter &amp; Financial Master Plan</p>
-  </div>
-  <div class="m-cover__period"><span>2027–2036</span></div>
-  <div class="m-cover__foot">London Campus &middot; Prepared for the Board<br>Planning instrument &mdash; not a record of trading</div>
-</section>
+    <div class="m-cover__frame"></div>
+    <div class="m-cover__mark"><span class="inscr">WorldWide English College</span></div>
+    <div class="m-cover__rule"></div>
+    <div class="m-cover__title">
+      <h1>The Ten-Year<br>Institutional Roadmap</h1>
+      <p class="sub">Strategic Charter &amp; Financial Master Plan</p>
+    </div>
+    <div class="m-cover__period"><span>2027–2036</span></div>
+    <div class="m-cover__foot">London Campus &middot; Prepared for the Board<br>Planning instrument &mdash; not a record of trading</div>
+  </section>
 <section class="pg pg--verso pg--dark m-field ">
   
   <div class="pg__field">
@@ -459,153 +552,510 @@ strong { font-weight: 600; }
     </div></div>
   <div class="folio num">02</div>
 </section>
-<section class="pg pg--recto  m-open">
+<section class="pg pg--recto  m-toc">
+  <div class="runhead">Contents</div>
+  <div class="pg__field">
+    <h1>Contents</h1>
+    
+      <div class="m-toc__part">I · The Proposition</div>
+      <div class="m-toc__row"><t>What the Board is asked to resolve</t><d></d><f>06</f></div><div class="m-toc__row"><t>The decade in one view</t><d></d><f>07</f></div>
+    
+      <div class="m-toc__part">II · The Institution</div>
+      <div class="m-toc__row"><t>What the College is, and what it holds</t><d></d><f>10</f></div><div class="m-toc__row"><t>The academic and credit architecture</t><d></d><f>11</f></div>
+    
+      <div class="m-toc__part">III · The Market</div>
+      <div class="m-toc__row"><t>What comparable providers actually charge</t><d></d><f>14</f></div><div class="m-toc__row"><t>Willingness to pay, assumed against researched</t><d></d><f>16</f></div><div class="m-toc__row"><t>Where the evidence does not exist</t><d></d><f>17</f></div>
+    
+      <div class="m-toc__part">IV · The Commercial Architecture</div>
+      <div class="m-toc__row"><t>The proposed tariff</t><d></d><f>20</f></div><div class="m-toc__row"><t>Price per hour of instructor attention</t><d></d><f>21</f></div><div class="m-toc__row"><t>Three architectures, one basis</t><d></d><f>22</f></div>
+    
+      <div class="m-toc__part">V · The Financial Architecture</div>
+      <div class="m-toc__row"><t>Where every dollar is governed</t><d></d><f>24</f></div><div class="m-toc__row"><t>The Core Management Plan, year by year</t><d></d><f>27</f></div><div class="m-toc__row"><t>Three scenarios</t><d></d><f>28</f></div>
+    
+      <div class="m-toc__part">VI · The Decade</div>
+      <div class="m-toc__row"><t>Five phases</t><d></d><f>30</f></div><div class="m-toc__row"><t>The institutional risk register</t><d></d><f>31</f></div><div class="m-toc__row"><t>Governance and authority</t><d></d><f>34</f></div>
+    
+      <div class="m-toc__part">VII · Method</div>
+      <div class="m-toc__row"><t>Assumptions, sources and reconciliation</t><d></d><f>38</f></div>
+    </div>
+  <div class="folio num">03</div>
+</section>
+<section class="pg pg--verso"></section>
+<section class="pg pg--recto pg--dark m-part ">
   
   <div class="pg__field">
-    <div class="m-open__n bleed">01</div>
-    <div class="m-open__body">
-      <p class="m-open__eyebrow">Chapter One</p>
-      <h1>The Commercial Architecture</h1>
-      <p class="m-open__rubric">What WEC-LC charges, solved backwards from the financial law the Board has set — and not chosen.</p>
+    <div class="m-part__wrap">
+      <p class="m-part__n">Part One</p>
+      <div class="m-part__rule"></div>
+      <h1>The Proposition</h1>
+      <p class="m-part__say">What the Board is asked to resolve, and the three decisions the rest of this document exists to inform.</p>
     </div>
-    <div class="m-open__stats">
-      <div class="m-open__stat"><v>$27,900</v><l>Tutored pathway, proposed</l></div>
-      <div class="m-open__stat"><v>50.1%</v><l>Revenue retained</l></div>
-      <div class="m-open__stat"><v>$95.5M</v><l>Ten-year revenue</l></div></div></div>
+    <div class="m-part__list"><div>The resolution sought</div><div>The decade in one view</div><div>What is not yet held</div></div></div>
   
 </section>
-<section class="pg pg--verso m-hero ">
-  <div class="runhead">Commercial Architecture</div>
+<section class="pg pg--verso  m-narr m-narr--single">
+  <div class="runhead">The Proposition</div>
+  <div class="pg__field">
+    <div class="m-narr__head"><p class="eyebrow">What the Board is asked to resolve</p>
+      <h2 style="margin-top:0">Three resolutions</h2></div>
+    <div class="m-narr__body">
+      <p class="drop">This plan asks for three decisions and no others. Everything else in it is either a fact about the College, which is marked as one, or a consequence of arithmetic the Board can check.</p>
+      <h3>One &middot; The revenue-allocation framework</h3>
+      <p>That gross collected revenue be governed as 25% payroll, 5% lms and technology, 10% operating expenses, 10% marketing and student acquisition, 25% institutional reserve, 25% strategic and founders' allocation. The two retained lines are designated institutional capital. The Strategic and Founders&rsquo; Allocation is <strong>not</strong> automatically withdrawable income, and no distribution from it is modelled anywhere in this plan. <span class="mark mark--board">BOARD DECISION REQUIRED</span></p>
+      <h3>Two &middot; The commercial architecture that follows from it</h3>
+      <p>That the tariff be set at the cheapest point satisfying that framework: a Tutored pathway at <strong>$27,900</strong>, with the full schedule on page 20. The price is the output of the framework rather than a management preference, and it moves if the framework moves. <span class="mark mark--board">BOARD DECISION REQUIRED</span></p>
+      <h3>Three &middot; The two channels the portfolio does not yet contain</h3>
+      <p>That the College open Corporate and Institutional agreements at its own published partner bands. Swept across a twelvefold price range and a sixteenfold range of scale, a purely retail College could not bring acquisition below 22% of revenue against a 10% target, because a cost incurred one learner at a time never amortises. <span class="mark mark--board">BOARD DECISION REQUIRED</span></p>
+      <h3>And one thing that is not a decision</h3>
+      <p>The Board of Academic Standards has no appointed members and no External Examiner has been appointed. Both are appointments rather than engineering tasks, and until they are made the College cannot confer. Every surface that would carry those names already exists and already renders.</p></div></div>
+  <div class="folio num">06</div>
+</section>
+<section class="pg pg--recto m-hero ">
+  <div class="runhead">The Proposition</div>
   <div class="pg__field">
     <div class="m-hero__wrap">
       <p class="m-hero__eyebrow">Retained for reserve and strategic allocation</p>
       <p class="m-hero__v">50.1%</p>
       <div class="m-hero__plinth"></div>
-      <p class="m-hero__say">The tariff is the cheapest one at which the institution retains what its own financial law requires. It is the output of that law, not a management preference.</p>
+      <p class="m-hero__say">The tariff is the cheapest one at which the institution retains what its own financial law requires.</p>
       <p class="m-hero__note">Against a target of 50%. <span class="mark mark--board">BOARD DECISION REQUIRED</span></p>
     </div></div>
-  <div class="folio num">04</div>
+  <div class="folio num">07</div>
+</section>
+<section class="pg pg--verso  m-narr m-narr--single">
+  <div class="runhead">The Proposition</div>
+  <div class="pg__field">
+    <div class="m-narr__head"><p class="eyebrow">The decade in one view</p><h2 style="margin-top:0">What the plan produces</h2></div>
+    <div class="m-narr__body"><table class="tbl">
+  <caption><b>The Core Management Plan at maturity</b><i>Strategic projection on modelled assumptions. Not a record of trading.</i></caption>
+  <thead><tr><th></th><th>Ten years</th><th>Year 10</th></tr></thead>
+  <tbody><tr><td>Gross revenue</td><td>$95.5M</td><td>$17.4M</td></tr><tr><td>Operating surplus</td><td>$37.4M</td><td>$7.4M</td></tr><tr><td>Learners admitted</td><td>17,864</td><td>3,053</td></tr><tr><td>Learners under instruction</td><td>—</td><td>3,851</td></tr><tr><td>Level awards conferred</td><td>39,164</td><td>7,133</td></tr><tr><td>Award-holders</td><td>14,828</td><td>—</td></tr><tr class="em"><td>Revenue retained under the framework</td><td>50.1%</td><td>$8.7M</td></tr></tbody>
+</table><p class="tbl__src">WEC-LC Financial Model. <span class="mark mark--modelled">MODELLED</span> throughout.</p></div></div>
+  <div class="folio num">08</div>
+</section>
+<section class="pg pg--recto pg--dark m-part ">
+  
+  <div class="pg__field">
+    <div class="m-part__wrap">
+      <p class="m-part__n">Part Two</p>
+      <div class="m-part__rule"></div>
+      <h1>The Institution</h1>
+      <p class="m-part__say">What the College is, what it sells, and the discipline that makes both statements checkable.</p>
+    </div>
+    <div class="m-part__list"><div>Identity</div><div>Academic architecture</div><div>The credit structure</div><div>What is held and what is not</div></div></div>
+  
+</section>
+<section class="pg pg--verso  m-narr ">
+  <div class="runhead">The Institution</div>
+  <div class="pg__field">
+    <div class="m-narr__head"><p class="eyebrow">Identity</p><h2 style="margin-top:0">What the College is, and what it holds</h2></div>
+    <div class="m-narr__body">
+      <p class="drop">WorldWide English College teaches a 1,200-hour qualification pathway in six levels from A1 to C2, examined against rubrics published before the work, second-marked, moderated, and entered in a registry a stranger can check without an account.</p>
+      <p>The credential is identical whichever route a candidate takes to it &mdash; same examination, same rubric, same second marking, same moderation, same registry entry, same public verification. The routes differ in price by a factor of thirty-eight because what they differ in is <em>human attention</em>, which is the only thing here that actually costs money.</p>
+      <h3>What the College does not claim</h3>
+      <p>It holds no third-party accreditation, no ranking, no institutional partnership and no external endorsement. It has not completed a cohort. No External Examiner has confirmed its standard. These are stated here rather than discovered later, and nothing in this plan assumes any of them changes.</p>
+      <h3>What it does hold</h3>
+      <p>A complete six-level curriculum of 1,200 academic hours; an examination architecture with second marking and moderation; a published fee decomposition accounting for every cent of a fee; a conferral and verification chain; and fourteen typeset volumes of its own curriculum and assessment work, free to anyone, enrolled or not.</p>
+      <h3>The discipline</h3>
+      <p>Every figure in this publication is computed by one engine from three files. None is typed into a page. The reconciliation is run as a test on every build rather than asserted as a claim, and the build fails if a figure in the document cannot be traced to the record it came from.</p></div></div>
+  <div class="folio num">10</div>
+</section>
+<section class="pg pg--recto  m-narr m-narr--single">
+  <div class="runhead">The Institution</div>
+  <div class="pg__field">
+    <div class="m-narr__head"><p class="eyebrow">Academic architecture</p></div>
+    <div class="m-narr__body"><table class="tbl">
+  <caption><b>The six qualifications</b><i>6 levels, 200 academic hours and 20 credits each — 1,200 hours and 120 credits across the pathway.</i></caption>
+  <thead><tr><th>Code</th><th>CEFR</th><th>Qualification</th><th>Hours</th><th>Credits</th></tr></thead>
+  <tbody><tr><td><b>ECIC</b></td><td>A1</td><td class="unit">English Communication Introductory Certificate</td><td>200</td><td>20</td></tr><tr><td><b>HCIC</b></td><td>A2</td><td class="unit">Higher Communication Introductory Certificate</td><td>200</td><td>20</td></tr><tr><td><b>CAEC</b></td><td>B1</td><td class="unit">Certificate in Applied English Communication</td><td>200</td><td>20</td></tr><tr><td><b>HCAEC</b></td><td>B2</td><td class="unit">Higher Certificate in Applied English Communication</td><td>200</td><td>20</td></tr><tr><td><b>ACEC</b></td><td>C1</td><td class="unit">Advanced Certificate in English Communication</td><td>200</td><td>20</td></tr><tr><td><b>WEPC</b></td><td>C2</td><td class="unit">WorldWide English Proficiency Certificate</td><td>200</td><td>20</td></tr><tr class="em"><td></td><td></td><td>COMPLETE A1–C2 PATHWAY</td><td>1,200</td><td>120</td></tr></tbody>
+</table><p class="tbl__src"><span class="mark mark--verified">VERIFIED</span> — data/tuition.json and the programme record. Adopted and published.</p></div></div>
+  <div class="folio num">11</div>
+</section>
+<section class="pg pg--verso"></section>
+<section class="pg pg--recto pg--dark m-part ">
+  
+  <div class="pg__field">
+    <div class="m-part__wrap">
+      <p class="m-part__n">Part Three</p>
+      <div class="m-part__rule"></div>
+      <h1>The Market</h1>
+      <p class="m-part__say">What comparable programmes actually charge, what that did to an earlier draft of this plan, and the four markets the research could not answer.</p>
+    </div>
+    <div class="m-part__list"><div>Published tariffs</div><div>Assumed against researched</div><div>Where evidence does not exist</div></div></div>
+  
+</section>
+<section class="pg pg--verso  ">
+  <div class="runhead">The Market</div>
+  <div class="pg__field">
+      
+      <table class="tbl">
+  <caption><b>What comparable providers charge</b><i>Published tariffs, converted. Gathered 2026-09-19. USD conversions use approximate mid-market rates at the research date: SAR 3.75, AED 3.67, GBP 0.79, NGN 1540. Local-currency figures are authoritative; USD is indicative.</i></caption>
+  <thead><tr><th>Market</th><th>Provider</th><th>Local price</th><th>USD</th><th>Per contact hour</th><th>Confidence</th></tr></thead>
+  <tbody><tr><td><b>Saudi Arabia and the Gulf</b></td><td class="unit">British Council Saudi Arabia<br><span style="color:#79828F">Adult English, modular. 5 levels A2–C1. Module = 6 lessons of 90 minutes.</span></td><td>SAR 7,992.50 incl. VAT</td><td>$2,131</td><td>$20.53</td><td>high</td></tr><tr><td></td><td class="unit">British Council Saudi Arabia<br><span style="color:#79828F">Adult English, 40 credits</span></td><td>SAR 6,037.50 incl. VAT</td><td>$1,610</td><td>—</td><td>high</td></tr><tr><td></td><td class="unit">British Council Saudi Arabia<br><span style="color:#79828F">Adult English, 20 credits</span></td><td>SAR 3,795 incl. VAT</td><td>$1,012</td><td>—</td><td>high</td></tr><tr><td></td><td class="unit">British Council Saudi Arabia<br><span style="color:#79828F">IELTS test fee (Academic / General Training)</span></td><td>SAR 1,636 incl. VAT</td><td>$436</td><td>—</td><td>medium</td></tr><tr><td></td><td class="unit">British Council United Arab Emirates<br><span style="color:#79828F">IELTS preparation course</span></td><td>AED 2,950</td><td>$804</td><td>$33.50</td><td>medium</td></tr><tr><td></td><td class="unit">Berlitz UAE<br><span style="color:#79828F">English group classes (promotional)</span></td><td>AED 2,900</td><td>$790</td><td>—</td><td>medium</td></tr><tr><td></td><td class="unit">Dubai market survey<br><span style="color:#79828F">Intensive English programmes, 2–3 months</span></td><td>AED 4,000 – 8,000+</td><td>$1,090 – 2,180+</td><td>—</td><td>low</td></tr><tr><td></td><td class="unit">Wall Street English Saudi Arabia<br><span style="color:#79828F">English course packages</span></td><td>NOT PUBLISHED</td><td>—</td><td>—</td><td>n/a</td></tr><tr><td><b>Nigeria and West Africa</b></td><td class="unit">PEI Centre, Lagos<br><span style="color:#79828F">IELTS training, monthly</span></td><td>NGN 75,000 per month</td><td>$49</td><td>—</td><td>high</td></tr><tr><td></td><td class="unit">British Council Nigeria / IDP<br><span style="color:#79828F">IELTS test fee</span></td><td>NGN 279,500 – 299,000</td><td>$181 – 194</td><td>—</td><td>medium</td></tr></tbody>
+</table></div>
+  <div class="folio num">14</div>
+</section>
+<section class="pg pg--recto  ">
+  <div class="runhead">The Market</div>
+  <div class="pg__field">
+      <p class="tbl__cont">What comparable providers charge &mdash; continued</p>
+      <table class="tbl">
+  <caption><b></b></caption>
+  <thead><tr><th>Market</th><th>Provider</th><th>Local price</th><th>USD</th><th>Per contact hour</th><th>Confidence</th></tr></thead>
+  <tbody><tr><td></td><td class="unit">Nigeria market aggregate<br><span style="color:#79828F">IELTS and English course fees, full range</span></td><td>NGN 1,000 – 2,798,000</td><td>$0.65 – 1,817</td><td>—</td><td>low</td></tr><tr><td><b>United Kingdom and Europe</b></td><td class="unit">University of Sheffield ELTC<br><span style="color:#79828F">Pre-sessional English</span></td><td>GBP 525 per week</td><td>$665</td><td>—</td><td>high</td></tr><tr><td></td><td class="unit">University of Chester<br><span style="color:#79828F">Pre-sessional English, 13 weeks</span></td><td>GBP 3,350</td><td>$4,241</td><td>—</td><td>high</td></tr><tr><td></td><td class="unit">University of Chester<br><span style="color:#79828F">Pre-sessional English, 9 weeks</span></td><td>GBP 2,600</td><td>$3,291</td><td>—</td><td>high</td></tr><tr><td></td><td class="unit">University of Oxford Language Centre<br><span style="color:#79828F">Pre-sessional Academic English, 6 weeks</span></td><td>GBP 3,250</td><td>$4,114</td><td>—</td><td>high</td></tr><tr><td></td><td class="unit">University of Stirling<br><span style="color:#79828F">Pre-sessional English, 8 weeks, ONLINE</span></td><td>GBP 5,150</td><td>$6,519</td><td>—</td><td>high</td></tr><tr><td><b>Executive and corporate</b></td><td class="unit">US corporate language training market<br><span style="color:#79828F">Small group</span></td><td>—</td><td>$15 – 35 per learner per session</td><td>—</td><td>medium</td></tr></tbody>
+</table><p class="tbl__src">Every observation is recorded in <strong>data/market-evidence.json</strong> with its source address. Nothing about the outside world is typed into this publication.</p></div>
+  <div class="folio num">15</div>
+</section>
+<section class="pg pg--verso  m-narr m-narr--single">
+  <div class="runhead">The Market</div>
+  <div class="pg__field">
+    <div class="m-narr__head"><p class="eyebrow">What the research did to the demand model</p></div>
+    <div class="m-narr__body"><table class="tbl">
+  <caption><b>Willingness to pay, assumed against researched</b><i>Price of a complete A1–C2 pathway at which a segment converts at its reference rate.</i></caption>
+  <thead><tr><th>Segment</th><th>Assumed</th><th>Researched</th><th>Change</th><th>Elasticity</th><th>Confidence</th></tr></thead>
+  <tbody><tr><td><b>Gulf executives and senior professionals</b></td><td>$31,000</td><td>$24,000</td><td><b>-23%</b></td><td>-0.62</td><td class="unit">medium</td></tr><tr><td><b>Gulf professionals and graduate families</b></td><td>$17,500</td><td>$13,000</td><td><b>-26%</b></td><td>-1.05</td><td class="unit">high</td></tr><tr><td><b>United Kingdom and Europe</b></td><td>$19,500</td><td>$15,500</td><td><b>-21%</b></td><td>-0.94</td><td class="unit">high</td></tr><tr><td><b>Nigeria and West Africa</b></td><td>$6,400</td><td>$2,200</td><td><b>-66%</b></td><td>-1.62</td><td class="unit">high</td></tr><tr><td><b>Asia and the rest of the world</b></td><td>$9,800</td><td>$5,200</td><td><b>-47%</b></td><td>-1.28</td><td class="unit">modelled — insufficient direct market evidence</td></tr></tbody>
+</table><p class="tbl__src">Four of the five moved, and one by nearly a factor of three. The plan this replaced projected $61.6M of revenue on those assumed figures; it is recorded in data/masterplan.json rather than quietly replaced.</p></div></div>
+  <div class="folio num">16</div>
+</section>
+<section class="pg pg--recto  m-narr m-narr--single">
+  <div class="runhead">The Market</div>
+  <div class="pg__field">
+    <div class="m-narr__head"><p class="eyebrow">Where the evidence does not exist</p>
+      <h2 style="margin-top:0">Stated, rather than closed</h2>
+      <p class="lede" style="max-width:115.267mm">This is the honest centre of the problem. No provider found sells a six-level, 1,200-hour, credentialed A1–C2 pathway as one purchase.</p></div>
+    <div class="m-narr__body"><table class="tbl">
+  <caption><b>Marked as modelled</b><i>Four markets and one central question the research could not answer.</i></caption>
+  <thead><tr><th>Market or question</th><th>Status</th><th>What the model does instead</th></tr></thead>
+  <tbody><tr><td><b>Qatar, Kuwait, Bahrain, Oman</b></td><td><span class="mark mark--modelled">MODELLED</span></td><td class="unit">No published provider tariffs found. Modelled at Saudi/UAE levels, which is an assumption about four distinct markets and is marked as one.</td></tr><tr><td><b>Ghana and wider West Africa beyond Nigeria</b></td><td><span class="mark mark--modelled">MODELLED</span></td><td class="unit">Scaled from the segments that carry direct observations.</td></tr><tr><td><b>North America</b></td><td><span class="mark mark--modelled">MODELLED</span></td><td class="unit">Not a founding market in the roadmap; not researched in depth.</td></tr><tr><td><b>Asia and rest of world</b></td><td><span class="mark mark--modelled">MODELLED</span></td><td class="unit">Scaled from the segments that carry direct observations.</td></tr><tr><td><b>Willingness to pay for a MULTI-YEAR credentialed English pathway</b></td><td><span class="mark mark--modelled">INSUFFICIENT DIRECT EVIDENCE</span></td><td class="unit">Pathway prices are built up from per-level comparables rather than read off a competitor.</td></tr></tbody>
+</table><p class="tbl__src">data/market-evidence.json § gaps.</p></div></div>
+  <div class="folio num">17</div>
+</section>
+<section class="pg pg--verso"></section>
+<section class="pg pg--recto pg--dark m-part ">
+  
+  <div class="pg__field">
+    <div class="m-part__wrap">
+      <p class="m-part__n">Part Four</p>
+      <div class="m-part__rule"></div>
+      <h1>The Commercial Architecture</h1>
+      <p class="m-part__say">What WEC-LC charges, solved backwards from the financial law the Board has set — and not chosen.</p>
+    </div>
+    <div class="m-part__list"><div>The proposed tariff</div><div>Per hour of attention</div><div>Three architectures</div></div></div>
+  
+</section>
+<section class="pg pg--verso  m-narr m-narr--single">
+  <div class="runhead">Commercial Architecture</div>
+  <div class="pg__field">
+    <div class="m-narr__head"><p class="eyebrow">The proposed tariff</p></div>
+    <div class="m-narr__body"><table class="tbl">
+  <caption><b>Management’s proposed commercial architecture</b><i>Complete A1–C2 pathway. The adopted tariff remains $19,000 until the Board resolves otherwise.</i></caption>
+  <thead><tr><th>Tier</th><th>What it buys</th><th>Contact hours</th><th>Attention</th><th>Pathway</th></tr></thead>
+  <tbody><tr><td>Independent</td><td class="unit">Examination, moderation and the award. No teaching.</td><td>0</td><td>17</td><td><b>$3,600</b></td></tr><tr><td>Directed</td><td class="unit">Seminar teaching in a group of fourteen, with marked work.</td><td>144</td><td>42</td><td><b>$17,100</b></td></tr><tr><td>Tutored</td><td class="unit">A named instructor, individual tutorials, every piece marked.</td><td>192</td><td>122</td><td><b>$27,900</b></td></tr><tr><td>Executive Core</td><td class="unit">A cohort of six, scheduled around professional obligations.</td><td>228</td><td>183</td><td><b>$50,400</b></td></tr><tr><td>Executive Premium</td><td class="unit">One to one throughout, with a named academic adviser.</td><td>240</td><td>348</td><td><b>$82,800</b></td></tr><tr><td>Executive Bespoke</td><td class="unit">One to one, on material authored to the holder’s own field.</td><td>288</td><td>443</td><td><b>$136,800</b></td></tr><tr><td>Corporate</td><td class="unit">The Executive Core pathway, less the adopted 15% band.</td><td>228</td><td>183</td><td><b>$42,840</b></td></tr><tr><td>Institutional and Sponsored</td><td class="unit">The Tutored pathway, less the adopted 20% band.</td><td>192</td><td>122</td><td><b>$22,320</b></td></tr></tbody>
+</table><p class="tbl__src">Independent is adopted and published. Every other figure is <span class="mark mark--proposed">PROPOSED — NOT ADOPTED</span> — solved from the allocation framework by scripts/publication/allocation.mjs.</p></div></div>
+  <div class="folio num">20</div>
 </section>
 <section class="pg pg--recto  m-narr m-narr--single">
   <div class="runhead">Commercial Architecture</div>
   <div class="pg__field">
-    <div class="m-narr__head"><p class="eyebrow">Chapter One &middot; The proposed tariff</p></div>
+    <div class="m-narr__head"><p class="eyebrow">The comparison that survives</p>
+      <h2 style="margin-top:0">Per hour of a teacher&rsquo;s<br>individual attention</h2>
+      <p class="lede" style="max-width:115.267mm">A pathway total has no comparable, because no provider sells one. An hour of a qualified teacher&rsquo;s individual attention has one everywhere.</p></div>
     <div class="m-narr__body"><table class="tbl">
-  <caption><b>Management’s proposed commercial architecture</b><i>Complete A1–C2 pathway. Proposed and modelled; the adopted tariff remains $19,000 until the Board resolves otherwise.</i></caption>
-  <thead><tr><th>Tier</th><th>What it buys</th><th>Contact hours</th><th>Individual attention</th><th>Pathway</th></tr></thead>
-  <tbody><tr><td>Independent</td><td class="unit">Examination, moderation and the award. No teaching.</td><td>0</td><td>17</td><td><b>$3,600</b></td></tr><tr><td>Directed</td><td class="unit">Seminar teaching in a group of fourteen, with marked work.</td><td>144</td><td>42</td><td><b>$17,100</b></td></tr><tr><td>Tutored</td><td class="unit">A named instructor, individual tutorials, every piece marked.</td><td>192</td><td>122</td><td><b>$27,900</b></td></tr><tr><td>Executive Core</td><td class="unit">A cohort of six, scheduled around professional obligations.</td><td>228</td><td>183</td><td><b>$50,400</b></td></tr><tr><td>Executive Premium</td><td class="unit">One to one throughout, with a named academic adviser.</td><td>240</td><td>348</td><td><b>$82,800</b></td></tr><tr><td>Executive Bespoke</td><td class="unit">One to one, on material authored to the holder’s own field.</td><td>288</td><td>443</td><td><b>$136,800</b></td></tr><tr><td>Corporate</td><td class="unit">The Executive Core pathway, less the adopted 15% band.</td><td>228</td><td>183</td><td><b>$42,840</b></td></tr><tr><td>Institutional and Sponsored</td><td class="unit">The Tutored pathway, less the adopted 20% band.</td><td>192</td><td>122</td><td><b>$22,320</b></td></tr></tbody>
-</table><p class="tbl__src">Independent is adopted and published in data/commercial.json. Every other figure is <span class="mark mark--proposed">PROPOSED — NOT ADOPTED</span> — solved from data/masterplan.json § revenue_allocation_framework by scripts/publication/allocation.mjs.</p></div></div>
-  <div class="folio num">05</div>
+  <caption><b>The only like-for-like unit available</b><i>Group hours divided by the published group size, because a class of twelve gives each learner a twelfth of the teacher.</i></caption>
+  <thead><tr><th>Product</th><th>Attention across the pathway</th><th>Pathway price</th><th>Per hour</th></tr></thead>
+  <tbody><tr><td>Independent</td><td>17</td><td>$3,600</td><td><b>$213.39</b></td></tr><tr><td>Directed</td><td>42</td><td>$17,100</td><td><b>$403.51</b></td></tr><tr><td>Tutored</td><td>122</td><td>$27,900</td><td><b>$228.77</b></td></tr><tr><td>Executive Core</td><td>183</td><td>$50,400</td><td><b>$275.17</b></td></tr><tr><td>Executive Premium</td><td>348</td><td>$82,800</td><td><b>$238.18</b></td></tr><tr><td>Executive Bespoke</td><td>443</td><td>$136,800</td><td><b>$308.84</b></td></tr><tr class="em"><td>British Council Saudi Arabia, group of 12</td><td>8</td><td>$2,131 per module</td><td><b>$284.13</b></td></tr></tbody>
+</table><p class="tbl__src">WEC-LC is cheaper per hour of individual instructor attention than the published British Council tariff at every tier, and it confers an award the module does not.</p></div></div>
+  <div class="folio num">21</div>
+</section>
+<section class="pg pg--verso  m-narr m-narr--single">
+  <div class="runhead">Commercial Architecture</div>
+  <div class="pg__field">
+    <div class="m-narr__head"><p class="eyebrow">Three architectures, one basis</p></div>
+    <div class="m-narr__body"><table class="tbl">
+  <caption><b>What the proposal is worth against the alternatives</b><i>All three run through the same demand model, delivery costs, acquisition budget and capacity gate. Only the price differs.</i></caption>
+  <thead><tr><th>Architecture</th><th>Ten-year revenue</th><th>Surplus</th><th>Learners</th><th>Award-holders</th></tr></thead>
+  <tbody><tr><td>Brief A — $7,400 / $14,800</td><td>$68.2M</td><td>−$10.1M</td><td>19,664</td><td>16,320</td></tr><tr><td>Adopted flat $19,000</td><td>$80.5M</td><td>$8.6M</td><td>16,040</td><td>13,313</td></tr><tr class="em"><td><b>PROPOSED PORTFOLIO</b></td><td>$95.5M</td><td>$37.4M</td><td>17,864</td><td>14,828</td></tr></tbody>
+</table><p class="tbl__src">The institutional channels removed the trade an earlier draft was built around: the proposal now earns more revenue, more surplus, more learners and more awards than the adopted flat tariff. <span class="mark mark--modelled">MODELLED</span></p></div></div>
+  <div class="folio num">22</div>
+</section>
+<section class="pg pg--recto pg--dark m-part ">
+  
+  <div class="pg__field">
+    <div class="m-part__wrap">
+      <p class="m-part__n">Part Five</p>
+      <div class="m-part__rule"></div>
+      <h1>The Financial Architecture</h1>
+      <p class="m-part__say">Where every dollar of collected revenue is governed, and the decade that follows from it.</p>
+    </div>
+    <div class="m-part__list"><div>The allocation framework</div><div>Definitions</div><div>The decade, year by year</div><div>Three scenarios</div></div></div>
+  
 </section>
 <section class="pg pg--verso"></section>
 <section class="pg pg--recto  ">
   <div class="runhead">Financial Architecture</div>
   <div class="pg__field">
-  <p class="eyebrow">Chapter Two &middot; The governing financial law</p>
-  <h2 style="margin-top:0">Where every dollar<br>is governed</h2>
-  <p class="lede" style="max-width:85.4mm;margin-bottom:4mm">Fifty per cent of gross collected revenue is retained rather than spent. The tariff is solved backwards from this, and not the other way round.</p>
-  <p style="margin:0 0 9mm"><span class="mark mark--board">BOARD DECISION REQUIRED</span></p>
-  <div class="m-alloc">
-    <div class="m-alloc__col">
-      <div class="m-alloc__seg"
-        style="background:#0A1A2F;height:35.8mm">
-        <b>25%</b><s>PAYROLL</s></div><div class="m-alloc__seg m-alloc__seg--tight"
-        style="background:#26405C;height:7.2mm">
-        <b>5%</b><s>TECHNOLOGY</s></div><div class="m-alloc__seg"
-        style="background:#42596F;height:14.3mm">
-        <b>10%</b><s>OPERATING</s></div><div class="m-alloc__seg"
-        style="background:#677D91;height:14.3mm">
-        <b>10%</b><s>MARKETING</s></div><div class="m-alloc__seg m-alloc__seg--kept"
-        style="background:#A9843C;height:35.8mm">
-        <b>25%</b><s>RESERVE</s></div><div class="m-alloc__seg m-alloc__seg--kept"
-        style="background:#C9A961;height:35.8mm">
-        <b>25%</b><s>STRATEGIC</s></div>
-    </div>
-    <div style="flex:1;padding-top:1mm;position:relative">
-      <p style="font-size:9.2pt;line-height:14.4pt;color:#3D4654;max-width:55.533mm;margin:0">
-        The four lines above the struck rule are <em>consumed</em> running the institution. The two below it are
-        <em>retained</em> &mdash; designated institutional capital, not profit, and not automatically withdrawable.</p>
-      <div style="height:1.2pt;background:#A9843C;margin:7mm 0 5mm;width:40.6mm"></div>
-      <p style="font-size:9.2pt;line-height:14.4pt;color:#3D4654;max-width:55.533mm;margin:0">
-        At the proposed tariff the institution retains <strong>50.1%</strong> of
-        $17.4M &mdash; the cheapest tariff at which it does.</p>
-      <!-- The foot of the right column carries what the institution
-           keeps, set as a figure, so the column is a composition rather
-           than a paragraph with air under it. -->
-      <div style="position:absolute;left:0;bottom:0;width:55.533mm">
-        <div style="height:.35pt;background:#D9D2C2;margin-bottom:4mm"></div>
-        <p style="font-family:'Inter', 'Liberation Sans', sans-serif;font-size:6.8pt;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:#79828F;margin:0 0 2mm">Retained a year at maturity</p>
-        <p class="num" style="font-family:'Cormorant Garamond', 'Bitstream Charter', serif;font-weight:300;font-size:44pt;line-height:46pt;color:#0A1A2F;margin:0">$8.7M</p>
+    <p class="eyebrow">The governing financial law</p>
+    <h2 style="margin-top:0">Where every dollar<br>is governed</h2>
+    <p class="lede" style="max-width:85.4mm;margin-bottom:4mm">Fifty per cent of gross collected revenue is retained rather than spent. The tariff is solved backwards from this, and not the other way round.</p>
+    <p style="margin:0 0 9mm"><span class="mark mark--board">BOARD DECISION REQUIRED</span></p>
+    <div class="m-alloc">
+      <div class="m-alloc__col">
+        <div class="m-alloc__seg"
+          style="background:#0A1A2F;height:35.8mm">
+          <b>25%</b><s>PAYROLL</s></div><div class="m-alloc__seg m-alloc__seg--tight"
+          style="background:#26405C;height:7.2mm">
+          <b>5%</b><s>TECHNOLOGY</s></div><div class="m-alloc__seg"
+          style="background:#42596F;height:14.3mm">
+          <b>10%</b><s>OPERATING</s></div><div class="m-alloc__seg"
+          style="background:#677D91;height:14.3mm">
+          <b>10%</b><s>MARKETING</s></div><div class="m-alloc__seg m-alloc__seg--kept"
+          style="background:#A9843C;height:35.8mm">
+          <b>25%</b><s>RESERVE</s></div><div class="m-alloc__seg m-alloc__seg--kept"
+          style="background:#C9A961;height:35.8mm">
+          <b>25%</b><s>STRATEGIC</s></div>
       </div>
-    </div>
-  </div></div>
-  <div class="folio num">07</div>
+      <div style="flex:1;padding-top:1mm;position:relative">
+        <p style="font-size:9.2pt;line-height:14.4pt;color:#3D4654;max-width:55.533mm;margin:0">
+          The four lines above the struck rule are <em>consumed</em> running the institution. The two below it are
+          <em>retained</em> &mdash; designated institutional capital, not profit, and not automatically withdrawable.</p>
+        <div style="height:1.2pt;background:#A9843C;margin:7mm 0 5mm;width:40.6mm"></div>
+        <p style="font-size:9.2pt;line-height:14.4pt;color:#3D4654;max-width:55.533mm;margin:0">
+          At the proposed tariff the institution retains <strong>50.1%</strong> of
+          $17.4M &mdash; the cheapest tariff at which it does.</p>
+        <div style="position:absolute;left:0;bottom:0;width:55.533mm">
+          <div style="height:.35pt;background:#D9D2C2;margin-bottom:4mm"></div>
+          <p style="font-family:'Inter', 'Liberation Sans', sans-serif;font-size:6.8pt;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:#79828F;margin:0 0 2mm">Retained a year at maturity</p>
+          <p class="num" style="font-family:'Cormorant Garamond', 'Bitstream Charter', serif;font-weight:300;font-size:44pt;line-height:46pt;color:#0A1A2F;margin:0">$8.7M</p>
+        </div>
+      </div>
+    </div></div>
+  <div class="folio num">25</div>
 </section>
 <section class="pg pg--verso  ">
   <div class="runhead">Financial Architecture</div>
   <div class="pg__field">
-  <p class="eyebrow">Definitions</p>
-  <h2 style="margin-top:0">What each line is, and is not</h2>
-  <div style="margin-top:4mm">
-  <div class="m-alloc__row">
-      <div class="m-alloc__swatch" style="background:#0A1A2F"></div>
-      <div style="flex:1">
-        <h4>Payroll</h4>
-        <p>All employed people: academic delivery, examinations, registry, admissions, student support, platform engineering, academic standards, finance and compliance, and institutional leadership, inclusive of on-costs.</p>
-        
+    <p class="eyebrow">Definitions</p>
+    <h2 style="margin-top:0">What each line is, and is not</h2>
+    <div style="margin-top:4mm">
+    <div class="m-alloc__row">
+        <div class="m-alloc__swatch" style="background:#0A1A2F"></div>
+        <div style="flex:1">
+          <h4>Payroll</h4>
+          <p>All employed people: academic delivery, examinations, registry, admissions, student support, platform engineering, academic standards, finance and compliance, and institutional leadership, inclusive of on-costs.</p>
+          
+        </div>
+        <div class="m-alloc__pct num">25%</div>
+      </div><div class="m-alloc__row">
+        <div class="m-alloc__swatch" style="background:#26405C"></div>
+        <div style="flex:1">
+          <h4>LMS and Technology</h4>
+          <p>The learning platform, hosting, authentication, storage, media, security and the tooling the College runs on. Salaries of the people who build it sit in Payroll.</p>
+          
+        </div>
+        <div class="m-alloc__pct num">5%</div>
+      </div><div class="m-alloc__row">
+        <div class="m-alloc__swatch" style="background:#42596F"></div>
+        <div style="flex:1">
+          <h4>Operating Expenses</h4>
+          <p>Legal, accounting, insurance, audit, professional services, the London registered office, examinations administration, and institutional administration.</p>
+          
+        </div>
+        <div class="m-alloc__pct num">10%</div>
+      </div><div class="m-alloc__row">
+        <div class="m-alloc__swatch" style="background:#677D91"></div>
+        <div style="flex:1">
+          <h4>Marketing and Student Acquisition</h4>
+          <p>Media, content, campaigns, partnership development and the admissions conversation — the cost of being found and understood. Salaries of the people who do it sit in Payroll.</p>
+          
+        </div>
+        <div class="m-alloc__pct num">10%</div>
+      </div><div class="m-alloc__row">
+        <div class="m-alloc__swatch" style="background:#A9843C"></div>
+        <div style="flex:1">
+          <h4>Institutional Reserve</h4>
+          <p>Restricted or designated institutional capital retained to strengthen liquidity, fund major institutional initiatives, absorb exceptional shocks, support future expansion, and maintain long-term financial resilience.</p>
+          <p style="margin-top:1.4mm;color:#7E1F2D;font-size:7.6pt;line-height:11.6pt"><em>Not distributable. Not a surplus line. Not available to fund ordinary operating shortfalls without a recorded Board resolution.</em></p>
+        </div>
+        <div class="m-alloc__pct num">25%</div>
+      </div><div class="m-alloc__row">
+        <div class="m-alloc__swatch" style="background:#C9A961"></div>
+        <div style="flex:1">
+          <h4>Strategic and Founders' Allocation</h4>
+          <p>A discretionary institutional allocation available for founder remuneration, strategic investment, expansion, intellectual property development, new campuses and markets, acquisitions, exceptional executive compensation, and other Board-authorised strategic purposes.</p>
+          <p style="margin-top:1.4mm;color:#7E1F2D;font-size:7.6pt;line-height:11.6pt"><em>NOT automatically withdrawable founder income, and the plan never presents it as profit. Any distribution from it is a separate Board decision on a separate occasion.</em></p>
+        </div>
+        <div class="m-alloc__pct num">25%</div>
       </div>
-      <div class="m-alloc__pct num">25%</div>
-    </div><div class="m-alloc__row">
-      <div class="m-alloc__swatch" style="background:#26405C"></div>
-      <div style="flex:1">
-        <h4>LMS and Technology</h4>
-        <p>The learning platform, hosting, authentication, storage, media, security and the tooling the College runs on. Salaries of the people who build it sit in Payroll.</p>
-        
-      </div>
-      <div class="m-alloc__pct num">5%</div>
-    </div><div class="m-alloc__row">
-      <div class="m-alloc__swatch" style="background:#42596F"></div>
-      <div style="flex:1">
-        <h4>Operating Expenses</h4>
-        <p>Legal, accounting, insurance, audit, professional services, the London registered office, examinations administration, and institutional administration.</p>
-        
-      </div>
-      <div class="m-alloc__pct num">10%</div>
-    </div><div class="m-alloc__row">
-      <div class="m-alloc__swatch" style="background:#677D91"></div>
-      <div style="flex:1">
-        <h4>Marketing and Student Acquisition</h4>
-        <p>Media, content, campaigns, partnership development and the admissions conversation — the cost of being found and understood. Salaries of the people who do it sit in Payroll.</p>
-        
-      </div>
-      <div class="m-alloc__pct num">10%</div>
-    </div><div class="m-alloc__row">
-      <div class="m-alloc__swatch" style="background:#A9843C"></div>
-      <div style="flex:1">
-        <h4>Institutional Reserve</h4>
-        <p>Restricted or designated institutional capital retained to strengthen liquidity, fund major institutional initiatives, absorb exceptional shocks, support future expansion, and maintain long-term financial resilience.</p>
-        <p style="margin-top:1.4mm;color:#7E1F2D;font-size:7.6pt;line-height:11.6pt"><em>Not distributable. Not a surplus line. Not available to fund ordinary operating shortfalls without a recorded Board resolution.</em></p>
-      </div>
-      <div class="m-alloc__pct num">25%</div>
-    </div><div class="m-alloc__row">
-      <div class="m-alloc__swatch" style="background:#C9A961"></div>
-      <div style="flex:1">
-        <h4>Strategic and Founders' Allocation</h4>
-        <p>A discretionary institutional allocation available for founder remuneration, strategic investment, expansion, intellectual property development, new campuses and markets, acquisitions, exceptional executive compensation, and other Board-authorised strategic purposes.</p>
-        <p style="margin-top:1.4mm;color:#7E1F2D;font-size:7.6pt;line-height:11.6pt"><em>NOT automatically withdrawable founder income, and the plan never presents it as profit. Any distribution from it is a separate Board decision on a separate occasion.</em></p>
-      </div>
-      <div class="m-alloc__pct num">25%</div>
-    </div>
-  </div></div>
-  <div class="folio num">08</div>
-</section>
-<section class="pg pg--recto m-prop ">
-  <div class="runhead">Commercial Architecture</div>
-  <div class="pg__field">
-    <div class="m-prop__wrap">
-      <div class="m-prop__mark"></div>
-      <p class="m-prop__t">A buyer priced out of tuition does not leave. They sit the same examinations, against the same rubric, for the same award &mdash; <em>without ever being taught.</em></p>
-      <p class="m-prop__a">On what a price actually decides</p>
     </div></div>
-  <div class="folio num">09</div>
+  <div class="folio num">26</div>
+</section>
+<section class="pg pg--recto  m-narr m-narr--single">
+  <div class="runhead">Financial Architecture</div>
+  <div class="pg__field">
+    <div class="m-narr__head"><p class="eyebrow">The decade</p></div>
+    <div class="m-narr__body"><table class="tbl">
+  <caption><b>The Core Management Plan, year by year</b><i>Revenue recognised in the year it is taught, not the year it is sold.</i></caption>
+  <thead><tr><th>Year</th><th>Admitted</th><th>Under instruction</th><th>Net tuition</th><th>Delivery</th><th>Acquisition</th><th>Surplus</th></tr></thead>
+  <tbody><tr><td><b>2027</b></td><td>100</td><td>100</td><td>$0.4M</td><td>$0.1M</td><td>$0.1M</td><td>−$0.2M</td></tr><tr><td><b>2028</b></td><td>327</td><td>354</td><td>$1.4M</td><td>$0.5M</td><td>$0.2M</td><td>−$0.0M</td></tr><tr><td><b>2029</b></td><td>608</td><td>694</td><td>$2.8M</td><td>$1.0M</td><td>$0.4M</td><td>$0.7M</td></tr><tr><td><b>2030</b></td><td>991</td><td>1,150</td><td>$4.8M</td><td>$1.7M</td><td>$0.7M</td><td>$1.5M</td></tr><tr><td><b>2031</b></td><td>1,519</td><td>1,778</td><td>$7.4M</td><td>$2.6M</td><td>$1.0M</td><td>$2.8M</td></tr><tr><td><b>2032</b></td><td>2,298</td><td>2,695</td><td>$11.2M</td><td>$4.0M</td><td>$1.5M</td><td>$4.5M</td></tr><tr><td><b>2033</b></td><td>2,862</td><td>3,463</td><td>$14.8M</td><td>$5.3M</td><td>$1.9M</td><td>$6.2M</td></tr><tr><td><b>2034</b></td><td>3,053</td><td>3,801</td><td>$16.6M</td><td>$5.9M</td><td>$2.0M</td><td>$7.2M</td></tr><tr><td><b>2035</b></td><td>3,053</td><td>3,851</td><td>$17.0M</td><td>$6.1M</td><td>$2.0M</td><td>$7.4M</td></tr><tr><td><b>2036</b></td><td>3,053</td><td>3,851</td><td>$17.0M</td><td>$6.1M</td><td>$2.0M</td><td>$7.4M</td></tr><tr class="em"><td>TEN YEARS</td><td>17,864</td><td>peak 3,851</td><td>$93.4M</td><td>$33.4M</td><td>$11.8M</td><td>$37.4M</td></tr></tbody>
+</table><p class="tbl__src"><span class="mark mark--modelled">MODELLED</span> — strategic projection, not a trading record.</p></div></div>
+  <div class="folio num">27</div>
+</section>
+<section class="pg pg--verso  m-narr m-narr--single">
+  <div class="runhead">Financial Architecture</div>
+  <div class="pg__field">
+    <div class="m-narr__head"><p class="eyebrow">Three scenarios</p></div>
+    <div class="m-narr__body"><table class="tbl">
+  <caption><b>Conservative is not a haircut on Core</b><i>It is weaker continuation, narrower reach and dearer acquisition — three things the College would have to do differently.</i></caption>
+  <thead><tr><th>Scenario</th><th>Ten-year revenue</th><th>Surplus</th><th>Year-10 revenue</th><th>Learners</th><th>To C2</th></tr></thead>
+  <tbody><tr><td><b>Conservative</b></td><td>$59.0M</td><td>$16.9M</td><td>$10.3M</td><td>13,582</td><td>935</td></tr><tr class="em"><td><b>Core Management Plan</b></td><td>$95.5M</td><td>$37.4M</td><td>$17.4M</td><td>17,864</td><td>2,318</td></tr><tr><td><b>High Growth</b></td><td>$124.4M</td><td>$54.1M</td><td>$23.1M</td><td>20,449</td><td>4,058</td></tr></tbody>
+</table><p class="tbl__src">The Core Plan is management’s recommended execution case, not the midpoint of the other two.</p></div></div>
+  <div class="folio num">28</div>
+</section>
+<section class="pg pg--recto pg--dark m-part ">
+  
+  <div class="pg__field">
+    <div class="m-part__wrap">
+      <p class="m-part__n">Part Six</p>
+      <div class="m-part__rule"></div>
+      <h1>The Decade</h1>
+      <p class="m-part__say">Five phases, twenty risks each with a warning somebody can observe, and who decides what.</p>
+    </div>
+    <div class="m-part__list"><div>The five phases</div><div>The risk register</div><div>Governance and authority</div></div></div>
+  
+</section>
+<section class="pg pg--verso  m-narr m-narr--single">
+  <div class="runhead">The Decade</div>
+  <div class="pg__field">
+    <div class="m-narr__head"><p class="eyebrow">The ten-year roadmap</p>
+      <h2 style="margin-top:0">Five phases, and what has to be<br>true at the end of each</h2></div>
+    <div class="m-narr__body"><div class="m-time"><div class="m-time__spine"></div>
+    <div class="m-time__e">
+      <div class="m-time__h"><n>I</n><t>Foundation</t><y>Years 1–2</y></div>
+      <p class="m-time__d">Open the Gulf and West Africa. Appoint the academic offices. Publish the first examination papers and confer the first awards. Prove the qualification end to end before spending to be known.</p>
+      <p class="m-time__f">354 under instruction &middot; $1.4M net tuition</p>
+    </div><div class="m-time__e">
+      <div class="m-time__h"><n>II</n><t>Validation</t><y>Years 3–4</y></div>
+      <p class="m-time__d">Europe opens. Break-even is cleared and the reserve begins. Continuation, not acquisition, becomes the measure that matters. The External Examiner confirms the standard against published rubrics.</p>
+      <p class="m-time__f">1,150 under instruction &middot; $4.8M net tuition</p>
+    </div><div class="m-time__e">
+      <div class="m-time__h"><n>III</n><t>Scale</t><y>Years 5–7</y></div>
+      <p class="m-time__d">Asia opens. Sponsored cohorts become a material and deliberate share of enrolment — one negotiation carrying a cohort at a published band rather than learners acquired one at a time. The establishment is fully staffed and the institution stops depending on any one person.</p>
+      <p class="m-time__f">3,463 under instruction &middot; $14.8M net tuition</p>
+    </div><div class="m-time__e">
+      <div class="m-time__h"><n>IV</n><t>Maturity</t><y>Years 8–9</y></div>
+      <p class="m-time__d">Reserve builds toward its target in months of operating cost. Accreditation is pursued with a completed cohort and an examiner’s confirmation behind it, not before.</p>
+      <p class="m-time__f">3,851 under instruction &middot; $17.0M net tuition</p>
+    </div><div class="m-time__e">
+      <div class="m-time__h"><n>V</n><t>Standing</t><y>Years 10</y></div>
+      <p class="m-time__d">The institution is self-funding, externally examined, internationally enrolled, and holds a register of awards a stranger can check without an account.</p>
+      <p class="m-time__f">3,851 under instruction &middot; $17.0M net tuition</p>
+    </div>
+  </div></div></div>
+  <div class="folio num">30</div>
+</section>
+<section class="pg pg--recto  ">
+  <div class="runhead">The Decade</div>
+  <div class="pg__field">
+      
+      <table class="tbl">
+  <caption><b>The institutional risk register</b><i>Twenty risks, each with an early warning somebody can actually observe. A register of generic risks is one nobody reads twice.</i></caption>
+  <thead><tr><th>Domain</th><th>Risk</th><th>L</th><th>I</th><th>Early warning</th><th>Response</th></tr></thead>
+  <tbody><tr><td><b>Enrolment</b></td><td class="unit">Acquisition cost rises faster than modelled as the Gulf market matures</td><td>Medium</td><td>High</td><td class="unit">Cost per enrolled learner exceeds plan for two consecutive quarters</td><td class="unit">Shift budget weight to sponsored cohorts, where one negotiation carries 25–99 learners at a published band rather than one at a time</td></tr><tr><td><b>Concentration</b></td><td class="unit">Gulf revenue share becomes a dependency rather than a strength</td><td>Medium</td><td>High</td><td class="unit">Any single market exceeds 45 per cent of net tuition</td><td class="unit">The market sequence exists for this reason; Europe opens in Year 2 and Asia in Year 4 specifically to dilute it</td></tr><tr><td><b>Academic capacity</b></td><td class="unit">Instructors cannot be recruited at the pace enrolment demands</td><td>Medium</td><td>High</td><td class="unit">Learner-to-instructor ratio exceeds the published teaching allocation for one term</td><td class="unit">The model already refuses to enrol beyond capacity; the operational control is a standing recruitment pipeline and a four-month hiring lead</td></tr><tr><td><b>Academic quality</b></td><td class="unit">Second-marking divergence rises as the marking body grows</td><td>Medium</td><td>High</td><td class="unit">Marker agreement falls below 85 per cent, or reconciliations exceed 8 per cent of scripts</td><td class="unit">Every marker is already shown their own agreement and every divergence; the escalation is moderation committee review of that marker's batch</td></tr><tr><td><b>Regulatory</b></td><td class="unit">A jurisdiction restricts the marketing of unaccredited qualifications</td><td>Medium</td><td>Medium</td><td class="unit">Regulatory correspondence, or a platform advertising rejection citing accreditation</td><td class="unit">The College already states plainly that it holds no third-party accreditation; nothing published needs withdrawal</td></tr><tr><td><b>Reputational</b></td><td class="unit">A credential is questioned and verification does not satisfy the questioner</td><td>Low</td><td>High</td><td class="unit">A verification enquiry escalates to a complaint</td><td class="unit">Every award is signed, hash-chained and publicly checkable without an account; a superseded award still resolves and names its successor</td></tr><tr><td><b>Retention</b></td><td class="unit">Continuation between levels falls below the modelled rate</td><td>Medium</td><td>High</td><td class="unit">Any level's continuation falls 5 points below plan for two cohorts</td><td class="unit">Continuation is the single most valuable variable in the model; from Year 4 retention spending outperforms acquisition spending and the budget should move</td></tr></tbody>
+</table></div>
+  <div class="folio num">31</div>
+</section>
+<section class="pg pg--verso  ">
+  <div class="runhead">The Decade</div>
+  <div class="pg__field">
+      <p class="tbl__cont">The institutional risk register &mdash; continued</p>
+      <table class="tbl">
+  <caption><b></b></caption>
+  <thead><tr><th>Domain</th><th>Risk</th><th>L</th><th>I</th><th>Early warning</th><th>Response</th></tr></thead>
+  <tbody><tr><td><b>Technology</b></td><td class="unit">Platform outage during an examination window</td><td>Low</td><td>High</td><td class="unit">Any unplanned outage exceeding 15 minutes in a sitting window</td><td class="unit">Sittings carry a published resume allowance; the architecture is serverless with no single origin to lose</td></tr><tr><td><b>Cybersecurity</b></td><td class="unit">Learner records or examination papers are exposed</td><td>Low</td><td>Severe</td><td class="unit">Any unauthorised access attempt against the registry or paper store</td><td class="unit">Papers are versioned and released by act; records are access-controlled per learner; signing keys are held separately from the record store</td></tr><tr><td><b>Payments</b></td><td class="unit">A gateway suspends the account or holds settlement</td><td>Medium</td><td>High</td><td class="unit">Settlement delayed beyond contracted terms, or a rising chargeback rate</td><td class="unit">Four gateways are implemented and routed by country; no single processor carries the institution</td></tr><tr><td><b>Foreign exchange</b></td><td class="unit">Currency movement erodes the value of non-USD collections</td><td>Medium</td><td>Medium</td><td class="unit">Any currency moves more than 10 per cent against USD within a quarter</td><td class="unit">The tariff is USD-denominated and rates are refreshed against a recorded source rather than assumed</td></tr><tr><td><b>Key person</b></td><td class="unit">The institution depends on individuals who have not been replaced</td><td>High</td><td>High</td><td class="unit">Any published office remains unfilled after two recruitment rounds</td><td class="unit">Named in the plan rather than hidden: the governance offices are defined and empty, and the platform refuses to publish a person into an office they have not accepted</td></tr><tr><td><b>Academic authority</b></td><td class="unit">The standards board cannot reach quorum and competency mappings stay interim</td><td>High</td><td>High</td><td class="unit">Board of Academic Standards membership remains at zero</td><td class="unit">This is the single gate standing between the College and its first conferral; it is an appointment, not an engineering task</td></tr><tr><td><b>External validation</b></td><td class="unit">No External Examiner is appointed, and accreditation cannot be pursued</td><td>High</td><td>High</td><td class="unit">The post remains unfilled into Year 2</td><td class="unit">The remit is published and the evidence the post would examine is already produced by the platform; the gap is a person</td></tr></tbody>
+</table></div>
+  <div class="folio num">32</div>
+</section>
+<section class="pg pg--recto  ">
+  <div class="runhead">The Decade</div>
+  <div class="pg__field">
+      <p class="tbl__cont">The institutional risk register &mdash; continued</p>
+      <table class="tbl">
+  <caption><b></b></caption>
+  <thead><tr><th>Domain</th><th>Risk</th><th>L</th><th>I</th><th>Early warning</th><th>Response</th></tr></thead>
+  <tbody><tr><td><b>Refunds</b></td><td class="unit">Refund rate exceeds the modelled level after a cohort's first assessment</td><td>Low</td><td>Medium</td><td class="unit">Refunds exceed 4 per cent of gross tuition in any quarter</td><td class="unit">The fourteen-day window is deliberately generous and its cost is modelled; a rise signals a placement problem rather than a policy problem</td></tr><tr><td><b>Partner concentration</b></td><td class="unit">A single sponsoring institution becomes a material share of enrolment</td><td>Medium</td><td>Medium</td><td class="unit">Any one sponsor exceeds 12 per cent of active learners</td><td class="unit">Bands are published rather than negotiated, so no sponsor holds pricing leverage; the exposure is volume, not price</td></tr><tr><td><b>Cost inflation</b></td><td class="unit">Instructor compensation rises faster than the tariff</td><td>Medium</td><td>Medium</td><td class="unit">Loaded instructor cost rises more than 8 per cent in a year</td><td class="unit">The tariff is reviewed annually against the teaching allocation, and the allocation is published rather than implied</td></tr><tr><td><b>Content currency</b></td><td class="unit">The curriculum ages without a revision cycle</td><td>Medium</td><td>Medium</td><td class="unit">Any level goes three years without substantive revision</td><td class="unit">Institutional development is funded as a share of net tuition rather than from surplus, precisely so it is not the line cut first</td></tr><tr><td><b>Expansion</b></td><td class="unit">A market opens before the institution can serve it</td><td>Medium</td><td>Medium</td><td class="unit">Enquiries from an unopened market exceed 10 per cent of total</td><td class="unit">The sequence is deliberate and the capacity gate is enforced in the model itself; demand ahead of capacity is recorded as turned away rather than booked</td></tr><tr><td><b>Liquidity</b></td><td class="unit">A year of falling enrolment meets a cost base that does not fall with it</td><td>Low</td><td>High</td><td class="unit">Reserve coverage falls below six months of operating cost</td><td class="unit">The reserve target is stated in months of cost rather than as a share of revenue, because a share-of-revenue reserve shrinks exactly when it is needed</td></tr></tbody>
+</table><p class="tbl__src">L — likelihood. I — impact. Authored judgement, not computed. Owners are named in the governance schedule.</p></div>
+  <div class="folio num">33</div>
+</section>
+<section class="pg pg--verso  ">
+  <div class="runhead">The Decade</div>
+  <div class="pg__field">
+      
+      <table class="tbl">
+  <caption><b>Governance and authority</b><i>Who decides what, and the separations that protect a learner.</i></caption>
+  <thead><tr><th>Decision</th><th>Decided by</th><th>Advised or executed by</th><th>Cycle</th></tr></thead>
+  <tbody><tr><td><b>Tuition and the published tariff</b></td><td>Board of Governors</td><td class="unit">College Executive</td><td class="unit">Annual, against the teaching allocation</td></tr><tr><td><b>Fee remission and hardship awards</b></td><td>Academic Senate</td><td class="unit">Registrar</td><td class="unit">Each round, against published criteria</td></tr><tr><td><b>Partner and sponsor bands</b></td><td>Board of Governors</td><td class="unit">Marketing and Partnerships Lead</td><td class="unit">Published; not negotiable case by case</td></tr><tr><td><b>New qualifications and levels</b></td><td>Academic Senate</td><td class="unit">Board of Academic Standards</td><td class="unit">On proposal</td></tr><tr><td><b>Examination papers and rubrics</b></td><td>Board of Academic Standards</td><td class="unit">Registrar</td><td class="unit">Each sitting, published before the work</td></tr><tr><td><b>Conferral of an award</b></td><td>Registrar</td><td class="unit">Academic Senate</td><td class="unit">On eligibility, with no override</td></tr><tr><td><b>Withdrawal or replacement of an award</b></td><td>Registrar</td><td class="unit">Board of Governors</td><td class="unit">On reasoned application</td></tr><tr><td><b>Annual budget and acquisition spend</b></td><td>Board of Governors</td><td class="unit">Chief Executive</td><td class="unit">Annual</td></tr><tr><td><b>Material technology expenditure</b></td><td>College Executive</td><td class="unit">Board of Governors above threshold</td><td class="unit">On proposal</td></tr></tbody>
+</table></div>
+  <div class="folio num">34</div>
+</section>
+<section class="pg pg--recto  ">
+  <div class="runhead">The Decade</div>
+  <div class="pg__field">
+      <p class="tbl__cont">Governance and authority &mdash; continued</p>
+      <table class="tbl">
+  <caption><b></b></caption>
+  <thead><tr><th>Decision</th><th>Decided by</th><th>Advised or executed by</th><th>Cycle</th></tr></thead>
+  <tbody><tr><td><b>Instructor compensation and establishment</b></td><td>College Executive</td><td class="unit">Board of Governors</td><td class="unit">Annual</td></tr><tr><td><b>Appointment of the External Examiner</b></td><td>Board of Governors</td><td class="unit">Academic Senate</td><td class="unit">On vacancy</td></tr><tr><td><b>International partnerships</b></td><td>Board of Governors</td><td class="unit">Academic Senate for academic terms</td><td class="unit">On proposal</td></tr><tr><td><b>Reserve policy and drawdown</b></td><td>Board of Governors</td><td class="unit">—</td><td class="unit">Annual, and on any drawdown</td></tr></tbody>
+</table><p class="tbl__src">Published governance instrument. Several offices named here are defined and unfilled, and the platform refuses to publish a person into an office they have not accepted.</p></div>
+  <div class="folio num">35</div>
+</section>
+<section class="pg pg--verso"></section>
+<section class="pg pg--recto pg--dark m-part ">
+  
+  <div class="pg__field">
+    <div class="m-part__wrap">
+      <p class="m-part__n">Part Seven</p>
+      <div class="m-part__rule"></div>
+      <h1>Method</h1>
+      <p class="m-part__say">Where every figure came from, and the audit that proves the document agrees with itself.</p>
+    </div>
+    <div class="m-part__list"><div>Sources</div><div>Classification</div><div>Reconciliation</div></div></div>
+  
+</section>
+<section class="pg pg--verso  ">
+  <div class="runhead">Method</div>
+  <div class="pg__field">
+      
+      <table class="tbl">
+  <caption><b>Where every figure comes from</b><i>One engine, three files. Nothing is typed into a page.</i></caption>
+  <thead><tr><th>Source</th><th>What it carries</th><th>Classification</th></tr></thead>
+  <tbody><tr><td>data/tuition.json</td><td class="unit">The adopted fee, its decomposition in basis points, the level structure and the refund window.</td><td><span class="mark mark--verified">VERIFIED</span></td></tr><tr><td>data/commercial.json</td><td class="unit">The three routes, the independent steps, the partner bands, remission and referral.</td><td><span class="mark mark--verified">VERIFIED</span></td></tr><tr><td>data/market-evidence.json</td><td class="unit">Every priced observation with its provider, local price, hours and source address.</td><td><span class="mark mark--verified">VERIFIED</span></td></tr><tr><td>data/masterplan.json</td><td class="unit">The revenue-allocation framework, the market and progression assumptions, the establishment and the proposed architecture.</td><td><span class="mark mark--board">BOARD DECISION REQUIRED</span></td></tr></tbody>
+</table></div>
+  <div class="folio num">38</div>
+</section>
+<section class="pg pg--recto  ">
+  <div class="runhead">Method</div>
+  <div class="pg__field">
+      <p class="tbl__cont">Where every figure comes from &mdash; continued</p>
+      <table class="tbl">
+  <caption><b></b></caption>
+  <thead><tr><th>Source</th><th>What it carries</th><th>Classification</th></tr></thead>
+  <tbody><tr><td>scripts/publication/pricing.mjs</td><td class="unit">Delivery cost hour by hour, the demand model, the channels and the proposed tariff.</td><td><span class="mark mark--modelled">MODELLED</span></td></tr><tr><td>scripts/publication/allocation.mjs</td><td class="unit">The framework made binding: what the institution actually retains, and the tariff solved from it.</td><td><span class="mark mark--modelled">MODELLED</span></td></tr><tr><td>scripts/publication/projection.mjs</td><td class="unit">The ten years, with revenue recognised in the year it is taught.</td><td><span class="mark mark--modelled">MODELLED</span></td></tr></tbody>
+</table><p class="tbl__src">tests/masterplan.test.mjs runs the reconciliation on every build and fails it if a figure in this document cannot be traced to the record it came from. It also re-derives the proposed price from the allocation framework, so the price cannot drift away from its reason.</p></div>
+  <div class="folio num">39</div>
+</section>
+<section class="pg pg--verso"></section>
+<section class="pg pg--recto pg--dark m-colo ">
+  
+  <div class="pg__field">
+    <div class="m-colo__wrap">
+      <h2>A planning instrument,<br>and not a record of trading.</h2>
+      <p>Every financial figure in this publication is a projection computed from stated assumptions. None of it is a record of trading. Where the College holds something, it is marked <span class="mark mark--verified">VERIFIED</span>. Where this plan asserts something, it is marked <span class="mark mark--modelled">MODELLED</span>. Where nobody has yet decided, it is marked <span class="mark mark--board">BOARD DECISION REQUIRED</span>.</p>
+      <p>The College claims no accreditation, ranking, partnership or endorsement it does not hold, and names no person in an office they have not accepted.</p>
+      <div class="rule-hair"></div>
+      <p class="m-colo__meta">WorldWide English College &middot; London Campus<br>
+        The Ten-Year Institutional Roadmap 2027–2036<br>
+        Set in Cinzel, Cormorant Garamond, EB Garamond and Inter<br>
+        230 &times; 300mm</p>
+    </div></div>
+  
 </section></body></html>

@@ -575,6 +575,8 @@ export const resetFolios = () => { folio = 0; };
  *  right-hand page, and a renderer that does not know which side it is
  *  about to compose cannot honour that. */
 export const nextIsRecto = () => folio % 2 === 0;
+/** The folio just composed. The contents page needs it. */
+export const folioNow = () => folio;
 /** Count a page that carries no folio — the cover. Without this the
  *  cover sat outside the sequence and every recto after it was a
  *  verso, which put the first chapter opener on the wrong side of the
@@ -679,4 +681,159 @@ export function proposition({ text, attribution, runhead }) {
       <p class="m-prop__t">${text}</p>
       ${attribution ? `<p class="m-prop__a">${esc(attribution)}</p>` : ''}
     </div>`, { tone: 'm-prop', runhead });
+}
+
+// ════════════════════════════════════════════════════════════════════
+// VII · THE REMAINING MASTERS
+// ════════════════════════════════════════════════════════════════════
+
+export const masterCssTwo = () => `
+/* ── 14 · PART OPENER ──────────────────────────────────────────────
+   Above a chapter. Six of these divide the book, and they are set on
+   midnight so that turning to one is unmistakable — the reader should
+   feel a section end without reading a word. */
+.m-part { background: ${C.midnight}; color: ${C.ivory}; }
+.m-part__n {
+  font-family: ${FACE.inscription}; font-size: 13pt; letter-spacing: .46em;
+  color: ${C.goldLeaf}; margin: 0 0 8mm;
+}
+.m-part__rule { width: ${col(2)}mm; height: 1.4pt; background: ${C.gold}; margin: 0 0 12mm; }
+.m-part__wrap { position: absolute; top: 46%; left: 0; right: 0; transform: translateY(-50%); }
+.m-part h1 {
+  font-family: ${FACE.display}; font-weight: 300; font-size: 50pt; line-height: 54pt;
+  margin: 0 0 9mm; color: ${C.ivory}; max-width: ${col(9)}mm; letter-spacing: -.01em;
+}
+.m-part__say {
+  font-family: ${FACE.display}; font-style: italic; font-weight: 300;
+  font-size: 16pt; line-height: 24pt; color: ${C.goldPale};
+  max-width: ${col(7)}mm; margin: 0;
+}
+.m-part__list {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  border-top: .5pt solid rgba(201,169,97,.3); padding-top: 5mm;
+  font-family: ${FACE.data}; font-size: ${T.micro}pt; font-weight: 500;
+  letter-spacing: .2em; text-transform: uppercase; color: rgba(252,250,245,.5);
+  line-height: 14pt; columns: 2; column-gap: ${PAGE.gutter * 2}mm;
+}
+
+/* ── 15 · CONTENTS ─────────────────────────────────────────────────*/
+.m-toc h1 {
+  font-family: ${FACE.display}; font-weight: 300; font-size: 31pt; line-height: 34pt;
+  margin: 0 0 7mm; color: ${C.midnight};
+}
+.m-toc__part {
+  font-family: ${FACE.inscription}; font-size: 8.4pt; letter-spacing: .3em;
+  color: ${C.gold}; margin: 5mm 0 2mm; padding-top: 2.2mm;
+  border-top: .9pt solid ${C.gold};
+}
+.m-toc__part:first-of-type { margin-top: 0; }
+.m-toc__row { display: flex; align-items: baseline; gap: 3mm; padding: 0.9mm 0; }
+.m-toc__row t { flex: none; font-family: ${FACE.text}; font-size: ${T.base}pt; color: ${C.ink}; }
+.m-toc__row d { flex: 1; border-bottom: .35pt dotted ${C.rule}; transform: translateY(-1mm); }
+.m-toc__row f { flex: none; font-family: ${FACE.data}; font-size: ${T.small}pt;
+  color: ${C.grey}; font-variant-numeric: tabular-nums; }
+
+/* ── 16 · TIMELINE ─────────────────────────────────────────────────
+   Vertical, because five phases with three lines of text each read as
+   a list when set horizontally and as a chronology when set down the
+   page. The spine is a hairline and the markers are struck gold. */
+.m-time { position: relative; padding-left: ${col(1)}mm; }
+.m-time__spine { position: absolute; left: 1.4mm; top: 3mm; bottom: 6mm; width: .4pt; background: ${C.rule}; }
+.m-time__e { position: relative; padding: 0 0 7.5mm 0; }
+.m-time__e:last-child { padding-bottom: 0; }
+.m-time__e::before {
+  content: ''; position: absolute; left: ${-col(1)}mm; top: 2.6mm;
+  width: 3.2mm; height: 3.2mm; background: ${C.gold}; border-radius: 50%;
+  box-shadow: 0 0 0 1.6mm ${C.paper};
+}
+.m-time__h { display: flex; align-items: baseline; gap: 4mm; margin: 0 0 1.8mm; }
+.m-time__h n {
+  font-family: ${FACE.inscription}; font-size: 10.5pt; letter-spacing: .24em; color: ${C.gold};
+}
+.m-time__h t {
+  font-family: ${FACE.display}; font-size: ${T.h3}pt; line-height: 19pt; color: ${C.midnight};
+}
+.m-time__h y {
+  margin-left: auto; font-family: ${FACE.data}; font-size: ${T.micro}pt; font-weight: 500;
+  letter-spacing: .2em; text-transform: uppercase; color: ${C.grey};
+}
+.m-time__d { font-size: ${T.small}pt; line-height: 14.6pt; color: ${C.inkSoft}; margin: 0 0 2mm;
+  max-width: ${col(9)}mm; }
+.m-time__f {
+  font-family: ${FACE.data}; font-size: ${T.micro}pt; font-weight: 600; letter-spacing: .14em;
+  color: ${C.midnight}; font-variant-numeric: tabular-nums; margin: 0;
+}
+
+/* ── 17 · THE COLOPHON ─────────────────────────────────────────────*/
+.m-colo { background: ${C.midnightDeep}; color: rgba(252,250,245,.72); }
+.m-colo__wrap { position: absolute; left: 0; right: 0; bottom: 0; }
+.m-colo h2 {
+  font-family: ${FACE.display}; font-weight: 300; font-size: 26pt; line-height: 32pt;
+  color: ${C.ivory}; margin: 0 0 7mm;
+}
+.m-colo p { font-size: ${T.small}pt; line-height: 15pt; max-width: ${col(7)}mm;
+  color: rgba(252,250,245,.66); }
+.m-colo .rule-hair { background: rgba(201,169,97,.3); margin: 8mm 0 6mm; }
+.m-colo__meta { font-family: ${FACE.data}; font-size: ${T.micro}pt; letter-spacing: .2em;
+  text-transform: uppercase; color: rgba(201,169,97,.7); line-height: 13pt; }
+
+/* A continued table carries its title once and says so thereafter. */
+.tbl__cont { font-family: ${FACE.data}; font-size: ${T.micro}pt; letter-spacing: .2em;
+  text-transform: uppercase; color: ${C.grey}; margin: 0 0 4mm; }
+`;
+
+/** 14 · Part opener. Always on a recto; the caller arranges that. */
+export function partOpener({ numeral, title, say, contents = [] }) {
+  return page(`
+    <div class="m-part__wrap">
+      <p class="m-part__n">${esc(numeral)}</p>
+      <div class="m-part__rule"></div>
+      <h1>${title}</h1>
+      ${say ? `<p class="m-part__say">${say}</p>` : ''}
+    </div>
+    ${contents.length ? `<div class="m-part__list">${contents.map((c) => `<div>${esc(c)}</div>`).join('')}</div>` : ''}`,
+  { tone: 'pg--dark m-part', bare: true });
+}
+
+/** 15 · Contents. */
+export function contents({ title, parts }) {
+  return page(`
+    <h1>${esc(title)}</h1>
+    ${parts.map((p) => `
+      <div class="m-toc__part">${esc(p.part)}</div>
+      ${p.rows.map((r) => `<div class="m-toc__row"><t>${esc(r.t)}</t><d></d><f>${String(r.f).padStart(2, '0')}</f></div>`).join('')}
+    `).join('')}`, { klass: 'm-toc', runhead: 'Contents' });
+}
+
+/** 16 · Timeline. */
+export function timeline(entries) {
+  return `<div class="m-time"><div class="m-time__spine"></div>
+    ${entries.map((e) => `<div class="m-time__e">
+      <div class="m-time__h"><n>${esc(e.numeral)}</n><t>${esc(e.name)}</t><y>Years ${esc(e.years)}</y></div>
+      <p class="m-time__d">${esc(e.text)}</p>
+      ${e.figure ? `<p class="m-time__f">${e.figure}</p>` : ''}
+    </div>`).join('')}
+  </div>`;
+}
+
+/**
+ * A LONG TABLE, CHUNKED RATHER THAN FLOWED.
+ *
+ * A twenty-row register does not fit a page and must not be allowed to
+ * decide for itself where it breaks. `rowsPerPage` is a composition
+ * decision, and the continuation pages say they are continuations
+ * instead of appearing to start a new table.
+ */
+export function tablePages(spec, rowsPerPage, opts = {}) {
+  const out = [];
+  for (let i = 0; i < spec.rows.length; i += rowsPerPage) {
+    const part = spec.rows.slice(i, i + rowsPerPage);
+    const first = i === 0;
+    out.push(page(`
+      ${first ? '' : `<p class="tbl__cont">${esc(spec.title)} &mdash; continued</p>`}
+      ${table({ ...spec, title: first ? spec.title : '', sub: first ? spec.sub : '',
+    rows: part, source: (i + rowsPerPage >= spec.rows.length) ? spec.source : '' })}`,
+    { runhead: opts.runhead, tone: opts.tone || '' }));
+  }
+  return out;
 }
