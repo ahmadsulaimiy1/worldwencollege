@@ -107,7 +107,7 @@ export const spreadCss = () => `
 .plate__scrim { position: absolute; inset: 0;
   background: linear-gradient(to top, rgba(6,17,31,.82) 0%, rgba(6,17,31,.34) 34%, transparent 62%); }
 .plate__credit { position: absolute; right: 4mm; bottom: 3mm; z-index: 6;
-  font-family: ${FACE.data}; font-size: 4.6pt; letter-spacing: .12em;
+  font-family: ${FACE.data}; font-size: 4.6pt; letter-spacing: .03em;
   color: rgba(252,250,245,.5); text-transform: uppercase; }
 
 /* ── ENGRAVED PLATES ───────────────────────────────────────────────
@@ -133,7 +133,7 @@ export const spreadCss = () => `
 /* ── THE FIGURE, AS AN OBJECT ON THE PAGE ──────────────────────────*/
 .fg { margin: 0; }
 .fg__eye { font-family: ${FACE.data}; font-size: 5.6pt; font-weight: 600;
-  letter-spacing: .28em; text-transform: uppercase; color: ${C.gold}; margin: 0 0 2.4mm; }
+  letter-spacing: .05em; text-transform: uppercase; color: ${C.gold}; margin: 0 0 2.4mm; }
 .fg__t { font-family: ${FACE.display}; font-weight: 400; font-size: 15.6pt; line-height: 20pt;
   color: ${C.midnight}; margin: 0 0 1.6mm; }
 .fg__s { font-family: ${FACE.display}; font-style: italic; font-weight: 300;
@@ -151,7 +151,7 @@ export const spreadCss = () => `
 .mg--wide .mg__side { width: ${M.col(4)}mm; }
 .mg__note { font-family: ${FACE.data}; font-size: 6pt; line-height: 10.8pt; color: ${C.soft};
   padding-top: 2.6mm; border-top: .9pt solid ${C.gold}; margin: 0 0 6mm; }
-.mg__note b { display: block; font-weight: 600; letter-spacing: .16em; text-transform: uppercase;
+.mg__note b { display: block; font-weight: 600; letter-spacing: .035em; text-transform: uppercase;
   font-size: 5.4pt; color: ${C.gold}; margin-bottom: 1.4mm; }
 .mg__fig { margin: 0 0 6mm; }
 
@@ -159,7 +159,7 @@ export const spreadCss = () => `
    A plate on the verso, the argument on the recto. Each chapter takes a
    different plate and a different treatment, so the seven openings are
    a family rather than seven copies. */
-.op__num { font-family: ${FACE.inscription}; font-size: 10pt; letter-spacing: .46em;
+.op__num { font-family: ${FACE.inscription}; font-size: 10pt; letter-spacing: .06em;
   color: ${C.gold}; margin: 0 0 6mm; }
 .op h1 { font-family: ${FACE.display}; font-weight: 300; font-size: 40pt; line-height: 43pt;
   margin: 0 0 7mm; color: ${C.midnight}; letter-spacing: -.008em; }
@@ -174,12 +174,12 @@ export const spreadCss = () => `
 .op__stat v { display: block; font-family: ${FACE.display}; font-size: 19pt; line-height: 21pt;
   color: ${C.midnight}; font-variant-numeric: tabular-nums; }
 .op__stat l { display: block; font-family: ${FACE.data}; font-size: 5.2pt; font-weight: 500;
-  letter-spacing: .16em; text-transform: uppercase; color: ${C.grey}; margin-top: 1.4mm; line-height: 8.6pt; }
+  letter-spacing: .035em; text-transform: uppercase; color: ${C.grey}; margin-top: 1.4mm; line-height: 8.6pt; }
 
 /* ── A PLATE THAT CARRIES ITS OWN TITLE ────────────────────────────*/
 .pt__wrap { position: absolute; left: ${M.PAGE.marginOuter}mm; right: ${M.PAGE.marginOuter}mm;
   bottom: ${M.PAGE.marginBottom - 8}mm; z-index: 5; }
-.pt__n { font-family: ${FACE.inscription}; font-size: 9pt; letter-spacing: .44em;
+.pt__n { font-family: ${FACE.inscription}; font-size: 9pt; letter-spacing: .06em;
   color: ${C.goldLeaf}; margin: 0 0 5mm; }
 .pt__t { font-family: ${FACE.display}; font-weight: 300; font-size: 34pt; line-height: 37pt;
   color: ${C.ivory}; margin: 0; letter-spacing: -.006em; }

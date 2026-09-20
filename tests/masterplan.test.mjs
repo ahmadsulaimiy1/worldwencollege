@@ -411,6 +411,45 @@ if (fail) process.exit(1);
             : 'workbook not built — run npm run masterplan');
   }
 
+  /* ── THE TRACKING POLICY, ENFORCED ───────────────────────
+     The monograph was rejected partly for typography that leant on
+     letter-spacing to manufacture prestige: thirty-three declarations
+     between .14em and .54em, so RESERVE printed as R E S E R V E and
+     six allocations read as six unrelated annotations.
+
+     Prestige comes from the face, the weight, the size and the leading.
+     Tracking is a correction, not an effect. Capitals want a little air
+     and nothing more, and display sizes want NEGATIVE tracking. The
+     ceiling below is deliberately low enough that the old habit cannot
+     creep back one declaration at a time. */
+  {
+    const { readFileSync: read } = await import('node:fs');
+    const CEILING = 0.08;
+    const files = ['monograph.mjs', 'spreads.mjs', 'figures.mjs'];
+    const offenders = [];
+    for (const f of files) {
+      const src = read(new URL(`../scripts/publication/${f}`, import.meta.url), 'utf8');
+      for (const m of src.matchAll(/letter-spacing:\s*(-?\.?\d*\.?\d+)em/g)) {
+        const v = parseFloat(m[1]);
+        if (v > CEILING) offenders.push(`${f} ${m[1]}em`);
+      }
+    }
+    check('no declaration in the design system tracks beyond the policy',
+      offenders.length === 0,
+      offenders.length ? offenders.join(', ') : `ceiling ${CEILING}em, highest in use is under it`);
+
+    /* And the retired faces must stay retired. Cinzel is a Trajan
+       revival that exists only in capitals, so it cannot be set without
+       tracking — keeping it would rebuild the fault in the typeface
+       selection however carefully the CSS is written. */
+    const mono = read(new URL('../scripts/publication/monograph.mjs', import.meta.url), 'utf8');
+    for (const face of ['Cinzel', 'Cormorant Garamond', 'EB Garamond', 'Inter']) {
+      check(`${face} is not reintroduced as a working face`,
+        !new RegExp(`FACE[\\s\\S]{0,400}'${face}'`).test(mono),
+        'retired when the type system was rebuilt');
+    }
+  }
+
   // ── The comparison must be like for like ─────────────────────────
   const arch = J.architectures();
   check('all three architectures run through the same ten years',

@@ -54,10 +54,22 @@ const UA = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Geck
 /** family → the weights and styles the design actually uses. Nothing is
  *  fetched "in case", because every weight is bytes in every PDF. */
 const WANT = [
-  { family: 'Cinzel', axis: 'wght@400;500;600', key: 'cinzel' },
-  { family: 'Cormorant Garamond', axis: 'ital,wght@0,300;0,400;0,500;0,600;1,300;1,400', key: 'cormorant' },
-  { family: 'EB Garamond', axis: 'ital,wght@0,400;0,500;0,600;1,400', key: 'ebgaramond' },
-  { family: 'Inter', axis: 'wght@300;400;500;600;700', key: 'inter' },
+  /* NEWSREADER carries the whole book: display, text and numerals. One
+     superfamily across every size rather than two mismatched Garamonds,
+     because its OPTICAL SIZE axis (6–72) is drawn for exactly that —
+     the large sizes take the high contrast and fine terminals that make
+     a title, and the small sizes thicken their hairlines so a caption
+     at seven point does not disappear. Pairing Cormorant with EB
+     Garamond was asking two faces to do one face's job and getting a
+     display face at text size, which is why the numerals were thin. */
+  { family: 'Newsreader', axis: 'opsz,ital,wght@6..72,0,300;6..72,0,400;6..72,0,500;6..72,0,600;6..72,1,300;6..72,1,400', key: 'newsreader' },
+  /* ARCHIVO is the technical face: labels, data, axes, tabular figures.
+     A grotesque in the Neue Haas line — neutral, precise, and with
+     proper tabular numerals that hold a column without being asked
+     twice. Chosen over Inter, which is the typeface of every software
+     company of the last decade and reads as a product, not an
+     institution. */
+  { family: 'Archivo', axis: 'wght@400;500;600;700', key: 'archivo' },
 ];
 
 const get = (url, binary = false) => execFileSync('curl',
@@ -81,9 +93,10 @@ function main() {
     // subsets are most of the weight and none of the document.
     const blocks = sheet.split('/*').filter((b) => /^\s*latin\s*\*\//.test(b));
     for (const b of blocks) {
-      const m = b.match(/font-style:\s*(\w+);[\s\S]*?font-weight:\s*(\d+);[\s\S]*?src:\s*url\(([^)]+)\)/);
+      const m = b.match(/font-style:\s*(\w+);[\s\S]*?font-weight:\s*([\d ]+);[\s\S]*?src:\s*url\(([^)]+)\)/);
       if (!m) continue;
-      const [, style, weight, src] = m;
+      const [, styleRaw, weightRaw, src] = m;
+      const style = styleRaw; const weight = weightRaw.trim();
       const data = get(src, true);
       bytes += data.length;
       css += `@font-face{font-family:'${w.family}';font-style:${style};font-weight:${weight};font-display:block;`

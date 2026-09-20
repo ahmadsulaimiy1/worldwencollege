@@ -44,9 +44,54 @@ const K = {
   rule: '#D9D2C2', faint: '#EBE6DA', gold: '#A9843C', goldLeaf: '#C9A961',
   goldPale: '#E8D9B4', paper: '#FFFFFF', bone: '#F6F2E9', crimson: '#7E1F2D',
 };
-const DATA = "'Inter','Liberation Sans',sans-serif";
-const DISPLAY = "'Cormorant Garamond','Bitstream Charter',serif";
-const TEXT = "'EB Garamond','Bitstream Charter',serif";
+const DATA = "'Archivo','Liberation Sans',sans-serif";
+const DISPLAY = "'Newsreader','Bitstream Charter',serif";
+const TEXT = "'Newsreader','Bitstream Charter',serif";
+
+/* ────────────────────────────────────────────────────────────────────
+   TYPOGRAPHY IN THE PLATES
+
+   The first cut set every label in capitals at five point with 1.1
+   units of tracking — about .22em — so RESERVE printed as R E S E R V E
+   and six allocations read as six unrelated annotations rather than one
+   system. Wide tracking was doing work the typeface should do, and the
+   typeface could not do it because Cormorant Garamond at eleven point
+   is a display face three sizes below where it lives.
+
+   The rules below are the whole policy:
+
+     A DESCRIPTOR IS SET IN SENTENCE CASE. "Reserve", not RESERVE. A
+       word only needs capitals when it is a category marker, and a
+       category marker only needs .04em.
+     A FIGURE IS SET IN THE DISPLAY FACE at a size that dominates, with
+       lining tabular numerals, and its per-cent sign is set smaller and
+       raised — which is how financial figures have been set in books
+       for a century and is not the same as typing 25%.
+     NOTHING IS TRACKED past .05em.
+     AND THE STRUCTURE IS HEAVIER. Premium is not faint; hairlines at
+       .3 read as a wireframe. */
+const TRACK = { caps: 0.22, none: 0 };
+const RULE = { grid: 0.5, structure: 0.75, struck: 2.2, hatch: 0.62 };
+
+/**
+ * A FIGURE WITH A PROPERLY SET PER-CENT SIGN.
+ * The digits carry the size; the sign is set to about 68 per cent of it
+ * and raised to sit optically with the cap line rather than the
+ * baseline, because a full-size % makes every number look like a
+ * dashboard reading.
+ */
+function figureValue(x, y, value, size, opts = {}) {
+  const m = String(value).match(/^([^%]*)(%?)$/);
+  const digits = m ? m[1] : String(value);
+  const sign = m && m[2] ? m[2] : '';
+  const fill = opts.fill || K.midnight;
+  const anchor = opts.anchor || 'start';
+  return `<text x="${r2(x)}" y="${r2(y)}" font-family="${DISPLAY}" font-size="${size}"
+    font-weight="${opts.weight || 500}" fill="${fill}" text-anchor="${anchor}"
+    letter-spacing="${-size * 0.012}"
+    style="font-variant-numeric:lining-nums tabular-nums">${esc(digits)}${
+  sign ? `<tspan font-size="${r2(size * 0.68)}" dy="${r2(-size * 0.055)}">${sign}</tspan>` : ''}</text>`;
+}
 
 const esc = (v) => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const r2 = (n) => Math.round(n * 100) / 100;
@@ -63,11 +108,14 @@ function hatchDefs(id, pitch, colour, angle = 45, width = 0.5) {
   </pattern>`;
 }
 
+/* A label. Sentence case and untracked by default; capitals and a
+   trace of tracking only where `caps` is asked for, because a label is
+   a label and not an effect. */
 const label = (x, y, t, o = {}) => `<text x="${r2(x)}" y="${r2(y)}"
   font-family="${o.face || DATA}" font-size="${o.size || 6.2}"
-  font-weight="${o.weight || 500}" letter-spacing="${o.track ?? 0.9}"
+  font-weight="${o.weight || 500}" letter-spacing="${o.track ?? (o.caps ? TRACK.caps : TRACK.none)}"
   fill="${o.fill || K.grey}" text-anchor="${o.anchor || 'start'}"
-  ${o.upper === false ? '' : 'style="text-transform:uppercase"'}>${esc(t)}</text>`;
+  ${o.caps ? 'style="text-transform:uppercase"' : ''}>${esc(t)}</text>`;
 
 const figure = (w, h, inner, defs = '') =>
   `<svg class="fig" viewBox="0 0 ${w} ${h}" width="100%" xmlns="http://www.w3.org/2000/svg"
@@ -107,6 +155,9 @@ export function capitalArchitecture(lines, opts = {}) {
   const top = 14, bot = H - 18;
   const span = bot - top;
 
+  /* The band depth below which a figure and its descriptor cannot
+     stack without colliding with the band beneath. */
+  const STACK_MIN = 21;
   const consumed = lines.filter((l) => !l.retained);
   const retained = lines.filter((l) => l.retained);
   const retShare = retained.reduce((a, l) => a + l.target, 0);
@@ -118,42 +169,50 @@ export function capitalArchitecture(lines, opts = {}) {
 
   retained.forEach((l, i) => {
     const h = span * l.target;
-    defs += hatchDefs(`ret${i}`, 2.4, K.goldLeaf, 0, 0.5);
+    defs += hatchDefs(`ret${i}`, 2.6, K.goldLeaf, 0, RULE.hatch);
     body += `<rect x="${colX - 5}" y="${r2(y)}" width="${colW + 10}" height="${r2(h)}"
-      fill="url(#ret${i})" stroke="${K.gold}" stroke-width="0.45"/>`;
-    body += dimension(dimX, y, h, `${Math.round(l.target * 100)}%`, short(l), K.gold);
+      fill="url(#ret${i})" stroke="${K.gold}" stroke-width="${RULE.structure}"/>`;
+    body += dimension(dimX, y, h, `${Math.round(l.target * 100)}%`, short(l), K.gold, h < STACK_MIN);
     y += h;
   });
 
   const ruleY = top + capOf(span, retShare);
   body += `<line x1="${colX - 12}" y1="${r2(ruleY)}" x2="${colX + colW + 12}" y2="${r2(ruleY)}"
-    stroke="${K.gold}" stroke-width="1.5"/>`;
+    stroke="${K.gold}" stroke-width="${RULE.struck}"/>`;
 
   consumed.forEach((l, i) => {
     const h = span * l.target;
     const pitch = r2(1.4 + (1 - l.target / 0.25) * 1.8);
-    defs += hatchDefs(`con${i}`, Math.max(1.05, pitch), K.soft, 45, 0.4);
+    defs += hatchDefs(`con${i}`, Math.max(1.15, pitch), K.soft, 45, RULE.hatch);
     body += `<rect x="${colX}" y="${r2(y)}" width="${colW}" height="${r2(h)}"
-      fill="url(#con${i})" stroke="${K.soft}" stroke-width="0.35"/>`;
+      fill="url(#con${i})" stroke="${K.soft}" stroke-width="${RULE.structure}"/>`;
     /* A band under about seven units cannot carry two lines of text at
        its own centre without touching its neighbour, so its measure is
        set on one line instead. */
-    body += dimension(dimX, y, h, `${Math.round(l.target * 100)}%`, short(l), K.soft, h < 8);
+    /* TWO TREATMENTS, WHICH IS THE HIERARCHY.
+       A stacked figure over its descriptor needs about twenty units of
+       band to sit in. A ten-per-cent band is fourteen, so stacking it
+       ran the descriptor into the band below — the bottom three
+       allocations overlapped each other, and the typography-alone test
+       showed it instantly. Bands deep enough take the monumental
+       treatment; the rest set on one line at a smaller size on the same
+       axis. That is a grammar with a hierarchy in it, not a fallback. */
+    body += dimension(dimX, y, h, `${Math.round(l.target * 100)}%`, short(l), K.soft, h < STACK_MIN);
     y += h;
   });
 
   body += `<rect x="${colX - 8}" y="${r2(bot)}" width="${colW + 16}" height="3"
-    fill="none" stroke="${K.ink}" stroke-width="0.55"/>`;
+    fill="none" stroke="${K.ink}" stroke-width="${RULE.structure}"/>`;
   body += `<line x1="${colX - 12}" y1="${r2(bot + 5)}" x2="${colX + colW + 12}" y2="${r2(bot + 5)}"
     stroke="${K.ink}" stroke-width="0.35"/>`;
 
   body += `<line x1="${measureX + 6}" y1="${top}" x2="${measureX + 6}" y2="${bot}"
-    stroke="${K.rule}" stroke-width="0.35"/>`;
+    stroke="${K.rule}" stroke-width="${RULE.grid}"/>`;
   for (const t of [0, 0.25, 0.5, 0.75, 1]) {
     const ty = top + span * t;
     body += `<line x1="${measureX + 3.5}" y1="${r2(ty)}" x2="${measureX + 6}" y2="${r2(ty)}"
-      stroke="${K.rule}" stroke-width="0.35"/>`;
-    body += label(measureX + 1.5, ty + 1.7, `${100 - t * 100}`, { anchor: 'end', size: 4.8, fill: K.grey });
+      stroke="${K.rule}" stroke-width="${RULE.grid}"/>`;
+    body += label(measureX + 1.5, ty + 1.9, `${100 - t * 100}`, { anchor: 'end', size: 5.6, fill: K.grey, weight: 400 });
   }
   return figure(W, H, body, defs);
 }
@@ -161,26 +220,52 @@ export function capitalArchitecture(lines, opts = {}) {
 const capOf = (span, share) => span * share;
 
 /** A dimension line with its measure, the way an elevation carries one. */
+/**
+ * A DIMENSION LINE, SET AS ONE SYSTEM.
+ *
+ * Six of these used to read as six unrelated annotations: a delicate
+ * Cormorant percentage over a tracked capital label, each floating at
+ * its own band's centre with nothing holding them to a common axis.
+ *
+ * They now share a grammar. Every figure hangs from ONE optical axis;
+ * every descriptor hangs from the same axis directly beneath it; the
+ * figure dominates its descriptor by about two to one; and the
+ * descriptor is sentence case, untracked, in the text face. A reader
+ * takes in "25% Reserve" as one object, and the column of them as one
+ * system — which is what the framework is.
+ */
+/** Width of the figure column in the inline treatment: enough for the
+ *  widest figure the framework produces, so every descriptor starts at
+ *  the same place. */
+const FIG_COL = 17;
+
 function dimension(x, y, h, value, name, colour, oneLine = false) {
   const mid = y + h / 2;
+  const tick = `<line x1="${r2(x - 12)}" y1="${r2(y)}" x2="${r2(x)}" y2="${r2(y)}"
+    stroke="${K.faint}" stroke-width="${RULE.grid}"/>`;
+  const stem = `<line x1="${r2(x - 6)}" y1="${r2(y + 0.8)}" x2="${r2(x - 6)}" y2="${r2(y + h - 0.8)}"
+    stroke="${colour}" stroke-width="${RULE.structure}"/>`;
+  /* A band too shallow to carry two lines sets them on one, on the same
+     axis, so the system does not break where it gets tight. */
   if (oneLine) {
-    return `<g>
-      <line x1="${r2(x - 12)}" y1="${r2(y)}" x2="${r2(x)}" y2="${r2(y)}" stroke="${K.faint}" stroke-width="0.3"/>
-      <line x1="${r2(x - 6)}" y1="${r2(y + 0.6)}" x2="${r2(x - 6)}" y2="${r2(y + h - 0.6)}" stroke="${colour}" stroke-width="0.35"/>
-      <text x="${r2(x)}" y="${r2(mid + 2.2)}" font-family="${DISPLAY}" font-size="9.5"
-        fill="${K.midnight}">${esc(value)}</text>
-      <text x="${r2(x + 13)}" y="${r2(mid + 1.8)}" font-family="${DATA}" font-size="5" font-weight="600"
-        letter-spacing="1" fill="${K.grey}" style="text-transform:uppercase">${esc(name)}</text>
+    /* OPTICAL ALIGNMENT, NOT ARITHMETIC.
+       Setting the descriptor at a fixed offset from the figure's LEFT
+       edge assumes every figure is the same width. "5%" and "10%" are
+       not, so 10% printed as "10%Operating" with the descriptor inside
+       the figure. The figure is therefore right-aligned to one axis and
+       the descriptor left-aligned to a second — which is how a money
+       column has been set since before anyone measured one in pixels,
+       and it makes the two descriptors align with each other as well. */
+    return `<g>${tick}${stem}
+      ${figureValue(x + FIG_COL, mid + 2.6, value, 10.5, { anchor: 'end' })}
+      <text x="${r2(x + FIG_COL + 4.2)}" y="${r2(mid + 2.2)}" font-family="${TEXT}" font-size="7.4"
+        font-weight="400" fill="${K.inkSoft}">${esc(name)}</text>
     </g>`;
   }
-  return `<g>
-    <line x1="${r2(x - 12)}" y1="${r2(y)}" x2="${r2(x)}" y2="${r2(y)}" stroke="${K.faint}" stroke-width="0.3"/>
-    <line x1="${r2(x - 12)}" y1="${r2(y + h)}" x2="${r2(x)}" y2="${r2(y + h)}" stroke="${K.faint}" stroke-width="0.3"/>
-    <line x1="${r2(x - 6)}" y1="${r2(y + 1)}" x2="${r2(x - 6)}" y2="${r2(y + h - 1)}" stroke="${colour}" stroke-width="0.35"/>
-    <text x="${r2(x)}" y="${r2(mid - 0.4)}" font-family="${DISPLAY}" font-size="11"
-      fill="${K.midnight}">${esc(value)}</text>
-    <text x="${r2(x)}" y="${r2(mid + 5.4)}" font-family="${DATA}" font-size="5.2" font-weight="600"
-      letter-spacing="1.1" fill="${K.grey}" style="text-transform:uppercase">${esc(name)}</text>
+  return `<g>${tick}${stem}
+    ${figureValue(x, mid - 0.4, value, 15)}
+    <text x="${r2(x)}" y="${r2(mid + 7.8)}" font-family="${TEXT}" font-size="7.6"
+      font-weight="400" fill="${K.inkSoft}">${esc(name)}</text>
   </g>`;
 }
 
@@ -233,8 +318,7 @@ export function attentionThreshold(rows, benchmark, opts = {}) {
     body += `<line x1="${r2(sx(band.from))}" y1="${plotTop}" x2="${r2(sx(band.from))}" y2="${r2(plotBot)}"
       stroke="${K.goldPale}" stroke-width="0.5"/>`;
     body += `<text x="${r2(sx(band.from) + 2)}" y="${H - 5}" font-family="${DATA}" font-size="4.9"
-      font-weight="600" letter-spacing="1" fill="${K.gold}" style="text-transform:uppercase"
-      >${esc(band.label)}</text>`;
+      font-weight="500" fill="${K.gold}">${esc(band.label)}</text>`;
   }
 
   const stepFor = (c) => (c > 500 ? 200 : 100);
@@ -280,7 +364,7 @@ export function attentionThreshold(rows, benchmark, opts = {}) {
   body += `<text x="${r2(capLeft ? bx - 3 : bx + 3)}" y="${plotTop - 9}" font-family="${DATA}"
     font-size="5.2" font-weight="600" letter-spacing="0.7" fill="${K.gold}"
     text-anchor="${capLeft ? 'end' : 'start'}"
-    style="text-transform:uppercase">${esc(opts.benchmarkLabel || 'Benchmark')} $${Math.round(benchmark)}</text>`;
+    >${esc(opts.benchmarkLabel || 'Benchmark')}, $${Math.round(benchmark)}</text>`;
 
   return figure(W, H, body, defs);
 }
@@ -357,8 +441,12 @@ export function decade(years, opts = {}) {
     body += `<rect x="${r2(bx + bw * 0.16)}" y="${r2(sy(y.netTuition))}"
       width="${r2(bw * 0.68)}" height="${r2(bot - sy(y.netTuition))}"
       fill="url(#rev)" stroke="${K.soft}" stroke-width="0.3"/>`;
-    if (i % 2 === 0 || i === years.length - 1) {
-      body += label(bx + bw / 2, bot + 6.6, String(y.calendar).slice(2), { anchor: 'middle', size: 5, fill: K.grey });
+    /* Every other year, and the last one only if it is not already
+       adjacent to the one before it — printing 35 and 36 side by side
+       makes the axis look like it lost count. */
+    const isLast = i === years.length - 1;
+    if (i % 2 === 0 || (isLast && (years.length - 1) % 2 !== 1)) {
+      body += label(bx + bw / 2, bot + 6.8, String(y.calendar).slice(2), { anchor: 'middle', size: 5.6, fill: K.grey, weight: 400 });
     }
   });
 
@@ -371,8 +459,10 @@ export function decade(years, opts = {}) {
     body += `<circle cx="${r2(x0 + i * bw + bw / 2)}" cy="${r2(syS(y.surplus))}" r="1.3"
       fill="${y.surplus >= 0 ? K.midnight : K.crimson}"/>`;
   });
-  body += label(x1, zero - 3, 'Surplus, nil', { anchor: 'end', size: 5, fill: K.gold });
-  body += label(x0 - 4, top + 2, opts.revenueLabel || 'Net tuition', { anchor: 'start', size: 5.2, fill: K.soft });
+  /* Clear of its own rule. Set on the baseline it marks, it printed
+     through the dashes. */
+  body += label(x1, zero - 4.6, 'Surplus, nil', { anchor: 'end', size: 5.6, fill: K.gold, weight: 500 });
+  body += label(x0 - 4, top + 2, opts.revenueLabel || 'Net tuition', { anchor: 'start', size: 5.8, fill: K.soft, weight: 500 });
 
   return figure(W, H, body, defs);
 }
@@ -401,7 +491,7 @@ export function amortisation(retail, channels) {
   let y = 16;
 
   body += `<text x="4" y="${r2(y - 7)}" font-family="${DATA}" font-size="6" font-weight="600"
-    letter-spacing="1.5" fill="${K.soft}" style="text-transform:uppercase">Acquired one at a time</text>`;
+    letter-spacing="${TRACK.caps}" fill="${K.soft}" style="text-transform:uppercase">Acquired one at a time</text>`;
   retail.forEach((r) => {
     body += `<text x="${gutter}" y="${r2(y + 2.4)}" font-family="${TEXT}" font-size="7"
       fill="${K.ink}" text-anchor="end">${esc(r.name)}</text>`;
@@ -416,7 +506,7 @@ export function amortisation(retail, channels) {
   body += `<line x1="4" y1="${r2(y - 9)}" x2="${x1 + 22}" y2="${r2(y - 9)}"
     stroke="${K.rule}" stroke-width="0.35"/>`;
   body += `<text x="4" y="${r2(y - 3)}" font-family="${DATA}" font-size="6" font-weight="600"
-    letter-spacing="1.5" fill="${K.gold}" style="text-transform:uppercase">One negotiation, many seats</text>`;
+    letter-spacing="${TRACK.caps}" fill="${K.gold}" style="text-transform:uppercase">One negotiation, many seats</text>`;
   y += 9;
 
   channels.forEach((c) => {
@@ -475,10 +565,9 @@ export function riskMatrix(risks) {
   }
   L.forEach((l, a) => { body += label(x0 + a * cw + cw / 2, H - 13, l, { anchor: 'middle', size: 5.2 }); });
   I.forEach((l, b) => { body += label(x0 - 4, y0 + (I.length - 1 - b) * ch + ch / 2 + 1.6, l, { anchor: 'end', size: 5.2 }); });
-  body += label(x0 + (W - x0 - 12) / 2, H - 5, 'Likelihood', { anchor: 'middle', size: 5.4, fill: K.gold });
+  body += label(x0 + (W - x0 - 12) / 2, H - 5, 'Likelihood', { anchor: 'middle', size: 6, fill: K.gold, weight: 500 });
   body += `<text transform="translate(9 ${r2(y0 + (H - y0 - 22) / 2)}) rotate(-90)" font-family="${DATA}"
-    font-size="5.4" font-weight="600" letter-spacing="1.1" fill="${K.gold}" text-anchor="middle"
-    style="text-transform:uppercase">Impact</text>`;
+    font-size="6" font-weight="500" fill="${K.gold}" text-anchor="middle">Impact</text>`;
   return figure(W, H, body, defs);
 }
 

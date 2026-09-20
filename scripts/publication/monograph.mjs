@@ -78,12 +78,50 @@ export const C = {
   sage: '#3A6350',
 };
 
+/*
+ * TWO FACES, AND THE REASON THERE ARE ONLY TWO.
+ *
+ * The book was set in four: Cinzel for inscriptions, Cormorant Garamond
+ * for display, EB Garamond for text, Inter for data. Every one of those
+ * choices was wrong, and the fault they shared is that none of them was
+ * judged by rendering the actual page.
+ *
+ *   CINZEL is a Trajan revival that exists only in capitals, so it
+ *   CANNOT be set without tracking — the cliché was built into the
+ *   typeface selection before a single letter-space was typed.
+ *
+ *   CORMORANT GARAMOND is drawn for sixty point and above. At the 11pt
+ *   a percentage sits at in a financial diagram its hairlines vanish
+ *   and its old-style numerals will not hold a column. The figures in
+ *   the capital architecture were thin because the face was being asked
+ *   to work three sizes below where it lives.
+ *
+ *   EB GARAMOND then did the text, which meant two different Garamonds
+ *   doing one face's job at different sizes and agreeing about nothing.
+ *
+ *   INTER is the typeface of every software company of the last decade.
+ *   It is excellent and it reads as a product.
+ *
+ * NEWSREADER replaces the three serifs with one superfamily carrying an
+ * OPTICAL SIZE axis from 6 to 72 — which is the actual answer to the
+ * problem the four faces were failing to solve. Its large sizes take
+ * the high contrast and fine terminals that make a title; its small
+ * sizes thicken those same hairlines so a seven-point caption survives.
+ * Its numerals are lining and tabular, and its italic is a drawn italic
+ * rather than a slant.
+ *
+ * ARCHIVO is the technical face and nothing else: labels, axes, tabular
+ * figures. A grotesque in the Neue Haas line, neutral and precise.
+ */
 export const FACE = {
-  inscription: "'Cinzel', 'Bitstream Charter', serif",
-  display: "'Cormorant Garamond', 'Bitstream Charter', serif",
-  text: "'EB Garamond', 'Bitstream Charter', serif",
-  data: "'Inter', 'Liberation Sans', sans-serif",
+  display: "'Newsreader', 'Bitstream Charter', serif",
+  text: "'Newsreader', 'Bitstream Charter', serif",
+  data: "'Archivo', 'Liberation Sans', sans-serif",
 };
+/* Kept as an alias so nothing breaks while the inscriptional voice is
+   retired; it now resolves to the display face set in small capitals,
+   which is how an inscription is set in a book rather than on a plinth. */
+FACE.inscription = FACE.display;
 
 // ════════════════════════════════════════════════════════════════════
 // II · THE PAGE, AND THE GRID INSIDE IT
@@ -186,7 +224,7 @@ body {
 .folio {
   position: absolute; z-index: 5; bottom: ${PAGE.marginBottom - 12}mm;
   font-family: ${FACE.data}; font-size: ${T.micro}pt; font-weight: 500;
-  letter-spacing: .22em; color: ${C.grey};
+  letter-spacing: .04em; color: ${C.grey};
   font-variant-numeric: tabular-nums;
 }
 .pg .folio { right: ${PAGE.marginOuter}mm; }
@@ -196,7 +234,7 @@ body {
 .runhead {
   position: absolute; z-index: 5; top: ${PAGE.marginTop - 13}mm;
   font-family: ${FACE.data}; font-size: ${T.micro}pt; font-weight: 500;
-  letter-spacing: .24em; text-transform: uppercase; color: ${C.grey};
+  letter-spacing: .045em; text-transform: uppercase; color: ${C.grey};
 }
 .pg .runhead { right: ${PAGE.marginOuter}mm; text-align: right; }
 .pg--verso .runhead { left: ${PAGE.marginOuter}mm; right: auto; text-align: left; }
@@ -211,13 +249,13 @@ body {
 /* ── Inscriptional voice ───────────────────────────────────────────*/
 .inscr {
   font-family: ${FACE.inscription}; font-weight: 400;
-  letter-spacing: .14em; text-transform: uppercase;
+  letter-spacing: .035em; text-transform: uppercase;
 }
 
 /* ── Eyebrow: the small line above a thing ─────────────────────────*/
 .eyebrow {
   font-family: ${FACE.data}; font-size: ${T.micro}pt; font-weight: 600;
-  letter-spacing: .3em; text-transform: uppercase; color: ${C.gold};
+  letter-spacing: .05em; text-transform: uppercase; color: ${C.gold};
   margin: 0 0 ${PAGE.baseline}mm;
 }
 .pg--dark .eyebrow { color: ${C.goldLeaf}; }
@@ -246,7 +284,7 @@ h2 {
 }
 h3 {
   font-family: ${FACE.data}; font-size: ${T.label}pt; font-weight: 600;
-  letter-spacing: .2em; text-transform: uppercase; color: ${C.gold};
+  letter-spacing: .04em; text-transform: uppercase; color: ${C.gold};
   margin: ${LEAD.base * 1.3}pt 0 ${LEAD.base * 0.45}pt; break-after: avoid;
 }
 em { font-style: italic; }
@@ -256,8 +294,16 @@ strong { font-weight: 600; }
 .cols-2 { column-count: 2; column-gap: ${PAGE.gutter * 2}mm; }
 .cols-2 > :first-child { margin-top: 0; }
 
-/* ── Figures set in numerals ───────────────────────────────────────*/
-.num { font-variant-numeric: tabular-nums lining-nums; }
+/* ── Figures ───────────────────────────────────────────────────────
+   Lining and tabular wherever a number must align with the number
+   above it, which is every number in this book that is not inside a
+   sentence. Both properties are set, because the two are not equivalent
+   in every renderer and a money column that fails to align is worse
+   than one set in the wrong style. */
+.num, .tbl td, .tbl th {
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: 'kern' 1, 'tnum' 1, 'lnum' 1;
+}
 `;
 
 
@@ -284,7 +330,7 @@ export const masterCss = () => `
 .m-cover { background: ${C.midnightDeep}; color: ${C.ivory}; }
 .m-cover__frame { position: absolute; inset: 13mm; border: .4pt solid rgba(201,169,97,.34); }
 .m-cover__mark { position: absolute; top: 33mm; left: 0; right: 0; text-align: center; }
-.m-cover__mark .inscr { font-size: 9.6pt; letter-spacing: .54em; color: ${C.goldLeaf}; }
+.m-cover__mark .inscr { font-size: 9.6pt; letter-spacing: .07em; color: ${C.goldLeaf}; }
 .m-cover__rule { position: absolute; top: 48mm; left: 50%; width: 22mm;
   margin-left: -11mm; height: 1pt; background: ${C.gold}; }
 .m-cover__title { position: absolute; top: 108mm; left: 24mm; right: 24mm; text-align: center; }
@@ -303,14 +349,14 @@ export const masterCss = () => `
   background: rgba(201,169,97,.52);
 }
 .m-cover__period span {
-  font-family: ${FACE.inscription}; font-size: 12pt; letter-spacing: .4em;
+  font-family: ${FACE.inscription}; font-size: 12pt; letter-spacing: .06em;
   color: ${C.goldLeaf};
 }
 .m-cover__foot {
   position: absolute; bottom: 27mm; left: 34mm; right: 34mm; text-align: center;
   padding-top: 6mm; border-top: .4pt solid rgba(201,169,97,.22);
   font-family: ${FACE.data}; font-size: ${T.micro}pt; font-weight: 400;
-  letter-spacing: .26em; text-transform: uppercase; color: rgba(252,250,245,.42);
+  letter-spacing: .05em; text-transform: uppercase; color: rgba(252,250,245,.42);
   line-height: 13.4pt;
 }
 
@@ -337,7 +383,7 @@ export const masterCss = () => `
 .m-open__body { position: absolute; left: 0; right: 0; top: 47%; z-index: 2; }
 .m-open__eyebrow {
   font-family: ${FACE.data}; font-size: ${T.micro}pt; font-weight: 600;
-  letter-spacing: .34em; text-transform: uppercase; color: ${C.gold};
+  letter-spacing: .05em; text-transform: uppercase; color: ${C.gold};
   margin: 0 0 4.5mm;
 }
 .m-open h1 {
@@ -361,7 +407,7 @@ export const masterCss = () => `
 }
 .m-open__stat l {
   display: block; font-family: ${FACE.data}; font-size: ${T.micro}pt;
-  font-weight: 500; letter-spacing: .17em; text-transform: uppercase;
+  font-weight: 500; letter-spacing: .04em; text-transform: uppercase;
   color: ${C.grey}; margin-top: 2.2mm; line-height: 10pt;
 }
 
@@ -373,7 +419,7 @@ export const masterCss = () => `
 .m-hero__wrap { position: absolute; top: 50%; left: 0; right: 0; transform: translateY(-54%); }
 .m-hero__eyebrow {
   font-family: ${FACE.data}; font-size: ${T.label}pt; font-weight: 600;
-  letter-spacing: .34em; text-transform: uppercase; color: ${C.gold}; margin: 0 0 7mm;
+  letter-spacing: .05em; text-transform: uppercase; color: ${C.gold}; margin: 0 0 7mm;
 }
 .m-hero__v {
   font-family: ${FACE.display}; font-weight: 300; font-size: ${T.monument}pt;
@@ -405,7 +451,7 @@ export const masterCss = () => `
 .m-field__q em { font-style: italic; color: ${C.goldPale}; }
 .m-field__attr {
   font-family: ${FACE.data}; font-size: ${T.micro}pt; font-weight: 500;
-  letter-spacing: .3em; text-transform: uppercase; color: ${C.goldLeaf};
+  letter-spacing: .05em; text-transform: uppercase; color: ${C.goldLeaf};
   margin: 13mm 0 0;
 }
 
@@ -433,7 +479,7 @@ export const masterCss = () => `
   font-size: 11pt; line-height: 16pt; color: ${C.grey}; margin-top: 1.4mm;
 }
 .tbl thead th {
-  font-weight: 600; font-size: ${T.micro}pt; letter-spacing: .15em;
+  font-weight: 600; font-size: ${T.micro}pt; letter-spacing: .035em;
   text-transform: uppercase; color: ${C.grey}; text-align: right;
   padding: 0 0 2.6mm; border-bottom: 1.2pt solid ${C.gold}; vertical-align: bottom;
 }
@@ -476,7 +522,7 @@ export const masterCss = () => `
 }
 .m-arch__cell h4 {
   margin: 0 0 2mm; font-family: ${FACE.data}; font-size: ${T.micro}pt;
-  font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: ${C.gold};
+  font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: ${C.gold};
 }
 .m-arch__cell p { margin: 0; font-size: ${T.small}pt; line-height: 14pt; color: ${C.inkSoft}; }
 .m-arch__cell v { display: block; font-family: ${FACE.display}; font-size: 22pt;
@@ -491,7 +537,7 @@ export const masterCss = () => `
   width: 3mm; height: 3mm; background: ${C.gold}; border-radius: 50%;
 }
 .m-time__y {
-  font-family: ${FACE.inscription}; font-size: 11pt; letter-spacing: .2em;
+  font-family: ${FACE.inscription}; font-size: 11pt; letter-spacing: .04em;
   color: ${C.gold}; margin: 0 0 1.6mm;
 }
 .m-time__t {
@@ -517,7 +563,7 @@ export const masterCss = () => `
   font-family: ${FACE.data}; }
 .m-alloc__seg b { display: block; font-size: ${T.label}pt; font-weight: 600; letter-spacing: .04em; }
 .m-alloc__seg s { display: block; text-decoration: none; font-size: ${T.micro}pt;
-  letter-spacing: .2em; opacity: .74; margin-top: .8mm; }
+  letter-spacing: .04em; opacity: .74; margin-top: .8mm; }
 /* A band too shallow for two lines sets them on one. */
 .m-alloc__seg--tight { display: flex; align-items: baseline; gap: 3mm; padding-top: 2.2mm; }
 .m-alloc__seg--tight s { margin-top: 0; }
@@ -546,14 +592,14 @@ export const masterCss = () => `
 }
 .m-prop__t em { font-style: italic; color: ${C.gold}; }
 .m-prop__a { font-family: ${FACE.data}; font-size: ${T.micro}pt; font-weight: 500;
-  letter-spacing: .3em; text-transform: uppercase; color: ${C.grey}; margin: 12mm 0 0; }
+  letter-spacing: .05em; text-transform: uppercase; color: ${C.grey}; margin: 12mm 0 0; }
 
 /* ── 13 · CLASSIFICATION MARKS ─────────────────────────────────────
    Small, set in the technical face, and never a warning box. A board
    paper that shouts its own caveats has stopped being read. */
 .mark {
   display: inline-block; font-family: ${FACE.data}; font-size: ${T.micro}pt;
-  font-weight: 600; letter-spacing: .19em; text-transform: uppercase;
+  font-weight: 600; letter-spacing: .04em; text-transform: uppercase;
   padding: .9mm 2.4mm .8mm; border: .5pt solid currentColor; white-space: nowrap;
   vertical-align: .12em;
 }
@@ -728,7 +774,7 @@ export const masterCssTwo = () => `
    feel a section end without reading a word. */
 .m-part { background: ${C.midnight}; color: ${C.ivory}; }
 .m-part__n {
-  font-family: ${FACE.inscription}; font-size: 13pt; letter-spacing: .46em;
+  font-family: ${FACE.inscription}; font-size: 13pt; letter-spacing: .06em;
   color: ${C.goldLeaf}; margin: 0 0 8mm;
 }
 .m-part__rule { width: ${col(2)}mm; height: 1.4pt; background: ${C.gold}; margin: 0 0 12mm; }
@@ -746,7 +792,7 @@ export const masterCssTwo = () => `
   position: absolute; left: 0; right: 0; bottom: 0;
   border-top: .5pt solid rgba(201,169,97,.3); padding-top: 5mm;
   font-family: ${FACE.data}; font-size: ${T.micro}pt; font-weight: 500;
-  letter-spacing: .2em; text-transform: uppercase; color: rgba(252,250,245,.5);
+  letter-spacing: .04em; text-transform: uppercase; color: rgba(252,250,245,.5);
   line-height: 14pt; columns: 2; column-gap: ${PAGE.gutter * 2}mm;
 }
 
@@ -756,7 +802,7 @@ export const masterCssTwo = () => `
   margin: 0 0 7mm; color: ${C.midnight};
 }
 .m-toc__part {
-  font-family: ${FACE.inscription}; font-size: 8.4pt; letter-spacing: .3em;
+  font-family: ${FACE.inscription}; font-size: 8.4pt; letter-spacing: .05em;
   color: ${C.gold}; margin: 5mm 0 2mm; padding-top: 2.2mm;
   border-top: .9pt solid ${C.gold};
 }
@@ -782,19 +828,19 @@ export const masterCssTwo = () => `
 }
 .m-time__h { display: flex; align-items: baseline; gap: 4mm; margin: 0 0 1.8mm; }
 .m-time__h n {
-  font-family: ${FACE.inscription}; font-size: 10.5pt; letter-spacing: .24em; color: ${C.gold};
+  font-family: ${FACE.inscription}; font-size: 10.5pt; letter-spacing: .045em; color: ${C.gold};
 }
 .m-time__h t {
   font-family: ${FACE.display}; font-size: ${T.h3}pt; line-height: 19pt; color: ${C.midnight};
 }
 .m-time__h y {
   margin-left: auto; font-family: ${FACE.data}; font-size: ${T.micro}pt; font-weight: 500;
-  letter-spacing: .2em; text-transform: uppercase; color: ${C.grey};
+  letter-spacing: .04em; text-transform: uppercase; color: ${C.grey};
 }
 .m-time__d { font-size: ${T.small}pt; line-height: 14.6pt; color: ${C.inkSoft}; margin: 0 0 2mm;
   max-width: ${col(9)}mm; }
 .m-time__f {
-  font-family: ${FACE.data}; font-size: ${T.micro}pt; font-weight: 600; letter-spacing: .14em;
+  font-family: ${FACE.data}; font-size: ${T.micro}pt; font-weight: 600; letter-spacing: .035em;
   color: ${C.midnight}; font-variant-numeric: tabular-nums; margin: 0;
 }
 
@@ -808,14 +854,14 @@ export const masterCssTwo = () => `
 .m-colo p { font-size: ${T.small}pt; line-height: 15pt; max-width: ${col(7)}mm;
   color: rgba(252,250,245,.66); }
 .m-colo .rule-hair { background: rgba(201,169,97,.3); margin: 8mm 0 6mm; }
-.m-colo__meta { font-family: ${FACE.data}; font-size: ${T.micro}pt; letter-spacing: .2em;
+.m-colo__meta { font-family: ${FACE.data}; font-size: ${T.micro}pt; letter-spacing: .04em;
   text-transform: uppercase; color: rgba(201,169,97,.7); line-height: 13pt; }
 
 /* ── THE BASTARD TITLE ─────────────────────────────────────────────*/
 .m-half__wrap { position: absolute; top: 46%; left: ${PAGE.marginOuter}mm; right: ${PAGE.marginInner}mm;
   transform: translateY(-50%); text-align: center; }
 .m-half__rule { width: 14mm; height: .6pt; background: ${C.gold}; margin: 0 auto 7mm; }
-.m-half__t { font-family: ${FACE.inscription}; font-size: 9.6pt; letter-spacing: .44em;
+.m-half__t { font-family: ${FACE.inscription}; font-size: 9.6pt; letter-spacing: .06em;
   color: ${C.grey}; margin: 0; }
 
 /* ── A TABLE WITH ITS READING ──────────────────────────────────────
@@ -823,7 +869,7 @@ export const masterCssTwo = () => `
    white beneath it is not restraint, it is an unfinished page. The
    reading sits under the rule and gives the table a foot to stand on. */
 .rd { margin-top: auto; padding-top: 6mm; border-top: .9pt solid ${C.gold}; }
-.rd h4 { font-family: ${FACE.data}; font-size: 5.6pt; font-weight: 600; letter-spacing: .26em;
+.rd h4 { font-family: ${FACE.data}; font-size: 5.6pt; font-weight: 600; letter-spacing: .05em;
   text-transform: uppercase; color: ${C.gold}; margin: 0 0 2.6mm; }
 .rd p { font-family: ${FACE.text}; font-size: ${T.small}pt; line-height: 15.4pt;
   color: ${C.inkSoft}; margin: 0 0 3mm; max-width: ${col(9)}mm; }
@@ -832,7 +878,7 @@ export const masterCssTwo = () => `
 .pg__field--stack { display: flex; flex-direction: column; }
 
 /* A continued table carries its title once and says so thereafter. */
-.tbl__cont { font-family: ${FACE.data}; font-size: ${T.micro}pt; letter-spacing: .2em;
+.tbl__cont { font-family: ${FACE.data}; font-size: ${T.micro}pt; letter-spacing: .04em;
   text-transform: uppercase; color: ${C.grey}; margin: 0 0 4mm; }
 `;
 
