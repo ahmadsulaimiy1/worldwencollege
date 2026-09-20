@@ -72,7 +72,7 @@ import ADVANCES from './advances.json' with { type: 'json' };
  * under-estimate loses a word. `tests/figures.test.mjs` renders every
  * plate and proves the ceiling held.
  */
-function setWidth(text, size, opts = {}) {
+export function setWidth(text, size, opts = {}) {
   const key = `${opts.face === TEXT || opts.face === DISPLAY || opts.serif ? 'serif' : 'data'}:${opts.weight || 500}`;
   const tbl = ADVANCES.advance[key];
   if (!tbl) throw new Error(`figures: no advance table for ${key} — add it to measure-advances.mjs`);
@@ -99,7 +99,7 @@ function setWidth(text, size, opts = {}) {
  * lines, of nearly equal length, which is how a caption is set in a
  * book and not how it falls out of a text box.
  */
-function wrapTo(text, maxWidth, size, opts = {}) {
+export function wrapTo(text, maxWidth, size, opts = {}) {
   const raw = String(text).split(/\s+/).filter(Boolean);
   /* A dash may not begin a line. The risk matrix broke "above the
      line — likely enough" exactly there and set the em dash as the
@@ -152,7 +152,7 @@ function wrapTo(text, maxWidth, size, opts = {}) {
  * the label of the point above it; the plates draw a leader wherever
  * the displacement is large enough to notice.
  */
-function deCollide(desired, gap, bounds = {}) {
+export function deCollide(desired, gap, bounds = {}) {
   const order = desired.map((y, i) => i).sort((a, b) => desired[a] - desired[b]);
   const out = desired.slice();
   const top = bounds.top ?? -Infinity;
@@ -176,14 +176,14 @@ function deCollide(desired, gap, bounds = {}) {
   return out;
 }
 
-const K = {
+export const K = {
   ink: '#16202C', inkSoft: '#2E3A49', midnight: '#0A1A2F', soft: '#5A6479', grey: '#79828F',
   rule: '#D9D2C2', faint: '#EBE6DA', gold: '#A9843C', goldLeaf: '#C9A961',
   goldPale: '#E8D9B4', paper: '#FFFFFF', bone: '#F6F2E9', crimson: '#7E1F2D',
 };
-const DATA = "'Archivo','Liberation Sans',sans-serif";
-const DISPLAY = "'Newsreader','Bitstream Charter',serif";
-const TEXT = "'Newsreader','Bitstream Charter',serif";
+export const DATA = "'Archivo','Liberation Sans',sans-serif";
+export const DISPLAY = "'Newsreader','Bitstream Charter',serif";
+export const TEXT = "'Newsreader','Bitstream Charter',serif";
 
 /* ────────────────────────────────────────────────────────────────────
    TYPOGRAPHY IN THE PLATES
@@ -208,7 +208,7 @@ const TEXT = "'Newsreader','Bitstream Charter',serif";
      AND THE STRUCTURE IS HEAVIER. Premium is not faint; hairlines at
        .3 read as a wireframe. */
 const TRACK = { caps: 0.22, none: 0 };
-const RULE = { grid: 0.5, structure: 0.75, struck: 2.2, hatch: 0.62 };
+export const RULE = { grid: 0.5, structure: 0.75, struck: 2.2, hatch: 0.62 };
 
 /**
  * A FIGURE WITH A PROPERLY SET PER-CENT SIGN.
@@ -217,7 +217,7 @@ const RULE = { grid: 0.5, structure: 0.75, struck: 2.2, hatch: 0.62 };
  * baseline, because a full-size % makes every number look like a
  * dashboard reading.
  */
-function figureValue(x, y, value, size, opts = {}) {
+export function figureValue(x, y, value, size, opts = {}) {
   const m = String(value).match(/^([^%]*)(%?)$/);
   const digits = m ? m[1] : String(value);
   const sign = m && m[2] ? m[2] : '';
@@ -230,15 +230,15 @@ function figureValue(x, y, value, size, opts = {}) {
   sign ? `<tspan font-size="${r2(size * 0.68)}" dy="${r2(-size * 0.055)}">${sign}</tspan>` : ''}</text>`;
 }
 
-const esc = (v) => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-const r2 = (n) => Math.round(n * 100) / 100;
+export const esc = (v) => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+export const r2 = (n) => Math.round(n * 100) / 100;
 
 /**
  * THE HATCH. Every density in the publication comes from here, so a
  * reader learns the scale once: pitch is the gap between rules in user
  * units, and a smaller pitch is a heavier quantity.
  */
-function hatchDefs(id, pitch, colour, angle = 45, width = 0.5) {
+export function hatchDefs(id, pitch, colour, angle = 45, width = 0.5) {
   return `<pattern id="${id}" patternUnits="userSpaceOnUse" width="${pitch}" height="${pitch}"
     patternTransform="rotate(${angle})">
     <line x1="0" y1="0" x2="0" y2="${pitch}" stroke="${colour}" stroke-width="${width}"/>
@@ -248,15 +248,46 @@ function hatchDefs(id, pitch, colour, angle = 45, width = 0.5) {
 /* A label. Sentence case and untracked by default; capitals and a
    trace of tracking only where `caps` is asked for, because a label is
    a label and not an effect. */
-const label = (x, y, t, o = {}) => `<text x="${r2(x)}" y="${r2(y)}"
+export const label = (x, y, t, o = {}) => `<text x="${r2(x)}" y="${r2(y)}"
   font-family="${o.face || DATA}" font-size="${o.size || 6.2}"
   font-weight="${o.weight || 500}" letter-spacing="${o.track ?? (o.caps ? TRACK.caps : TRACK.none)}"
   fill="${o.fill || K.grey}" text-anchor="${o.anchor || 'start'}"
   ${o.caps ? 'style="text-transform:uppercase"' : ''}>${esc(t)}</text>`;
 
-const figure = (w, h, inner, defs = '') =>
-  `<svg class="fig" viewBox="0 0 ${w} ${h}" width="100%" xmlns="http://www.w3.org/2000/svg"
-    style="display:block" role="img">
+/* ════════════════════════════════════════════════════════════════════
+   A PLATE HAS A PRINTED SIZE, AND IT IS NOT "AS BIG AS THE PAGE"
+   ════════════════════════════════════════════════════════════════════
+   These plates were emitted at width:100%, which on this book's
+   175mm measure made one viewBox unit 1.04mm — 2.95 POINTS. A label
+   authored as `font-size="6.2"` therefore reached the page at
+   EIGHTEEN AND A HALF POINTS: larger than the running text, nearly
+   the size of the page's own heading, and about two and a half times
+   what a plate label should ever be. Every hairline was three times
+   too heavy for the same reason — `stroke-width="0.3"` printed at
+   nine tenths of a point.
+
+   Nothing in the drawings was wrong. They are internally consistent
+   and they were verified, repeatedly, in a browser at 620 pixels
+   across, where twenty-two pixels of label looks perfectly small.
+   What was wrong was the one number that never appeared in any of
+   them: how wide the plate is when it is printed.
+
+   It is declared here, once. At .46mm to the unit a 6.2-unit label
+   sets at 8.1pt — a shade above the book's caption size, which is
+   where a plate label belongs — a .3-unit hairline at .4pt, and a
+   17-unit numeral at 22pt. Every dimension in the library comes right
+   together because they were always in proportion to each other.
+
+   The plate is consequently about 77mm wide rather than 175mm, and
+   the figure page is composed around that: the drawing in one column
+   and its reading in the other, which is a better page than a chart
+   alone in a 175mm field with two fifths of it empty. */
+export const UNIT_MM = 0.46;
+export const printWidthMm = (w) => Math.round(w * UNIT_MM * 100) / 100;
+
+export const figure = (w, h, inner, defs = '') =>
+  `<svg class="fig" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg"
+    style="display:block;width:${printWidthMm(w)}mm;max-width:100%" role="img">
     ${defs ? `<defs>${defs}</defs>` : ''}${inner}</svg>`;
 
 // ════════════════════════════════════════════════════════════════════
@@ -280,7 +311,11 @@ const figure = (w, h, inner, defs = '') =>
  * architect's elevation carries its measurements.
  */
 export function capitalArchitecture(lines, opts = {}) {
-  const W = 168, H = 186;
+  /* TALLER THAN IT WAS. At a declared .46mm to the unit the plate is
+     77mm across whatever its height, so the height is free — and at
+     186 units the elevation was 86mm tall and left the lower half of
+     its page empty. An elevation of a structure should be tall. */
+  const W = 168, H = 300;
   /* GEOMETRY, CORRECTED. The first cut put the shaft at x=34 with the
      dimension text starting at x=114 and running to wherever the name
      ended — which was past the viewBox on four of the six lines, so
@@ -436,7 +471,7 @@ export function attentionThreshold(rows, benchmark, opts = {}) {
      Judging both against one line asks the wrong question of one of
      them. The band is drawn, the line is drawn, and each tier is read
      against the comparable it actually has. */
-  const W = 168, H = 18 + rows.length * 15 + 24;
+  const W = 168, H = 22 + rows.length * 26 + 30;
   /* THREE COLUMNS: NAME, PLOT, VALUE — AND TWO OF THEM ARE MEASURED.
      The gutters used to be flat numbers. 46 held "Independent" and cut
      "Executive Premium"; 20 on the right is correct for $213 and wrong
@@ -482,7 +517,7 @@ export function attentionThreshold(rows, benchmark, opts = {}) {
   }
 
   rows.forEach((r, i) => {
-    const y = plotTop + 9 + i * 15;
+    const y = plotTop + 14 + i * 26;
     const over = r.perHour > benchmark && !r.ownBand;
     const col = over ? K.crimson : K.midnight;
     body += label(x0 - 5, y + 2, r.name, { anchor: 'end', size: 6, fill: K.ink, upper: false,
@@ -532,7 +567,7 @@ export function attentionThreshold(rows, benchmark, opts = {}) {
  * of three is unmistakable.
  */
 export function slope(rows, opts = {}) {
-  const W = 168, H = 150;
+  const W = 168, H = 240;
   /* THE TWO COLUMNS ARE PLACED BY WHAT HANGS OFF THEM. `xb` was 118,
      which left fifty units for a segment name — enough for "Nigeria
      and", not for "Gulf professionals", which ran off the plate. The
@@ -545,7 +580,7 @@ export function slope(rows, opts = {}) {
     ...rows.map((r) => setWidth(r.name, 5.6, { face: TEXT, weight: 400 })),
   );
   const xa = Math.ceil(fromW) + 10, xb = W - Math.ceil(rightW) - 7;
-  const top = 22, bot = H - 20;
+  const top = 30, bot = H - 26;
   const max = Math.max(...rows.flatMap((r) => [r.from, r.to])) * 1.06;
   const sy = (v) => bot - (v / max) * (bot - top);
 
@@ -623,7 +658,7 @@ export function decade(years, opts = {}) {
    * diagram; the eye needs somewhere to land, and here it is the
    * closing year's net tuition, set at the right where the columns end.
    */
-  const W = 168, H = 132;
+  const W = 168, H = 210;
   /* The plot stops well short of the plate so the closing figure has
      room to be set. At W-34 the columns ran to 134 and "$17.0M" at
      thirteen point needs about thirty-eight units after them, so the
@@ -754,7 +789,7 @@ export function amortisation(retail, channels) {
   const sx = (v) => x0 + (v / (max * 1.06)) * (x1 - x0);
   const defs = hatchDefs('amort', 1.5, K.goldLeaf, 90, 0.55);
   let body = '';
-  let y = 16;
+  let y = 24;
 
   body += `<text x="4" y="${r2(y - 7)}" font-family="${DATA}" font-size="6" font-weight="600"
     letter-spacing="${TRACK.caps}" fill="${K.soft}" style="text-transform:uppercase">Acquired one at a time</text>`;
@@ -766,10 +801,10 @@ export function amortisation(retail, channels) {
     body += `<text x="${r2(W - 4)}" y="${r2(y + 2.4)}" font-family="${DATA}" font-size="7"
       font-weight="500" fill="${K.soft}" text-anchor="end"
       style="font-variant-numeric:lining-nums tabular-nums">$${Math.round(r.cac).toLocaleString()}</text>`;
-    y += 13;
+    y += 20;
   });
 
-  y += 6;
+  y += 10;
   body += `<line x1="4" y1="${r2(y - 9)}" x2="${r2(W - 4)}" y2="${r2(y - 9)}"
     stroke="${K.rule}" stroke-width="0.35"/>`;
   body += `<text x="4" y="${r2(y - 3)}" font-family="${DATA}" font-size="6" font-weight="600"
@@ -786,7 +821,7 @@ export function amortisation(retail, channels) {
       style="font-variant-numeric:lining-nums tabular-nums">$${Math.round(c.cac).toLocaleString()}</text>`;
     body += `<text x="${r2(W - 4)}" y="${r2(y + 9.4)}" font-family="${TEXT}" font-size="5.8"
       fill="${K.grey}" text-anchor="end">${esc(c.note)}</text>`;
-    y += 20;
+    y += 30;
   });
 
   /* The point of the plate, set once at its foot where the eye lands
@@ -841,7 +876,7 @@ export function riskMatrix(risks) {
   const L = ['Low', 'Medium', 'High'];
   const I = ['Medium', 'High', 'Severe'];
   const x0 = 34, y0 = 15;
-  const gridW = W - x0 - 10, gridH = 74;
+  const gridW = W - x0 - 10, gridH = 132;
   const cw = gridW / L.length, ch = gridH / I.length;
   const cellX = (a) => x0 + a * cw;
   const cellY = (b) => y0 + (I.length - 1 - b) * ch;

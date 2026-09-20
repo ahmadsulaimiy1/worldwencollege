@@ -15,16 +15,32 @@
  * heading. Repeated seven times, a device stops being art direction and
  * becomes a template.
  *
- * Two further things were wrong and neither was a matter of taste.
- *
- * NO IMAGES. The College owns eleven licence-cleared photographs, a set
- * of engraved plates drawn as nineteenth-century prospectus line work,
- * and a banknote guilloche. The monograph used none of them and filled
- * the space with emptiness instead, which is not the same thing as
- * space.
- *
  * NO GRAPHICS. Forty-one pages about the economics of an institution,
  * and every quantity in them set as a table. See figures.mjs.
+ *
+ * ════════════════════════════════════════════════════════════════════
+ * AND THEN THE PHOTOGRAPHS CAME OUT AGAIN
+ * ════════════════════════════════════════════════════════════════════
+ * An intermediate version of this file answered the emptiness with
+ * eleven licence-cleared photographs and opened all seven chapters on
+ * one: Westminster for the proposition, a reading hall for the
+ * institution, an old map for the market, a letterpress for commerce,
+ * an astrolabe for the decade, a manuscript for method. The owner
+ * ruled them out on 20 September 2026, and the reasoning is worth
+ * keeping because it is the whole design argument of the book:
+ *
+ *   the metaphors were legible but unnecessary — London does not need
+ *   a photograph of London, education does not need a library, a
+ *   market does not need a map — and seven of them in a row made the
+ *   publication read as a luxury strategy report rather than as an
+ *   institution's intellectual architecture.
+ *
+ * The plate machinery is therefore GONE from this file rather than
+ * left unused, so that "there is already a platePage()" can never be
+ * the reason a photograph comes back. What opens a chapter now is the
+ * chapter's own content, drawn — see openers.mjs — and the rule is
+ * absolute: if a page only looks composed because a picture is filling
+ * it, the page has failed and the composition is what gets fixed.
  *
  * ════════════════════════════════════════════════════════════════════
  * THE RULE THIS FILE ENFORCES
@@ -42,45 +58,6 @@ const ROOT = path.resolve(new URL('../..', import.meta.url).pathname);
 export const C = M.C;
 export const FACE = M.FACE;
 
-/* ────────────────────────────────────────────────────────────────────
-   THE PLATES
-
-   Photographs are read from disk and inlined as data URIs so the PDF
-   is self-contained. `colonnade.jpg` is NOT available: it carries
-   UNIVERSITY OF LONDON across its lintel and was withdrawn on
-   18 August 2026 for naming another institution on this College's
-   pages. assets/images/plates/CREDITS.md records why, and this list
-   exists so nobody re-adds it by reaching into the directory.
-   ──────────────────────────────────────────────────────────────────── */
-export const PLATES = {
-  westminster: { file: 'westminster.jpg', credit: null,
-    alt: 'The Palace of Westminster across the Thames.' },
-  library: { file: 'library.jpg', credit: null,
-    alt: 'A university reading hall, long tables and shelved stacks.' },
-  study: { file: 'study.jpg', credit: null, alt: 'A student at work.' },
-  seminar: { file: 'seminar.jpg', credit: null, alt: 'Students in conversation over a laptop.' },
-  worldmap: { file: 'worldmap.jpg', credit: null, alt: 'A vintage world map.' },
-  charter: { file: 'charter.jpg', credit: null, alt: 'A vintage charter document.' },
-  letterpress: { file: 'letterpress.jpg', credit: null, alt: 'Letterpress printing blocks.' },
-  stacks: { file: 'stacks.jpg', credit: null, alt: 'Library stacks.' },
-  manuscript: { file: 'manuscript.jpg', credit: null, alt: 'An illuminated manuscript leaf.' },
-  /* These two are BY or BY-SA. Cropping and toning creates an
-     adaptation, ShareAlike attaches to the adaptation, and the credit
-     is therefore RENDERED on the page rather than recorded in a file
-     nobody reads. CREDITS.md is explicit about this. */
-  readingHall: { file: 'reading-hall.jpg', credit: 'robert.claypool, CC BY 2.0',
-    alt: 'A reading hall.' },
-  astrolabe: { file: 'astrolabe.jpg', credit: 'Ragesoss, CC BY-SA 3.0',
-    alt: 'A brass astrolabe.' },
-};
-
-const dataUri = (rel) => {
-  const buf = readFileSync(path.join(ROOT, rel));
-  const ext = path.extname(rel).slice(1).toLowerCase();
-  const mime = ext === 'svg' ? 'image/svg+xml' : `image/${ext === 'jpg' ? 'jpeg' : ext}`;
-  return `data:${mime};base64,${buf.toString('base64')}`;
-};
-export const plateSrc = (key) => dataUri(`assets/images/plates/${PLATES[key].file}`);
 /** An engraved plate from assets/art, inlined as markup so its strokes
  *  take the page's own colour rather than arriving as a flat picture. */
 export const engraving = (name) => readFileSync(path.join(ROOT, `assets/art/${name}.svg`), 'utf8')
@@ -88,28 +65,6 @@ export const engraving = (name) => readFileSync(path.join(ROOT, `assets/art/${na
   .replace(/<!--[\s\S]*?-->/g, '');
 
 export const spreadCss = () => `
-/* ── THE DUOTONE ───────────────────────────────────────────────────
-   The College's own plate treatment, lifted from css/atelier.css so the
-   monograph and the site tone a photograph identically: desaturate,
-   take hue from a navy-to-cream ramp in 'color', then put the gold back
-   into the highlights in 'soft-light', which 'color' alone leaves
-   flat. */
-.plate { position: absolute; inset: 0; overflow: hidden; background: ${C.midnightDeep}; }
-.plate img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-  filter: grayscale(1) contrast(1.09) brightness(.92); }
-.plate__tone { position: absolute; inset: 0;
-  background: linear-gradient(158deg, #0A1428 0%, #1F3D7A 42%, #8C6A3F 78%, #F2E3C0 100%);
-  mix-blend-mode: color; }
-.plate__warm { position: absolute; inset: 0;
-  background: radial-gradient(ellipse 80% 70% at 68% 22%, rgba(212,175,55,.42), transparent 66%);
-  mix-blend-mode: soft-light; }
-/* A scrim only where type sits, so a caption never fights its picture. */
-.plate__scrim { position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(6,17,31,.82) 0%, rgba(6,17,31,.34) 34%, transparent 62%); }
-.plate__credit { position: absolute; right: 4mm; bottom: 3mm; z-index: 6;
-  font-family: ${FACE.data}; font-size: 4.6pt; letter-spacing: .03em;
-  color: rgba(252,250,245,.5); text-transform: uppercase; }
-
 /* ── ENGRAVED PLATES ───────────────────────────────────────────────
    The house's own prospectus line work. Strokes are recoloured to the
    page rather than left at their web values, so a plate sits in the
@@ -121,25 +76,89 @@ export const spreadCss = () => `
 .engr--pale svg [stroke] { stroke: rgba(201,169,97,.55) !important; }
 .engr--ivory svg [stroke] { stroke: rgba(252,250,245,.42) !important; }
 
-/* Guilloche as a ground. Banknote ruling is the one ornament that
-   reads as sovereign rather than decorative, and it is the College's
-   own file. */
-/* Marked bleed: a ground runs off the trim by design. */
-.guilloche { position: absolute; pointer-events: none; }
-.guilloche svg { width: 100%; height: 100%; display: block; }
-.guilloche--cover { inset: -18% -30% auto auto; width: 132%; height: 132%; opacity: .5; }
-.guilloche--corner { right: -26mm; bottom: -32mm; width: 118mm; height: 118mm; opacity: .3; }
+/* ── THE COLOPHON'S LEGEND ─────────────────────────────────────────
+   The three classification marks were set INLINE in a sentence, and a
+   boxed, ruled, small-caps mark inside running prose breaks the line
+   it sits in: the paragraph came out in four ragged fragments with a
+   box at the head of three of them. They are a legend, so they are set
+   as one. */
+.m-colo__key { margin: 6mm 0 0; }
+.m-colo__key div { display: flex; align-items: baseline; gap: 4mm; padding: 2.2mm 0;
+  border-top: .35pt solid rgba(252,250,245,.16); }
+.m-colo__key span { flex: none; width: ${M.col(3)}mm; }
+.m-colo__key p { margin: 0; font-family: ${FACE.text}; font-size: ${M.T.caption}pt;
+  line-height: 12pt; color: rgba(252,250,245,.64); }
 
-/* ── THE FIGURE, AS AN OBJECT ON THE PAGE ──────────────────────────*/
-.fg { margin: 0; }
+/* ── THE SPECIFICATION ─────────────────────────────────────────────
+   A ruled key-and-value register, read the way the specification panel
+   of a drawing is read. It is what the frontispiece carries now that
+   it no longer carries a photograph of a manuscript, and it is a
+   better frontispiece: a reader who opens the book learns what the
+   institution IS before being told what it argues. */
+.sp { margin: 0; }
+.sp__t { font-family: ${FACE.data}; font-size: 5.6pt; font-weight: 600; letter-spacing: .05em;
+  text-transform: uppercase; color: ${C.gold}; margin: 0 0 4mm;
+  padding-bottom: 3mm; border-bottom: 1.4pt solid ${C.midnight}; }
+.sp__r { display: flex; gap: ${M.PAGE.gutter * 2}mm; align-items: baseline;
+  padding: 3.2mm 0; border-bottom: .35pt solid ${C.ruleFaint}; }
+.sp__r k { flex: none; width: ${M.col(3)}mm; font-family: ${FACE.data}; font-size: 5.4pt;
+  font-weight: 600; letter-spacing: .045em; text-transform: uppercase; color: ${C.grey};
+  line-height: 9.4pt; }
+.sp__r v { flex: 1; font-family: ${FACE.text}; font-size: ${M.T.small}pt; line-height: 14.4pt;
+  color: ${C.ink}; }
+.sp__r v em { font-style: italic; color: ${C.inkSoft}; }
+.sp__r--struck { border-bottom-color: ${C.gold}; border-bottom-width: .9pt; }
+
+/* ── THE FIGURE, AS AN OBJECT ON THE PAGE ──────────────────────────
+   A PLATE AND ITS READING, SIDE BY SIDE.
+
+   The plate is about 77mm across — that is what makes its labels come
+   out at eight points instead of eighteen — and a 77mm drawing alone
+   in a 175mm field leaves three fifths of the page white. So the page
+   is built as two columns: the drawing in one and what it is FOR in
+   the other. It is also simply the better page. A chart with its
+   argument beside it is read; a chart with a one-line caption under it
+   is looked at. */
+.fg { margin: 0; height: 100%; display: flex; flex-direction: column; }
 .fg__eye { font-family: ${FACE.data}; font-size: 5.6pt; font-weight: 600;
   letter-spacing: .05em; text-transform: uppercase; color: ${C.gold}; margin: 0 0 2.4mm; }
-.fg__t { font-family: ${FACE.display}; font-weight: 400; font-size: 15.6pt; line-height: 20pt;
-  color: ${C.midnight}; margin: 0 0 1.6mm; }
-.fg__s { font-family: ${FACE.display}; font-style: italic; font-weight: 300;
-  font-size: 10.6pt; line-height: 15pt; color: ${C.grey}; margin: 0 0 6mm; }
+.fg__t { font-family: ${FACE.display}; font-weight: 400; font-size: 17.4pt; line-height: 22pt;
+  color: ${C.midnight}; margin: 0 0 1.6mm; letter-spacing: -.012em; }
+.fg__s { font-family: ${FACE.display}; font-style: italic; font-weight: 400;
+  font-size: 11pt; line-height: 16pt; color: ${C.grey}; margin: 0 0 7mm;
+  padding-bottom: 5mm; border-bottom: 1.4pt solid ${C.midnight}; }
+/* The band between the head and the foot strip, holding the drawing
+   and its argument. It FLEXES and centres, so the air on a page whose
+   plate is shorter than its field falls above and below the band
+   rather than collecting in a hole at the bottom. */
+.fg__body { flex: 1; display: flex; gap: ${M.PAGE.gutter * 2}mm; align-items: center;
+  padding: 6mm 0; }
+.fg__plate { flex: none; }
+.fg__read { flex: 1; min-width: 0; }
+.fg__read h4 { font-family: ${FACE.data}; font-size: 5.4pt; font-weight: 600;
+  letter-spacing: .05em; text-transform: uppercase; color: ${C.gold}; margin: 0 0 2.6mm; }
+.fg__read p { font-family: ${FACE.text}; font-size: ${M.T.small}pt; line-height: 14.4pt;
+  color: ${C.ink}; margin: 0 0 3.6mm; }
+.fg__read p strong { font-weight: 600; }
 .fg__n { font-family: ${FACE.data}; font-size: 6pt; line-height: 10.6pt; color: ${C.grey};
-  margin: 5mm 0 0; padding-top: 3mm; border-top: .35pt solid ${C.rule}; }
+  margin: 5mm 0 0; padding-top: 3mm; border-top: .9pt solid ${C.gold}; }
+/* ── THE FOOT STRIP ──
+   A struck rule across the full measure carrying the four quantities a
+   reader would otherwise have to hunt for in the drawing. It anchors
+   the page horizontally — a plate and a column of prose both hang from
+   the head, and without it the foot of the page has nothing in it —
+   and it is information, not filler: every value comes from the same
+   engine as the drawing above it. */
+.fg__strip { flex: none; display: flex; border-top: 1.4pt solid ${C.midnight}; }
+.fg__strip > div { flex: 1; padding: 3.4mm 4mm 0 0; }
+.fg__strip > div + div { border-left: .4pt solid ${C.rule}; padding-left: 4mm; }
+.fg__strip k { display: block; font-family: ${FACE.data}; font-size: 5.2pt; font-weight: 600;
+  letter-spacing: .05em; text-transform: uppercase; color: ${C.gold}; margin-bottom: 1.8mm; }
+.fg__strip v { display: block; font-family: ${FACE.display}; font-weight: 400; font-size: 13pt;
+  line-height: 16pt; color: ${C.midnight}; font-variant-numeric: lining-nums tabular-nums;
+  letter-spacing: -.01em; }
+.fg__strip s { display: block; text-decoration: none; font-family: ${FACE.text};
+  font-size: ${M.T.micro}pt; line-height: 10.4pt; color: ${C.grey}; margin-top: 1.4mm; }
 
 /* ── THE MARGINAL COLUMN ───────────────────────────────────────────
    A narrow measure beside the text for figures, definitions and the
@@ -155,10 +174,55 @@ export const spreadCss = () => `
   font-size: 5.4pt; color: ${C.gold}; margin-bottom: 1.4mm; }
 .mg__fig { margin: 0 0 6mm; }
 
-/* ── THE OPENING SPREAD OF A CHAPTER ───────────────────────────────
-   A plate on the verso, the argument on the recto. Each chapter takes a
-   different plate and a different treatment, so the seven openings are
-   a family rather than seven copies. */
+/* ── THE CHAPTER OPENER, WITHOUT A PHOTOGRAPH ──────────────────────
+   Seven openers, one structure, seven different drawings — because the
+   drawing is made of the chapter it opens (openers.mjs) and no two
+   chapters are about the same thing. The structure is an architectural
+   one and it reads top to bottom:
+
+     a gold datum at the head carrying the part;
+     the roman standing beside the title the way a drop figure stands
+       beside a paragraph, so the numeral is part of the line rather
+       than a large number floating in space;
+     a rubric under a hairline;
+     the chapter's own content, drawn, one tone down;
+     and a ruled foot rail listing what the part contains, which makes
+       the opener a navigational object instead of a divider.
+
+   None of it needs a picture, and a page that would need one is a page
+   that has been composed badly. */
+.op2__head { display: flex; justify-content: space-between; align-items: baseline;
+  padding-bottom: 3mm; border-bottom: .9pt solid ${C.gold};
+  font-family: ${FACE.data}; font-size: 5.8pt; font-weight: 600; letter-spacing: .05em;
+  text-transform: uppercase; color: ${C.gold}; }
+.op2__title { display: flex; align-items: baseline; gap: ${M.PAGE.gutter * 2}mm; margin: 14mm 0 0; }
+.op2__rom { font-family: ${FACE.display}; font-weight: 400; font-size: 46pt; line-height: 46pt;
+  color: ${C.goldLeaf}; letter-spacing: -.02em; flex: none; min-width: ${M.col(2)}mm; }
+.op2__title h1 { font-family: ${FACE.display}; font-weight: 400; font-size: 38pt; line-height: 41pt;
+  margin: 0; color: ${C.midnight}; letter-spacing: -.016em; }
+.op2__rub { font-family: ${FACE.display}; font-style: italic; font-weight: 400; font-size: 13pt;
+  line-height: 19.6pt; color: ${C.inkSoft}; margin: 7mm 0 0; padding-top: 5mm;
+  border-top: .5pt solid ${C.rule}; max-width: ${M.col(9)}mm; }
+.op2__datum { margin: 18mm 0 0; }
+.op2__datum svg { display: block; width: 100%; height: auto; }
+/* A drawing without a caption is decoration, which is the thing this
+   whole rebuild exists to remove, so openerPage refuses one. */
+.op2__cap { font-family: ${FACE.data}; font-size: 5.6pt; line-height: 9.4pt; color: ${C.grey};
+  margin: 4mm 0 0; padding-top: 2.6mm; border-top: .35pt solid ${C.rule}; max-width: ${M.col(9)}mm; }
+.op2__rail { position: absolute; left: 0; right: 0; bottom: 0;
+  border-top: 1.4pt solid ${C.midnight}; padding-top: 3mm; display: flex; gap: ${M.PAGE.gutter * 2}mm; }
+.op2__rail k { display: block; font-family: ${FACE.data}; font-size: 5.2pt; font-weight: 600;
+  letter-spacing: .05em; text-transform: uppercase; color: ${C.gold}; margin-bottom: 2mm; }
+.op2__rail ol { margin: 0; padding: 0; list-style: none; flex: 1; }
+.op2__rail li { display: flex; justify-content: space-between; gap: 3mm;
+  font-family: ${FACE.text}; font-size: ${M.T.micro}pt; line-height: 11.4pt; color: ${C.inkSoft};
+  padding: 1mm 0; border-bottom: .3pt solid ${C.ruleFaint}; }
+.op2__rail li b { font-family: ${FACE.data}; font-weight: 600; font-size: 5.8pt;
+  color: ${C.grey}; font-variant-numeric: tabular-nums; }
+
+/* ── THE OLD OPENER'S ARGUMENT PAGE ────────────────────────────────
+   The recto of an opening spread: the chapter's case, set as text with
+   a marginal column beside it. */
 .op__num { font-family: ${FACE.inscription}; font-size: 10pt; letter-spacing: .06em;
   color: ${C.gold}; margin: 0 0 6mm; }
 .op h1 { font-family: ${FACE.display}; font-weight: 300; font-size: 40pt; line-height: 43pt;
@@ -176,15 +240,6 @@ export const spreadCss = () => `
 .op__stat l { display: block; font-family: ${FACE.data}; font-size: 5.2pt; font-weight: 500;
   letter-spacing: .035em; text-transform: uppercase; color: ${C.grey}; margin-top: 1.4mm; line-height: 8.6pt; }
 
-/* ── A PLATE THAT CARRIES ITS OWN TITLE ────────────────────────────*/
-.pt__wrap { position: absolute; left: ${M.PAGE.marginOuter}mm; right: ${M.PAGE.marginOuter}mm;
-  bottom: ${M.PAGE.marginBottom - 8}mm; z-index: 5; }
-.pt__n { font-family: ${FACE.inscription}; font-size: 9pt; letter-spacing: .06em;
-  color: ${C.goldLeaf}; margin: 0 0 5mm; }
-.pt__t { font-family: ${FACE.display}; font-weight: 300; font-size: 34pt; line-height: 37pt;
-  color: ${C.ivory}; margin: 0; letter-spacing: -.006em; }
-.pt__s { font-family: ${FACE.display}; font-style: italic; font-weight: 300; font-size: 12pt;
-  line-height: 17pt; color: ${C.goldPale}; margin: 4mm 0 0; max-width: ${M.col(7)}mm; }
 `;
 
 /**
@@ -193,41 +248,84 @@ export const spreadCss = () => `
  * because a spread with an undefined recto renders as a blank page
  * that looks deliberate.
  */
-export function spread(verso, recto) {
+export function spread(verso, recto, ...rest) {
   if (verso == null || recto == null) {
     throw new Error('a spread is composed in twos: both sides must be given');
+  }
+  /* AND NOT IN THREES. This function took two arguments and was called
+     as `spread(figurePage, ...tablePages(...))`, which passed three —
+     so the third was built, took its folio number, and was thrown
+     away. It cost the publication the second page of the risk
+     register and the second page of the governance schedule: four
+     governance rows and two risks were composed, numbered, and never
+     printed, and the only outward sign was that the folios after leaf
+     34 ran ahead of the page count. A page that is built and dropped
+     is worse than one that is missing, because the numbering hides
+     it. */
+  if (rest.length) {
+    throw new Error(`a spread is two pages, and ${2 + rest.length} were given: `
+      + 'push the remainder after the spread rather than into it');
   }
   return [verso, recto];
 }
 
-/** A full-bleed photographic page, toned in the house ramp. */
-export function platePage(key, opts = {}) {
-  const p = PLATES[key];
-  if (!p) throw new Error(`no such plate: ${key}`);
+/**
+ * A CHAPTER OPENER. No photograph, and no page that could take one.
+ *
+ * `datum` is the chapter's own content drawn as an architectural
+ * figure — see openers.mjs. It is required: an opener without one is
+ * the empty navy-and-gold page this system was built to stop, and
+ * passing nothing here should fail loudly rather than render quietly.
+ */
+export function openerPage({ part, roman, title, say, datum, caption, standing, contains = [], runhead }) {
+  if (!datum) throw new Error(`chapter opener "${title}" has no datum: the drawing is the page`);
+  if (!caption) throw new Error(`chapter opener "${title}" has an uncaptioned drawing, which is decoration`);
   return M.page(`
-    <div class="plate">
-      <img src="${plateSrc(key)}" alt="${M.esc(p.alt)}">
-      <div class="plate__tone"></div>
-      <div class="plate__warm"></div>
-      ${opts.scrim === false ? '' : '<div class="plate__scrim"></div>'}
-      ${p.credit ? `<div class="plate__credit">${M.esc(p.credit)}</div>` : ''}
+    <div class="op2__head"><span>${M.esc(part)}</span><span>${standing || ''}</span></div>
+    <div class="op2__title">
+      <div class="op2__rom">${M.esc(roman)}</div>
+      <h1>${title}</h1>
     </div>
-    ${opts.title ? `<div class="pt__wrap">
-      ${opts.numeral ? `<p class="pt__n">${M.esc(opts.numeral)}</p>` : ''}
-      <h2 class="pt__t">${opts.title}</h2>
-      ${opts.say ? `<p class="pt__s">${opts.say}</p>` : ''}
-    </div>` : ''}`, { tone: 'pg--dark', bare: true, full: true });
+    <p class="op2__rub">${say}</p>
+    <div class="op2__datum">${datum}<p class="op2__cap">${caption}</p></div>
+    ${contains.length ? `<div class="op2__rail">
+      <ol>${contains.map((c) => `<li><span>${c.t}</span><b>${c.f || ''}</b></li>`).join('')}</ol>
+    </div>` : ''}`, { tone: 'pg--bone', runhead, klass: 'm-open2' });
+}
+
+/** A ruled specification register. */
+export function specPage({ title, rows, runhead, tone = 'pg--bone' }) {
+  return M.page(`
+    <div class="sp">
+      <p class="sp__t">${M.esc(title)}</p>
+      ${rows.map((r) => `<div class="sp__r${r.struck ? ' sp__r--struck' : ''}">
+        <k>${M.esc(r.k)}</k><v>${r.v}</v></div>`).join('')}
+    </div>`, { runhead, tone });
 }
 
 /** A figure with its reading — the graphic IS the page, not an inset. */
-export function figurePage({ eyebrow, title, sub, figure, note, runhead, tone = '' }) {
+export function figurePage({ eyebrow, title, sub, figure, reading, note, strip = [], runhead, tone = '' }) {
+  if (!reading) {
+    throw new Error(`the plate "${title}" has no reading: a drawing needs its argument beside it`);
+  }
+  if (strip.length < 3) {
+    throw new Error(`the plate "${title}" has no foot strip: the page would end in white`);
+  }
   return M.page(`
     <div class="fg">
       ${eyebrow ? `<p class="fg__eye">${M.esc(eyebrow)}</p>` : ''}
       <h2 class="fg__t">${title}</h2>
       ${sub ? `<p class="fg__s">${sub}</p>` : ''}
-      ${figure}
-      ${note ? `<p class="fg__n">${note}</p>` : ''}
+      <div class="fg__body">
+        <div class="fg__plate">${figure}</div>
+        <div class="fg__read">
+          <h4>${M.esc(reading.head)}</h4>
+          ${reading.body}
+          ${note ? `<p class="fg__n">${note}</p>` : ''}
+        </div>
+      </div>
+      <div class="fg__strip">${strip.map((c) => `<div><k>${M.esc(c.k)}</k><v>${c.v}</v>${
+  c.s ? `<s>${c.s}</s>` : ''}</div>`).join('')}</div>
     </div>`, { runhead, tone });
 }
 

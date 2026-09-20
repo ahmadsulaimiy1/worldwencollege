@@ -54,6 +54,7 @@ const check = (label, cond, detail) => {
 };
 
 const F = await import(path.join(ROOT, 'scripts/publication/figures.mjs'));
+const O = await import(path.join(ROOT, 'scripts/publication/openers.mjs'));
 const PR = await import(path.join(ROOT, 'scripts/publication/pricing.mjs'));
 const AL = await import(path.join(ROOT, 'scripts/publication/allocation.mjs'));
 const { scenarios } = await import(path.join(ROOT, 'scripts/publication/projection.mjs'));
@@ -89,6 +90,35 @@ const PLATES = {
         note: `${t.agreements.toFixed(0)} agreements` };
     })),
   'risk matrix': F.riskMatrix(RISKS),
+
+  /* THE SEVEN CHAPTER DATUMS, under the same two rules. They are drawn
+     in the same grammar as the plates and they are just as capable of
+     setting a label three units past their own edge — the difference
+     is only that they are paler, and a pale label that is half drawn
+     is harder to notice, not easier. */
+  'I · resolutions': O.resolutions([
+    { ordinal: 'Resolution one', title: 'The revenue-allocation framework', share: 1, figure: 'Every dollar collected' },
+    { ordinal: 'Resolution two', title: 'The tariff solved from it', share: 0.63, figure: '63% of learners' },
+    { ordinal: 'Resolution three', title: 'The two institutional channels', share: 0.37, figure: '37% of learners' },
+  ]),
+  'II · the ascent': O.ascent(PR.QUALIFICATIONS, 200),
+  'III · reach': O.reach(PR.SEGMENTS.map((sg) => ({
+    name: sg.short, reachable: sg.reachable, researched: Boolean(sg.evidence) }))),
+  'IV · the colonnade': O.colonnade(Object.keys(P).map((k) => ({
+    short: PR.PRODUCTS[k].name.replace('Executive ', 'Exec '), price: P[k],
+    money: `$${P[k].toLocaleString()}`, entry: k === 'independent' }))),
+  'V · the course': O.course(GOT.lines.map((l) => ({
+    name: LABELS[l.key], share: l.target, retained: AL.RETAINED.includes(l.key) }))),
+  'VI · the decade rule': O.decadeRule(CORE.years.map((y, i) => ({
+    calendar: y.calendar, height: Math.max(0, y.netTuition),
+    note: i === 0 ? `${y.newLearners} admitted` : `$${(y.netTuition / 1e6).toFixed(1)}M net tuition` })),
+  Math.max(0, CORE.years.findIndex((y) => y.cumulativeSurplus > 0))),
+  'VII · the chain': O.chain([
+    { caption: 'Four files', items: ['tuition.json', 'commercial.json', 'market-evidence.json', 'masterplan.json'] },
+    { caption: 'Three engines', items: ['pricing.mjs', 'allocation.mjs', 'projection.mjs'] },
+    { caption: 'One document', items: ['This publication', 'Re-derived on every build'] },
+  ]),
+  'the cover rule': O.coverRule(2027, 2036, 10),
 };
 
 const browser = await chromium.launch({ executablePath: CHROME });

@@ -425,7 +425,7 @@ if (fail) process.exit(1);
   {
     const { readFileSync: read } = await import('node:fs');
     const CEILING = 0.08;
-    const files = ['monograph.mjs', 'spreads.mjs', 'figures.mjs'];
+    const files = ['monograph.mjs', 'spreads.mjs', 'figures.mjs', 'openers.mjs'];
     const offenders = [];
     for (const f of files) {
       const src = read(new URL(`../scripts/publication/${f}`, import.meta.url), 'utf8');

@@ -16,6 +16,7 @@ import path from 'node:path';
 import * as M from './monograph.mjs';
 import * as S from './spreads.mjs';
 import * as F from './figures.mjs';
+import * as O from './openers.mjs';
 import { PLAN, basis } from './masterplan.mjs';
 import * as PR from './pricing.mjs';
 import * as AL from './allocation.mjs';
@@ -48,6 +49,11 @@ const BC_OBS = EV.gcc.observations[0];
 const BC_ATTN = BC_OBS.price_usd / (BC_OBS.hours / 12);
 const COACHING = { from: 200, to: 600, label: 'Executive coaching, one to one' };
 
+/* Declared beside the figures because the plate strips quote it, and a
+   constant that two parts of the book depend on belongs above both. */
+const EVSEG = [['gcc', 'Saudi Arabia and the Gulf'], ['west_africa', 'Nigeria and West Africa'],
+  ['uk_europe', 'United Kingdom and Europe'], ['executive_and_corporate', 'Executive and corporate']];
+
 const DESCRIPTOR = {
   independent: 'Examination, moderation and the award. No teaching.',
   directed: 'Seminar teaching in a group of fourteen, with marked work.',
@@ -75,6 +81,13 @@ const tableWithReading = (spec, reading, opts = {}) => M.page(
 
 let P = [];
 let PAGES_OF = {};
+/* The cover states the extent of the book, which the book only knows
+   once it is built — so the first pass counts and the second prints.
+   Checked after the final pass rather than trusted: a cover that
+   claims a different number of leaves from the number it has is
+   exactly the kind of small lie this publication is built not to
+   tell. */
+let LEAVES = 0;
 const push = (...pp) => pp.forEach((x) => P.push(x));
 let NEXT_PART = '';
 /** Throw the next spread onto a recto. Where a leaf is needed it
@@ -101,28 +114,100 @@ const figAmort = () => F.amortisation(
   }));
 const figRisk = () => F.riskMatrix(RISKS);
 
+/* ── THE SEVEN CHAPTER DATUMS ────────────────────────────────────────
+   Each chapter opens on a drawing made of its own content. Nothing
+   below is chosen for how it looks; every one of them is a quantity
+   the book computes somewhere else, so if a figure moves the opener
+   moves with it. */
+const LEARNERS = CORE.years.reduce((t, y) => {
+  for (const [k, v] of Object.entries(y.byProduct || {})) t[k] = (t[k] || 0) + v;
+  return t;
+}, {});
+const CHANNEL_KEYS = Object.keys(PR.CHANNELS);
+const TOTAL_LEARNERS = Object.values(LEARNERS).reduce((a, b) => a + b, 0);
+const THROUGH_CHANNELS = CHANNEL_KEYS.reduce((t, k) => t + (LEARNERS[k] || 0), 0);
+const RETAIL_SHARE = (TOTAL_LEARNERS - THROUGH_CHANNELS) / TOTAL_LEARNERS;
+
+const datResolutions = () => O.resolutions([
+  { ordinal: 'Resolution one', title: 'The revenue-allocation framework',
+    share: 1, figure: 'Every dollar collected' },
+  { ordinal: 'Resolution two', title: 'The tariff solved from it',
+    share: RETAIL_SHARE, figure: `${pct(RETAIL_SHARE)} of learners` },
+  { ordinal: 'Resolution three', title: 'The two institutional channels',
+    share: 1 - RETAIL_SHARE, figure: `${pct(1 - RETAIL_SHARE)} of learners` },
+]);
+const datAscent = () => O.ascent(PR.QUALIFICATIONS, B.hoursPerLevel);
+const datReach = () => O.reach(PR.SEGMENTS.map((sg) => ({
+  name: sg.short, reachable: sg.reachable, researched: Boolean(sg.evidence) })));
+const datColonnade = () => O.colonnade(Object.keys(P_).map((k) => ({
+  short: PR.PRODUCTS[k].name.replace('Executive ', 'Exec '), price: P_[k],
+  money: usd(P_[k]), entry: k === 'independent' })));
+const datCourse = () => O.course(GOT.lines.map((l) => ({
+  name: SEG_LABEL[l.key], share: l.target, retained: AL.RETAINED.includes(l.key) })));
+const TURN = Math.max(0, CORE.years.findIndex((y) => y.cumulativeSurplus > 0));
+const datDecade = () => O.decadeRule(CORE.years.map((y, i) => ({
+  calendar: y.calendar, height: Math.max(0, y.netTuition),
+  note: i === 0 ? `${num(y.newLearners)} admitted` : `${m$(y.netTuition)} net tuition` })), TURN);
+const datChain = () => O.chain([
+  { caption: 'Four files', items: ['tuition.json', 'commercial.json', 'market-evidence.json', 'masterplan.json'] },
+  { caption: 'Three engines', items: ['pricing.mjs', 'allocation.mjs', 'projection.mjs'] },
+  { caption: 'One document', items: ['This publication', 'Re-derived on every build'] },
+]);
+
 function build() {
   P = [];
   M.resetFolios();
+  /* RESET, because build() runs twice to resolve the contents folios
+     and a module-level variable survives between passes. Left set, the
+     bastard title before the Contents inherited the LAST part of the
+     previous pass and printed "Method" at the front of the book. */
+  NEXT_PART = 'The Ten-Year Institutional Roadmap';
 
   // ══ COVER ═════════════════════════════════════════════════════════
   P.push(`<section class="pg m-cover">
-    <div class="bleed guilloche guilloche--cover engr engr--pale">${S.engraving('guilloche')}</div>
-    <div class="m-cover__frame"></div>
-    <div class="m-cover__mark"><span class="inscr">WorldWide English College</span></div>
-    <div class="m-cover__rule"></div>
+    <div class="m-cover__head"><span>WorldWide English College</span><span>London Campus</span></div>
     <div class="m-cover__title">
-      <h1>The Ten-Year<br>Institutional Roadmap</h1>
-      <p class="sub">Strategic Charter &amp; Financial Master Plan</p>
+      <h1>The Ten-Year<br>Institutional<br>Roadmap</h1>
+      <p class="sub">Strategic Charter and Financial Master Plan, prepared for the Board.</p>
     </div>
-    <div class="m-cover__period"><span>${PERIOD}</span></div>
-    <div class="m-cover__foot">London Campus &middot; Prepared for the Board<br>Planning instrument &mdash; not a record of trading</div>
+    <div class="m-cover__period">${O.coverRule(PLAN.planning_period.first_year,
+    PLAN.planning_period.first_year + PLAN.planning_period.years - 1, PLAN.planning_period.years)}</div>
+    <div class="m-cover__spec">
+      <div><k>Parts</k><v>Seven</v></div>
+      <div><k>Leaves</k><v>${LEAVES || '—'}</v></div>
+      <div><k>Pathway</k><v>A1 to C2 &middot; ${num(B.totalHours)} hours</v></div>
+      <div><k>Classification</k><v>Planning instrument</v></div>
+    </div>
   </section>`);
   M.countUnfoliated();
 
-  // ══ FRONTISPIECE SPREAD: a plate against the thesis ═══════════════
+  // ══ FRONTISPIECE SPREAD: the specification against the thesis ═════
+  /* WHAT THIS REPLACED. The verso was a full-bleed photograph of an
+     illuminated manuscript, chosen to say "institution" before the
+     book said anything. It said "luxury report" instead. A reader who
+     opens a monograph wants to know what the institution IS, and that
+     is a specification — so the frontispiece is one, ruled, and the
+     thesis faces it across the gutter. */
   push(...S.spread(
-    S.platePage('manuscript', { scrim: false }),
+    S.specPage({
+      title: 'The institution, specified',
+      rows: [
+        { k: 'What it teaches', v: 'A complete A1 to C2 qualification pathway in six levels.' },
+        { k: 'Academic hours', v: `${num(B.totalHours)} &middot; ${num(B.hoursPerLevel)} a level` },
+        { k: 'Credits', v: `${num(B.totalCredits)} &middot; ${B.creditsPerLevel} a level` },
+        { k: 'The award', v: 'Six qualifications, one conferred at each level. A learner who stops after two holds two.' },
+        { k: 'Examination', v: 'Set against a rubric published before the work, marked by a named person, marked a second time independently, and moderated across the cohort.' },
+        { k: 'Registry', v: 'Every conferral entered the same day and checkable by a stranger, without an account, for as long as the College exists.' },
+        { k: 'The adopted fee', v: `${usd(B.programmeTotal)} for the complete pathway &mdash; ${usd(B.levelFee, 0)} a level, in ${B.instalmentsPerLevel} instalments across ${B.monthsPerLevel} months. Published, with every cent of it accounted for.` },
+        { k: 'Re-sits', v: 'One included on either route. There is no re-sit fee.' },
+        { k: 'Withdrawal', v: `A full refund inside ${B.refundWindowDays} days of enrolment.` },
+        { k: 'Campus', v: 'London.' },
+        { k: 'This plan', v: `The decade ${PERIOD}, prepared for the Board.` },
+        { k: 'What is not held', v: '<em>No accreditation, ranking, institutional partnership or external endorsement. No completed cohort. No External Examiner has confirmed the standard.</em>' },
+        { k: 'Every figure', v: 'Computed by one engine from four files and reconciled as a test on every build. None is typed into a page.', struck: true },
+      ],
+      tone: 'pg--bone',
+    }),
     M.page(`
       <div class="m-field__wrap" style="position:absolute;top:44%;left:0;right:0;transform:translateY(-50%)">
         <div style="width:${M.col(2)}mm;height:1.4pt;background:${S.C.gold};margin:0 0 10mm"></div>
@@ -167,8 +252,13 @@ function build() {
   onRecto();
   at('resolutions');
   push(...S.spread(
-    S.platePage('westminster', { numeral: 'Part One', title: 'The Proposition',
-      say: 'What the Board is asked to resolve, and the three decisions the rest of this document exists to inform.' }),
+    S.openerPage({ part: 'Part One', roman: 'I', title: 'The Proposition',
+      standing: M.mark('board'),
+      say: 'What the Board is asked to resolve, and the three decisions the rest of this document exists to inform.',
+      datum: datResolutions(),
+      caption: `Each resolution drawn against what it governs. The framework governs every dollar collected; the tariff sets the price ${pct(RETAIL_SHARE)} of learners pay; the two channels carry the rest.`,
+      contains: [{ t: 'Three resolutions', f: PAGES_OF.resolutions || '' },
+        { t: 'Where every dollar is governed', f: PAGES_OF.alloc || '' }], }),
     S.marginPage({
       runhead: 'The Proposition',
       side: S.marginNote('Not a decision',
@@ -195,12 +285,32 @@ function build() {
     S.figurePage({ eyebrow: 'The governing financial law', title: 'Where every dollar is governed',
       sub: 'Four lines consumed running the institution; two retained as capital above the struck rule.',
       figure: figAllocation(),
+      reading: { head: 'How the elevation is read', body: `
+        <p>The shaft is what running the institution consumes, hatched at a density proportional to its weight: payroll heaviest, technology lightest. The struck gold rule is the division. Above it, ruled rather than hatched, is what is <em>held</em> &mdash; because those two lines are not spent.</p>
+        <p><strong>Half of every dollar collected is retained.</strong> ${pct(AL.SHARES.reserve)} is restricted or designated institutional capital; the other ${pct(AL.SHARES.strategic)} is a Board-authorised discretionary allocation, and it is <strong>not</strong> automatically withdrawable income. No distribution from it is modelled anywhere in this plan.</p>
+        <p>The tariff is solved from this drawing rather than the other way round. Move a course and the price moves with it.</p>` },
       note: `${M.mark('board')} Proposed governance targets, not a historical result. data/masterplan.json § revenue_allocation_framework.`,
+      strip: [
+        { k: 'Consumed', v: pct(AL.CONSUMED.reduce((t, k) => t + AL.SHARES[k], 0)), s: 'Payroll, technology, operating, marketing' },
+        { k: 'Retained', v: pct(AL.RETAINED.reduce((t, k) => t + AL.SHARES[k], 0)), s: 'Reserve and Strategic, held as capital' },
+        { k: 'Tariff it solves to', v: usd(P_.tutored), s: 'A Tutored pathway, A1 to C2' },
+        { k: 'Standing', v: 'Proposed', s: 'Board decision required' },
+      ],
       runhead: 'The Proposition' }),
     S.figurePage({ eyebrow: 'What it produces', title: 'The decade',
       sub: 'Net tuition as ruled columns; surplus against the year it crosses nil.',
       figure: figDecade(),
-      note: `Revenue is recognised in the year it is taught, not the year it is sold. Ten years: ${m$(ARCH.proposed.totals.revenue)} of revenue, ${m$(ARCH.proposed.totals.surplus)} of surplus, ${num(ARCH.proposed.totals.newLearners)} learners admitted. ${M.mark('modelled')}`,
+      reading: { head: 'Two registers, two quantities', body: `
+        <p>The upper register is net tuition, year by year, as ruled columns. The lower is surplus against its own nil rule, on its own baseline &mdash; drawn separately because a ten-million-dollar revenue and a first-year deficit on one plot make the second invisible.</p>
+        <p>The year the institution turns is ruled through both. Before it the College is consuming capital; after it, generating it.</p>
+        <p>Revenue is recognised in the year it is <em>taught</em>, not the year it is sold, which is why the curve lags the admissions behind it.</p>` },
+      note: `${M.mark('modelled')} Strategic projection, not a trading record.`,
+      strip: [
+        { k: 'Ten-year revenue', v: m$(ARCH.proposed.totals.revenue), s: 'Recognised in the year taught' },
+        { k: 'Ten-year surplus', v: m$(ARCH.proposed.totals.surplus), s: 'Before any distribution' },
+        { k: 'Learners admitted', v: num(ARCH.proposed.totals.newLearners), s: `${num(ARCH.proposed.totals.awards)} awards conferred` },
+        { k: 'Turns', v: String(CORE.years[TURN].calendar), s: 'Cumulative surplus crosses nil' },
+      ],
       runhead: 'The Proposition' })
   ));
 
@@ -209,8 +319,13 @@ function build() {
   onRecto();
   at('identity');
   push(...S.spread(
-    S.platePage('library', { numeral: 'Part Two', title: 'The Institution',
-      say: 'What the College is, what it sells, and the discipline that makes both statements checkable.' }),
+    S.openerPage({ part: 'Part Two', roman: 'II', title: 'The Institution',
+      standing: M.mark('verified'),
+      say: 'What the College is, what it sells, and the discipline that makes both statements checkable.',
+      datum: datAscent(),
+      caption: `Six levels of ${num(B.hoursPerLevel)} academic hours, each conferring its own award, climbing from A1 to C2. Adopted and published — data/tuition.json.`,
+      contains: [{ t: 'What the College is, and what it holds', f: PAGES_OF.identity || '' },
+        { t: 'The six qualifications', f: PAGES_OF.academic || '' }], }),
     S.marginPage({
       runhead: 'The Institution',
       side: S.marginNote('What is not claimed',
@@ -264,19 +379,34 @@ function build() {
   onRecto();
   at('slope');
   push(...S.spread(
-    S.platePage('worldmap', { numeral: 'Part Three', title: 'The Market',
-      say: 'What comparable programmes actually charge, what that did to an earlier draft, and the four markets the research could not answer.' }),
+    S.openerPage({ part: 'Part Three', roman: 'III', title: 'The Market',
+      standing: M.mark('modelled'),
+      say: 'What comparable programmes actually charge, what that did to an earlier draft, and the four markets the research could not answer.',
+      datum: datReach(),
+      caption: 'Five segments by reachable population. A ruled and hatched segment carries a direct published observation; an outlined one is modelled from the segments that do.',
+      contains: [{ t: 'What the research did to the plan', f: PAGES_OF.slope || '' },
+        { t: 'What comparable providers charge', f: PAGES_OF.evidence || '' },
+        { t: 'Where the evidence does not exist', f: PAGES_OF.gaps || '' }], }),
     S.figurePage({ eyebrow: 'What the research did to the plan', title: 'Assumed against researched',
       sub: 'Price of a complete pathway at which a segment converts at its reference rate.',
       figure: figSlope(),
-      note: `Four of the five segments moved, and West Africa by nearly a factor of three. The plan this replaced projected ${m$(PA.superseded_pathway_usd.projected_ten_year_revenue_usd)} of revenue on the assumed figures; it is recorded in data/masterplan.json rather than quietly replaced.`,
+      reading: { head: 'What the research moved', body: `
+        <p>Each line runs from what an earlier draft assumed a segment would pay to what the published evidence says it will. <strong>Four of the five moved, and none of them upwards.</strong></p>
+        <p>West Africa moved by nearly a factor of three, and that single correction removes more demand from the model than every other change combined. A Lagos IELTS course is about forty-nine dollars a month; the whole published Nigerian range tops out near eighteen hundred.</p>
+        <p>The plan this replaced projected ${m$(PA.superseded_pathway_usd.projected_ten_year_revenue_usd)} of revenue on the assumed figures. It is recorded in data/masterplan.json rather than quietly replaced, because an undocumented correction gets re-proposed six months later by somebody who does not know it was already made.</p>` },
+      note: `${M.mark('modelled')} Willingness to pay is an inference from published tariffs, not an observation of it.`,
+      strip: [
+        { k: 'Segments moved', v: '4 of 5', s: 'None of them upwards' },
+        { k: 'Largest correction', v: 'West Africa', s: 'Nearly a factor of three' },
+        { k: 'Superseded plan', v: m$(PA.superseded_pathway_usd.projected_ten_year_revenue_usd), s: 'Recorded, not deleted' },
+        { k: 'Observations kept', v: String(EVSEG.reduce((t, [k]) => t + EV[k].observations.length, 0)), s: 'Each with its source address' },
+      ],
       runhead: 'The Market' })
   ));
 
   at('evidence');
-  const EVSEG = [['gcc', 'Saudi Arabia and the Gulf'], ['west_africa', 'Nigeria and West Africa'],
-    ['uk_europe', 'United Kingdom and Europe'], ['executive_and_corporate', 'Executive and corporate']];
-  const evRows = EVSEG.flatMap(([key, name]) => EV[key].observations
+  const EVSEG2 = EVSEG;
+  const evRows = EVSEG2.flatMap(([key, name]) => EV[key].observations
     .filter((o) => o.price_local || o.price_usd)
     .map((o, i) => [i === 0 ? `<b>${M.esc(name)}</b>` : '',
       { v: `${M.esc(o.provider)}<br><span style="color:${S.C.grey}">${M.esc(o.product)}</span>`, cls: 'unit' },
@@ -325,8 +455,13 @@ function build() {
   onRecto();
   at('tariff');
   push(...S.spread(
-    S.platePage('letterpress', { numeral: 'Part Four', title: 'The Commercial Architecture',
-      say: 'What WEC-LC charges, solved backwards from the financial law the Board has set — and not chosen.' }),
+    S.openerPage({ part: 'Part Four', roman: 'IV', title: 'The Commercial<br>Architecture',
+      standing: M.mark('proposed'),
+      say: 'What WEC-LC charges, solved backwards from the financial law the Board has set — and not chosen.',
+      datum: datColonnade(),
+      caption: `Six tiers of one order, each marked with its multiple of the ${usd(P_.independent)} entry price. The credential conferred is identical on every route; what the multiple buys is a named instructor&rsquo;s attention.`,
+      contains: [{ t: 'The proposed tariff', f: PAGES_OF.tariff || '' },
+        { t: 'What one negotiation buys', f: PAGES_OF.amort || '' }], }),
     M.page(M.table({
       title: 'Management’s proposed commercial architecture',
       sub: 'Complete A1–C2 pathway. The adopted tariff remains $19,000 until the Board resolves otherwise.',
@@ -354,7 +489,17 @@ function build() {
     S.figurePage({ eyebrow: 'The comparison that survives', title: 'Per hour of individual attention',
       sub: 'The only like-for-like unit available, and each tier against the comparable it actually has.',
       figure: figThreshold(),
-      note: `A pathway total has no comparable. An hour of a qualified teacher&rsquo;s attention has one everywhere — and a group module and a one-to-one programme have different ones.`,
+      reading: { head: 'Two comparables, not one', body: `
+        <p>A pathway total has no comparable, because no provider found sells a six-level credentialed pathway as one purchase. An hour of a qualified teacher&rsquo;s attention has one everywhere.</p>
+        <p>But not the <em>same</em> one. A British Council module is group language teaching; an Executive Bespoke pathway is one-to-one provision, whose market is executive coaching at two to six hundred dollars an hour. The gold rule is the first comparable and the hatched band is the second, and each tier is read against the one it actually has.</p>
+        <p><strong>One tier fails both.</strong> It is named on the page opposite rather than left for a reader to find.</p>` },
+      note: `${M.mark('proposed')} Tariff solved from the allocation framework; the adopted fee is unchanged.`,
+      strip: [
+        { k: 'Published benchmark', v: usd(BC_ATTN), s: 'British Council Saudi, per attention hour' },
+        { k: 'Coaching band', v: `$${COACHING.from}–${COACHING.to}`, s: 'One-to-one provision' },
+        { k: 'Tiers inside their comparable', v: '5 of 6', s: 'Each judged against the right one' },
+        { k: 'The exception', v: 'Directed', s: `${usd(P_.directed / PR.attentionHours('directed'), 0)} an attention hour` },
+      ],
       runhead: 'Commercial Architecture' }),
     S.marginPage({
       runhead: 'Commercial Architecture',
@@ -377,7 +522,17 @@ function build() {
     S.figurePage({ eyebrow: 'Why the channels exist', title: 'What one negotiation buys',
       sub: 'Acquisition paid per learner never amortises; paid per agreement it divides by the seats it carries.',
       figure: figAmort(),
-      note: `Swept across a twelvefold price range and a sixteenfold range of scale, a purely retail College could not bring acquisition below 22 per cent of revenue against a ${pct(AL.SHARES.marketing, 0)} target. The bands are the College’s own published policy, not invented ones. ${M.mark('modelled')}`,
+      reading: { head: 'Why the channels exist', body: `
+        <p>Acquisition paid one learner at a time never amortises: the cost of finding the next Gulf executive is the cost of finding the last one. Paid per agreement it divides by the seats the agreement carries, and a single negotiation can carry twenty-five to ninety-nine.</p>
+        <p>Swept across a twelvefold price range and a sixteenfold range of scale, <strong>a purely retail College could not bring acquisition below twenty-two per cent of revenue</strong> against a ${pct(AL.SHARES.marketing, 0)} target. No price fixes that. The missing channels were the structural answer.</p>
+        <p>The bands used here are the College&rsquo;s own published partner bands, not invented ones.</p>` },
+      note: `${M.mark('modelled')} data/commercial.json § routes.partner.`,
+      strip: [
+        { k: 'Dearest retail seat', v: usd(PR.CAC.gccExec), s: 'A Gulf executive, acquired singly' },
+        { k: 'Cheapest agreement seat', v: usd(Math.round(Math.min(...Object.keys(PR.CHANNELS).map((k) => PR.channelTerms(k, P_).cacPerSeat)))), s: 'One negotiation, many seats' },
+        { k: 'Multiple', v: `${(PR.CAC.gccExec / Math.min(...Object.keys(PR.CHANNELS).map((k) => PR.channelTerms(k, P_).cacPerSeat))).toFixed(1)}×`, s: 'Cheaper per seat' },
+        { k: 'Retail-only floor', v: '22%', s: `Against a ${pct(AL.SHARES.marketing, 0)} target` },
+      ],
       runhead: 'Commercial Architecture' }),
     tableWithReading({
       title: 'Three architectures, one basis',
@@ -404,14 +559,13 @@ function build() {
   onRecto();
   at('definitions');
   push(...S.spread(
-    M.page(`
-      <div style="position:absolute;top:44%;left:0;right:0;transform:translateY(-50%);z-index:2">
-        <p class="pt__n" style="color:${S.C.gold}">Part Five</p>
-        <h1 style="font-family:${S.FACE.display};font-weight:300;font-size:40pt;line-height:43pt;margin:0 0 7mm;color:${S.C.midnight}">The Financial<br>Architecture</h1>
-        <p style="font-family:${S.FACE.display};font-style:italic;font-weight:300;font-size:14pt;line-height:21pt;color:${S.C.inkSoft};max-width:${M.col(7)}mm;margin:0">
-          Where every dollar of collected revenue is governed, and what each line is forbidden from becoming.</p>
-      </div>`, { tone: 'pg--bone', bare: true,
-    ground: `<div class="bleed guilloche guilloche--corner engr engr--pale">${S.engraving('guilloche')}</div>` }),
+    S.openerPage({ part: 'Part Five', roman: 'V', title: 'The Financial<br>Architecture',
+      standing: M.mark('board'),
+      say: 'Where every dollar of collected revenue is governed, and what each line is forbidden from becoming.',
+      datum: datCourse(),
+      caption: 'One column of collected revenue, divided. Four courses are consumed running the institution; the two beyond the struck rule are retained as institutional capital and are not distributable income.',
+      contains: [{ t: 'What each line is, and is not', f: PAGES_OF.definitions || '' },
+        { t: 'The decade', f: PAGES_OF.decade || '' }], }),
     M.page(`
       <p class="fg__eye">Definitions</p>
       <h2 class="fg__t">What each line is, and is not</h2>
@@ -464,8 +618,14 @@ function build() {
   onRecto();
   at('phases');
   push(...S.spread(
-    S.platePage('astrolabe', { numeral: 'Part Six', title: 'The Decade',
-      say: 'Five phases, twenty risks each with a warning somebody can observe, and who decides what.' }),
+    S.openerPage({ part: 'Part Six', roman: 'VI', title: 'The Decade',
+      standing: M.mark('modelled'),
+      say: 'Five phases, twenty risks each with a warning somebody can observe, and who decides what.',
+      datum: datDecade(),
+      caption: `Ten years of net tuition, with ${CORE.years[TURN].calendar} struck — the year cumulative surplus first crosses nil. A strategic projection, not a trading record.`,
+      contains: [{ t: 'Five phases', f: PAGES_OF.phases || '' },
+        { t: 'The risk register', f: PAGES_OF.risks || '' },
+        { t: 'Governance and authority', f: PAGES_OF.gov || '' }], }),
     M.page(`
       <p class="fg__eye">The ten-year roadmap</p>
       <h2 class="fg__t">Five phases, and what has to be true at the end of each</h2>
@@ -476,21 +636,36 @@ function build() {
   ));
 
   at('risks');
-  push(...S.spread(
-    S.figurePage({ eyebrow: 'Where attention goes', title: 'Twenty risks, placed',
-      sub: 'Likelihood against impact. A register is a list; a matrix is a judgement.',
-      figure: figRisk(),
-      note: 'Authored judgement, not computed. The register overleaf carries each risk with the early warning that would show it first.',
-      runhead: 'The Decade' }),
-    ...M.tablePages({
-      title: 'The institutional risk register',
-      sub: 'Each with an early warning somebody can actually observe.',
-      head: ['Domain', 'Risk', 'L', 'I', 'Early warning'],
-      rows: RISKS.slice(0, 9).map((r) => [`<b>${M.esc(r[0])}</b>`, { v: M.esc(r[1]), cls: 'unit' },
-        M.esc(r[2]), M.esc(r[3]), { v: M.esc(r[4]), cls: 'unit' }]),
-      source: 'L — likelihood. I — impact.',
-    }, 7, { runhead: 'The Decade' })
-  ));
+  /* BUILT IN THE ORDER IT IS READ. `page()` stamps a folio as it
+     builds, so composing the register before the matrix that faces it
+     gave the matrix the later number and printed the book out of
+     sequence. The verso is built first, then the register, then the
+     spread is assembled from pages that already know where they are. */
+  const riskMatrixPage = S.figurePage({ eyebrow: 'Where attention goes', title: 'Twenty risks, placed',
+    sub: 'Likelihood against impact. A register is a list; a matrix is a judgement.',
+    figure: figRisk(),
+    reading: { head: 'What the placement says', body: `
+      <p>A register is a list and a matrix is a judgement. Each cell carries the number of risks placed in it and a hatch proportional to that number; an empty cell is ruled rather than left blank, so that nothing looks forgotten.</p>
+      <p>The struck gold line encloses the region the Board would actually watch: likely enough to expect, and heavy enough to plan for. What stands inside it is the count the plate closes on.</p>
+      <p>Every risk overleaf carries an early warning somebody can observe and an owner who is named in the governance schedule.</p>` },
+    note: 'Authored judgement, not computed.',
+    strip: [
+      { k: 'Risks placed', v: String(RISKS.length), s: 'Every domain of the plan' },
+      { k: 'Above the line', v: String(RISKS.filter((r) => r[2] !== 'Low' && r[3] !== 'Medium').length), s: 'Likely enough, heavy enough' },
+      { k: 'With an early warning', v: String(RISKS.filter((r) => r[4]).length), s: 'Something somebody can observe' },
+      { k: 'Owners', v: 'Named', s: 'In the governance schedule' },
+    ],
+    runhead: 'The Decade' });
+  const riskTable = M.tablePages({
+    title: 'The institutional risk register',
+    sub: 'Each with an early warning somebody can actually observe.',
+    head: ['Domain', 'Risk', 'L', 'I', 'Early warning'],
+    rows: RISKS.slice(0, 9).map((r) => [`<b>${M.esc(r[0])}</b>`, { v: M.esc(r[1]), cls: 'unit' },
+      M.esc(r[2]), M.esc(r[3]), { v: M.esc(r[4]), cls: 'unit' }]),
+    source: 'L — likelihood. I — impact.',
+  }, 7, { runhead: 'The Decade' });
+  push(...S.spread(riskMatrixPage, riskTable[0]), ...riskTable.slice(1));
+
   push(...M.tablePages({
     title: 'The institutional risk register',
     sub: '',
@@ -502,30 +677,33 @@ function build() {
 
   at('gov');
   onRecto();
-  push(...S.spread(
-    M.page(`
-      <p class="fg__eye">The chain of academic authority</p>
-      <h2 class="fg__t">Where a decision stops</h2>
-      <p class="fg__s">The College&rsquo;s own plate, carrying the appointments as they stand.</p>
-      <div class="engr engr--ink" style="margin-top:5mm">${S.engraving('authority-chain')}</div>`,
-    { runhead: 'The Decade' }),
-    ...M.tablePages({
-      title: 'Governance and authority',
-      sub: 'Who decides what, and the separations that protect a learner.',
-      head: GOVERNANCE_COLUMNS,
-      rows: GOVERNANCE.map((g) => [`<b>${M.esc(g[0])}</b>`, M.esc(g[1]),
-        { v: M.esc(g[2]), cls: 'unit' }, { v: M.esc(g[3]), cls: 'unit' }]),
-      source: 'Several offices named here are defined and unfilled, and the platform refuses to publish a person into an office they have not accepted.',
-    }, 9, { runhead: 'The Decade' })
-  ));
+  const authorityPage = M.page(`
+    <p class="fg__eye">The chain of academic authority</p>
+    <h2 class="fg__t">Where a decision stops</h2>
+    <p class="fg__s">The College&rsquo;s own plate, carrying the appointments as they stand.</p>
+    <div class="engr engr--ink" style="margin-top:5mm">${S.engraving('authority-chain')}</div>`,
+  { runhead: 'The Decade' });
+  const govTable = M.tablePages({
+    title: 'Governance and authority',
+    sub: 'Who decides what, and the separations that protect a learner.',
+    head: GOVERNANCE_COLUMNS,
+    rows: GOVERNANCE.map((g) => [`<b>${M.esc(g[0])}</b>`, M.esc(g[1]),
+      { v: M.esc(g[2]), cls: 'unit' }, { v: M.esc(g[3]), cls: 'unit' }]),
+    source: 'Several offices named here are defined and unfilled, and the platform refuses to publish a person into an office they have not accepted.',
+  }, 9, { runhead: 'The Decade' });
+  push(...S.spread(authorityPage, govTable[0]), ...govTable.slice(1));
 
   // ══ PART VII ══════════════════════════════════════════════════════
   NEXT_PART = 'Method';
   onRecto();
   at('method');
   push(...S.spread(
-    S.platePage('charter', { numeral: 'Part Seven', title: 'Method',
-      say: 'Where every figure came from, and the audit that proves the document agrees with itself.' }),
+    S.openerPage({ part: 'Part Seven', roman: 'VII', title: 'Method',
+      standing: M.mark('verified'),
+      say: 'Where every figure came from, and the audit that proves the document agrees with itself.',
+      datum: datChain(),
+      caption: 'Four data files enter, three modules compute, one document leaves. No figure in this publication is typed into a page, and the chain is re-run as a test on every build.',
+      contains: [{ t: 'Where every figure comes from', f: PAGES_OF.method || '' }], }),
     M.page(M.table({
       title: 'Where every figure comes from',
       sub: 'One engine, four files. Nothing is typed into a page.',
@@ -548,22 +726,34 @@ function build() {
   P.push(M.page(`
     <div class="m-colo__wrap" style="z-index:2">
       <h2>A planning instrument,<br>and not a record of trading.</h2>
-      <p>Every financial figure in this publication is a projection computed from stated assumptions. Where the College holds something it is marked ${M.mark('verified')}; where this plan asserts something, ${M.mark('modelled')}; where nobody has yet decided, ${M.mark('board')}.</p>
+      <p>Every financial figure in this publication is a projection computed from stated assumptions, and every claim carries its standing.</p>
+      <div class="m-colo__key">
+        <div><span>${M.mark('verified')}</span><p>The College holds it, and it is published.</p></div>
+        <div><span>${M.mark('modelled')}</span><p>This plan asserts it, from stated assumptions.</p></div>
+        <div><span>${M.mark('board')}</span><p>Nobody has decided it yet.</p></div>
+      </div>
       <p>The College claims no accreditation, ranking, partnership or endorsement it does not hold, and names no person in an office they have not accepted.</p>
       <div class="rule-hair"></div>
       <p class="m-colo__meta">WorldWide English College &middot; London Campus<br>
         The Ten-Year Institutional Roadmap ${PERIOD}<br>
-        Set in Cinzel, Cormorant Garamond, EB Garamond and Inter<br>
-        Plates: Adobe Stock, Openverse and the College&rsquo;s own engraved work<br>
+        Set in Newsreader and Archivo<br>
+        Drawn throughout from the College&rsquo;s own figures. No photography.<br>
         ${M.PAGE.width} &times; ${M.PAGE.height}mm</p>
-    </div>`, { tone: 'pg--dark m-colo', bare: true,
-    ground: `<div class="bleed guilloche guilloche--corner engr engr--ivory">${S.engraving('guilloche')}</div>` }));
+    </div>`, { tone: 'pg--dark m-colo', bare: true }));
 
+  LEAVES = P.length;
   return P;
 }
 
 build();
 build();
+/* The extent the cover prints is the extent of the pass BEFORE it, so
+   it is only true if the two passes agree. They do — the second pass
+   only fills in folio numbers — but "they do" is not a check. */
+const printed = (P.join('').match(/<k>Leaves<\/k><v>(\d+)</) || [])[1];
+if (Number(printed) !== P.length) {
+  throw new Error(`the cover states ${printed} leaves and the book has ${P.length}`);
+}
 
 const html = `<!doctype html><html lang="en"><head><meta charset="utf-8">
 <title>WEC-LC — Ten-Year Institutional Roadmap ${PERIOD}</title>
@@ -593,12 +783,12 @@ const bad = await pg.evaluate(() => {
        An <svg> clips to its own viewBox by default, so a label whose
        geometric rect runs past the plate is drawn correctly and simply
        ends — getBoundingClientRect reports the extent, not what was
-       painted. And a guilloche is POSITIONED to bleed off the trim;
-       that is the whole point of a ground. Neither loses a reader
-       anything, and failing the build on them means chasing phantoms
-       instead of the tariff table that really did lose its last row. */
+       painted. Anything marked `.bleed` is positioned to run off the
+       trim on purpose. Neither loses a reader anything, and failing
+       the build on them means chasing phantoms instead of the tariff
+       table that really did lose its last row. */
     const clipped = [...p.querySelectorAll('.pg__field *:not(.bleed):not(.bleed *)')].some((el) => {
-      if (el.closest('svg') || el.closest('.guilloche')) return false;
+      if (el.closest('svg')) return false;
       const r = el.getBoundingClientRect();
       return r.height > 0 && (r.bottom > pr.bottom + 0.5 || r.right > pr.right + 0.5);
     });
@@ -619,14 +809,40 @@ const bad = await pg.evaluate(() => {
         }
       }
     }
-    if (over > 1 || clipped || collided) out.push({ page: i + 1, over: Math.round(over), clipped, collided });
+    /* THE FOLIO MUST BE THE PAGE. `page()` stamps a number as it
+       builds, so a page that is built and then dropped, or built out
+       of the order it is pushed in, leaves a gap or a swap that
+       nothing else would catch — and both had happened: `spread()`
+       was being handed three pages and silently discarding the third,
+       which cost the book two leaves of the risk register and two of
+       the governance schedule. The only outward sign was folios
+       running ahead of the page count after leaf 34. */
+    const f2 = p.querySelector('.folio');
+    const folio = f2 ? Number(f2.textContent.trim()) : null;
+    const misfoliated = folio !== null && folio !== i + 1 ? folio : null;
+
+    /* AND THERE IS NO PHOTOGRAPHY IN THIS PUBLICATION. Ruled by the
+       owner on 20 September 2026: the decorative plates came out and
+       are not to come back as different plates. The machinery to
+       place one was deleted from spreads.mjs, and this is the second
+       lock — a raster image anywhere in the book fails the build. */
+    const img = p.querySelector('img, [style*="url(data:image"], picture, video');
+
+    if (over > 1 || clipped || collided || misfoliated || img) {
+      out.push({ page: i + 1, over: Math.round(over), clipped, collided, misfoliated, img: Boolean(img) });
+    }
   });
   return out;
 });
 await browser.close();
 if (bad.length) {
   console.error('\nPAGE COMPOSITION FAILED:');
-  for (const o of bad) console.error(`  page ${o.page}: ${o.over}px over${o.clipped ? ', clipped' : ''}${o.collided ? `, text on text “${o.collided}…”` : ''}`);
+  for (const o of bad) {
+    console.error(`  page ${o.page}: ${o.over}px over${o.clipped ? ', clipped' : ''}`
+      + `${o.collided ? `, text on text “${o.collided}…”` : ''}`
+      + `${o.misfoliated ? `, prints folio ${o.misfoliated}` : ''}`
+      + `${o.img ? ', carries a raster image' : ''}`);
+  }
   process.exitCode = 1;
 }
 console.log(`Wrote the monograph — ${P.length} pages, ${(readFileSync(PDF_OUT).length / 1024 / 1024).toFixed(1)} MB, ${M.PAGE.width}×${M.PAGE.height}mm.`);

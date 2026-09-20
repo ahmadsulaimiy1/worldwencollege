@@ -321,43 +321,70 @@ strong { font-weight: 600; }
  */
 export const masterCss = () => `
 /* ── 01 · COVER ────────────────────────────────────────────────────
-   TIGHTENED. The first version scattered four elements down the sheet
-   with unstructured air between them. The title now sits on the
-   optical centre — above the true centre, where a title is read — the
-   period is tied to it by a hairline rather than floating, and the
-   colophon is ruled off at the foot so the bottom third is a block
-   rather than a drift. */
-.m-cover { background: ${C.midnightDeep}; color: ${C.ivory}; }
-.m-cover__frame { position: absolute; inset: 13mm; border: .4pt solid rgba(201,169,97,.34); }
-.m-cover__mark { position: absolute; top: 33mm; left: 0; right: 0; text-align: center; }
-.m-cover__mark .inscr { font-size: 9.6pt; letter-spacing: .07em; color: ${C.goldLeaf}; }
-.m-cover__rule { position: absolute; top: 48mm; left: 50%; width: 22mm;
-  margin-left: -11mm; height: 1pt; background: ${C.gold}; }
-.m-cover__title { position: absolute; top: 108mm; left: 24mm; right: 24mm; text-align: center; }
+   REBUILT WITHOUT ORNAMENT, 20 September 2026.
+
+   What was here: a midnight ground, a gold border inset 13mm, and a
+   banknote guilloche enlarged to 132 per cent and spun across the
+   whole sheet. Three of the clichés the owner named in one object —
+   an ornamental border, meaningless decorative geometry, and a dark
+   cover doing the work the typography should do. The guilloche was
+   also dense enough that the foot line printed illegibly through it.
+
+   What is here now is a TITLE BLOCK, in the sense an architectural
+   drawing means it: an ivory sheet, the institution's name on a datum
+   at the head, the title ranged left off a single vertical axis, the
+   period drawn as the ten stations it actually is, and a ruled block
+   at the foot carrying the document's specification. Three groups,
+   not four objects scattered down a sheet: the datum at the head, the
+   title in the upper field, and the period rule tied to the
+   specification block as one foot. The interval between the title and
+   the foot is the only large space on the cover, and both of its ends
+   are held. Nothing on this
+   cover is decorative and nothing on it is unverified.
+
+   It is ivory rather than navy because the book is meant to feel like
+   uncoated stock, and because a dark cover with gold rules is the one
+   thing every strategy report in the world already looks like. */
+.m-cover { background: ${C.ivory}; color: ${C.midnight}; }
+.m-cover__head {
+  position: absolute; top: ${PAGE.marginTop}mm; left: ${PAGE.marginOuter}mm; right: ${PAGE.marginOuter}mm;
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding-bottom: 3.4mm; border-bottom: .9pt solid ${C.gold};
+  font-family: ${FACE.data}; font-size: 6.4pt; font-weight: 600;
+  letter-spacing: .05em; text-transform: uppercase; color: ${C.gold};
+}
+.m-cover__title { position: absolute; top: 80mm; left: ${PAGE.marginOuter}mm; right: ${PAGE.marginOuter}mm; }
 .m-cover__title h1 {
-  font-family: ${FACE.display}; font-weight: 300; font-size: 52pt; line-height: 57pt;
-  margin: 0; color: ${C.ivory}; letter-spacing: -.008em;
+  font-family: ${FACE.display}; font-weight: 400; font-size: 54pt; line-height: 58pt;
+  margin: 0; color: ${C.midnight}; letter-spacing: -.018em;
 }
 .m-cover__title .sub {
-  font-family: ${FACE.display}; font-style: italic; font-weight: 300;
-  font-size: 16.5pt; line-height: 23pt; color: ${C.goldPale}; margin: 7mm 0 0;
+  font-family: ${FACE.display}; font-style: italic; font-weight: 400;
+  font-size: 15pt; line-height: 21pt; color: ${C.inkSoft};
+  margin: 8mm 0 0; padding-top: 6mm; border-top: .5pt solid ${C.rule};
+  max-width: ${col(7)}mm;
 }
-/* The period is tied to the title by a hairline, not floating below it. */
-.m-cover__period { position: absolute; top: 176mm; left: 0; right: 0; text-align: center; }
-.m-cover__period::before {
-  content: ''; display: block; width: 14mm; height: .5pt; margin: 0 auto 7mm;
-  background: rgba(201,169,97,.52);
+/* The period is drawn rather than set: ten stations, the first and the
+   last named. The plainest possible drawing, and the only assertion a
+   cover is entitled to make. */
+.m-cover__period { position: absolute; top: 218mm; left: ${PAGE.marginOuter}mm; right: ${PAGE.marginOuter}mm; }
+/* ── THE SPECIFICATION BLOCK ──
+   Four cells under a struck rule, read the way a drawing's title block
+   is read. Every value in it is a fact about the document or the
+   pathway, so the cover asserts nothing that would need a mark. */
+.m-cover__spec {
+  position: absolute; bottom: ${PAGE.marginBottom}mm; left: ${PAGE.marginOuter}mm; right: ${PAGE.marginOuter}mm;
+  display: flex; border-top: 1.4pt solid ${C.midnight};
 }
-.m-cover__period span {
-  font-family: ${FACE.inscription}; font-size: 12pt; letter-spacing: .06em;
-  color: ${C.goldLeaf};
+.m-cover__spec > div { flex: 1; padding: 3.4mm 4mm 0 0; }
+.m-cover__spec > div + div { border-left: .4pt solid ${C.rule}; padding-left: 4mm; }
+.m-cover__spec k {
+  display: block; font-family: ${FACE.data}; font-size: 5.2pt; font-weight: 600;
+  letter-spacing: .05em; text-transform: uppercase; color: ${C.gold}; margin-bottom: 1.8mm;
 }
-.m-cover__foot {
-  position: absolute; bottom: 27mm; left: 34mm; right: 34mm; text-align: center;
-  padding-top: 6mm; border-top: .4pt solid rgba(201,169,97,.22);
-  font-family: ${FACE.data}; font-size: ${T.micro}pt; font-weight: 400;
-  letter-spacing: .05em; text-transform: uppercase; color: rgba(252,250,245,.42);
-  line-height: 13.4pt;
+.m-cover__spec v {
+  display: block; font-family: ${FACE.display}; font-weight: 400; font-size: 10.4pt;
+  line-height: 14pt; color: ${C.midnight};
 }
 
 /* ── 02 · CHAPTER OPENER ───────────────────────────────────────────
