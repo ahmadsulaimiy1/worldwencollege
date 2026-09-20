@@ -287,13 +287,21 @@ export const fullCost = (productKey, levelIndex) =>
  * that the published plan can put the two side by side: a revision the
  * reader cannot see is a revision the reader has to take on trust.
  */
+/* `short` is the name a PLATE sets, and it exists because the plates
+   were truncating the long one to its first two words — which turned
+   "Nigeria and West Africa" into "Nigeria and" and "Asia and the rest
+   of the world" into "Asia and". A short name is an editorial decision
+   about what a segment is called when there is no room for its full
+   title, and it belongs here beside the title rather than in a
+   renderer's call site. */
 export const SEGMENTS = [
   /* EVIDENCE-INFORMED, 19 September 2026. Sources and the reasoning
      behind each figure are in data/market-evidence.json. The first
      version of this table was modelled throughout; the research moved
      four of the five materially, and one of them by a factor of three. */
   {
-    key: 'gccExec', name: 'Gulf executives and senior professionals', reachable: 2600,
+    key: 'gccExec', name: 'Gulf executives and senior professionals',
+    short: 'Gulf executives', reachable: 2600,
     // WAS $31,000, MODELLED. The published Gulf market tops out far
     // lower: a full British Council Saudi A2–C1 ladder computes to
     // $10,600–$14,100, and one-to-one corporate language training runs
@@ -304,7 +312,8 @@ export const SEGMENTS = [
     evidence: 'british_council_saudi_ladder + corporate_1to1_rates', confidence: 'medium',
   },
   {
-    key: 'gccProf', name: 'Gulf professionals and graduate families', reachable: 11500,
+    key: 'gccProf', name: 'Gulf professionals and graduate families',
+    short: 'Gulf professionals', reachable: 11500,
     // WAS $17,500, MODELLED. This is the segment the British Council
     // Saudi tariff speaks to directly, and that tariff is published.
     wtpAssumed: 17500, wtpFull: 13000, elasticity: -1.05, credibilityFloor: 5200,
@@ -312,7 +321,8 @@ export const SEGMENTS = [
     evidence: 'british_council_saudi_ladder', confidence: 'high',
   },
   {
-    key: 'ukeu', name: 'United Kingdom and Europe', reachable: 9800,
+    key: 'ukeu', name: 'United Kingdom and Europe',
+    short: 'United Kingdom and Europe', reachable: 9800,
     // WAS $19,500, MODELLED. Anchored on university pre-sessional
     // English, the closest credentialed comparable: Stirling's ONLINE
     // eight-week course is £5,150, Sheffield £525 a week.
@@ -321,7 +331,8 @@ export const SEGMENTS = [
     evidence: 'uk_presessional', confidence: 'high',
   },
   {
-    key: 'waf', name: 'Nigeria and West Africa', reachable: 34000,
+    key: 'waf', name: 'Nigeria and West Africa',
+    short: 'Nigeria and West Africa', reachable: 34000,
     // WAS $6,400, MODELLED — AND IT WAS NEARLY THREE TIMES TOO HIGH.
     // A Lagos IELTS course is NGN 75,000 a month, about $49; the whole
     // published Nigerian range tops out near $1,817. Two years of
@@ -333,7 +344,8 @@ export const SEGMENTS = [
     evidence: 'nigeria_published_rates', confidence: 'high',
   },
   {
-    key: 'row', name: 'Asia and the rest of the world', reachable: 21000,
+    key: 'row', name: 'Asia and the rest of the world',
+    short: 'Asia and the rest', reachable: 21000,
     // MODELLED — INSUFFICIENT DIRECT MARKET EVIDENCE. No reliable
     // published tariff was found for this group and it is not a
     // founding market. Scaled between the Gulf and West African
@@ -489,6 +501,7 @@ const CAC = { gccExec: 2100, gccProf: 1250, ukeu: 980, waf: 420, row: 610 };
 export const CHANNELS = {
   corporate: {
     name: 'Corporate',
+    short: 'Corporate',
     blurb: 'An employer buying places for its own staff, taught to the Executive Core specification and scheduled around professional obligations.',
     spec: 'execCore',
     /** The adopted 25–99 band. data/commercial.json § routes.partner. */
@@ -515,6 +528,7 @@ export const CHANNELS = {
   },
   sponsored: {
     name: 'Institutional and Sponsored',
+    short: 'Institutional',
     blurb: 'A ministry, university, employer federation or foundation buying places at scale, taught to the Tutored specification.',
     spec: 'tutored',
     /** The adopted 100+ band. */
@@ -579,7 +593,7 @@ export function channelTerms(key, prices) {
   const seats = c.seatsPerAgreement * Math.pow(Math.max(0.05, ratio), c.seatElasticity);
   const agreements = c.agreementsAtMaturity * Math.pow(Math.max(0.05, ratio), c.agreementElasticity);
   return {
-    key, name: c.name, spec: c.spec, list, discount, seatPrice,
+    key, name: c.name, short: c.short, spec: c.spec, list, discount, seatPrice,
     cacPerSeat: c.agreementCost / Math.max(1, seats),
     seatsPerAgreement: seats,
     agreements,

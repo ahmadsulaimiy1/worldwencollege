@@ -39,8 +39,135 @@
  * explain what to look at has failed and should be two figures.
  */
 
+import ADVANCES from './advances.json' with { type: 'json' };
+
+/**
+ * ════════════════════════════════════════════════════════════════════
+ * HOW WIDE WILL THAT SET?
+ * ════════════════════════════════════════════════════════════════════
+ * Every clipped label in this library had the same cause: a gutter, a
+ * side, or a margin chosen by REASONING about how wide a string would
+ * set. Three plates lost text that way — RESERVE printed as
+ * INSTITUTIONAL, a benchmark caption printed as "TISH COUNCIL SAUDI
+ * $284", and the decade's dominant closing figure printed as "$17." —
+ * and the second and third were each "fixed" by a fresh estimate that
+ * was wrong again.
+ *
+ * So no plate below estimates. `setWidth` sums the measured advance of
+ * every character in the string from a table taken off the actual
+ * typefaces at the actual sizes (scripts/publication/measure-advances.mjs),
+ * and the plates size their own geometry from the answer.
+ *
+ * It returns a CEILING, deliberately:
+ *   · each character is charged the widest advance it takes anywhere
+ *     in the publication's size range, because Newsreader's optical
+ *     size axis moves advances by ten per cent across that range;
+ *   · kerning is not subtracted, and kerning only ever pulls a pair
+ *     closer;
+ *   · a character the table has never seen is charged at the widest
+ *     glyph in the face rather than at nothing.
+ *
+ * Being a ceiling is the point. A gutter sized from a ceiling is a
+ * little wider than it strictly needs to be; a gutter sized from an
+ * under-estimate loses a word. `tests/figures.test.mjs` renders every
+ * plate and proves the ceiling held.
+ */
+function setWidth(text, size, opts = {}) {
+  const key = `${opts.face === TEXT || opts.face === DISPLAY || opts.serif ? 'serif' : 'data'}:${opts.weight || 500}`;
+  const tbl = ADVANCES.advance[key];
+  if (!tbl) throw new Error(`figures: no advance table for ${key} — add it to measure-advances.mjs`);
+  const widest = ADVANCES.widest[key];
+  const s = opts.caps ? String(text).toUpperCase() : String(text);
+  let em = 0;
+  for (const ch of s) em += tbl[ch] ?? widest;
+  return em * size + Math.max(0, s.length - 1) * (opts.track || 0);
+}
+
+/**
+ * THE SAME MEASUREMENT, USED TO BREAK A LINE.
+ *
+ * A closing statement set beside a struck figure has a column width,
+ * not a character count, and guessing where it breaks is the same bug
+ * as guessing where it ends.
+ *
+ * It also BALANCES, which greedy wrapping does not. Filled to the
+ * measure, the amortisation closer broke three full lines and left
+ * "time." alone on a fourth — a widow under a 23-point figure, which
+ * is the one place in a plate where a ragged foot is unmissable. So
+ * the column is narrowed as far as it will go without costing a line,
+ * and the text is set to that narrower measure: the same number of
+ * lines, of nearly equal length, which is how a caption is set in a
+ * book and not how it falls out of a text box.
+ */
+function wrapTo(text, maxWidth, size, opts = {}) {
+  const words = String(text).split(/\s+/).filter(Boolean);
+  const fill = (measure) => {
+    const lines = [];
+    let line = '';
+    for (const w of words) {
+      const trial = line ? `${line} ${w}` : w;
+      if (line && setWidth(trial, size, opts) > measure) { lines.push(line); line = w; }
+      else line = trial;
+    }
+    if (line) lines.push(line);
+    return lines;
+  };
+  const target = fill(maxWidth).length;
+  let lo = Math.max(...words.map((w) => setWidth(w, size, opts)));
+  let hi = maxWidth;
+  /* The narrowest measure that still sets in `target` lines. Twenty
+     halvings resolve a 160-unit plate to well under a hair's width. */
+  for (let i = 0; i < 20 && hi - lo > 0.25; i += 1) {
+    const mid = (lo + hi) / 2;
+    if (fill(mid).length <= target) hi = mid; else lo = mid;
+  }
+  return fill(hi);
+}
+
+/* `inkSoft` was used in three places and defined in none of them, so
+   every allocation descriptor and the amortisation closer were set in
+   `fill="undefined"` — an invalid paint the browser silently replaces
+   with flat black, which is the one ink the palette does not contain.
+   It is a softened ink, one step off `ink`, which is what a descriptor
+   under a struck figure wants. */
+/**
+ * LABELS THAT WOULD SIT ON TOP OF EACH OTHER, PUSHED APART.
+ *
+ * Two segments whose researched figures are $15.5k and $13.0k land
+ * about four units apart on a 110-unit axis, and their two-line labels
+ * are twelve units tall — so the plate printed "United Kingdom"
+ * through "$13.0k" and neither could be read. Every de-collision here
+ * keeps the order of the series and moves the smallest total distance
+ * that opens the required gap, so a displaced label is still obviously
+ * the label of the point above it; the plates draw a leader wherever
+ * the displacement is large enough to notice.
+ */
+function deCollide(desired, gap, bounds = {}) {
+  const order = desired.map((y, i) => i).sort((a, b) => desired[a] - desired[b]);
+  const out = desired.slice();
+  const top = bounds.top ?? -Infinity;
+  const bottom = bounds.bottom ?? Infinity;
+  let prev = -Infinity;
+  for (const i of order) {
+    out[i] = Math.max(desired[i], prev + gap, top);
+    prev = out[i];
+  }
+  /* If the stack has been pushed off the foot of the plate, walk back
+     up through it — which is why this runs in two passes rather than
+     one greedy sweep. */
+  const overflow = prev - bottom;
+  if (overflow > 0) {
+    let limit = bottom;
+    for (const i of order.slice().reverse()) {
+      out[i] = Math.min(out[i], limit);
+      limit = out[i] - gap;
+    }
+  }
+  return out;
+}
+
 const K = {
-  ink: '#16202C', midnight: '#0A1A2F', soft: '#5A6479', grey: '#79828F',
+  ink: '#16202C', inkSoft: '#2E3A49', midnight: '#0A1A2F', soft: '#5A6479', grey: '#79828F',
   rule: '#D9D2C2', faint: '#EBE6DA', gold: '#A9843C', goldLeaf: '#C9A961',
   goldPale: '#E8D9B4', paper: '#FFFFFF', bone: '#F6F2E9', crimson: '#7E1F2D',
 };
@@ -300,7 +427,21 @@ export function attentionThreshold(rows, benchmark, opts = {}) {
      them. The band is drawn, the line is drawn, and each tier is read
      against the comparable it actually has. */
   const W = 168, H = 18 + rows.length * 15 + 24;
-  const x0 = 46, x1 = W - 20;
+  /* THREE COLUMNS: NAME, PLOT, VALUE — AND TWO OF THEM ARE MEASURED.
+     The gutters used to be flat numbers. 46 held "Independent" and cut
+     "Executive Premium"; 20 on the right is correct for $213 and wrong
+     for $1,234. They are now the width of the widest thing that has to
+     stand in them.
+
+     The values also moved. They were set beside their own dots, which
+     put four of the six across the gold rule, because a threshold plot
+     is precisely a plot whose dots cluster around one x. In a value
+     column they align with each other instead, the rule stays clean,
+     and the six figures read as one series — which is the whole point
+     of drawing them together. */
+  const nameW = Math.max(...rows.map((r) => setWidth(r.name, 6, { face: TEXT, weight: 400 })));
+  const valW = Math.max(...rows.map((r) => setWidth(`$${Math.round(r.perHour)}`, 6.6, { weight: 600 })));
+  const x0 = Math.ceil(nameW) + 7, x1 = W - Math.ceil(valW) - 9;
   const band = opts.band;
   const ceiling = Math.max(benchmark, band ? band.to : 0, ...rows.map((r) => r.perHour)) * 1.08;
   const sx = (v) => x0 + (v / ceiling) * (x1 - x0);
@@ -317,7 +458,9 @@ export function attentionThreshold(rows, benchmark, opts = {}) {
       height="${r2(plotBot - plotTop)}" fill="url(#coach)" stroke="none"/>`;
     body += `<line x1="${r2(sx(band.from))}" y1="${plotTop}" x2="${r2(sx(band.from))}" y2="${r2(plotBot)}"
       stroke="${K.goldPale}" stroke-width="0.5"/>`;
-    body += `<text x="${r2(sx(band.from) + 2)}" y="${H - 5}" font-family="${DATA}" font-size="4.9"
+    const bandW = setWidth(band.label, 4.9, { weight: 500 });
+    body += `<text x="${r2(Math.min(sx(band.from) + 2, W - 1 - bandW))}" y="${H - 5}"
+      font-family="${DATA}" font-size="4.9"
       font-weight="500" fill="${K.gold}">${esc(band.label)}</text>`;
   }
 
@@ -337,34 +480,34 @@ export function attentionThreshold(rows, benchmark, opts = {}) {
     body += `<line x1="${r2(x0)}" y1="${r2(y)}" x2="${r2(sx(r.perHour))}" y2="${r2(y)}"
       stroke="${col}" stroke-width="1.5"/>`;
     body += `<circle cx="${r2(sx(r.perHour))}" cy="${r2(y)}" r="1.9" fill="${col}"/>`;
-    /* WHERE THE VALUE IS SET. To the right of its dot normally. But a
-       value close to the gold rule would print across it, and setting
-       it to the LEFT instead printed it across its own bar — the rule
-       runs all the way from the axis to the dot, so there is no clear
-       ground on that side at all. Near values go ABOVE the bar, where
-       there is always room. */
-    const near = Math.abs(sx(r.perHour) - sx(benchmark)) < 18;
-    body += near
-      ? `<text x="${r2(sx(r.perHour))}" y="${r2(y - 3.4)}" font-family="${DATA}" font-size="6"
-          font-weight="600" fill="${col}" text-anchor="middle">$${Math.round(r.perHour)}</text>`
-      : `<text x="${r2(sx(r.perHour) + 4)}" y="${r2(y + 2.2)}" font-family="${DATA}" font-size="6.2"
-          font-weight="600" fill="${col}" text-anchor="start">$${Math.round(r.perHour)}</text>`;
+    /* A hairline from the dot out to the value column, so the eye can
+       cross the gap without counting rows. */
+    body += `<line x1="${r2(sx(r.perHour) + 3)}" y1="${r2(y)}" x2="${r2(x1 + 4)}" y2="${r2(y)}"
+      stroke="${K.faint}" stroke-width="0.35"/>`;
+    body += `<text x="${W - 3}" y="${r2(y + 2.3)}" font-family="${DATA}" font-size="6.6"
+      font-weight="600" fill="${col}" text-anchor="end"
+      style="font-variant-numeric:lining-nums tabular-nums">$${Math.round(r.perHour)}</text>`;
   });
 
   const bx = sx(benchmark);
   body += `<line x1="${r2(bx)}" y1="${plotTop - 7}" x2="${r2(bx)}" y2="${r2(plotBot)}"
     stroke="${K.gold}" stroke-width="1.4"/>`;
-  /* The caption goes on whichever side of the rule has room. Anchored
-     end by default, it ran off the left edge of the plate. */
-  /* Set to the RIGHT of the rule unless the rule is already in the
-     right third. Anchored end it ran off the left edge, because the
-     caption plus its tracking is wider than the space to the left of a
-     benchmark that sits near the middle of the plate. */
-  const capLeft = bx > W * 0.68;
-  body += `<text x="${r2(capLeft ? bx - 3 : bx + 3)}" y="${plotTop - 9}" font-family="${DATA}"
+  /* THE CAPTION SITS BESIDE ITS RULE IF THERE IS ROOM BESIDE ITS RULE.
+     Twice it was placed by a rule of thumb about which third of the
+     plate the benchmark fell in, and twice it ran off an edge. The
+     rule of thumb is gone: the caption is measured, set to the right
+     of the rule when the right has room, to the left when the left
+     does, and flush to the plate edge when a benchmark lands mid-plate
+     and neither side can hold it. */
+  const cap = `${opts.benchmarkLabel || 'Benchmark'}, $${Math.round(benchmark)}`;
+  const capW = setWidth(cap, 5.2, { weight: 600, track: 0.7 });
+  const fitsRight = bx + 3 + capW <= W - 1;
+  const fitsLeft = bx - 3 - capW >= 1;
+  const capX = fitsRight ? bx + 3 : fitsLeft ? bx - 3 : W - 1 - capW;
+  body += `<text x="${r2(capX)}" y="${plotTop - 9}" font-family="${DATA}"
     font-size="5.2" font-weight="600" letter-spacing="0.7" fill="${K.gold}"
-    text-anchor="${capLeft ? 'end' : 'start'}"
-    >${esc(opts.benchmarkLabel || 'Benchmark')}, $${Math.round(benchmark)}</text>`;
+    text-anchor="${fitsRight || !fitsLeft ? 'start' : 'end'}"
+    >${esc(cap)}</text>`;
 
   return figure(W, H, body, defs);
 }
@@ -380,7 +523,19 @@ export function attentionThreshold(rows, benchmark, opts = {}) {
  */
 export function slope(rows, opts = {}) {
   const W = 168, H = 150;
-  const xa = 56, xb = 118, top = 22, bot = H - 20;
+  /* THE TWO COLUMNS ARE PLACED BY WHAT HANGS OFF THEM. `xb` was 118,
+     which left fifty units for a segment name — enough for "Nigeria
+     and", not for "Gulf professionals", which ran off the plate. The
+     right column now stands as far left as the widest name and the
+     widest figure beside it require, and the left column as far right
+     as the widest figure behind it requires. */
+  const fromW = Math.max(...rows.map((r) => setWidth(`$${(r.from / 1000).toFixed(1)}k`, 5.8, { weight: 500 })));
+  const rightW = Math.max(
+    ...rows.map((r) => setWidth(`$${(r.to / 1000).toFixed(1)}k`, 6, { weight: 600 })),
+    ...rows.map((r) => setWidth(r.name, 5.6, { face: TEXT, weight: 400 })),
+  );
+  const xa = Math.ceil(fromW) + 10, xb = W - Math.ceil(rightW) - 7;
+  const top = 22, bot = H - 20;
   const max = Math.max(...rows.flatMap((r) => [r.from, r.to])) * 1.06;
   const sy = (v) => bot - (v / max) * (bot - top);
 
@@ -390,19 +545,37 @@ export function slope(rows, opts = {}) {
   body += label(xa, top - 10, opts.fromLabel || 'Assumed', { anchor: 'middle', size: 5.6, fill: K.grey });
   body += label(xb, top - 10, opts.toLabel || 'Researched', { anchor: 'middle', size: 5.6, fill: K.gold });
 
-  rows.forEach((r) => {
-    const ya = sy(r.from), yb = sy(r.to);
+  /* WHERE THE LABELS GO, BEFORE ANYTHING IS DRAWN. The right-hand
+     label is two lines tall — a figure and the segment it belongs to —
+     and two segments four units apart on the axis printed through each
+     other. Both sides are laid out first, pushed apart, and only then
+     drawn; a label that had to move carries a leader back to its own
+     point. */
+  const yaOf = rows.map((r) => sy(r.from));
+  const ybOf = rows.map((r) => sy(r.to));
+  const yaSet = deCollide(yaOf.map((y) => y + 2), 7.6, { top: top - 2, bottom: bot + 2 });
+  const ybSet = deCollide(ybOf.map((y) => y - 1.6), 13.2, { top: top - 4, bottom: bot - 4 });
+
+  rows.forEach((r, i) => {
+    const ya = yaOf[i], yb = ybOf[i];
     const fell = r.to < r.from;
     const heavy = Math.abs(r.to / r.from - 1) > 0.5;
     body += `<line x1="${xa}" y1="${r2(ya)}" x2="${xb}" y2="${r2(yb)}"
       stroke="${heavy ? K.crimson : K.soft}" stroke-width="${heavy ? 1.1 : 0.6}"/>`;
     body += `<circle cx="${xa}" cy="${r2(ya)}" r="1.5" fill="${K.soft}"/>`;
     body += `<circle cx="${xb}" cy="${r2(yb)}" r="1.9" fill="${heavy ? K.crimson : K.midnight}"/>`;
-    body += `<text x="${xa - 4}" y="${r2(ya + 2)}" font-family="${DATA}" font-size="5.8"
-      font-weight="500" fill="${K.grey}" text-anchor="end">$${(r.from / 1000).toFixed(1)}k</text>`;
-    body += `<text x="${xb + 5}" y="${r2(yb + 0.2)}" font-family="${DATA}" font-size="6"
-      font-weight="600" fill="${K.midnight}">$${(r.to / 1000).toFixed(1)}k</text>`;
-    body += `<text x="${xb + 5}" y="${r2(yb + 6)}" font-family="${TEXT}" font-size="5.6"
+    body += `<text x="${xa - 4}" y="${r2(yaSet[i])}" font-family="${DATA}" font-size="5.8"
+      font-weight="500" fill="${K.grey}" text-anchor="end"
+      style="font-variant-numeric:lining-nums tabular-nums">$${(r.from / 1000).toFixed(1)}k</text>`;
+    const moved = Math.abs(ybSet[i] + 1.6 - yb);
+    if (moved > 1.2) {
+      body += `<path d="M ${r2(xb + 2.4)} ${r2(yb)} L ${r2(xb + 4)} ${r2(ybSet[i] - 0.6)}"
+        stroke="${K.rule}" stroke-width="0.35" fill="none"/>`;
+    }
+    body += `<text x="${xb + 5}" y="${r2(ybSet[i])}" font-family="${DATA}" font-size="6"
+      font-weight="600" fill="${K.midnight}"
+      style="font-variant-numeric:lining-nums tabular-nums">$${(r.to / 1000).toFixed(1)}k</text>`;
+    body += `<text x="${xb + 5}" y="${r2(ybSet[i] + 5.8)}" font-family="${TEXT}" font-size="5.6"
       fill="${K.soft}">${esc(r.name)}</text>`;
     if (heavy) {
       body += `<text x="${r2((xa + xb) / 2)}" y="${r2((ya + yb) / 2 - 2.4)}" font-family="${DATA}"
@@ -422,50 +595,115 @@ export function slope(rows, opts = {}) {
  * than looked up.
  */
 export function decade(years, opts = {}) {
-  const W = 168, H = 104;
-  const x0 = 18, x1 = W - 10, top = 12, bot = H - 18;
-  const maxRev = Math.max(...years.map((y) => y.netTuition)) * 1.08;
-  const surpluses = years.map((y) => y.surplus);
-  const maxSur = Math.max(...surpluses.map(Math.abs)) * 1.25;
+  /* TWO REGISTERS, BECAUSE THERE ARE TWO QUANTITIES.
+   *
+   * The first cut drew net tuition as columns and surplus as a line
+   * over the top of them, on a second invisible scale, with no axis for
+   * either. Two magnitudes sharing one plot and no way to read either
+   * is not a compact chart; it is a chart that cannot be read, and the
+   * fact that it looked tidy is what let it pass.
+   *
+   * Net tuition and surplus now have their own registers, stacked, with
+   * their own baselines. The surplus register is deliberately shallow —
+   * it is the smaller quantity and pretending otherwise was the
+   * original sin — and it runs above and below its own nil rule so the
+   * year the institution turns is a shape rather than a footnote.
+   *
+   * AND IT HAS A DOMINANT ELEMENT. A figure with nothing dominant is a
+   * diagram; the eye needs somewhere to land, and here it is the
+   * closing year's net tuition, set at the right where the columns end.
+   */
+  const W = 168, H = 132;
+  /* The plot stops well short of the plate so the closing figure has
+     room to be set. At W-34 the columns ran to 134 and "$17.0M" at
+     thirteen point needs about thirty-eight units after them, so the
+     dominant element of the figure printed as "$17." and fell off the
+     edge — the one element that must not. */
+  const x0 = 16, x1 = W - 48;
+  const revTop = 14, revBot = 74;          // upper register
+  const surTop = 88, surBot = 116;         // lower register
   const bw = (x1 - x0) / years.length;
-  const sy = (v) => bot - (v / maxRev) * (bot - top);
-  const zero = bot - (bot - top) * 0.34;
-  const syS = (v) => zero - (v / maxSur) * ((bot - top) * 0.3);
 
-  let defs = hatchDefs('rev', 1.5, '#8FA0B4', 45, 0.42);
+  const maxRev = Math.max(...years.map((y) => y.netTuition)) * 1.06;
+  const maxSur = Math.max(...years.map((y) => Math.abs(y.surplus))) * 1.15;
+  const syR = (v) => revBot - (v / maxRev) * (revBot - revTop);
+  const nil = surTop + (surBot - surTop) * 0.46;
+  const syS = (v) => nil - (v / maxSur) * ((surBot - surTop) * 0.46);
+
+  const defs = hatchDefs('rev', 1.6, '#8194AB', 45, RULE.hatch)
+    + hatchDefs('sur', 1.5, K.goldLeaf, 90, RULE.hatch);
   let body = '';
-  body += `<line x1="${x0 - 4}" y1="${r2(bot)}" x2="${x1}" y2="${r2(bot)}" stroke="${K.ink}" stroke-width="0.5"/>`;
+  const turns = years.findIndex((y) => y.surplus >= 0);
 
+  // ── The year the institution turns, ruled through both registers ──
+  if (turns > 0) {
+    const tx = x0 + turns * bw + bw / 2;
+    body += `<line x1="${r2(tx)}" y1="${revTop - 4}" x2="${r2(tx)}" y2="${surBot + 3}"
+      stroke="${K.gold}" stroke-width="${RULE.structure}" stroke-dasharray="2.4 1.8"/>`;
+    /* Annotated at the FOOT of its own rule, beside the surplus
+       register it describes. Set at the top it sat next to the "Net
+       tuition" label and the two read as one confused line. */
+    body += `<text x="${r2(tx + 2.6)}" y="${r2(surBot + 8)}" font-family="${DATA}" font-size="5.6"
+      font-weight="600" fill="${K.gold}">Surplus from ${esc(years[turns].calendar)}</text>`;
+  }
+
+  // ── Register one: net tuition ────────────────────────────────────
+  body += label(x0, revTop - 5.5, opts.revenueLabel || 'Net tuition', { size: 5.8, fill: K.soft, weight: 500 });
+  body += `<line x1="${x0 - 3}" y1="${r2(revBot)}" x2="${r2(x1)}" y2="${r2(revBot)}"
+    stroke="${K.ink}" stroke-width="${RULE.structure}"/>`;
   years.forEach((y, i) => {
     const bx = x0 + i * bw;
-    body += `<rect x="${r2(bx + bw * 0.16)}" y="${r2(sy(y.netTuition))}"
-      width="${r2(bw * 0.68)}" height="${r2(bot - sy(y.netTuition))}"
-      fill="url(#rev)" stroke="${K.soft}" stroke-width="0.3"/>`;
-    /* Every other year, and the last one only if it is not already
-       adjacent to the one before it — printing 35 and 36 side by side
-       makes the axis look like it lost count. */
-    const isLast = i === years.length - 1;
-    if (i % 2 === 0 || (isLast && (years.length - 1) % 2 !== 1)) {
-      body += label(bx + bw / 2, bot + 6.8, String(y.calendar).slice(2), { anchor: 'middle', size: 5.6, fill: K.grey, weight: 400 });
-    }
+    body += `<rect x="${r2(bx + bw * 0.15)}" y="${r2(syR(y.netTuition))}"
+      width="${r2(bw * 0.7)}" height="${r2(revBot - syR(y.netTuition))}"
+      fill="url(#rev)" stroke="${K.soft}" stroke-width="${RULE.grid}"/>`;
   });
 
-  // The surplus line, and the zero it crosses.
-  body += `<line x1="${x0 - 4}" y1="${r2(zero)}" x2="${x1}" y2="${r2(zero)}"
-    stroke="${K.gold}" stroke-width="0.7" stroke-dasharray="2 1.6"/>`;
-  const pts = years.map((y, i) => `${r2(x0 + i * bw + bw / 2)},${r2(syS(y.surplus))}`).join(' ');
-  body += `<polyline points="${pts}" fill="none" stroke="${K.midnight}" stroke-width="1.3"/>`;
+  /* THE DOMINANT ELEMENT: what the decade closes at. */
+  const last = years[years.length - 1];
+  const lastY = syR(last.netTuition);
+  body += `<line x1="${r2(x1 + 1)}" y1="${r2(lastY)}" x2="${r2(x1 + 5)}" y2="${r2(lastY)}"
+    stroke="${K.gold}" stroke-width="${RULE.structure}"/>`;
+  /* RIGHT-ALIGNED TO THE PLATE, not set at an offset and hoped for.
+     Estimating the advance width of "$17.0M" got it wrong twice and
+     clipped the one element that must not be clipped. Anchored to the
+     trim it cannot be clipped whatever the string turns out to be, and
+     a terminal figure ranged right is the better composition anyway. */
+  const figX = W - 3;
+  body += figureValue(figX, lastY + 2.6, `$${(last.netTuition / 1e6).toFixed(1)}M`, 13,
+    { weight: 500, anchor: 'end' });
+  /* Six and a half units below the figure's baseline put the year's
+     cap line into the tail of the dollar sign — which descends in this
+     face, as it does in most serifs. The interval is now the figure's
+     descender plus a line of air. */
+  body += `<text x="${r2(figX)}" y="${r2(lastY + 10.8)}" font-family="${TEXT}" font-size="6.4"
+    fill="${K.grey}" text-anchor="end">in ${esc(last.calendar)}</text>`;
+
+  // ── Register two: surplus, on its own baseline ───────────────────
+  body += label(x0, surTop - 5, 'Surplus', { size: 5.8, fill: K.soft, weight: 500 });
+  body += `<line x1="${x0 - 3}" y1="${r2(nil)}" x2="${r2(x1)}" y2="${r2(nil)}"
+    stroke="${K.gold}" stroke-width="${RULE.structure}"/>`;
   years.forEach((y, i) => {
-    body += `<circle cx="${r2(x0 + i * bw + bw / 2)}" cy="${r2(syS(y.surplus))}" r="1.3"
-      fill="${y.surplus >= 0 ? K.midnight : K.crimson}"/>`;
+    const bx = x0 + i * bw;
+    const yy = syS(y.surplus);
+    const h = Math.abs(nil - yy);
+    const up = y.surplus >= 0;
+    body += `<rect x="${r2(bx + bw * 0.15)}" y="${r2(up ? yy : nil)}"
+      width="${r2(bw * 0.7)}" height="${r2(Math.max(0.4, h))}"
+      fill="${up ? 'url(#sur)' : 'none'}" stroke="${up ? K.gold : K.crimson}"
+      stroke-width="${RULE.grid}"/>`;
+    // Axis years sit below the annotation, not in it.
+    if (i % 2 === 0) {
+      body += label(bx + bw / 2, surBot + 15, String(y.calendar).slice(2),
+        { anchor: 'middle', size: 5.6, fill: K.grey, weight: 400 });
+    }
   });
-  /* Clear of its own rule. Set on the baseline it marks, it printed
-     through the dashes. */
-  body += label(x1, zero - 4.6, 'Surplus, nil', { anchor: 'end', size: 5.6, fill: K.gold, weight: 500 });
-  body += label(x0 - 4, top + 2, opts.revenueLabel || 'Net tuition', { anchor: 'start', size: 5.8, fill: K.soft, weight: 500 });
+  // Beside the rule it marks, not stranded at the trim.
+  body += `<text x="${r2(x1 + 4)}" y="${r2(nil + 2)}" font-family="${DATA}" font-size="5.4"
+    font-weight="500" fill="${K.gold}">nil</text>`;
 
   return figure(W, H, body, defs);
 }
+
 
 // ════════════════════════════════════════════════════════════════════
 // 5 · WHAT ONE NEGOTIATION BUYS — acquisition, amortised
@@ -483,7 +721,25 @@ export function amortisation(retail, channels) {
      left margin and the names are right-aligned into a fixed gutter,
      which is the arrangement a table of this shape actually wants. The
      plate is also taller: at 92 units it filled under half its page. */
-  const W = 168, gutter = 52, x0 = gutter + 4, x1 = W - 28;
+  const W = 168;
+  /* AND THE GUTTER IS MEASURED TOO. At a flat 52 it held "Corporate"
+     and cut "Gulf professional" and "UK and Europe" off the left edge.
+     It is now the widest name in either group, and the right margin is
+     the widest figure plus the note beneath it. */
+  const names = [...retail, ...channels].map((r) => r.name);
+  const NAME = 6.8;
+  const gutter = Math.ceil(Math.max(...names.map((n) => setWidth(n, NAME, { face: TEXT, weight: 400 })))) + 5;
+  const x0 = gutter + 4;
+  /* The money sits in a column flush to the plate edge, as it does in
+     the threshold plate — so five acquisition costs align with one
+     another instead of each starting wherever its own bar happened to
+     stop, and the bars get the width that arrangement releases. */
+  const tailW = Math.max(
+    ...retail.map((r) => setWidth(`$${Math.round(r.cac).toLocaleString()}`, 7, { weight: 500 })),
+    ...channels.map((c) => setWidth(`$${Math.round(c.cac).toLocaleString()}`, 8.4, { weight: 600 })),
+    ...channels.map((c) => setWidth(c.note, 5.8, { face: TEXT, weight: 400 })),
+  );
+  const x1 = W - Math.ceil(tailW) - 9;
   const max = Math.max(...retail.map((r) => r.cac), ...channels.map((c) => c.cac));
   const sx = (v) => x0 + (v / (max * 1.06)) * (x1 - x0);
   const defs = hatchDefs('amort', 1.5, K.goldLeaf, 90, 0.55);
@@ -493,31 +749,33 @@ export function amortisation(retail, channels) {
   body += `<text x="4" y="${r2(y - 7)}" font-family="${DATA}" font-size="6" font-weight="600"
     letter-spacing="${TRACK.caps}" fill="${K.soft}" style="text-transform:uppercase">Acquired one at a time</text>`;
   retail.forEach((r) => {
-    body += `<text x="${gutter}" y="${r2(y + 2.4)}" font-family="${TEXT}" font-size="7"
+    body += `<text x="${gutter}" y="${r2(y + 2.4)}" font-family="${TEXT}" font-size="${NAME}"
       fill="${K.ink}" text-anchor="end">${esc(r.name)}</text>`;
     body += `<rect x="${x0}" y="${r2(y - 2.9)}" width="${r2(sx(r.cac) - x0)}" height="5.8"
       fill="none" stroke="${K.soft}" stroke-width="0.5"/>`;
-    body += `<text x="${r2(sx(r.cac) + 3)}" y="${r2(y + 2.4)}" font-family="${DATA}" font-size="7"
-      font-weight="500" fill="${K.soft}">$${Math.round(r.cac).toLocaleString()}</text>`;
+    body += `<text x="${r2(W - 4)}" y="${r2(y + 2.4)}" font-family="${DATA}" font-size="7"
+      font-weight="500" fill="${K.soft}" text-anchor="end"
+      style="font-variant-numeric:lining-nums tabular-nums">$${Math.round(r.cac).toLocaleString()}</text>`;
     y += 13;
   });
 
   y += 6;
-  body += `<line x1="4" y1="${r2(y - 9)}" x2="${x1 + 22}" y2="${r2(y - 9)}"
+  body += `<line x1="4" y1="${r2(y - 9)}" x2="${r2(W - 4)}" y2="${r2(y - 9)}"
     stroke="${K.rule}" stroke-width="0.35"/>`;
   body += `<text x="4" y="${r2(y - 3)}" font-family="${DATA}" font-size="6" font-weight="600"
     letter-spacing="${TRACK.caps}" fill="${K.gold}" style="text-transform:uppercase">One negotiation, many seats</text>`;
   y += 9;
 
   channels.forEach((c) => {
-    body += `<text x="${gutter}" y="${r2(y + 2.4)}" font-family="${TEXT}" font-size="7"
+    body += `<text x="${gutter}" y="${r2(y + 2.4)}" font-family="${TEXT}" font-size="${NAME}"
       fill="${K.ink}" text-anchor="end">${esc(c.name)}</text>`;
     body += `<rect x="${x0}" y="${r2(y - 2.9)}" width="${r2(Math.max(1.2, sx(c.cac) - x0))}" height="5.8"
       fill="url(#amort)" stroke="${K.gold}" stroke-width="0.55"/>`;
-    body += `<text x="${r2(sx(c.cac) + 3)}" y="${r2(y + 2.4)}" font-family="${DATA}" font-size="8"
-      font-weight="600" fill="${K.midnight}">$${Math.round(c.cac).toLocaleString()}</text>`;
-    body += `<text x="${r2(sx(c.cac) + 3)}" y="${r2(y + 9)}" font-family="${TEXT}" font-size="5.8"
-      fill="${K.grey}">${esc(c.note)}</text>`;
+    body += `<text x="${r2(W - 4)}" y="${r2(y + 2.6)}" font-family="${DATA}" font-size="8.4"
+      font-weight="600" fill="${K.midnight}" text-anchor="end"
+      style="font-variant-numeric:lining-nums tabular-nums">$${Math.round(c.cac).toLocaleString()}</text>`;
+    body += `<text x="${r2(W - 4)}" y="${r2(y + 9.4)}" font-family="${TEXT}" font-size="5.8"
+      fill="${K.grey}" text-anchor="end">${esc(c.note)}</text>`;
     y += 20;
   });
 
@@ -526,15 +784,26 @@ export function amortisation(retail, channels) {
   const best = Math.min(...channels.map((c) => c.cac));
   const worst = Math.max(...retail.map((r) => r.cac));
   y += 5;
-  body += `<line x1="4" y1="${r2(y)}" x2="${x1 + 22}" y2="${r2(y)}" stroke="${K.gold}" stroke-width="1.2"/>`;
-  body += `<text x="4" y="${r2(y + 13)}" font-family="${DISPLAY}" font-size="23"
-    fill="${K.midnight}">${(worst / best).toFixed(1)}×</text>`;
-  body += `<text x="32" y="${r2(y + 9.5)}" font-family="${TEXT}" font-size="7" fill="${K.inkSoft}"
-    >cheaper to acquire a seat through an agreement</text>`;
-  body += `<text x="32" y="${r2(y + 16.5)}" font-family="${TEXT}" font-size="7" fill="${K.inkSoft}"
-    >than a Gulf executive one at a time.</text>`;
+  body += `<line x1="4" y1="${r2(y)}" x2="${r2(W - 4)}" y2="${r2(y)}" stroke="${K.gold}" stroke-width="1.2"/>`;
+  /* THE CLOSER. The multiple is struck at 23 point and the sentence
+     runs beside it — which means the sentence starts where the
+     multiple ends and breaks where the plate does, both measured. It
+     was previously set on two hand-broken lines from a fixed x of 32,
+     and the first of them ran off the right edge. */
+  const mult = `${(worst / best).toFixed(1)}×`;
+  const multW = setWidth(mult, 23, { face: DISPLAY, weight: 500 });
+  const tx = 4 + multW + 6;
+  const lines = wrapTo('cheaper to acquire a seat through an agreement than a Gulf executive one at a time.',
+    W - 4 - tx, 7, { face: TEXT, weight: 400 });
+  body += `<text x="4" y="${r2(y + 15)}" font-family="${DISPLAY}" font-size="23"
+    font-weight="500" letter-spacing="${r2(-23 * 0.012)}" fill="${K.midnight}"
+    style="font-variant-numeric:lining-nums tabular-nums">${esc(mult)}</text>`;
+  lines.forEach((ln, i) => {
+    body += `<text x="${r2(tx)}" y="${r2(y + 10.5 + i * 7.4)}" font-family="${TEXT}" font-size="7"
+      fill="${K.inkSoft}">${esc(ln)}</text>`;
+  });
 
-  return figure(W, y + 26, body, defs);
+  return figure(W, y + 12 + Math.max(8, lines.length * 7.4) + 6, body, defs);
 }
 
 // ════════════════════════════════════════════════════════════════════

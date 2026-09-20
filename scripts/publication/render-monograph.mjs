@@ -89,14 +89,14 @@ const figThreshold = () => F.attentionThreshold(
     name: PR.PRODUCTS[k].name, perHour: P_[k] / PR.attentionHours(k), ownBand: k.startsWith('exec'),
   })), BC_ATTN, { benchmarkLabel: 'British Council Saudi', band: COACHING });
 const figSlope = () => F.slope(PR.SEGMENTS.filter((s) => s.wtpAssumed).map((s) => ({
-  name: s.name.split(' ').slice(0, 2).join(' '), from: s.wtpAssumed, to: s.wtpFull })));
+  name: s.short, from: s.wtpAssumed, to: s.wtpFull })));
 const figDecade = () => F.decade(CORE.years);
 const figAmort = () => F.amortisation(
   [{ name: 'Gulf executive', cac: PR.CAC.gccExec }, { name: 'Gulf professional', cac: PR.CAC.gccProf },
     { name: 'UK and Europe', cac: PR.CAC.ukeu }],
   Object.keys(PR.CHANNELS).map((k) => {
     const t = PR.channelTerms(k, P_);
-    return { name: t.name.split(' ')[0], cac: t.cacPerSeat,
+    return { name: t.short, cac: t.cacPerSeat,
       note: `${t.agreements.toFixed(0)} agreements × ${t.seatsPerAgreement.toFixed(0)} seats` };
   }));
 const figRisk = () => F.riskMatrix(RISKS);
