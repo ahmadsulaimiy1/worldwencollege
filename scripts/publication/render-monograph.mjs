@@ -1,19 +1,26 @@
 /**
- * THE MONOGRAPH — rendered.
+ * THE MONOGRAPH — composed in spreads.
  *
  * Content comes from the same engine as everything else. This file
- * decides only where it sits on a page, and it composes pages rather
- * than letting content flow into them.
+ * decides only what faces what, and it builds the book two pages at a
+ * time because that is how a book is read.
+ *
+ * THE TEMPO. A publication of one density is a document. This one
+ * alternates deliberately: a plate against an argument, a figure
+ * against its reading, a schedule against the drawing that explains it.
+ * If two consecutive spreads have the same shape, one of them is wrong.
  */
 import { writeFileSync, mkdirSync, readFileSync } from 'node:fs';
 import { chromium } from 'playwright';
 import path from 'node:path';
 import * as M from './monograph.mjs';
+import * as S from './spreads.mjs';
+import * as F from './figures.mjs';
 import { PLAN, basis } from './masterplan.mjs';
 import * as PR from './pricing.mjs';
 import * as AL from './allocation.mjs';
 import { scenarios as priceScenarios, architectures } from './projection.mjs';
-import { RISKS, RISK_COLUMNS, GOVERNANCE, GOVERNANCE_COLUMNS, PHASES } from './plan-narrative.mjs';
+import { RISKS, GOVERNANCE, GOVERNANCE_COLUMNS, PHASES } from './plan-narrative.mjs';
 
 const ROOT = path.resolve(new URL('../..', import.meta.url).pathname);
 const OUT = path.join(ROOT, 'publication');
@@ -25,19 +32,8 @@ const PSC = priceScenarios();
 const CORE = PSC.core;
 const CY10 = CORE.years[CORE.years.length - 1];
 const GOT = AL.achievedProposed();
-const PATH_ = PR.PROPOSED.committed;
+const P_ = PR.PROPOSED.committed;
 const PA = PLAN.proposed_architecture;
-
-/* The allocation diagram's colours run from midnight through greys for
-   the four consumed lines, then to gold for the two retained — so the
-   division the framework turns on is legible before a word is read. */
-const SEG_COLOUR = { payroll: M.C.midnight, technology: '#26405C', opex: '#42596F',
-  marketing: '#677D91', reserve: M.C.gold, strategic: M.C.goldLeaf };
-/* Labels, not first words. Taking the first word of each name turned
-   "Institutional Reserve" into INSTITUTIONAL, which names the wrong
-   thing on the one diagram that has to be unambiguous. */
-const SEG_LABEL = { payroll: 'PAYROLL', technology: 'TECHNOLOGY', opex: 'OPERATING',
-  marketing: 'MARKETING', reserve: 'RESERVE', strategic: 'STRATEGIC' };
 const EV = JSON.parse(readFileSync(path.join(ROOT, 'data/market-evidence.json'), 'utf8'));
 const PERIOD = `${PLAN.planning_period.first_year}–${PLAN.planning_period.first_year + PLAN.planning_period.years - 1}`;
 
@@ -46,44 +42,72 @@ const m$ = (n) => (n < 0 ? '−' : '') + '$' + Math.abs(n / 1e6).toFixed(1) + 'M
 const num = (n) => Number(Math.round(n)).toLocaleString('en-US');
 const pct = (x, d = 0) => (x * 100).toFixed(d) + '%';
 
-/* A SCHEDULE IS NOT A BROCHURE.
-   The first proof set each tier's full prose description inside the
-   table, which produced five-line cells, wildly uneven row heights and
-   a table that ran off the bottom of the page taking its last row with
-   it. What a tier buys is explained in the narrative; what the table
-   has to do is let a Board read eight prices down one column. */
+const SEG_LABEL = { payroll: 'Payroll', technology: 'Technology', opex: 'Operating',
+  marketing: 'Marketing', reserve: 'Reserve', strategic: 'Strategic' };
+const BC_OBS = EV.gcc.observations[0];
+const BC_ATTN = BC_OBS.price_usd / (BC_OBS.hours / 12);
+const COACHING = { from: 200, to: 600, label: 'Executive coaching, one to one' };
+
 const DESCRIPTOR = {
   independent: 'Examination, moderation and the award. No teaching.',
   directed: 'Seminar teaching in a group of fourteen, with marked work.',
   tutored: 'A named instructor, individual tutorials, every piece marked.',
   execCore: 'A cohort of six, scheduled around professional obligations.',
   execPremium: 'One to one throughout, with a named academic adviser.',
-  execBespoke: 'One to one, on material authored to the holder\u2019s own field.',
+  execBespoke: 'One to one, on material authored to the holder’s own field.',
 };
 
+/**
+ * A TABLE WITH ITS READING.
+ *
+ * Six schedules in the first proof occupied the top third of a page and
+ * left the rest white — measured, between 26 and 58 per cent of the
+ * field. That is not restraint; it is a page nobody finished. The
+ * reading sits at the foot under a struck rule and says what the table
+ * is for, which is work the document needed anyway.
+ */
+const tableWithReading = (spec, reading, opts = {}) => M.page(
+  `<div>${M.table(spec)}</div>
+   <div class="rd${reading.columns ? ' rd--col' : ''}">
+     <h4>${M.esc(reading.title)}</h4>
+     ${reading.body}
+   </div>`, { ...opts, stack: true });
+
 let P = [];
-const add = (html) => P.push(html);
-/** Open a chapter or part on a recto, as a bound book does. */
-const onRecto = () => { if (!M.nextIsRecto()) add(M.blankVerso()); };
-
-/* ────────────────────────────────────────────────────────────────────
-   TWO PASSES, BECAUSE A CONTENTS PAGE CANNOT KNOW ITS OWN BOOK.
-
-   The folio a section starts on is only known once everything before it
-   has been composed, and the contents page sits near the front. The
-   book is therefore built twice: the first pass records where each part
-   begins, the second sets those numbers into the contents. Anything
-   that changes a page count changes them both, which is the point.
-   ──────────────────────────────────────────────────────────────────── */
 let PAGES_OF = {};
-const at = (key) => { PAGES_OF[key] = M.folioNow() + 1; };
+const push = (...pp) => pp.forEach((x) => P.push(x));
+let NEXT_PART = '';
+/** Throw the next spread onto a recto. Where a leaf is needed it
+ *  carries the part's bastard title rather than nothing at all. */
+const onRecto = (name) => { if (!M.nextIsRecto()) P.push(M.halfTitle(name || NEXT_PART)); };
+const at = (k) => { PAGES_OF[k] = M.folioNow() + 1; };
+
+// ── The figures, computed once ───────────────────────────────────────
+const figAllocation = () => F.capitalArchitecture(GOT.lines, { labels: SEG_LABEL });
+const figThreshold = () => F.attentionThreshold(
+  Object.keys(PR.PRODUCTS).map((k) => ({
+    name: PR.PRODUCTS[k].name, perHour: P_[k] / PR.attentionHours(k), ownBand: k.startsWith('exec'),
+  })), BC_ATTN, { benchmarkLabel: 'British Council Saudi', band: COACHING });
+const figSlope = () => F.slope(PR.SEGMENTS.filter((s) => s.wtpAssumed).map((s) => ({
+  name: s.name.split(' ').slice(0, 2).join(' '), from: s.wtpAssumed, to: s.wtpFull })));
+const figDecade = () => F.decade(CORE.years);
+const figAmort = () => F.amortisation(
+  [{ name: 'Gulf executive', cac: PR.CAC.gccExec }, { name: 'Gulf professional', cac: PR.CAC.gccProf },
+    { name: 'UK and Europe', cac: PR.CAC.ukeu }],
+  Object.keys(PR.CHANNELS).map((k) => {
+    const t = PR.channelTerms(k, P_);
+    return { name: t.name.split(' ')[0], cac: t.cacPerSeat,
+      note: `${t.agreements.toFixed(0)} agreements × ${t.seatsPerAgreement.toFixed(0)} seats` };
+  }));
+const figRisk = () => F.riskMatrix(RISKS);
 
 function build() {
   P = [];
   M.resetFolios();
 
-  // ══ FRONT MATTER ══════════════════════════════════════════════════
-  add(`<section class="pg m-cover">
+  // ══ COVER ═════════════════════════════════════════════════════════
+  P.push(`<section class="pg m-cover">
+    <div class="bleed guilloche guilloche--cover engr engr--pale">${S.engraving('guilloche')}</div>
     <div class="m-cover__frame"></div>
     <div class="m-cover__mark"><span class="inscr">WorldWide English College</span></div>
     <div class="m-cover__rule"></div>
@@ -96,345 +120,332 @@ function build() {
   </section>`);
   M.countUnfoliated();
 
-  add(M.colourField({
-    quote: `The College sells <em>teaching</em>, not a credential.<br>The credential is identical whichever route a candidate takes to it. What differs, and what costs money, is <em>human attention</em>.`,
-    attribution: 'The institutional thesis',
-  }));
+  // ══ FRONTISPIECE SPREAD: a plate against the thesis ═══════════════
+  push(...S.spread(
+    S.platePage('manuscript', { scrim: false }),
+    M.page(`
+      <div class="m-field__wrap" style="position:absolute;top:44%;left:0;right:0;transform:translateY(-50%)">
+        <div style="width:${M.col(2)}mm;height:1.4pt;background:${S.C.gold};margin:0 0 10mm"></div>
+        <p style="font-family:${S.FACE.display};font-weight:300;font-size:27pt;line-height:37pt;color:${S.C.midnight};margin:0;max-width:${M.col(9)}mm">
+          The College sells <em style="font-style:italic;color:${S.C.gold}">teaching</em>, not a credential. The credential is identical whichever route a candidate takes to it. What differs, and what costs money, is <em style="font-style:italic;color:${S.C.gold}">human attention</em>.</p>
+        <p style="font-family:${S.FACE.data};font-size:5.6pt;font-weight:500;letter-spacing:.3em;text-transform:uppercase;color:${S.C.grey};margin:12mm 0 0">The institutional thesis</p>
+      </div>`, { tone: 'pg--bone', bare: true })
+  ));
 
-  add(M.contents({
+  // ══ CONTENTS ══════════════════════════════════════════════════════
+  onRecto();
+  P.push(M.contents({
     title: 'Contents',
     parts: [
       { part: 'I · The Proposition', rows: [
-        { t: 'What the Board is asked to resolve', f: PAGES_OF.proposition || 0 },
-        { t: 'The decade in one view', f: PAGES_OF.summary || 0 }] },
+        { t: 'Three resolutions', f: PAGES_OF.resolutions || 0 },
+        { t: 'Where every dollar is governed', f: PAGES_OF.alloc || 0 }] },
       { part: 'II · The Institution', rows: [
         { t: 'What the College is, and what it holds', f: PAGES_OF.identity || 0 },
-        { t: 'The academic and credit architecture', f: PAGES_OF.academic || 0 }] },
+        { t: 'The six qualifications', f: PAGES_OF.academic || 0 }] },
       { part: 'III · The Market', rows: [
-        { t: 'What comparable providers actually charge', f: PAGES_OF.evidence || 0 },
-        { t: 'Willingness to pay, assumed against researched', f: PAGES_OF.wtp || 0 },
+        { t: 'What the research did to the plan', f: PAGES_OF.slope || 0 },
+        { t: 'What comparable providers charge', f: PAGES_OF.evidence || 0 },
         { t: 'Where the evidence does not exist', f: PAGES_OF.gaps || 0 }] },
       { part: 'IV · The Commercial Architecture', rows: [
         { t: 'The proposed tariff', f: PAGES_OF.tariff || 0 },
-        { t: 'Price per hour of instructor attention', f: PAGES_OF.attention || 0 },
-        { t: 'Three architectures, one basis', f: PAGES_OF.arch || 0 }] },
+        { t: 'What one negotiation buys', f: PAGES_OF.amort || 0 }] },
       { part: 'V · The Financial Architecture', rows: [
-        { t: 'Where every dollar is governed', f: PAGES_OF.alloc || 0 },
-        { t: 'The Core Management Plan, year by year', f: PAGES_OF.decade || 0 },
-        { t: 'Three scenarios', f: PAGES_OF.scenarios || 0 }] },
+        { t: 'What each line is, and is not', f: PAGES_OF.definitions || 0 },
+        { t: 'The decade', f: PAGES_OF.decade || 0 }] },
       { part: 'VI · The Decade', rows: [
         { t: 'Five phases', f: PAGES_OF.phases || 0 },
-        { t: 'The institutional risk register', f: PAGES_OF.risks || 0 },
+        { t: 'The risk register', f: PAGES_OF.risks || 0 },
         { t: 'Governance and authority', f: PAGES_OF.gov || 0 }] },
       { part: 'VII · Method', rows: [
-        { t: 'Assumptions, sources and reconciliation', f: PAGES_OF.method || 0 }] },
+        { t: 'Where every figure comes from', f: PAGES_OF.method || 0 }] },
     ],
   }));
 
-  // ══ PART I · THE PROPOSITION ══════════════════════════════════════
+  // ══ PART I ════════════════════════════════════════════════════════
+  NEXT_PART = 'The Proposition';
   onRecto();
-  add(M.partOpener({ numeral: 'Part One', title: 'The Proposition',
-    say: 'What the Board is asked to resolve, and the three decisions the rest of this document exists to inform.',
-    contents: ['The resolution sought', 'The decade in one view', 'What is not yet held'] }));
+  at('resolutions');
+  push(...S.spread(
+    S.platePage('westminster', { numeral: 'Part One', title: 'The Proposition',
+      say: 'What the Board is asked to resolve, and the three decisions the rest of this document exists to inform.' }),
+    S.marginPage({
+      runhead: 'The Proposition',
+      side: S.marginNote('Not a decision',
+        `The Board of Academic Standards has no appointed members and no External Examiner has been appointed. Both are appointments rather than engineering tasks, and until they are made the College cannot confer.`)
+        + S.marginNote('Status', M.mark('board')),
+      main: `
+        <p class="op__num">Three resolutions</p>
+        <div class="op__rule"></div>
+        <div class="op__arg">
+          <p>This plan asks for three decisions and no others. Everything else in it is either a fact about the College, which is marked as one, or a consequence of arithmetic the Board can check.</p>
+          <h3>One &middot; The revenue-allocation framework</h3>
+          <p>That gross collected revenue be governed as ${GOT.lines.map((l) => `${pct(l.target, 0)} ${SEG_LABEL[l.key].toLowerCase()}`).join(', ')}. The two retained lines are designated institutional capital; the Strategic and Founders&rsquo; Allocation is <strong>not</strong> automatically withdrawable income, and no distribution from it is modelled anywhere in this plan.</p>
+          <h3>Two &middot; The tariff that follows from it</h3>
+          <p>That the tariff be set at the cheapest point satisfying that framework &mdash; a Tutored pathway at <strong>${usd(P_.tutored)}</strong>. The price is the output of the framework rather than a management preference, and it moves if the framework moves.</p>
+          <h3>Three &middot; The two channels the portfolio lacks</h3>
+          <p>That the College open Corporate and Institutional agreements at its own published partner bands. A purely retail College could not bring acquisition below ${pct(0.22, 0)} of revenue against a ${pct(AL.SHARES.marketing, 0)} target, because a cost incurred one learner at a time never amortises.</p>
+        </div>`,
+    })
+  ));
 
-  at('proposition');
-  add(M.narrative({ runhead: 'The Proposition', single: true,
-    head: `<p class="eyebrow">What the Board is asked to resolve</p>
-      <h2 style="margin-top:0">Three resolutions</h2>`,
-    body: `
-      <p class="drop">This plan asks for three decisions and no others. Everything else in it is either a fact about the College, which is marked as one, or a consequence of arithmetic the Board can check.</p>
-      <h3>One &middot; The revenue-allocation framework</h3>
-      <p>That gross collected revenue be governed as ${GOT.lines.map((l) => `${pct(l.target, 0)} ${l.name.toLowerCase()}`).join(', ')}. The two retained lines are designated institutional capital. The Strategic and Founders&rsquo; Allocation is <strong>not</strong> automatically withdrawable income, and no distribution from it is modelled anywhere in this plan. ${M.mark('board')}</p>
-      <h3>Two &middot; The commercial architecture that follows from it</h3>
-      <p>That the tariff be set at the cheapest point satisfying that framework: a Tutored pathway at <strong>${usd(PATH_.tutored)}</strong>, with the full schedule on page ${String(PAGES_OF.tariff || 0).padStart(2, '0')}. The price is the output of the framework rather than a management preference, and it moves if the framework moves. ${M.mark('board')}</p>
-      <h3>Three &middot; The two channels the portfolio does not yet contain</h3>
-      <p>That the College open Corporate and Institutional agreements at its own published partner bands. Swept across a twelvefold price range and a sixteenfold range of scale, a purely retail College could not bring acquisition below ${pct(0.22, 0)} of revenue against a ${pct(AL.SHARES.marketing, 0)} target, because a cost incurred one learner at a time never amortises. ${M.mark('board')}</p>
-      <h3>And one thing that is not a decision</h3>
-      <p>The Board of Academic Standards has no appointed members and no External Examiner has been appointed. Both are appointments rather than engineering tasks, and until they are made the College cannot confer. Every surface that would carry those names already exists and already renders.</p>`,
-  }));
+  // Analytical spread: the framework drawn, and the decade it produces.
+  at('alloc');
+  push(...S.spread(
+    S.figurePage({ eyebrow: 'The governing financial law', title: 'Where every dollar is governed',
+      sub: 'Four lines consumed running the institution; two retained as capital above the struck rule.',
+      figure: figAllocation(),
+      note: `${M.mark('board')} Proposed governance targets, not a historical result. data/masterplan.json § revenue_allocation_framework.`,
+      runhead: 'The Proposition' }),
+    S.figurePage({ eyebrow: 'What it produces', title: 'The decade',
+      sub: 'Net tuition as ruled columns; surplus against the year it crosses nil.',
+      figure: figDecade(),
+      note: `Revenue is recognised in the year it is taught, not the year it is sold. Ten years: ${m$(ARCH.proposed.totals.revenue)} of revenue, ${m$(ARCH.proposed.totals.surplus)} of surplus, ${num(ARCH.proposed.totals.newLearners)} learners admitted. ${M.mark('modelled')}`,
+      runhead: 'The Proposition' })
+  ));
 
-  at('summary');
-  add(M.heroMetric({
-    eyebrow: 'Retained for reserve and strategic allocation',
-    value: pct(GOT.retainedShare, 1),
-    say: `The tariff is the cheapest one at which the institution retains what its own financial law requires.`,
-    note: `Against a target of ${pct(AL.SHARES.reserve + AL.SHARES.strategic, 0)}. ${M.mark('board')}`,
-    runhead: 'The Proposition',
-  }));
-
-  add(M.narrative({ runhead: 'The Proposition', single: true,
-    head: `<p class="eyebrow">The decade in one view</p><h2 style="margin-top:0">What the plan produces</h2>`,
-    body: M.table({
-      title: 'The Core Management Plan at maturity',
-      sub: 'Strategic projection on modelled assumptions. Not a record of trading.',
-      head: ['', 'Ten years', 'Year 10'],
-      rows: [
-        ['Gross revenue', m$(ARCH.proposed.totals.revenue), m$(CY10.revenue)],
-        ['Operating surplus', m$(ARCH.proposed.totals.surplus), m$(CY10.surplus)],
-        ['Learners admitted', num(ARCH.proposed.totals.newLearners), num(CY10.newLearners)],
-        ['Learners under instruction', '—', num(CY10.activeLearners)],
-        ['Level awards conferred', num(ARCH.proposed.totals.awards), num(CY10.totalAwards)],
-        ['Award-holders', num(ARCH.proposed.totals.alumni), '—'],
-        { em: true, cells: ['Revenue retained under the framework', pct(GOT.retainedShare, 1), m$(GOT.retained)] },
-      ],
-      source: `WEC-LC Financial Model. ${M.mark('modelled')} throughout.`,
-    }),
-  }));
-
-  // ══ PART II · THE INSTITUTION ═════════════════════════════════════
+  // ══ PART II ═══════════════════════════════════════════════════════
+  NEXT_PART = 'The Institution';
   onRecto();
-  add(M.partOpener({ numeral: 'Part Two', title: 'The Institution',
-    say: 'What the College is, what it sells, and the discipline that makes both statements checkable.',
-    contents: ['Identity', 'Academic architecture', 'The credit structure', 'What is held and what is not'] }));
-
   at('identity');
-  add(M.narrative({ runhead: 'The Institution',
-    head: `<p class="eyebrow">Identity</p><h2 style="margin-top:0">What the College is, and what it holds</h2>`,
-    body: `
-      <p class="drop">WorldWide English College teaches a ${num(B.totalHours)}-hour qualification pathway in six levels from A1 to C2, examined against rubrics published before the work, second-marked, moderated, and entered in a registry a stranger can check without an account.</p>
-      <p>The credential is identical whichever route a candidate takes to it &mdash; same examination, same rubric, same second marking, same moderation, same registry entry, same public verification. The routes differ in price by a factor of thirty-eight because what they differ in is <em>human attention</em>, which is the only thing here that actually costs money.</p>
-      <h3>What the College does not claim</h3>
-      <p>It holds no third-party accreditation, no ranking, no institutional partnership and no external endorsement. It has not completed a cohort. No External Examiner has confirmed its standard. These are stated here rather than discovered later, and nothing in this plan assumes any of them changes.</p>
-      <h3>What it does hold</h3>
-      <p>A complete six-level curriculum of ${num(B.totalHours)} academic hours; an examination architecture with second marking and moderation; a published fee decomposition accounting for every cent of a fee; a conferral and verification chain; and fourteen typeset volumes of its own curriculum and assessment work, free to anyone, enrolled or not.</p>
-      <h3>The discipline</h3>
-      <p>Every figure in this publication is computed by one engine from three files. None is typed into a page. The reconciliation is run as a test on every build rather than asserted as a claim, and the build fails if a figure in the document cannot be traced to the record it came from.</p>`,
-  }));
+  push(...S.spread(
+    S.platePage('library', { numeral: 'Part Two', title: 'The Institution',
+      say: 'What the College is, what it sells, and the discipline that makes both statements checkable.' }),
+    S.marginPage({
+      runhead: 'The Institution',
+      side: S.marginNote('What is not claimed',
+        'No accreditation, no ranking, no institutional partnership, no external endorsement. No completed cohort. No External Examiner has confirmed the standard.')
+        + S.marginNote('The pathway', `${num(B.totalHours)} academic hours &middot; ${B.levels} levels &middot; ${B.totalCredits} credits &middot; A1 to C2`),
+      main: `
+        <p class="op__num">Identity</p>
+        <div class="op__rule"></div>
+        <div class="op__arg">
+          <p>WorldWide English College teaches a ${num(B.totalHours)}-hour qualification pathway in six levels from A1 to C2, examined against rubrics published before the work, second-marked, moderated, and entered in a registry a stranger can check without an account.</p>
+          <p>The credential is identical whichever route a candidate takes to it &mdash; same examination, same rubric, same second marking, same moderation, same registry entry, same public verification. The routes differ in price by a factor of thirty-eight because what they differ in is <em>human attention</em>, which is the only thing here that actually costs money.</p>
+          <h3>What it does hold</h3>
+          <p>A complete six-level curriculum; an examination architecture with second marking and moderation; a published fee decomposition accounting for every cent of a fee; a conferral and verification chain; and fourteen typeset volumes of its own curriculum and assessment work, free to anyone, enrolled or not.</p>
+          <h3>The discipline</h3>
+          <p>Every figure in this publication is computed by one engine from four files. None is typed into a page, and the reconciliation is run as a test on every build rather than asserted as a claim.</p>
+        </div>`,
+    })
+  ));
 
+  // Architecture spread: the engraved six gates against the schedule.
   at('academic');
-  add(M.narrative({ runhead: 'The Institution', single: true,
-    head: `<p class="eyebrow">Academic architecture</p>`,
-    body: M.table({
+  push(...S.spread(
+    M.page(`
+      <p class="fg__eye">The academic architecture</p>
+      <h2 class="fg__t">Six gates, and what passes each</h2>
+      <p class="fg__s">The College&rsquo;s own plate, drawn in engraved line.</p>
+      <div class="engr engr--ink" style="margin-top:6mm">${S.engraving('the-six-gates')}</div>
+      <div class="rd" style="margin-top:9mm">
+        <h4>What a gate is</h4>
+        <p>Each level ends at an examination set against a rubric published before the work begins, marked by a named person, marked a second time independently, and moderated across the cohort. Nothing passes on attendance, and nothing passes on a tutor&rsquo;s recommendation alone.</p>
+        <p>A candidate who does not pass sits again; one re-sit is included and there is no re-sit fee on either route. A candidate who passes is entered in the registry the same day, and the entry can be checked by anyone, without an account, for as long as the College exists.</p>
+      </div>`,
+    { runhead: 'The Institution', stack: true }),
+    tableWithReading({
       title: 'The six qualifications',
-      sub: `${B.levels} levels, ${num(B.hoursPerLevel)} academic hours and ${B.creditsPerLevel} credits each — ${num(B.totalHours)} hours and ${B.totalCredits} credits across the pathway.`,
+      sub: `${B.levels} levels of ${num(B.hoursPerLevel)} academic hours and ${B.creditsPerLevel} credits each.`,
       head: ['Code', 'CEFR', 'Qualification', 'Hours', 'Credits'],
-      rows: PR.QUALIFICATIONS.map((q) => [
-        `<b>${M.esc(q.code)}</b>`, M.esc(q.cefr), { v: M.esc(q.name), cls: 'unit' },
-        num(B.hoursPerLevel), num(B.creditsPerLevel),
-      ]).concat([{ em: true, cells: ['', '', 'COMPLETE A1–C2 PATHWAY', num(B.totalHours), num(B.totalCredits)] }]),
-      source: `${M.mark('verified')} — data/tuition.json and the programme record. Adopted and published.`,
-    }),
-  }));
+      rows: PR.QUALIFICATIONS.map((q) => [`<b>${M.esc(q.code)}</b>`, M.esc(q.cefr),
+        { v: M.esc(q.name), cls: 'unit' }, num(B.hoursPerLevel), num(B.creditsPerLevel)])
+        .concat([{ em: true, cells: ['', '', 'COMPLETE A1–C2 PATHWAY', num(B.totalHours), num(B.totalCredits)] }]),
+      source: `${M.mark('verified')} Adopted and published — data/tuition.json.`,
+    }, { title: 'Why six, and why this size', columns: true, body: `
+      <p>A level is ${num(B.hoursPerLevel)} academic hours because that is roughly what the Common European Framework takes to move an adult one band, and because ${B.instalmentsPerLevel} instalments across ${B.monthsPerLevel} months is a commitment a working adult can actually make.</p>
+      <p>Each level confers its own award. A learner who stops after two holds two qualifications rather than a fraction of one, which is the difference between a pathway and a course somebody abandoned.</p>
+      <p>The credential is identical on every route. What a route changes is how much of a named instructor&rsquo;s attention the candidate receives on the way to it &mdash; and that, not the certificate, is what the tariff is pricing.</p>` },
+    { runhead: 'The Institution' })
+  ));
 
-  // ══ PART III · THE MARKET ═════════════════════════════════════════
+  // ══ PART III ══════════════════════════════════════════════════════
+  NEXT_PART = 'The Market';
   onRecto();
-  add(M.partOpener({ numeral: 'Part Three', title: 'The Market',
-    say: 'What comparable programmes actually charge, what that did to an earlier draft of this plan, and the four markets the research could not answer.',
-    contents: ['Published tariffs', 'Assumed against researched', 'Where evidence does not exist'] }));
+  at('slope');
+  push(...S.spread(
+    S.platePage('worldmap', { numeral: 'Part Three', title: 'The Market',
+      say: 'What comparable programmes actually charge, what that did to an earlier draft, and the four markets the research could not answer.' }),
+    S.figurePage({ eyebrow: 'What the research did to the plan', title: 'Assumed against researched',
+      sub: 'Price of a complete pathway at which a segment converts at its reference rate.',
+      figure: figSlope(),
+      note: `Four of the five segments moved, and West Africa by nearly a factor of three. The plan this replaced projected ${m$(PA.superseded_pathway_usd.projected_ten_year_revenue_usd)} of revenue on the assumed figures; it is recorded in data/masterplan.json rather than quietly replaced.`,
+      runhead: 'The Market' })
+  ));
 
   at('evidence');
-  const EV_SEGMENTS = [['gcc', 'Saudi Arabia and the Gulf'], ['west_africa', 'Nigeria and West Africa'],
+  const EVSEG = [['gcc', 'Saudi Arabia and the Gulf'], ['west_africa', 'Nigeria and West Africa'],
     ['uk_europe', 'United Kingdom and Europe'], ['executive_and_corporate', 'Executive and corporate']];
-  const evRows = EV_SEGMENTS.flatMap(([key, name]) => EV[key].observations
+  const evRows = EVSEG.flatMap(([key, name]) => EV[key].observations
     .filter((o) => o.price_local || o.price_usd)
-    .map((o, i) => [
-      i === 0 ? `<b>${M.esc(name)}</b>` : '',
-      { v: `${M.esc(o.provider)}<br><span style="color:${M.C.grey}">${M.esc(o.product)}</span>`, cls: 'unit' },
+    .map((o, i) => [i === 0 ? `<b>${M.esc(name)}</b>` : '',
+      { v: `${M.esc(o.provider)}<br><span style="color:${S.C.grey}">${M.esc(o.product)}</span>`, cls: 'unit' },
       M.esc(o.price_local || '—'),
       typeof o.price_usd === 'number' ? usd(o.price_usd) : (o.price_usd ? `$${M.esc(String(o.price_usd))}` : '—'),
-      o.per_contact_hour_usd ? usd(o.per_contact_hour_usd, 2) : '—',
-      M.esc(o.confidence || '—'),
-    ]));
-  for (const pg2 of M.tablePages({
+      M.esc(o.confidence || '—')]));
+  const evPages = M.tablePages({
     title: 'What comparable providers charge',
-    sub: `Published tariffs, converted. Gathered ${EV.researched_on}. ${EV.fx_note}`,
-    head: ['Market', 'Provider', 'Local price', 'USD', 'Per contact hour', 'Confidence'],
+    sub: `Published tariffs, converted. Gathered ${EV.researched_on}.`,
+    head: ['Market', 'Provider', 'Local price', 'USD', 'Confidence'],
     rows: evRows,
-    source: `Every observation is recorded in <strong>data/market-evidence.json</strong> with its source address. Nothing about the outside world is typed into this publication.`,
-  }, 10, { runhead: 'The Market' })) add(pg2);
-
-  at('wtp');
-  add(M.narrative({ runhead: 'The Market', single: true,
-    head: `<p class="eyebrow">What the research did to the demand model</p>`,
-    body: M.table({
-      title: 'Willingness to pay, assumed against researched',
-      sub: 'Price of a complete A1–C2 pathway at which a segment converts at its reference rate.',
-      head: ['Segment', 'Assumed', 'Researched', 'Change', 'Elasticity', 'Confidence'],
-      rows: PR.SEGMENTS.map((seg) => [
-        `<b>${M.esc(seg.name)}</b>`,
-        seg.wtpAssumed ? usd(seg.wtpAssumed) : '—',
-        usd(seg.wtpFull),
-        seg.wtpAssumed ? `<b>${pct(seg.wtpFull / seg.wtpAssumed - 1, 0)}</b>` : '—',
-        seg.elasticity.toFixed(2),
-        { v: M.esc(seg.confidence), cls: 'unit' },
-      ]),
-      source: `Four of the five moved, and one by nearly a factor of three. The plan this replaced projected ${m$(PA.superseded_pathway_usd.projected_ten_year_revenue_usd)} of revenue on those assumed figures; it is recorded in data/masterplan.json rather than quietly replaced.`,
-    }),
-  }));
+    source: 'Every observation carries its source address in data/market-evidence.json.',
+  }, 11, { runhead: 'The Market' });
+  push(...evPages);
 
   at('gaps');
-  add(M.narrative({ runhead: 'The Market', single: true,
-    head: `<p class="eyebrow">Where the evidence does not exist</p>
-      <h2 style="margin-top:0">Stated, rather than closed</h2>
-      <p class="lede" style="max-width:${M.col(8)}mm">${M.esc(EV.gaps.find((g) => g.status === 'NO DIRECT COMPARABLE FOUND').note.split('.').slice(0, 2).join('.') + '.')}</p>`,
-    body: M.table({
+  if (evPages.length % 2 === 1) onRecto();
+  push(...S.spread(
+    tableWithReading({
       title: 'Marked as modelled',
       sub: 'Four markets and one central question the research could not answer.',
       head: ['Market or question', 'Status', 'What the model does instead'],
-      rows: EV.gaps.map((g) => [
-        `<b>${M.esc(g.market || g.topic)}</b>`,
+      rows: EV.gaps.map((g) => [`<b>${M.esc(g.market || g.topic)}</b>`,
         M.mark(g.status === 'NO DIRECT COMPARABLE FOUND' ? 'insufficient' : 'modelled'),
         { v: M.esc(g.status === 'NO DIRECT COMPARABLE FOUND'
           ? 'Pathway prices are built up from per-level comparables rather than read off a competitor.'
-          : (g.note || 'Scaled from the segments that carry direct observations.')), cls: 'unit' },
-      ]),
+          : (g.note || 'Scaled from the segments that carry direct observations.')), cls: 'unit' }]),
       source: 'data/market-evidence.json § gaps.',
-    }),
-  }));
+    }, { title: 'Rejecting well is most of the job', columns: true, body: `
+      <p>Thirty candidate sources were pulled and eight shipped. What did not survive is recorded beside what did, because an undocumented rejection gets re-proposed six months later by somebody who does not know it was already considered.</p>
+      <p>Four markets carry no direct observation at all. They are modelled from the segments that do, and marked as modelled on every page they appear. The plan does not convert an absence of evidence into a number and hope nobody checks.</p>` },
+    { runhead: 'The Market' }),
+    M.page(`
+      <div style="position:absolute;top:38%;left:0;right:0;transform:translateY(-50%)">
+        <div style="width:${M.col(2)}mm;height:1.4pt;background:${S.C.gold};margin:0 0 9mm"></div>
+        <p style="font-family:${S.FACE.display};font-weight:300;font-size:22pt;line-height:31pt;color:${S.C.midnight};margin:0;max-width:${M.col(8)}mm">
+          No provider found sells a six-level, ${num(B.totalHours)}-hour credentialed pathway as one purchase.
+          <em style="font-style:italic;color:${S.C.gold}">WEC-LC&rsquo;s product does not have a market price, because the product is not on the market.</em></p>
+        <p style="font-family:${S.FACE.text};font-size:${M.T.small}pt;line-height:15pt;color:${S.C.inkSoft};max-width:${M.col(7)}mm;margin:9mm 0 0">
+          That is why this plan prices per level and per hour of a named instructor&rsquo;s attention rather than comparing pathway totals. A pathway total has no comparable. An hour of a qualified teacher&rsquo;s attention has one everywhere.</p>
+      </div>`, { tone: 'pg--bone', runhead: 'The Market' })
+  ));
 
-  // ══ PART IV · THE COMMERCIAL ARCHITECTURE ═════════════════════════
+  // ══ PART IV ═══════════════════════════════════════════════════════
+  NEXT_PART = 'The Commercial Architecture';
   onRecto();
-  add(M.partOpener({ numeral: 'Part Four', title: 'The Commercial Architecture',
-    say: 'What WEC-LC charges, solved backwards from the financial law the Board has set — and not chosen.',
-    contents: ['The proposed tariff', 'Per hour of attention', 'Three architectures'] }));
-
   at('tariff');
-  add(M.narrative({ runhead: 'Commercial Architecture', single: true,
-    head: `<p class="eyebrow">The proposed tariff</p>`,
-    body: M.table({
+  push(...S.spread(
+    S.platePage('letterpress', { numeral: 'Part Four', title: 'The Commercial Architecture',
+      say: 'What WEC-LC charges, solved backwards from the financial law the Board has set — and not chosen.' }),
+    M.page(M.table({
       title: 'Management’s proposed commercial architecture',
       sub: 'Complete A1–C2 pathway. The adopted tariff remains $19,000 until the Board resolves otherwise.',
-      head: ['Tier', 'What it buys', 'Contact hours', 'Attention', 'Pathway'],
+      head: ['Tier', 'What it buys', 'Contact', 'Attention', 'Pathway'],
       rows: [
-        ...Object.keys(PATH_).map((k) => {
+        ...Object.keys(P_).map((k) => {
           const pp = PR.PRODUCTS[k];
           return [M.esc(pp.name), { v: M.esc(DESCRIPTOR[k]), cls: 'unit' },
-            num((pp.individual + pp.groupHours) * 6), num(PR.attentionHours(k)),
-            `<b>${usd(PATH_[k])}</b>`];
+            num((pp.individual + pp.groupHours) * 6), num(PR.attentionHours(k)), `<b>${usd(P_[k])}</b>`];
         }),
         ...Object.keys(PR.CHANNELS).map((k) => {
-          const t = PR.channelTerms(k, PATH_);
-          const sp = PR.PRODUCTS[t.spec];
+          const t = PR.channelTerms(k, P_); const sp = PR.PRODUCTS[t.spec];
           return { cells: [M.esc(t.name),
             { v: `The ${M.esc(sp.name)} pathway, less the adopted ${pct(t.discount, 0)} band.`, cls: 'unit' },
             num((sp.individual + sp.groupHours) * 6), num(PR.attentionHours(t.spec)),
             `<b>${usd(Math.round(t.seatPrice))}</b>`] };
         }),
       ],
-      source: `Independent is adopted and published. Every other figure is ${M.mark('proposed')} — solved from the allocation framework by scripts/publication/allocation.mjs.`,
-    }),
-  }));
+      source: `Independent is adopted and published. Every other figure is ${M.mark('proposed')} — solved from the allocation framework.`,
+    }), { runhead: 'Commercial Architecture' })
+  ));
 
-  at('attention');
-  const BC = EV.gcc.observations[0];
-  const bcAttn = BC.price_usd / (BC.hours / 12);
-  add(M.narrative({ runhead: 'Commercial Architecture', single: true,
-    head: `<p class="eyebrow">The comparison that survives</p>
-      <h2 style="margin-top:0">Per hour of a teacher&rsquo;s<br>individual attention</h2>
-      <p class="lede" style="max-width:${M.col(8)}mm">A pathway total has no comparable, because no provider sells one. An hour of a qualified teacher&rsquo;s individual attention has one everywhere.</p>`,
-    body: M.table({
-      title: 'The only like-for-like unit available',
-      sub: 'Group hours divided by the published group size, because a class of twelve gives each learner a twelfth of the teacher.',
-      head: ['Product', 'Attention across the pathway', 'Pathway price', 'Per hour'],
-      rows: Object.keys(PR.PRODUCTS).map((k) => {
-        const h = PR.attentionHours(k);
-        return [M.esc(PR.PRODUCTS[k].name), num(h), usd(PATH_[k]), `<b>${usd(PATH_[k] / h, 2)}</b>`];
-      }).concat([{ em: true, cells: [`British Council Saudi Arabia, group of 12`,
-        num(BC.hours / 12), usd(BC.price_usd) + ' per module', `<b>${usd(bcAttn, 2)}</b>`] }]),
-      source: `WEC-LC is cheaper per hour of individual instructor attention than the published British Council tariff at every tier, and it confers an award the module does not.`,
-    }),
-  }));
+  // The key analytical spread: the claim, drawn, and the one tier that fails it.
+  push(...S.spread(
+    S.figurePage({ eyebrow: 'The comparison that survives', title: 'Per hour of individual attention',
+      sub: 'The only like-for-like unit available, and each tier against the comparable it actually has.',
+      figure: figThreshold(),
+      note: `A pathway total has no comparable. An hour of a qualified teacher&rsquo;s attention has one everywhere — and a group module and a one-to-one programme have different ones.`,
+      runhead: 'Commercial Architecture' }),
+    S.marginPage({
+      runhead: 'Commercial Architecture',
+      side: S.marginNote('Directed, stated plainly',
+        `At ${usd(P_.directed / PR.attentionHours('directed'), 0)} an hour of attention and ${usd(P_.directed / ((PR.PRODUCTS.directed.individual + PR.PRODUCTS.directed.groupHours) * 6), 0)} a contact hour, Directed is dearer than the British Council on both measures. It is the one tier in the tariff that cannot be defended on price.`),
+      main: `
+        <p class="op__num">What the figure shows</p>
+        <div class="op__rule"></div>
+        <div class="op__arg">
+          <p>Independent and Tutored sit below the British Council&rsquo;s published Saudi tariff per hour of individual instructor attention, and confer an award the module does not. All three Executive tiers sit inside the executive coaching band of $200 to $600, which is the right comparable for one-to-one provision and the wrong one to have ignored.</p>
+          <h3>And the tier that does not</h3>
+          <p><strong>Directed is dearer than the benchmark on both measures.</strong> An earlier draft of this plan claimed the College was cheaper at every tier; that was true at a lower tariff, was never re-checked when the price rose, and is false. It survived a table of six numbers and did not survive being drawn.</p>
+          <p>Directed&rsquo;s defence is therefore not its hourly rate. It is that the fee carries the examination, second marking, moderation, the registry entry and the conferral, none of which a language module includes. Management states that rather than a price advantage it does not have.</p>
+        </div>`,
+    })
+  ));
 
-  at('arch');
-  add(M.narrative({ runhead: 'Commercial Architecture', single: true,
-    head: `<p class="eyebrow">Three architectures, one basis</p>`,
-    body: M.table({
-      title: 'What the proposal is worth against the alternatives',
-      sub: 'All three run through the same demand model, delivery costs, acquisition budget and capacity gate. Only the price differs.',
-      head: ['Architecture', 'Ten-year revenue', 'Surplus', 'Learners', 'Award-holders'],
+  at('amort');
+  push(...S.spread(
+    S.figurePage({ eyebrow: 'Why the channels exist', title: 'What one negotiation buys',
+      sub: 'Acquisition paid per learner never amortises; paid per agreement it divides by the seats it carries.',
+      figure: figAmort(),
+      note: `Swept across a twelvefold price range and a sixteenfold range of scale, a purely retail College could not bring acquisition below 22 per cent of revenue against a ${pct(AL.SHARES.marketing, 0)} target. The bands are the College’s own published policy, not invented ones. ${M.mark('modelled')}`,
+      runhead: 'Commercial Architecture' }),
+    tableWithReading({
+      title: 'Three architectures, one basis',
+      sub: 'The same demand model, delivery costs, acquisition budget and capacity gate. Only the price differs.',
+      head: ['Architecture', 'Revenue', 'Surplus', 'Learners', 'Holders'],
       rows: [
         [M.esc(ARCH.briefA.label), m$(ARCH.briefA.totals.revenue), m$(ARCH.briefA.totals.surplus),
           num(ARCH.briefA.totals.newLearners), num(ARCH.briefA.totals.alumni)],
         [M.esc(ARCH.adopted.label), m$(ARCH.adopted.totals.revenue), m$(ARCH.adopted.totals.surplus),
           num(ARCH.adopted.totals.newLearners), num(ARCH.adopted.totals.alumni)],
-        { em: true, cells: ['<b>PROPOSED PORTFOLIO</b>', m$(ARCH.proposed.totals.revenue),
+        { em: true, cells: ['<b>PROPOSED</b>', m$(ARCH.proposed.totals.revenue),
           m$(ARCH.proposed.totals.surplus), num(ARCH.proposed.totals.newLearners), num(ARCH.proposed.totals.alumni)] },
       ],
-      source: `The institutional channels removed the trade an earlier draft was built around: the proposal now earns more revenue, more surplus, more learners and more awards than the adopted flat tariff. ${M.mark('modelled')}`,
-    }),
-  }));
+      source: 'The institutional channels removed the trade an earlier draft was built around: the proposal now earns more on every dimension than the adopted flat tariff.',
+    }, { title: 'What changed, and why the comparison did', columns: true, body: `
+      <p>An earlier draft reported a genuine trade: the proposed portfolio reached more learners than the adopted flat tariff and gave up surplus to do it. The plan said so, and a test in the build forbade it from claiming otherwise.</p>
+      <p>Adding the institutional channels removed the trade. A sponsored cohort reaches people a retail price cannot and pays acquisition once for all of them, so the proposal now earns more revenue, more surplus, more learners and more awards at the same time.</p>
+      <p>The test was inverted rather than deleted. It checks the shape of the comparison instead of its direction, because a guard that forbids a true claim is as bad as one that permits a false one.</p>` },
+    { runhead: 'Commercial Architecture' })
+  ));
 
-  // ══ PART V · THE FINANCIAL ARCHITECTURE ═══════════════════════════
+  // ══ PART V ════════════════════════════════════════════════════════
+  NEXT_PART = 'The Financial Architecture';
   onRecto();
-  add(M.partOpener({ numeral: 'Part Five', title: 'The Financial Architecture',
-    say: 'Where every dollar of collected revenue is governed, and the decade that follows from it.',
-    contents: ['The allocation framework', 'Definitions', 'The decade, year by year', 'Three scenarios'] }));
-
-  at('alloc');
-  onRecto();
-  add(M.page(`
-    <p class="eyebrow">The governing financial law</p>
-    <h2 style="margin-top:0">Where every dollar<br>is governed</h2>
-    <p class="lede" style="max-width:${M.col(6)}mm;margin-bottom:4mm">Fifty per cent of gross collected revenue is retained rather than spent. The tariff is solved backwards from this, and not the other way round.</p>
-    <p style="margin:0 0 9mm">${M.mark('board')}</p>
-    <div class="m-alloc">
-      <div class="m-alloc__col">
-        ${GOT.lines.map((l) => {
-    const h = l.target * 143;
-    const tight = h < 12;
-    return `<div class="m-alloc__seg${tight ? ' m-alloc__seg--tight' : ''}${AL.RETAINED.includes(l.key) ? ' m-alloc__seg--kept' : ''}"
-          style="background:${SEG_COLOUR[l.key]};height:${h.toFixed(1)}mm">
-          <b>${pct(l.target, 0)}</b><s>${M.esc(SEG_LABEL[l.key])}</s></div>`;
-  }).join('')}
-      </div>
-      <div style="flex:1;padding-top:1mm;position:relative">
-        <p style="font-size:${M.T.small}pt;line-height:14.4pt;color:${M.C.inkSoft};max-width:${M.col(4)}mm;margin:0">
-          The four lines above the struck rule are <em>consumed</em> running the institution. The two below it are
-          <em>retained</em> &mdash; designated institutional capital, not profit, and not automatically withdrawable.</p>
-        <div style="height:1.2pt;background:${M.C.gold};margin:7mm 0 5mm;width:${M.col(3)}mm"></div>
-        <p style="font-size:${M.T.small}pt;line-height:14.4pt;color:${M.C.inkSoft};max-width:${M.col(4)}mm;margin:0">
-          At the proposed tariff the institution retains <strong>${pct(GOT.retainedShare, 1)}</strong> of
-          ${m$(GOT.revenue)} &mdash; the cheapest tariff at which it does.</p>
-        <div style="position:absolute;left:0;bottom:0;width:${M.col(4)}mm">
-          <div style="height:.35pt;background:${M.C.rule};margin-bottom:4mm"></div>
-          <p style="font-family:${M.FACE.data};font-size:${M.T.micro}pt;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:${M.C.grey};margin:0 0 2mm">Retained a year at maturity</p>
-          <p class="num" style="font-family:${M.FACE.display};font-weight:300;font-size:44pt;line-height:46pt;color:${M.C.midnight};margin:0">${m$(GOT.retained)}</p>
-        </div>
-      </div>
-    </div>`, { runhead: 'Financial Architecture' }));
-
-  add(M.page(`
-    <p class="eyebrow">Definitions</p>
-    <h2 style="margin-top:0">What each line is, and is not</h2>
-    <div style="margin-top:4mm">
-    ${GOT.lines.map((l) => {
+  at('definitions');
+  push(...S.spread(
+    M.page(`
+      <div style="position:absolute;top:44%;left:0;right:0;transform:translateY(-50%);z-index:2">
+        <p class="pt__n" style="color:${S.C.gold}">Part Five</p>
+        <h1 style="font-family:${S.FACE.display};font-weight:300;font-size:40pt;line-height:43pt;margin:0 0 7mm;color:${S.C.midnight}">The Financial<br>Architecture</h1>
+        <p style="font-family:${S.FACE.display};font-style:italic;font-weight:300;font-size:14pt;line-height:21pt;color:${S.C.inkSoft};max-width:${M.col(7)}mm;margin:0">
+          Where every dollar of collected revenue is governed, and what each line is forbidden from becoming.</p>
+      </div>`, { tone: 'pg--bone', bare: true,
+    ground: `<div class="bleed guilloche guilloche--corner engr engr--pale">${S.engraving('guilloche')}</div>` }),
+    M.page(`
+      <p class="fg__eye">Definitions</p>
+      <h2 class="fg__t">What each line is, and is not</h2>
+      <div style="margin-top:5mm">
+      ${GOT.lines.map((l) => {
     const spec = PLAN.revenue_allocation_framework.shares.find((x) => x.key === l.key);
     return `<div class="m-alloc__row">
-        <div class="m-alloc__swatch" style="background:${SEG_COLOUR[l.key]}"></div>
-        <div style="flex:1">
-          <h4>${M.esc(l.name)}</h4>
-          <p>${M.esc(spec.definition)}</p>
-          ${spec.not ? `<p style="margin-top:1.4mm;color:${M.C.crimson};font-size:${M.T.caption}pt;line-height:11.6pt"><em>${M.esc(spec.not)}</em></p>` : ''}
-        </div>
-        <div class="m-alloc__pct num">${pct(l.target, 0)}</div>
-      </div>`;
+          <div style="flex:1">
+            <h4>${M.esc(l.name)}</h4>
+            <p>${M.esc(spec.definition)}</p>
+            ${spec.not ? `<p style="margin-top:1.4mm;color:${S.C.crimson};font-size:${M.T.caption}pt;line-height:11.6pt"><em>${M.esc(spec.not)}</em></p>` : ''}
+          </div>
+          <div class="m-alloc__pct num">${pct(l.target, 0)}</div>
+        </div>`;
   }).join('')}
-    </div>`, { runhead: 'Financial Architecture' }));
+      </div>`, { runhead: 'Financial Architecture' })
+  ));
 
   at('decade');
-  add(M.narrative({ runhead: 'Financial Architecture', single: true,
-    head: `<p class="eyebrow">The decade</p>`,
-    body: M.table({
+  push(...S.spread(
+    M.page(M.table({
       title: 'The Core Management Plan, year by year',
-      sub: 'Revenue recognised in the year it is taught, not the year it is sold.',
-      head: ['Year', 'Admitted', 'Under instruction', 'Net tuition', 'Delivery', 'Acquisition', 'Surplus'],
-      rows: CORE.years.map((y) => [
-        `<b>${y.calendar}</b>`, num(y.newLearners), num(y.activeLearners),
-        m$(y.netTuition), m$(y.delivery), m$(y.acquisition), m$(y.surplus),
-      ]).concat([{ em: true, cells: ['TEN YEARS', num(CORE.totals.newLearners), `peak ${num(CORE.totals.y10Active)}`,
-        m$(CORE.totals.revenue - CORE.totals.refunds), m$(CORE.totals.delivery),
-        m$(CORE.totals.acquisition), m$(CORE.totals.surplus)] }]),
-      source: `${M.mark('modelled')} — strategic projection, not a trading record.`,
-    }),
-  }));
-
-  at('scenarios');
-  add(M.narrative({ runhead: 'Financial Architecture', single: true,
-    head: `<p class="eyebrow">Three scenarios</p>`,
-    body: M.table({
-      title: 'Conservative is not a haircut on Core',
-      sub: 'It is weaker continuation, narrower reach and dearer acquisition — three things the College would have to do differently.',
-      head: ['Scenario', 'Ten-year revenue', 'Surplus', 'Year-10 revenue', 'Learners', 'To C2'],
+      sub: 'Revenue recognised in the year it is taught.',
+      head: ['Year', 'Admitted', 'Taught', 'Net tuition', 'Delivery', 'Surplus'],
+      rows: CORE.years.map((y) => [`<b>${y.calendar}</b>`, num(y.newLearners), num(y.activeLearners),
+        m$(y.netTuition), m$(y.delivery), m$(y.surplus)])
+        .concat([{ em: true, cells: ['TEN YEARS', num(CORE.totals.newLearners), `peak ${num(CORE.totals.y10Active)}`,
+          m$(CORE.totals.revenue - CORE.totals.refunds), m$(CORE.totals.delivery), m$(CORE.totals.surplus)] }]),
+      source: `${M.mark('modelled')} Strategic projection, not a trading record.`,
+    }), { runhead: 'Financial Architecture' }),
+    tableWithReading({
+      title: 'Three scenarios',
+      sub: 'Conservative is not a haircut on Core: weaker continuation, narrower reach, dearer acquisition.',
+      head: ['Scenario', 'Revenue', 'Surplus', 'Year-10', 'Learners', 'To C2'],
       rows: ['conservative', 'core', 'growth'].map((k) => {
         const t = PSC[k].totals;
         const cells = [`<b>${M.esc(PSC[k].label)}</b>`, m$(t.revenue), m$(t.surplus),
@@ -442,106 +453,125 @@ function build() {
         return k === 'core' ? { em: true, cells } : cells;
       }),
       source: 'The Core Plan is management’s recommended execution case, not the midpoint of the other two.',
-    }),
-  }));
+    }, { title: 'What a scenario has to change to be one', columns: true, body: `
+      <p>A scenario set whose only variable is &ldquo;more students&rdquo; tests nothing. Each of these changes something the College would actually have to do differently: what it costs to be found, how many learners continue from one level to the next, and how far the College can reach at all.</p>
+      <p>The Conservative case does not reach cumulative surplus inside the decade. That is stated rather than smoothed, because it is the plan&rsquo;s real exposure &mdash; the Core case requires continuation and reach to hold broadly as modelled, and reach is the one quantity here that was never researched.</p>` },
+    { runhead: 'Financial Architecture' })
+  ));
 
-  // ══ PART VI · THE DECADE ══════════════════════════════════════════
+  // ══ PART VI ═══════════════════════════════════════════════════════
+  NEXT_PART = 'The Decade';
   onRecto();
-  add(M.partOpener({ numeral: 'Part Six', title: 'The Decade',
-    say: 'Five phases, twenty risks each with a warning somebody can observe, and who decides what.',
-    contents: ['The five phases', 'The risk register', 'Governance and authority'] }));
-
   at('phases');
-  add(M.narrative({ runhead: 'The Decade', single: true,
-    head: `<p class="eyebrow">The ten-year roadmap</p>
-      <h2 style="margin-top:0">Five phases, and what has to be<br>true at the end of each</h2>`,
-    body: M.timeline(PHASES.map((ph) => {
-      const y = CORE.years[ph.yearIndex];
-      return { ...ph, figure: `${num(y.activeLearners)} under instruction &middot; ${m$(y.netTuition)} net tuition` };
-    })),
-  }));
+  push(...S.spread(
+    S.platePage('astrolabe', { numeral: 'Part Six', title: 'The Decade',
+      say: 'Five phases, twenty risks each with a warning somebody can observe, and who decides what.' }),
+    M.page(`
+      <p class="fg__eye">The ten-year roadmap</p>
+      <h2 class="fg__t">Five phases, and what has to be true at the end of each</h2>
+      <div style="margin-top:7mm">${M.timeline(PHASES.map((ph) => {
+    const y = CORE.years[ph.yearIndex];
+    return { ...ph, figure: `${num(y.activeLearners)} under instruction &middot; ${m$(y.netTuition)} net tuition` };
+  }))}</div>`, { runhead: 'The Decade' })
+  ));
 
   at('risks');
-  for (const pg2 of M.tablePages({
+  push(...S.spread(
+    S.figurePage({ eyebrow: 'Where attention goes', title: 'Twenty risks, placed',
+      sub: 'Likelihood against impact. A register is a list; a matrix is a judgement.',
+      figure: figRisk(),
+      note: 'Authored judgement, not computed. The register overleaf carries each risk with the early warning that would show it first.',
+      runhead: 'The Decade' }),
+    ...M.tablePages({
+      title: 'The institutional risk register',
+      sub: 'Each with an early warning somebody can actually observe.',
+      head: ['Domain', 'Risk', 'L', 'I', 'Early warning'],
+      rows: RISKS.slice(0, 9).map((r) => [`<b>${M.esc(r[0])}</b>`, { v: M.esc(r[1]), cls: 'unit' },
+        M.esc(r[2]), M.esc(r[3]), { v: M.esc(r[4]), cls: 'unit' }]),
+      source: 'L — likelihood. I — impact.',
+    }, 7, { runhead: 'The Decade' })
+  ));
+  push(...M.tablePages({
     title: 'The institutional risk register',
-    sub: 'Twenty risks, each with an early warning somebody can actually observe. A register of generic risks is one nobody reads twice.',
-    head: ['Domain', 'Risk', 'L', 'I', 'Early warning', 'Response'],
-    rows: RISKS.map((r) => [
-      `<b>${M.esc(r[0])}</b>`, { v: M.esc(r[1]), cls: 'unit' }, M.esc(r[2]), M.esc(r[3]),
-      { v: M.esc(r[4]), cls: 'unit' }, { v: M.esc(r[5]), cls: 'unit' },
-    ]),
-    source: `L — likelihood. I — impact. Authored judgement, not computed. Owners are named in the governance schedule.`,
-  }, 7, { runhead: 'The Decade' })) add(pg2);
+    sub: '',
+    head: ['Domain', 'Risk', 'L', 'I', 'Early warning'],
+    rows: RISKS.slice(9).map((r) => [`<b>${M.esc(r[0])}</b>`, { v: M.esc(r[1]), cls: 'unit' },
+      M.esc(r[2]), M.esc(r[3]), { v: M.esc(r[4]), cls: 'unit' }]),
+    source: 'Owners are named in the governance schedule.',
+  }, 7, { runhead: 'The Decade' }));
 
   at('gov');
-  for (const pg2 of M.tablePages({
-    title: 'Governance and authority',
-    sub: 'Who decides what, and the separations that protect a learner.',
-    head: GOVERNANCE_COLUMNS,
-    rows: GOVERNANCE.map((g) => [`<b>${M.esc(g[0])}</b>`, M.esc(g[1]), { v: M.esc(g[2]), cls: 'unit' }, { v: M.esc(g[3]), cls: 'unit' }]),
-    source: `Published governance instrument. Several offices named here are defined and unfilled, and the platform refuses to publish a person into an office they have not accepted.`,
-  }, 9, { runhead: 'The Decade' })) add(pg2);
-
-  // ══ PART VII · METHOD ═════════════════════════════════════════════
   onRecto();
-  add(M.partOpener({ numeral: 'Part Seven', title: 'Method',
-    say: 'Where every figure came from, and the audit that proves the document agrees with itself.',
-    contents: ['Sources', 'Classification', 'Reconciliation'] }));
+  push(...S.spread(
+    M.page(`
+      <p class="fg__eye">The chain of academic authority</p>
+      <h2 class="fg__t">Where a decision stops</h2>
+      <p class="fg__s">The College&rsquo;s own plate, carrying the appointments as they stand.</p>
+      <div class="engr engr--ink" style="margin-top:5mm">${S.engraving('authority-chain')}</div>`,
+    { runhead: 'The Decade' }),
+    ...M.tablePages({
+      title: 'Governance and authority',
+      sub: 'Who decides what, and the separations that protect a learner.',
+      head: GOVERNANCE_COLUMNS,
+      rows: GOVERNANCE.map((g) => [`<b>${M.esc(g[0])}</b>`, M.esc(g[1]),
+        { v: M.esc(g[2]), cls: 'unit' }, { v: M.esc(g[3]), cls: 'unit' }]),
+      source: 'Several offices named here are defined and unfilled, and the platform refuses to publish a person into an office they have not accepted.',
+    }, 9, { runhead: 'The Decade' })
+  ));
 
+  // ══ PART VII ══════════════════════════════════════════════════════
+  NEXT_PART = 'Method';
+  onRecto();
   at('method');
-  for (const pg2 of M.tablePages({
+  push(...S.spread(
+    S.platePage('charter', { numeral: 'Part Seven', title: 'Method',
+      say: 'Where every figure came from, and the audit that proves the document agrees with itself.' }),
+    M.page(M.table({
       title: 'Where every figure comes from',
-      sub: 'One engine, three files. Nothing is typed into a page.',
-      head: ['Source', 'What it carries', 'Classification'],
+      sub: 'One engine, four files. Nothing is typed into a page.',
+      head: ['Source', 'What it carries', 'Class'],
       rows: [
         ['data/tuition.json', { v: 'The adopted fee, its decomposition in basis points, the level structure and the refund window.', cls: 'unit' }, M.mark('verified')],
         ['data/commercial.json', { v: 'The three routes, the independent steps, the partner bands, remission and referral.', cls: 'unit' }, M.mark('verified')],
         ['data/market-evidence.json', { v: 'Every priced observation with its provider, local price, hours and source address.', cls: 'unit' }, M.mark('verified')],
-        ['data/masterplan.json', { v: 'The revenue-allocation framework, the market and progression assumptions, the establishment and the proposed architecture.', cls: 'unit' }, M.mark('board')],
-        ['scripts/publication/pricing.mjs', { v: 'Delivery cost hour by hour, the demand model, the channels and the proposed tariff.', cls: 'unit' }, M.mark('modelled')],
-        ['scripts/publication/allocation.mjs', { v: 'The framework made binding: what the institution actually retains, and the tariff solved from it.', cls: 'unit' }, M.mark('modelled')],
-        ['scripts/publication/projection.mjs', { v: 'The ten years, with revenue recognised in the year it is taught.', cls: 'unit' }, M.mark('modelled')],
+        ['data/masterplan.json', { v: 'The revenue-allocation framework, the market and progression assumptions, and the establishment.', cls: 'unit' }, M.mark('board')],
+        ['pricing.mjs', { v: 'Delivery cost hour by hour, the demand model, the channels and the tariff.', cls: 'unit' }, M.mark('modelled')],
+        ['allocation.mjs', { v: 'The framework made binding, and the tariff solved from it.', cls: 'unit' }, M.mark('modelled')],
+        ['projection.mjs', { v: 'The ten years, with revenue recognised in the year it is taught.', cls: 'unit' }, M.mark('modelled')],
       ],
-      source: `tests/masterplan.test.mjs runs the reconciliation on every build and fails it if a figure in this document cannot be traced to the record it came from. It also re-derives the proposed price from the allocation framework, so the price cannot drift away from its reason.`,
-  }, 4, { runhead: 'Method' })) add(pg2);
+      source: 'tests/masterplan.test.mjs runs the reconciliation on every build and re-derives the proposed price from the allocation framework, so the price cannot drift away from its reason.',
+    }), { runhead: 'Method' })
+  ));
 
   // ══ COLOPHON ══════════════════════════════════════════════════════
   onRecto();
-  add(M.page(`
-    <div class="m-colo__wrap">
+  P.push(M.page(`
+    <div class="m-colo__wrap" style="z-index:2">
       <h2>A planning instrument,<br>and not a record of trading.</h2>
-      <p>Every financial figure in this publication is a projection computed from stated assumptions. None of it is a record of trading. Where the College holds something, it is marked ${M.mark('verified')}. Where this plan asserts something, it is marked ${M.mark('modelled')}. Where nobody has yet decided, it is marked ${M.mark('board')}.</p>
+      <p>Every financial figure in this publication is a projection computed from stated assumptions. Where the College holds something it is marked ${M.mark('verified')}; where this plan asserts something, ${M.mark('modelled')}; where nobody has yet decided, ${M.mark('board')}.</p>
       <p>The College claims no accreditation, ranking, partnership or endorsement it does not hold, and names no person in an office they have not accepted.</p>
       <div class="rule-hair"></div>
       <p class="m-colo__meta">WorldWide English College &middot; London Campus<br>
         The Ten-Year Institutional Roadmap ${PERIOD}<br>
         Set in Cinzel, Cormorant Garamond, EB Garamond and Inter<br>
+        Plates: Adobe Stock, Openverse and the College&rsquo;s own engraved work<br>
         ${M.PAGE.width} &times; ${M.PAGE.height}mm</p>
-    </div>`, { tone: 'pg--dark m-colo', bare: true }));
+    </div>`, { tone: 'pg--dark m-colo', bare: true,
+    ground: `<div class="bleed guilloche guilloche--corner engr engr--ivory">${S.engraving('guilloche')}</div>` }));
 
   return P;
 }
 
-// Two passes: the first records where each part begins, the second
-// sets those folios into the contents page.
 build();
 build();
 
-// ── ASSEMBLE ─────────────────────────────────────────────────────────
 const html = `<!doctype html><html lang="en"><head><meta charset="utf-8">
 <title>WEC-LC — Ten-Year Institutional Roadmap ${PERIOD}</title>
-<style>${M.css(FACES)}${M.masterCss()}${M.masterCssTwo()}</style></head>
+<style>${M.css(FACES)}${M.masterCss()}${M.masterCssTwo()}${S.spreadCss()}</style></head>
 <body>${P.join('\n')}</body></html>`;
 
 mkdirSync(OUT, { recursive: true });
 const HTML_OUT = path.join(OUT, '.monograph.html');
-/* A DISTINCT FILE UNTIL THE REPAGINATION IS COMPLETE.
-   The monograph currently carries the opening sequence and the
-   financial architecture; the full twenty-section document still comes
-   from render-masterplan.mjs. Writing this to that file would have
-   replaced a complete publication with a nine-page proof of its own
-   design system, which is not an improvement however much better the
-   nine pages look. */
 const PDF_OUT = path.join(OUT, 'WEC-LC Institutional Monograph.pdf');
 writeFileSync(HTML_OUT, html);
 
@@ -549,86 +579,54 @@ const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromi
 const pg = await browser.newPage();
 await pg.goto('file://' + HTML_OUT, { waitUntil: 'networkidle' });
 await pg.emulateMedia({ media: 'print' });
-await pg.pdf({
-  path: PDF_OUT, width: `${M.PAGE.width}mm`, height: `${M.PAGE.height}mm`,
-  printBackground: true, margin: { top: 0, bottom: 0, left: 0, right: 0 },
-});
-/* ────────────────────────────────────────────────────────────────────
-   EVERY PAGE MUST FIT, AND THE BUILD FINDS OUT RATHER THAN A READER.
+await pg.pdf({ path: PDF_OUT, width: `${M.PAGE.width}mm`, height: `${M.PAGE.height}mm`,
+  printBackground: true, margin: { top: 0, bottom: 0, left: 0, right: 0 } });
 
-   The first proof of this design lost the last row of the tariff table
-   off the bottom of the page and printed the folio through the middle
-   of it. Both were invisible in the source and obvious on screen, and
-   neither would have survived a reader. A page that overflows is not a
-   page that needs tightening; it is a failed composition, and the
-   build now refuses it. */
-const overflows = await pg.evaluate(() => {
-  const bad = [];
+const bad = await pg.evaluate(() => {
+  const out = [];
   document.querySelectorAll('.pg').forEach((p, i) => {
     const f = p.querySelector('.pg__field');
-    /* ONLY THE FIELD ITSELF. An inner box can report a few pixels of
-       scrollHeight from an absolutely-positioned child without a
-       reader losing anything, and failing the build on that means
-       chasing phantoms. What loses content is the FIELD overflowing,
-       or an element crossing the trim, or text landing on text. */
-    const worst = f ? Math.max(0, f.scrollHeight - f.clientHeight) : 0;
-    // Anything the page clips is content the reader never sees.
-    const clipped = [...p.querySelectorAll('*:not(.bleed):not(.bleed *)')].some((el) => {
-      const r = el.getBoundingClientRect(); const pr = p.getBoundingClientRect();
+    const over = f ? Math.max(0, f.scrollHeight - f.clientHeight) : 0;
+    const pr = p.getBoundingClientRect();
+    /* WHAT DOES NOT COUNT AS CLIPPED.
+
+       An <svg> clips to its own viewBox by default, so a label whose
+       geometric rect runs past the plate is drawn correctly and simply
+       ends — getBoundingClientRect reports the extent, not what was
+       painted. And a guilloche is POSITIONED to bleed off the trim;
+       that is the whole point of a ground. Neither loses a reader
+       anything, and failing the build on them means chasing phantoms
+       instead of the tariff table that really did lose its last row. */
+    const clipped = [...p.querySelectorAll('.pg__field *:not(.bleed):not(.bleed *)')].some((el) => {
+      if (el.closest('svg') || el.closest('.guilloche')) return false;
+      const r = el.getBoundingClientRect();
       return r.height > 0 && (r.bottom > pr.bottom + 0.5 || r.right > pr.right + 0.5);
     });
-    /* AND TEXT MUST NOT SIT ON TEXT. An overlap is not an overflow, so
-       the fit check could not see the retained figure landing on top of
-       a paragraph. Compare every absolutely-positioned block against
-       the flow text around it. */
-    const collided = [];
-    const blocks = [...p.querySelectorAll('.pg__field p, .pg__field h2, .pg__field h3, .pg__field h4, .pg__field table')];
-    for (let a = 0; a < blocks.length; a++) {
-      for (let c = a + 1; c < blocks.length; c++) {
+    const blocks = [...p.querySelectorAll('.pg__field p, .pg__field h2, .pg__field h4, .pg__field table')];
+    let collided = null;
+    for (let a = 0; a < blocks.length && !collided; a++) {
+      for (let c = a + 1; c < blocks.length && !collided; c++) {
         if (blocks[a].contains(blocks[c]) || blocks[c].contains(blocks[a])) continue;
-        /* CLIENT RECTS, NOT THE BOUNDING BOX. A paragraph broken across
-           two columns has one bounding rect spanning BOTH of them, which
-           made every two-column page report its own text as overlapping
-           itself. getClientRects() returns the fragments, which is what
-           is actually on the page. */
-        let hit = false;
         for (const r1 of blocks[a].getClientRects()) {
-          if (r1.width < 2 || r1.height < 2) continue;
           for (const r2 of blocks[c].getClientRects()) {
-            if (r2.width < 2 || r2.height < 2) continue;
-            const ox = Math.min(r1.right, r2.right) - Math.max(r1.left, r2.left);
-            const oy = Math.min(r1.bottom, r2.bottom) - Math.max(r1.top, r2.top);
-            if (ox > 3 && oy > 3) { hit = true; break; }
+            if (r1.width < 2 || r2.width < 2) continue;
+            if (Math.min(r1.right, r2.right) - Math.max(r1.left, r2.left) > 3
+              && Math.min(r1.bottom, r2.bottom) - Math.max(r1.top, r2.top) > 3) {
+              collided = (blocks[a].textContent || '').trim().slice(0, 34); break;
+            }
           }
-          if (hit) break;
+          if (collided) break;
         }
-        if (hit) collided.push((blocks[a].textContent || '').trim().slice(0, 30));
       }
     }
-    if (worst > 1 || clipped || collided.length) {
-      // Name the last element that still fits, so the fault can be
-      // found without opening a browser.
-      const pr = p.getBoundingClientRect();
-      let lastFits = '';
-      for (const el of (f || p).querySelectorAll('h2,h3,h4,p,tr,div')) {
-        const r = el.getBoundingClientRect();
-        if (r.height > 0 && r.bottom <= pr.bottom) lastFits = (el.textContent || '').trim().slice(0, 46);
-      }
-      bad.push({ page: i + 1, overflowPx: Math.round(worst), clipped, lastFits,
-        collided: [...new Set(collided)].slice(0, 2) });
-    }
+    if (over > 1 || clipped || collided) out.push({ page: i + 1, over: Math.round(over), clipped, collided });
   });
-  return bad;
+  return out;
 });
 await browser.close();
-if (overflows.length) {
+if (bad.length) {
   console.error('\nPAGE COMPOSITION FAILED:');
-  for (const o of overflows) {
-    console.error(`  page ${o.page}: ${o.overflowPx}px over${o.clipped ? ', clipped at the trim' : ''}`
-      + (o.collided && o.collided.length ? `\n      text sitting on text: “${o.collided.join('” / “')}…”` : '')
-      + (o.overflowPx > 1 && o.lastFits ? `\n      last element that fits: “${o.lastFits}…”` : ''));
-  }
+  for (const o of bad) console.error(`  page ${o.page}: ${o.over}px over${o.clipped ? ', clipped' : ''}${o.collided ? `, text on text “${o.collided}…”` : ''}`);
   process.exitCode = 1;
 }
-const kb = (readFileSync(PDF_OUT).length / 1024).toFixed(0);
-console.log(`Wrote the monograph — ${P.length} pages, ${kb} KB, ${M.PAGE.width}×${M.PAGE.height}mm.`);
+console.log(`Wrote the monograph — ${P.length} pages, ${(readFileSync(PDF_OUT).length / 1024 / 1024).toFixed(1)} MB, ${M.PAGE.width}×${M.PAGE.height}mm.`);

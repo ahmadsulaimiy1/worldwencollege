@@ -582,9 +582,31 @@ export const folioNow = () => folio;
  *  verso, which put the first chapter opener on the wrong side of the
  *  book. */
 export const countUnfoliated = () => { folio += 1; };
-/** A deliberate blank, used only to throw a chapter onto a recto. It
- *  is not padding: a blank verso before a chapter opening is how books
- *  have been made for five hundred years. */
+/**
+ * THE VERSO THAT THROWS A CHAPTER ONTO A RECTO.
+ *
+ * It used to be blank, on the argument that a blank verso before a
+ * chapter opening is how books have been made for five hundred years.
+ * That is true of a printed book, where the reader feels the paper and
+ * the blank reads as a breath. In a PDF read on a screen a blank page
+ * reads as a fault — three of them in forty-two pages, and a reviewer
+ * counts them as pages nobody bothered to design.
+ *
+ * So it carries a BASTARD TITLE instead: the part's name, set small and
+ * quiet in the inscriptional face, with the hairline above it. Also a
+ * five-hundred-year-old device, and one that says the pause is
+ * deliberate.
+ */
+export const halfTitle = (name) => {
+  folio += 1;
+  return `<section class="pg pg--verso pg--bone m-half">
+    <div class="m-half__wrap">
+      <div class="m-half__rule"></div>
+      <p class="m-half__t">${esc(name || '')}</p>
+    </div>
+  </section>`;
+};
+/** Kept for a genuinely empty leaf, which this book no longer has. */
 export const blankVerso = () => { folio += 1; return `<section class="pg pg--verso"></section>`; };
 
 /**
@@ -592,12 +614,24 @@ export const blankVerso = () => { folio += 1; return `<section class="pg pg--ver
  * is the difference between a bound book and a stack of sheets.
  */
 export function page(inner, opts = {}) {
-  const { tone = '', runhead = '', bare = false, klass = '' } = opts;
+  const { tone = '', runhead = '', bare = false, klass = '', full = false, ground = '' } = opts;
   folio += 1;
   const verso = folio % 2 === 0;
+  /* A full-bleed page has no field. A photograph inset inside the text
+     margins is an illustration; a photograph running to the trim is a
+     plate, and the difference is most of what makes a book feel
+     printed rather than typed. */
+  const body = full ? inner
+    : `<div class="pg__field${opts.stack ? ' pg__field--stack' : ''}">${inner}</div>`;
+  /* A GROUND IS NOT CONTENT. An engraved ruling that bleeds off the
+     trim belongs to the sheet, not to the text block — put inside the
+     field it inflates the field's own height by however far it bleeds,
+     and the page-fit check then reports a perfectly composed page as
+     losing 121px of content it never had. */
   return `<section class="pg ${verso ? 'pg--verso' : 'pg--recto'} ${tone} ${klass}">
+  ${ground}
   ${bare ? '' : (runhead ? `<div class="runhead">${esc(runhead)}</div>` : '')}
-  <div class="pg__field">${inner}</div>
+  ${body}
   ${bare ? '' : `<div class="folio num">${String(folio).padStart(2, '0')}</div>`}
 </section>`;
 }
@@ -776,6 +810,26 @@ export const masterCssTwo = () => `
 .m-colo .rule-hair { background: rgba(201,169,97,.3); margin: 8mm 0 6mm; }
 .m-colo__meta { font-family: ${FACE.data}; font-size: ${T.micro}pt; letter-spacing: .2em;
   text-transform: uppercase; color: rgba(201,169,97,.7); line-height: 13pt; }
+
+/* ── THE BASTARD TITLE ─────────────────────────────────────────────*/
+.m-half__wrap { position: absolute; top: 46%; left: ${PAGE.marginOuter}mm; right: ${PAGE.marginInner}mm;
+  transform: translateY(-50%); text-align: center; }
+.m-half__rule { width: 14mm; height: .6pt; background: ${C.gold}; margin: 0 auto 7mm; }
+.m-half__t { font-family: ${FACE.inscription}; font-size: 9.6pt; letter-spacing: .44em;
+  color: ${C.grey}; margin: 0; }
+
+/* ── A TABLE WITH ITS READING ──────────────────────────────────────
+   A short schedule floating at the top of a page with two thirds of
+   white beneath it is not restraint, it is an unfinished page. The
+   reading sits under the rule and gives the table a foot to stand on. */
+.rd { margin-top: auto; padding-top: 6mm; border-top: .9pt solid ${C.gold}; }
+.rd h4 { font-family: ${FACE.data}; font-size: 5.6pt; font-weight: 600; letter-spacing: .26em;
+  text-transform: uppercase; color: ${C.gold}; margin: 0 0 2.6mm; }
+.rd p { font-family: ${FACE.text}; font-size: ${T.small}pt; line-height: 15.4pt;
+  color: ${C.inkSoft}; margin: 0 0 3mm; max-width: ${col(9)}mm; }
+.rd p:last-child { margin-bottom: 0; }
+.rd--col { column-count: 2; column-gap: ${PAGE.gutter * 2}mm; }
+.pg__field--stack { display: flex; flex-direction: column; }
 
 /* A continued table carries its title once and says so thereafter. */
 .tbl__cont { font-family: ${FACE.data}; font-size: ${T.micro}pt; letter-spacing: .2em;
