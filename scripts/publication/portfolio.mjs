@@ -714,3 +714,108 @@ export const SUPERSEDED_TARIFF = {
 
 export const TARIFF = () => matrix(REFERENCE_TARIFF);
 export const STANDING = () => meetsConstitution(REFERENCE_TARIFF);
+
+// ════════════════════════════════════════════════════════════════════
+// X · WHAT A PROJECTION NEEDS TO KNOW
+// ════════════════════════════════════════════════════════════════════
+/**
+ * THE TARIFF A SEGMENT ACTUALLY FACES.
+ *
+ * The demand model in pricing.mjs walks the College's market segments
+ * and prices each of them at one global figure per route. That was
+ * right when there was one global figure. It is now wrong in a way
+ * that materially overstates the decade: a West African learner is
+ * offered a Tutored pathway the College does not sell in West Africa,
+ * converts against it at a price nobody there is quoted, and books
+ * revenue the institution would never have collected.
+ *
+ * Every segment belongs to exactly one region, so the fix is a lookup
+ * rather than a rewrite. This returns, for each segment, the price
+ * vector that segment is genuinely quoted — keyed by the DELIVERY
+ * SPECIFICATION, because that is the vocabulary the cost engine
+ * speaks — with `null` against any route its region does not carry at
+ * retail.
+ *
+ * A null is not a zero and it is not a cheap price. It means the
+ * College does not sell that route there, so no demand for it is
+ * booked. Those learners are reached through a sponsor, an employer or
+ * an institution, or they are not reached — and the projection now
+ * says so instead of quietly assuming the second-best outcome.
+ */
+export const SPEC_OF_INTENSITY = {
+  independent: 'independent',
+  guided: 'directed',
+  tutored: 'tutored',
+  executiveCohort: 'execCore',
+  executivePrivate: 'execPremium',
+  bespoke: 'execBespoke',
+};
+
+export const SEGMENT_REGION = Object.fromEntries(
+  REGION_KEYS.flatMap((rk) => REGIONS[rk].segments.map((sk) => [sk, rk])),
+);
+
+export function segmentTariff(base) {
+  const out = {};
+  for (const [segKey, regionKey] of Object.entries(SEGMENT_REGION)) {
+    const vec = {};
+    for (const [intensity, spec] of Object.entries(SPEC_OF_INTENSITY)) {
+      const inv = investment(intensity, regionKey, base);
+      vec[spec] = inv.offered ? inv.published : null;
+    }
+    out[segKey] = vec;
+  }
+  return out;
+}
+
+/** Reachable population by region, from the segments that compose it. */
+export function regionReach() {
+  return Object.fromEntries(REGION_KEYS.map((rk) => [rk,
+    segmentsIn(REGIONS[rk].segments).reduce((t, s) => t + s.reachable, 0)]));
+}
+
+/**
+ * WHERE AN AGREEMENT IS SIGNED, AND WHAT A SEAT COSTS THERE.
+ *
+ * An institutional channel is not region-less. A ministry signs in one
+ * country, at that country's price level, and a seat under that
+ * agreement costs what the region's tariff says it costs less the
+ * College's own published band.
+ *
+ * THE TWO CHANNELS ARE WEIGHTED DIFFERENTLY, AND THAT IS THE POINT.
+ * Distributing both by reachable population put two fifths of the
+ * EMPLOYER agreements in the market with the least money to fund one,
+ * which is not how corporate training budgets behave. An employer
+ * follows budget: weighted by population and by the region's own price
+ * level, the only proxy for corporate capacity this plan holds. A
+ * ministry or a foundation follows NEED: weighted by population alone,
+ * which is precisely why that channel reaches markets no retail tariff
+ * does.
+ *
+ * A region the retail tariff cannot reach is still open to a sponsor,
+ * priced from the contribution floor rather than from a tariff that
+ * does not exist there. That is not a loophole; it is the strategy.
+ */
+export function agreementPlacement(base, channels) {
+  const reach = regionReach();
+  const out = {};
+  for (const [key, c] of Object.entries(channels)) {
+    const intensity = Object.keys(SPEC_OF_INTENSITY).find((i) => SPEC_OF_INTENSITY[i] === c.spec);
+    const payer = PAYERS[key] ? key : 'institutional';
+    const byBudget = c.placementWeight === 'budget';
+    const weight = (rk) => reach[rk] * (byBudget ? REGIONS[rk].index : 1);
+    const total = REGION_KEYS.reduce((t, rk) => t + weight(rk), 0);
+    out[key] = REGION_KEYS.map((rk) => {
+      const s = seat(intensity, rk, payer, base, c.agreementCost);
+      return {
+        region: rk,
+        weighting: byBudget ? 'population × price level' : 'population',
+        share: weight(rk) / total,
+        seatPrice: s.seatPrice,
+        cacPerSeat: s.acquisitionPerSeat,
+        throughSponsor: !s.offered,
+      };
+    });
+  }
+  return out;
+}

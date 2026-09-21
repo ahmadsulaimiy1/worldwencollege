@@ -33,7 +33,13 @@ const ARCH = architectures();
 const PSC = priceScenarios();
 const CORE = PSC.core;
 const CY10 = CORE.years[CORE.years.length - 1];
-const GOT = AL.achievedProposed();
+/* THE CONSTITUTION AS THE COMMITTED TARIFF ACTUALLY SATISFIES IT.
+   `achievedProposed()` tests the SUPERSEDED tariff at one global
+   price; the plate on the Financial Constitution opener would then
+   have been drawn from a tariff the book does not publish. This is the
+   committed tariff, tested on what four regions and six payers
+   actually collect. */
+const GOT = PF.STANDING();
 /* THE COMMITTED REFERENCE TARIFF, mapped onto the delivery
    specifications the cost and demand engine is keyed by. One tariff,
    two vocabularies: the portfolio speaks of pathways because that is
@@ -147,6 +153,16 @@ const datColonnade = () => O.colonnade(Object.keys(P_).map((k) => ({
 const datCourse = () => O.course(GOT.lines.map((l) => ({
   name: SEG_LABEL[l.key], share: l.target, retained: AL.RETAINED.includes(l.key) })), 'onDeep');
 const TURN = Math.max(0, CORE.years.findIndex((y) => y.cumulativeSurplus > 0));
+/* The year each scenario crosses nil, read from the model rather than
+   asserted in prose. An earlier draft stated flatly that the
+   Conservative case never reaches cumulative surplus inside the
+   decade; pricing the projection by region moved every one of these,
+   and a sentence that is true of one run of a model is not a fact
+   about an institution. */
+const CROSSES = Object.fromEntries(['conservative', 'core', 'growth'].map((k) => {
+  const y = PSC[k].years.find((v) => v.cumulativeSurplus > 0);
+  return [k, y ? String(y.calendar) : 'not inside the decade'];
+}));
 const datDecade = () => O.decadeRule(CORE.years.map((y, i) => ({
   calendar: y.calendar, height: Math.max(0, y.netTuition),
   note: i === 0 ? `${num(y.newLearners)} admitted` : `${m$(y.netTuition)} net tuition` })), TURN, 'onCream');
@@ -858,7 +874,7 @@ function build() {
       source: 'The Core Plan is the recommended execution case, not the midpoint of the other two.',
     }, { title: 'What a scenario has to change to be one', columns: true, body: `
       <p>A scenario set whose only variable is &ldquo;more students&rdquo; tests nothing. Each of these changes something the College would actually have to do differently: what it costs to be found, how many learners continue from one level to the next, and how far the College can reach at all.</p>
-      <p>The Conservative case does not reach cumulative surplus inside the decade. That is stated rather than smoothed, because it is the plan&rsquo;s real exposure — the Core case requires continuation and reach to hold broadly as modelled, and reach is the one quantity here that was never researched.</p>` },
+      <p>All three reach cumulative surplus inside the decade, but not at the same time: the Conservative case crosses in ${CROSSES.conservative}, four years after the High Growth case and two after Core. Those four years are the plan&rsquo;s real exposure. The Core case requires continuation and reach to hold broadly as modelled, and reach is the one quantity here that was never researched.</p>` },
     { runhead: 'Financial Constitution', tone: 'pal pal--editorial' }),
     S.statementPage({
       palette: 'authority',
@@ -1159,7 +1175,7 @@ function build() {
         { em: true, cells: ['<b>PROPOSED</b>', m$(ARCH.proposed.totals.revenue),
           m$(ARCH.proposed.totals.surplus), num(ARCH.proposed.totals.newLearners), num(ARCH.proposed.totals.alumni)] },
       ],
-      source: 'The institutional channels removed the trade an earlier draft was built around: the proposal now earns more on every dimension than the adopted flat tariff.',
+      source: `Against a single global fee the proposal collects ${m$(ARCH.adopted.totals.revenue - ARCH.proposed.totals.revenue)} LESS over the decade and admits ${num(ARCH.adopted.totals.newLearners - ARCH.proposed.totals.newLearners)} fewer learners — two of the College’s four markets carry no taught route at retail. It confers ${num(ARCH.proposed.totals.awards - ARCH.adopted.totals.awards)} more qualifications and retains ${m$(ARCH.proposed.totals.surplus)} against ${m$(ARCH.adopted.totals.surplus)}, which is ${pct(ARCH.proposed.totals.surplus / ARCH.proposed.totals.revenue, 1)} of what it collects against ${pct(ARCH.adopted.totals.surplus / ARCH.adopted.totals.revenue, 1)}. The trade is real, and it runs toward the two things the institution exists for.`,
     }), { runhead: 'Appendices', tone: 'pal pal--scholarly' })
   ));
 

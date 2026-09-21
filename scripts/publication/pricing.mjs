@@ -524,6 +524,13 @@ export const CHANNELS = {
      *  programme; they buy nothing from this College. */
     agreementElasticity: -0.94,
     opensYear: 2,
+    /* WHERE AN EMPLOYER IS. A corporate training budget follows
+       corporate wealth, not headcount: distributing employer
+       agreements by reachable population alone put two fifths of them
+       in the market with the lowest ability to fund one. Weighted by
+       population AND price level, which is the only proxy for budget
+       this plan holds any evidence for. */
+    placementWeight: 'budget',
     classification: 'modelled',
   },
   sponsored: {
@@ -531,6 +538,11 @@ export const CHANNELS = {
     short: 'Institutional',
     blurb: 'A ministry, university, employer federation or foundation buying places at scale, taught to the Tutored specification.',
     spec: 'tutored',
+    /* WHERE A SPONSOR IS. The opposite weighting, and deliberately: a
+       public or charitable mandate follows NEED rather than budget,
+       which is precisely why this channel reaches markets no retail
+       tariff does. Distributed by reachable population. */
+    placementWeight: 'population',
     /** The adopted 100+ band. */
     bandKey: 100,
     seatsPerAgreement: 185,
@@ -687,14 +699,25 @@ function allocate(seg, prices) {
      below even the Directed price does not buy a cheaper version of
      teaching — there isn't one — they buy the assessment and the award
      and teach themselves. The share that does so rises as Directed
-     moves further beyond what the segment will pay. */
-  const reachDirected = prices.directed / Math.max(1, seg.wtpFull);
-  const toIndependent = Math.max(0, Math.min(0.82, 0.46 * Math.log(Math.max(1.01, reachDirected)) + 0.08));
+     moves further beyond what the segment will pay.
+
+     A NULL PRICE IS NOT A CHEAP PRICE. Under a regional tariff a route
+     may not be offered in a market at all, and the two propensities
+     below are computed from prices that would then be `null` — which
+     arrives as NaN and silently zeroes an entire segment. Where the
+     taught entry route is not sold in a market, the propensity to take
+     the assessment and teach oneself is at its ceiling by definition:
+     there is nothing else to step down to. */
+  const dPrice = prices.directed;
+  const tPrice = prices.tutored;
+  const reachDirected = dPrice == null ? Infinity : dPrice / Math.max(1, seg.wtpFull);
+  const toIndependent = dPrice == null ? 0.82
+    : Math.max(0, Math.min(0.82, 0.46 * Math.log(Math.max(1.01, reachDirected)) + 0.08));
   // A segment's executive and tutored propensities are properties of the
   // buyer; what price changes is whether they buy at all, and whether a
   // tutored buyer steps down to directed when tutored is dear.
-  const stepDown = Math.max(0, Math.min(0.55,
-    0.38 * Math.log(Math.max(1.02, prices.tutored / Math.max(1, prices.directed))) ));
+  const stepDown = (dPrice == null || tPrice == null) ? 0 : Math.max(0, Math.min(0.55,
+    0.38 * Math.log(Math.max(1.02, tPrice / Math.max(1, dPrice))) ));
   const exec = seg.execShare * (1 - toIndependent * 0.5);
   const tutored = seg.tutoredShare * (1 - stepDown) * (1 - toIndependent);
   const rest = Math.max(0, 1 - exec - tutored);
@@ -708,7 +731,21 @@ function allocate(seg, prices) {
  * product, revenue, delivery, acquisition, fixed cost and surplus.
  */
 export function portfolio(prices, opts = {}) {
-  const { continuationScale = 1, reachScale = 1, fixed = FIXED_INSTITUTIONAL, channels = true } = opts;
+  const {
+    continuationScale = 1, reachScale = 1, fixed = FIXED_INSTITUTIONAL, channels = true,
+    /* ── THE REGIONAL TARIFF ──
+       `tariffOf(segmentKey)` returns the price vector that segment is
+       genuinely quoted, with `null` against a route its market does not
+       carry. Absent, every segment is priced at one global figure,
+       which is what this model did when there was one — see
+       portfolio.mjs § segmentTariff for why that stopped being true.
+
+       `placement` does the same for the institutional channels: where
+       an agreement is signed, what share of agreements is signed there,
+       and what a seat costs at that region's level. */
+    tariffOf = null,
+    placement = null,
+  } = opts;
   const prog = levelsPerEntrant(continuationScale);
   const ladders = Object.fromEntries(
     Object.keys(PRODUCTS).map((k) => [k, ladderFor(k, prices[k] || prices.tutored)]),
@@ -729,11 +766,22 @@ export function portfolio(prices, opts = {}) {
   const byProduct = {}; const bySegment = [];
 
   for (const seg of SEGMENTS) {
-    const mix = allocate(seg, prices);
+    const segPrices = tariffOf ? tariffOf(seg.key) : prices;
+    const segLadders = tariffOf
+      ? Object.fromEntries(Object.keys(PRODUCTS)
+        .filter((k) => segPrices[k])
+        .map((k) => [k, ladderFor(k, segPrices[k])]))
+      : ladders;
+    const mix = allocate(seg, segPrices);
     let segLearners = 0, segRevenue = 0;
     for (const [pk, share] of Object.entries(mix)) {
       if (share <= 0) continue;
-      const price = prices[pk];
+      const price = segPrices[pk];
+      /* A route this market is not offered books NO demand. Not a
+         cheaper route, not a discounted one — none. Those learners are
+         reached through a sponsor or an institution, which the channel
+         model below places by region, or they are not reached at all
+         and the projection says so. */
       if (!price) continue;
       // Demand responds to the price of the thing this buyer would buy.
       const d = segmentDemand(seg, price);
@@ -741,7 +789,7 @@ export function portfolio(prices, opts = {}) {
       let rev = 0, del = 0;
       const perLevelHours = attentionHours(pk) / 6;
       for (let i = 0; i < 6; i++) {
-        const r = n * prog.each[i] * ladders[pk][i];
+        const r = n * prog.each[i] * segLadders[pk][i];
         const d = n * prog.each[i] * fullCost(pk, i);
         rev += r; del += d;
         const lag = Math.min(1, Math.floor(i / LEVELS_PER_YEAR_INT));
@@ -785,24 +833,37 @@ export function portfolio(prices, opts = {}) {
     for (const key of Object.keys(CHANNELS)) {
       const c = CHANNELS[key];
       const t = channelTerms(key, prices);
-      const n = t.seatsAtMaturity * Math.max(0, Math.min(1, reachScale));
-      if (n <= 0) continue;
-      const ladder = ladderFor(c.spec, t.seatPrice);
-      let rev = 0, del = 0, hrs = 0;
+      const total = t.seatsAtMaturity * Math.max(0, Math.min(1, reachScale));
+      if (total <= 0) continue;
+      /* PLACED, OR NOT PLACED. Given a placement the same number of
+         seats is distributed across the regions an agreement could be
+         signed in, each priced at that region's own level and each
+         carrying its own acquisition cost per seat. Without one the
+         channel behaves as it always did: one price, nowhere in
+         particular. */
+      const where = placement && placement[key]
+        ? placement[key].map((r) => ({ n: total * r.share, price: r.seatPrice, cac: r.cacPerSeat }))
+        : [{ n: total, price: t.seatPrice, cac: t.cacPerSeat }];
       const perLevelHours = attentionHours(c.spec) / 6;
-      for (let i = 0; i < 6; i++) {
-        const r = n * prog.each[i] * ladder[i];
-        const d = n * prog.each[i] * fullCost(c.spec, i);
-        rev += r; del += d;
-        const lag = Math.min(1, Math.floor(i / LEVELS_PER_YEAR_INT));
-        byLag[lag].revenue += r; byLag[lag].delivery += d;
-        byLag[lag].hours += n * prog.each[i] * perLevelHours;
-        hrs += n * prog.each[i] * perLevelHours;
+      let chLearners = 0, chRev = 0, chDel = 0;
+      for (const w of where) {
+        if (!(w.n > 0) || !(w.price > 0)) continue;
+        const ladder = ladderFor(c.spec, w.price);
+        for (let i = 0; i < 6; i++) {
+          const r = w.n * prog.each[i] * ladder[i];
+          const d = w.n * prog.each[i] * fullCost(c.spec, i);
+          chRev += r; chDel += d;
+          const lag = Math.min(1, Math.floor(i / LEVELS_PER_YEAR_INT));
+          byLag[lag].revenue += r; byLag[lag].delivery += d;
+          byLag[lag].hours += w.n * prog.each[i] * perLevelHours;
+          hours += w.n * prog.each[i] * perLevelHours;
+        }
+        chLearners += w.n;
+        acquisition += w.n * w.cac;
       }
-      learners += n; revenue += rev; delivery += del;
-      acquisition += n * t.cacPerSeat;
-      levels += n * prog.levels; c2 += n * prog.reachC2; hours += hrs;
-      byProduct[key] = { learners: n, revenue: rev, delivery: del };
+      learners += chLearners; revenue += chRev; delivery += chDel;
+      levels += chLearners * prog.levels; c2 += chLearners * prog.reachC2;
+      byProduct[key] = { learners: chLearners, revenue: chRev, delivery: chDel };
     }
   }
 

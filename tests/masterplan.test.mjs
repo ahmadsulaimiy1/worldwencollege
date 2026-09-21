@@ -472,43 +472,61 @@ if (fail) process.exit(1);
   check('the proposed architecture confers more awards than the adopted flat tariff',
     arch.proposed.totals.awards > arch.adopted.totals.awards,
     `${Math.round(arch.proposed.totals.awards)} against ${Math.round(arch.adopted.totals.awards)}`);
-  check('...and earns more revenue',
-    arch.proposed.totals.revenue > arch.adopted.totals.revenue);
+  check('...and earns more surplus than the adopted flat tariff',
+    arch.proposed.totals.surplus > arch.adopted.totals.surplus,
+    `${Math.round(arch.proposed.totals.surplus)} against ${Math.round(arch.adopted.totals.surplus)}`);
   check('...and earns more surplus than the brief\'s tariff, which is the point of the comparison',
     arch.proposed.totals.surplus > arch.briefA.totals.surplus,
     `${Math.round(arch.proposed.totals.surplus)} against ${Math.round(arch.briefA.totals.surplus)}`);
-  /* THIS CHECK WAS INVERTED, AND THE REASON MATTERS.
+  /* THIS CHECK HAS NOW BEEN INVERTED TWICE, AND BOTH REASONS MATTER.
 
-     It used to assert that the proposal does NOT beat the adopted flat
-     tariff on surplus — a guard against claiming a free lunch, written
-     when the proposal genuinely bought reach by giving up margin, and
-     the plan said so.
+     It began by asserting that the proposal does NOT beat the adopted
+     flat tariff on surplus — a guard against claiming a free lunch,
+     written when the proposal genuinely bought reach by giving up
+     margin, and the plan said so.
 
-     Adding the institutional channels removed the trade. The proposal
-     now earns more revenue, more surplus, more learners and more awards
-     than the adopted tariff, because a sponsored cohort reaches people
-     a retail price cannot and pays acquisition once for all of them.
+     Adding the institutional channels appeared to remove the trade: at
+     ONE GLOBAL PRICE the proposal beat the adopted tariff on revenue,
+     surplus, learners and awards at once, and the guard was rewritten
+     to allow that claim.
+
+     Pricing the projection by region brought the trade back, and this
+     time it is real. Two of the College's four markets carry no taught
+     route at retail at all, so the proposal collects materially LESS
+     revenue than a single global fee and admits marginally fewer
+     learners — while conferring more awards and retaining more than
+     twice the surplus.
 
      A guard that forbids a true claim is as bad as one that permits a
-     false one, so it now checks the SHAPE of the claim rather than its
-     direction: whichever way the comparison falls, every dimension the
-     plan reports must actually fall that way. */
+     false one. So this checks the SHAPE rather than the direction: the
+     comparison may fall whichever way the model says, but the
+     publication must not describe a clean sweep it does not have. */
   const dims = [
     ['surplus', arch.proposed.totals.surplus, arch.adopted.totals.surplus],
     ['revenue', arch.proposed.totals.revenue, arch.adopted.totals.revenue],
     ['learners', arch.proposed.totals.newLearners, arch.adopted.totals.newLearners],
     ['awards', arch.proposed.totals.awards, arch.adopted.totals.awards],
   ];
-  const beaten = dims.filter(([, a, b]) => a > b).map(([n]) => n);
-  check('...and the comparison against the adopted tariff is stated as it actually falls',
-    beaten.length === dims.length || beaten.length === 0
-      || dims.every(([, a, b]) => a !== b),
-    `proposal ahead on: ${beaten.join(', ') || 'nothing'}`);
-  check('...and where it claims to win, it wins on the figures the model produces',
+  const ahead = dims.filter(([, a, b]) => a > b).map(([n]) => n);
+  const behind = dims.filter(([, a, b]) => a < b).map(([n]) => n);
+  check('the comparison against the adopted tariff has a direction on every dimension',
+    ahead.length + behind.length === dims.length,
+    `ahead on ${ahead.join(', ') || 'nothing'}; behind on ${behind.join(', ') || 'nothing'}`);
+  {
+    const { readFileSync: read } = await import('node:fs');
+    const src = read(new URL('../scripts/publication/render-monograph.mjs', import.meta.url), 'utf8');
+    const claimsSweep = /more on every dimension|wins on every|more revenue, more surplus, more learners and more awards/i.test(src);
+    check('...and the publication does not claim a clean sweep it does not have',
+      !(behind.length > 0 && claimsSweep),
+      behind.length ? `behind on ${behind.join(', ')} — the text must state the trade` : 'ahead everywhere');
+  }
+  check('...and the surplus advantage is not an artefact of collecting more',
     arch.proposed.totals.surplus > arch.adopted.totals.surplus
-      ? arch.proposed.totals.revenue > arch.adopted.totals.revenue
+      && arch.proposed.totals.revenue < arch.adopted.totals.revenue
+      ? arch.proposed.totals.surplus / arch.proposed.totals.revenue
+        > arch.adopted.totals.surplus / arch.adopted.totals.revenue
       : true,
-    `surplus ${Math.round(arch.proposed.totals.surplus)} against ${Math.round(arch.adopted.totals.surplus)}`);
+    `retained margin ${(arch.proposed.totals.surplus / arch.proposed.totals.revenue * 100).toFixed(1)}% against ${(arch.adopted.totals.surplus / arch.adopted.totals.revenue * 100).toFixed(1)}%`);
 
   // ── Scenarios ────────────────────────────────────────────────────
   const sc = J.scenarios();

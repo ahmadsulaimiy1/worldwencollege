@@ -37,6 +37,7 @@
 
 import { PLAN } from './masterplan.mjs';
 import * as P from './pricing.mjs';
+import * as PF from './portfolio.mjs';
 
 const round = (n, d = 0) => { const f = 10 ** d; return Math.round((Number(n) || 0) * f) / f; };
 
@@ -56,7 +57,15 @@ function reachFor(y, alumni, budgetByYear) {
 
 /**
  * Ten years under one architecture.
- * `prices` is a portfolio: { directed, tutored, execCore, execPremium, execBespoke }
+ * `prices` is a portfolio keyed by delivery specification:
+ * { independent, directed, tutored, execCore, execPremium, execBespoke }
+ *
+ * `regional: true` prices every market at its OWN published tariff and
+ * books no demand at all for a route that market does not carry — see
+ * portfolio.mjs § segmentTariff. It is what the proposed architecture
+ * is; the adopted flat fee and Alternative A are single global prices
+ * by definition, which is the difference the comparison exists to
+ * show, so they are projected without it.
  */
 export function project(prices, opts = {}) {
   const {
@@ -64,7 +73,14 @@ export function project(prices, opts = {}) {
     continuationScale = 1,
     reachMultiplier = 1,
     cacMultiplier = 1,
+    regional = false,
   } = opts;
+  /* Computed once rather than per year: the tariff a segment faces and
+     the regions an agreement is signed in do not change with the
+     calendar. */
+  const tariffTable = regional ? PF.segmentTariff(PF.REFERENCE_TARIFF) : null;
+  const tariffOf = tariffTable ? (k) => tariffTable[k] : null;
+  const placement = regional ? PF.agreementPlacement(PF.REFERENCE_TARIFF, P.CHANNELS) : null;
 
   const budgets = PLAN.acquisition_budget_usd.by_year;
   const productiveHours = P.CONTRACTED_HOURS * P.PRODUCTIVE_FRACTION;
@@ -90,7 +106,7 @@ export function project(prices, opts = {}) {
     // own hiring decisions, and it would hide the year the cost lands.
     const fixed = P.fixedEstablishment(y + 1);
 
-    const snap = P.portfolio(prices, { continuationScale, reachScale: reach, fixed });
+    const snap = P.portfolio(prices, { continuationScale, reachScale: reach, fixed, tariffOf, placement });
     const lag0 = snap.byLag[0];
     const lag1 = snap.byLag[1];
 
@@ -201,6 +217,7 @@ export function project(prices, opts = {}) {
   return {
     label,
     prices,
+    regional,
     years,
     totals: {
       revenue: round(years.reduce((a, b) => a + b.revenue, 0)),
@@ -222,6 +239,14 @@ export function project(prices, opts = {}) {
   };
 }
 
+/** The committed reference tariff, in the vocabulary the cost engine
+ *  speaks. The projection ran on a superseded tariff for one revision
+ *  after the portfolio adopted this one — Part III published one set of
+ *  figures and Part V projected another. */
+export const COMMITTED = Object.fromEntries(
+  Object.entries(PF.SPEC_OF_INTENSITY).map(([intensity, spec]) => [spec, PF.REFERENCE_TARIFF[intensity]]),
+);
+
 /** The three architectures, on one basis. */
 export function architectures() {
   // The adopted tariff, read from the College's own record rather than
@@ -230,7 +255,7 @@ export function architectures() {
   const adoptedFlat = P.B.programmeTotal;
   const AA = PLAN.alternative_architecture_a;
   return {
-    proposed: project(P.PROPOSED.committed, { label: 'Proposed portfolio' }),
+    proposed: project(COMMITTED, { label: 'Proposed portfolio', regional: true }),
     adopted: project({
       directed: adoptedFlat, tutored: adoptedFlat,
       execCore: adoptedFlat, execPremium: adoptedFlat, execBespoke: adoptedFlat,
@@ -245,12 +270,14 @@ export function architectures() {
 /** Conservative / Core / High-growth under the proposed architecture. */
 export function scenarios() {
   return {
-    conservative: project(P.PROPOSED.committed, {
-      label: 'Conservative', continuationScale: 0.88, reachMultiplier: 0.74, cacMultiplier: 1.26,
+    conservative: project(COMMITTED, {
+      label: 'Conservative', regional: true,
+      continuationScale: 0.88, reachMultiplier: 0.74, cacMultiplier: 1.26,
     }),
-    core: project(P.PROPOSED.committed, { label: 'Core Management Plan' }),
-    growth: project(P.PROPOSED.committed, {
-      label: 'High Growth', continuationScale: 1.09, reachMultiplier: 1.28, cacMultiplier: 0.86,
+    core: project(COMMITTED, { label: 'Core Management Plan', regional: true }),
+    growth: project(COMMITTED, {
+      label: 'High Growth', regional: true,
+      continuationScale: 1.09, reachMultiplier: 1.28, cacMultiplier: 0.86,
     }),
   };
 }
