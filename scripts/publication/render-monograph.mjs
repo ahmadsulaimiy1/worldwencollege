@@ -208,6 +208,18 @@ const figReserve = () => F.reserveAgainstTarget(reserveYears(), {
   targetLabel: `${RESERVE_POLICY.target_months_of_operating_cost} months of operating cost`,
 });
 const figCapacity = () => F.capacityLoad(CORE.years);
+/* ── THE DECADE HAD NO REGIONAL FACE ─────────────────────────────────
+   The plan prices four markets separately, two of them carry no taught
+   route at retail, and the risk register names an early warning at 45
+   per cent of net tuition from any one market. All three were
+   published; the quantity that tests them was not. */
+const MARKET_ORDER = Object.entries(CORE.totals.byRegion)
+  .sort((a, b) => b[1].revenue - a[1].revenue)
+  .map(([key]) => ({ key, short: PF.REGIONS[key].short || PF.REGIONS[key].name }));
+const CONCENTRATION = PR.CONCENTRATION_LIMIT ?? 0.45;
+const figMarkets = () => F.marketBands(CORE.years, MARKET_ORDER, { limit: CONCENTRATION });
+const LARGEST_MARKET = MARKET_ORDER[0];
+const LARGEST_SHARE = CORE.totals.byRegion[LARGEST_MARKET.key].revenue / CORE.totals.revenue;
 const RESERVE_MET = reserveYears().find((y) => y.reserve >= y.target);
 
 /* ── THE DEEPEST POINT, PER CASE ─────────────────────────────────────
@@ -426,6 +438,7 @@ function build() {
         { t: 'What has to be true to leave a phase', f: PAGES_OF.gates || 0 },
         { t: 'The whole of the capital requirement', f: PAGES_OF.gates ? PAGES_OF.gates + 1 : 0 },
         { t: 'The order the markets open in', f: PAGES_OF.sequence || 0 },
+        { t: 'The decade, by market', f: PAGES_OF.markets || 0 },
         { t: 'What the College will not do', f: PAGES_OF.exclusions || 0 },
         { t: 'What the College measures', f: PAGES_OF.measures || 0 }] },
       { part: 'VII · Governance and Resilience', rows: [
@@ -452,10 +465,65 @@ function build() {
     const empty = TOC.flatMap((g) => g.rows.filter((r) => !r.f).map((r) => r.t));
     if (empty.length) throw new Error(`contents rows point at no page: ${empty.join('; ')}`);
   }
-  push(...S.spread(
-    M.contents({ title: 'Contents', parts: TOC.slice(0, 4) }),
-    M.contents({ title: '', parts: TOC.slice(4) })
-  ));
+  /* ── THE CONTENTS OUTGREW ITS OWN SPREAD ──────────────────────────
+     The break was hard-coded at the fourth part. Parts VI and VII then
+     gained four leaves each, and the second contents page went thirty
+     pixels past its trim — which the renderer refuses to print, and
+     rightly: a contents that cannot show the book is worse than no
+     contents. Rebalancing the two pages only moved the overflow to the
+     first.
+
+     So it fills as many leaves as it needs. Parts are packed in order
+     against a capacity measured in rows — a part heading occupying
+     about one and a half rows of depth — and a part is never split
+     across a leaf, because half a part in a contents list reads as a
+     mistake. */
+  /* The first leaf carries the word CONTENTS and the rule under it, so
+     it holds about a fifth less than the ones that follow. Measured on
+     the page rather than assumed: at seventeen and a half rows the
+     second leaf overflowed by thirty pixels and the first, carrying
+     the same load, by a hundred and sixty. */
+  const TOC_FIRST = 16.5, TOC_REST = 21.5;
+  const weigh = (g) => g.rows.length + 1.5;
+  /* BALANCED ACROSS THE LEAVES IT NEEDS, NOT PACKED INTO THEM.
+     Filling each leaf to capacity and letting the last take what is
+     left gave one full page, one two-thirds full and one carrying a
+     single part above eight inches of white. Even generous white
+     across three leaves reads as a contents page; one crammed leaf
+     beside an empty one reads as a mistake. So the number of leaves is
+     found first, and the parts are then distributed toward an equal
+     share of it. */
+  const totalWeight = TOC.reduce((t, g) => t + weigh(g), 0);
+  const leafCount = Math.max(1, 1 + Math.ceil((totalWeight - TOC_FIRST) / TOC_REST));
+  const target = totalWeight / leafCount;
+  const leaves = [];
+  for (const group of TOC) {
+    const last = leaves[leaves.length - 1];
+    const cap = leaves.length <= 1 ? TOC_FIRST : TOC_REST;
+    const after = last ? last.weight + weigh(group) : Infinity;
+    const remainingLeaves = leafCount - leaves.length;
+    /* Take the group if it fits AND doing so leaves the page no
+       further from an equal share than stopping would — unless there
+       are no leaves left to put it on, in which case it must fit. */
+    const closer = last && (Math.abs(after - target) <= Math.abs(last.weight - target)
+      || remainingLeaves <= 0);
+    if (last && after <= cap && closer) {
+      last.groups.push(group); last.weight += weigh(group);
+    } else {
+      leaves.push({ groups: [group], weight: weigh(group) });
+    }
+  }
+  const tocPages = leaves.map((leaf, i) => M.contents({
+    title: i === 0 ? 'Contents' : '', parts: leaf.groups,
+  }));
+  /* Paired into spreads where they pair. An odd last leaf is pushed on
+     its own and the part that follows sets its own bastard title on
+     the facing page — which is the device this book already uses to
+     square a signature, and a better answer than a blank. */
+  for (let i = 0; i + 1 < tocPages.length; i += 2) {
+    push(...S.spread(tocPages[i], tocPages[i + 1]));
+  }
+  if (tocPages.length % 2) push(tocPages[tocPages.length - 1]);
 
   // ════════════════════════════════════════════════════════════════
   // PART I — THE INSTITUTION
@@ -1020,6 +1088,7 @@ function build() {
       contains: [{ t: 'Five phases, and the gate on each', f: PAGES_OF.gates || '' },
         { t: 'The whole of the capital requirement', f: PAGES_OF.gates ? PAGES_OF.gates + 1 : '' },
         { t: 'The order the markets open in', f: PAGES_OF.sequence || '' },
+        { t: 'The decade, by market', f: PAGES_OF.markets || '' },
         { t: 'What the College will not do', f: PAGES_OF.exclusions || '' },
         { t: 'What the College measures', f: PAGES_OF.measures || '' }] }),
     M.page(`
@@ -1115,6 +1184,49 @@ function build() {
      honesty register, in the governance schedule. None of them had
      ever been set out as a set, and a plan that states only its
      appetite has described an appetite. */
+  /* Where the decade's money comes from, and the College's own rule
+     that it must not all come from one place. */
+  at('markets');
+  push(...S.spread(
+    S.figurePage({
+      palette: 'luminous',
+      eyebrow: 'The decade, by market', title: 'Where it comes from, and the rule against one place',
+      sub: `Share of net tuition by market, against the register’s own ${pct(CONCENTRATION, 0)} concentration warning.`,
+      figure: figMarkets(),
+      reading: { head: 'A diversification that is sequenced, not assumed', body: `
+        <p>The College opens the Gulf and West Africa together, Europe in the second year and Asia in the fourth, and until the second market opens it is <strong>as concentrated as a single-market institution</strong>: ${pct(CORE.years[0].byRegion[LARGEST_MARKET.key].revenue / Object.values(CORE.years[0].byRegion).reduce((t, v) => t + v.revenue, 0), 0)} of the first year comes from the Gulf.</p>
+        <p>That is above the College's own early warning, and the plate says so rather than beginning at the year it stops being true. The warning is cleared from ${(CORE.years.find((y, i) => i > 0 && y.byRegion[LARGEST_MARKET.key].revenue / Object.values(y.byRegion).reduce((t, v) => t + v.revenue, 0) <= CONCENTRATION) || {}).calendar || 'no modelled year'} and stays cleared. Across the decade the largest market is ${pct(LARGEST_SHARE, 1)} of net tuition.</p>
+        <p>The two lower bands are the part of the argument a price list cannot make. Asia and West Africa carry <strong>no taught route at retail at any price the College can deliver at</strong>; every taught learner there arrives through an institutional agreement, priced from the College's own contribution floor.</p>` },
+      note: `${M.mark('modelled')} Net tuition, recognised in the year it is taught.`,
+      strip: MARKET_ORDER.map((m) => ({
+        k: m.short,
+        v: pct(CORE.totals.byRegion[m.key].revenue / CORE.totals.revenue, 1),
+        s: `${num(CORE.totals.byRegion[m.key].learners)} learners, ${pct(CORE.totals.byRegion[m.key].agreement / Math.max(1, CORE.totals.byRegion[m.key].learners), 0)} through an agreement`,
+      })),
+      runhead: 'The Ten-Year Strategy' }),
+    tableWithReading({
+      title: 'The four markets, and what each is quoted',
+      sub: 'One table, on the same four markets Part Four prices — and in the same order.',
+      head: ['Market', 'Opens', 'Price level', 'Taught route at retail', 'Learners', 'Net tuition'],
+      rows: MARKET_ORDER.map((m) => {
+        const R = PF.REGIONS[m.key];
+        const tot = CORE.totals.byRegion[m.key];
+        const quoted = PF.offeredIn(m.key, T).length;
+        return [
+          `<b>${M.esc(R.name)}</b><s>${M.esc(R.standing === 'researched' ? 'Researched against published tariffs' : 'Modelled; no published tariff found')}</s>`,
+          `Year ${PR.REGION_OPENS[m.key]}`,
+          `${R.index.toFixed(2)}×`,
+          { v: quoted > 1 ? `${quoted} routes` : `${M.mark('ring')} None — reached through a sponsor`, cls: 'unit' },
+          num(tot.learners),
+          m$(tot.revenue)];
+      }),
+      source: `${M.mark('modelled')} Price level is the index the regional tariff is built from, against the Gulf at 1.00. Learners and net tuition are the Core Plan’s ten years.`,
+    }, { title: 'Why two of the four have no price', columns: true, body: `
+      <p>A taught pathway has a delivery cost, and beneath that cost plus the contribution the College's constitution requires there is no price — only a loss dressed as access. Published Nigerian tariffs top out near a fifth of what the cheapest taught route costs to staff, so the College does not quote one.</p>
+      <p>What it does instead is reach those markets through a buyer who can fund them: a ministry, a foundation, an employer federation. <strong>${pct(CORE.totals.byRegion.westAfrica.agreement / Math.max(1, CORE.totals.byRegion.westAfrica.learners), 0)}</strong> of West African learners and <strong>${pct(CORE.totals.byRegion.asiaRow.agreement / Math.max(1, CORE.totals.byRegion.asiaRow.learners), 0)}</strong> of Asian learners arrive that way, against ${pct(CORE.totals.byRegion.gulf.agreement / Math.max(1, CORE.totals.byRegion.gulf.learners), 0)} in the Gulf. That is a dependency, and it is named in the risk register rather than presented as a strategy without a cost.</p>` },
+    { runhead: 'The Ten-Year Strategy', tone: 'pal pal--editorial' })
+  ));
+
   at('exclusions');
   push(...S.spread(
     tableWithReading({

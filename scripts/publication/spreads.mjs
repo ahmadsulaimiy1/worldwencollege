@@ -349,10 +349,16 @@ export const spreadCss = () => `
    and its argument. It FLEXES and centres, so the air on a page whose
    plate is shorter than its field falls above and below the band
    rather than collecting in a hole at the bottom. */
-.fg__body { flex: 1; display: flex; gap: ${M.PAGE.gutter * 2}mm; align-items: center;
+/* TOP-ALIGNED, NOT CENTRED. Centring a block shorter than its column
+   splits the slack into two voids, one above the drawing and one
+   below, and every figure page in this book carried between 168 and
+   343 pixels of it. Aligned to the head the slack collects once, at
+   the foot, where the strip closes it. */
+.fg__body { flex: 1; display: flex; gap: ${M.PAGE.gutter * 2}mm; align-items: flex-start;
   padding: 6mm 0; }
 .fg__plate { flex: none; }
-.fg__read { flex: 1; min-width: 0; }
+.fg__read { flex: 1; min-width: 0; align-self: stretch; display: flex; flex-direction: column; }
+.fg__read > .fg__n { margin-top: auto; }
 .fg__read h4 { font-family: ${FACE.data}; font-size: 5.4pt; font-weight: 600;
   letter-spacing: .05em; text-transform: uppercase; color: ${C.gold}; margin: 0 0 2.6mm; }
 .fg__read p { font-family: ${FACE.text}; font-size: ${M.T.small}pt; line-height: 14.4pt;

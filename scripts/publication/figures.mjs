@@ -216,6 +216,29 @@ const TRACK = { caps: 0.22, none: 0 };
 export const RULE = { grid: 0.5, structure: 0.75, struck: 2.2, hatch: 0.62 };
 
 /**
+ * HOW TALL A PLATE IS, AND WHY IT IS NOT WHATEVER LOOKED RIGHT.
+ *
+ * Every plate in this library was authored at between 210 and 300
+ * units, which at the declared .46mm to the unit prints between 97 and
+ * 138mm. The column a plate sits in on a figure page is 690 pixels —
+ * about 396 units — so each of the ten figure pages in this book
+ * carried between 168 and 343 pixels of nothing, centred, with the
+ * drawing floating in the middle of it.
+ *
+ * It is the same fault as the thirty-nine pixels of dead space in
+ * every card, at ten times the size, and it was invisible in the
+ * source: the plates are correct, the page is correct, and only a
+ * rendering shows that the two do not fill each other.
+ *
+ * Stretching a plate does not enlarge its type. Every label in here is
+ * sized in POINTS through `z()`, and every position is derived from
+ * `base` and `top` — so a taller plate draws the same lettering at the
+ * same size over a longer scale, which is what a taller plate should
+ * do and is the reason these were parameterised that way.
+ */
+export const PLATE_H = 370;
+
+/**
  * A FIGURE WITH A PROPERLY SET PER-CENT SIGN.
  * The digits carry the size; the sign is set to about 68 per cent of it
  * and raised to sit optically with the cap line rather than the
@@ -333,7 +356,7 @@ export function capitalArchitecture(lines, opts = {}) {
      77mm across whatever its height, so the height is free — and at
      186 units the elevation was 86mm tall and left the lower half of
      its page empty. An elevation of a structure should be tall. */
-  const W = 168, H = 300;
+  const W = 168, H = PLATE_H;
   /* GEOMETRY, CORRECTED. The first cut put the shaft at x=34 with the
      dimension text starting at x=114 and running to wherever the name
      ended — which was past the viewBox on four of the six lines, so
@@ -489,7 +512,13 @@ export function attentionThreshold(rows, benchmark, opts = {}) {
      Judging both against one line asks the wrong question of one of
      them. The band is drawn, the line is drawn, and each tier is read
      against the comparable it actually has. */
-  const W = 168, H = 22 + rows.length * 26 + 30;
+  /* THE ROW PITCH FILLS THE COLUMN RATHER THAN SETTING THE PLATE'S
+     HEIGHT. At a flat 26 units a six-row plate stood 208 units tall in
+     a 370-unit column and floated in the middle of it. The pitch is
+     now whatever divides the column, and never tighter than the 26
+     the rows were drawn at. */
+  const PITCH = Math.max(26, (PLATE_H - 52) / Math.max(1, rows.length));
+  const W = 168, H = 22 + rows.length * PITCH + 30;
   /* THREE COLUMNS: NAME, PLOT, VALUE — AND TWO OF THEM ARE MEASURED.
      The gutters used to be flat numbers. 46 held "Independent" and cut
      "Executive Premium"; 20 on the right is correct for $213 and wrong
@@ -535,7 +564,7 @@ export function attentionThreshold(rows, benchmark, opts = {}) {
   }
 
   rows.forEach((r, i) => {
-    const y = plotTop + 14 + i * 26;
+    const y = plotTop + 14 + i * PITCH;
     const over = r.perHour > benchmark && !r.ownBand;
     const col = over ? K.crimson : K.midnight;
     body += label(x0 - 5, y + 2, r.name, { anchor: 'end', size: 6, fill: K.ink, upper: false,
@@ -585,7 +614,7 @@ export function attentionThreshold(rows, benchmark, opts = {}) {
  * of three is unmistakable.
  */
 export function slope(rows, opts = {}) {
-  const W = 168, H = 240;
+  const W = 168, H = PLATE_H;
   /* THE TWO COLUMNS ARE PLACED BY WHAT HANGS OFF THEM. `xb` was 118,
      which left fifty units for a segment name — enough for "Nigeria
      and", not for "Gulf professionals", which ran off the plate. The
@@ -676,7 +705,7 @@ export function decade(years, opts = {}) {
    * diagram; the eye needs somewhere to land, and here it is the
    * closing year's net tuition, set at the right where the columns end.
    */
-  const W = 168, H = 210;
+  const W = 168, H = PLATE_H;
   /* The plot stops well short of the plate so the closing figure has
      room to be set. At W-34 the columns ran to 134 and "$17.0M" at
      thirteen point needs about thirty-eight units after them, so the
@@ -806,6 +835,17 @@ export function amortisation(retail, channels) {
   const max = Math.max(...retail.map((r) => r.cac), ...channels.map((c) => c.cac));
   const sx = (v) => x0 + (v / (max * 1.06)) * (x1 - x0);
   const defs = hatchDefs('amort', 1.5, K.goldLeaf, 90, 0.55);
+  /* ROW PITCHES THAT FILL THE COLUMN. Drawn at a flat 20 and 30 the
+     plate stood 216 units tall inside a 370-unit column, and the page
+     carried three hundred pixels of centred nothing. The two groups
+     keep their relative weight — a channel row carries a note under
+     its figure and is one and a half times a retail row — and the
+     slack is divided between them rather than left at the foot. */
+  const fixed = 24 + 19 + 5 + 48;
+  const spare = Math.max(0, PLATE_H - fixed - (retail.length * 20 + channels.length * 30));
+  const unit = spare / (retail.length + channels.length * 1.5);
+  const retailPitch = 20 + unit;
+  const channelPitch = 30 + unit * 1.5;
   let body = '';
   let y = 24;
 
@@ -819,7 +859,7 @@ export function amortisation(retail, channels) {
     body += `<text x="${r2(W - 4)}" y="${r2(y + 2.4)}" font-family="${DATA}" font-size="7"
       font-weight="500" fill="${K.soft}" text-anchor="end"
       style="font-variant-numeric:lining-nums tabular-nums">$${Math.round(r.cac).toLocaleString()}</text>`;
-    y += 20;
+    y += retailPitch;
   });
 
   y += 10;
@@ -839,7 +879,7 @@ export function amortisation(retail, channels) {
       style="font-variant-numeric:lining-nums tabular-nums">$${Math.round(c.cac).toLocaleString()}</text>`;
     body += `<text x="${r2(W - 4)}" y="${r2(y + 9.4)}" font-family="${TEXT}" font-size="5.8"
       fill="${K.grey}" text-anchor="end">${esc(c.note)}</text>`;
-    y += 30;
+    y += channelPitch;
   });
 
   /* The point of the plate, set once at its foot where the eye lands
@@ -894,7 +934,18 @@ export function riskMatrix(risks) {
   const L = ['Low', 'Medium', 'High'];
   const I = ['Medium', 'High', 'Severe'];
   const x0 = 34, y0 = 15;
-  const gridW = W - x0 - 10, gridH = 132;
+  /* AND THIS ONE STAYS SHORT, DELIBERATELY. Every other plate in the
+     library was stretched to fill its column; this one was too, and
+     the render showed why it should not be. A likelihood-against-
+     impact matrix is a grid of comparable cells, and at nearly two to
+     one they stop reading as cells and start reading as columns — the
+     gold enclosure with them, which became a bracket down one side
+     rather than a boundary around a region.
+
+     A matrix is square. The page is top-aligned instead, so the slack
+     collects once beneath the drawing and is closed by the foot strip,
+     rather than being split into two voids around it. */
+  const gridW = W - x0 - 10, gridH = gridW * 1.06;
   const cw = gridW / L.length, ch = gridH / I.length;
   const cellX = (a) => x0 + a * cw;
   const cellY = (b) => y0 + (I.length - 1 - b) * ch;
@@ -1009,7 +1060,7 @@ export { K as FIG_COLOURS };
  * solvent, and that crossing is struck.
  */
 export function reserveAgainstTarget(years, opts = {}) {
-  const W = 168, H = 240;
+  const W = 168, H = PLATE_H;
   const x0 = 26, x1 = W - 4;
   const base = H - 34;
   const top = 18;
@@ -1095,7 +1146,7 @@ export function reserveAgainstTarget(years, opts = {}) {
  * reserved for a fact the institution would rather not have.
  */
 export function capacityLoad(years) {
-  const W = 168, H = 250;
+  const W = 168, H = PLATE_H;
   const x0 = 26, x1 = W - 4;
   const step = (x1 - x0) / years.length;
   const colW = step * 0.44;
@@ -1176,7 +1227,7 @@ export function capacityLoad(years) {
  * the actual size of the ask.
  */
 export function fundingRequirement(runs, opts = {}) {
-  const W = 168, H = 236;
+  const W = 168, H = PLATE_H;
   const x0 = 30, x1 = W - 6;
   const top = 20, base = H - 52;
 
@@ -1329,4 +1380,137 @@ export function fundingRequirement(runs, opts = {}) {
       font-size="${z(7)}" fill="${K.inkSoft}">${esc(ln)}</text>`;
   });
   return figure(W, H, body);
+}
+
+// ════════════════════════════════════════════════════════════════════
+// 11 · THE DECADE, BY MARKET
+// ════════════════════════════════════════════════════════════════════
+/**
+ * WHERE THE MONEY COMES FROM, AND THE RULE THAT SAYS IT MUST NOT ALL
+ * COME FROM ONE PLACE.
+ *
+ * The plan prices four markets separately, two of them carry no taught
+ * route at retail at all, and its own risk register names an early
+ * warning — "any single market exceeds 45 per cent of net tuition".
+ * Every one of those three facts was published. The quantity that
+ * tests them was not: the projection reported a decade, a product mix
+ * and a channel mix, and nothing whatever by market, so the warning
+ * could be stated and never checked.
+ *
+ * Drawn as a hundred-per-cent band per year, with the largest market
+ * laid along the FOOT of the column rather than wherever a legend
+ * ordering happened to put it. That is the whole of the composition:
+ * the concentration rule becomes a horizontal line the bottom band has
+ * to stay under, and a reader tests the College's own warning by
+ * looking at it.
+ */
+export function marketBands(years, order, opts = {}) {
+  const W = 168, H = PLATE_H;
+  const limit = opts.limit ?? 0.45;
+  /* THE PLOT ENDS WHERE THE LONGEST MARKET NAME BEGINS. Reserving a
+     fixed thirty units for the band labels clipped "West Africa" and
+     "Asia & world" at the plate edge — the names are measured, so the
+     gutter is measured too. */
+  const gutter = Math.max(...order.map((o) => setWidth(o.short, z(6), { weight: 600 }))) + z(7);
+  const x0 = 26, x1 = W - gutter;
+  /* Room under the year register for a three-line closing. At 46 the
+     rule under the plate landed four units below the year labels and
+     clipped their descenders. */
+  const base = H - 56, top = 20;
+  const step = (x1 - x0) / years.length;
+  const colW = step * 0.78;
+
+  const pitches = [2.0, 2.9, 4.2, 6.4];
+  const inks = [K.sapphire, K.midnight, K.bronze, K.gold];
+  const defs = order.map((o, i) => hatchDefs(`mk${i}`, z(pitches[i] || 6), inks[i] || K.grey,
+    i % 2 ? 135 : 45, z(0.55))).join('');
+
+  let body = '';
+  for (let t = 0; t <= 1.0001; t += 0.25) {
+    body += `<line x1="${r2(x0)}" y1="${r2(base - t * (base - top))}" x2="${r2(x1)}"
+      y2="${r2(base - t * (base - top))}" stroke="${K.faint}" stroke-width="${z(RULE.grid)}"/>`;
+    body += label(x0 - 3, base - t * (base - top) + z(1.8), `${Math.round(t * 100)}%`,
+      { anchor: 'end', size: z(5.8), fill: K.grey });
+  }
+
+  const tops = [];
+  years.forEach((y, i) => {
+    const total = order.reduce((a, o) => a + ((y.byRegion[o.key] || {}).revenue || 0), 0);
+    const cx = x0 + i * step + step / 2;
+    let acc = 0;
+    order.forEach((o, j) => {
+      const share = total > 0 ? ((y.byRegion[o.key] || {}).revenue || 0) / total : 0;
+      const y1 = base - acc * (base - top);
+      const y2 = base - (acc + share) * (base - top);
+      if (share > 0) {
+        body += `<rect x="${r2(cx - colW / 2)}" y="${r2(y2)}" width="${r2(colW)}" height="${r2(y1 - y2)}"
+          fill="url(#mk${j})" stroke="${inks[j] || K.grey}" stroke-width="${z(0.5)}"/>`;
+      }
+      if (j === 0) tops.push({ x: cx, y: y2, share });
+      acc += share;
+    });
+    body += label(cx, base + z(8), String(y.calendar).slice(2),
+      { anchor: 'middle', size: z(5.8), fill: K.grey });
+  });
+
+  body += `<line x1="${r2(x0)}" y1="${r2(base)}" x2="${r2(x1)}" y2="${r2(base)}"
+    stroke="${K.ink}" stroke-width="${z(RULE.structure)}"/>`;
+
+  /* THE WARNING, STRUCK. The register's own trigger, drawn across the
+     band it constrains. */
+  const ly = base - limit * (base - top);
+  body += `<line x1="${r2(x0)}" y1="${r2(ly)}" x2="${r2(x1)}" y2="${r2(ly)}"
+    stroke="${K.crimson}" stroke-width="${z(RULE.struck)}" stroke-dasharray="${z(3)} ${z(2)}"/>`;
+  /* Backed in paper, because in the years the warning is actually
+     tripped the label sits on top of the band that trips it. */
+  const limText = opts.limitLabel || `Concentration warning · ${Math.round(limit * 100)}%`;
+  const limW = setWidth(limText, z(6.2), { weight: 700 });
+  body += `<rect x="${r2(x0 + z(1))}" y="${r2(ly - z(8.4))}" width="${r2(limW + z(2.4))}"
+    height="${r2(z(7.4))}" fill="${K.paper}" opacity="0.92"/>`;
+  body += `<text x="${r2(x0 + z(2.2))}" y="${r2(ly - z(3))}" font-family="${DATA}" font-size="${z(6.2)}"
+    font-weight="700" fill="${K.crimson}">${esc(limText)}</text>`;
+
+  /* Each market named on its own band, at the last year, outside the
+     plot — a legend below the plate would make a reader count bands. */
+  const lastTotal = order.reduce((a, o) => a + ((years[years.length - 1].byRegion[o.key] || {}).revenue || 0), 0);
+  let acc2 = 0;
+  const want = order.map((o) => {
+    const share = lastTotal > 0 ? ((years[years.length - 1].byRegion[o.key] || {}).revenue || 0) / lastTotal : 0;
+    const mid = base - (acc2 + share / 2) * (base - top);
+    acc2 += share;
+    return mid;
+  });
+  const placed = deCollide(want, z(8), { top: top + z(3), bottom: base });
+  order.forEach((o, j) => {
+    body += `<line x1="${r2(x1 + z(1))}" y1="${r2(want[j])}" x2="${r2(x1 + z(4))}" y2="${r2(placed[j] - z(1.8))}"
+      stroke="${inks[j] || K.grey}" stroke-width="${z(0.5)}"/>`;
+    body += `<text x="${r2(x1 + z(5))}" y="${r2(placed[j])}" font-family="${DATA}" font-size="${z(6)}"
+      font-weight="600" fill="${inks[j] || K.grey}">${esc(o.short)}</text>`;
+  });
+
+  const decade = order.map((o) => ({
+    name: o.short,
+    v: years.reduce((a, y) => a + ((y.byRegion[o.key] || {}).revenue || 0), 0),
+  }));
+  const whole = decade.reduce((a, d) => a + d.v, 0);
+  const largest = decade.reduce((m, d) => (d.v > m.v ? d : m), decade[0]);
+  const share = whole > 0 ? largest.v / whole : 0;
+  /* AND THE YEARS IT IS ACTUALLY TRIPPED IN, WHICH IS THE POINT OF
+     DRAWING IT. The register states the threshold; only the plate can
+     say whether the plan clears it, and for the first years it does
+     not — because the Gulf opens first and alone. */
+  const tripped = tops.filter((t) => t.share > limit).length;
+  const closing = opts.closing
+    || `Across the decade the largest market is ${largest.name}, at ${(share * 100).toFixed(1)} per cent of net tuition against a ${Math.round(limit * 100)} per cent warning`
+      + (tripped
+        ? `. It stands above that warning for the first ${tripped} year${tripped > 1 ? 's' : ''}, while it is the only market open.`
+        : ', and clears it in every year.');
+  const lines = wrapTo(closing, W - 4, z(7), { face: TEXT, weight: 400 });
+  const ry = H - 22 - (lines.length - 1) * z(9);
+  body += `<line x1="0" y1="${r2(ry)}" x2="${r2(W)}" y2="${r2(ry)}" stroke="${K.rule}" stroke-width="${z(0.5)}"/>`;
+  lines.forEach((ln, i) => {
+    body += `<text x="0" y="${r2(H - 14 - (lines.length - 1 - i) * z(9))}" font-family="${TEXT}"
+      font-size="${z(7)}" fill="${K.inkSoft}">${esc(ln)}</text>`;
+  });
+  return figure(W, H, body, defs);
 }

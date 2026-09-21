@@ -96,6 +96,7 @@ export function project(prices, opts = {}) {
      admitted last year, which is halfway through its pathway and has
      not stopped needing an instructor merely because the year ended. */
   let carried = { revenue: 0, delivery: 0, hours: 0, awards: 0, c2: 0 };
+  let carriedRegion = {};
 
   for (let y = 0; y < PLAN.planning_period.years; y++) {
     const reach = reachFor(y, alumni, budgets) * reachMultiplier;
@@ -147,6 +148,13 @@ export function project(prices, opts = {}) {
     const newLearners = snap.learners * scale;
 
     // ── Recognised in the year it is taught, not the year it is sold ─
+    /* LAST year's second teaching year, captured before this year's
+       replaces it. `carried` is read here and reassigned further down,
+       which is correct; the regional carry was read AFTER its own
+       reassignment, so every market booked its whole programme value
+       in the admission year and the four markets summed $5.2M above
+       the decade they are a decomposition of. */
+    const prevRegion = carriedRegion;
     const revenue = carried.revenue + lag0.revenue * scale;
     const delivery = carried.delivery + lag0.delivery * scale;
     const acquisition = Math.min(budget, wantSpend * scale);
@@ -177,6 +185,11 @@ export function project(prices, opts = {}) {
     cumRevenue += revenue;
     cumSurplus += surplus;
     reserve = Math.max(0, reserve + (surplus > 0 ? surplus * PLAN.reserve.contribution_share_of_surplus : surplus));
+
+    /* Each market's second teaching year, carried into the next year
+       exactly as the institution's is. */
+    carriedRegion = Object.fromEntries(Object.entries(snap.byRegion || {})
+      .map(([k, v]) => [k, v.lag1 * scale]));
 
     carried = {
       revenue: lag1.revenue * scale,
@@ -213,6 +226,18 @@ export function project(prices, opts = {}) {
       reserve: round(reserve),
       revenuePerLearner: newLearners > 0 ? round(revenue / newLearners) : 0,
       byProduct: Object.fromEntries(Object.entries(snap.byProduct).map(([k, v]) => [k, round(v.learners * scale)])),
+      /* BY MARKET, WHICH THE DECADE HAD NEVER REPORTED. The plan
+         prices four markets separately and two of them carry no taught
+         route at retail — the largest structural fact in it — and the
+         projection reported a decade, a product mix and a channel mix
+         and nothing whatever by market, so no page in either
+         publication could draw one. */
+      byRegion: Object.fromEntries(Object.entries(snap.byRegion || {}).map(([k, v]) => [k, {
+        learners: round(v.learners * scale),
+        revenue: round(v.lag0 * scale + (prevRegion[k] || 0)),
+        retail: round(v.retail * scale),
+        agreement: round(v.agreement * scale),
+      }])),
     });
   }
 
@@ -237,6 +262,17 @@ export function project(prices, opts = {}) {
       y10Active: years[years.length - 1].activeLearners,
       y10New: years[years.length - 1].newLearners,
       reserve: years[years.length - 1].reserve,
+      /* Ten years of each market, summed from the years rather than
+         re-derived, so the regional total cannot disagree with the
+         decade it decomposes. */
+      byRegion: years.reduce((acc, y) => {
+        for (const [k, v] of Object.entries(y.byRegion || {})) {
+          acc[k] = acc[k] || { learners: 0, revenue: 0, retail: 0, agreement: 0 };
+          acc[k].learners += v.learners; acc[k].revenue += v.revenue;
+          acc[k].retail += v.retail; acc[k].agreement += v.agreement;
+        }
+        return acc;
+      }, {}),
     },
   };
 }

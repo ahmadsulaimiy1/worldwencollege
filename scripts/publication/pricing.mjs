@@ -787,6 +787,32 @@ function allocate(seg, prices) {
  * The whole institution at one set of prices: every segment, every
  * product, revenue, delivery, acquisition, fixed cost and surplus.
  */
+/** Which market each demand segment sits in. Two Gulf segments share
+ *  one market, deliberately: they are two buyers, not two places. */
+/** The year each demand segment's market opens, read from the plan's
+ *  own market sequence rather than restated here. */
+export const MARKET_OPENS = (() => {
+  const by = Object.fromEntries(PLAN.market.regions.map((r) => [r.key, r.opens_year]));
+  return {
+    gccExec: by.gcc, gccProf: by.gcc, ukeu: by.ukeu, row: by.row, waf: by.waf,
+  };
+})();
+
+export const SEGMENT_OF_REGION = {
+  gccExec: 'gulf', gccProf: 'gulf', ukeu: 'ukEurope', row: 'asiaRow', waf: 'westAfrica',
+};
+
+/** And the same years, keyed the way the portfolio names its markets.
+ *  An agreement cannot be signed in a market the College has not
+ *  opened: the partnership function follows the market sequence rather
+ *  than running ahead of it, which is why Asia carried five per cent
+ *  of Year Two through a sponsor while the plan said that market opens
+ *  in Year Four. */
+export const REGION_OPENS = (() => {
+  const by = Object.fromEntries(PLAN.market.regions.map((r) => [r.key, r.opens_year]));
+  return { gulf: by.gcc, ukEurope: by.ukeu, asiaRow: by.row, westAfrica: by.waf };
+})();
+
 export function portfolio(prices, opts = {}) {
   const {
     continuationScale = 1, reachScale = 1, fixed = FIXED_INSTITUTIONAL, channels = true,
@@ -824,8 +850,34 @@ export function portfolio(prices, opts = {}) {
   ];
   const LEVELS_PER_YEAR_INT = Math.max(1, Math.round(LEVELS_PER_LEARNER_YEAR));
   const byProduct = {}; const bySegment = [];
+  /* ── THE DECADE'S REGIONAL FACE ──────────────────────────────────
+     The rebuild priced four markets separately and two of them carry
+     no taught route at retail at all, which is the largest structural
+     fact in the plan — and the snapshot reported nothing by market, so
+     no page in either publication could draw it. Retail volume folds
+     in from the segments; agreement volume folds in from the placement
+     rows, which is why it had to wait for those to exist. */
+  const byRegion = {};
 
   for (const seg of SEGMENTS) {
+    /* ══════════════════════════════════════════════════════════════
+       A MARKET THAT HAS NOT OPENED SELLS NOTHING EITHER, AND THIS WAS
+       THE SAME BUG AS THE CHANNELS', ONE LAYER DOWN.
+       ══════════════════════════════════════════════════════════════
+       `data/masterplan.json` opens the Gulf and West Africa in Year 1,
+       the United Kingdom and Europe in Year 2 and Asia in Year 4, and
+       Part VI argues at length that the sequence is deliberate. The
+       only use the model made of those years was to COUNT them inside
+       `reachFor` and scale total reach by the count — so every one of
+       the four markets sold from the first day, and the plan's
+       sequencing argument was made on a page facing a model that did
+       not implement it.
+
+       It surfaced by rendering. A plate of net tuition by market
+       showed the United Kingdom carrying 29 per cent of Year One, in
+       the year the plan says that market is not open. */
+    const opensIn = MARKET_OPENS[seg.key];
+    if (planYear !== null && opensIn && planYear < opensIn) continue;
     const segPrices = tariffOf ? tariffOf(seg.key) : prices;
     const segLadders = tariffOf
       ? Object.fromEntries(Object.keys(PRODUCTS)
@@ -833,7 +885,7 @@ export function portfolio(prices, opts = {}) {
         .map((k) => [k, ladderFor(k, segPrices[k])]))
       : ladders;
     const mix = allocate(seg, segPrices);
-    let segLearners = 0, segRevenue = 0;
+    let segLearners = 0, segRevenue = 0, segLag0 = 0, segLag1 = 0;
     for (const [pk, share] of Object.entries(mix)) {
       if (share <= 0) continue;
       const price = segPrices[pk];
@@ -856,6 +908,7 @@ export function portfolio(prices, opts = {}) {
         byLag[lag].revenue += r;
         byLag[lag].delivery += d;
         byLag[lag].hours += n * prog.each[i] * perLevelHours;
+        if (lag === 0) segLag0 += r; else segLag1 += r;
       }
       const cac = CAC[seg.key];
       learners += n; revenue += rev; delivery += del; acquisition += n * cac;
@@ -871,6 +924,18 @@ export function portfolio(prices, opts = {}) {
       byProduct[pk].learners += n; byProduct[pk].revenue += rev; byProduct[pk].delivery += del;
     }
     bySegment.push({ key: seg.key, name: seg.name, learners: Math.round(segLearners), revenue: Math.round(segRevenue) });
+    /* Retail volume folded into the regional picture. Two segments —
+       both Gulf — share one region, which is why this accumulates
+       rather than assigns. */
+    const rk = SEGMENT_OF_REGION[seg.key];
+    if (rk) {
+      byRegion[rk] = byRegion[rk] || { learners: 0, revenue: 0, lag0: 0, lag1: 0, retail: 0, agreement: 0 };
+      byRegion[rk].learners += segLearners;
+      byRegion[rk].revenue += segRevenue;
+      byRegion[rk].lag0 += segLag0;
+      byRegion[rk].lag1 += segLag1;
+      byRegion[rk].retail += segLearners;
+    }
   }
 
   if (channels) {
@@ -925,19 +990,30 @@ export function portfolio(prices, opts = {}) {
          authority on how many places an agreement carries and what
          winning one costs per place. */
       const where = placement && placement[key]
-        ? placement[key].map((r) => {
+        ? placement[key].filter((r) => !(planYear !== null && REGION_OPENS[r.region]
+          && planYear < REGION_OPENS[r.region])).map((r) => {
           const agreements = t.agreements * r.share;
           const perAgreement = r.seatsPerAgreement;
           return {
             n: agreements * perAgreement * Math.max(0, Math.min(1, reachScale)),
             price: r.seatPrice,
             cac: r.cacPerSeat,
+            region: r.region,
           };
         })
         : [{ n: total, price: t.seatPrice, cac: t.cacPerSeat }];
       const perLevelHours = attentionHours(c.spec) / 6;
       let chLearners = 0, chRev = 0, chDel = 0;
       for (const w of where) {
+        /* WHICH MARKET THE SEAT IS IN. The retail segments have always
+           reported by region; the institutional channels reported only
+           a national total, so the two markets that are reached ONLY
+           through an agreement contributed nothing to any regional
+           picture and the book could not draw one. */
+        if (w.region) {
+          byRegion[w.region] = byRegion[w.region]
+            || { learners: 0, revenue: 0, lag0: 0, lag1: 0, retail: 0, agreement: 0 };
+        }
         if (!(w.n > 0) || !(w.price > 0)) continue;
         const ladder = ladderFor(c.spec, w.price);
         for (let i = 0; i < 6; i++) {
@@ -951,6 +1027,28 @@ export function portfolio(prices, opts = {}) {
         }
         chLearners += w.n;
         acquisition += w.n * w.cac;
+        if (w.region) {
+          /* SPLIT THE SAME WAY THE YEAR IS. Revenue is recognised in
+             the year it is TAUGHT, so a market's contribution to a
+             year is not its whole programme value: the first three
+             levels land in the admission year and the rest in the
+             next. Accumulating the lifetime value against the year
+             instead put the ten-year regional total $5.2M above the
+             decade it is a decomposition of — the tenth intake's
+             second year, counted inside a decade that ends before it
+             is taught. */
+          const lad = ladderFor(c.spec, w.price);
+          let l0 = 0, l1 = 0;
+          for (let i = 0; i < 6; i++) {
+            const r = w.n * prog.each[i] * lad[i];
+            if (Math.min(1, Math.floor(i / LEVELS_PER_YEAR_INT)) === 0) l0 += r; else l1 += r;
+          }
+          byRegion[w.region].learners += w.n;
+          byRegion[w.region].revenue += l0 + l1;
+          byRegion[w.region].lag0 += l0;
+          byRegion[w.region].lag1 += l1;
+          byRegion[w.region].agreement += w.n;
+        }
       }
       learners += chLearners; revenue += chRev; delivery += chDel;
       levels += chLearners * prog.levels; c2 += chLearners * prog.reachC2;
@@ -1011,6 +1109,11 @@ export function portfolio(prices, opts = {}) {
       grossMargin: v.revenue > 0 ? (v.revenue - v.delivery) / v.revenue : 0,
     }])),
     bySegment,
+    byRegion: Object.fromEntries(Object.entries(byRegion).map(([k, v]) => [k, {
+      learners: Math.round(v.learners), revenue: Math.round(v.revenue),
+      lag0: Math.round(v.lag0), lag1: Math.round(v.lag1),
+      retail: Math.round(v.retail), agreement: Math.round(v.agreement),
+    }])),
   };
 }
 

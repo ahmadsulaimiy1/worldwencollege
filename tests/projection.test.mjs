@@ -213,6 +213,59 @@ for (const [key, c] of Object.entries(PR.CHANNELS)) {
     `${Math.round(SC.core.years[c.opensYear - 1].byProduct[key] || 0)} in ${SC.core.years[c.opensYear - 1].calendar}`);
 }
 
+// ── 4c-ii · A MARKET THAT HAS NOT OPENED SELLS NOTHING EITHER ───────
+/* The same defect as the channels', one layer down. The plan opens the
+   Gulf and West Africa in Year 1, Europe in Year 2 and Asia in Year 4,
+   and Part VI argues at length that the sequence is deliberate — while
+   the only use the model made of those years was to COUNT them and
+   scale total reach by the count. Every market sold from day one, and
+   it surfaced by rendering: a plate of net tuition by market showed
+   the United Kingdom carrying 29 per cent of a year in which the plan
+   says that market is not open. */
+{
+  const opensOf = { gulf: PR.MARKET_OPENS.gccProf, ukEurope: PR.MARKET_OPENS.ukeu,
+    asiaRow: PR.MARKET_OPENS.row, westAfrica: PR.MARKET_OPENS.waf };
+  const early = [];
+  for (const [rk, opens] of Object.entries(opensOf)) {
+    SC.core.years.slice(0, opens - 1).forEach((y) => {
+      const got = (y.byRegion[rk] || {}).revenue || 0;
+      if (got > 1) early.push(`${rk} $${Math.round(got)} in ${y.calendar}, opens year ${opens}`);
+    });
+  }
+  check('no market carries revenue before the year the plan opens it',
+    early.length === 0, early.slice(0, 4).join('; ') || 'every market silent until it opens');
+  check('...and every market does carry revenue once it has opened',
+    Object.entries(opensOf).every(([rk, opens]) => ((SC.core.years[opens - 1].byRegion[rk] || {}).revenue || 0) > 0
+      || ((SC.core.years[opens].byRegion[rk] || {}).revenue || 0) > 0),
+    Object.entries(opensOf).map(([rk, o]) => `${rk} y${o}`).join(', '));
+}
+
+/* A DECOMPOSITION THAT DOES NOT ADD UP IS NOT A DECOMPOSITION.
+   The regional picture booked each market's whole programme value in
+   the admission year while the decade recognises revenue across two —
+   so the four markets summed $5.2M above the decade they decompose. */
+for (const [name, run] of Object.entries(SC)) {
+  const sum = Object.values(run.totals.byRegion).reduce((t, v) => t + v.revenue, 0);
+  check(`the four markets sum to the ${name} decade they decompose`,
+    Math.abs(sum - run.totals.revenue) <= Math.max(10, run.totals.revenue * 1e-6),
+    `${m$(sum)} against ${m$(run.totals.revenue)}`);
+}
+check('...and every learner in the decade is placed in a market',
+  Math.abs(Object.values(SC.core.totals.byRegion).reduce((t, v) => t + v.learners, 0)
+    - SC.core.totals.newLearners) <= SC.core.years.length,
+  `${Object.values(SC.core.totals.byRegion).reduce((t, v) => t + v.learners, 0)} against ${SC.core.totals.newLearners}`);
+/* And each market's learners divide into the two ways it is reached.
+   Two of the four are reached ONLY through an agreement at retail. */
+check('a market reached only through a sponsor shows it in the split',
+  ['asiaRow', 'westAfrica'].every((k) => {
+    const r = SC.core.totals.byRegion[k];
+    return r.agreement > 0 && Math.abs(r.retail + r.agreement - r.learners) <= 12;
+  }),
+  ['gulf', 'ukEurope', 'asiaRow', 'westAfrica'].map((k) => {
+    const r = SC.core.totals.byRegion[k];
+    return `${k} ${Math.round((r.agreement / Math.max(1, r.learners)) * 100)}% through an agreement`;
+  }).join(', '));
+
 // ── 4d · ONE TARIFF ACROSS BOTH PUBLICATIONS ────────────────────────
 /* The Roadmap printed $17,100 Directed in the same sentence as a
    decade computed at $17,800. Part III and Part V had been made to
