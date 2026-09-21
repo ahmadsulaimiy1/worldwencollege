@@ -166,8 +166,21 @@ export function consumedBy(productKey, learners, progression, specScale = 1) {
  * to know whether a proposed architecture obeys its own law.
  */
 export function achieved(prices, opts = {}) {
-  const { specScale = 1, reachScale = 1, year = PLAN.planning_period.years } = opts;
-  const snap = P.portfolio(prices, { reachScale, fixed: 0 });
+  const {
+    specScale = 1, reachScale = 1, year = PLAN.planning_period.years,
+    /* ══════════════════════════════════════════════════════════════
+       THE CONSTITUTION IS TESTED ON THE INSTITUTION THE BOOK
+       PROJECTS, OR IT IS TESTED ON NOTHING.
+       ══════════════════════════════════════════════════════════════
+       This took one global price vector and re-ran the whole demand
+       model on it — no regional tariff, no agreement placement — so
+       the tariff was certified against a College that sells one price
+       everywhere. The projection was made region-aware and this, which
+       sits upstream of it and produces the number every other number
+       descends from, was not. */
+    tariffOf = null, placement = null, planYear = null,
+  } = opts;
+  const snap = P.portfolio(prices, { reachScale, fixed: 0, tariffOf, placement, planYear });
   const fx = fixed(year);
   const prog = snap.progression;
 

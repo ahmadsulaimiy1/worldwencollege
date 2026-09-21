@@ -66,6 +66,23 @@ const verdictClause = () => {
   if (!c.behind.length) return `it is ahead on ${andList(c.ahead.map(sizeOf))}`;
   return `it gives up ${andList(c.behind.map(sizeOf))} and buys ${andList(c.ahead.map(sizeOf))}`;
 };
+/* ── THE RESERVE FINDING, READ FROM THE MODEL ────────────────────────
+   Finding Six and §liquidity both stated in bold that the reserve rule
+   is "not met at any price tested, inside ten years". That was true
+   when it was written. The correction to the channel model and to
+   regional pricing moved the decade, and the two publications then
+   disagreed flatly: the Monograph's resilience plate reads the year
+   off the model and printed one, while this document printed a
+   sentence saying there is none — quoting the very figures that prove
+   there is. Both now read the model. */
+const RESERVE_YEARS = CORE.years.map((y) => ({
+  calendar: y.calendar,
+  reserve: y.reserve,
+  target: (y.delivery + y.acquisition + y.fixed + y.development)
+    * (PLAN.reserve.target_months_of_operating_cost / 12),
+}));
+const RESERVE_REACHED = RESERVE_YEARS.find((y) => y.reserve >= y.target) || null;
+
 const verdictParagraph = () => {
   const c = compare(ARCH);
   const retained = `It retains <strong>${pct(c.ourMargin, 1)}</strong> of what it collects against `
@@ -284,7 +301,9 @@ function document() {
     ${p(`<strong>Three.</strong> <strong>Management proposes a new commercial architecture</strong> ${chip('board')}, built from delivery cost upward rather than adjusted from an existing figure: a Directed pathway at ${usd(PATH.directed)}, Tutored at ${usd(PATH.tutored)}, and Executive tiers at ${usd(PATH.execCore)}, ${usd(PATH.execPremium)} and ${usd(PATH.execBespoke)}. Against the adopted flat tariff ${verdictClause()}. Against the brief's ${usd(AA.directed_total_usd)} / ${usd(AA.tutored_total_usd)} it earns ${m$(ARCH.proposed.totals.surplus - ARCH.briefA.totals.surplus)} more surplus at ${pct(ARCH.proposed.totals.y10Active / ARCH.briefA.totals.y10Active, 0)} of its scale. ${ref('validation')} to ${ref('architectures')} set out the whole analysis.`)}
     ${p(`<strong>Four.</strong> <strong>The plan this one replaces did not survive contact with published prices.</strong> An earlier draft proposed a dearer tariff on ${m$(PA.superseded_pathway_usd.projected_ten_year_revenue_usd)} of revenue and ${m$(PA.superseded_pathway_usd.projected_ten_year_surplus_usd)} of surplus, using willingness-to-pay figures that were asserted. Researched against ${num(EV_COUNT)} published tariffs from ${num(EV_SOURCES)} identifiable sources, every segment came in lower — West Africa by two thirds. The withdrawn plan is recorded rather than quietly replaced, and ${ref('validation')} states what was found, including the ${num(EV.gaps.length)} markets and questions the research could not answer.`)}
     ${p(`<strong>Five.</strong> <strong>The Directed price is the output of a constraint the Board is asked to set, not a number management picked.</strong> A buyer priced out of tuition does not leave — they step down to the Independent route and sit the same examinations untaught, so surplus can always be bought by teaching fewer of the people the College credentials. Management proposes that WEC-LC teach at least ${pct(PR.PROPOSED.teachingMajority, 0)} of them; the price that follows is ${usd(PATH.directed)}. Move the constraint and the price moves with it. ${chip('board')}`)}
-    ${p(`<strong>Six.</strong> <strong>The reserve rule in ${ref('liquidity')} is not met at any price tested, inside ten years.</strong> The Core case closes the decade holding ${m$(CY10.reserve)} against a target near ${m$(RESERVE_TARGET)}. This is not solved by charging more. It requires a founding capital contribution, a longer horizon to full reserve, or a lower target, and the plan puts all three to the Board rather than choosing one. ${chip('board')}`)}
+    ${p(`<strong>Six.</strong> ${RESERVE_REACHED
+    ? `<strong>The reserve rule in ${ref('liquidity')} is met in ${RESERVE_REACHED.calendar}, and not before.</strong> The Core case closes the decade holding ${m$(CY10.reserve)} against a target near ${m$(RESERVE_TARGET)}, but the College sits below its own ${num(PLAN.reserve.target_months_of_operating_cost)}-month target for ${RESERVE_YEARS.indexOf(RESERVE_REACHED)} of the ten years — and inside the register's six-month warning band for most of them. The resilience the plan proposes is real and it is late, and the Board is asked to decide whether a founding capital contribution should bring it forward.`
+    : `<strong>The reserve rule in ${ref('liquidity')} is not met at any price tested, inside ten years.</strong> The Core case closes the decade holding ${m$(CY10.reserve)} against a target near ${m$(RESERVE_TARGET)}. This is not solved by charging more. It requires a founding capital contribution, a longer horizon to full reserve, or a lower target, and the plan puts all three to the Board rather than choosing one.`} ${chip('board')}`)}
     ${p(`<strong>Seven.</strong> The two things standing between this College and its first conferred award are not engineering. The Board of Academic Standards has no appointed members and cannot approve the competency mappings; no External Examiner has been appointed. Both are appointments. Every surface that would carry those names already exists and already renders, and the platform refuses to publish a person into an office they have not accepted.`)}
     ${note(`This document is a planning instrument. Every financial figure in it is a projection computed from stated assumptions, and none of it is a record of trading. Classifications are printed beside the figures throughout: ${chip('verified')} for what the College has adopted and published, ${chip('assumption')} for what this plan asserts, ${chip('board')} for what nobody has yet decided.`)}
   </div>`);
@@ -712,9 +731,13 @@ function document() {
       }),
       'WEC-LC Projection Model. The Core Plan is management\'s recommended execution case, not the midpoint of the other two.')}
     ${p(`The Conservative case does not reach cumulative surplus inside the decade — it ends at ${m$(PSC.conservative.totals.surplus)}. That is stated rather than smoothed, because it is the plan's real exposure: the Core case requires continuation and reach to hold broadly as modelled, and ${ref('breakeven')}'s sensitivity shows which of those matters most.`)}
-    ${h2('The reserve rule is not met, and the plan says so')}
-    ${p(`${ref('liquidity')} sets the reserve target at ${num(PLAN.reserve.target_months_of_operating_cost)} months of operating cost. Under the proposed architecture the Core case closes the decade holding <strong>${m$(CY10.reserve)}</strong> against a target near <strong>${m$(RESERVE_TARGET)}</strong>. <strong>No price tested reaches it inside ten years</strong> — not the proposed price, and not the price that maximises surplus.`)}
-    ${p(`This is not an argument for charging more. Raising Directed to ${usd(TM.reserve_probe_price_usd)} still reaches only about ${m$(RESERVE_AT_13K)}, and it costs the teaching majority to get there. It is a statement that a College of this scale cannot fund ${num(PLAN.reserve.target_months_of_operating_cost)} months of cover out of a first decade's trading. The Board has three options and the plan does not choose among them: a founding capital contribution, a longer horizon to full reserve, or a lower target. ${chip('board')}`)}
+    ${h2(RESERVE_REACHED ? 'The reserve rule is met, and late' : 'The reserve rule is not met, and the plan says so')}
+    ${p(`${ref('liquidity')} sets the reserve target at ${num(PLAN.reserve.target_months_of_operating_cost)} months of operating cost. Under the proposed architecture the Core case closes the decade holding <strong>${m$(CY10.reserve)}</strong> against a target near <strong>${m$(RESERVE_TARGET)}</strong>. ${RESERVE_REACHED
+    ? `The target is first reached in <strong>${RESERVE_REACHED.calendar}</strong> — the ${RESERVE_YEARS.indexOf(RESERVE_REACHED) + 1}th year of ten — and this document said in bold, for one revision, that no price reached it at all. That sentence was written before the channel and regional corrections moved the decade, and it survived them; it is recorded here rather than removed, because a plan that silently deletes a claim it has disproved is a plan a reader cannot audit.`
+    : '<strong>No price tested reaches it inside ten years</strong> — not the proposed price, and not the price that maximises surplus.'}`)}
+    ${p(`${RESERVE_REACHED
+    ? `What has not changed is the exposure. The College is below its own target for ${RESERVE_YEARS.indexOf(RESERVE_REACHED)} of the ten years, and inside the register's six-month warning band for six of them — the years in which a fall in enrolment against a cost base that does not fall with it would have to be met out of trading. Raising the tariff does not fix that: it is a timing problem, not a pricing one.`
+    : `This is not an argument for charging more. Raising Directed to ${usd(TM.reserve_probe_price_usd)} still reaches only about ${m$(RESERVE_AT_13K)}, and it costs the teaching majority to get there.`} The Board has three options and the plan does not choose among them: a founding capital contribution, a longer horizon to full reserve, or a lower target. ${chip('board')}`)}
     ${note(`The Core Plan reaches full modelled reach of its four markets in ${FULL_REACH ? `Year ${FULL_REACH.year} (${FULL_REACH.calendar})` : 'no year inside the decade'}, which is why the closing years are flat. Growth beyond that point is a market-entry question rather than a pricing one, and Phase V of the roadmap is where it belongs. Reach itself is <strong>modelled and was never researched</strong>, and ${ref('validation')} records that as the largest open quantity in the plan.`)}
   </div>`);
 

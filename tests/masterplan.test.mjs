@@ -347,19 +347,32 @@ if (fail) process.exit(1);
       const committed = PF.meetsConstitution(asSold(PR.PROPOSED.committed));
       check('...and priced the way the College actually sells, that cheaper tariff does NOT',
         !cheap.holds,
-        `${(cheap.retainedShare * 100).toFixed(2)}% retained against a ${(committed.required !== undefined ? committed.required * 100 : 50).toFixed(0)}% requirement`);
-      check('...while the committed tariff holds under the model it is sold in',
-        committed.holds,
-        `${(committed.retainedShare * 100).toFixed(2)}% retained`);
-      /* And it is the cheapest that does — solved regionally, from the
-         tariff it replaced, with the adopted Independent fee pinned. */
-      const regional = PF.solveBase(PF.SUPERSEDED_TARIFF);
-      check('...and it is the cheapest tariff that holds when solved that way',
-        regional.cheapest && regional.cheapest.base.guided === PR.PROPOSED.committed.directed
-        && regional.cheapest.base.tutored === PR.PROPOSED.committed.tutored,
+        `${(cheap.retainedShare * 100).toFixed(2)}% retained against a ${(committed.target * 100).toFixed(0)}% requirement`);
+      /* AND NEITHER DOES THE COMMITTED ONE, WHICH THIS USED TO ASSERT
+         THE OPPOSITE OF. The constitution was being tested by feeding
+         the AVERAGE price the College collects into the demand model
+         as a single global price; on that basis the committed tariff
+         retained 50.4 per cent. Tested as the College actually sells
+         it retains 39.3, and the binding line is payroll at 45 per
+         cent against a 25 per cent share — because teaching is what
+         this institution does. It is the plan's largest open finding
+         and the book states it. */
+      check('...and neither does the committed one, which the plan states rather than certifies',
+        !committed.holds,
+        `${(committed.retainedShare * 100).toFixed(2)}% retained as sold, against `
+        + `${(committed.onAveragedPrice * 100).toFixed(2)}% on an averaged price`);
+      check('...and the correction is material, not a rounding artefact',
+        committed.onAveragedPrice - committed.retainedShare > 0.05,
+        `${((committed.onAveragedPrice - committed.retainedShare) * 100).toFixed(1)} points`);
+      /* What it would take is a doubling of the tariff, which is
+         several times what the research says any of the four markets
+         will pay. */
+      const regional = PF.solveBase(PF.SUPERSEDED_TARIFF, { from: 0.8, to: 2.4, step: 0.04 });
+      check('...and the cheapest tariff that would hold is far outside the researched range',
+        !regional.cheapest || regional.cheapest.base.tutored > PR.PROPOSED.committed.tutored * 1.5,
         regional.cheapest
           ? `$${regional.cheapest.base.guided} / $${regional.cheapest.base.tutored} at ${regional.cheapest.k}\u00d7`
-          : 'none holds');
+          : 'none holds inside the sweep');
     }
 
     /* ── The product must be worth the price the framework sets ──
@@ -558,6 +571,32 @@ if (fail) process.exit(1);
      composes the English from it. What is checked here is that the
      direction exists, that it is complete, and that the page has no
      hand-written claim left to go stale. */
+  /* ── A CLAIM THAT SURVIVED THE MODEL THAT DISPROVED IT ────────────
+     Finding Six and the liquidity section both stated in bold that the
+     reserve rule is "not met at any price tested, inside ten years".
+     The channel and regional corrections moved the decade and the
+     target is now first reached in the ninth year — and the two
+     publications then disagreed flatly, the Monograph reading the year
+     off the model while this one printed a sentence saying there is
+     none, beside the figures that prove there is. */
+  {
+    const { readFileSync: read } = await import('node:fs');
+    const road = read(new URL('../scripts/publication/render-masterplan.mjs', import.meta.url), 'utf8');
+    const reserveYears = J.scenarios().core.years.map((y) => ({
+      calendar: y.calendar,
+      reserve: y.reserve,
+      target: (y.delivery + y.acquisition + y.fixed + y.development)
+        * (PLAN.reserve.target_months_of_operating_cost / 12),
+    }));
+    const reached = reserveYears.find((y) => y.reserve >= y.target) || null;
+    check('the Roadmap reads the reserve finding off the model rather than asserting it',
+      /RESERVE_REACHED/.test(road),
+      reached ? `target first met in ${reached.calendar}` : 'not met inside the decade');
+    check('...and does not state the target is never met while the model meets it',
+      !(reached && /No price tested reaches it inside ten years<\/strong>`\)/.test(road)),
+      reached ? `met in ${reached.calendar}` : 'never met — the claim stands');
+  }
+
   const cmp = J.compare(arch);
   check('the comparison against the adopted tariff has a direction on every dimension',
     cmp.ahead.length + cmp.behind.length === cmp.dims.length,

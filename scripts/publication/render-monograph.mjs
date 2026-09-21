@@ -216,6 +216,30 @@ const figReserve = () => F.reserveAgainstTarget(reserveYears(), {
   targetLabel: `${RESERVE_POLICY.target_months_of_operating_cost} months of operating cost`,
 });
 const figCapacity = () => F.capacityLoad(CORE.years);
+
+/* ── WHAT WOULD CLOSE THE GAP, AND WHAT IT WOULD COST ────────────────
+   The revenue-allocation framework asks for half of every dollar to be
+   retained. Priced as the College actually sells, the committed tariff
+   retains two fifths. The obvious answer is to charge more, and the
+   model is asked what that would take: the whole tariff is swept, and
+   at each multiple the retained share is read off beside the learners
+   and the revenue it costs. */
+const CONSTITUTION_CURVE = [1.00, 1.20, 1.40, 1.60, 1.80, 2.00].map((k) => {
+  const base = Object.fromEntries(Object.entries(PF.REFERENCE_TARIFF)
+    .map(([key, v]) => [key, key === 'independent' ? v : Math.round((v * k) / 50) * 50]));
+  const got = PF.meetsConstitution(base);
+  return {
+    k,
+    tutored: base.tutored,
+    retained: got.retainedShare,
+    payroll: got.lines.find((l) => l.key === 'payroll').actual,
+    learners: got.learners,
+    revenue: got.revenue,
+    holds: got.holds,
+  };
+});
+const CONSTITUTION_AT = CONSTITUTION_CURVE[0];
+const CONSTITUTION_CLOSES = CONSTITUTION_CURVE.find((r) => r.holds) || null;
 /* ── THE DECADE HAD NO REGIONAL FACE ─────────────────────────────────
    The plan prices four markets separately, two of them carry no taught
    route at retail, and the risk register names an early warning at 45
@@ -494,6 +518,7 @@ function build() {
       { part: 'V · The Financial Constitution', rows: [
         { t: 'Where every dollar is governed', f: PAGES_OF.alloc || 0 },
         { t: 'What each line is, and is not', f: PAGES_OF.definitions || 0 },
+        { t: 'What would close the gap', f: PAGES_OF.gap || 0 },
         { t: 'The decade', f: PAGES_OF.decade || 0 },
         { t: 'Three scenarios', f: PAGES_OF.scenarios || 0 }] },
       { part: 'VI · The Ten-Year Strategy', rows: [
@@ -1025,6 +1050,7 @@ function build() {
       caption: 'One column of collected revenue, divided. Four courses are consumed running the institution; the two beyond the struck rule are retained as institutional capital and are not distributable income.',
       contains: [{ t: 'Where every dollar is governed', f: PAGES_OF.alloc || '' },
         { t: 'What each line is, and is not', f: PAGES_OF.definitions || '' },
+        { t: 'What would close the gap', f: PAGES_OF.gap || '' },
         { t: 'The decade', f: PAGES_OF.decade || '' },
         { t: 'Three scenarios', f: PAGES_OF.scenarios || '' }] }),
     S.figurePage({
@@ -1033,15 +1059,15 @@ function build() {
       sub: 'Four lines consumed running the institution; two retained as capital above the struck rule.',
       figure: figAllocation(),
       reading: { head: 'How the elevation is read', body: `
-        <p>The shaft is what running the institution consumes, hatched at a density proportional to its weight: payroll heaviest, technology lightest. The struck gold rule is the division. Above it, ruled rather than hatched, is what is <em>held</em> &mdash; because those two lines are not spent.</p>
-        <p><strong>Half of every dollar collected is retained.</strong> ${pct(AL.SHARES.reserve)} is restricted or designated institutional capital; the other ${pct(AL.SHARES.strategic)} is a Board-authorised discretionary allocation, and it is <strong>not</strong> automatically withdrawable income. No distribution from it is modelled anywhere in this plan.</p>
-        <p>The tariff is solved from this drawing rather than the other way round. Move a course and the price moves with it.</p>` },
+        <p>The shaft is what running the institution consumes, hatched at a density proportional to its weight: payroll heaviest, technology lightest. The struck gold rule is the division. Above it, ruled rather than hatched, is what the framework would have <em>held</em> &mdash; because those two lines are not spent.</p>
+        <p>The framework asks that <strong>${pct(AL.RETAINED.reduce((t, k) => t + AL.SHARES[k], 0), 0)} of every dollar collected be retained</strong>: ${pct(AL.SHARES.reserve)} restricted or designated institutional capital, ${pct(AL.SHARES.strategic)} a Board-authorised discretionary allocation which is <strong>not</strong> automatically withdrawable income. No distribution from it is modelled anywhere in this plan.</p>
+        <p>Sold as this plan sells &mdash; four tariffs into four markets, two of which carry no taught route at retail &mdash; the College retains <strong>${pct(GOT.retainedShare, 1)}</strong>. The gap is not a discretionary overspend. It is payroll, at ${pct(GOT.lines.find((l) => l.key === 'payroll').actual, 1)} of revenue against a ${pct(AL.SHARES.payroll, 0)} share, and the following spread states what closes it and what that would cost.</p>` },
       note: `${M.mark('board')} Proposed governance targets, not a historical result.`,
       strip: [
-        { k: 'Consumed', v: pct(AL.CONSUMED.reduce((t, k) => t + AL.SHARES[k], 0)), s: 'Payroll, technology, operating, marketing' },
-        { k: 'Retained', v: pct(AL.RETAINED.reduce((t, k) => t + AL.SHARES[k], 0)), s: 'Reserve and Strategic, held as capital' },
-        { k: 'Tariff it solves to', v: usd(T.tutored), s: 'A Tutored pathway, A1 to C2' },
-        { k: 'Standing', v: 'Proposed', s: 'Board decision required' },
+        { k: 'Retained, asked', v: pct(AL.RETAINED.reduce((t, k) => t + AL.SHARES[k], 0)), s: 'Reserve and Strategic, held as capital' },
+        { k: 'Retained, achieved', v: pct(GOT.retainedShare, 1), s: 'At the committed tariff, priced by region' },
+        { k: 'The line that binds', v: pct(GOT.lines.find((l) => l.key === 'payroll').actual, 1), s: `Payroll, against a ${pct(AL.SHARES.payroll, 0)} share` },
+        { k: 'Standing', v: 'Open', s: 'Board decision required' },
       ],
       runhead: 'Financial Constitution' })
   ));
@@ -1067,13 +1093,61 @@ function build() {
     S.statementPage({
       palette: 'constitution',
       eyebrow: 'The standing obligation',
-      statement: 'Half of every dollar collected is <em>retained</em>.',
-      sub: 'Institutional quality is funded before anything discretionary, and financial resilience is a standing obligation rather than an ambition. No distribution from the Strategic Allocation is modelled anywhere in this plan.',
+      statement: 'Nothing is distributed before the institution is <em>funded</em>.',
+      sub: `The framework asks that ${pct(AL.RETAINED.reduce((t, k) => t + AL.SHARES[k], 0), 0)} of every dollar collected be retained as institutional capital. At the committed tariff, priced by region, the College retains ${pct(GOT.retainedShare, 1)} — and the part of that obligation which does not depend on the gap holds absolutely: no distribution from the Strategic Allocation is modelled in any year of this plan, under any scenario, at any tariff tested.`,
       foot: [
-        { k: 'Institutional Reserve', v: pct(AL.SHARES.reserve, 0) },
-        { k: 'Strategic Allocation', v: pct(AL.SHARES.strategic, 0) },
+        { k: 'Retained, asked', v: pct(AL.RETAINED.reduce((t, k) => t + AL.SHARES[k], 0), 0) },
+        { k: 'Retained, achieved', v: pct(GOT.retainedShare, 1) },
         { k: 'Modelled distributions', v: 'None' },
       ],
+    })
+  ));
+
+  /* ── THE PLAN'S LARGEST OPEN FINDING ─────────────────────────────*/
+  at('gap');
+  push(...S.spread(
+    tableWithReading({
+      title: 'What would close the gap, and what it would cost',
+      sub: 'The whole tariff swept, with the retained share read off beside the learners and the revenue each multiple costs.',
+      head: ['Tariff', 'Tutored', 'Retained', 'Payroll', 'Learners a year', 'Net tuition'],
+      rows: CONSTITUTION_CURVE.map((r) => ({
+        em: r.k === 1,
+        cells: [
+          `<b>${r.k === 1 ? 'Committed' : `\u00d7${r.k.toFixed(2)}`}</b>`,
+          usd(r.tutored),
+          pct(r.retained, 1),
+          pct(r.payroll, 1),
+          num(r.learners),
+          m$(r.revenue)],
+      })),
+      source: `${M.mark('modelled')} Each row is the whole portfolio re-solved at that tariff and sold into all four markets through every payer. The Independent fee is adopted and published, so it is pinned and does not scale.`,
+    }, { title: 'Why no price on this table is the answer', columns: true, body: `
+      <p>The framework asks for ${pct(AL.RETAINED.reduce((t, k) => t + AL.SHARES[k], 0), 0)}. The committed tariff returns ${pct(CONSTITUTION_AT.retained, 1)}. Doubling it returns ${pct(CONSTITUTION_CURVE[CONSTITUTION_CURVE.length - 1].retained, 1)} — and costs ${num(CONSTITUTION_AT.learners - CONSTITUTION_CURVE[CONSTITUTION_CURVE.length - 1].learners)} learners a year and ${m$(CONSTITUTION_AT.revenue - CONSTITUTION_CURVE[CONSTITUTION_CURVE.length - 1].revenue)} of net tuition, at a Tutored price of ${usd(CONSTITUTION_CURVE[CONSTITUTION_CURVE.length - 1].tutored)} against a British Council ladder that computes to ${usd(10600)}&ndash;${usd(14100)}.</p>
+      <p><strong>Payroll is the line that binds, and it never reaches its share.</strong> It is ${pct(CONSTITUTION_AT.payroll, 1)} of revenue at the committed tariff and ${pct(CONSTITUTION_CURVE[CONSTITUTION_CURVE.length - 1].payroll, 1)} at twice the price, against a ${pct(AL.SHARES.payroll, 0)} allocation. No tariff closes it because it is not a pricing question: teaching is what this institution does, and an institution that spends a quarter of its income on teaching is not the institution described in Part Two.</p>
+      <p>So the plan does not choose. It states the finding, prices the College where the research says the market is, and puts the framework to the Board.</p>` },
+    { runhead: 'Financial Constitution', tone: 'pal pal--constitution' }),
+    S.marginPage({
+      runhead: 'Financial Constitution',
+      tone: 'pal pal--constitution',
+      side: S.marginNote('How it was missed',
+        'The constitution was tested by feeding the AVERAGE price the College collects on each route into the demand model as one global price. On that basis the committed tariff returns '
+        + `${pct(GOT.onAveragedPrice, 1)} and the build certified it. Selling an average is not selling a portfolio: it quotes a taught route to the two markets that are quoted none, and strikes no seat from the contribution floor.`)
+        + S.marginNote('What is not in question',
+          'The floor. Every route clears its delivery cost and the minimum contribution in every market it is offered in, and no seat anywhere in this plan is sold beneath it.'),
+      main: `
+        <p class="op__num">The decision the Board is asked to take</p>
+        <div class="op__rule"></div>
+        <div class="op__arg">
+          <p>Two instruments of this plan disagree, and only the Board can settle which yields. The revenue-allocation framework is a Board decision; so is the tariff.</p>
+          <h3>Amend the framework</h3>
+          <p>Set the payroll share at what a teaching institution actually spends on teaching, and the retained share at what follows. This is the option the model supports and the one the plan would take if it were choosing: every other line is inside its target, and three of the four are well inside.</p>
+          <h3>Or hold the framework and accept the horizon</h3>
+          <p>The retained share rises across the decade as fixed cost is spread over a larger institution. Holding the framework as a target to be reached rather than a test to be passed each year is coherent, and it is what the reserve policy already does.</p>
+          <h3>What the plan will not do</h3>
+          <p>Reprice the College to satisfy an internal ratio. The tariff is solved against delivery cost and the contribution floor in four researched markets; a price set to make an allocation hold is a price set against the College's own evidence, and it would cost ${num(CONSTITUTION_AT.learners - CONSTITUTION_CURVE[CONSTITUTION_CURVE.length - 1].learners)} learners a year to do it.</p>
+          <h3>And it will not quietly re-measure</h3>
+          <p>The averaged-price test would still pass today. It is not used, it is named here, and the figure it produced is printed beside the one that replaced it.</p>
+        </div>`,
     })
   ));
 

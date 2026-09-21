@@ -107,26 +107,61 @@ check('the adopted Independent fee is unchanged by the solve',
   `${usd(T.independent)} — ${PR.B.levels} levels at ${usd(PR.B.independentPerLevel)}`);
 
 // ── 5 · THE CONSTITUTION, TESTED ON WHAT IS COLLECTED ───────────────
-const standing = PF.STANDING();
-check('the committed tariff satisfies the financial constitution',
-  standing.holds,
-  `retains ${(standing.retainedShare * 100).toFixed(1)}% against a ${(standing.target * 100).toFixed(0)}% target`);
+/* ══════════════════════════════════════════════════════════════════
+   THESE TWO CHECKS ASSERTED THAT THE TARIFF PASSES ITS OWN
+   CONSTITUTION, AND THEY WERE TESTING A DIFFERENT INSTITUTION.
+   ══════════════════════════════════════════════════════════════════
+   `meetsConstitution` fed the AVERAGE price the College collects on
+   each route into the demand model as a single global price. On that
+   basis the committed tariff retained 50.4 per cent and the build
+   certified it. On the basis the College actually sells — four
+   tariffs, four markets, two of them quoted no taught route at all,
+   agreements placed where they can be signed — it retains 39.3.
 
-/* And it is the CHEAPEST tariff that does. A College that takes the
-   maximum its constitution permits has confused a floor with an
-   objective. */
-const solved = PF.solveBase(PF.SUPERSEDED_TARIFF);
-check('the committed tariff is the cheapest that satisfies it',
-  solved.cheapest && PF.INTENSITIES.every((i) => solved.cheapest.base[i.key] === T[i.key]),
-  solved.cheapest ? JSON.stringify(solved.cheapest.base) : 'no solution in the swept range');
+   Both figures are now reported, and the test asserts what is true
+   rather than what was convenient. This is the plan's most
+   significant open finding and it is stated on the page, not hidden
+   behind a passing assertion. */
+const standing = PF.STANDING();
+check('the constitution is tested on the institution the plan projects',
+  typeof standing.onAveragedPrice === 'number'
+  && Math.abs(standing.retainedShare - standing.onAveragedPrice) > 0.05,
+  `${(standing.retainedShare * 100).toFixed(1)}% as sold against `
+  + `${(standing.onAveragedPrice * 100).toFixed(1)}% on an averaged price`);
+check('...and on that basis the committed tariff does NOT satisfy it, which the book states',
+  !standing.holds,
+  `retains ${(standing.retainedShare * 100).toFixed(1)}% against a ${(standing.target * 100).toFixed(0)}% target`);
+/* The binding line, named. Payroll is 45 per cent of revenue against a
+   25 per cent share, because teaching is what this institution does —
+   and it is why no price on the researched curve closes the gap. */
+const payroll = standing.lines.find((l) => l.key === 'payroll');
+check('...and the line that binds is payroll, not a discretionary one',
+  payroll.actual - payroll.target
+    >= Math.max(...standing.lines.filter((l) => !PF.RETAINED_KEYS?.includes(l.key))
+      .map((l) => l.actual - l.target)) - 1e-9,
+  standing.lines.map((l) => `${l.key} ${(l.actual * 100).toFixed(1)}% v ${(l.target * 100).toFixed(0)}%`).join(', '));
+
+/* WHAT IT WOULD TAKE, AND WHAT IT WOULD COST. The sweep still runs;
+   what changed is the answer. The cheapest tariff that satisfies the
+   constitution as sold is about twice the committed one, which is
+   several times what the research says any of the College's four
+   markets will pay. */
+const solved = PF.solveBase(PF.SUPERSEDED_TARIFF, { from: 0.8, to: 2.4, step: 0.04 });
+check('no tariff inside the researched price range satisfies the constitution',
+  !solved.cheapest || solved.cheapest.base.tutored > T.tutored * 1.5,
+  solved.cheapest
+    ? `the cheapest that does is $${solved.cheapest.base.tutored} Tutored, against a committed $${T.tutored}`
+    : 'none inside the swept range');
+check('...and the committed tariff is cheaper than that, deliberately',
+  T.tutored < (solved.cheapest ? solved.cheapest.base.tutored : Infinity),
+  `$${T.tutored} against $${solved.cheapest ? solved.cheapest.base.tutored : '—'}`);
 
 /* The superseded tariff is kept because it is the evidence for the
-   move: solved at one global price, it misses the constitution once
-   regional pricing is honest. */
+   move: solved at one global price, it retains less again. */
 const old = PF.meetsConstitution(PF.SUPERSEDED_TARIFF);
-check('the superseded single-price tariff would MISS the constitution',
-  !old.holds,
-  `retains ${(old.retainedShare * 100).toFixed(1)}% — the gap regional pricing exposed`);
+check('the superseded single-price tariff retains less than the committed one',
+  old.retainedShare < standing.retainedShare,
+  `${(old.retainedShare * 100).toFixed(1)}% against ${(standing.retainedShare * 100).toFixed(1)}%`);
 
 // ── 6 · PAYERS, BANDS AND SEATS ─────────────────────────────────────
 const institutional = PF.PAYER_KEYS.filter((k) => PF.PAYERS[k].institutional);

@@ -666,7 +666,7 @@ export function realised(base) {
 /* Imported lazily through a thin wrapper so this module keeps one
    import of the pricing engine and no cycle with the allocation
    layer, which itself imports pricing. */
-import { segmentDemand as _segmentDemand } from './pricing.mjs';
+import { segmentDemand as _segmentDemand, CHANNELS as _CHANNELS } from './pricing.mjs';
 const segmentDemandOf = (seg, price) => _segmentDemand(seg, price).learners;
 
 import { achieved as _achieved, SHARES, RETAINED } from './allocation.mjs';
@@ -674,9 +674,49 @@ import { achieved as _achieved, SHARES, RETAINED } from './allocation.mjs';
 /** The financial constitution, tested on what is collected. */
 export function meetsConstitution(base, opts = {}) {
   const r = realised(base);
-  const got = _achieved(r.asSpecVector, opts);
   const target = RETAINED.reduce((t, k) => t + SHARES[k], 0);
-  return { ...got, target, holds: got.retainedShare >= target - 1e-9, realised: r };
+  /* ══════════════════════════════════════════════════════════════════
+     AN AVERAGE PRICE IS NOT THE INSTITUTION. THIS TESTED THE AVERAGE.
+     ══════════════════════════════════════════════════════════════════
+     `realised()` was written to correct exactly this fault and stopped
+     one step short. It computes, per route, the average investment the
+     College actually collects across the regions that carry it — which
+     is the right quantity to PRINT — and the constitution was then
+     tested by feeding that average into the demand model as a single
+     global price.
+
+     Selling an average is not selling a portfolio. At $12,607 the
+     averaged Guided price, the model quoted a Guided route to the 34
+     thousand-strong West African segment, which is quoted no taught
+     route at all; no seat was struck from the contribution floor,
+     because there was no placement to strike one from; and the two
+     markets reached only through an agreement contributed retail
+     revenue they will never produce.
+
+     Tested that way the committed tariff retained 50.37 per cent
+     against a 50 per cent requirement and the build certified it.
+     Tested as the College actually sells — four tariffs, four markets,
+     agreements placed where they can be signed — it retains 39.3.
+
+     Both are reported. `retainedShare` is the one that binds, because
+     it is the one the bank sees. */
+  const tariff = segmentTariff(base);
+  const placement = agreementPlacement(base, _CHANNELS);
+  const specVector = Object.fromEntries(
+    Object.entries(SPEC_OF_INTENSITY).map(([intensity, spec]) => [spec, base[intensity]]));
+  const got = _achieved(specVector, {
+    ...opts, tariffOf: (k) => tariff[k], placement, planYear: opts.planYear ?? 10,
+  });
+  const onAverage = _achieved(r.asSpecVector, opts);
+  return {
+    ...got,
+    target,
+    holds: got.retainedShare >= target - 1e-9,
+    realised: r,
+    /* What the superseded arithmetic said, kept so the publication can
+       state the size of the correction rather than merely the result. */
+    onAveragedPrice: onAverage.retainedShare,
+  };
 }
 
 /**
@@ -727,11 +767,32 @@ export function solveBase(seed, opts = {}) {
  * from which every other regional tariff and every institutional seat
  * is derived.
  *
- * It is not a preference. It is the CHEAPEST tariff at which the
- * portfolio, sold across four regions at four different price levels
- * and through six kinds of payer, still satisfies the institution's
- * financial constitution. `tests/portfolio.test.mjs` re-derives it on
- * every build, so it cannot drift away from its reason.
+ * It is not a preference, and it is no longer described as satisfying
+ * the financial constitution, because it does not.
+ *
+ * THE CORRECTION, AND WHY THE CLAIM ABOVE USED TO STAND. This tariff
+ * was solved as the cheapest at which the portfolio still satisfied
+ * the constitution — and the solver tested that by feeding the AVERAGE
+ * price the College collects on each route into the demand model as a
+ * single global price. On that basis it retains 50.4 per cent against
+ * a 50 per cent requirement. Tested as the College actually sells —
+ * four tariffs, four markets, two of them quoted no taught route at
+ * all, agreements placed where they can be signed — it retains 39.3.
+ *
+ * WHAT THE TARIFF NOW IS: the cheapest price at which the portfolio
+ * clears its delivery cost and the contribution floor on every route
+ * it offers, in every market it offers it. That is a real constraint
+ * and it is the one the prices below are solved against.
+ *
+ * WHAT IT IS NOT: a tariff that satisfies the revenue-allocation
+ * framework. Nothing inside the researched price range does. The
+ * cheapest tariff that would is about twice this one — Tutored near
+ * $55,800 against a British Council ladder that computes to $10,600 —
+ * and the binding line is payroll at 45 per cent of revenue against a
+ * 25 per cent share, which does not reach 25 at any price. The Board
+ * is asked to decide between the framework and the tariff; the plan
+ * does not choose for it, and it does not quietly reprice the College
+ * to make an internal ratio hold.
  *
  * Independent is not solved. It is adopted and published at the level
  * fee the College already charges, and a plan does not reprice a fee

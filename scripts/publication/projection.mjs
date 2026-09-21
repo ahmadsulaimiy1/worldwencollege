@@ -99,7 +99,30 @@ export function project(prices, opts = {}) {
   let carriedRegion = {};
 
   for (let y = 0; y < PLAN.planning_period.years; y++) {
-    const reach = reachFor(y, alumni, budgets) * reachMultiplier;
+    /* ══════════════════════════════════════════════════════════════
+       THE SCENARIO MULTIPLIER WENT ON THE OUTSIDE OF THE CAP, AND THE
+       TWO HALVES OF THE INSTITUTION THEN OBEYED DIFFERENT RULES.
+       ══════════════════════════════════════════════════════════════
+       `reachFor` ends in `Math.min(1, …)` because reach is a fraction
+       of a researched population and a College cannot enrol more of a
+       market than the market contains. The scenario multiplier was
+       applied AFTER that cap, so the High Growth case ran at 1.28 —
+       booking 128 per cent of the reachable population — while the
+       channel block inside `portfolio()` clamps its own scale at one.
+
+       The result was exactly checkable and exactly wrong: High Growth
+       reported 325 corporate and 872 sponsored learners in Year 10,
+       identical to the Core Plan TO THE SEAT, while its retail intake
+       grew by 28 per cent. The upside case could not grow half the
+       institution, and the downside case shrank both — so the spread
+       the Board reads was asymmetric by construction, and the
+       asymmetry ran against the channels the whole efficiency argument
+       rests on.
+
+       The multiplier now moves reach INSIDE the cap, which is what a
+       scenario is: a different rate of getting to the same market, not
+       a bigger market. */
+    const reach = Math.min(1, reachFor(y, alumni, budgets) * reachMultiplier);
     // Fixed institutional cost is read from the establishment itself,
     // which is why it steps at Year 2 rather than ramping: that is when
     // the Director of Academic Standards and the External Examiner take
