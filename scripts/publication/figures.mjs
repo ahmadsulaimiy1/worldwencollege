@@ -290,6 +290,19 @@ export const label = (x, y, t, o = {}) => `<text x="${r2(x)}" y="${r2(y)}"
 export const UNIT_MM = 0.46;
 export const printWidthMm = (w) => Math.round(w * UNIT_MM * 100) / 100;
 
+/**
+ * A SIZE IN POINTS, CONVERTED TO PLATE UNITS.
+ *
+ * At .46mm to the unit one unit prints at 1.304 points, so a label
+ * authored as `6.2` reaches the page at eight. That was the convention
+ * the first six plates were drawn in and it works, but it means the
+ * numbers in the source are not the numbers on the page — and the last
+ * time that was true of this library it cost every plate its
+ * typography. Plates written from here state sizes in POINTS and pass
+ * them through `z`, so a seven is seven.
+ */
+export const z = (points) => Math.round((points / (UNIT_MM / 25.4 * 72)) * 1000) / 1000;
+
 export const figure = (w, h, inner, defs = '') =>
   `<svg class="fig" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg"
     style="display:block;width:${printWidthMm(w)}mm;max-width:100%" role="img">
@@ -976,3 +989,161 @@ export function riskMatrix(risks) {
 }
 
 export { K as FIG_COLOURS };
+
+// ════════════════════════════════════════════════════════════════════
+// 7 · THE RESERVE AGAINST ITS TARGET
+// ════════════════════════════════════════════════════════════════════
+/**
+ * WHY THE TARGET IS A RISING LINE AND NOT A NUMBER.
+ *
+ * The College's reserve policy is stated in MONTHS OF OPERATING COST
+ * rather than as a share of revenue, and the reason is the whole point
+ * of holding a reserve: the thing it has to survive is a year when
+ * revenue falls and cost does not. A reserve set as a percentage of
+ * revenue shrinks exactly when it is needed.
+ *
+ * So the target is not a horizontal rule. It climbs with the cost of
+ * running the institution, and a plate that drew it flat would be
+ * drawing a different and much easier policy. Where the columns cross
+ * it is the year the College is genuinely resilient rather than merely
+ * solvent, and that crossing is struck.
+ */
+export function reserveAgainstTarget(years, opts = {}) {
+  const W = 168, H = 240;
+  const x0 = 26, x1 = W - 4;
+  const base = H - 34;
+  const top = 18;
+  const step = (x1 - x0) / years.length;
+  const colW = step * 0.44;
+  const ceiling = Math.max(...years.map((y) => Math.max(y.reserve, y.target))) * 1.08 || 1;
+  const sy = (v) => base - (v / ceiling) * (base - top);
+  const met = years.findIndex((y) => y.reserve >= y.target);
+
+  const defs = hatchDefs('resv', z(2.2), K.goldPale, 90, z(0.5));
+  let body = '';
+  /* The ladder, so a reader can read a value off the plate instead of
+     comparing two columns and guessing. */
+  for (let t = 0; t <= 1.0001; t += 0.25) {
+    const v = ceiling * t;
+    body += `<line x1="${r2(x0)}" y1="${r2(sy(v))}" x2="${r2(x1)}" y2="${r2(sy(v))}"
+      stroke="${K.faint}" stroke-width="${z(RULE.grid)}"/>`;
+    body += label(x0 - 2, sy(v) + z(1.8), `$${(v / 1e6).toFixed(0)}M`,
+      { anchor: 'end', size: z(6), fill: K.grey });
+  }
+  body += `<line x1="${r2(x0)}" y1="${r2(base)}" x2="${r2(x1)}" y2="${r2(base)}"
+    stroke="${K.ink}" stroke-width="${z(RULE.structure)}"/>`;
+
+  years.forEach((y, i) => {
+    const cx = x0 + i * step + step / 2;
+    const h = Math.max(0.4, base - sy(y.reserve));
+    const struck = i === met;
+    body += `<rect x="${r2(cx - colW / 2)}" y="${r2(sy(y.reserve))}" width="${r2(colW)}" height="${r2(h)}"
+      fill="url(#resv)" stroke="${struck ? K.gold : K.midnight}" stroke-width="${z(struck ? 1.3 : 0.6)}"/>`;
+    body += label(cx, base + z(7), String(y.calendar).slice(2),
+      { anchor: 'middle', size: z(6), fill: struck ? K.gold : K.grey });
+  });
+
+  /* The target, drawn as the staircase it actually is — one level per
+     year — rather than smoothed into a curve the policy does not have. */
+  let d = '';
+  years.forEach((y, i) => {
+    const xa = x0 + i * step, xb = xa + step, ty = sy(y.target);
+    d += `${i === 0 ? 'M' : 'L'} ${r2(xa)} ${r2(ty)} L ${r2(xb)} ${r2(ty)} `;
+  });
+  body += `<path d="${d}" fill="none" stroke="${K.gold}" stroke-width="${z(RULE.struck)}"
+    stroke-linejoin="miter"/>`;
+  /* NAMED AT THE TOP OF ITS OWN STAIRCASE, not at the bottom. Set
+     against the first year's target the label landed in the axis
+     furniture, printing through the ladder and the year row — the one
+     place on the plate with no clear ground at all. The last step is
+     the highest thing the line does and has the page to itself. */
+  const capText = opts.targetLabel || 'Target';
+  const capW = setWidth(capText, z(6.6), { weight: 600 });
+  const lastTarget = years[years.length - 1].target;
+  body += `<text x="${r2(Math.max(0, W - capW))}" y="${r2(sy(lastTarget) - z(3.4))}"
+    font-family="${DATA}" font-size="${z(6.6)}" font-weight="600" fill="${K.gold}"
+    >${esc(capText)}</text>`;
+
+  const closing = met >= 0
+    ? `Reserve target met in ${years[met].calendar}`
+    : 'Target not reached inside the decade';
+  const lines = wrapTo(closing, W - 4, z(7), { face: TEXT, weight: 400 });
+  body += `<line x1="0" y1="${r2(H - 20)}" x2="${r2(W)}" y2="${r2(H - 20)}"
+    stroke="${K.rule}" stroke-width="${z(0.5)}"/>`;
+  lines.forEach((ln, i) => {
+    body += `<text x="0" y="${r2(H - 12 + i * z(9))}" font-family="${TEXT}" font-size="${z(7)}"
+      fill="${K.inkSoft}">${esc(ln)}</text>`;
+  });
+  return figure(W, H, body, defs);
+}
+
+// ════════════════════════════════════════════════════════════════════
+// 8 · WHAT THE COLLEGE CAN ACTUALLY TEACH
+// ════════════════════════════════════════════════════════════════════
+/**
+ * THE PLATE NOBODY WANTED TO DRAW.
+ *
+ * A projection that books every learner it could win is a projection
+ * of a spreadsheet. This College's model turns learners away when it
+ * has not got the instructors to teach them, and records it — and a
+ * plan that computes that number and then does not publish it has
+ * computed it for its own comfort.
+ *
+ * Two registers, because they are two quantities: the establishment
+ * the timetable requires, and the people it could not reach. The
+ * second is struck in crimson, which is the one colour in this book
+ * reserved for a fact the institution would rather not have.
+ */
+export function capacityLoad(years) {
+  const W = 168, H = 250;
+  const x0 = 26, x1 = W - 4;
+  const step = (x1 - x0) / years.length;
+  const colW = step * 0.44;
+  const upTop = 16, upBase = 132;
+  const loTop = 156, loBase = 226;
+  const maxI = Math.max(...years.map((y) => y.instructors)) || 1;
+  const maxT = Math.max(...years.map((y) => y.turnedAwayByCapacity)) || 1;
+  const syU = (v) => upBase - (v / (maxI * 1.1)) * (upBase - upTop);
+  const syL = (v) => loBase - (v / (maxT * 1.1)) * (loBase - loTop);
+
+  const defs = hatchDefs('estab', z(2.4), K.goldPale, 45, z(0.5))
+    + hatchDefs('away', z(1.8), '#C99AA3', 45, z(0.55));
+  let body = '';
+
+  body += label(x0, upTop - z(5), 'The establishment the timetable requires',
+    { size: z(6.6), weight: 600, fill: K.midnight });
+  body += `<line x1="${r2(x0)}" y1="${r2(upBase)}" x2="${r2(x1)}" y2="${r2(upBase)}"
+    stroke="${K.ink}" stroke-width="${z(RULE.structure)}"/>`;
+  years.forEach((y, i) => {
+    const cx = x0 + i * step + step / 2;
+    const h = Math.max(0.4, upBase - syU(y.instructors));
+    body += `<rect x="${r2(cx - colW / 2)}" y="${r2(syU(y.instructors))}" width="${r2(colW)}" height="${r2(h)}"
+      fill="url(#estab)" stroke="${K.midnight}" stroke-width="${z(0.6)}"/>`;
+    body += label(cx, syU(y.instructors) - z(2.4), String(Math.round(y.instructors)),
+      { anchor: 'middle', size: z(6), fill: K.midnight, weight: 600 });
+  });
+
+  body += label(x0, loTop - z(5), 'Learners the College could not teach',
+    { size: z(6.6), weight: 600, fill: K.crimson });
+  body += `<line x1="${r2(x0)}" y1="${r2(loBase)}" x2="${r2(x1)}" y2="${r2(loBase)}"
+    stroke="${K.crimson}" stroke-width="${z(RULE.structure)}"/>`;
+  years.forEach((y, i) => {
+    const cx = x0 + i * step + step / 2;
+    const n = y.turnedAwayByCapacity;
+    if (n > 0) {
+      const h = Math.max(0.4, loBase - syL(n));
+      body += `<rect x="${r2(cx - colW / 2)}" y="${r2(syL(n))}" width="${r2(colW)}" height="${r2(h)}"
+        fill="url(#away)" stroke="${K.crimson}" stroke-width="${z(0.6)}"/>`;
+    }
+    body += label(cx, loBase + z(7), String(y.calendar).slice(2),
+      { anchor: 'middle', size: z(6), fill: K.grey });
+  });
+  const worst = years.reduce((a, b) => (b.turnedAwayByCapacity > a.turnedAwayByCapacity ? b : a));
+  if (worst.turnedAwayByCapacity > 0) {
+    const t = `${Math.round(worst.turnedAwayByCapacity).toLocaleString()} in ${worst.calendar}`;
+    const tw = setWidth(t, z(6.6), { weight: 600 });
+    body += `<text x="${r2(W - tw)}" y="${r2(loTop - z(5))}" font-family="${DATA}"
+      font-size="${z(6.6)}" font-weight="600" fill="${K.crimson}">${esc(t)}</text>`;
+  }
+  return figure(W, H, body, defs);
+}

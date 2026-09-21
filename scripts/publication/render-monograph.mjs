@@ -130,6 +130,26 @@ const figAmort = () => F.amortisation(
   }));
 const figRisk = () => F.riskMatrix(RISKS);
 
+/* ── RESILIENCE, WHICH THE PLAN COMPUTED AND NEVER PUBLISHED ─────────
+   The reserve policy is stated in MONTHS OF OPERATING COST, so the
+   target is not a number — it climbs with the cost of running the
+   institution, and a year in which cost rises raises the bar the
+   reserve has to clear. That is the policy's whole point: the thing a
+   reserve survives is a year when revenue falls and cost does not. */
+const RESERVE_POLICY = PLAN.reserve;
+const reserveYears = () => CORE.years.map((y) => ({
+  calendar: y.calendar,
+  reserve: y.reserve,
+  target: (y.delivery + y.acquisition + y.fixed + y.development)
+    * (RESERVE_POLICY.target_months_of_operating_cost / 12),
+}));
+const figReserve = () => F.reserveAgainstTarget(reserveYears(), {
+  targetLabel: `${RESERVE_POLICY.target_months_of_operating_cost} months of operating cost`,
+});
+const figCapacity = () => F.capacityLoad(CORE.years);
+const RESERVE_MET = reserveYears().find((y) => y.reserve >= y.target);
+const TURNED_AWAY = CORE.years.reduce((t, y) => t + y.turnedAwayByCapacity, 0);
+
 /* ── THE SEVEN CHAPTER DATUMS ────────────────────────────────────────
    Each chapter opens on a drawing made of its own content. Nothing
    below is chosen for how it looks; every one of them is a quantity
@@ -316,10 +336,13 @@ function build() {
         { t: 'Three scenarios', f: PAGES_OF.scenarios || 0 }] },
       { part: 'VI · The Ten-Year Strategy', rows: [
         { t: 'Five phases', f: PAGES_OF.phases || 0 },
+        { t: 'The order the markets open in', f: PAGES_OF.sequence || 0 },
         { t: 'What the College measures', f: PAGES_OF.measures || 0 }] },
       { part: 'VII · Governance and Resilience', rows: [
         { t: 'Where a decision stops', f: PAGES_OF.gov || 0 },
-        { t: 'The institutional risk register', f: PAGES_OF.risks || 0 }] },
+        { t: 'The institutional risk register', f: PAGES_OF.risks || 0 },
+        { t: 'The response, and who owns it', f: PAGES_OF.response || 0 },
+        { t: 'Resilience and financial governance', f: PAGES_OF.resilience || 0 }] },
       { part: 'VIII · The Board Charter', rows: [
         { t: 'The principles the College is asked to establish', f: PAGES_OF.charter || 0 }] },
       { part: 'Appendices', rows: [
@@ -902,6 +925,7 @@ function build() {
       datum: datDecade(),
       caption: `Ten years of net tuition, with ${CORE.years[TURN].calendar} struck — the year cumulative surplus first crosses nil.`,
       contains: [{ t: 'Five phases', f: PAGES_OF.phases || '' },
+        { t: 'The order the markets open in', f: PAGES_OF.sequence || '' },
         { t: 'What the College measures', f: PAGES_OF.measures || '' }] }),
     M.page(`
       <p class="fg__eye">The ten-year roadmap</p>
@@ -910,6 +934,40 @@ function build() {
     const y = CORE.years[ph.yearIndex];
     return { ...ph, figure: `${num(y.activeLearners)} under instruction &middot; ${m$(y.netTuition)} net tuition` };
   }))}</div>`, { runhead: 'The Ten-Year Strategy', tone: 'pal pal--editorial' })
+  ));
+
+  at('sequence');
+  push(...S.spread(
+    tableWithReading({
+      title: 'The order the markets open in',
+      sub: 'Four markets, opened over the first four years, each at its own acquisition cost.',
+      head: ['Market', 'Opens', 'Acquisition', 'Enrolled', 'Independent', 'Through a partner'],
+      rows: PLAN.market.regions.map((r) => [`<b>${M.esc(r.name)}</b>`,
+        `Year ${r.opens_year}`, usd(r.cac_usd), pct(r.enrolled_share, 0),
+        pct(r.independent_share, 0), pct(r.partner_share, 0)]),
+      source: `${M.mark('modelled')} Shares are of the learners each market sends, not of the College’s intake.`,
+    }, { title: 'Why this order and not another', columns: true, body: `
+      <p>The Gulf opens first because it is the best-evidenced market the College holds and the one where employer and family sponsorship is ordinary rather than exceptional. West Africa opens with it because the access route reaches it on day one at a price that needs no negotiation.</p>
+      <p>The United Kingdom and Europe follow in the second year, once there are conferrals to point at. Asia and the wider world open in the fourth, and they open last for a reason the College states rather than hides: it holds no direct published evidence for that market, and it will not spend to be known in a market it has not researched.</p>
+      <p>A College that opens everywhere at once has not sequenced its markets; it has divided its acquisition budget by four and hoped.</p>` },
+    { runhead: 'The Ten-Year Strategy', tone: 'pal pal--editorial' }),
+    S.figurePage({
+      palette: 'luminous',
+      eyebrow: 'What the College can actually teach', title: 'The establishment, and what it could not reach',
+      sub: 'The instructors the timetable requires, and the learners turned away for want of them.',
+      figure: figCapacity(),
+      reading: { head: 'The number nobody wants to publish', body: `
+        <p>A projection that books every learner it could win is a projection of a spreadsheet. This model turns learners away when the College has not got the instructors to teach them, and records the number.</p>
+        <p>The establishment is not a ratio somebody chose. The College publishes what each route buys — tutorial hours, seminar hours at a stated group size, pieces of marked work — and an instructor has a contracted year of which a stated fraction reaches a learner. Dividing one by the other gives the establishment the timetable actually requires, and it moves when the specification moves.</p>
+        <p><strong>Last year’s cohort is taught first.</strong> A College that admits a new class while its continuing students go untaught has not managed a capacity constraint; it has broken a promise.</p>` },
+      note: `${M.mark('modelled')} Capacity binds on instructors, not on rooms.`,
+      strip: [
+        { k: 'Establishment at year ten', v: num(CORE.years[9].instructors), s: 'Instructors the timetable requires' },
+        { k: 'Turned away, ten years', v: num(TURNED_AWAY), s: 'Recorded, never booked' },
+        { k: 'Peak under instruction', v: num(CORE.totals.y10Active), s: 'Standing academic load' },
+        { k: 'Served first', v: 'Continuing', s: 'Before any new admission' },
+      ],
+      runhead: 'The Ten-Year Strategy' })
   ));
 
   at('measures');
@@ -922,15 +980,15 @@ function build() {
         ['<b>Learners admitted</b>', { v: 'Reach. An institution that cannot find learners cannot teach anybody.', cls: 'unit' }, num(CORE.totals.newLearners)],
         ['<b>Awards conferred</b>', { v: 'Completion. Admissions without conferrals is churn with a prospectus.', cls: 'unit' }, num(CORE.totals.awards)],
         ['<b>Learners reaching C2</b>', { v: 'The top of the ladder actually being climbed.', cls: 'unit' }, num(CORE.totals.awardsToC2)],
-        ['<b>Under instruction</b>', { v: 'Standing academic load, and the staffing it requires.', cls: 'unit' }, num(CORE.totals.y10Active)],
-        ['<b>Institutional reserve</b>', { v: 'Resilience. The capacity to absorb a bad year without a bad decision.', cls: 'unit' }, m$(CORE.totals.reserve || ARCH.proposed.totals.reserve)],
+        ['<b>Under instruction</b>', { v: 'Standing academic load, and the establishment it requires.', cls: 'unit' }, num(CORE.totals.y10Active)],
+        ['<b>Turned away for capacity</b>', { v: 'The gap between what the College can sell and what it can teach.', cls: 'unit' }, num(TURNED_AWAY)],
+        ['<b>Institutional reserve</b>', { v: `Resilience, measured against ${RESERVE_POLICY.target_months_of_operating_cost} months of operating cost.`, cls: 'unit' }, m$(CORE.years[9].reserve)],
         ['<b>Regions served</b>', { v: 'Diversification. A College dependent on one market is a College with one risk.', cls: 'unit' }, String(PF.REGION_KEYS.length)],
-        ['<b>Institutional agreements</b>', { v: 'The channel that makes acquisition amortise.', cls: 'unit' }, `${Object.keys(PR.CHANNELS).map((k) => PR.channelTerms(k, P_).agreements.toFixed(0)).reduce((a, b) => Number(a) + Number(b), 0)}` ],
         ['<b>Second-marking coverage</b>', { v: 'Academic integrity. The one measure with no acceptable shortfall.', cls: 'unit' }, 'Every script'],
       ],
       source: `${M.mark('modelled')} except the last, which is a standing commitment.`,
     }, { title: 'Why surplus is not the only line', columns: true, body: `
-      <p>An institution measured only on surplus will reach it by teaching fewer people more expensively, and will call that a strategy. The measures above are the ones the Board is asked to hold management to, and the financial ones are four of eight.</p>
+      <p>An institution measured only on surplus will reach it by teaching fewer people more expensively, and will call that a strategy. These are the measures the Board is asked to hold management to, and half of them are not financial.</p>
       <p>The last has no target because it has no acceptable shortfall. Second marking and moderation apply to every script on every route in every market, and a year in which that slipped would not be a year in which the College grew.</p>` },
     { runhead: 'The Ten-Year Strategy', tone: 'pal pal--editorial' }),
     S.statementPage({
@@ -959,7 +1017,9 @@ function build() {
     datum: datAuthority(),
     caption: 'Authority narrows as it descends. The struck tier is the one that cannot be overruled on an academic question, which is the single most important fact about the structure.',
     contains: [{ t: 'Where a decision stops', f: PAGES_OF.gov || '' },
-      { t: 'The institutional risk register', f: PAGES_OF.risks || '' }] });
+      { t: 'The institutional risk register', f: PAGES_OF.risks || '' },
+      { t: 'The response, and who owns it', f: PAGES_OF.response || '' },
+      { t: 'Resilience and financial governance', f: PAGES_OF.resilience || '' }] });
   const govTable = M.tablePages({
     title: 'Governance and authority',
     sub: 'Who decides what, and the separations that protect a learner.',
@@ -1003,8 +1063,71 @@ function build() {
     head: ['Domain', 'Risk', 'L', 'I', 'Early warning'],
     rows: RISKS.slice(9).map((r) => [`<b>${M.esc(r[0])}</b>`, { v: M.esc(r[1]), cls: 'unit' },
       M.esc(r[2]), M.esc(r[3]), { v: M.esc(r[4]), cls: 'unit' }]),
-    source: 'Owners are named in the governance schedule.',
+    source: 'The response to each, and the office that owns it, follow overleaf.',
   }, 7, { runhead: 'Governance and Resilience', tone: 'pal pal--scholarly' }));
+
+  /* THE HALF OF THE REGISTER THAT WAS NEVER PRINTED.
+     Every risk carries seven fields. The book printed five of them —
+     domain, risk, likelihood, impact and the early warning — and
+     dropped the RESPONSE and the OWNER, while the page facing the
+     matrix told the reader that every risk "carries an owner named in
+     the governance schedule". It was a claim the register itself did
+     not support, and the two columns had been sitting in the data the
+     whole time. */
+  at('response');
+  onRecto();
+  push(...M.tablePages({
+    title: 'The response, and who owns it',
+    sub: 'What the College does when a risk lands, and the office accountable for doing it.',
+    head: ['Risk', 'Response', 'Owned by'],
+    rows: RISKS.map((r) => [{ v: `<b>${M.esc(r[1])}</b>`, cls: 'unit' },
+      { v: M.esc(r[5]), cls: 'unit' }, M.esc(r[6])]),
+    source: 'An owner is an office, not a person. Several of these offices are defined and unfilled, and the College does not publish a person into an office they have not accepted.',
+  }, 6, { runhead: 'Governance and Resilience', tone: 'pal pal--scholarly' }));
+
+  at('resilience');
+  onRecto();
+  push(...S.spread(
+    S.figurePage({
+      palette: 'luminous',
+      eyebrow: 'Institutional resilience', title: 'The reserve against a rising target',
+      sub: `Accumulated institutional capital, against ${RESERVE_POLICY.target_months_of_operating_cost} months of the cost of running the College.`,
+      figure: figReserve(),
+      reading: { head: 'Why the target climbs', body: `
+        <p>The College’s reserve policy is stated in <strong>months of operating cost</strong> rather than as a share of revenue, and the difference is the whole point of holding a reserve. The thing a reserve has to survive is a year when revenue falls and cost does not — and a reserve set as a percentage of revenue shrinks exactly when it is needed.</p>
+        <p>So the target is not a number. It is a staircase that climbs with the cost of running the institution, and a year in which the College grows raises the bar its reserve has to clear.</p>
+        <p>${pct(RESERVE_POLICY.contribution_share_of_surplus, 0)} of any surplus is contributed to the reserve before anything else is considered. ${RESERVE_MET ? `On the Core Plan the target is met in <strong>${RESERVE_MET.calendar}</strong>.` : 'On the Core Plan the target is <strong>not met inside the decade</strong>, and that is stated rather than smoothed.'}</p>` },
+      note: `${M.mark('modelled')} Reserve is accumulated institutional allocation, not cash at bank.`,
+      strip: [
+        { k: 'Target', v: `${RESERVE_POLICY.target_months_of_operating_cost} months`, s: 'Of operating cost, not of revenue' },
+        { k: 'Contribution', v: pct(RESERVE_POLICY.contribution_share_of_surplus, 0), s: 'Of surplus, before anything discretionary' },
+        { k: 'At year ten', v: m$(CORE.years[9].reserve), s: 'Accumulated' },
+        { k: 'Target met', v: RESERVE_MET ? String(RESERVE_MET.calendar) : 'Not inside the decade', s: RESERVE_MET ? 'On the Core Plan' : 'Stated, not smoothed' },
+      ],
+      runhead: 'Governance and Resilience' }),
+    S.marginPage({
+      runhead: 'Governance and Resilience',
+      tone: 'pal pal--scholarly',
+      side: S.marginNote('Drawdown',
+        'A reserve that can be drawn on by the office that caused the shortfall is not a reserve. Drawdown is a decision of the Board of Governors and of no other body.')
+        + S.marginNote('Not distributable',
+          'The Institutional Reserve is restricted or designated capital. It is not income, and no distribution from it is modelled anywhere in this plan.'),
+      main: `
+        <p class="op__num">Financial governance</p>
+        <div class="op__rule"></div>
+        <div class="op__arg">
+          <p>The financial constitution allocates. Governance decides who may move an allocation, and the answer is deliberately narrow.</p>
+          <h3>What the Board alone decides</h3>
+          <p>The published tariff and the partner bands. The annual budget and the acquisition spend. Reserve policy and any drawdown against it. The appointment of the External Examiner. International partnerships. Each of those is a decision the Executive may advise on and may not take.</p>
+          <h3>What the Executive decides</h3>
+          <p>The establishment, instructor compensation and material technology expenditure — the operating decisions that follow from a budget once the Board has set it.</p>
+          <h3>What neither may touch</h3>
+          <p>An assessment outcome. Examination papers and rubrics are the Board of Academic Standards’ alone, and conferral and withdrawal are the Registrar’s. <strong>No commercial authority in this institution can alter an academic decision</strong>, and a commercial relationship that required it would be declined.</p>
+          <h3>When a risk lands</h3>
+          <p>Every risk in the register overleaf carries an early warning somebody can observe and a named office accountable for the response. A risk with a warning and no owner is a paragraph; a risk with an owner and no warning is a hope.</p>
+        </div>`,
+    })
+  ));
 
   // ════════════════════════════════════════════════════════════════
   // PART VIII — THE BOARD CHARTER
