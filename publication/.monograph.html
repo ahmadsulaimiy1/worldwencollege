@@ -967,17 +967,39 @@ strong { font-weight: 600; }
   letter-spacing: -.012em; flex: none; min-width: 25.667mm; }
 .op2__title h1 { font-family: 'Newsreader', 'Bitstream Charter', serif; font-weight: 400; font-size: 40pt; line-height: 43pt;
   margin: 0; color: var(--title); letter-spacing: -.016em; }
+/* THE RUBRIC IS READ, SO IT IS SET IN INK AND NOT IN ACCENT.
+   The accent token on the pale palettes is a champagne gold: correct
+   for a mark, a rule or a numeral, and 1.55:1 on cream at 13.4 point.
+   A part opener's one sentence of argument was the faintest text in
+   the book, and the build now fails on it. */
 .op2__rub { font-family: 'Newsreader', 'Bitstream Charter', serif; font-style: italic; font-weight: 400; font-size: 13.4pt;
-  line-height: 20pt; color: var(--accent); margin: 9mm 0 0; padding-top: 6mm;
+  line-height: 20pt; color: var(--title); margin: 9mm 0 0; padding-top: 6mm;
   border-top: .5pt solid var(--rule); max-width: 130.2mm; }
-.op2__datum { margin: 16mm 0 0; }
-.op2__datum svg { display: block; width: 100%; height: auto; }
+/* THE DRAWING YIELDS TO THE CONTENTS, NOT THE OTHER WAY ROUND.
+   Once the rail joined the flow, three openers overflowed — which is
+   what the absolute positioning had been hiding rather than
+   preventing. The datum is the one element on the page with no fixed
+   size of its own, so it is the one that gives: it takes the height
+   left after the title, the rubric, the caption and the rail, and the
+   drawing scales down inside it rather than pushing anything off the
+   leaf. */
+.op2__datum { margin: 16mm 0 0; min-height: 0; flex: 0 1 auto;
+  display: flex; flex-direction: column; }
+.op2__datum svg { display: block; width: 100%; height: auto;
+  min-height: 0; flex: 0 1 auto; }
 /* A drawing without a caption is decoration, which is the thing this
    whole rebuild exists to remove — so openerPage refuses one. */
 .op2__cap { font-family: 'Archivo', 'Liberation Sans', sans-serif; font-size: 5.8pt; line-height: 9.8pt;
   color: var(--soft); margin: 5mm 0 0; padding-top: 3mm;
   border-top: .35pt solid var(--rule); max-width: 130.2mm; }
-.op2__rail { position: absolute; left: 0; right: 0; bottom: 0;
+/* IN THE FLOW, NOT FLOATING OVER IT. The contents rail was absolutely
+   positioned at the foot, so it climbed as it grew and printed
+   straight through the caption above it — which is what happened the
+   moment Part VI gained three leaves. Pinned with an auto top margin
+   instead, it pushes rather than overlaps, and a rail that no longer
+   fits overflows the field, which the build already fails on. */
+.m-open2 .pg__field { display: flex; flex-direction: column; }
+.op2__rail { margin-top: auto;
   border-top: 1.4pt solid var(--mark); padding-top: 3.4mm; display: flex; gap: 8.4mm; }
 .op2__rail k { display: block; font-family: 'Archivo', 'Liberation Sans', sans-serif; font-size: 5.2pt; font-weight: 600;
   letter-spacing: .05em; text-transform: uppercase; color: var(--mark); margin-bottom: 2mm; }
@@ -2347,7 +2369,7 @@ strong { font-weight: 600; }
     <div class="st__foot"><div><k>Retained, asked</k><v>50%</v></div><div><k>Retained, achieved</k><v>39.3%</v></div><div><k>Modelled distributions</k><v>None</v></div></div></div>
   <div class="folio num">36</div>
 </section>
-<section class="pg pg--recto pal pal--constitution ">
+<section class="pg pg--recto pal pal--luminous ">
   
   <div class="runhead">Financial Constitution</div>
   <div class="pg__field pg__field--stack"><div><table class="tbl">
@@ -2364,7 +2386,7 @@ strong { font-weight: 600; }
    </div></div>
   <div class="folio num">37</div>
 </section>
-<section class="pg pg--verso pal pal--constitution ">
+<section class="pg pg--verso pal pal--luminous ">
   
   <div class="runhead">Financial Constitution</div>
   <div class="pg__field">

@@ -1138,10 +1138,16 @@ function build() {
       <p>The framework asks for ${pct(AL.RETAINED.reduce((t, k) => t + AL.SHARES[k], 0), 0)}. The committed tariff returns ${pct(CONSTITUTION_AT.retained, 1)}. Doubling it returns ${pct(CONSTITUTION_CURVE[CONSTITUTION_CURVE.length - 1].retained, 1)} — and costs ${num(CONSTITUTION_AT.learners - CONSTITUTION_CURVE[CONSTITUTION_CURVE.length - 1].learners)} learners a year and ${m$(CONSTITUTION_AT.revenue - CONSTITUTION_CURVE[CONSTITUTION_CURVE.length - 1].revenue)} of net tuition, at a Tutored price of ${usd(CONSTITUTION_CURVE[CONSTITUTION_CURVE.length - 1].tutored)} against a British Council ladder that computes to ${usd(10600)}&ndash;${usd(14100)}.</p>
       <p><strong>Payroll is the line that binds, and it never reaches its share.</strong> It is ${pct(CONSTITUTION_AT.payroll, 1)} of revenue at the committed tariff and ${pct(CONSTITUTION_CURVE[CONSTITUTION_CURVE.length - 1].payroll, 1)} at twice the price, against a ${pct(AL.SHARES.payroll, 0)} allocation. No tariff closes it because it is not a pricing question: teaching is what this institution does, and an institution that spends a quarter of its income on teaching is not the institution described in Part Two.</p>
       <p>So the plan does not choose. It states the finding, prices the College where the research says the market is, and puts the framework to the Board.</p>` },
-    { runhead: 'Financial Constitution', tone: 'pal pal--constitution' }),
+    /* NOT `pal--constitution`. That palette is a deep sapphire ground
+       built for the statement pages, and a table set on it printed
+       dark ink on dark ground: the whole sweep — six rows of the
+       finding this spread exists to carry — was very nearly invisible
+       in the bound book and perfectly legible in the source. The rest
+       of Part V sets its tables on `luminous`, and so does this. */
+    { runhead: 'Financial Constitution', tone: 'pal pal--luminous' }),
     S.marginPage({
       runhead: 'Financial Constitution',
-      tone: 'pal pal--constitution',
+      tone: 'pal pal--luminous',
       side: S.marginNote('How it was missed',
         'The constitution was tested by feeding the AVERAGE price the College collects on each route into the demand model as one global price. On that basis the committed tariff returns '
         + `${pct(GOT.onAveragedPrice, 1)} and the build certified it. Selling an average is not selling a portfolio: it quotes a taught route to the two markets that are quoted none, and strikes no seat from the contribution floor.`)
@@ -2034,7 +2040,15 @@ const bad = await pg.evaluate(() => {
       const r = el.getBoundingClientRect();
       return r.height > 0 && (r.bottom > pr.bottom + 0.5 || r.right > pr.right + 0.5);
     });
-    const blocks = [...p.querySelectorAll('.pg__field p, .pg__field h2, .pg__field h4, .pg__field table')];
+    /* EVERY BLOCK THAT CARRIES WORDS, NOT FOUR OF THEM. This listed
+       p, h2, h4 and table, and the thing it missed was a part
+       opener's caption printing straight through its contents rail —
+       a <p> over a stack of <li>, on the page that introduces a part.
+       A collision check that only looks at some of the text finds
+       some of the collisions. */
+    const blocks = [...p.querySelectorAll('.pg__field p, .pg__field h1, .pg__field h2,'
+      + ' .pg__field h3, .pg__field h4, .pg__field table, .pg__field li,'
+      + ' .pg__field blockquote, .pg__field dt, .pg__field dd')];
     let collided = null;
     for (let a = 0; a < blocks.length && !collided; a++) {
       for (let c = a + 1; c < blocks.length && !collided; c++) {
@@ -2070,8 +2084,72 @@ const bad = await pg.evaluate(() => {
        lock — a raster image anywhere in the book fails the build. */
     const img = p.querySelector('img, [style*="url(data:image"], picture, video');
 
-    if (over > 1 || clipped || collided || misfoliated || img) {
-      out.push({ page: i + 1, over: Math.round(over), clipped, collided, misfoliated, img: Boolean(img) });
+    /* ── AND IT MUST BE LEGIBLE, WHICH NONE OF THE ABOVE CHECKS ──────
+       A spread of Part V shipped a six-row table of the plan's largest
+       finding set in dark ink on the deep sapphire ground built for
+       the statement pages. Nothing above caught it: the page did not
+       overflow, nothing was clipped, no block sat on another, the
+       folio was right and there was no photograph. It was perfectly
+       correct and very nearly invisible, and the only way to find it
+       was to look at the page.
+
+       So the page is now looked at by the build. Every text block is
+       compared with the ground it is actually painted on — walking up
+       for the nearest ancestor that sets one, because the element
+       itself is almost always transparent.
+
+       TWO THRESHOLDS, AND THEY ARE MEASURED FROM THIS BOOK RATHER THAN
+       COPIED FROM A SCREEN STANDARD. The web's 4.5:1 is written for a
+       backlit display; this is ink on stock at 5.6 to 17 point, and
+       the house style deliberately sets its small furniture — the
+       eyebrows, the section numerals, the table rules — in gold and
+       grey at between 2.5 and 2.9:1, which reads on paper and is a
+       decision, not an accident.
+
+       What is not a decision is a sentence a reader has to READ set
+       below that. So: anything at twelve point or over, which is
+       continuous reading, must clear 3:1; the furniture beneath it
+       must clear 2.4, which is under every deliberate value in the
+       book and above anything that has gone wrong. Both faults this
+       caught on its first run were well under two. */
+    const MIN_RATIO = (px) => (px >= 16 ? 3.0 : 2.4);
+    const lum = (c) => {
+      const m = String(c).match(/rgba?\(([^)]+)\)/);
+      if (!m) return null;
+      const [r, g, b, a] = m[1].split(',').map((x) => parseFloat(x));
+      if (a !== undefined && a < 0.92) return null;
+      const f = (v) => { const x = v / 255; return x <= 0.03928 ? x / 12.92 : ((x + 0.055) / 1.055) ** 2.4; };
+      return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
+    };
+    const groundOf = (el) => {
+      for (let n = el; n && n !== document.documentElement; n = n.parentElement) {
+        const l = lum(getComputedStyle(n).backgroundColor);
+        if (l !== null) return l;
+      }
+      return 1;
+    };
+    let faint = null;
+    for (const el of p.querySelectorAll('.pg__field p, .pg__field h1, .pg__field h2,'
+      + ' .pg__field h3, .pg__field h4, .pg__field td, .pg__field th, .pg__field li')) {
+      const t = (el.textContent || '').trim();
+      if (t.length < 3 || el.querySelector('p, td, th, li')) continue;
+      const r = el.getBoundingClientRect();
+      if (r.width < 4 || r.height < 4) continue;
+      const cs = getComputedStyle(el);
+      if (cs.visibility === 'hidden' || Number(cs.opacity) < 0.5) continue;
+      const ink = lum(cs.color);
+      if (ink === null) continue;
+      const ground = groundOf(el);
+      const ratio = (Math.max(ink, ground) + 0.05) / (Math.min(ink, ground) + 0.05);
+      const floor = MIN_RATIO(parseFloat(cs.fontSize));
+      if (ratio < floor) {
+        faint = `${t.slice(0, 30)}… at ${ratio.toFixed(2)}:1, wants ${floor.toFixed(1)}`;
+        break;
+      }
+    }
+
+    if (over > 1 || clipped || collided || misfoliated || img || faint) {
+      out.push({ page: i + 1, over: Math.round(over), clipped, collided, misfoliated, img: Boolean(img), faint });
     }
   });
   return out;
@@ -2081,6 +2159,7 @@ if (bad.length) {
   console.error('\nPAGE COMPOSITION FAILED:');
   for (const o of bad) {
     console.error(`  page ${o.page}: ${o.over}px over${o.clipped ? ', clipped' : ''}`
+      + `${o.faint ? `, unreadable on its ground — “${o.faint}”` : ''}`
       + `${o.collided ? `, text on text “${o.collided}…”` : ''}`
       + `${o.misfoliated ? `, prints folio ${o.misfoliated}` : ''}`
       + `${o.img ? ', carries a raster image' : ''}`);
