@@ -136,8 +136,18 @@ check(`The register holds volumes — ${reg.total} listed, ${reg.downloadable} d
   /* THE BYTE COUNT ITSELF, WHERE THE FILE IS THERE TO ASK.
      And it says how many it could not ask about, because a run that
      skipped every volume would otherwise print the same PASS as one
-     that checked all sixteen. */
-  const present = reg.volumes.filter((v) => existsSync(path.join(ROOT, 'publication', v.file)));
+     that checked all sixteen.
+
+     Excluded volumes are skipped here even when present: they are the
+     gitignored, build-on-demand editions (see the exclusion check
+     above), so a full `npm test` run legitimately leaves one on disk as
+     a side effect of tests/publication-editions.test.mjs re-rendering
+     it — a real file, correctly rendered, that this repository never
+     promised to reproduce byte-for-byte. Holding it to the same
+     byte-exact bar as a committed volume just fails the suite on the
+     renderer's own harmless per-run variance (the Teacher's Companion
+     class of drift above, minus a git-tracked copy to revert to). */
+  const present = reg.volumes.filter((v) => !v.excluded && existsSync(path.join(ROOT, 'publication', v.file)));
   const stale = present.filter((v) => statSync(path.join(ROOT, 'publication', v.file)).size !== v.bytes);
   check(`Every recorded byte count is the file's own (${present.length} of ${reg.volumes.length} present to check)`,
     present.length > 0 && stale.length === 0,
