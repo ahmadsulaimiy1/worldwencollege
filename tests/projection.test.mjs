@@ -168,6 +168,65 @@ check('re-solving seats by region moves the total, and by no more than the curve
   chRegional !== chGlobal && chRegional <= chGlobal * widest * 1.001 && chRegional > 0,
   `${chGlobal} globally against ${chRegional} placed — the widest regional multiple the curve permits is ${widest.toFixed(2)}×`);
 
+// ── 4b · WHAT THE COLLEGE WILL NOT SELL BELOW ───────────────────────
+/* A BAND IS A DISCOUNT OFF A PUBLISHED PRICE, NOT OFF THE FLOOR.
+
+   Where a market carries no taught route at retail the seat is priced
+   from the contribution floor — delivery cost plus the minimum
+   contribution the College states it will accept. The partner band was
+   then taken off that as well, which put a sponsored seat at $8,500
+   against a floor of $10,600 and a bare delivery cost of $8,147: a
+   four per cent contribution against a stated thirty, in the two
+   markets the institutional channels exist to reach. */
+for (const [key, intensity] of [['sponsored', 'tutored'], ['corporate', 'executiveCohort']]) {
+  const c = PR.CHANNELS[key];
+  const below = [];
+  for (const rk of PF.REGION_KEYS) {
+    const st = PF.seat(intensity, rk, key, T, c.agreementCost, {
+      seatsPerAgreement: c.seatsPerAgreement,
+      referenceSeatPrice: c.referenceSeatPrice,
+      seatElasticity: c.seatElasticity,
+    });
+    const inv = PF.investment(intensity, rk, T);
+    if (st.seatPrice < inv.floor - 1) below.push(`${rk} $${st.seatPrice} < $${Math.round(inv.floor)}`);
+  }
+  check(`no ${key} seat is sold beneath the contribution floor, in any region`,
+    below.length === 0, below.join('; ') || 'every seat at or above its floor');
+}
+
+// ── 4c · A CHANNEL THAT HAS NOT OPENED SELLS NOTHING ────────────────
+/* Both channels carry an `opensYear` and it was read nowhere at all,
+   so the projection booked 39 of its first 97 learners through
+   channels the plan says are not open — against agreements nobody had
+   been hired to negotiate, in the year before the partnership function
+   exists. It also made Phase III untrue on its own terms: sponsored
+   cohorts BECOME a material share of enrolment there, and they were a
+   material share in Year One. */
+for (const [key, c] of Object.entries(PR.CHANNELS)) {
+  const early = SC.core.years.slice(0, c.opensYear - 1)
+    .filter((y) => (y.byProduct[key] || 0) > 0.5)
+    .map((y) => `${y.calendar} ${Math.round(y.byProduct[key])}`);
+  check(`the ${key} channel sells nothing before it opens in year ${c.opensYear}`,
+    early.length === 0, early.join(', ') || `silent through ${c.opensYear - 1} year(s)`);
+  check(`...and does sell once it has opened`,
+    (SC.core.years[c.opensYear - 1].byProduct[key] || 0) > 0,
+    `${Math.round(SC.core.years[c.opensYear - 1].byProduct[key] || 0)} in ${SC.core.years[c.opensYear - 1].calendar}`);
+}
+
+// ── 4d · ONE TARIFF ACROSS BOTH PUBLICATIONS ────────────────────────
+/* The Roadmap printed $17,100 Directed in the same sentence as a
+   decade computed at $17,800. Part III and Part V had been made to
+   agree inside one renderer; the two renderers had not. */
+{
+  const KEYMAP = { independent: 'independent', directed: 'guided', tutored: 'tutored',
+    execCore: 'executiveCohort', execPremium: 'executivePrivate', execBespoke: 'bespoke' };
+  const off = Object.entries(KEYMAP)
+    .filter(([a, b]) => PR.PROPOSED.committed[a] !== PF.REFERENCE_TARIFF[b])
+    .map(([a, b]) => `${a} $${PR.PROPOSED.committed[a]} against ${b} $${PF.REFERENCE_TARIFF[b]}`);
+  check('the tariff the Roadmap prints is the tariff the projection runs on',
+    off.length === 0, off.join('; ') || JSON.stringify(PR.PROPOSED.committed));
+}
+
 // ── 5 · NOTHING IS NaN ──────────────────────────────────────────────
 const NUMERIC = ['reach', 'newLearners', 'activeLearners', 'awardsToC2', 'totalAwards', 'alumni',
   'instructors', 'revenue', 'refunds', 'netTuition', 'delivery', 'acquisition', 'fixed',

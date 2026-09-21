@@ -106,7 +106,9 @@ export function project(prices, opts = {}) {
     // own hiring decisions, and it would hide the year the cost lands.
     const fixed = P.fixedEstablishment(y + 1);
 
-    const snap = P.portfolio(prices, { continuationScale, reachScale: reach, fixed, tariffOf, placement });
+    const snap = P.portfolio(prices, {
+      continuationScale, reachScale: reach, fixed, tariffOf, placement, planYear: y + 1,
+    });
     const lag0 = snap.byLag[0];
     const lag1 = snap.byLag[1];
 

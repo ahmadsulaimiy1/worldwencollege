@@ -1147,3 +1147,186 @@ export function capacityLoad(years) {
   }
   return figure(W, H, body, defs);
 }
+
+// ════════════════════════════════════════════════════════════════════
+// 10 · WHAT THE BOARD IS ACTUALLY ASKED TO UNDERWRITE
+// ════════════════════════════════════════════════════════════════════
+/**
+ * THE NUMBER THE PLAN COMPUTED IN ITS FIRST YEAR AND NEVER PRINTED.
+ *
+ * Every page of this publication that touches the decade shows the
+ * decade: ten years of net tuition, ten years of cumulative surplus,
+ * a reserve climbing against a rising target. On that scale — nought
+ * to nineteen million — the only part of the plan that asks the Board
+ * for anything is four hundredths of the plate. It is drawn, and it is
+ * invisible, which is the same as not drawn.
+ *
+ * And it is the first question a Board asks. Not "what does it earn by
+ * 2036" but "how much do I have to find before it stops needing me,
+ * and what happens to that number if the plan underperforms". Those
+ * are two figures and one date, and the model has held all three from
+ * the beginning.
+ *
+ * So this plate is the OTHER end of the telescope: the first years
+ * only, at a scale where a six-hundred-thousand-dollar trough is a
+ * shape rather than a rounding line. The decade is on the facing page
+ * and is not repeated here. The gold rule is nil — the line the
+ * institution is climbing toward — and the deepest point of each case
+ * is marked and valued, because the deepest point of the WORST case is
+ * the actual size of the ask.
+ */
+export function fundingRequirement(runs, opts = {}) {
+  const W = 168, H = 236;
+  const x0 = 30, x1 = W - 6;
+  const top = 20, base = H - 52;
+
+  /* EACH CASE IS DRAWN AS FAR AS ITS OWN CROSSING, AND NOT ONE YEAR
+     FURTHER — which took two goes to get right. Running every line to
+     the year the SLOWEST case turns put the High Growth case eleven
+     million dollars up the plate, and the trough it exists to show was
+     a sliver at the bottom again: the same fault, committed a second
+     time by a plate written to correct it.
+
+     A line that stops on the gold rule has said everything this plate
+     is for. It has shown how deep the case goes and the year it comes
+     back, and it has not spent four fifths of the drawing on a decade
+     the facing page already carries. */
+  const crossAt = (r) => {
+    const i = r.years.findIndex((y) => y.cumulativeSurplus > 0);
+    return i < 0 ? r.years.length - 1 : i;
+  };
+  const span = Math.min(runs[0].years.length, Math.max(4, Math.max(...runs.map(crossAt)) + 1));
+  const cut = (r) => r.years.slice(0, crossAt(r) + 1);
+
+  const vals = runs.flatMap((r) => cut(r).map((y) => y.cumulativeSurplus));
+  const lo = Math.min(...vals, 0), hi = Math.max(...vals, 0);
+  const pad = (hi - lo) * 0.14 || 1;
+  const sy = (v) => base - ((v - (lo - pad)) / ((hi + pad) - (lo - pad))) * (base - top);
+  const step = (x1 - x0) / (span - 1);
+  const sx = (i) => x0 + i * step;
+
+  let body = '';
+  /* The ladder. Quarter-million steps, because the whole event happens
+     inside two million and a million-dollar grid would draw two lines. */
+  const grid = (hi - lo) > 4e6 ? 1e6 : 5e5;
+  for (let v = Math.ceil((lo - pad) / grid) * grid; v <= hi + pad; v += grid) {
+    /* Nil is not a rung on this ladder. It is the subject, it is struck
+       in gold below, and it is named — a faint grey "$0.00M" beside a
+       gold rule that already says "Cumulative nil" is the axis arguing
+       with the drawing. */
+    if (Math.abs(v) < grid / 100) continue;
+    body += `<line x1="${r2(x0)}" y1="${r2(sy(v))}" x2="${r2(x1)}" y2="${r2(sy(v))}"
+      stroke="${K.faint}" stroke-width="${z(RULE.grid)}"/>`;
+    body += label(x0 - 3, sy(v) + z(1.8),
+      `${v < 0 ? '−' : ''}$${(Math.abs(v) / 1e6).toFixed(2)}M`,
+      { anchor: 'end', size: z(5.8), fill: K.grey });
+  }
+
+  /* NIL, STRUCK IN GOLD. Every other rule on this plate is a
+     measurement; this one is the event. */
+  body += `<line x1="${r2(x0)}" y1="${r2(sy(0))}" x2="${r2(x1)}" y2="${r2(sy(0))}"
+    stroke="${K.gold}" stroke-width="${z(RULE.struck)}"/>`;
+  /* NAMED BELOW THE RULE AND AT THE LEFT, where every case is still in
+     deficit and nothing else is drawn. Set above it and to the right,
+     as it first was, it printed through the year each case turns —
+     which is the one annotation on this plate that has to be read. */
+  body += `<text x="${r2(x0 + z(2))}" y="${r2(sy(0) + z(7.4))}" font-family="${DATA}"
+    font-size="${z(6.4)}" font-weight="600" fill="${K.gold}">Cumulative nil</text>`;
+
+  /* The year register, along the foot rather than along nil — a year
+     row drawn on the nil rule sits in the middle of the plate when the
+     plan is above it and under the curve when it is below. */
+  body += `<line x1="${r2(x0)}" y1="${r2(base)}" x2="${r2(x1)}" y2="${r2(base)}"
+    stroke="${K.ink}" stroke-width="${z(RULE.structure)}"/>`;
+  runs[0].years.slice(0, span).forEach((y, i) => {
+    body += `<line x1="${r2(sx(i))}" y1="${r2(base)}" x2="${r2(sx(i))}" y2="${r2(base + z(2.4))}"
+      stroke="${K.rule}" stroke-width="${z(0.6)}"/>`;
+    body += label(sx(i), base + z(9), String(y.calendar),
+      { anchor: 'middle', size: z(6), fill: K.grey });
+  });
+
+  /* THREE CASES, RANKED BY WHAT THEY COST THE BOARD. The worst case is
+     drawn in the one colour this book reserves for a fact the
+     institution would rather not have, and it is drawn on top. */
+  const tone = [
+    { stroke: K.bronze, width: RULE.grid * 2.2, dash: `${z(2.4)} ${z(1.8)}` },
+    { stroke: K.sapphire, width: RULE.struck, dash: null },
+    { stroke: K.crimson, width: RULE.grid * 2.6, dash: null },
+  ];
+  const marks = [];
+  const crossings = [];
+  runs.forEach((r, ri) => {
+    const ys = cut(r);
+    const t = tone[ri] || tone[1];
+    const d = ys.map((y, i) => `${i === 0 ? 'M' : 'L'} ${r2(sx(i))} ${r2(sy(y.cumulativeSurplus))}`).join(' ');
+    body += `<path d="${d}" fill="none" stroke="${t.stroke}" stroke-width="${z(t.width)}"
+      stroke-linejoin="round" stroke-linecap="round"${t.dash ? ` stroke-dasharray="${t.dash}"` : ''}/>`;
+
+    let ti = 0;
+    ys.forEach((y, i) => { if (y.cumulativeSurplus < ys[ti].cumulativeSurplus) ti = i; });
+    body += `<circle cx="${r2(sx(ti))}" cy="${r2(sy(ys[ti].cumulativeSurplus))}" r="${r2(z(2.1))}"
+      fill="${K.paper}" stroke="${t.stroke}" stroke-width="${z(0.9)}"/>`;
+    marks.push({ ri, tone: t, name: r.short || r.label,
+      deep: `−$${(Math.abs(ys[ti].cumulativeSurplus) / 1e6).toFixed(2)}M in ${ys[ti].calendar}` });
+
+    /* WHERE THE LINE STOPS IS THE EVENT. Struck on the rule it has
+       just reached, with the year set above it, so the three cases
+       read as three dates rather than three curves. */
+    const ci = crossAt(r);
+    if (ys[ci].cumulativeSurplus > 0) {
+      body += `<line x1="${r2(sx(ci))}" y1="${r2(sy(0) - z(4.4))}" x2="${r2(sx(ci))}"
+        y2="${r2(sy(0) + z(4.4))}" stroke="${t.stroke}" stroke-width="${z(1.5)}"/>`;
+      crossings.push({ x: sx(ci), tone: t, text: String(ys[ci].calendar) });
+    }
+  });
+  /* The three dates, stacked above the rule and de-collided sideways
+     rather than vertically: they all belong to the same line. */
+  crossings.sort((a, b) => a.x - b.x).forEach((c, i, all) => {
+    const w = setWidth(c.text, z(6.4), { weight: 700 });
+    const prev = all[i - 1];
+    const x = prev && c.x - prev.placed < w + z(3) ? prev.placed + w + z(3) : c.x;
+    c.placed = Math.min(x, x1 - w / 2);
+    body += `<text x="${r2(c.placed)}" y="${r2(sy(0) - z(7.2))}" font-family="${DATA}"
+      font-size="${z(6.4)}" font-weight="700" fill="${c.tone.stroke}"
+      text-anchor="middle">${esc(c.text)}</text>`;
+  });
+
+  /* THE KEY, AND IT IS ALSO THE READING. Set beside each trough, the
+     labels crossed one another's curves — "Growth" printed straight
+     through the Conservative line — and the plate had no legend at
+     all, so three differently drawn lines had to be told apart by
+     guessing. One keyed register does both jobs, and it goes in the
+     quadrant above nil and left of the first crossing, which is the
+     only part of this drawing with nothing in it.
+
+     Every case is in deficit at the left and above nil at the right;
+     that empty corner is a property of what is being drawn rather than
+     an accident of this data. */
+  const keyTop = top + z(6);
+  marks.forEach((m, i) => {
+    const y = keyTop + i * z(9.2);
+    body += `<line x1="${r2(x0 + z(2))}" y1="${r2(y - z(1.9))}" x2="${r2(x0 + z(11))}"
+      y2="${r2(y - z(1.9))}" stroke="${m.tone.stroke}" stroke-width="${z(m.tone.width)}"
+      ${m.tone.dash ? `stroke-dasharray="${m.tone.dash}"` : ''}/>`;
+    body += `<text x="${r2(x0 + z(14))}" y="${r2(y)}" font-family="${DATA}" font-size="${z(6.3)}"
+      font-weight="700" fill="${m.tone.stroke}">${esc(m.name)}</text>`;
+    const nameW = setWidth(m.name, z(6.3), { weight: 700 });
+    body += `<text x="${r2(x0 + z(17) + nameW)}" y="${r2(y)}" font-family="${DATA}"
+      font-size="${z(6.3)}" font-weight="500" fill="${K.inkSoft}">${esc(m.deep)}</text>`;
+  });
+
+  const worst = runs.reduce((w, r) => {
+    const m = Math.min(...cut(r).map((y) => y.cumulativeSurplus));
+    return m < w.v ? { v: m, r } : w;
+  }, { v: Infinity, r: runs[0] });
+  const closing = opts.closing
+    || `The deepest the institution goes is $${(Math.abs(worst.v) / 1e6).toFixed(2)}M, on the ${worst.r.label} case, and it is back above nil inside the decade. That is the whole of the capital requirement.`;
+  const lines = wrapTo(closing, W - 4, z(7), { face: TEXT, weight: 400 });
+  body += `<line x1="0" y1="${r2(H - 22 - (lines.length - 1) * z(9))}" x2="${r2(W)}"
+    y2="${r2(H - 22 - (lines.length - 1) * z(9))}" stroke="${K.rule}" stroke-width="${z(0.5)}"/>`;
+  lines.forEach((ln, i) => {
+    body += `<text x="0" y="${r2(H - 14 - (lines.length - 1 - i) * z(9))}" font-family="${TEXT}"
+      font-size="${z(7)}" fill="${K.inkSoft}">${esc(ln)}</text>`;
+  });
+  return figure(W, H, body);
+}

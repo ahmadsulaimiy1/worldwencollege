@@ -790,6 +790,9 @@ function allocate(seg, prices) {
 export function portfolio(prices, opts = {}) {
   const {
     continuationScale = 1, reachScale = 1, fixed = FIXED_INSTITUTIONAL, channels = true,
+    /* WHICH YEAR OF THE PLAN THIS IS, 1-BASED. A channel does not
+       exist before the year the channel plan opens it. */
+    planYear = null,
     /* ── THE REGIONAL TARIFF ──
        `tariffOf(segmentKey)` returns the price vector that segment is
        genuinely quoted, with `null` against a route its market does not
@@ -873,6 +876,24 @@ export function portfolio(prices, opts = {}) {
   if (channels) {
     for (const key of Object.keys(CHANNELS)) {
       const c = CHANNELS[key];
+      /* ══════════════════════════════════════════════════════════════
+         A CHANNEL THAT HAS NOT OPENED SELLS NOTHING, AND THIS READ THE
+         FIELD THAT SAYS SO NOWHERE AT ALL.
+         ══════════════════════════════════════════════════════════════
+         Both channels carry an `opensYear` — the employer channel in
+         Year 2, the sponsored channel in Year 3 — because winning an
+         institutional agreement takes a partnership function that does
+         not exist on the first day and a sales cycle measured in
+         quarters. The field was declared, documented, and never read,
+         so the projection booked 39 of its first 97 learners through
+         two channels the plan says are not open, against agreements
+         nobody had been hired to negotiate.
+
+         It also made the phase narrative untrue on its own terms:
+         Phase III is the phase in which sponsored cohorts BECOME a
+         material share of enrolment, and they were a material share in
+         Year 1. */
+      if (planYear !== null && c.opensYear && planYear < c.opensYear) continue;
       const t = channelTerms(key, prices);
       const total = t.seatsAtMaturity * Math.max(0, Math.min(1, reachScale));
       if (total <= 0) continue;
@@ -1104,11 +1125,24 @@ export const PROPOSED = {
          old Directed specification cost $297 a contact hour against a
          British Council ladder at $23.68, on four per cent contact. It
          was re-specified rather than defended. */
-    directed: 17100,
-    tutored: 27900,
-    execCore: 50400,
-    execPremium: 82800,
-    execBespoke: 136800,
+    /* · AND IT MOVED AGAIN WHEN THE REGIONS DID. The figures below
+         were $17,100 / $27,900 / $50,400 / $82,800 / $136,800, solved
+         at ONE GLOBAL PRICE. Re-solved across four regions at four
+         price levels that tariff retains 49.2 per cent against a
+         constitution requiring 50 — it satisfied its own law on paper
+         and missed it in the bank.
+
+         These are the same five prices `portfolio.mjs` publishes as
+         REFERENCE_TARIFF, under this file's older key names, and
+         `tests/projection.test.mjs` fails the build if the two ever
+         disagree again. They did disagree for one revision, and the
+         cost was that the Roadmap printed a tariff of $17,100 in the
+         same sentence as a decade computed at $17,800. */
+    directed: 17800,
+    tutored: 29000,
+    execCore: 52400,
+    execPremium: 86100,
+    execBespoke: 142250,
   },
   /** WITHDRAWN AS AN OBJECTIVE, kept as a measurement.
 

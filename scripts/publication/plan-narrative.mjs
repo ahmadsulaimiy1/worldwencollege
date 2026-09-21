@@ -65,14 +65,74 @@ export const GOVERNANCE_COLUMNS = ['Decision', 'Decided by', 'Advised or execute
  * not produce.
  */
 export const PHASES = [
-  { numeral: 'I', name: 'Foundation', years: '1\u20132', yearIndex: 1,
-    text: 'Open the Gulf and West Africa. Appoint the academic offices. Publish the first examination papers and confer the first awards. Prove the qualification end to end before spending to be known.' },
-  { numeral: 'II', name: 'Validation', years: '3\u20134', yearIndex: 3,
-    text: 'Europe opens. Break-even is cleared and the reserve begins. Continuation, not acquisition, becomes the measure that matters. The External Examiner confirms the standard against published rubrics.' },
-  { numeral: 'III', name: 'Scale', years: '5\u20137', yearIndex: 6,
-    text: 'Asia opens. Sponsored cohorts become a material and deliberate share of enrolment \u2014 one negotiation carrying a cohort at a published band rather than learners acquired one at a time. The establishment is fully staffed and the institution stops depending on any one person.' },
-  { numeral: 'IV', name: 'Maturity', years: '8\u20139', yearIndex: 8,
-    text: 'Reserve builds toward its target in months of operating cost. Accreditation is pursued with a completed cohort and an examiner\u2019s confirmation behind it, not before.' },
+  { numeral: 'I', name: 'Foundation', years: '1–2', yearIndex: 1,
+    text: 'Open the Gulf and West Africa. Appoint the academic offices. Publish the first examination papers and confer the first awards. Prove the qualification end to end before spending to be known.',
+    gate: 'A full level examined end to end, every script second-marked, and the first awards on a register a stranger can check.',
+    observed: 'The award register carries conferrals, and the assessment record carries a second mark against every script behind them.',
+    ifNot: 'Europe does not open. The Foundation year runs again on the two markets already open, and nothing is added to the prospectus meanwhile.' },
+  { numeral: 'II', name: 'Validation', years: '3–4', yearIndex: 3,
+    text: 'Europe opens. Break-even is cleared and the reserve begins. Continuation, not acquisition, becomes the measure that matters. The External Examiner confirms the standard against published rubrics.',
+    gate: 'Cumulative position above nil, the reserve open, and an External Examiner appointed and reporting against rubrics published before the work.',
+    observed: 'The cumulative surplus line crosses nil; the examiner’s report exists and is dated after the sitting it examined.',
+    ifNot: 'Asia is deferred and acquisition holds at the Foundation level. On the Conservative case the crossing arrives two years later and Phase III waits for it: the gate is the event, not the calendar.' },
+  { numeral: 'III', name: 'Scale', years: '5–7', yearIndex: 6,
+    text: 'Asia opens. Sponsored cohorts become a material and deliberate share of enrolment — one negotiation carrying a cohort at a published band rather than learners acquired one at a time. The establishment is fully staffed and the institution stops depending on any one person.',
+    gate: 'The establishment staffed to what the timetable requires, and no single academic office load-bearing on one person.',
+    observed: 'Instructors in post against the establishment the specification computes; every academic office with a named holder and a deputy.',
+    ifNot: 'Admissions are capped at what the College can teach — which is how the model already behaves: it turns learners away and records the number.' },
+  { numeral: 'IV', name: 'Maturity', years: '8–9', yearIndex: 8,
+    text: 'Reserve builds toward its target in months of operating cost. Accreditation is pursued with a completed cohort and an examiner’s confirmation behind it, not before.',
+    gate: 'The reserve at its target in months of operating cost, and a completed cohort with an examiner’s confirmation to put behind an application.',
+    observed: 'Reserve against the target the policy computes each year; the cohort and the confirmation exist or they do not.',
+    ifNot: 'No application is made. An institution that applies on a prospectus has told the assessor what it thinks of the standard.' },
   { numeral: 'V', name: 'Standing', years: '10', yearIndex: 9,
-    text: 'The institution is self-funding, externally examined, internationally enrolled, and holds a register of awards a stranger can check without an account.' },
+    text: 'The institution is self-funding, externally examined, internationally enrolled, and holds a register of awards a stranger can check without an account.',
+    gate: 'Nothing follows, so nothing is gated. What is stated is what must remain true.',
+    observed: 'Self-funding; externally examined; no market above the concentration limit; every award on a public register.',
+    ifNot: 'A year in which any of the four stops being true is treated as a phase reversal, not a variance.' },
 ];
+
+export const PHASE_COLUMNS = ['Phase', 'What must be true to leave it', 'How it is observed', 'If it is not'];
+
+/**
+ * WHAT THE COLLEGE WILL NOT DO, WHICH IS THE OTHER HALF OF A STRATEGY.
+ *
+ * A ten-year plan that lists only what an institution intends has
+ * described an appetite. These are the positions the rest of this
+ * publication commits to in passing — in the tariff, in the honesty
+ * register, in the governance schedule, in the capacity model —
+ * collected in one place so that a reader can see them as a set and
+ * hold the College to them.
+ *
+ * Every one of them is already enforced somewhere: by a published
+ * band, by a build that fails, or by a model that refuses to book the
+ * enrolment. None of them is an aspiration.
+ */
+export const EXCLUSIONS = [
+  ['Award a qualification it cannot second-mark',
+    'Second marking and moderation apply to every script on every route in every market. It is the one measure with no target, because the target is all of them.',
+    'Assessment Integrity Committee'],
+  ['Discount below a published band to win an agreement',
+    'The partner bands are published and are applied as published. A College that invents a discount in a negotiation has told the buyer its price was never a price.',
+    'Board of Governors'],
+  ['Describe a partnership as an accreditation',
+    'A partnership is an agreement to admit cohorts on published terms. It is not a validation, a recognition or a joint award, in either language the College publishes in.',
+    'Board of Governors'],
+  ['Open a market it has not researched',
+    'Asia and the wider world open last for a stated reason: the College holds no direct published evidence there and will not spend to be known in a market it has not studied.',
+    'Chief Executive'],
+  ['Admit beyond what it can teach',
+    'The projection turns learners away when the establishment cannot reach them and records the number. Last year’s cohort is timetabled before this year’s admission.',
+    'Director of Academic Standards'],
+  ['Publish a person into an office they have not accepted',
+    'An office may be defined and unfilled, and the plan says so. A holder and an appointment date travel together or neither is published; the build fails otherwise.',
+    'Registrar'],
+  ['Let a commercial relationship reach an academic decision',
+    'No commercial authority here can alter an assessment outcome. A sponsor buys places on the published specification, not an opinion about how the work is marked.',
+    'Academic Senate'],
+  ['Publish a figure the record cannot source',
+    'Every numeral here comes from a file recording who attested it and when. A number typed confidently into a paragraph fails the build — a duller mechanism than integrity, and a more reliable one.',
+    'College Executive'],
+];
+
+export const EXCLUSION_COLUMNS = ['The College will not', 'Why, and what enforces it', 'Held by'];

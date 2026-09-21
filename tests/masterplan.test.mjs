@@ -311,12 +311,56 @@ if (fail) process.exit(1);
       got.retainedShare >= target - 0.005,
       `${(got.retainedShare * 100).toFixed(1)}% against ${(target * 100).toFixed(0)}%`);
 
-    /* And it must be the CHEAPEST tariff that does, because every
-       tariff above it charges more for the same compliance. */
-    const solved = AL.solve(PR.PROPOSED.committed, { lo: 0.6, hi: 4.0, step: 0.01 });
-    check('...and it is the cheapest tariff that does',
-      solved.cheapest && solved.cheapest.prices.directed === PR.PROPOSED.committed.directed,
-      solved.cheapest ? `$${solved.cheapest.prices.directed} computed` : 'none holds');
+    /* ── AND IT MUST BE THE CHEAPEST TARIFF THAT DOES — BUT CHEAPEST
+       UNDER WHICH MODEL? THIS TEST USED TO ANSWER THE WRONG ONE.
+
+       `allocation.solve` sweeps the tariff against ONE GLOBAL PRICE.
+       Swept that way the cheapest compliant tariff is 0.96× the
+       committed one — $17,100 Directed, which is exactly the
+       superseded tariff this plan withdrew. The test asserted the
+       committed tariff equalled that answer, so it was pinning the
+       publication to the tariff the regional analysis had already
+       disproved: it would have failed the correct tariff and passed
+       the wrong one, which is the worst way for a test to be wrong.
+
+       Sold as the College actually sells it — four regions at four
+       price levels, with two of them carrying no taught route at
+       retail — the $17,100 tariff retains 49.2 per cent against a
+       constitution requiring 50. It satisfies its own law on paper and
+       misses it in the bank, and that gap is the entire argument for
+       pricing by region rather than by multiplication.
+
+       So both models are now checked, and the DISAGREEMENT between
+       them is the assertion. */
+    const globalSolve = AL.solve(PR.PROPOSED.committed, { lo: 0.6, hi: 4.0, step: 0.01 });
+    const cheaperGlobally = globalSolve.cheapest ? globalSolve.cheapest.prices : null;
+    check('swept at one global price, a cheaper tariff appears to comply',
+      cheaperGlobally && cheaperGlobally.directed <= PR.PROPOSED.committed.directed,
+      cheaperGlobally ? `$${cheaperGlobally.directed} against the committed $${PR.PROPOSED.committed.directed}` : 'none holds');
+    {
+      const PF = await import(loadUrl('scripts/publication/portfolio.mjs'));
+      const asSold = (t) => ({
+        independent: t.independent, guided: t.directed, tutored: t.tutored,
+        executiveCohort: t.execCore, executivePrivate: t.execPremium, bespoke: t.execBespoke,
+      });
+      const cheap = PF.meetsConstitution(asSold(cheaperGlobally));
+      const committed = PF.meetsConstitution(asSold(PR.PROPOSED.committed));
+      check('...and priced the way the College actually sells, that cheaper tariff does NOT',
+        !cheap.holds,
+        `${(cheap.retainedShare * 100).toFixed(2)}% retained against a ${(committed.required !== undefined ? committed.required * 100 : 50).toFixed(0)}% requirement`);
+      check('...while the committed tariff holds under the model it is sold in',
+        committed.holds,
+        `${(committed.retainedShare * 100).toFixed(2)}% retained`);
+      /* And it is the cheapest that does — solved regionally, from the
+         tariff it replaced, with the adopted Independent fee pinned. */
+      const regional = PF.solveBase(PF.SUPERSEDED_TARIFF);
+      check('...and it is the cheapest tariff that holds when solved that way',
+        regional.cheapest && regional.cheapest.base.guided === PR.PROPOSED.committed.directed
+        && regional.cheapest.base.tutored === PR.PROPOSED.committed.tutored,
+        regional.cheapest
+          ? `$${regional.cheapest.base.guided} / $${regional.cheapest.base.tutored} at ${regional.cheapest.k}\u00d7`
+          : 'none holds');
+    }
 
     /* ── The product must be worth the price the framework sets ──
        The old Directed specification gave four per cent contact and
@@ -527,6 +571,20 @@ if (fail) process.exit(1);
     const src = read(new URL('../scripts/publication/render-monograph.mjs', import.meta.url), 'utf8');
     check('...and Appendix C composes that sentence rather than asserting a direction',
       /architectureVerdict\(\)/.test(src) && /compare\(ARCH\)/.test(src));
+    /* AND SO DOES THE OTHER RENDERER, which is where this went wrong
+       the second time. The monograph's sentence was made to compose
+       itself; the Roadmap's two were not, and by the next correction
+       the paragraph headed "The trade, stated plainly" was rendering
+       "gives up $−11.00M of ten-year surplus" and "gains −1% more
+       active learners" — every clause sign-inverted, in a Board
+       paper. A fix applied to one of two renderers is half a fix. */
+    const road = read(new URL('../scripts/publication/render-masterplan.mjs', import.meta.url), 'utf8');
+    check('...and the Roadmap composes its two comparison sentences the same way',
+      /verdictParagraph\(\)/.test(road) && /verdictClause\(\)/.test(road) && /compare\(ARCH\)/.test(road));
+    check('...and neither renderer still subtracts the two totals in a fixed direction in prose',
+      !/gives up <strong>\$\{m\$\(ARCH\.adopted/.test(road)
+      && !/gains <strong>\$\{pct\(ARCH\.proposed/.test(road)
+      && !/more revenue and confers/.test(road));
     /* The two phrasings this page has already been wrong in. Neither
        may return as literal text, whichever way the model falls. */
     const handWritten = /collects \$\{[^}]*\} LESS|fewer learners —|more on every dimension|wins on every/i.test(src);

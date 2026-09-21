@@ -22,7 +22,8 @@ import * as PR from './pricing.mjs';
 import * as AL from './allocation.mjs';
 import * as PF from './portfolio.mjs';
 import { scenarios as priceScenarios, architectures, compare } from './projection.mjs';
-import { RISKS, GOVERNANCE, GOVERNANCE_COLUMNS, PHASES } from './plan-narrative.mjs';
+import { RISKS, GOVERNANCE, GOVERNANCE_COLUMNS, PHASES, PHASE_COLUMNS,
+  EXCLUSIONS, EXCLUSION_COLUMNS } from './plan-narrative.mjs';
 
 const ROOT = path.resolve(new URL('../..', import.meta.url).pathname);
 const OUT = path.join(ROOT, 'publication');
@@ -52,6 +53,12 @@ const P_ = {
 };
 const PA = PLAN.proposed_architecture;
 const EV = JSON.parse(readFileSync(path.join(ROOT, 'data/market-evidence.json'), 'utf8'));
+/* THE REGISTER OF INSTRUMENTS AND THE CONSTITUTED BODIES. Both are
+   kept by the College, both are dated, and neither had ever reached
+   this publication — Part VII asserted a separation of authority that
+   the two files behind it could have evidenced in a table. */
+const INST = JSON.parse(readFileSync(path.join(ROOT, 'data/instruments.json'), 'utf8'));
+const BODY = JSON.parse(readFileSync(path.join(ROOT, 'data/institution.json'), 'utf8'));
 const PERIOD = `${PLAN.planning_period.first_year}–${PLAN.planning_period.first_year + PLAN.planning_period.years - 1}`;
 
 const usd = (n, d = 0) => '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
@@ -88,6 +95,15 @@ const DESCRIPTOR = {
  * reading sits at the foot under a struck rule and says what the table
  * is for, which is work the document needed anyway.
  */
+/* A remit in one sentence. Seven committees set out at full length
+   ran the page ninety pixels past its trim; the first sentence of each
+   is the part that says what the committee is FOR, and the rest is
+   what it does about it. */
+const firstSentence = (t) => {
+  const m = String(t).match(/^[^.]+\./);
+  return m ? m[0] : String(t);
+};
+
 const tableWithReading = (spec, reading, opts = {}) => M.page(
   `<div>${M.table(spec)}</div>
    <div class="rd${reading.columns ? ' rd--col' : ''}">
@@ -129,6 +145,14 @@ const figAmort = () => F.amortisation(
       note: `${t.agreements.toFixed(0)} agreements × ${t.seatsPerAgreement.toFixed(0)} seats` };
   }));
 const figRisk = () => F.riskMatrix(RISKS);
+/* THE ONLY PART OF THE DECADE THAT ASKS THE BOARD FOR ANYTHING, and
+   on a nought-to-nineteen-million plate it is four hundredths of the
+   drawing. Its own scale, on its own page. */
+const figFunding = () => F.fundingRequirement([
+  { label: 'High Growth', short: 'Growth', years: PSC.growth.years },
+  { label: 'Core Plan', short: 'Core', years: PSC.core.years },
+  { label: 'Conservative', short: 'Conservative', years: PSC.conservative.years },
+]);
 
 /* ── THE SENTENCE THAT KEPT GOING STALE ──────────────────────────────
    Appendix C's closing line describes how the proposal compares with
@@ -185,6 +209,32 @@ const figReserve = () => F.reserveAgainstTarget(reserveYears(), {
 });
 const figCapacity = () => F.capacityLoad(CORE.years);
 const RESERVE_MET = reserveYears().find((y) => y.reserve >= y.target);
+
+/* ── THE DEEPEST POINT, PER CASE ─────────────────────────────────────
+   Read off the model rather than quoted, because the trough has moved
+   with every correction to the channel and regional models and a
+   figure typed into a Board paper does not move with it. */
+const troughOf = (run) => {
+  const deep = run.years.reduce((d, y) => (y.cumulativeSurplus < d.cumulativeSurplus ? y : d), run.years[0]);
+  const turn = run.years.find((y) => y.cumulativeSurplus > 0);
+  return {
+    value: deep.cumulativeSurplus,
+    calendar: deep.calendar,
+    years: run.years.filter((y) => y.cumulativeSurplus <= 0).length,
+    turns: turn ? turn.calendar : 'not inside the decade',
+  };
+};
+/* THE YEAR THE RESERVE FIRST COVERS THE WHOLE STANDING TEACHING
+   OBLIGATION — an upper bound, taken as a full year of delivery for
+   every learner under instruction. */
+const COVER_YEAR = CORE.years.find((y) => y.reserve >= y.delivery);
+const COVER_FROM = COVER_YEAR ? COVER_YEAR.calendar : null;
+
+const TROUGH = {
+  core: troughOf(PSC.core),
+  conservative: troughOf(PSC.conservative),
+  growth: troughOf(PSC.growth),
+};
 const TURNED_AWAY = CORE.years.reduce((t, y) => t + y.turnedAwayByCapacity, 0);
 
 /* ── THE SEVEN CHAPTER DATUMS ────────────────────────────────────────
@@ -373,13 +423,19 @@ function build() {
         { t: 'Three scenarios', f: PAGES_OF.scenarios || 0 }] },
       { part: 'VI · The Ten-Year Strategy', rows: [
         { t: 'Five phases', f: PAGES_OF.phases || 0 },
+        { t: 'What has to be true to leave a phase', f: PAGES_OF.gates || 0 },
+        { t: 'The whole of the capital requirement', f: PAGES_OF.gates ? PAGES_OF.gates + 1 : 0 },
         { t: 'The order the markets open in', f: PAGES_OF.sequence || 0 },
+        { t: 'What the College will not do', f: PAGES_OF.exclusions || 0 },
         { t: 'What the College measures', f: PAGES_OF.measures || 0 }] },
       { part: 'VII · Governance and Resilience', rows: [
         { t: 'Where a decision stops', f: PAGES_OF.gov || 0 },
+        { t: 'The instruments the College is governed by', f: PAGES_OF.instruments || 0 },
+        { t: 'The constituted bodies', f: PAGES_OF.bodies || 0 },
         { t: 'The institutional risk register', f: PAGES_OF.risks || 0 },
         { t: 'The response, and who owns it', f: PAGES_OF.response || 0 },
-        { t: 'Resilience and financial governance', f: PAGES_OF.resilience || 0 }] },
+        { t: 'Resilience and financial governance', f: PAGES_OF.resilience || 0 },
+        { t: 'If the College could not continue', f: PAGES_OF.continuity || 0 }] },
       { part: 'VIII · The Board Charter', rows: [
         { t: 'The principles the College is asked to establish', f: PAGES_OF.charter || 0 }] },
       { part: 'Appendices', rows: [
@@ -961,8 +1017,10 @@ function build() {
       say: 'Five phases, and what has to be true at the end of each before the next one begins.',
       datum: datDecade(),
       caption: `Ten years of net tuition, with ${CORE.years[TURN].calendar} struck — the year cumulative surplus first crosses nil.`,
-      contains: [{ t: 'Five phases', f: PAGES_OF.phases || '' },
+      contains: [{ t: 'Five phases, and the gate on each', f: PAGES_OF.gates || '' },
+        { t: 'The whole of the capital requirement', f: PAGES_OF.gates ? PAGES_OF.gates + 1 : '' },
         { t: 'The order the markets open in', f: PAGES_OF.sequence || '' },
+        { t: 'What the College will not do', f: PAGES_OF.exclusions || '' },
         { t: 'What the College measures', f: PAGES_OF.measures || '' }] }),
     M.page(`
       <p class="fg__eye">The ten-year roadmap</p>
@@ -971,6 +1029,50 @@ function build() {
     const y = CORE.years[ph.yearIndex];
     return { ...ph, figure: `${num(y.activeLearners)} under instruction &middot; ${m$(y.netTuition)} net tuition` };
   }))}</div>`, { runhead: 'The Ten-Year Strategy', tone: 'pal pal--editorial' })
+  ));
+
+  /* ── THE PHASES, MADE FALSIFIABLE ─────────────────────────────────
+     The part opener has always promised "what has to be true at the
+     end of each before the next one begins". The timeline facing it
+     carried five names, five date ranges and five paragraphs of
+     intent, and not one condition. A phase that cannot fail is not a
+     phase; it is a calendar with Roman numerals on it. */
+  at('gates');
+  push(...S.spread(
+    tableWithReading({
+      title: 'What has to be true to leave a phase',
+      sub: 'Five gates, each observable by somebody outside the room the decision is taken in.',
+      /* THREE COLUMNS, NOT FOUR. Four columns of this much prose ran
+         the page 166px past its own trim, which the renderer refuses
+         to print. The observation belongs under the condition it
+         observes in any case: they are one statement. */
+      head: ['Phase', 'What must be true to leave it, and how that is observed', 'If it is not'],
+      rows: PHASES.map((ph) => [
+        `<b>${ph.numeral} &middot; ${M.esc(ph.name)}</b><s>Years ${M.esc(ph.years)}</s>`,
+        { v: `${M.esc(ph.gate)}<s>${M.esc(ph.observed)}</s>`, cls: 'unit' },
+        { v: M.esc(ph.ifNot), cls: 'unit' }]),
+      source: 'Authored judgement. The observations are of things the College already records; the consequences are decisions the Board is asked to pre-commit to.',
+    }, { title: 'A phase gated on a date is not a phase', columns: true, body: `
+      <p>Most plans of this kind advance because the year ended. This one advances on evidence: each gate names what must be true, where it is recorded, and what the College does instead if it is not there. <strong>Validation does not begin because it is Year Three</strong> — it begins when the cumulative position crosses nil and an External Examiner is reporting, which is ${TROUGH.core.turns} on the Core Plan and ${TROUGH.conservative.turns} on the Conservative case.</p>
+      <p>And <strong>Maturity confers no permission to apply for accreditation.</strong> It requires a completed cohort and an examiner’s confirmation to put behind the application.</p>` },
+    { runhead: 'The Ten-Year Strategy', tone: 'pal pal--editorial' }),
+    S.figurePage({
+      palette: 'luminous',
+      eyebrow: 'What the Board is actually asked for', title: 'The whole of the capital requirement',
+      sub: 'Cumulative position, each case drawn as far as the year it turns.',
+      figure: figFunding(),
+      reading: { head: 'A patience requirement, not a capital raise', body: `
+        <p>Everything else in this publication is drawn across the decade, and on a scale that runs to ${m$(PSC.core.totals.surplus)} the only part of the plan that asks the Board for anything is four hundredths of the plate. This is that part, at its own scale.</p>
+        <p>The institution is in cumulative deficit for its first ${TROUGH.core.years} years and its deepest point on the Core Plan is <strong>${m$(Math.abs(TROUGH.core.value))}</strong>. If the plan underperforms to the Conservative case the deepest point is <strong>${m$(Math.abs(TROUGH.conservative.value))}</strong>, reached in ${TROUGH.conservative.calendar}, and the crossing moves to ${TROUGH.conservative.turns}.</p>
+        <p><strong>The larger of those two numbers is the size of the ask.</strong> It is not a capital raise against a ten-year return; it is the working capital of an institution that is teaching and being paid from its second year, and a Board that can fund the worst case has funded the plan.</p>` },
+      note: `${M.mark('modelled')} Cumulative surplus, not cash at bank.`,
+      strip: [
+        { k: 'Deepest point, Core', v: m$(Math.abs(TROUGH.core.value)), s: `In ${TROUGH.core.calendar}` },
+        { k: 'Deepest point, Conservative', v: m$(Math.abs(TROUGH.conservative.value)), s: `In ${TROUGH.conservative.calendar}` },
+        { k: 'Turns, Core', v: String(TROUGH.core.turns), s: 'Cumulative above nil' },
+        { k: 'Turns, Conservative', v: String(TROUGH.conservative.turns), s: 'Two years later, and still inside the decade' },
+      ],
+      runhead: 'The Ten-Year Strategy' })
   ));
 
   at('sequence');
@@ -1005,6 +1107,46 @@ function build() {
         { k: 'Served first', v: 'Continuing', s: 'Before any new admission' },
       ],
       runhead: 'The Ten-Year Strategy' })
+  ));
+
+  /* ── THE NEGATIVE SPACE OF A STRATEGY ─────────────────────────────
+     The positions collected here are made in passing throughout this
+     publication — in the tariff, in the capacity model, in the
+     honesty register, in the governance schedule. None of them had
+     ever been set out as a set, and a plan that states only its
+     appetite has described an appetite. */
+  at('exclusions');
+  push(...S.spread(
+    tableWithReading({
+      title: 'What the College will not do',
+      sub: 'Eight positions, each enforced somewhere in this plan rather than promised here.',
+      head: EXCLUSION_COLUMNS,
+      rows: EXCLUSIONS.map(([what, why, held]) => [
+        `<b>${M.esc(what)}</b>`, { v: M.esc(why), cls: 'unit' }, M.esc(held)]),
+      source: 'Authored, and enforced: by a published band, by a build that fails, or by a model that refuses to book the enrolment.',
+    }, { title: 'Why this page exists', columns: true, body: `
+      <p>Each of these is a decision already taken, and each could be quietly reversed in a bad quarter. Collected on one page they are harder to reverse quietly.</p>` },
+    { runhead: 'The Ten-Year Strategy', tone: 'pal pal--editorial' }),
+    S.marginPage({
+      runhead: 'The Ten-Year Strategy',
+      tone: 'pal pal--editorial',
+      side: S.marginNote('Enforced, not promised',
+        'Three of the eight are enforced by the build itself: a personal name in an office with no appointment behind it, a numeral the record cannot source, and an unbacked superlative each fail a test and stop the publication being produced at all.')
+        + S.marginNote('The cost of the fifth',
+          `Refusing to admit beyond capacity is the one exclusion with a published price. Over the decade the Core Plan turns away ${num(TURNED_AWAY)} learners it could have enrolled and does not book their tuition.`),
+      main: `
+        <p class="op__num">The other half of a strategy</p>
+        <div class="op__rule"></div>
+        <div class="op__arg">
+          <p>A ten-year plan is usually a list of intentions, and intentions are cheap because nothing in them can be breached. What an institution refuses to do is the part a reader can hold it to, and it is the part that costs something.</p>
+          <h3>Each of these has a price</h3>
+          <p>Not discounting below a published band loses agreements. Not opening an unresearched market leaves the fourth region closed for three years. Not admitting beyond the establishment forfeits real tuition in every year of the decade, and the plan prints that number rather than smoothing it into the reach assumption.</p>
+          <h3>And each has a reason that outlives the quarter</h3>
+          <p>A band that bends once is not a band. A market entered on optimism is an acquisition budget divided by hope. A cohort admitted beyond the timetable is a promise made to a learner that somebody else will have to break.</p>
+          <h3>What the Board is asked to do with them</h3>
+          <p>Nothing, while they hold. These are not proposals; they are the positions on which the rest of the plan was computed. A Board wishing to relax one would be changing the model rather than the presentation.</p>
+        </div>`,
+    })
   ));
 
   at('measures');
@@ -1054,9 +1196,11 @@ function build() {
     datum: datAuthority(),
     caption: 'Authority narrows as it descends. The struck tier is the one that cannot be overruled on an academic question, which is the single most important fact about the structure.',
     contains: [{ t: 'Where a decision stops', f: PAGES_OF.gov || '' },
+      { t: 'The instruments, and who adopted each', f: PAGES_OF.instruments || '' },
+      { t: 'The constituted bodies', f: PAGES_OF.bodies || '' },
       { t: 'The institutional risk register', f: PAGES_OF.risks || '' },
-      { t: 'The response, and who owns it', f: PAGES_OF.response || '' },
-      { t: 'Resilience and financial governance', f: PAGES_OF.resilience || '' }] });
+      { t: 'Resilience and financial governance', f: PAGES_OF.resilience || '' },
+      { t: 'If the College could not continue', f: PAGES_OF.continuity || '' }] });
   const govTable = M.tablePages({
     title: 'Governance and authority',
     sub: 'Who decides what, and the separations that protect a learner.',
@@ -1066,6 +1210,66 @@ function build() {
     source: 'Several offices named here are defined and unfilled. The College does not publish a person into an office they have not accepted.',
   }, 9, { runhead: 'Governance and Resilience', tone: 'pal pal--scholarly' });
   push(...S.spread(authorityPage, govTable[0]), ...govTable.slice(1));
+
+  /* ── THE REGISTER THIS PART ASSERTED AND NEVER SHOWED ─────────────
+     Part VII has always told the reader that authority in this College
+     is separated, and that academic judgement cannot be overturned on
+     commercial grounds. The College keeps a dated register of the
+     twenty-four instruments that effect that separation, naming the
+     authority that adopted each and the day it did. The publication
+     had never printed a line of it, so the strongest evidence in the
+     building sat in a file while the page made the argument on its
+     own authority. */
+  at('instruments');
+  onRecto();
+  const INSTRUMENTS = INST.instruments.filter((x) => x.en && x.en.title);
+  const AUTH = (k) => (INST.authorities[k] ? INST.authorities[k].en.name : k);
+  push(...M.tablePages({
+    title: 'The instruments the College is governed by',
+    sub: `${INSTRUMENTS.length} adopted instruments, each with the authority that adopted it and the day it did.`,
+    head: ['Instrument', 'What it governs', 'Adopted by', 'Adopted'],
+    rows: INSTRUMENTS.map((x) => [
+      `<b>${M.esc(x.en.title)}</b><s>${M.esc(x.kind)}</s>`,
+      { v: M.esc(x.en.governs), cls: 'unit' },
+      M.esc(AUTH(x.adopted_by)),
+      M.esc(x.adopted_on || '—')]),
+    source: `${M.mark('verified')} Read from the College’s own register of instruments. Adoption is an internal act of the authority named; none of these instruments has been approved, endorsed or ratified by any body outside the College, and the register says so on its own face.`,
+  }, 8, { runhead: 'Governance and Resilience', tone: 'pal pal--scholarly' }));
+
+  /* ── WHO ADVISES, WHO APPROVES, AND WHY THE LINE IS SHARP ─────────*/
+  at('bodies');
+  push(...S.spread(
+    tableWithReading({
+      title: 'The constituted bodies',
+      sub: 'Five bodies beneath the Commission and the Senate, each with a remit and a body it reports to.',
+      head: ['Body', 'Remit', 'Reports to', 'Standing'],
+      rows: BODY.bodies.map((b) => [
+        `<b>${M.esc(b.en.name)}</b><s>${M.esc(b.code)}</s>`,
+        { v: M.esc(b.en.remit), cls: 'unit' },
+        M.esc(b.reports_to),
+        M.esc(b.status === 'established' ? 'Established' : b.status)]),
+      source: `${M.mark('verified')} A body is established when its remit is adopted and it has somewhere to report. It is not established by being named in a prospectus.`,
+    }, { title: 'It advises; it does not approve', columns: true, body: `
+      <p>The International Advisory Council is the sharpest case and the reason the column exists. It advises on curriculum, employability, technology and international partnership, and <strong>nothing it says becomes policy without a decision of the Senate or the Commission</strong> — the record naming which.</p>
+      <p>An advisory council with approval powers is a second senate nobody voted for. Keeping that line sharp is what makes outside advice worth taking.</p>` },
+    { runhead: 'Governance and Resilience', tone: 'pal pal--scholarly' }),
+    S.marginPage({
+      runhead: 'Governance and Resilience',
+      tone: 'pal pal--scholarly',
+      side: S.marginNote('The Commission',
+        M.esc(BODY.commission.en.remit))
+        + S.marginNote('The one office that cannot be filled from inside',
+          `${M.esc(BODY.external_examiner.en.remit)} The office is defined and <strong>unfilled</strong>: no External Examiner has been appointed, and the College does not publish a person into an office they have not accepted.`),
+      main: `
+        <p class="op__num">Quality, and who owns it</p>
+        <div class="op__rule"></div>
+        <div class="op__arg">
+          <p>Beneath the Institutional Quality Commission sit ${BODY.subcommittees.length} standing committees, each holding one part of the distance between what the College publishes about itself and what it does.</p>
+          ${BODY.subcommittees.map((c) => `<p><strong>${M.esc(c.en.name)}</strong> — ${
+  M.esc(firstSentence(c.en.remit))}</p>`).join('')}
+        </div>`,
+    })
+  ));
 
   at('risks');
   const riskMatrixPage = S.figurePage({
@@ -1163,6 +1367,48 @@ function build() {
           <h3>When a risk lands</h3>
           <p>Every risk in the register overleaf carries an early warning somebody can observe and a named office accountable for the response. A risk with a warning and no owner is a paragraph; a risk with an owner and no warning is a hope.</p>
         </div>`,
+    })
+  ));
+
+  /* ── WHAT THE RESERVE IS ACTUALLY FOR ─────────────────────────────
+     The publication has carried a reserve policy, a target in months
+     of operating cost and a plate of one climbing against the other
+     for several revisions, and never once said what the reserve is
+     held AGAINST. The answer is the only obligation an educational
+     institution cannot walk away from: the learners already under
+     instruction, who have paid for a level they have not finished.
+
+     The model has held both halves of that arithmetic from the
+     beginning — the standing cohort and the cost of teaching it — and
+     the comparison had never been struck. */
+  at('continuity');
+  onRecto();
+  push(...S.spread(
+    tableWithReading({
+      title: 'If the College could not continue',
+      sub: 'The standing teaching obligation, and the year the reserve first covers the whole of it.',
+      head: ['Year', 'Under instruction', 'A full year of teaching', 'Reserve held', 'Covered'],
+      rows: CORE.years.map((y) => {
+        const covered = y.reserve >= y.delivery;
+        return { em: covered && y.calendar === COVER_FROM, cells: [
+          String(y.calendar), num(y.activeLearners), m$(y.delivery), m$(y.reserve),
+          { v: covered ? M.mark('struck') : M.mark('ring'), cls: 'unit' }] };
+      }),
+      source: `${M.mark('modelled')} “A full year of teaching” is the delivery cost of every level taught to every learner under instruction in that year. The true teach-out obligation — finishing the level each learner has already begun — is a fraction of it, so this is an upper bound and is stated as one.`,
+    }, { title: 'The obligation nobody can hand back', columns: true, body: `
+      <p>A College that closes owes its learners the level they have paid for and begun. That obligation does not negotiate, it cannot be refinanced, and it is the reason this institution holds a reserve at all.</p>
+      <p>${COVER_FROM ? `From <strong>${COVER_FROM}</strong> the reserve exceeds an entire year of teaching for the whole standing cohort — which is strictly more than a teach-out would cost. Before that year it does not, and the plan says so rather than describing the reserve as protection it has not yet accumulated.` : 'The reserve does not reach a full year of teaching inside the decade, and that is stated rather than smoothed.'}</p>` },
+    { runhead: 'Governance and Resilience', tone: 'pal pal--scholarly' }),
+    S.statementPage({
+      palette: 'ceremonial',
+      eyebrow: 'The commitment the Board is invited to adopt',
+      statement: 'A learner who has begun a level is <em>taught to the end of it</em>.',
+      sub: `The Board is invited to adopt the standing obligation as a first charge on the Institutional Reserve, ranking ahead of every discretionary use: that a learner under instruction is taught to the end of the level they have begun, that fees taken for a level not yet begun are returned, and that the register of awards remains verifiable by a stranger whatever becomes of the institution that conferred them. On the Core Plan the reserve first exceeds a full year of teaching in ${COVER_FROM || 'no year inside the decade'}, against a standing cohort of ${num(CORE.totals.y10Active)} at year ten.`,
+      foot: [
+        { k: 'Standing cohort, year ten', v: num(CORE.totals.y10Active) },
+        { k: 'Reserve, year ten', v: m$(CORE.years[9].reserve) },
+        { k: 'Fully covered from', v: COVER_FROM ? String(COVER_FROM) : 'Not inside the decade' },
+      ],
     })
   ));
 

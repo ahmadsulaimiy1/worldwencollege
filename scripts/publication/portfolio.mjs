@@ -505,10 +505,32 @@ export function seat(intensityKey, regionKey, payerKey, base, agreementCost = 98
   /* A sponsored seat in a region the retail tariff cannot reach is
      priced from the FLOOR rather than from a tariff that does not
      exist there. */
-  const gross = inv.offered ? inv.published : inv.floor;
   const band = payer.band ? BANDS.find((b) => payer.band >= b.from && (b.to === null || payer.band <= b.to)) : null;
-  const discount = band ? band.rate : 0;
-  const seatPrice = round50(gross * (1 - discount));
+  /* ════════════════════════════════════════════════════════════════
+     A BAND IS A DISCOUNT OFF A PUBLISHED PRICE. IT IS NOT A DISCOUNT
+     OFF THE FLOOR, AND THIS APPLIED IT TO BOTH.
+     ════════════════════════════════════════════════════════════════
+     Where a market carries the route at retail the seat is the
+     published tariff less the College's own published partner band,
+     which is what a band is for.
+
+     Where it does not — Asia and West Africa carry no taught route at
+     retail — the seat was priced from the contribution FLOOR and then
+     the band was taken off that as well. The floor is delivery cost
+     plus the minimum contribution the College says it will accept; a
+     number below it is not a discount, it is a breach of the rule the
+     floor exists to state. A sponsored seat came out at $8,500 against
+     a floor of $10,600 and a bare delivery cost of $8,147 — a 4 per
+     cent contribution against a stated 30, which after acquisition and
+     the development allocation is a seat sold at a loss, in the two
+     markets the institutional channels exist to reach.
+
+     So the floor is the price. It is already the concessionary number;
+     there is nothing further to concede. */
+  const discount = inv.offered && band ? band.rate : 0;
+  const seatPrice = inv.offered
+    ? round50(inv.published * (1 - discount))
+    : round50(inv.floor);
   /* SEATS PER AGREEMENT ARE ELASTIC, AND THE ACQUISITION COST FOLLOWS
      THEM. This reported `agreementCost / PAYERS[key].seats` — the
      static figure — while the projection books the price-elastic

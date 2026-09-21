@@ -14,7 +14,7 @@ import { chromium } from 'playwright';
 import { model, allScenarios, allocation, breakEven, sensitivity, alternativeA, basis, PLAN } from './masterplan.mjs';
 import * as A from './masterplan-art.mjs';
 import * as PR from './pricing.mjs';
-import { architectures, scenarios as priceScenarios, project as priceProject } from './projection.mjs';
+import { architectures, scenarios as priceScenarios, project as priceProject, compare } from './projection.mjs';
 /* The risk register and the governance schedule are AUTHORED judgements,
    and they are now shared with the monograph rather than retyped into
    it — two documents carrying their own copy of a twenty-row register
@@ -43,6 +43,51 @@ const CORE = PSC.core;
 const TARIFF = Object.fromEntries(['directed', 'tutored', 'execCore', 'execPremium', 'execBespoke']
   .map((k) => [k, PR.tariff(k)]));
 const PATH = PR.PROPOSED.committed;
+
+/* ── THE COMPARISON, COMPOSED RATHER THAN ASSERTED ───────────────────
+   Two paragraphs of this document described the proposal as giving up
+   surplus and buying reach. That was true of the architecture as it
+   stood when they were written, and the model has since moved three
+   times — institutional channels, regional pricing, and the year each
+   channel actually opens. By the last of those the templates were
+   rendering "gives up $−11.00M of ten-year surplus" and "gains −1%
+   more active learners": every clause sign-inverted, in the one
+   paragraph of a Board paper headed "The trade, stated plainly".
+
+   `compare()` reads the direction off the model. These compose the
+   English from it, in both the directions the model can fall. */
+const andList = (xs) => (xs.length < 2 ? (xs[0] || '')
+  : `${xs.slice(0, -1).join(', ')} and ${xs[xs.length - 1]}`);
+const sizeOf = (d) => (d.unit === 'money'
+  ? `${m$(Math.abs(d.delta))} of ${d.noun}`
+  : `${num(Math.round(Math.abs(d.delta)))} ${d.noun}`);
+const verdictClause = () => {
+  const c = compare(ARCH);
+  if (!c.behind.length) return `it is ahead on ${andList(c.ahead.map(sizeOf))}`;
+  return `it gives up ${andList(c.behind.map(sizeOf))} and buys ${andList(c.ahead.map(sizeOf))}`;
+};
+const verdictParagraph = () => {
+  const c = compare(ARCH);
+  const retained = `It retains <strong>${pct(c.ourMargin, 1)}</strong> of what it collects against `
+    + `<strong>${pct(c.theirMargin, 1)}</strong>.`;
+  if (!c.behind.length) {
+    return `Against the adopted flat tariff the proposal is ahead on ${andList(c.ahead.map(sizeOf))}. `
+      + `A proposal ahead on every dimension deserves the question a Board should ask of it, and the `
+      + `answer is structural rather than flattering: a single fee is one number for four markets. It `
+      + `stands above what two of them will pay, so the flat tariff forfeits the learners; and below `
+      + `what the other two will, so it forfeits the margin. The portfolio does not beat it by `
+      + `charging more. It beats it by charging each market separately, and by reaching the two `
+      + `markets that carry no taught route at retail through an institutional buyer instead of a `
+      + `price list. ${retained}`;
+  }
+  return `Against the adopted flat tariff the proposal gives up <strong>${
+    andList(c.behind.map(sizeOf))}</strong> — two of the College's four markets carry no taught route `
+    + `at retail, and a flat fee books income from learners who would not have enrolled at it — and `
+    + `buys ${andList(c.ahead.map(sizeOf))}. ${retained} Management recommends that trade for two `
+    + `reasons. The alumni it produces lower the cost of every later acquisition, so the position `
+    + `compounds beyond Year 10 in the proposal's favour. And an institution is measured by what it `
+    + `confers.`;
+};
 const PA = PLAN.proposed_architecture;
 /* The market research, read from the file that records it with sources.
    Nothing about the outside world is typed into this publication. */
@@ -236,7 +281,7 @@ function document() {
     ${h2('The seven findings a board should take from this plan')}
     ${p(`<strong>One.</strong> <em>On the adopted flat ${usd(B.programmeTotal)} tariff</em>, the institution breaks even in <strong>${FIRST_CLEAR ? FIRST_CLEAR.calendar : 'no modelled year'}</strong>, at ${FIRST_CLEAR ? num(FIRST_CLEAR.breakEvenLearners) : '—'} active learners, and clears it in every subsequent year of the expected case. It does not require a step change in enrolment to become self-funding; it requires the third year.`)}
     ${p(`<strong>Two.</strong> Continuation between levels, not acquisition, is the decisive variable. A ten-point fall in continuation costs more over the decade than a thirty per cent rise in the cost of acquiring a learner. From Year 4 the marginal pound is better spent keeping a learner than finding one.`)}
-    ${p(`<strong>Three.</strong> <strong>Management proposes a new commercial architecture</strong> ${chip('board')}, built from delivery cost upward rather than adjusted from an existing figure: a Directed pathway at ${usd(PATH.directed)}, Tutored at ${usd(PATH.tutored)}, and Executive tiers at ${usd(PATH.execCore)}, ${usd(PATH.execPremium)} and ${usd(PATH.execBespoke)}. Against the adopted flat tariff it earns ${m$(ARCH.proposed.totals.revenue - ARCH.adopted.totals.revenue)} more revenue and confers ${pct(ARCH.proposed.totals.awards / ARCH.adopted.totals.awards - 1, 0)} more awards, for ${m$(ARCH.adopted.totals.surplus - ARCH.proposed.totals.surplus)} less surplus. Against the brief's ${usd(AA.directed_total_usd)} / ${usd(AA.tutored_total_usd)} it earns ${m$(ARCH.proposed.totals.surplus - ARCH.briefA.totals.surplus)} more surplus at ${pct(ARCH.proposed.totals.y10Active / ARCH.briefA.totals.y10Active, 0)} of its scale. ${ref('validation')} to ${ref('architectures')} set out the whole analysis.`)}
+    ${p(`<strong>Three.</strong> <strong>Management proposes a new commercial architecture</strong> ${chip('board')}, built from delivery cost upward rather than adjusted from an existing figure: a Directed pathway at ${usd(PATH.directed)}, Tutored at ${usd(PATH.tutored)}, and Executive tiers at ${usd(PATH.execCore)}, ${usd(PATH.execPremium)} and ${usd(PATH.execBespoke)}. Against the adopted flat tariff ${verdictClause()}. Against the brief's ${usd(AA.directed_total_usd)} / ${usd(AA.tutored_total_usd)} it earns ${m$(ARCH.proposed.totals.surplus - ARCH.briefA.totals.surplus)} more surplus at ${pct(ARCH.proposed.totals.y10Active / ARCH.briefA.totals.y10Active, 0)} of its scale. ${ref('validation')} to ${ref('architectures')} set out the whole analysis.`)}
     ${p(`<strong>Four.</strong> <strong>The plan this one replaces did not survive contact with published prices.</strong> An earlier draft proposed a dearer tariff on ${m$(PA.superseded_pathway_usd.projected_ten_year_revenue_usd)} of revenue and ${m$(PA.superseded_pathway_usd.projected_ten_year_surplus_usd)} of surplus, using willingness-to-pay figures that were asserted. Researched against ${num(EV_COUNT)} published tariffs from ${num(EV_SOURCES)} identifiable sources, every segment came in lower — West Africa by two thirds. The withdrawn plan is recorded rather than quietly replaced, and ${ref('validation')} states what was found, including the ${num(EV.gaps.length)} markets and questions the research could not answer.`)}
     ${p(`<strong>Five.</strong> <strong>The Directed price is the output of a constraint the Board is asked to set, not a number management picked.</strong> A buyer priced out of tuition does not leave — they step down to the Independent route and sit the same examinations untaught, so surplus can always be bought by teaching fewer of the people the College credentials. Management proposes that WEC-LC teach at least ${pct(PR.PROPOSED.teachingMajority, 0)} of them; the price that follows is ${usd(PATH.directed)}. Move the constraint and the price moves with it. ${chip('board')}`)}
     ${p(`<strong>Six.</strong> <strong>The reserve rule in ${ref('liquidity')} is not met at any price tested, inside ten years.</strong> The Core case closes the decade holding ${m$(CY10.reserve)} against a target near ${m$(RESERVE_TARGET)}. This is not solved by charging more. It requires a founding capital contribution, a longer horizon to full reserve, or a lower target, and the plan puts all three to the Board rather than choosing one. ${chip('board')}`)}
@@ -648,7 +693,7 @@ function document() {
       ],
       'WEC-LC Pricing and Projection Model. PROPOSED / MODELLED throughout.')}
     ${h2('The trade, stated plainly')}
-    ${p(`Against the adopted flat tariff the proposal gives up <strong>${m$(ARCH.adopted.totals.surplus - ARCH.proposed.totals.surplus)}</strong> of ten-year surplus. It gains <strong>${pct(ARCH.proposed.totals.y10Active / ARCH.adopted.totals.y10Active - 1, 0)}</strong> more active learners by Year 10 and <strong>${pct(ARCH.proposed.totals.awards / ARCH.adopted.totals.awards - 1, 0)}</strong> more level awards conferred across the decade, on ${m$(ARCH.proposed.totals.revenue - ARCH.adopted.totals.revenue)} more revenue. Management recommends that trade for two reasons. The alumni it produces lower the cost of every later acquisition, so the position compounds beyond Year 10 in the proposal's favour. And an institution is measured by what it confers.`)}
+    ${p(verdictParagraph())}
     ${p(`Against the brief's ${usd(AA.directed_total_usd)} / ${usd(AA.tutored_total_usd)} architecture the proposal earns <strong>${m$(ARCH.proposed.totals.surplus - ARCH.briefA.totals.surplus)}</strong> more surplus while still reaching ${pct(ARCH.proposed.totals.y10Active / ARCH.briefA.totals.y10Active, 0)} of its scale. The brief's tariff is not too low because it is cheap; it is too low because it does not cover the teaching it promises.`)}
     ${table('The Core Management Plan, year by year', 'Proposed architecture, Core assumptions',
       ['Year', 'New learners', 'Active', 'Instructors', 'Net tuition', 'Delivery', 'Acquisition', 'Fixed', 'Development', 'Surplus', 'Margin', 'Cumulative'],
