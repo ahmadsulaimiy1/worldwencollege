@@ -241,7 +241,7 @@ const weightedWtp = (keys) => {
 
 export const REGIONS = {
   gulf: {
-    name: 'The Gulf',
+    name: 'The Gulf', short: 'Gulf',
     markets: 'Saudi Arabia, the United Arab Emirates, Qatar, Kuwait, Bahrain and Oman',
     segments: ['gccExec', 'gccProf'],
     reference: true,
@@ -250,7 +250,7 @@ export const REGIONS = {
     character: 'The most evidenced market the College holds, and the one where employer and family sponsorship is ordinary rather than exceptional.',
   },
   ukEurope: {
-    name: 'The United Kingdom and Europe',
+    name: 'The United Kingdom and Europe', short: 'UK & Europe',
     markets: 'The United Kingdom, Ireland and the European Union',
     segments: ['ukeu'],
     evidence: 'uk_presessional',
@@ -258,7 +258,7 @@ export const REGIONS = {
     character: 'Anchored on university pre-sessional English, the closest credentialed comparable the College has anywhere.',
   },
   asiaRow: {
-    name: 'Asia and the wider world',
+    name: 'Asia and the wider world', short: 'Asia & world',
     markets: 'South and East Asia, the Americas and markets not otherwise named',
     segments: ['row'],
     evidence: null,
@@ -266,7 +266,7 @@ export const REGIONS = {
     character: 'No reliable published tariff was found for this group and it is not a founding market. It is scaled between the Gulf and West African findings rather than researched, and it is marked as such wherever it appears.',
   },
   westAfrica: {
-    name: 'West Africa',
+    name: 'West Africa', short: 'West Africa',
     markets: 'Nigeria, Ghana and the wider West African region',
     segments: ['waf'],
     evidence: 'nigeria_published_rates',

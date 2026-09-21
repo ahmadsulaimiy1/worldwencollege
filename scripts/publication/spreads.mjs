@@ -220,6 +220,93 @@ export const spreadCss = () => `
 .m-colo__key p { margin: 0; font-family: ${FACE.text}; font-size: ${M.T.caption}pt;
   line-height: 12pt; color: rgba(252,250,245,.64); }
 
+/* ════════════════════════════════════════════════════════════════════
+   THE STATEMENT PAGE — the book's rhythm depends on it
+   ════════════════════════════════════════════════════════════════════
+   A publication of one density is a document. This is the page that
+   carries a single sentence at ceremonial size on a full field, and it
+   exists so that the analytical spreads around it land harder. There
+   are five of them in the book and no more; a sixth would make the
+   device a template instead of a moment. */
+.st { height: 100%; display: flex; flex-direction: column; justify-content: center; }
+.st__eye { font-family: ${FACE.data}; font-size: 5.8pt; font-weight: 600; letter-spacing: .05em;
+  text-transform: uppercase; color: var(--mark); margin: 0 0 9mm;
+  padding-bottom: 3.4mm; border-bottom: .9pt solid var(--mark); }
+.st__t { font-family: ${FACE.ceremonial}; font-weight: 400; font-size: 41pt; line-height: 47pt;
+  letter-spacing: -.014em; color: var(--title); margin: 0; }
+.st__t em { font-style: italic; color: var(--accent); }
+.st__sub { font-family: ${FACE.text}; font-size: ${M.T.lead}pt; line-height: 20.8pt;
+  color: var(--ink); margin: 11mm 0 0; max-width: ${M.col(8)}mm; }
+.st__foot { position: absolute; left: 0; right: 0; bottom: 0; display: flex;
+  gap: ${M.PAGE.gutter * 2}mm; border-top: 1.4pt solid var(--mark); padding-top: 3.4mm; }
+.st__foot div { flex: 1; }
+.st__foot k { display: block; font-family: ${FACE.data}; font-size: 5.2pt; font-weight: 600;
+  letter-spacing: .05em; text-transform: uppercase; color: var(--mark); margin-bottom: 1.8mm; }
+.st__foot v { display: block; font-family: ${FACE.display}; font-size: 13pt; line-height: 16pt;
+  color: var(--title); font-variant-numeric: lining-nums tabular-nums; }
+
+/* ── THE VALUE ARCHITECTURE ────────────────────────────────────────
+   Twelve components across a spread, ruled, numbered and set so that a
+   reader can find any one of them in a second. This is the page that
+   answers "what am I paying for", and it is the reason the book no
+   longer needs to answer it with an hourly rate. */
+.va { column-count: 2; column-gap: ${M.PAGE.gutter * 2.4}mm; column-fill: auto; height: 100%; }
+.va__i { break-inside: avoid; padding: 0 0 4.2mm; margin: 0 0 4.2mm;
+  border-bottom: .35pt solid var(--rule); }
+.va__i n { display: block; font-family: ${FACE.ceremonial}; font-size: 15pt; line-height: 15pt;
+  color: var(--mark); margin-bottom: 2mm; font-variant-numeric: lining-nums; }
+.va__i k { display: block; font-family: ${FACE.display}; font-weight: 500; font-size: 10.2pt;
+  line-height: 13pt; color: var(--title); margin-bottom: 1.4mm; }
+.va__i v { display: block; font-family: ${FACE.text}; font-size: ${M.T.caption}pt;
+  line-height: 11.8pt; color: var(--ink); }
+
+/* ── THE TARIFF, AS A READER MEETS IT ──────────────────────────────
+   Not a price list. A row is a KIND OF LEARNER, and the investment is
+   the last column because it is the last question, not the first. */
+.tf { width: 100%; border-collapse: collapse; }
+.tf th { font-family: ${FACE.data}; font-size: 5.4pt; font-weight: 600; letter-spacing: .05em;
+  text-transform: uppercase; color: var(--mark); text-align: left; padding: 0 3mm 3mm 0;
+  border-bottom: 1.4pt solid var(--mark); }
+.tf th:last-child, .tf td:last-child { text-align: right; padding-right: 0; }
+.tf td { padding: 3.4mm 3mm 3.4mm 0; border-bottom: .35pt solid var(--rule); vertical-align: top;
+  font-family: ${FACE.text}; font-size: ${M.T.caption}pt; line-height: 11.6pt; color: var(--ink); }
+.tf td.n { font-family: ${FACE.display}; font-weight: 500; font-size: 12.4pt; color: var(--title);
+  font-variant-numeric: lining-nums tabular-nums; white-space: nowrap; }
+.tf td.w { font-family: ${FACE.display}; font-weight: 500; font-size: 10.6pt; line-height: 13pt;
+  color: var(--title); }
+.tf td.w s { display: block; text-decoration: none; font-family: ${FACE.text};
+  font-size: ${M.T.micro}pt; line-height: 10.6pt; color: var(--soft); margin-top: 1.2mm; }
+.tf tr.sub td { border-bottom: .9pt solid var(--mark); }
+/* THE PAGE, NOT THE FIELD, HOLDS THE TABLE DOWN.
+   Composed as three children of a space-between field, the heading
+   and the table were thrown to opposite ends of the page and a reader
+   met sixty millimetres of nothing between a title and the thing it
+   titled. Wrapping them in one block fixed that and broke something
+   worse: the wrapper could then grow past the note at the foot and
+   print through it, on all four tariff pages at once. The answer is
+   neither — an ordinary flow, with the note pushed to the foot by its
+   own margin, so nothing is ever positioned against anything else. */
+.tfw { display: flex; flex-direction: column; height: 100%; }
+.tfw .fg__n { margin-top: auto; }
+
+/* ── THE CHARTER ───────────────────────────────────────────────────*/
+/* A CHARTER IS READ SLOWLY. Five principles on a leaf, set with the
+   air a foundation stone is cut with — not five paragraphs packed at
+   the head of a page with a third of it left blank underneath. */
+.ch__h { font-family: ${FACE.ceremonial}; font-weight: 400; font-size: 30pt; line-height: 34pt;
+  color: var(--title); margin: 0 0 7mm; letter-spacing: -.012em; }
+.ch__l { font-family: ${FACE.data}; font-size: 5.6pt; font-weight: 600; letter-spacing: .05em;
+  text-transform: uppercase; color: var(--mark); margin: 0 0 8mm;
+  padding-bottom: 3mm; border-bottom: .9pt solid var(--mark); }
+.ch__p { display: flex; gap: 7mm; padding: 8.4mm 0; border-bottom: .35pt solid var(--rule); }
+.ch__p n { flex: none; width: ${M.col(1)}mm; font-family: ${FACE.ceremonial}; font-size: 17pt;
+  line-height: 18pt; color: var(--mark); font-variant-numeric: lining-nums; }
+.ch__p div { flex: 1; }
+.ch__p b { display: block; font-family: ${FACE.display}; font-weight: 500; font-size: 11pt;
+  line-height: 14pt; color: var(--title); margin-bottom: 1.6mm; }
+.ch__p p { margin: 0; font-family: ${FACE.text}; font-size: ${M.T.base}pt; line-height: 15.6pt;
+  color: var(--ink); max-width: ${M.col(9)}mm; }
+
 /* ── THE SPECIFICATION ─────────────────────────────────────────────
    A ruled key-and-value register, read the way the specification panel
    of a drawing is read. It is what the frontispiece carries now that
@@ -432,6 +519,69 @@ export function openerPage({ part, roman, title, say, datum, caption, standing, 
     </div>` : ''}`, { tone: `pal pal--${palette}`, runhead, klass: 'm-open2' });
 }
 
+/**
+ * A MONUMENTAL STATEMENT. One sentence, ceremonial size, a full field.
+ * `foot` carries three or four quantities under a struck rule so the
+ * page asserts something as well as declaring something.
+ */
+export function statementPage({ eyebrow, statement, sub, foot = [], palette, runhead }) {
+  if (!palette) throw new Error(`the statement "${eyebrow}" has no palette`);
+  return M.page(`
+    <div class="st">
+      ${eyebrow ? `<p class="st__eye">${M.esc(eyebrow)}</p>` : ''}
+      <h2 class="st__t">${statement}</h2>
+      ${sub ? `<p class="st__sub">${sub}</p>` : ''}
+    </div>
+    ${foot.length ? `<div class="st__foot">${foot.map((c) =>
+    `<div><k>${M.esc(c.k)}</k><v>${c.v}</v></div>`).join('')}</div>` : ''}`,
+  { tone: `pal pal--${palette}`, runhead });
+}
+
+/** The twelve components of what the tuition provides. */
+export function valuePage({ eyebrow, title, sub, items, palette, runhead, note }) {
+  return M.page(`
+    <div class="fg">
+      <p class="fg__eye">${M.esc(eyebrow)}</p>
+      <h2 class="fg__t">${title}</h2>
+      ${sub ? `<p class="fg__s">${sub}</p>` : ''}
+    </div>
+    <div class="va">${items.map((i) =>
+    `<div class="va__i"><n>${M.esc(i.n)}</n><k>${M.esc(i.k)}</k><v>${M.esc(i.v)}</v></div>`).join('')}</div>
+    ${note ? `<p class="fg__n">${note}</p>` : ''}`,
+  { tone: `pal pal--${palette}`, runhead, stack: true });
+}
+
+/** A table a prospective learner reads, not a price list. */
+export function tariffPage({ eyebrow, title, sub, head, rows, note, palette, runhead }) {
+  /* Ordinary flow, with the note held to the foot by its own margin —
+     see .tfw above for why neither of the two obvious alternatives
+     worked. */
+  return M.page(`
+    <div class="tfw">
+    <div class="fg">
+      <p class="fg__eye">${M.esc(eyebrow)}</p>
+      <h2 class="fg__t">${title}</h2>
+      ${sub ? `<p class="fg__s">${sub}</p>` : ''}
+    </div>
+    <table class="tf"><thead><tr>${head.map((h) => `<th>${M.esc(h)}</th>`).join('')}</tr></thead>
+    <tbody>${rows.map((r) => `<tr${r.sub ? ' class="sub"' : ''}>${
+  (r.cells || r).map((c) => (typeof c === 'string'
+    ? `<td>${c}</td>` : `<td class="${c.cls || ''}">${c.v}</td>`)).join('')}</tr>`).join('')}</tbody></table>
+    ${note ? `<p class="fg__n">${note}</p>` : ''}
+    </div>`,
+  { tone: `pal pal--${palette}`, runhead });
+}
+
+/** The charter: numbered principles, cut rather than argued. */
+export function charterPage({ heading, label, principles, palette, runhead }) {
+  return M.page(`
+    <p class="ch__l">${M.esc(label)}</p>
+    <h2 class="ch__h">${heading}</h2>
+    ${principles.map((p, i) => `<div class="ch__p"><n>${String(i + 1).padStart(2, '0')}</n>
+      <div><b>${p.t}</b><p>${p.v}</p></div></div>`).join('')}`,
+  { tone: `pal pal--${palette}`, runhead, stack: true });
+}
+
 /** A ruled specification register. */
 export function specPage({ title, rows, runhead, tone = 'pg--bone' }) {
   return M.page(`
@@ -443,7 +593,7 @@ export function specPage({ title, rows, runhead, tone = 'pg--bone' }) {
 }
 
 /** A figure with its reading — the graphic IS the page, not an inset. */
-export function figurePage({ eyebrow, title, sub, figure, reading, note, strip = [], runhead, tone = '' }) {
+export function figurePage({ eyebrow, title, sub, figure, reading, note, strip = [], runhead, palette, tone = '' }) {
   if (!reading) {
     throw new Error(`the plate "${title}" has no reading: a drawing needs its argument beside it`);
   }
@@ -465,7 +615,7 @@ export function figurePage({ eyebrow, title, sub, figure, reading, note, strip =
       </div>
       <div class="fg__strip">${strip.map((c) => `<div><k>${M.esc(c.k)}</k><v>${c.v}</v>${
   c.s ? `<s>${c.s}</s>` : ''}</div>`).join('')}</div>
-    </div>`, { runhead, tone });
+    </div>`, { runhead, tone: palette ? `pal pal--${palette}` : tone });
 }
 
 /** A narrative page with a marginal column — the device that stops a

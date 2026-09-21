@@ -68,11 +68,20 @@ check('the renderer places no raster image',
    a nested brace in a template string cannot end a block early. */
 const openerCalls = renderer.split('S.openerPage({').slice(1)
   .map((tail, i, all) => (i === all.length - 1 ? tail.slice(0, 2200) : tail.slice(0, 2200)));
-check('all seven parts open on an openerPage', openerCalls.length === 7, `found ${openerCalls.length}`);
+check('all eight parts open on an openerPage', openerCalls.length === 8, `found ${openerCalls.length}`);
 const withoutDatum = openerCalls.filter((c) => !/\bdatum:/.test(c));
 const withoutCaption = openerCalls.filter((c) => !/\bcaption:/.test(c));
+const withoutPalette = openerCalls.filter((c) => !/\bpalette:/.test(c));
 check('every chapter opener carries a datum', withoutDatum.length === 0, `${withoutDatum.length} without`);
 check('every chapter opener captions its datum', withoutCaption.length === 0, `${withoutCaption.length} without`);
+/* Eight parts, eight combinations. An opener that inherits the default
+   palette is an opener that looks like the one before it, which is the
+   template the whole identity exists to avoid. */
+check('every chapter opener declares its own palette', withoutPalette.length === 0,
+  `${withoutPalette.length} without`);
+const palettes = openerCalls.map((c) => (c.match(/palette: '([a-z]+)'/) || [])[1]);
+check('no two parts open on the same palette',
+  new Set(palettes).size === palettes.length, palettes.join(', '));
 
 /* And openerPage refuses either, rather than rendering a quiet blank.
    Checked by calling it, because a guard nobody exercises is a

@@ -480,3 +480,110 @@ export function coverRule(first, last, n = 10, tone) {
   body += tx(W - lw, y + 4.6, String(last), { size: 9, weight: 600, fill: '#C9A961' });
   return figure(W, H, body);
 }
+
+/* ════════════════════════════════════════════════════════════════════
+   THE LEARNER'S PASSAGE — eight stations, one procession
+   ════════════════════════════════════════════════════════════════════
+   Part II is about what actually happens to a person who enrols, so
+   the datum is the passage itself: eight stations on one rule, each
+   struck, with the two that confer something — the examination and the
+   award — marked in the metal. It is drawn as a procession rather than
+   a flow chart because a flow chart is a diagram of a process and this
+   is a diagram of an education. */
+export function passage(stations, tone) {
+  useTone(tone);
+  const H = 92;
+  const y = 44;
+  const x0 = 2, x1 = W - 2;
+  const step = (x1 - x0) / stations.length;
+  let body = '';
+  body += `<line x1="${r2(x0)}" y1="${r2(y)}" x2="${r2(x1)}" y2="${r2(y)}"
+    stroke="${O.line}" stroke-width="${P(1.2)}"/>`;
+  stations.forEach((st, i) => {
+    const cx = x0 + i * step + step / 2;
+    const struck = Boolean(st.confers);
+    /* A station is a column standing ON the rule, not a dot sitting on
+       it: the institution does something at each one. */
+    const h = struck ? 13 : 8;
+    body += `<rect x="${r2(cx - 2.4)}" y="${r2(y - h)}" width="4.8" height="${r2(h)}"
+      fill="none" stroke="${struck ? O.mark : O.line}" stroke-width="${P(struck ? 1.2 : 0.7)}"/>`;
+    if (struck) {
+      body += `<line x1="${r2(cx - 4)}" y1="${r2(y - h)}" x2="${r2(cx + 4)}" y2="${r2(y - h)}"
+        stroke="${O.mark}" stroke-width="${P(1.4)}"/>`;
+    }
+    /* Alternating above and below the rule, so eight names fit a
+       175mm measure without being set at five point. */
+    const above = i % 2 === 0;
+    const ny = above ? y - h - 5 : y + 7.4;
+    const nw = wide(st.name, { size: 6.4, weight: struck ? 600 : 500 });
+    body += tx(Math.max(0, Math.min(cx - nw / 2, W - nw)), ny, st.name,
+      { size: 6.4, weight: struck ? 600 : 500, fill: struck ? O.mark : O.ink, nums: false });
+    if (st.note) {
+      const w2 = wide(st.note, { size: 5.6 });
+      body += tx(Math.max(0, Math.min(cx - w2 / 2, W - w2)), above ? ny - 5.2 : ny + 5.2,
+        st.note, { size: 5.6, fill: O.grey, nums: false });
+    }
+  });
+  return figure(W, H, body);
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   THE CHAIN OF AUTHORITY — where a decision stops
+   ════════════════════════════════════════════════════════════════════
+   Governance drawn as what it is: a descending series of rooms, each
+   narrower than the one above it, with the separations that protect a
+   learner drawn as the gaps between them. The struck tier is the one
+   that cannot be overruled on an academic question, which is the
+   single most important fact about the whole structure. */
+export function authority(tiers, tone) {
+  useTone(tone);
+  const H = 24 + tiers.length * 18;
+  const top = 12;
+  let body = '';
+  tiers.forEach((t, i) => {
+    const y = top + i * 18;
+    /* Each tier is inset from the one above: authority narrows as it
+       descends, and the drawing should say so before the labels do. */
+    const inset = i * 9;
+    const w = W - inset * 2;
+    body += `<rect x="${r2(inset)}" y="${r2(y)}" width="${r2(w)}" height="11"
+      fill="none" stroke="${t.struck ? O.mark : O.line}" stroke-width="${P(t.struck ? 1.3 : 0.7)}"/>`;
+    body += tx(inset + 3, y + 7.2, t.name, { size: 7, weight: t.struck ? 600 : 500,
+      face: SERIF, fill: t.struck ? O.mark : O.ink, nums: false });
+    const rw = wide(t.holds, { size: 5.8 });
+    body += tx(inset + w - 3 - rw, y + 7, t.holds, { size: 5.8, fill: O.grey, nums: false });
+    if (i < tiers.length - 1) {
+      body += `<line x1="${r2(W / 2)}" y1="${r2(y + 11)}" x2="${r2(W / 2)}" y2="${r2(y + 18)}"
+        stroke="${O.faint}" stroke-width="${P(0.5)}"/>`;
+    }
+  });
+  return figure(W, H, body);
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   THE CHARTER — the principles, cut
+   ════════════════════════════════════════════════════════════════════
+   The closing part of the book is a charter, and a charter is read the
+   way an inscription is read: numbered, ruled, and each line standing
+   on its own. Two columns of struck registers, with the numeral in the
+   metal and the principle beside it. No ornament at all — the
+   composition is the ceremony. */
+export function charter(principles, tone) {
+  useTone(tone);
+  const cols = 2;
+  const rows = Math.ceil(principles.length / cols);
+  const H = 12 + rows * 15;
+  const colW = (W - 10) / cols;
+  let body = '';
+  principles.forEach((p, i) => {
+    const c = Math.floor(i / rows), r = i % rows;
+    const x = c * (colW + 10), y = 12 + r * 15;
+    body += `<line x1="${r2(x)}" y1="${r2(y - 5)}" x2="${r2(x + colW)}" y2="${r2(y - 5)}"
+      stroke="${O.faint}" stroke-width="${P(0.5)}"/>`;
+    const n = String(i + 1).padStart(2, '0');
+    body += tx(x, y + 2.6, n, { size: 11, weight: 500, face: SERIF, fill: O.mark });
+    const nw = wide(n, { size: 11, weight: 500, face: SERIF });
+    body += tx(x + nw + 4, y + 2.2, p, { size: 7.4, face: SERIF, weight: 400, fill: O.ink, nums: false });
+  });
+  return figure(W, H, body);
+}
