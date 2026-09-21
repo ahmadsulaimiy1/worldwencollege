@@ -301,13 +301,26 @@ const SHOCKS = [
     owner: 'Enrolment', opts: { reachMultiplier: 0.75 } },
 ].map((sh) => {
   const r = shockOf(sh.opts);
+  /* THE SHOCKS ARE NOT THE SAME SIZE, so ranking them by what they
+     cost answers one question and hides another. A third more
+     expensive acquisition and a ten-point fall in continuation are
+     different distances travelled, and a table that ranks them without
+     saying so invites the reader to mistake the biggest number for the
+     most sensitive variable — which, on this model, it is not.
+     `per` restates each loss per ten points of movement. */
+  const moved = Math.abs(1 - (sh.opts.continuationScale ?? sh.opts.reachMultiplier
+    ?? (sh.opts.cacMultiplier != null ? 2 - sh.opts.cacMultiplier : 1)));
+  const delta = r.totals.surplus - CORE.totals.surplus;
   return { ...sh,
     surplus: r.totals.surplus,
-    delta: r.totals.surplus - CORE.totals.surplus,
+    delta,
+    moved,
+    per: moved > 0 ? delta / (moved * 10) : 0,
     learners: r.totals.newLearners - CORE.totals.newLearners,
     turns: (r.years.find((y) => y.cumulativeSurplus > 0) || {}).calendar || null };
 }).sort((a, b) => a.delta - b.delta);
 const WORST_SHOCK = SHOCKS[0];
+const MOST_SENSITIVE = SHOCKS.slice().sort((a, b) => a.per - b.per)[0];
 
 /* ── THE DEEPEST POINT, PER CASE ─────────────────────────────────────
    Read off the model rather than quoted, because the trough has moved
@@ -1629,17 +1642,18 @@ function build() {
     tableWithReading({
       title: 'If exactly one thing goes wrong',
       sub: 'One variable of the Core Plan moved at a time, through the same projection the decade is drawn from.',
-      head: ['The shock', 'What would detect it', 'Ten-year surplus', 'Against plan', 'Learners'],
+      head: ['The shock', 'What would detect it', 'Ten-year surplus', 'Against plan', 'Per 10 points', 'Learners'],
       rows: SHOCKS.map((sh, i) => ({ em: i === 0, cells: [
         `<b>${M.esc(sh.name)}</b>`,
         { v: M.esc(sh.warn), cls: 'unit' },
         m$(sh.surplus),
         `${pct(sh.delta / CORE.totals.surplus, 0)}`,
+        m$(sh.per),
         `${sh.learners >= 0 ? '+' : '−'}${num(Math.abs(sh.learners))}`] })),
-      source: `${M.mark('modelled')} Ranked by what each costs, worst first. Every case still turns cumulative nil inside the decade; what moves is how much the institution has at the end of it.`,
+      source: `${M.mark('modelled')} Ranked by what each costs, worst first. “Per 10 points” restates the same loss per ten points of movement in the variable, because the shocks are not the same size and ranking them without saying so invites the reader to mistake the biggest number for the most sensitive variable. Every case still turns cumulative nil inside the decade.`,
     }, { title: 'The binding constraint, named', columns: true, body: `
       <p>The three cases in Part Five move continuation, reach and the cost of acquisition together, which is how a plan is tested and not how it fails. These move one thing at a time.</p>
-      <p><strong>${M.esc(WORST_SHOCK.name)}</strong> is the worst of them, at ${pct(WORST_SHOCK.delta / CORE.totals.surplus, 0)} of ten-year surplus. Continuation is the binding constraint on this plan and it is not close: a learner who stops after Level II has cost the whole of the acquisition and returned a sixth of the tuition.</p>
+      <p><strong>${M.esc(WORST_SHOCK.name)}</strong> is the largest single loss on the table, at ${pct(WORST_SHOCK.delta / CORE.totals.surplus, 0)} of ten-year surplus. Read per ten points of movement — the fifth column, and the only way to compare shocks of different sizes — the most sensitive variable is <strong>${M.esc(MOST_SENSITIVE.name.charAt(0).toLowerCase() + MOST_SENSITIVE.name.slice(1))}</strong>, at ${m$(Math.abs(MOST_SENSITIVE.per))} for every ten points it moves against ${m$(Math.abs(SHOCKS.slice().sort((a, b) => b.per - a.per)[0].per))} for the least sensitive. A learner who stops after Level II has cost the whole of the acquisition and returned a sixth of the tuition.</p>
       <p>One result is worth reading twice. A fall in continuation <em>raises</em> admissions, because the establishment that would have taught the continuing cohort teaches a new one instead — the College ends the decade having enrolled more people and conferred fewer awards. That is the shape of the failure, and it would look like growth in every month it was happening.</p>` },
     { runhead: 'Governance and Resilience', tone: 'pal pal--scholarly' }),
     S.marginPage({
@@ -1929,10 +1943,15 @@ function build() {
     M.page(M.table({
       title: 'Appendix D · Reach, admissions and standing load',
       sub: 'The Core Plan, year by year.',
+      /* REACH IS A PROPORTION AND WAS PRINTED WITH `num`, WHICH
+         ROUNDS. The whole column shipped as 0 0 0 0 1 1 1 1 1 1 —
+         ten years of the quantity this plan calls its own binding
+         constraint, rendered as noughts and ones, on a page nobody
+         had looked at since it was composed. */
       head: ['Year', 'Reach', 'Admitted', 'Under instruction', 'Awards', 'To C2'],
-      rows: CORE.years.map((y) => [`<b>${y.calendar}</b>`, num(y.reach), num(y.newLearners),
+      rows: CORE.years.map((y) => [`<b>${y.calendar}</b>`, pct(y.reach, 1), num(y.newLearners),
         num(y.activeLearners), num(y.totalAwards), num(y.awardsToC2)]),
-      source: `${M.mark('modelled')}`,
+      source: `${M.mark('modelled')} Reach is the share of the researched reachable population the College addresses in that year, not a headcount. It is capped at one: a College cannot address more of a market than the market contains.`,
     }), { runhead: 'Appendices', tone: 'pal pal--scholarly' }),
     M.page(M.table({
       title: 'Appendix D · Cost, surplus and reserve',

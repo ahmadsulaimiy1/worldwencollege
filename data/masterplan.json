@@ -433,14 +433,26 @@
       "worth more than any further movement in the tariff."
     ],
     "classification": "proposed",
-    "committed_pathway_usd": {
-      "independent": 3600,
-      "directed": 9500,
-      "tutored": 15500,
-      "executive_core": 28000,
-      "executive_premium": 46000,
-      "executive_bespoke": 76000
-    },
+    "_committed_pathway_withdrawn": [
+      "THIS RECORD HELD A THIRD TARIFF, AND NOTHING READ IT.",
+      "",
+      "It cached $9,500 / $15,500 / $28,000 / $46,000 / $76,000 while",
+      "scripts/publication/pricing.mjs held one committed tariff and",
+      "scripts/publication/portfolio.mjs held another. Three numbers for",
+      "one price, in three files, and the only reason the divergence was",
+      "survivable is that this one was dead: no renderer, test or model",
+      "read it, so nobody was told.",
+      "",
+      "A derived figure does not belong in the record. The tariff is",
+      "SOLVED, against delivery cost and the contribution floor in four",
+      "researched markets, so it is produced rather than attested. The",
+      "place to read it is portfolio.mjs REFERENCE_TARIFF, which",
+      "tests/projection.test.mjs holds identical to pricing.mjs",
+      "PROPOSED.committed on every build.",
+      "",
+      "What this file legitimately records about the tariff is what the",
+      "tariff is solved AGAINST, and those records are below, unchanged."
+    ],
     "teaching_majority": {
       "_": [
         "THE CONSTRAINT THAT SETS THE DIRECTED PRICE.",
@@ -475,7 +487,18 @@
       "unconstrained_price_usd": 15000,
       "reserve_probe_price_usd": 13000,
       "directed_price_is_derived_from_it": true,
-      "achieved_share_at_proposed_price": 0.601
+      "_achieved_share_withdrawn": [
+        "CACHED AT 0.601 AND OVERTAKEN IN BOTH DIRECTIONS.",
+        "",
+        "pricing.taughtShare() counts PRODUCTS keys only, so it omits the",
+        "corporate and sponsored channels \u2014 about two fifths of intake,",
+        "and every one of those learners is taught. Evaluated globally it",
+        "returns 0.330; evaluated as the College actually sells, with the",
+        "regional tariff and the agreement placement, it returns 0.578.",
+        "",
+        "Neither is 0.601, and a cached figure cannot choose between",
+        "them. The measure is computed where it is used."
+      ]
     },
     "reserve_shortfall": {
       "_": [
@@ -498,7 +521,20 @@
       ],
       "classification": "board",
       "target_months": 9,
-      "reached_inside_the_decade": false
+      "_reached_inside_the_decade_withdrawn": [
+        "RECORDED FALSE, AND THE MODEL HAS SINCE MET IT.",
+        "",
+        "The correction to the institutional channels and to regional",
+        "pricing moved the decade, and the nine-month target is now first",
+        "reached in the ninth year. For one revision this record said",
+        "false, the Monograph read the year off the model and printed",
+        "one, and the Roadmap printed a sentence in bold saying there is",
+        "none \u2014 beside the figures that prove there is.",
+        "",
+        "The year is read from scripts/publication/projection.mjs by both",
+        "publications. It is not cached here, because caching it is the",
+        "thing that went wrong."
+      ]
     },
     "_committed_pathway_usd": "Independent is NOT a proposal. $600 a level is adopted and published in data/commercial.json; it is listed here so the tariff can be read as a whole.",
     "superseded_pathway_usd": {
@@ -519,12 +555,24 @@
     "revenue_plateau_usd": 7000,
     "institutional_floor_usd": 7550,
     "fragility": {
-      "_": "Single-variable shocks to the Core case, from scripts/publication/projection.mjs. Recorded so the published plan cites them rather than restating them.",
-      "cac_up_40_pct_surplus_usd": -3100000,
-      "continuation_down_10_pct_surplus_usd": -1500000,
-      "reach_down_30_pct_surplus_usd": -900000,
-      "binding_constraint": "reach",
-      "binding_constraint_note": "At validated demand the College spends about $1.8M of a $2.76M Year 10 acquisition budget. What limits enrolment is not money but the number of people it can put a considered proposition in front of — and that figure is modelled, never researched."
+      "_": [
+        "THE SHOCK FIGURES ARE COMPUTED, NOT RECORDED, AND THEY USED TO",
+        "BE BOTH.",
+        "",
+        "This cached -$3.1M, -$1.5M and -$0.9M against a model that now",
+        "returns -$4.4M, -$4.5M and -$6.4M for the same three shocks. The",
+        "numbers were three revisions old and nothing read them, which is",
+        "why nothing said so.",
+        "",
+        "Part VII of the Monograph runs the shocks through the same",
+        "projection the decade is drawn from and prints them beside the",
+        "early warning in the risk register that would detect each, with",
+        "a column restating the loss per ten points of movement \u2014",
+        "because the shocks are not the same size and ranking them",
+        "without saying so invites the reader to mistake the biggest",
+        "number for the most sensitive variable."
+      ],
+      "binding_constraint_note": "At validated demand the College spends well under its Year 10 acquisition budget. What limits enrolment is not money but the number of people it can put a considered proposition in front of \u2014 and that figure is modelled, never researched. Which single variable costs most depends on how far each is moved, so the Monograph publishes both the ranking and the movement it assumes."
     },
     "basis": "scripts/publication/pricing.mjs — delivery cost computed hour by hour; demand modelled per segment with elasticity and a credibility floor, on the willingness-to-pay figures in data/market-evidence.json.",
     "supersedes_nothing": "The adopted tariff in data/tuition.json is unchanged and remains the published price."

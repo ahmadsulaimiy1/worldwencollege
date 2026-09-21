@@ -597,6 +597,46 @@ if (fail) process.exit(1);
       reached ? `met in ${reached.calendar}` : 'never met — the claim stands');
   }
 
+  /* ── A RECORD THE ENGINE HAS OVERTAKEN ────────────────────────────
+     The plan's eighth published exclusion is "publish a figure the
+     record cannot source", and the build enforces it. The converse
+     fault had no guard at all: data/masterplan.json cached a THIRD
+     committed tariff ($9,500 / $15,500 / …) that no renderer, model or
+     test read; a teaching-majority share of 0.601 the engine now
+     contradicts in both directions; three fragility figures three
+     revisions old; and a flag saying the reserve target is never
+     reached, which the model now reaches in the ninth year.
+
+     Nothing read any of them, which is exactly why nobody was told.
+     A derived figure does not belong in the record: it is produced,
+     not attested, and a cached copy of it is a second source of truth
+     waiting to disagree with the first. */
+  {
+    const PA = PLAN.proposed_architecture;
+    const cached = [
+      ['committed_pathway_usd', PA.committed_pathway_usd],
+      ['teaching_majority.achieved_share_at_proposed_price', PA.teaching_majority.achieved_share_at_proposed_price],
+      ['reserve_shortfall.reached_inside_the_decade', PA.reserve_shortfall.reached_inside_the_decade],
+      ['fragility.cac_up_40_pct_surplus_usd', PA.fragility.cac_up_40_pct_surplus_usd],
+      ['fragility.continuation_down_10_pct_surplus_usd', PA.fragility.continuation_down_10_pct_surplus_usd],
+      ['fragility.reach_down_30_pct_surplus_usd', PA.fragility.reach_down_30_pct_surplus_usd],
+      ['fragility.binding_constraint', PA.fragility.binding_constraint],
+    ].filter(([, v]) => v !== undefined).map(([k]) => k);
+    check('the record caches no figure the engine derives for itself',
+      cached.length === 0,
+      cached.join('; ') || 'every derived figure is read from the model');
+    /* And the withdrawals say why, so the next session does not put
+       them back. */
+    const withdrawn = ['_committed_pathway_withdrawn',
+      PA.teaching_majority._achieved_share_withdrawn ? 'ok' : null,
+      PA.reserve_shortfall._reached_inside_the_decade_withdrawn ? 'ok' : null];
+    check('...and each withdrawal records what it held and why it went',
+      Array.isArray(PA._committed_pathway_withdrawn)
+      && Array.isArray(PA.teaching_majority._achieved_share_withdrawn)
+      && Array.isArray(PA.reserve_shortfall._reached_inside_the_decade_withdrawn),
+      withdrawn.join(', '));
+  }
+
   const cmp = J.compare(arch);
   check('the comparison against the adopted tariff has a direction on every dimension',
     cmp.ahead.length + cmp.behind.length === cmp.dims.length,

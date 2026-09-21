@@ -34,7 +34,17 @@ export const RISKS = [
   ['Cost inflation', 'Instructor compensation rises faster than the tariff', 'Medium', 'Medium', 'Loaded instructor cost rises more than 8 per cent in a year', 'The tariff is reviewed annually against the teaching allocation, and the allocation is published rather than implied', 'Chief Executive'],
   ['Content currency', 'The curriculum ages without a revision cycle', 'Medium', 'Medium', 'Any level goes three years without substantive revision', 'Institutional development is funded as a share of net tuition rather than from surplus, precisely so it is not the line cut first', 'Director of Academic Standards'],
   ['Expansion', 'A market opens before the institution can serve it', 'Medium', 'Medium', 'Enquiries from an unopened market exceed 10 per cent of total', 'The sequence is deliberate and the capacity gate is enforced in the model itself; demand ahead of capacity is recorded as turned away rather than booked', 'Chief Executive'],
-  ['Liquidity', 'A year of falling enrolment meets a cost base that does not fall with it', 'Low', 'High', 'Reserve coverage falls below six months of operating cost', 'The reserve target is stated in months of cost rather than as a share of revenue, because a share-of-revenue reserve shrinks exactly when it is needed', 'Board of Governors'],
+  /* RATED LOW, AND ITS OWN EARLY WARNING IS TRIPPED IN SIX OF THE TEN
+     MODELLED YEARS. The register and the resilience spread face each
+     other across Part VII: one printed a staircase showing reserve
+     cover at 0.0, 0.0, 0.3, 1.7, 3.1 and 4.7 months through 2032, and
+     the other rated the likelihood of falling below six months as Low.
+     That is not a missing figure. It is a published judgement the page
+     beside it falsifies, and the judgement is the thing that was
+     wrong: on this plan the trigger is not a risk, it is a certainty
+     for the first six years, and the honest register says so and
+     names the reason. */
+  ['Liquidity', 'A year of falling enrolment meets a cost base that does not fall with it', 'High', 'High', 'Reserve coverage falls below six months of operating cost — which on the Core Plan it does until 2033, by construction, while the reserve is still accumulating', 'Expected through the ramp rather than tolerated: the reserve is funded from surplus and there is little surplus before the institution turns, so the exposure is met by the founding capital question the Board is asked in Part Five rather than by a reserve that does not yet exist', 'Board of Governors'],
 ];
 
 export const RISK_COLUMNS = ['Domain', 'Risk', 'Likelihood', 'Impact', 'Early warning', 'Response', 'Owner'];

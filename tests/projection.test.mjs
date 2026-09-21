@@ -280,6 +280,30 @@ check('a market reached only through a sponsor shows it in the split',
     off.length === 0, off.join('; ') || JSON.stringify(PR.PROPOSED.committed));
 }
 
+// ── 4e · THE REGISTER MAY NOT CONTRADICT THE MODEL BESIDE IT ────────
+/* Part VII prints a risk register and a reserve staircase facing each
+   other. The Liquidity risk's early warning is "reserve coverage falls
+   below six months of operating cost", and it was rated LOW likelihood
+   while the plan on the opposite page showed cover at 0.0, 0.0, 0.3,
+   1.7, 3.1 and 4.7 months through 2032 — tripped in six of the ten
+   modelled years. A published judgement the facing page falsifies is
+   worse than an absent one. */
+{
+  const { RISKS } = await import(path.join(ROOT, 'scripts/publication/plan-narrative.mjs'));
+  const liquidity = RISKS.find((r) => r[0] === 'Liquidity');
+  const monthsOf = (y) => {
+    const operating = y.delivery + y.acquisition + y.fixed + y.development;
+    return operating > 0 ? y.reserve / (operating / 12) : 0;
+  };
+  const tripped = SC.core.years.filter((y) => monthsOf(y) < 6).length;
+  check('the liquidity warning is tripped in the plan, and the register says so',
+    tripped === 0 || liquidity[2] !== 'Low',
+    `cover below six months in ${tripped} of ${SC.core.years.length} years; rated ${liquidity[2]} likelihood`);
+  check('...and its early warning names the years it is breached by construction',
+    tripped === 0 || /\d{4}/.test(liquidity[4]),
+    liquidity[4]);
+}
+
 // ── 5 · NOTHING IS NaN ──────────────────────────────────────────────
 const NUMERIC = ['reach', 'newLearners', 'activeLearners', 'awardsToC2', 'totalAwards', 'alumni',
   'instructors', 'revenue', 'refunds', 'netTuition', 'delivery', 'acquisition', 'fixed',

@@ -42,13 +42,37 @@ import * as PF from './portfolio.mjs';
 const round = (n, d = 0) => { const f = 10 ** d; return Math.round((Number(n) || 0) * f) / f; };
 
 /** Reach available in a year: budget, markets open, and alumni pull. */
+/** The plan's market sequence is keyed one way and its geography
+ *  another. One map, here, so nothing has to guess. */
+const MARKET_TO_REGION = {
+  gcc: 'gulf', ukeu: 'ukEurope', row: 'asiaRow', waf: 'westAfrica',
+};
+
 function reachFor(y, alumni, budgetByYear) {
   const budget = budgetByYear[y];
   const maxBudget = Math.max(...budgetByYear);
   const spendReach = budget / maxBudget;
-  // Markets open over the first four years; each opening adds audience.
-  const open = PLAN.market.regions.filter((r) => r.opens_year <= y + 1).length;
-  const marketReach = open / PLAN.market.regions.length;
+  /* ══════════════════════════════════════════════════════════════════
+     MARKETS OPENING ADD AUDIENCE IN PROPORTION TO THE AUDIENCE THEY
+     HAVE, AND THIS COUNTED THEM AS EQUAL QUARTERS.
+     ══════════════════════════════════════════════════════════════════
+     The tariff, the placement and every regional quantity in this plan
+     run on `portfolio.REGIONS`, whose reachable populations are
+     researched and are nothing like equal: West Africa is 34,000 of a
+     78,900 total — 43 per cent — and the United Kingdom and Europe is
+     12. Counting four markets as four quarters credited Europe with
+     twice the audience it has from the year it opens, and West Africa
+     with three fifths of its own.
+
+     `regionReach()` is exported by the module the rest of the plan's
+     geography comes from, and this generator had never called it. */
+  const reach = PF.regionReach();
+  const whole = Object.values(reach).reduce((t, v) => t + v, 0);
+  const openKeys = PLAN.market.regions.filter((r) => r.opens_year <= y + 1)
+    .map((r) => MARKET_TO_REGION[r.key]).filter(Boolean);
+  const marketReach = whole > 0
+    ? openKeys.reduce((t, k) => t + (reach[k] || 0), 0) / whole
+    : 0;
   // Alumni lower the cost of being found. Capped, because word of mouth
   // is a discount on acquisition and never a substitute for it.
   const alumniPull = Math.min(0.34, alumni / 26000);
