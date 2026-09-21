@@ -21,7 +21,8 @@ import { PLAN, basis } from './masterplan.mjs';
 import * as PR from './pricing.mjs';
 import * as AL from './allocation.mjs';
 import * as PF from './portfolio.mjs';
-import { scenarios as priceScenarios, architectures, compare } from './projection.mjs';
+import { scenarios as priceScenarios, architectures, compare,
+  project as priceProject, COMMITTED as PJ_COMMITTED } from './projection.mjs';
 import { RISKS, GOVERNANCE, GOVERNANCE_COLUMNS, PHASES, PHASE_COLUMNS,
   EXCLUSIONS, EXCLUSION_COLUMNS } from './plan-narrative.mjs';
 
@@ -59,6 +60,13 @@ const EV = JSON.parse(readFileSync(path.join(ROOT, 'data/market-evidence.json'),
    the two files behind it could have evidenced in a table. */
 const INST = JSON.parse(readFileSync(path.join(ROOT, 'data/instruments.json'), 'utf8'));
 const BODY = JSON.parse(readFileSync(path.join(ROOT, 'data/institution.json'), 'utf8'));
+/* THE PART'S OWN PROMISE, KEPT FROM THE FILE THAT KEEPS IT. Part VII
+   opens by offering "the separations that protect a learner" and then
+   published a decision-rights schedule between four committees. What
+   the College OWES a learner in difficulty — and the clock that runs
+   against the College while it owes it — is an adopted, published
+   instrument, and none of it had reached this book. */
+const REG = JSON.parse(readFileSync(path.join(ROOT, 'data/academic-regulations.json'), 'utf8'));
 const PERIOD = `${PLAN.planning_period.first_year}–${PLAN.planning_period.first_year + PLAN.planning_period.years - 1}`;
 
 const usd = (n, d = 0) => '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
@@ -221,6 +229,61 @@ const figMarkets = () => F.marketBands(CORE.years, MARKET_ORDER, { limit: CONCEN
 const LARGEST_MARKET = MARKET_ORDER[0];
 const LARGEST_SHARE = CORE.totals.byRegion[LARGEST_MARKET.key].revenue / CORE.totals.revenue;
 const RESERVE_MET = reserveYears().find((y) => y.reserve >= y.target);
+
+/* ── THE UNIT THE POLICY IS ACTUALLY WRITTEN IN ──────────────────────
+   The reserve page argues — correctly, and at length — that the target
+   is stated in MONTHS OF OPERATING COST because a reserve set as a
+   share of revenue shrinks exactly when it is needed. Then every
+   quantity on the page was a dollar, and the one number the argument
+   turns on was published nowhere. The risk register's Liquidity
+   warning is set in months too: "reserve coverage falls below six
+   months of operating cost". */
+const coverMonths = (y) => {
+  const operating = y.delivery + y.acquisition + y.fixed + y.development;
+  return operating > 0 ? y.reserve / (operating / 12) : 0;
+};
+const COVER = CORE.years.map((y) => ({ calendar: y.calendar, months: coverMonths(y) }));
+const LIQUIDITY_WARNING = 6;
+const COVER_CLEARS_WARNING = COVER.find((c) => c.months >= LIQUIDITY_WARNING);
+const COVER_Y10 = COVER[COVER.length - 1].months;
+const COVER_CONSERVATIVE = coverMonths(PSC.conservative.years[PSC.conservative.years.length - 1]);
+
+/* ── WHICH ONE THING BREAKS THE PLAN ─────────────────────────────────
+   Part Five offers three cases in which continuation, reach and the
+   cost of acquisition all move together, which is how a plan is
+   sensitivity-tested and not how it fails. Part Seven then places
+   twenty risks on a matrix that is explicitly authored judgement and
+   quantifies none of them.
+
+   Between the two there was no answer to the first question a Board
+   asks of a risk register: if exactly one of these lands, which one
+   hurts most? Each shock below moves a single variable of the Core
+   Plan and is run through the same projection the decade is drawn
+   from, and each is tied to the early warning in the register that
+   would detect it. */
+const shockOf = (opts) => priceProject(PJ_COMMITTED, { label: 'shock', regional: true, ...opts });
+const SHOCKS = [
+  { name: 'Continuation falls five points at every level',
+    warn: RISKS[6][4], owner: RISKS[6][0], opts: { continuationScale: 0.90 } },
+  { name: 'Continuation falls ten points at every level',
+    warn: RISKS[6][4], owner: RISKS[6][0], opts: { continuationScale: 0.80 } },
+  { name: 'Acquisition costs a third more than modelled',
+    warn: RISKS[0][4], owner: RISKS[0][0], opts: { cacMultiplier: 1.33 } },
+  { name: 'Reach comes in a tenth below plan',
+    warn: 'Enrolled learners fall short of the modelled funnel for two intakes',
+    owner: 'Enrolment', opts: { reachMultiplier: 0.90 } },
+  { name: 'Reach comes in a quarter below plan',
+    warn: 'Enrolled learners fall short of the modelled funnel for two intakes',
+    owner: 'Enrolment', opts: { reachMultiplier: 0.75 } },
+].map((sh) => {
+  const r = shockOf(sh.opts);
+  return { ...sh,
+    surplus: r.totals.surplus,
+    delta: r.totals.surplus - CORE.totals.surplus,
+    learners: r.totals.newLearners - CORE.totals.newLearners,
+    turns: (r.years.find((y) => y.cumulativeSurplus > 0) || {}).calendar || null };
+}).sort((a, b) => a.delta - b.delta);
+const WORST_SHOCK = SHOCKS[0];
 
 /* ── THE DEEPEST POINT, PER CASE ─────────────────────────────────────
    Read off the model rather than quoted, because the trough has moved
@@ -447,6 +510,8 @@ function build() {
         { t: 'The constituted bodies', f: PAGES_OF.bodies || 0 },
         { t: 'The institutional risk register', f: PAGES_OF.risks || 0 },
         { t: 'The response, and who owns it', f: PAGES_OF.response || 0 },
+        { t: 'What the College owes a learner in difficulty', f: PAGES_OF.protections || 0 },
+        { t: 'If exactly one thing goes wrong', f: PAGES_OF.stress || 0 },
         { t: 'Resilience and financial governance', f: PAGES_OF.resilience || 0 },
         { t: 'If the College could not continue', f: PAGES_OF.continuity || 0 }] },
       { part: 'VIII · The Board Charter', rows: [
@@ -1311,6 +1376,8 @@ function build() {
       { t: 'The instruments, and who adopted each', f: PAGES_OF.instruments || '' },
       { t: 'The constituted bodies', f: PAGES_OF.bodies || '' },
       { t: 'The institutional risk register', f: PAGES_OF.risks || '' },
+      { t: 'What the College owes a learner in difficulty', f: PAGES_OF.protections || '' },
+      { t: 'If exactly one thing goes wrong', f: PAGES_OF.stress || '' },
       { t: 'Resilience and financial governance', f: PAGES_OF.resilience || '' },
       { t: 'If the College could not continue', f: PAGES_OF.continuity || '' }] });
   const govTable = M.tablePages({
@@ -1438,6 +1505,91 @@ function build() {
     source: 'An owner is an office, not a person. Several of these offices are defined and unfilled, and the College does not publish a person into an office they have not accepted.',
   }, 6, { runhead: 'Governance and Resilience', tone: 'pal pal--scholarly' }));
 
+  /* ── IF EXACTLY ONE OF THEM LANDS ─────────────────────────────────
+     A matrix says where attention goes. It does not say what it costs
+     to be wrong, and this one is explicitly authored judgement. */
+  /* ── WHAT THE COLLEGE OWES, AND BY WHEN ───────────────────────────*/
+  at('protections');
+  onRecto();
+  push(...S.spread(
+    tableWithReading({
+      title: 'What the College owes a learner in difficulty',
+      sub: 'Three standings, what puts a learner in each, and the clock that runs against the College while they are.',
+      head: ['Standing', 'What puts a learner in it', 'What the College must do, and by when'],
+      rows: REG.standing.bands.map((b) => [
+        `<b>${M.esc(b.label.en)}</b>${b.affects_access ? '' : '<s>Access to teaching continues</s>'}`,
+        { v: b.triggers.length
+          ? M.esc(b.triggers.map((t) => t.label.en).join('; '))
+          : M.esc('Nothing. This is the ordinary state.'), cls: 'unit' },
+        { v: b.obliges_the_college.map((o) => M.esc(o)).join('<br>'), cls: 'unit' }]),
+      source: `${M.mark('verified')} The Academic Regulations of Worldwide English College, adopted ${M.esc(REG.instrument.adopted_on)} by ${M.esc(REG.instrument.adopted_by)}. Ratification by the Academic Senate is ${M.esc(REG.instrument.ratification.status)}, and no body outside the College has approved them.`,
+    }, { title: 'The rule that overrides the other three', columns: true, body: `
+      <p><strong>${M.esc(REG.standing.overriding_rule.label.en)}.</strong> ${M.esc(REG.standing.overriding_rule.rationale)}</p>
+      <p>And there is no probation band. ${M.esc(REG.standing.no_probation_band.rationale)}</p>` },
+    { runhead: 'Governance and Resilience', tone: 'pal pal--scholarly' }),
+    S.marginPage({
+      runhead: 'Governance and Resilience',
+      tone: 'pal pal--scholarly',
+      side: REG.standing.contact_obligations.map((c) => S.marginNote(
+        `${c.value} ${c.unit}`, M.esc(c.rationale))).join(''),
+      main: `
+        <p class="op__num">Clocks that run against the College</p>
+        <div class="op__rule"></div>
+        <div class="op__arg">
+          <p>Every protection on the facing page is an obligation with a deadline attached, and every one of those deadlines is the College's rather than the learner's. That asymmetry is the whole design.</p>
+          <h3>A finding has twenty working days, or it lapses</h3>
+          <p>An integrity matter suspends progression, and the College must reach a first-instance decision within twenty working days of opening it — <strong>the suspension lapses automatically if it does not</strong>. An institution that can leave a learner suspended indefinitely by simply not deciding has not written a procedure; it has written a power.</p>
+          <h3>An appeal is heard by somebody who was not there</h3>
+          <p>Every route to appeal stays open and <strong>each stage is decided by somebody who was not part of the last one</strong>. Teaching, the library and support continue throughout — a learner under investigation is still a learner.</p>
+          <h3>An offer is recorded whether or not it is taken</h3>
+          <p>A learner Under Review is offered a tutorial in writing within ten working days, and the offer is recorded whether or not they take it, <em>so that a learner who was never reached cannot later be described as one who declined help</em>. That sentence is in the regulations because the failure it describes is the ordinary one.</p>
+          <h3>And silence is the College's problem, not the learner's</h3>
+          <p>Sixty days without engagement and the College writes. At a hundred and twenty a member of staff makes contact themselves, and the record says who — because a second automated message is not a second attempt.</p>
+        </div>`,
+    })
+  ));
+
+  at('stress');
+  onRecto();
+  push(...S.spread(
+    tableWithReading({
+      title: 'If exactly one thing goes wrong',
+      sub: 'One variable of the Core Plan moved at a time, through the same projection the decade is drawn from.',
+      head: ['The shock', 'What would detect it', 'Ten-year surplus', 'Against plan', 'Learners'],
+      rows: SHOCKS.map((sh, i) => ({ em: i === 0, cells: [
+        `<b>${M.esc(sh.name)}</b>`,
+        { v: M.esc(sh.warn), cls: 'unit' },
+        m$(sh.surplus),
+        `${pct(sh.delta / CORE.totals.surplus, 0)}`,
+        `${sh.learners >= 0 ? '+' : '−'}${num(Math.abs(sh.learners))}`] })),
+      source: `${M.mark('modelled')} Ranked by what each costs, worst first. Every case still turns cumulative nil inside the decade; what moves is how much the institution has at the end of it.`,
+    }, { title: 'The binding constraint, named', columns: true, body: `
+      <p>The three cases in Part Five move continuation, reach and the cost of acquisition together, which is how a plan is tested and not how it fails. These move one thing at a time.</p>
+      <p><strong>${M.esc(WORST_SHOCK.name)}</strong> is the worst of them, at ${pct(WORST_SHOCK.delta / CORE.totals.surplus, 0)} of ten-year surplus. Continuation is the binding constraint on this plan and it is not close: a learner who stops after Level II has cost the whole of the acquisition and returned a sixth of the tuition.</p>
+      <p>One result is worth reading twice. A fall in continuation <em>raises</em> admissions, because the establishment that would have taught the continuing cohort teaches a new one instead — the College ends the decade having enrolled more people and conferred fewer awards. That is the shape of the failure, and it would look like growth in every month it was happening.</p>` },
+    { runhead: 'Governance and Resilience', tone: 'pal pal--scholarly' }),
+    S.marginPage({
+      runhead: 'Governance and Resilience',
+      tone: 'pal pal--scholarly',
+      side: S.marginNote('Why not a single number',
+        'Every figure here is the whole decade re-projected, not a sensitivity multiplier applied to a total. A shock changes what the College can teach, which changes what it admits, which changes the establishment it needs — and only running the model again carries that through.')
+        + S.marginNote('What is not shocked',
+          'The tariff. A plan that answers every adverse case by charging more has not tested itself; it has tested the reader\u2019s patience.'),
+      main: `
+        <p class="op__num">Reading the register against the model</p>
+        <div class="op__rule"></div>
+        <div class="op__arg">
+          <p>The register overleaf places twenty risks by likelihood and impact, and says so plainly: it is authored judgement, not computed. Three of those judgements can now be checked against the model, and the table opposite is that check.</p>
+          <h3>Retention is rated High impact, and the model agrees</h3>
+          <p>A five-point fall in continuation at every level costs ${pct(Math.abs(SHOCKS.find((x) => /five points/.test(x.name)).delta) / CORE.totals.surplus, 0)} of ten-year surplus; ten points costs ${pct(Math.abs(SHOCKS.find((x) => /ten points/.test(x.name)).delta) / CORE.totals.surplus, 0)}. The register's early warning — ${M.esc(RISKS[6][4].toLowerCase())} — is set at the level the model says matters.</p>
+          <h3>Acquisition is rated High, and the model rates it lower</h3>
+          <p>A third more expensive acquisition costs ${pct(Math.abs(SHOCKS.find((x) => /Acquisition/.test(x.name)).delta) / CORE.totals.surplus, 0)}. That is serious and it is not the worst case on the page, and the reason is structural: the institutional channels divide one negotiation across the seats it carries, so the College's exposure to the cost of finding a learner one at a time is smaller than a retail institution's would be.</p>
+          <h3>Reach is the exposure nobody has researched</h3>
+          <p>A quarter below plan costs ${pct(Math.abs(SHOCKS.find((x) => /quarter/.test(x.name)).delta) / CORE.totals.surplus, 0)} and ${num(Math.abs(SHOCKS.find((x) => /quarter/.test(x.name)).learners))} learners. Reach is the one quantity in this plan built from conversion rates rather than from a published price, and it has no line of its own in the register. <strong>The Board is asked to add one.</strong></p>
+        </div>`,
+    })
+  ));
+
   at('resilience');
   onRecto();
   push(...S.spread(
@@ -1449,12 +1601,13 @@ function build() {
       reading: { head: 'Why the target climbs', body: `
         <p>The College’s reserve policy is stated in <strong>months of operating cost</strong> rather than as a share of revenue, and the difference is the whole point of holding a reserve. The thing a reserve has to survive is a year when revenue falls and cost does not — and a reserve set as a percentage of revenue shrinks exactly when it is needed.</p>
         <p>So the target is not a number. It is a staircase that climbs with the cost of running the institution, and a year in which the College grows raises the bar its reserve has to clear.</p>
-        <p>${pct(RESERVE_POLICY.contribution_share_of_surplus, 0)} of any surplus is contributed to the reserve before anything else is considered. ${RESERVE_MET ? `On the Core Plan the target is met in <strong>${RESERVE_MET.calendar}</strong>.` : 'On the Core Plan the target is <strong>not met inside the decade</strong>, and that is stated rather than smoothed.'}</p>` },
+        <p>${pct(RESERVE_POLICY.contribution_share_of_surplus, 0)} of any surplus is contributed to the reserve before anything else is considered. ${RESERVE_MET ? `On the Core Plan the target is met in <strong>${RESERVE_MET.calendar}</strong>.` : 'On the Core Plan the target is <strong>not met inside the decade</strong>, and that is stated rather than smoothed.'}</p>
+        <p><strong>Read in the unit the policy is written in</strong>, the reserve covers ${COVER[2].months.toFixed(1)} months of operating cost in ${COVER[2].calendar} and ${COVER_Y10.toFixed(1)} at the end of the decade. The register's Liquidity warning trips below ${LIQUIDITY_WARNING} months, and the College is inside its own warning band until <strong>${COVER_CLEARS_WARNING ? COVER_CLEARS_WARNING.calendar : 'no modelled year'}</strong> — six years in which a year of falling enrolment against a cost base that does not fall with it would have to be met from trading rather than from reserves.</p>` },
       note: `${M.mark('modelled')} Reserve is accumulated institutional allocation, not cash at bank.`,
       strip: [
         { k: 'Target', v: `${RESERVE_POLICY.target_months_of_operating_cost} months`, s: 'Of operating cost, not of revenue' },
-        { k: 'Contribution', v: pct(RESERVE_POLICY.contribution_share_of_surplus, 0), s: 'Of surplus, before anything discretionary' },
-        { k: 'At year ten', v: m$(CORE.years[9].reserve), s: 'Accumulated' },
+        { k: 'Cover at year ten', v: `${COVER_Y10.toFixed(1)} months`, s: `${COVER_CONSERVATIVE.toFixed(1)} on the Conservative case` },
+        { k: 'Clears the warning', v: COVER_CLEARS_WARNING ? String(COVER_CLEARS_WARNING.calendar) : 'Not inside the decade', s: `The register's ${LIQUIDITY_WARNING}-month line` },
         { k: 'Target met', v: RESERVE_MET ? String(RESERVE_MET.calendar) : 'Not inside the decade', s: RESERVE_MET ? 'On the Core Plan' : 'Stated, not smoothed' },
       ],
       runhead: 'Governance and Resilience' }),
