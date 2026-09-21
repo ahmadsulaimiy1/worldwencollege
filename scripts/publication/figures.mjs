@@ -177,9 +177,14 @@ export function deCollide(desired, gap, bounds = {}) {
 }
 
 export const K = {
-  ink: '#16202C', inkSoft: '#2E3A49', midnight: '#0A1A2F', soft: '#5A6479', grey: '#79828F',
-  rule: '#D9D2C2', faint: '#EBE6DA', gold: '#A9843C', goldLeaf: '#C9A961',
-  goldPale: '#E8D9B4', paper: '#FFFFFF', bone: '#F6F2E9', crimson: '#7E1F2D',
+  /* THE PLATES ARE PART OF THE BOOK'S MATERIAL SYSTEM, not a chart
+     library with its own opinions. Sapphire is structure, garnet is
+     the one exception mark, and the metals are the same three the
+     rest of the publication is bound in. */
+  ink: '#1E2430', inkSoft: '#39435A', midnight: '#12327A', soft: '#5A6479', grey: '#7C8496',
+  rule: '#D8CEB6', faint: '#EDE6D5', gold: '#A87C2C', goldLeaf: '#C9A24B',
+  goldPale: '#E4D2A6', paper: '#FFFFFF', bone: '#F7F2E7', crimson: '#6E1A2B',
+  sapphire: '#12327A', sapphireDeep: '#071A45', bronze: '#8C6A3F',
 };
 export const DATA = "'Archivo','Liberation Sans',sans-serif";
 export const DISPLAY = "'Newsreader','Bitstream Charter',serif";

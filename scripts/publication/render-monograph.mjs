@@ -135,24 +135,24 @@ const datResolutions = () => O.resolutions([
     share: RETAIL_SHARE, figure: `${pct(RETAIL_SHARE)} of learners` },
   { ordinal: 'Resolution three', title: 'The two institutional channels',
     share: 1 - RETAIL_SHARE, figure: `${pct(1 - RETAIL_SHARE)} of learners` },
-]);
-const datAscent = () => O.ascent(PR.QUALIFICATIONS, B.hoursPerLevel);
+], 'onSapphire');
+const datAscent = () => O.ascent(PR.QUALIFICATIONS, B.hoursPerLevel, 'onIvory');
 const datReach = () => O.reach(PR.SEGMENTS.map((sg) => ({
-  name: sg.short, reachable: sg.reachable, researched: Boolean(sg.evidence) })));
+  name: sg.short, reachable: sg.reachable, researched: Boolean(sg.evidence) })), 'onPearl');
 const datColonnade = () => O.colonnade(Object.keys(P_).map((k) => ({
   short: PR.PRODUCTS[k].name.replace('Executive ', 'Exec '), price: P_[k],
-  money: usd(P_[k]), entry: k === 'independent' })));
+  money: usd(P_[k]), entry: k === 'independent' })), 'onCeremonial');
 const datCourse = () => O.course(GOT.lines.map((l) => ({
-  name: SEG_LABEL[l.key], share: l.target, retained: AL.RETAINED.includes(l.key) })));
+  name: SEG_LABEL[l.key], share: l.target, retained: AL.RETAINED.includes(l.key) })), 'onDeep');
 const TURN = Math.max(0, CORE.years.findIndex((y) => y.cumulativeSurplus > 0));
 const datDecade = () => O.decadeRule(CORE.years.map((y, i) => ({
   calendar: y.calendar, height: Math.max(0, y.netTuition),
-  note: i === 0 ? `${num(y.newLearners)} admitted` : `${m$(y.netTuition)} net tuition` })), TURN);
+  note: i === 0 ? `${num(y.newLearners)} admitted` : `${m$(y.netTuition)} net tuition` })), TURN, 'onCream');
 const datChain = () => O.chain([
   { caption: 'Four files', items: ['tuition.json', 'commercial.json', 'market-evidence.json', 'masterplan.json'] },
   { caption: 'Three engines', items: ['pricing.mjs', 'allocation.mjs', 'projection.mjs'] },
   { caption: 'One document', items: ['This publication', 'Re-derived on every build'] },
-]);
+], 'onIvory');
 
 function build() {
   P = [];
@@ -252,7 +252,7 @@ function build() {
   onRecto();
   at('resolutions');
   push(...S.spread(
-    S.openerPage({ part: 'Part One', roman: 'I', title: 'The Proposition',
+    S.openerPage({ palette: 'authority', part: 'Part One', roman: 'I', title: 'The Proposition',
       standing: M.mark('board'),
       say: 'What the Board is asked to resolve, and the three decisions the rest of this document exists to inform.',
       datum: datResolutions(),
@@ -319,7 +319,7 @@ function build() {
   onRecto();
   at('identity');
   push(...S.spread(
-    S.openerPage({ part: 'Part Two', roman: 'II', title: 'The Institution',
+    S.openerPage({ palette: 'heritage', part: 'Part Two', roman: 'II', title: 'The Institution',
       standing: M.mark('verified'),
       say: 'What the College is, what it sells, and the discipline that makes both statements checkable.',
       datum: datAscent(),
@@ -379,7 +379,7 @@ function build() {
   onRecto();
   at('slope');
   push(...S.spread(
-    S.openerPage({ part: 'Part Three', roman: 'III', title: 'The Market',
+    S.openerPage({ palette: 'luminous', part: 'Part Three', roman: 'III', title: 'The Market',
       standing: M.mark('modelled'),
       say: 'What comparable programmes actually charge, what that did to an earlier draft, and the four markets the research could not answer.',
       datum: datReach(),
@@ -455,7 +455,7 @@ function build() {
   onRecto();
   at('tariff');
   push(...S.spread(
-    S.openerPage({ part: 'Part Four', roman: 'IV', title: 'The Commercial<br>Architecture',
+    S.openerPage({ palette: 'ceremonial', part: 'Part Four', roman: 'IV', title: 'The Commercial<br>Architecture',
       standing: M.mark('proposed'),
       say: 'What WEC-LC charges, solved backwards from the financial law the Board has set — and not chosen.',
       datum: datColonnade(),
@@ -559,7 +559,7 @@ function build() {
   onRecto();
   at('definitions');
   push(...S.spread(
-    S.openerPage({ part: 'Part Five', roman: 'V', title: 'The Financial<br>Architecture',
+    S.openerPage({ palette: 'constitution', part: 'Part Five', roman: 'V', title: 'The Financial<br>Architecture',
       standing: M.mark('board'),
       say: 'Where every dollar of collected revenue is governed, and what each line is forbidden from becoming.',
       datum: datCourse(),
@@ -618,7 +618,7 @@ function build() {
   onRecto();
   at('phases');
   push(...S.spread(
-    S.openerPage({ part: 'Part Six', roman: 'VI', title: 'The Decade',
+    S.openerPage({ palette: 'editorial', part: 'Part Six', roman: 'VI', title: 'The Decade',
       standing: M.mark('modelled'),
       say: 'Five phases, twenty risks each with a warning somebody can observe, and who decides what.',
       datum: datDecade(),
@@ -698,7 +698,7 @@ function build() {
   onRecto();
   at('method');
   push(...S.spread(
-    S.openerPage({ part: 'Part Seven', roman: 'VII', title: 'Method',
+    S.openerPage({ palette: 'scholarly', part: 'Part Seven', roman: 'VII', title: 'Method',
       standing: M.mark('verified'),
       say: 'Where every figure came from, and the audit that proves the document agrees with itself.',
       datum: datChain(),

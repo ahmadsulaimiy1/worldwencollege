@@ -61,21 +61,81 @@
  * as finance, and this is an academic institution.
  */
 export const C = {
-  midnight: '#0A1A2F',
-  midnightDeep: '#06111F',
-  ink: '#16202C',
-  inkSoft: '#3D4654',
-  grey: '#79828F',
-  rule: '#D9D2C2',
-  ruleFaint: '#EBE6DA',
-  bone: '#F6F2E9',
-  ivory: '#FCFAF5',
+  /* ── THE ARCHITECTURE ──
+     Royal Sapphire is the institution. It is a true sapphire — a blue
+     with light in it — and not the blue-black navy that every
+     consultancy in the world defaults to. Deep Sapphire is the same
+     colour taken down to the weight of a bound cover, for full-bleed
+     fields and ceremonial openings. */
+  sapphire: '#12327A',
+  sapphireDeep: '#071A45',
+  sapphireMid: '#0B2258',
+  /* Aliases kept so the whole design system did not have to be
+     rewritten to change its colour. `midnight` now IS sapphire. */
+  midnight: '#12327A',
+  midnightDeep: '#071A45',
+
+  /* ── THE METALS ──
+     FIVE STEPS, NOT ONE COLOUR. A single flat "gold" is the tell of
+     every generated luxury document in the world: it comes out as
+     mustard, it has no light in it, and nothing made of it looks like
+     metal. A metal is a RAMP — a shadow, a body, a specular highlight
+     — and it is the ramp that makes the eye read gilding rather than
+     a yellow-brown fill.
+
+     `goldDeep` is the only one that may carry small type or a hairline
+     on a pale ground, because it is the only one with the contrast to.
+     `goldRich` and above are display metals: foil, monumental
+     numerals, struck rules. Using a display metal at seven point is
+     how gold becomes illegible decoration. */
+  goldDeep: '#96671A',
+  gold: '#C08B24',
+  goldRich: '#D9A83C',
+  goldLeaf: '#EBC96F',
+  goldSpec: '#F8EBC4',
+  goldPale: '#EBD9AE',
+  champagne: '#EBD9AE',
+  champagneDeep: '#D3BC86',
+  bronze: '#8A5A2B',
+  bronzeDeep: '#6B441E',
+
+  /* ── THE GROUNDS ──
+     Pearl is the principal field: an almost imperceptibly warm white
+     that reads as stock rather than as screen. Ivory and cream carry
+     the editorial and tabular pages, so the book changes temperature
+     as it changes register. */
+  pearl: '#FBFAF7',
+  ivory: '#F7F2E7',
+  cream: '#F2EADA',
+  bone: '#F7F2E7',
   paper: '#FFFFFF',
-  gold: '#A9843C',
-  goldLeaf: '#C9A961',
-  goldPale: '#E8D9B4',
-  crimson: '#7E1F2D',
+
+  /* ── THE INKS ──
+     Charcoal for running text, because sapphire at ten point on pearl
+     is a colour before it is a word. Sapphire is for titles, figures
+     and structure, where it can carry its own weight. */
+  ink: '#1E2430',
+  inkSoft: '#39435A',
+  grey: '#7C8496',
+  stone: '#7C8496',
+
+  /* ── THE RULES ──
+     Champagne-toned rather than grey, so a hairline on pearl belongs
+     to the metals rather than to the type. */
+  rule: '#D8CEB6',
+  ruleFaint: '#EDE6D5',
+
+  /* ── THE SEAL ──
+     Garnet, and it is one to three per cent of the book. A deep
+     institutional red is the colour of a seal and a bound spine; a
+     bright one is the colour of a sale. */
+  crimson: '#6E1A2B',
+  garnet: '#6E1A2B',
   sage: '#3A6350',
+
+  /* Type on a sapphire field. */
+  onSapphire: '#F4F1E8',
+  onSapphireSoft: 'rgba(244,241,232,.72)',
 };
 
 /*
@@ -114,6 +174,14 @@ export const C = {
  * figures. A grotesque in the Neue Haas line, neutral and precise.
  */
 export const FACE = {
+  /* THE CEREMONIAL VOICE. A Didone with an optical size axis running to
+     ninety-six point, which is the only honest way to use a face of
+     this contrast: its hairlines are drawn for the size they are set
+     at. Used at display and NOWHERE BELOW TWENTY-FOUR POINT — the
+     wordmark, chapter numerals, monumental figures and the sapphire
+     openings. It is what makes a page ceremonial rather than merely
+     well set. */
+  ceremonial: "'Bodoni Moda', 'Newsreader', serif",
   display: "'Newsreader', 'Bitstream Charter', serif",
   text: "'Newsreader', 'Bitstream Charter', serif",
   data: "'Archivo', 'Liberation Sans', sans-serif",
@@ -213,7 +281,7 @@ body {
 }
 .pg--verso .pg__field { left: ${PAGE.marginOuter}mm; right: ${PAGE.marginInner}mm; }
 
-.pg--dark { background: ${C.midnight}; color: ${C.ivory}; }
+.pg--dark { background: ${C.sapphireDeep}; color: ${C.onSapphire}; }
 .pg--bone { background: ${C.bone}; }
 .pg--ivory { background: ${C.ivory}; }
 
@@ -633,7 +701,29 @@ export const masterCss = () => `
 .mark--verified { color: ${C.sage}; }
 .mark--modelled { color: ${C.grey}; }
 .mark--board { color: ${C.crimson}; }
-.mark--proposed { color: ${C.gold}; }
+.mark--proposed { color: ${C.goldDeep}; }
+/* ── MARKS ON A DEEP FIELD ──
+   The classification marks are drawn for a pale ground: garnet on
+   ivory is a seal, and garnet on sapphire is a smudge you cannot read
+   at all. On the four deep palettes they are re-struck in the metals
+   and in a garnet lifted far enough to hold, because a mark that says
+   BOARD DECISION REQUIRED is the one piece of furniture in this book
+   that must never be decorative. */
+.pal--authority .mark, .pal--ceremonial .mark,
+.pal--constitution .mark, .pal--sovereign .mark,
+.pg--dark .mark { border-color: currentColor; }
+.pal--authority .mark--verified, .pal--ceremonial .mark--verified,
+.pal--constitution .mark--verified, .pal--sovereign .mark--verified,
+.pg--dark .mark--verified { color: #8FC2A6; }
+.pal--authority .mark--modelled, .pal--ceremonial .mark--modelled,
+.pal--constitution .mark--modelled, .pal--sovereign .mark--modelled,
+.pg--dark .mark--modelled { color: rgba(244,241,232,.78); }
+.pal--authority .mark--board, .pal--ceremonial .mark--board,
+.pal--constitution .mark--board, .pal--sovereign .mark--board,
+.pg--dark .mark--board { color: #E7899A; }
+.pal--authority .mark--proposed, .pal--ceremonial .mark--proposed,
+.pal--constitution .mark--proposed, .pal--sovereign .mark--proposed,
+.pg--dark .mark--proposed { color: ${C.goldLeaf}; }
 `;
 
 // ════════════════════════════════════════════════════════════════════

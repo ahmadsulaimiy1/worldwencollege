@@ -65,14 +65,46 @@ const figure = (w, h, inner, defs = '') =>
 
 /* One tone down from the plates. `mark` is the single gold; `faint` is
    the ground rule that carries everything. */
-const O = {
-  line: '#BDB49F',
-  faint: '#E2DCCC',
-  ink: '#3D4654',
-  grey: '#8A9099',
-  mark: '#A9843C',
-  markPale: '#E0CFA4',
+/**
+ * THE DATUM IS DRAWN IN ITS CHAPTER'S PALETTE.
+ *
+ * Eight parts, eight combinations, and a drawing that assumed one
+ * ground would be invisible on half of them — champagne rules on
+ * ivory, or charcoal ink on deep sapphire. So every datum takes a
+ * TONE, and the tones below are the drawing side of the same eight
+ * palettes the page masters carry.
+ *
+ * `O` is assigned at the top of each exported function rather than
+ * threaded through forty call sites. That is mutable module state,
+ * which is normally a mistake and is deliberate here: this is a
+ * synchronous build script, one drawing is composed at a time from
+ * start to finish, and the alternative was a tone argument on every
+ * one of the small helpers that actually emit the marks.
+ */
+export const TONES = {
+  /* On a deep field a drawing is made of light: champagne rules, pearl
+     figures, and the struck mark in leaf gold — the only thing on the
+     page brighter than the title. */
+  onSapphire: { line: 'rgba(235,201,111,.46)', faint: 'rgba(235,201,111,.20)',
+    ink: '#F4F1E8', grey: 'rgba(244,241,232,.66)', mark: '#EBC96F', markPale: 'rgba(235,201,111,.40)' },
+  onDeep: { line: 'rgba(235,201,111,.42)', faint: 'rgba(235,201,111,.18)',
+    ink: '#F4F1E8', grey: 'rgba(244,241,232,.62)', mark: '#D9A83C', markPale: 'rgba(217,168,60,.38)' },
+  /* On a ceremonial field the exception mark is garnet lifted enough to
+     hold against sapphire — a seal, seen in low light. */
+  onCeremonial: { line: 'rgba(235,201,111,.42)', faint: 'rgba(235,201,111,.18)',
+    ink: '#F4F1E8', grey: 'rgba(244,241,232,.66)', mark: '#EBC96F', markPale: 'rgba(201,87,107,.40)' },
+  /* On warm grounds the drawing is made of ink again, and the metal
+     steps down to bronze so it belongs to the paper. */
+  onIvory: { line: '#C6B08A', faint: '#E3D6BA', ink: '#3A4152', grey: '#8A7A62',
+    mark: '#8A5A2B', markPale: 'rgba(138,90,43,.34)' },
+  onCream: { line: '#CBB68F', faint: '#E6DABF', ink: '#3A4152', grey: '#8A8168',
+    mark: '#96671A', markPale: 'rgba(150,103,26,.32)' },
+  onPearl: { line: '#C9BFA6', faint: '#E8E1CF', ink: '#39435A', grey: '#7C8496',
+    mark: '#96671A', markPale: 'rgba(150,103,26,.30)' },
 };
+
+const O = { ...TONES.onSapphire };
+const useTone = (tone) => Object.assign(O, TONES[tone] || TONES.onSapphire);
 
 const DATA = "'Archivo','Liberation Sans',sans-serif";
 const SERIF = "'Newsreader','Bitstream Charter',serif";
@@ -120,7 +152,8 @@ const txClamped = (x, y, t, o = {}) => tx(Math.min(x, W - 0.5 - wide(t, o)), y, 
    share of the decade's revenue that the decision governs — the
    framework governs all of it, the tariff governs tuition, the
    channels govern the part of it that arrives through an agreement. */
-export function resolutions(rows) {
+export function resolutions(rows, tone) {
+  useTone(tone);
   const H = 105;
   const x0 = 0, x1 = W;
   const top = 20, step = 32;
@@ -156,7 +189,8 @@ export function resolutions(rows) {
    award. A stair is what that IS, so a stair is what is drawn: six
    equal treads, the cumulative hours climbing with them, and the final
    tread struck because it is the one that completes the pathway. */
-export function ascent(levels, hoursPerLevel) {
+export function ascent(levels, hoursPerLevel, tone) {
+  useTone(tone);
   const H = 100;
   const base = H - 12;
   const tread = W / levels.length;
@@ -190,7 +224,8 @@ export function ascent(levels, hoursPerLevel) {
    the smallest by willingness to pay. Both facts are in one ranked
    scale: length is reach, and the hatched portion is the part of that
    reach the research actually reached. */
-export function reach(rows) {
+export function reach(rows, tone) {
+  useTone(tone);
   const H = 105;
   /* RANKED, because a ranked scale that is not in rank order is just a
      bar chart. The finding this drawing carries is that the largest
@@ -232,7 +267,8 @@ export function reach(rows) {
    argument, so it is drawn as one row of columns standing on one
    floor — and the gold datum is the entry price, the one every other
    tier is a multiple of. */
-export function colonnade(tiers) {
+export function colonnade(tiers, tone) {
+  useTone(tone);
   const H = 100;
   const base = H - 10;
   const cw = W / tiers.length;
@@ -279,7 +315,8 @@ export function colonnade(tiers) {
    on its side here so it sits under a title rather than beside one,
    and drawn at a fraction of the plate's weight so the reader meets
    the idea before meeting the case for it. */
-export function course(lines) {
+export function course(lines, tone) {
+  useTone(tone);
   const H = 92;
   const y0 = 30, h = 34;
   const total = lines.reduce((t, l) => t + l.share, 0);
@@ -331,7 +368,8 @@ export function course(lines) {
    first crosses nil is struck in gold, because that single year is what
    the chapter is about, and the two ends carry the figures that bound
    the decade. */
-export function decadeRule(years, turnIndex) {
+export function decadeRule(years, turnIndex, tone) {
+  useTone(tone);
   /* DRAWN AS COLUMNS, NOT TICKS. The first cut set ten hairlines on a
      rule, which read as a comb: the struck year was barely taller than
      its neighbours, the ground rule was invisible at .35mm, and the
@@ -383,7 +421,8 @@ export function decadeRule(years, turnIndex) {
    document. A chain is the honest drawing of that, and the gold mark is
    on the join the reader is being asked to trust — the test that
    re-derives the price from the framework on every build. */
-export function chain(stages) {
+export function chain(stages, tone) {
+  useTone(tone);
   const top = 20, rowStep = 14, boxH = 10;
   const deepest = Math.max(...stages.map((st) => st.items.length));
   const H = top + deepest * rowStep + 8;
@@ -423,7 +462,8 @@ export function chain(stages) {
    element on it is the period the document covers: ten stations on a
    rule, the first and last named. It is the plainest possible drawing
    and it is made of the only thing a cover is entitled to assert. */
-export function coverRule(first, last, n = 10) {
+export function coverRule(first, last, n = 10, tone) {
+  useTone(tone);
   const H = 12, y = 5;
   const x0 = 0, x1 = W;
   const step = (x1 - x0) / (n - 1);
