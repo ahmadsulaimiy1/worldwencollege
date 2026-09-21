@@ -497,7 +497,7 @@ export function offeredIn(regionKey, base) {
  * applied to the regional tariff, and the acquisition cost divided by
  * the seats the agreement carries.
  */
-export function seat(intensityKey, regionKey, payerKey, base, agreementCost = 9800) {
+export function seat(intensityKey, regionKey, payerKey, base, agreementCost = 9800, opts = {}) {
   const payer = PAYERS[payerKey];
   if (!payer) throw new Error(`no such payer: ${payerKey}`);
   const inv = investment(intensityKey, regionKey, base);
@@ -508,11 +508,42 @@ export function seat(intensityKey, regionKey, payerKey, base, agreementCost = 98
   const gross = inv.offered ? inv.published : inv.floor;
   const band = payer.band ? BANDS.find((b) => payer.band >= b.from && (b.to === null || payer.band <= b.to)) : null;
   const discount = band ? band.rate : 0;
+  const seatPrice = round50(gross * (1 - discount));
+  /* SEATS PER AGREEMENT ARE ELASTIC, AND THE ACQUISITION COST FOLLOWS
+     THEM. This reported `agreementCost / PAYERS[key].seats` — the
+     static figure — while the projection books the price-elastic
+     number that pricing.mjs solves. Two files disagreeing about how
+     many seats an agreement carries is two files disagreeing about
+     what a seat costs to win, and the gap was a fifth. */
+  /* ELASTIC DOWNWARD, CAPPED UPWARD, AND THE CAP IS THE POINT.
+     Letting seats per agreement respond freely to price created a
+     perverse incentive inside the model: a seat in a market the retail
+     tariff cannot reach is priced from the College's own contribution
+     FLOOR, so lowering the floor made sponsors buy more seats and the
+     decade look better. Uncapped, one sponsored agreement in West
+     Africa placed 266 learners — more than twice the cohort size the
+     College's own architecture says a sponsored relationship carries,
+     every one of them owed individual tutorial time.
+
+     So a dearer seat buys fewer than the published relationship size,
+     and a cheaper one does not buy more than it. The cap is
+     PAYERS[key].seats, which is a stated institutional fact rather
+     than a number this function derived from its own floor. */
+  const elastic = opts.seatsPerAgreement
+    ? Math.min(payer.seats, opts.seatsPerAgreement
+      * Math.pow(Math.max(0.05, seatPrice / (opts.referenceSeatPrice || seatPrice)),
+        opts.seatElasticity ?? 0))
+    : payer.seats;
   return {
-    ...inv, payer: payerKey, seats: payer.seats,
+    /* EXACT, NOT ROUNDED TO THE HALF-SEAT. `seats` is now read by
+       `portfolio()` to place volume while `acquisitionPerSeat` below is
+       struck from the same figure; rounding one and not the other put
+       the two a per cent apart for no better reason than a tidier
+       table. The publication rounds at the point of printing. */
+    ...inv, payer: payerKey, seats: elastic,
     band: payer.band, discount,
-    seatPrice: round50(gross * (1 - discount)),
-    acquisitionPerSeat: payer.institutional ? Math.round(agreementCost / payer.seats) : null,
+    seatPrice,
+    acquisitionPerSeat: payer.institutional ? Math.round(agreementCost / Math.max(1, elastic)) : null,
   };
 }
 
@@ -806,10 +837,15 @@ export function agreementPlacement(base, channels) {
     const weight = (rk) => reach[rk] * (byBudget ? REGIONS[rk].index : 1);
     const total = REGION_KEYS.reduce((t, rk) => t + weight(rk), 0);
     out[key] = REGION_KEYS.map((rk) => {
-      const s = seat(intensity, rk, payer, base, c.agreementCost);
+      const s = seat(intensity, rk, payer, base, c.agreementCost, {
+        seatsPerAgreement: c.seatsPerAgreement,
+        referenceSeatPrice: c.referenceSeatPrice,
+        seatElasticity: c.seatElasticity,
+      });
       return {
         region: rk,
         weighting: byBudget ? 'population × price level' : 'population',
+        seatsPerAgreement: s.seats,
         share: weight(rk) / total,
         seatPrice: s.seatPrice,
         cacPerSeat: s.acquisitionPerSeat,

@@ -506,7 +506,16 @@ export const CHANNELS = {
     spec: 'execCore',
     /** The adopted 25–99 band. data/commercial.json § routes.partner. */
     bandKey: 25,
+    /* THE ANCHOR OF THE CURVE, NOT A CLAIM ABOUT A TYPICAL AGREEMENT.
+       `seatsPerAgreement` is the size the relationship was estimated at
+       `referenceSeatPrice`, and the College charges more than that, so
+       the projected agreement is SMALLER than this figure rather than
+       equal to it. What bounds the curve at the other end is
+       `maxSeatsPerAgreement` — the largest relationship the College is
+       organised to carry, published in the payer table at Part III and
+       held identical to it by `tests/projection.test.mjs`. */
     seatsPerAgreement: 22,
+    maxSeatsPerAgreement: 22,
     /** Business development, travel, proposal and the negotiation — per
      *  agreement WON, so it carries the cost of the ones that were not. */
     agreementCost: 9800,
@@ -545,7 +554,16 @@ export const CHANNELS = {
     placementWeight: 'population',
     /** The adopted 100+ band. */
     bandKey: 100,
+    /* Anchor and ceiling, as above. A sponsored relationship was
+       estimated at 185 places at $12,400 a seat; the College charges
+       roughly twice that, so the projection carries about a hundred.
+       The published ceiling is 120, and it binds only in the two
+       markets whose seat is priced from the College's own contribution
+       floor — which is exactly where extrapolating an elasticity
+       estimated at $12,400 stops being evidence and starts being
+       arithmetic. */
     seatsPerAgreement: 185,
+    maxSeatsPerAgreement: 120,
     /** A longer sale against an institutional budget cycle, and a
      *  relationship built before it is opened. */
     agreementCost: 42000,
@@ -582,6 +600,32 @@ export const specOf = (key) => (CHANNELS[key] ? CHANNELS[key].spec : key);
 /** Every key the portfolio can report, channels included. */
 export const PORTFOLIO_KEYS = [...Object.keys(PRODUCTS), ...Object.keys(CHANNELS)];
 
+/**
+ * HOW MANY PLACES ONE AGREEMENT CARRIES, AT A GIVEN SEAT PRICE.
+ *
+ * This is the ONLY place the question is answered. It used to be
+ * answered twice — once here for the global case and once again,
+ * differently, inside `portfolio()` for the regional case — and the two
+ * answers were not the same: at the West African seat price the
+ * regional path solved 266 places against a published ceiling of 120,
+ * and costed acquisition across all 266. A single negotiation appeared
+ * to place more than twice the cohort the College says it can carry,
+ * and at less than half the true cost of winning it.
+ *
+ * Elastic downward, bounded upward. A dearer seat buys fewer places,
+ * because a training budget or an appropriation is finite. A cheaper
+ * seat does not buy an unbounded number, because every place is owed
+ * tutorial time: past the published relationship size the constraint
+ * stops being the buyer's budget and becomes the College's
+ * establishment, and no price signal relaxes it.
+ */
+export function seatsPerAgreementAt(key, seatPrice) {
+  const c = CHANNELS[key];
+  const ratio = Math.max(0.05, seatPrice / c.referenceSeatPrice);
+  return Math.min(c.maxSeatsPerAgreement,
+    c.seatsPerAgreement * Math.pow(ratio, c.seatElasticity));
+}
+
 /** What a channel charges a seat, and what it costs to win one. */
 export function channelTerms(key, prices) {
   const c = CHANNELS[key];
@@ -602,7 +646,7 @@ export function channelTerms(key, prices) {
      agreements are signed at all is a decision about whether to do this
      with WEC-LC. */
   const ratio = seatPrice / c.referenceSeatPrice;
-  const seats = c.seatsPerAgreement * Math.pow(Math.max(0.05, ratio), c.seatElasticity);
+  const seats = seatsPerAgreementAt(key, seatPrice);
   const agreements = c.agreementsAtMaturity * Math.pow(Math.max(0.05, ratio), c.agreementElasticity);
   return {
     key, name: c.name, short: c.short, spec: c.spec, list, discount, seatPrice,
@@ -716,8 +760,21 @@ function allocate(seg, prices) {
   // A segment's executive and tutored propensities are properties of the
   // buyer; what price changes is whether they buy at all, and whether a
   // tutored buyer steps down to directed when tutored is dear.
-  const stepDown = (dPrice == null || tPrice == null) ? 0 : Math.max(0, Math.min(0.55,
-    0.38 * Math.log(Math.max(1.02, tPrice / Math.max(1, dPrice))) ));
+  /* AND A ROUTE THAT IS NOT SOLD IS NOT THE SAME AS A ROUTE NOBODY
+     WANTS. The first cut set stepDown to zero whenever Tutored was
+     null — which parked the whole tutored share on a route the market
+     is not offered, where the loop then silently discarded it. In Asia
+     that is a third of the segment, thrown away while the Guided route
+     it would have stepped down to is on sale in that market.
+
+     Where Tutored is not offered and Guided is, the model's OWN
+     ceiling applies: everyone who can step down, does. Where neither
+     is offered there is nothing to step to and the value is nil. No
+     transfer coefficient is invented here; .55 is the cap this
+     function already enforces on a priced step-down. */
+  const stepDown = dPrice == null ? 0
+    : tPrice == null ? 0.55
+      : Math.max(0, Math.min(0.55, 0.38 * Math.log(Math.max(1.02, tPrice / Math.max(1, dPrice)))));
   const exec = seg.execShare * (1 - toIndependent * 0.5);
   const tutored = seg.tutoredShare * (1 - stepDown) * (1 - toIndependent);
   const rest = Math.max(0, 1 - exec - tutored);
@@ -813,22 +870,6 @@ export function portfolio(prices, opts = {}) {
     bySegment.push({ key: seg.key, name: seg.name, learners: Math.round(segLearners), revenue: Math.round(segRevenue) });
   }
 
-  // Money billed and then returned under the 14-day right of withdrawal
-  // is not revenue, and the development line is funded from what is
-  // left rather than from surplus.
-  const refunds = revenue * REFUND_RATE;
-  const netTuition = revenue - refunds;
-  const development = netTuition * DEVELOPMENT_SHARE;
-  /* ── THE TWO INSTITUTIONAL CHANNELS ──────────────────────────
-     These do not come out of the segment model, because the buyer is
-     not a person weighing a price against a salary — it is an
-     institution spending a budget on other people. Volume is therefore
-     driven by agreements won, not by conversion, and the acquisition
-     cost is divided by the seats an agreement carries.
-
-     They ramp with reach because a partnership function has to be built
-     before it can sign anything, and they open in the year the channel
-     plan says they open rather than in Year 1. */
   if (channels) {
     for (const key of Object.keys(CHANNELS)) {
       const c = CHANNELS[key];
@@ -841,8 +882,37 @@ export function portfolio(prices, opts = {}) {
          carrying its own acquisition cost per seat. Without one the
          channel behaves as it always did: one price, nowhere in
          particular. */
+      /* HOW MANY SEATS, AND WHERE THEY ARE, ARE TWO DIFFERENT
+         QUESTIONS. Agreements won is a function of the partnership
+         team — it is a sales capacity, and it does not rise because a
+         seat got cheaper. Seats PER agreement is a budget question and
+         does respond to price, so a sponsor whose seats cost a third
+         of the Gulf level buys more of them.
+
+         The first cut distributed a globally-computed seat total by
+         region, which evaluated both channel elasticities at a price
+         most of the seats are not sold at. Agreements are distributed
+         instead, and each region's seats per agreement are re-solved
+         against the price that region actually pays.
+
+         AND THE RE-SOLVE IS READ, NOT REPEATED. This block used to
+         recompute the seat curve itself, which quietly dropped the
+         published ceiling that the placement applies: the two files
+         then disagreed by 266 places against 120 in the two markets
+         priced from the contribution floor, and the disagreement ran
+         straight into ten-year revenue. The placement row is the
+         authority on how many places an agreement carries and what
+         winning one costs per place. */
       const where = placement && placement[key]
-        ? placement[key].map((r) => ({ n: total * r.share, price: r.seatPrice, cac: r.cacPerSeat }))
+        ? placement[key].map((r) => {
+          const agreements = t.agreements * r.share;
+          const perAgreement = r.seatsPerAgreement;
+          return {
+            n: agreements * perAgreement * Math.max(0, Math.min(1, reachScale)),
+            price: r.seatPrice,
+            cac: r.cacPerSeat,
+          };
+        })
         : [{ n: total, price: t.seatPrice, cac: t.cacPerSeat }];
       const perLevelHours = attentionHours(c.spec) / 6;
       let chLearners = 0, chRev = 0, chDel = 0;
@@ -867,6 +937,30 @@ export function portfolio(prices, opts = {}) {
     }
   }
 
+  /* ════════════════════════════════════════════════════════════════
+     STRUCK AFTER THE CHANNELS REPORT, AND IT USED TO BE BEFORE.
+     ════════════════════════════════════════════════════════════════
+     Refunds, net tuition and the development line were computed from
+     `revenue` at this point in the function — and the two institutional
+     channels then added their revenue to `revenue` further down, after
+     those three had already been fixed. Their COST was charged, because
+     delivery and acquisition are accumulated in place; their INCOME was
+     not.
+
+     The channels are half the institution: at the committed tariff they
+     carry 50.5 per cent of revenue. So `netTuition` came out at $6.4M
+     against a true $12.9M, and `surplus` and `margin` were not merely
+     wrong but the wrong SIGN — minus $1.96M and minus 14.9 per cent on
+     a portfolio that is comfortably positive.
+
+     The decade was never affected: project() recomputes revenue, net
+     tuition and surplus itself from byLag, which the channel block does
+     contribute to. It was this function's own summary figures that lied,
+     and they lied quietly, in the direction of pessimism, which is why
+     nothing downstream ever looked wrong enough to check. */
+  const refunds = revenue * REFUND_RATE;
+  const netTuition = revenue - refunds;
+  const development = netTuition * DEVELOPMENT_SHARE;
   const surplus = netTuition - delivery - acquisition - fixed - development;
   return {
     prices: Object.fromEntries(Object.entries(prices).map(([k, v]) => [k, Math.round(v)])),

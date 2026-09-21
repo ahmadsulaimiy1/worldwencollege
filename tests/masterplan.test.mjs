@@ -501,24 +501,37 @@ if (fail) process.exit(1);
      false one. So this checks the SHAPE rather than the direction: the
      comparison may fall whichever way the model says, but the
      publication must not describe a clean sweep it does not have. */
-  const dims = [
-    ['surplus', arch.proposed.totals.surplus, arch.adopted.totals.surplus],
-    ['revenue', arch.proposed.totals.revenue, arch.adopted.totals.revenue],
-    ['learners', arch.proposed.totals.newLearners, arch.adopted.totals.newLearners],
-    ['awards', arch.proposed.totals.awards, arch.adopted.totals.awards],
-  ];
-  const ahead = dims.filter(([, a, b]) => a > b).map(([n]) => n);
-  const behind = dims.filter(([, a, b]) => a < b).map(([n]) => n);
+  /* AND IT IS NO LONGER CHECKED AGAINST A SENTENCE SOMEBODY TYPED.
+     The guard used to grep render-monograph.mjs for the phrases a
+     sweep-claim would use. That caught the shape it was written for
+     and missed the one that actually happened next: the channel
+     correction handed three dimensions back to the proposal, and the
+     hand-written sacrifice sentence — still passing the grep, because
+     it claimed no sweep — was a build away from printing "admits
+     −2,102 fewer learners" on a Board paper.
+
+     So the model states its own direction, and the publication
+     composes the English from it. What is checked here is that the
+     direction exists, that it is complete, and that the page has no
+     hand-written claim left to go stale. */
+  const cmp = J.compare(arch);
   check('the comparison against the adopted tariff has a direction on every dimension',
-    ahead.length + behind.length === dims.length,
-    `ahead on ${ahead.join(', ') || 'nothing'}; behind on ${behind.join(', ') || 'nothing'}`);
+    cmp.ahead.length + cmp.behind.length === cmp.dims.length,
+    `ahead on ${cmp.ahead.map((d) => d.key).join(', ') || 'nothing'}; `
+    + `behind on ${cmp.behind.map((d) => d.key).join(', ') || 'nothing'}`);
+  check('...and every dimension is reported with its size, not merely its sign',
+    cmp.dims.every((d) => Number.isFinite(d.delta) && d.noun && d.unit),
+    cmp.dims.map((d) => `${d.key} ${d.delta > 0 ? '+' : ''}${Math.round(d.delta)}`).join(', '));
   {
     const { readFileSync: read } = await import('node:fs');
     const src = read(new URL('../scripts/publication/render-monograph.mjs', import.meta.url), 'utf8');
-    const claimsSweep = /more on every dimension|wins on every|more revenue, more surplus, more learners and more awards/i.test(src);
-    check('...and the publication does not claim a clean sweep it does not have',
-      !(behind.length > 0 && claimsSweep),
-      behind.length ? `behind on ${behind.join(', ')} — the text must state the trade` : 'ahead everywhere');
+    check('...and Appendix C composes that sentence rather than asserting a direction',
+      /architectureVerdict\(\)/.test(src) && /compare\(ARCH\)/.test(src));
+    /* The two phrasings this page has already been wrong in. Neither
+       may return as literal text, whichever way the model falls. */
+    const handWritten = /collects \$\{[^}]*\} LESS|fewer learners —|more on every dimension|wins on every/i.test(src);
+    check('...and neither of the two sentences that went stale is still in the source',
+      !handWritten);
   }
   check('...and the surplus advantage is not an artefact of collecting more',
     arch.proposed.totals.surplus > arch.adopted.totals.surplus

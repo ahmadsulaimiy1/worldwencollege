@@ -21,7 +21,7 @@ import { PLAN, basis } from './masterplan.mjs';
 import * as PR from './pricing.mjs';
 import * as AL from './allocation.mjs';
 import * as PF from './portfolio.mjs';
-import { scenarios as priceScenarios, architectures } from './projection.mjs';
+import { scenarios as priceScenarios, architectures, compare } from './projection.mjs';
 import { RISKS, GOVERNANCE, GOVERNANCE_COLUMNS, PHASES } from './plan-narrative.mjs';
 
 const ROOT = path.resolve(new URL('../..', import.meta.url).pathname);
@@ -129,6 +129,43 @@ const figAmort = () => F.amortisation(
       note: `${t.agreements.toFixed(0)} agreements × ${t.seatsPerAgreement.toFixed(0)} seats` };
   }));
 const figRisk = () => F.riskMatrix(RISKS);
+
+/* ── THE SENTENCE THAT KEPT GOING STALE ──────────────────────────────
+   Appendix C's closing line describes how the proposal compares with
+   the flat fee the brief adopted. It has been hand-written three
+   times and been wrong twice: it claimed a clean sweep after the
+   regional pricing took one dimension back, and then claimed a
+   sacrifice after the channel correction gave three of them to the
+   proposal — on that revision it was one build away from printing
+   "admits −2,102 fewer learners" on a Board paper.
+
+   `PJ.compare()` reads the direction off the model. This composes the
+   English. Neither guesses which way it fell. */
+const andList = (xs) => (xs.length < 2 ? (xs[0] || '')
+  : `${xs.slice(0, -1).join(', ')} and ${xs[xs.length - 1]}`);
+const sizeOf = (d) => (d.unit === 'money'
+  ? `${m$(Math.abs(d.delta))} of ${d.noun}`
+  : `${num(Math.abs(d.delta))} ${d.noun}`);
+const architectureVerdict = () => {
+  const c = compare(ARCH);
+  const retained = `It retains ${pct(c.ourMargin, 1)} of what it collects against ${pct(c.theirMargin, 1)}.`;
+  if (c.behind.length === 0) {
+    /* A SWEEP IS A CLAIM, NOT A RESULT. If the model ever hands one
+       back, the page says WHY it is possible rather than presenting it
+       as a free lunch — a Board that is offered more of everything is
+       being asked to trust an assumption somewhere. */
+    return `Against a single global fee the proposal is ahead on ${andList(c.ahead.map(sizeOf))},`
+      + ` and a proposal that is ahead on everything deserves the question a Board should ask of it.`
+      + ` A single fee is one number for four markets: it stands above what two of them will pay,`
+      + ` so it forfeits the learners, and below what the other two will, so it forfeits the margin.`
+      + ` The portfolio does not beat it by charging more. It beats it by charging each market`
+      + ` separately. ${retained}`;
+  }
+  return `Against a single global fee the proposal gives up ${andList(c.behind.map(sizeOf))}`
+    + ` — two of the College’s four markets carry no taught route at retail, and a flat fee books`
+    + ` income from learners who would not have enrolled at it — and buys ${andList(c.ahead.map(sizeOf))}.`
+    + ` ${retained} The trade is real, and it runs toward the two things the institution exists for.`;
+};
 
 /* ── RESILIENCE, WHICH THE PLAN COMPUTED AND NEVER PUBLISHED ─────────
    The reserve policy is stated in MONTHS OF OPERATING COST, so the
@@ -1298,7 +1335,7 @@ function build() {
         { em: true, cells: ['<b>PROPOSED</b>', m$(ARCH.proposed.totals.revenue),
           m$(ARCH.proposed.totals.surplus), num(ARCH.proposed.totals.newLearners), num(ARCH.proposed.totals.alumni)] },
       ],
-      source: `Against a single global fee the proposal collects ${m$(ARCH.adopted.totals.revenue - ARCH.proposed.totals.revenue)} LESS over the decade and admits ${num(ARCH.adopted.totals.newLearners - ARCH.proposed.totals.newLearners)} fewer learners — two of the College’s four markets carry no taught route at retail. It confers ${num(ARCH.proposed.totals.awards - ARCH.adopted.totals.awards)} more qualifications and retains ${m$(ARCH.proposed.totals.surplus)} against ${m$(ARCH.adopted.totals.surplus)}, which is ${pct(ARCH.proposed.totals.surplus / ARCH.proposed.totals.revenue, 1)} of what it collects against ${pct(ARCH.adopted.totals.surplus / ARCH.adopted.totals.revenue, 1)}. The trade is real, and it runs toward the two things the institution exists for.`,
+      source: architectureVerdict(),
     }), { runhead: 'Appendices', tone: 'pal pal--scholarly' })
   ));
 

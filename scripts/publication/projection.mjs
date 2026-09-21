@@ -281,3 +281,47 @@ export function scenarios() {
     }),
   };
 }
+
+/**
+ * WHAT THE PROPOSAL BUYS, AND WHAT IT GIVES UP TO BUY IT.
+ *
+ * ────────────────────────────────────────────────────────────────────
+ * THIS COMPARISON HAS FALLEN THREE DIFFERENT WAYS IN THREE REVISIONS.
+ * ────────────────────────────────────────────────────────────────────
+ * When the portfolio was retail only it bought reach by giving up
+ * margin, and the plan said so. Adding the institutional channels made
+ * it beat a single global fee on revenue, surplus, learners and awards
+ * at once. Pricing the decade by region took revenue back — two of the
+ * College's four markets carry no taught route at retail, so a flat fee
+ * books income from learners who would not have enrolled at it.
+ *
+ * Each time, a sentence written against the previous shape survived in
+ * the publication describing a trade the model no longer had — once
+ * claiming a clean sweep it had lost, once claiming a sacrifice it had
+ * stopped making, and once about to print "−2,102 fewer learners".
+ *
+ * So the sentence is no longer written. It is COMPOSED, from whichever
+ * way the model actually falls, and the only thing fixed in advance is
+ * that both halves of it get said.
+ */
+export function compare(a = architectures()) {
+  const p = a.proposed.totals, q = a.adopted.totals;
+  const dims = [
+    { key: 'revenue', unit: 'money', noun: 'ten-year revenue', ours: p.revenue, theirs: q.revenue },
+    { key: 'learners', unit: 'count', noun: 'admissions', ours: p.newLearners, theirs: q.newLearners },
+    { key: 'awards', unit: 'count', noun: 'qualifications conferred', ours: p.awards, theirs: q.awards },
+    { key: 'surplus', unit: 'money', noun: 'retained surplus', ours: p.surplus, theirs: q.surplus },
+  ].map((d) => ({ ...d, delta: d.ours - d.theirs }));
+  return {
+    dims,
+    ahead: dims.filter((d) => d.delta > 0),
+    behind: dims.filter((d) => d.delta < 0),
+    level: dims.filter((d) => d.delta === 0),
+    ourMargin: p.surplus / p.revenue,
+    theirMargin: q.surplus / q.revenue,
+    /** True when the proposal is ahead on everything — which is a
+     *  claim that must be EARNED each time it is printed, not a
+     *  default. */
+    sweep: dims.every((d) => d.delta > 0),
+  };
+}
