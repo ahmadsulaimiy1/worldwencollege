@@ -1,0 +1,256 @@
+{
+  "_": [
+    "THE FIVE ROUTES — defined educational products, not quantities of time.",
+    "",
+    "Every route carries the whole of qualification.json: the same sixty",
+    "modules, the same ten person-marked assignments a level, the same",
+    "examination, the same double marking, moderation and conferral. What",
+    "differs is the support a learner receives on the way to it, and each",
+    "difference is listed here as a component with its own driver.",
+    "",
+    "Hours appear below only where the thing being specified is a",
+    "commitment of teaching — a seminar timetable, a tutorial entitlement —",
+    "because that is what the College must staff. They are the cost basis",
+    "of the route. They are never the unit in which the route is sold, and",
+    "no page of the plan divides a price by them."
+  ],
+  "order": [
+    "independent",
+    "guided",
+    "tutored",
+    "executive",
+    "bespoke"
+  ],
+  "routes": {
+    "independent": {
+      "name": "WEC-LC Independent",
+      "for": "The academically capable, self-directed learner who wants the qualification and will study on their own schedule.",
+      "promise": "The complete qualification: curriculum, learning environment, assessment, examination, second marking, moderation, conferral, registry and verification, with defined academic support.",
+      "components": {
+        "adviserHoursPerLevel": {
+          "v": 0.5,
+          "b": "design",
+          "s": "Placement, progression advice and a substantive reply to any academic question",
+          "u": "hours per learner per level",
+          "driver": "learner"
+        }
+      },
+      "grade": "instructor",
+      "privateScheduling": false
+    },
+    "guided": {
+      "name": "WEC-LC Guided",
+      "for": "The learner who wants to study with others, to a timetable, with a teacher setting the pace.",
+      "promise": "Everything in Independent, and structured teaching in a scheduled seminar cohort, academic guidance, monitored progress and written feedback on every assignment beyond the mark.",
+      "components": {
+        "seminarHoursPerLevel": {
+          "v": 24,
+          "b": "design",
+          "s": "Two hours of scheduled seminar teaching a week across the twelve teaching weeks",
+          "u": "hours per section per level",
+          "driver": "section"
+        },
+        "sectionCap": {
+          "v": 14,
+          "b": "design",
+          "s": "A seminar cohort is capped at fourteen",
+          "u": "learners"
+        },
+        "feedbackMinutesPerAssignment": {
+          "v": 6,
+          "b": "design",
+          "s": "Structured written feedback on each assignment, beyond the mark",
+          "u": "minutes per script",
+          "driver": "script"
+        },
+        "monitoringHoursPerLevel": {
+          "v": 0.5,
+          "b": "design",
+          "s": "Progress monitored by the seminar teacher, with an intervention where a learner falls behind",
+          "u": "hours per learner per level",
+          "driver": "learner"
+        },
+        "adviserHoursPerLevel": {
+          "v": 0.5,
+          "b": "design",
+          "s": "As Independent",
+          "u": "hours per learner per level",
+          "driver": "learner"
+        }
+      },
+      "grade": "instructor",
+      "privateScheduling": false
+    },
+    "tutored": {
+      "name": "WEC-LC Tutored",
+      "for": "The learner who wants individual academic attention: a named adviser, personal feedback and tutorials.",
+      "promise": "Everything in Guided, in a smaller seminar cohort, with individual tutorials, a named academic adviser, personalised feedback and a structured progress review at every level.",
+      "components": {
+        "seminarHoursPerLevel": {
+          "v": 24,
+          "b": "design",
+          "s": "Two hours of scheduled seminar teaching a week across the twelve teaching weeks, as on Guided",
+          "u": "hours per section per level",
+          "driver": "section"
+        },
+        "sectionCap": {
+          "v": 10,
+          "b": "design",
+          "s": "A smaller cohort of ten",
+          "u": "learners"
+        },
+        "tutorialHoursPerLevel": {
+          "v": 8,
+          "b": "design",
+          "s": "Individual tutorials with a named instructor across the level",
+          "u": "hours per learner per level",
+          "driver": "learner"
+        },
+        "feedbackMinutesPerAssignment": {
+          "v": 12,
+          "b": "design",
+          "s": "Personalised feedback on each assignment, keyed to the learner's own progress record",
+          "u": "minutes per script",
+          "driver": "script"
+        },
+        "adviserHoursPerLevel": {
+          "v": 1.5,
+          "b": "design",
+          "s": "A named academic adviser for the whole qualification",
+          "u": "hours per learner per level",
+          "driver": "learner"
+        },
+        "reviewHoursPerLevel": {
+          "v": 1,
+          "b": "design",
+          "s": "A structured progress review at the end of each level",
+          "u": "hours per learner per level",
+          "driver": "learner"
+        }
+      },
+      "grade": "instructor",
+      "privateScheduling": false
+    },
+    "executive": {
+      "name": "WEC-LC Executive",
+      "for": "The senior professional whose English must carry authority, and whose calendar cannot follow a published timetable.",
+      "promise": "The qualification delivered as an executive educational service: a closed professional cohort, senior academic staff, private scheduling, individual academic planning, the English of leadership, and high-touch administration and priority support.",
+      "components": {
+        "seminarHoursPerLevel": {
+          "v": 24,
+          "b": "design",
+          "s": "The qualification's seminar programme, taught in a closed professional cohort",
+          "u": "hours per section per level",
+          "driver": "section"
+        },
+        "leadershipStrandHoursPerLevel": {
+          "v": 8,
+          "b": "design",
+          "s": "The English of leadership — presentation, negotiation, correspondence and the conduct of meetings — taught in the same cohort; supplementary to the qualification and not assessed differently",
+          "u": "hours per section per level",
+          "driver": "section"
+        },
+        "sectionCap": {
+          "v": 6,
+          "b": "design",
+          "s": "A closed cohort of six",
+          "u": "learners"
+        },
+        "tutorialHoursPerLevel": {
+          "v": 12,
+          "b": "design",
+          "s": "Individual sessions scheduled around the learner's professional obligations",
+          "u": "hours per learner per level",
+          "driver": "learner"
+        },
+        "feedbackMinutesPerAssignment": {
+          "v": 15,
+          "b": "design",
+          "s": "Feedback written for professional use",
+          "u": "minutes per script",
+          "driver": "script"
+        },
+        "adviserHoursPerLevel": {
+          "v": 2,
+          "b": "design",
+          "s": "An individual academic plan agreed at entry and reviewed at every level",
+          "u": "hours per learner per level",
+          "driver": "learner"
+        },
+        "oversightHoursPerLevel": {
+          "v": 2,
+          "b": "design",
+          "s": "Senior academic oversight of the learner's route",
+          "u": "hours per learner per level",
+          "driver": "learner"
+        },
+        "administrationHoursPerLevel": {
+          "v": 3,
+          "b": "design",
+          "s": "Diary negotiation, priority response and the coordination an executive relationship requires",
+          "u": "administrative hours per learner per level",
+          "driver": "learner"
+        }
+      },
+      "strandAuthoringHoursPerLevel": {
+        "v": 60,
+        "b": "management",
+        "s": "Authoring the leadership strand once for each level, before the route first opens",
+        "u": "academic hours"
+      },
+      "grade": "senior",
+      "privateScheduling": true
+    },
+    "bespoke": {
+      "name": "WEC-LC Bespoke",
+      "for": "The individual whose professional field, schedule and purpose need a programme built around them alone.",
+      "promise": "The qualification delivered one to one by senior academic staff, with material written to the holder's own professional domain, entirely private scheduling, and dedicated administration.",
+      "components": {
+        "tutorialHoursPerLevel": {
+          "v": 40,
+          "b": "design",
+          "s": "The whole teaching programme delivered one to one",
+          "u": "hours per learner per level",
+          "driver": "learner"
+        },
+        "feedbackMinutesPerAssignment": {
+          "v": 20,
+          "b": "design",
+          "s": "Feedback written for the holder's own professional context",
+          "u": "minutes per script",
+          "driver": "script"
+        },
+        "adviserHoursPerLevel": {
+          "v": 3,
+          "b": "design",
+          "s": "An individual academic plan, agreed and reviewed with the holder",
+          "u": "hours per learner per level",
+          "driver": "learner"
+        },
+        "oversightHoursPerLevel": {
+          "v": 3,
+          "b": "design",
+          "s": "Senior academic oversight",
+          "u": "hours per learner per level",
+          "driver": "learner"
+        },
+        "authoringHoursPerLevel": {
+          "v": 15,
+          "b": "design",
+          "s": "Material written to the holder's professional domain — curriculum cost that cannot be shared with anyone",
+          "u": "academic hours per learner per level",
+          "driver": "learner"
+        },
+        "administrationHoursPerLevel": {
+          "v": 5,
+          "b": "design",
+          "s": "Dedicated administration",
+          "u": "administrative hours per learner per level",
+          "driver": "learner"
+        }
+      },
+      "grade": "senior",
+      "privateScheduling": true
+    }
+  }
+}

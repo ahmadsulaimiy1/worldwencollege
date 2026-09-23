@@ -1,0 +1,16 @@
+{
+  "_": [
+    "HOW LEARNERS MOVE THROUGH THE QUALIFICATION.",
+    "",
+    "Of those who begin a level, a share complete it; of those who complete",
+    "it, a share begin the next level in the following term. Both rise with",
+    "the level, because a learner who has reached B2 has already shown the",
+    "commitment an A1 entrant has not. These are the plan's own assumptions,",
+    "and they are the first quantities the College replaces with its own",
+    "measurement: continuation is, on the plan's own stress test, the",
+    "variable the institution is most sensitive to."
+  ],
+  "completion": { "v": [0.83, 0.86, 0.88, 0.89, 0.9, 0.91], "b": "management", "s": "Share of those beginning a level who complete it", "u": "share by level" },
+  "continuation": { "v": [0.74, 0.78, 0.81, 0.84, 0.87], "b": "management", "s": "Share of those completing a level who begin the next in the following term", "u": "share, level I to II through V to VI" },
+  "entryLevel": { "v": [0.34, 0.26, 0.2, 0.12, 0.06, 0.02], "b": "management", "s": "The level at which new learners are placed: most enter at A1 or A2, few at C1 or above", "u": "share of new enrolments by entry level" }
+}

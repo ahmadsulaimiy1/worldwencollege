@@ -1,0 +1,330 @@
+{
+  "_": [
+    "MARKETS — where the College recruits, in what order, and what a learner",
+    "costs to reach.",
+    "",
+    "Demand is driven by what the College decides to spend, not by an",
+    "assumed share of a population. Acquisition spend in each market is a",
+    "decision (the schedule below); the cost of an enquiry is evidence; the",
+    "five conversion stages follow the College's own admissions passage —",
+    "Enquiry, Application, Placement, Offer, Enrolment. What a learner costs",
+    "to acquire is therefore an OUTPUT the Board can test, not an input.",
+    "",
+    "A market does not absorb spending without limit. Past the reference",
+    "spend, each further enquiry costs more; the rate at which it does is",
+    "the plan's principal demand assumption and the first thing the College",
+    "measures once it recruits."
+  ],
+  "order": [
+    "gulf",
+    "ukEurope",
+    "westAfrica",
+    "asia"
+  ],
+  "funnel": {
+    "enquiryToApplication": {
+      "v": 0.2619,
+      "b": "evidenced",
+      "s": "Set so that the whole funnel turns 9.0% of enquiries into enrolments — the ratio of the median cost per enquiry ($106) to the median cost per enrolled student ($1,173) in professional, continuing and online programmes. The benchmark's averages ($140 and $2,849) imply 4.9%, which the plan tests as a named shock. Search Influence and UPCEA, higher education marketing benchmarks — searchinfluence.com/blog/2026-higher-education-marketing-benchmarks (2024 study of professional, continuing and online programmes, restated 21 May 2026)",
+      "u": "share"
+    },
+    "applicationToPlacement": {
+      "v": 0.75,
+      "b": "management",
+      "s": "Share of applicants who complete the placement assessment",
+      "u": "share"
+    },
+    "placementToOffer": {
+      "v": 0.92,
+      "b": "management",
+      "s": "Share of placed applicants who receive an offer at a level the College teaches",
+      "u": "share"
+    },
+    "offerToEnrolment": {
+      "v": 0.5,
+      "b": "management",
+      "s": "Share of offers accepted and paid",
+      "u": "share"
+    },
+    "saturation": {
+      "v": 0.3,
+      "b": "management",
+      "s": "Elasticity of the cost of an enquiry to spend above the reference level: doubling spend beyond it raises the cost of each enquiry by about a quarter",
+      "u": "exponent"
+    },
+    "leadTerms": {
+      "v": 1,
+      "b": "management",
+      "s": "An enquiry becomes an enrolment in the following term; acquisition is spent a term ahead of the revenue it produces",
+      "u": "terms"
+    }
+  },
+  "markets": {
+    "gulf": {
+      "name": "The Gulf",
+      "why": "The best-evidenced market for premium English education, where employer and family sponsorship of study is ordinary and executive demand is strongest.",
+      "opens": "2027-3",
+      "costPerEnquiryUsd": {
+        "v": 106,
+        "b": "evidenced",
+        "s": "Median cost per enquiry for professional, continuing and online programmes. No published figure for this market survived verification, so the plan applies the benchmark unchanged rather than assume a cheaper market; the College's first campaigns replace it. Search Influence and UPCEA, higher education marketing benchmarks — searchinfluence.com/blog/2026-higher-education-marketing-benchmarks (2024 study of professional, continuing and online programmes, restated 21 May 2026)",
+        "u": "USD per enquiry"
+      },
+      "referenceSpendUsd": {
+        "v": 150000,
+        "b": "management",
+        "s": "Annual spend above which the cost of an enquiry begins to rise",
+        "u": "USD per year"
+      },
+      "routes": {
+        "v": {
+          "independent": 0.15,
+          "guided": 0.35,
+          "tutored": 0.28,
+          "executive": 0.17,
+          "bespoke": 0.05
+        },
+        "b": "management",
+        "s": "Retail mix of routes chosen, informed by the market's evidenced willingness to pay for group teaching and for executive instruction",
+        "u": "share of enrolments"
+      },
+      "spendUsd": {
+        "v": {
+          "2027": 60000,
+          "2028": 180000,
+          "2029": 240000,
+          "2030": 300000,
+          "2031": 330000,
+          "2032": 360000
+        },
+        "b": "design",
+        "s": "The acquisition budget the plan commits; held at the last stated level thereafter",
+        "u": "USD per year"
+      },
+      "cardMix": {
+        "v": {
+          "international": 1
+        },
+        "b": "design",
+        "s": "Cards issued in the Gulf are international cards to a UK Stripe account",
+        "u": "share of card payments by Stripe card class"
+      }
+    },
+    "ukEurope": {
+      "name": "The United Kingdom and Europe",
+      "why": "The home market, where the College's London standing is read directly and pre-sessional English sets a price the qualification can stand beside.",
+      "opens": "2028-1",
+      "costPerEnquiryUsd": {
+        "v": 106,
+        "b": "evidenced",
+        "s": "Median cost per enquiry for professional, continuing and online programmes. No published figure for this market survived verification, so the plan applies the benchmark unchanged rather than assume a cheaper market; the College's first campaigns replace it. Search Influence and UPCEA, higher education marketing benchmarks — searchinfluence.com/blog/2026-higher-education-marketing-benchmarks (2024 study of professional, continuing and online programmes, restated 21 May 2026)",
+        "u": "USD per enquiry"
+      },
+      "referenceSpendUsd": {
+        "v": 120000,
+        "b": "management",
+        "s": "Annual acquisition spend in this market above which each further enquiry costs more",
+        "u": "USD per year"
+      },
+      "routes": {
+        "v": {
+          "independent": 0.25,
+          "guided": 0.4,
+          "tutored": 0.25,
+          "executive": 0.08,
+          "bespoke": 0.02
+        },
+        "b": "management",
+        "s": "Retail mix of routes chosen in this market, informed by its evidenced willingness to pay",
+        "u": "share of enrolments"
+      },
+      "spendUsd": {
+        "v": {
+          "2028": 90000,
+          "2029": 150000,
+          "2030": 200000,
+          "2031": 240000
+        },
+        "b": "design",
+        "s": "The acquisition budget the plan commits in this market; held at the last stated level thereafter",
+        "u": "USD per year"
+      },
+      "cardMix": {
+        "v": {
+          "ukStandard": 0.35,
+          "ukPremium": 0.15,
+          "eea": 0.5
+        },
+        "b": "management",
+        "s": "Half the market's learners are expected to pay with UK cards, a third of those premium cards, and half with EEA cards; the College's first year of payments replaces it",
+        "u": "share of card payments by Stripe card class"
+      }
+    },
+    "westAfrica": {
+      "name": "West Africa",
+      "why": "A large and ambitious market whose published prices for English study sit far below what any route of this qualification costs to deliver — the whole published Nigerian range tops out near $1,800. The College does not sell there more cheaply; it reaches West African learners through institutions, ministries and foundations that fund places on the published terms.",
+      "opens": "2030-1",
+      "routes": {
+        "v": {},
+        "b": "design",
+        "s": "No route at retail: every route costs more to deliver than the market's published prices. West Africa is served through institutional agreements",
+        "u": "share of enrolments"
+      },
+      "spendUsd": {
+        "v": {},
+        "b": "design",
+        "s": "No retail acquisition spend; the market is reached through the partnerships team",
+        "u": "USD per year"
+      }
+    },
+    "asia": {
+      "name": "Asia and the wider world",
+      "why": "Opened last, deliberately: the College holds no direct published evidence of prices there and will not spend to be known in a market it has not studied. It opens once three years of recruitment elsewhere have measured what a learner costs to reach.",
+      "opens": "2030-1",
+      "costPerEnquiryUsd": {
+        "v": 106,
+        "b": "evidenced",
+        "s": "Median cost per enquiry for professional, continuing and online programmes. No published figure for this market survived verification, so the plan applies the benchmark unchanged rather than assume a cheaper market; the College's first campaigns replace it. Search Influence and UPCEA, higher education marketing benchmarks — searchinfluence.com/blog/2026-higher-education-marketing-benchmarks (2024 study of professional, continuing and online programmes, restated 21 May 2026)",
+        "u": "USD per enquiry"
+      },
+      "referenceSpendUsd": {
+        "v": 80000,
+        "b": "management",
+        "s": "Annual acquisition spend in this market above which each further enquiry costs more",
+        "u": "USD per year"
+      },
+      "routes": {
+        "v": {
+          "independent": 0.45,
+          "guided": 0.4,
+          "tutored": 0.15
+        },
+        "b": "management",
+        "s": "Independent and the group-taught routes",
+        "u": "share of enrolments"
+      },
+      "spendUsd": {
+        "v": {
+          "2030": 60000,
+          "2031": 100000,
+          "2032": 140000
+        },
+        "b": "design",
+        "s": "The acquisition budget the plan commits in this market; held at the last stated level thereafter",
+        "u": "USD per year"
+      },
+      "cardMix": {
+        "v": {
+          "international": 1
+        },
+        "b": "design",
+        "s": "Cards issued outside the UK and the EEA are international cards to a UK Stripe account",
+        "u": "share of card payments by Stripe card class"
+      }
+    }
+  },
+  "agreements": {
+    "corporate": {
+      "name": "Employers",
+      "what": "An employer buying places for its own staff, on the Tutored route, against a training budget.",
+      "opens": "2028-3",
+      "route": "tutored",
+      "discount": {
+        "v": 0.15,
+        "b": "design",
+        "s": "The College's partner band for an agreement of ten to ninety-nine places",
+        "u": "share of the published fee"
+      },
+      "seatsPerAgreement": {
+        "v": 10,
+        "b": "management",
+        "s": "A department or cohort of staff",
+        "u": "learners"
+      },
+      "agreementsPerYear": {
+        "v": {
+          "2028": 2,
+          "2029": 5,
+          "2030": 8,
+          "2031": 10,
+          "2032": 12
+        },
+        "b": "design",
+        "s": "Agreements the partnerships team is resourced to win",
+        "u": "agreements"
+      },
+      "originationUsd": {
+        "v": 6000,
+        "b": "management",
+        "s": "Travel, proposal and negotiation for each agreement won, beyond the team's own salaries",
+        "u": "USD per agreement"
+      },
+      "receivableDays": {
+        "v": 45,
+        "b": "management",
+        "s": "Invoiced per term; paid on employer terms",
+        "u": "days"
+      },
+      "markets": {
+        "v": {
+          "gulf": 0.6,
+          "ukEurope": 0.4
+        },
+        "b": "management",
+        "s": "Where employer agreements are expected to be signed",
+        "u": "share"
+      }
+    },
+    "institutional": {
+      "name": "Institutions and sponsors",
+      "what": "A ministry, university, foundation or federation buying places at scale on the Guided route under a public or charitable mandate.",
+      "opens": "2030-1",
+      "route": "guided",
+      "discount": {
+        "v": 0.2,
+        "b": "design",
+        "s": "The College's partner band for an agreement of a hundred places or more",
+        "u": "share of the published fee"
+      },
+      "seatsPerAgreement": {
+        "v": 60,
+        "b": "management",
+        "s": "A funded cohort",
+        "u": "learners"
+      },
+      "agreementsPerYear": {
+        "v": {
+          "2030": 1,
+          "2031": 2,
+          "2032": 3,
+          "2033": 4
+        },
+        "b": "design",
+        "s": "As employers",
+        "u": "agreements"
+      },
+      "originationUsd": {
+        "v": 25000,
+        "b": "management",
+        "s": "A long sale against an institutional budget cycle",
+        "u": "USD per agreement"
+      },
+      "receivableDays": {
+        "v": 90,
+        "b": "management",
+        "s": "Public and charitable buyers pay on longer terms",
+        "u": "days"
+      },
+      "markets": {
+        "v": {
+          "westAfrica": 0.5,
+          "asia": 0.3,
+          "gulf": 0.2
+        },
+        "b": "management",
+        "s": "Where institutional agreements are expected to be signed",
+        "u": "share"
+      }
+    }
+  }
+}

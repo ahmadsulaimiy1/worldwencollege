@@ -1,0 +1,220 @@
+{
+  "_": [
+    "THE QUALIFICATION — what every WEC-LC learner receives, on every route.",
+    "",
+    "This file is the part of the Master Plan that does not change with",
+    "price. It specifies the award and the academic work that produces it:",
+    "the curriculum, the assessment, the marking, the moderation and the",
+    "conferral. Every one of the five routes carries all of it, identically,",
+    "and that identity is the plan's first commercial fact — one academic",
+    "standard, several ways of reaching it.",
+    "",
+    "Every leaf is { v: value, b: basis, s: source or reasoning, u: unit }.",
+    "Bases: design — a specification the College sets for itself; management —",
+    "a planning assumption, to be replaced by measurement once the College",
+    "operates; evidenced — a published external source; interim — a figure",
+    "the evidence sweep is to replace, and which the plan may not publish.",
+    "",
+    "Built from zero: nothing here is read from the College's existing",
+    "records (CLAUDE.md §8)."
+  ],
+  "structure": {
+    "levels": {
+      "v": 6,
+      "b": "design",
+      "s": "Six levels, A1 to C2 on the CEFR",
+      "u": "levels"
+    },
+    "levelNames": {
+      "v": [
+        "A1",
+        "A2",
+        "B1",
+        "B2",
+        "C1",
+        "C2"
+      ],
+      "b": "design",
+      "s": "The six levels of the Common European Framework of Reference for Languages"
+    },
+    "modulesPerLevel": {
+      "v": 10,
+      "b": "design",
+      "s": "Ten modules a level, each a unit of assessed study",
+      "u": "modules"
+    },
+    "termsPerYear": {
+      "v": 3,
+      "b": "design",
+      "s": "Three intakes a year: Spring, Summer, Autumn",
+      "u": "terms"
+    },
+    "monthsPerTerm": {
+      "v": 4,
+      "b": "design",
+      "s": "One level is studied across one four-month term",
+      "u": "months"
+    },
+    "teachingWeeksPerTerm": {
+      "v": 12,
+      "b": "design",
+      "s": "Twelve teaching weeks in each term, the balance given to examination, moderation and conferral",
+      "u": "weeks"
+    }
+  },
+  "assessment": {
+    "quizzesPerLevel": {
+      "v": 10,
+      "b": "design",
+      "s": "One machine-marked quiz a module, low-stakes by design",
+      "u": "quizzes"
+    },
+    "assignmentsPerLevel": {
+      "v": 10,
+      "b": "design",
+      "s": "One assignment a module, marked by a person against a rubric published before the work",
+      "u": "scripts"
+    },
+    "examinationsPerLevel": {
+      "v": 1,
+      "b": "design",
+      "s": "A three-hour written paper and a recorded spoken paper at the end of each level",
+      "u": "sittings"
+    },
+    "secondMarkingShare": {
+      "v": 1.0,
+      "b": "design",
+      "s": "Every judged mark is read by a second marker before it reaches the candidate",
+      "u": "share of judged marks"
+    },
+    "reconciliationRate": {
+      "v": 0.12,
+      "b": "management",
+      "s": "Share of scripts on which the two readings differ by more than the three-point tolerance and a third reading is opened; replaced by the College's own marker-agreement record after the first two terms",
+      "u": "share of scripts"
+    },
+    "reconciliationEffort": {
+      "v": 0.6,
+      "b": "management",
+      "s": "A third reading addresses only the disputed criteria, so costs less than a full first reading",
+      "u": "share of a first reading"
+    },
+    "resitRate": {
+      "v": 0.08,
+      "b": "management",
+      "s": "Share of candidates taking the one re-sit the regulations allow; a zero-revenue event that costs a new paper, a new sitting and a new double marking",
+      "u": "share of sitters"
+    },
+    "candidatesPerInvigilator": {
+      "v": 25,
+      "b": "management",
+      "s": "Online invigilation, one invigilator to a sitting group",
+      "u": "candidates"
+    },
+    "sittingHours": {
+      "v": 3.5,
+      "b": "design",
+      "s": "Three-hour paper plus admission and technical check",
+      "u": "hours"
+    },
+    "markingMinutes": {
+      "assignmentFirst": {
+        "v": [
+          10,
+          12,
+          15,
+          18,
+          22,
+          26
+        ],
+        "b": "management",
+        "s": "Minutes to mark one assignment by level — a C2 script is longer and harder to judge than an A1 script",
+        "u": "minutes per script"
+      },
+      "writtenPaperFirst": {
+        "v": [
+          25,
+          30,
+          35,
+          40,
+          45,
+          50
+        ],
+        "b": "management",
+        "s": "Minutes to mark one written examination script, criterion by criterion",
+        "u": "minutes per script"
+      },
+      "spokenPaperFirst": {
+        "v": [
+          12,
+          14,
+          16,
+          18,
+          20,
+          22
+        ],
+        "b": "management",
+        "s": "Minutes to mark one recorded spoken paper",
+        "u": "minutes per recording"
+      }
+    }
+  },
+  "institutionalWork": {
+    "moderationHoursPerLevelTerm": {
+      "v": 5,
+      "b": "management",
+      "s": "The moderation panel closes each level's batch each term within five working days, re-reading a sample",
+      "u": "hours per level per term"
+    },
+    "moderationSampleShare": {
+      "v": 0.1,
+      "b": "design",
+      "s": "A tenth of the batch is re-read in moderation",
+      "u": "share of scripts"
+    },
+    "examinationBoardHoursPerTerm": {
+      "v": 12,
+      "b": "management",
+      "s": "The Examination Board sits once a term to confirm results and authorise conferral",
+      "u": "academic hours per term"
+    },
+    "paperVersionsPerLevelYear": {
+      "v": 3,
+      "b": "design",
+      "s": "A new paper each term, so that a re-sit never meets the paper it failed and no task is reused within a year",
+      "u": "versions"
+    },
+    "hoursPerPaperVersion": {
+      "v": 30,
+      "b": "management",
+      "s": "Authoring, rubric, trial marking and review of one paper version",
+      "u": "academic hours"
+    },
+    "curriculumMaintenanceHoursPerModuleYear": {
+      "v": 8,
+      "b": "management",
+      "s": "Annual revision of each module against what teaching and assessment show",
+      "u": "academic hours"
+    },
+    "qualityReviewHoursPerYear": {
+      "v": 160,
+      "b": "management",
+      "s": "The annual review cycle: curriculum, assessment, learner experience, teaching, standards, platform and outcomes",
+      "u": "academic hours"
+    }
+  },
+  "establishment": {
+    "authoringHoursPerModule": {
+      "v": 70,
+      "b": "management",
+      "s": "Writing one module of assessed online study from nothing: learning materials, activities, quiz bank, assignment and rubric, review and accessibility check",
+      "u": "academic hours"
+    },
+    "levelAuthoredTermsAhead": {
+      "v": 1,
+      "b": "design",
+      "s": "Each level is authored and reviewed at least one full term before its first learners reach it",
+      "u": "terms"
+    }
+  }
+}

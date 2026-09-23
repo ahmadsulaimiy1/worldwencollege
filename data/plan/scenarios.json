@@ -1,0 +1,157 @@
+{
+  "_": [
+    "WHAT HAPPENS IF THE PLAN IS WRONG — one assumption at a time, then in",
+    "combination.",
+    "",
+    "Every case re-runs the whole model. None is a multiplier on a finished",
+    "total, because a shock changes what the College can teach, which",
+    "changes what it admits, which changes the establishment it needs."
+  ],
+  "shocks": {
+    "enrolmentLower": {
+      "name": "Enrolment twenty per cent lower",
+      "set": {
+        "conversionScale": 0.8
+      },
+      "b": "design",
+      "s": "Every market converts a fifth fewer enquiries into enrolments",
+      "warning": "Enrolments against plan, two consecutive intakes"
+    },
+    "continuationLower": {
+      "name": "Continuation ten points lower",
+      "set": {
+        "continuationDelta": -0.1
+      },
+      "b": "design",
+      "s": "Ten percentage points fewer learners continue from each level to the next",
+      "warning": "Continuation at any level five points below plan for two terms"
+    },
+    "acquisitionDearer": {
+      "name": "Acquisition a quarter dearer",
+      "set": {
+        "enquiryCostScale": 1.25
+      },
+      "b": "design",
+      "s": "Every enquiry costs a quarter more to generate",
+      "warning": "Cost per enrolment above plan for two consecutive terms"
+    },
+    "benchmarkAverages": {
+      "name": "Acquisition at the benchmark averages",
+      "set": {
+        "enquiryCostScale": 1.3208,
+        "conversionScale": 0.5438
+      },
+      "b": "design",
+      "s": "Enquiries cost the benchmark average of $140 rather than the median of $106, and convert at the 4.9% the averages imply rather than 9.0%",
+      "warning": "Cost per enrolment above $2,000 in any market for two terms"
+    },
+    "payHigher": {
+      "name": "Academic pay fifteen per cent higher",
+      "set": {
+        "teachingPayScale": 1.15
+      },
+      "b": "design",
+      "s": "The national market for qualified teachers of English tightens",
+      "warning": "Vacancies open more than one term"
+    },
+    "executiveThinner": {
+      "name": "Executive demand half the plan",
+      "set": {
+        "routeShift": {
+          "from": [
+            "executive",
+            "bespoke"
+          ],
+          "to": "tutored",
+          "share": 0.5
+        }
+      },
+      "b": "design",
+      "s": "Half of the executive and bespoke learners the plan expects take the Tutored route instead",
+      "warning": "Executive share of Gulf enrolments below plan for two intakes"
+    },
+    "agreementsLate": {
+      "name": "Institutional agreements a year late",
+      "set": {
+        "agreementDelayYears": 1
+      },
+      "b": "design",
+      "s": "Both agreement channels open a year later and ramp a year behind",
+      "warning": "No signed agreement by the planned opening term"
+    },
+    "gulfLate": {
+      "name": "Gulf launch two terms late",
+      "set": {
+        "marketDelayTerms": {
+          "gulf": 2
+        }
+      },
+      "b": "design",
+      "s": "The first market opens two terms behind plan",
+      "warning": "Admissions not open by the planned term"
+    },
+    "technologyDearer": {
+      "name": "Technology fifty per cent dearer",
+      "set": {
+        "technologyScale": 1.5
+      },
+      "b": "design",
+      "s": "Every purchased technology line costs half as much again",
+      "warning": "Platform spend above budget for two quarters"
+    },
+    "sterlingStronger": {
+      "name": "The pound ten per cent stronger",
+      "set": {
+        "fxScale": 1.1
+      },
+      "b": "design",
+      "s": "The College earns in dollars and pays in pounds; every sterling cost is ten per cent dearer in dollars for the whole decade",
+      "warning": "The dollar below its planning rate against sterling for a full term"
+    },
+    "priceSensitive": {
+      "name": "Demand sensitive to price",
+      "set": {
+        "priceElasticity": 0.8
+      },
+      "b": "design",
+      "s": "Enrolment falls by eight tenths of one per cent for each one per cent the tariff stands above the plan's reference",
+      "warning": "Offer acceptance below plan in the premium routes"
+    },
+    "capitalLate": {
+      "name": "Second tranche of capital two terms late",
+      "set": {
+        "trancheDelayTerms": 2
+      },
+      "b": "design",
+      "s": "The capital needed to expand arrives two terms after the gate it was released against",
+      "warning": "Tranche not drawn by the gate date"
+    }
+  },
+  "combined": {
+    "slowStart": {
+      "name": "A slow start",
+      "shocks": [
+        "gulfLate",
+        "enrolmentLower",
+        "acquisitionDearer"
+      ],
+      "s": "The first market opens late, converts less well and costs more to reach — the case the founding capital must survive"
+    },
+    "thinPremium": {
+      "name": "A thinner premium market",
+      "shocks": [
+        "executiveThinner",
+        "priceSensitive"
+      ],
+      "s": "The top of the market is smaller and more price-conscious than planned"
+    },
+    "institutionalDelay": {
+      "name": "Partners slower than planned",
+      "shocks": [
+        "agreementsLate",
+        "continuationLower"
+      ],
+      "s": "The institutional channels arrive late and learners persist less"
+    }
+  }
+}

@@ -1,0 +1,248 @@
+{
+  "_": [
+    "RUNNING THE INSTITUTION — premises, compliance, assurance and governance.",
+    "",
+    "The College teaches online and is administered from London. It keeps a",
+    "registered office and a small serviced office for the leadership and",
+    "the registry; teaching staff work remotely."
+  ],
+  "lines": {
+    "registeredOffice": {
+      "name": "Registered office",
+      "gbpPerYear": {
+        "v": 299.88,
+        "b": "evidenced",
+        "s": "A London registered office and mail address at £24.99 a month. The Hoxton Mix, virtual office pricing — hoxtonmix.com/virtual-office-london-old-street, retrieved 23 Sep 2026",
+        "u": "GBP per year"
+      },
+      "from": "2027-1"
+    },
+    "office": {
+      "name": "Serviced office, London",
+      "gbpPerDeskMonth": {
+        "v": 640,
+        "b": "evidenced",
+        "s": "Serviced office desk, Farringdon — the London submarket closest to the City at a mid-market rate (the index runs £620 Shoreditch to £865 Soho). LondonOffices.com, London office cost price index 2026 — londonoffices.com/london-office-cost-price-index-2026, published 11 Sep 2026",
+        "u": "GBP per desk per month"
+      },
+      "deskShareOfNonTeachingStaff": {
+        "v": 0.5,
+        "b": "design",
+        "s": "Leadership, registry and administration work hybrid; one desk for every two",
+        "u": "desks per person"
+      },
+      "from": "2027-1"
+    },
+    "insurance": {
+      "name": "Insurance: professional indemnity, employers' liability, cyber",
+      "usdPerYear": {
+        "v": 9000,
+        "b": "management",
+        "s": "A planning allowance for professional indemnity, public and employers' liability, cyber and directors' cover. The published price for a small education business is far lower — £457.52 a year for £10 million of public and employers' liability with professional indemnity (Simply Business, education insurance, data 1 Jan–30 Jun 2026) — but an institution that holds learners' records and confers awards carries cover a consultancy does not. Employers' liability of at least £5 million is a legal requirement (GOV.UK, Employers' liability insurance)",
+        "u": "USD per year"
+      },
+      "shareOfRevenue": {
+        "v": 0.002,
+        "b": "management",
+        "s": "Premiums rise with turnover and enrolment",
+        "u": "share of revenue"
+      },
+      "from": "2027-1"
+    },
+    "audit": {
+      "name": "Independent audit",
+      "policy": {
+        "v": "voluntary",
+        "b": "design",
+        "s": "At the scale of this plan the College meets two of the three small-company tests — turnover up to £15 million, assets up to £7.5 million, 50 employees or fewer — and is exempt from statutory audit (GOV.UK, Audit exemptions for private limited companies, retrieved 23 Sep 2026). It is audited anyway, from its second year, because founders and a Board require audited accounts",
+        "u": ""
+      },
+      "gbpByTurnoverGbp": {
+        "v": [
+          [
+            0,
+            6000
+          ],
+          [
+            1000000,
+            12000
+          ],
+          [
+            5000000,
+            25000
+          ]
+        ],
+        "b": "evidenced",
+        "s": "Audit fee by the previous year's turnover, at the top of each published band: under £1 million £3,000–£6,000; £1–5 million £5,000–£12,000; £5–15 million £10,000–£25,000. Audit Group, statutory audit costs 2025/26 — auditgroup.co.uk/statutory-audit-costs, retrieved 23 Sep 2026",
+        "u": "GBP per year at turnover"
+      },
+      "from": "2028-1"
+    },
+    "accounting": {
+      "name": "Accounting system, payroll and tax compliance",
+      "gbpPerMonth": {
+        "v": 55,
+        "b": "evidenced",
+        "s": "Xero Comprehensive, £55 a month. Xero, UK pricing plans — xero.com/uk/pricing-plans, retrieved 23 Sep 2026",
+        "u": "GBP per month"
+      },
+      "gbpPerPayslipMonth": {
+        "v": 1.5,
+        "b": "evidenced",
+        "s": "Xero payroll, £1.00 to £1.50 for each person paid; the top of the range. Xero, UK pricing plans — xero.com/uk/pricing-plans, retrieved 23 Sep 2026",
+        "u": "GBP per person per month"
+      },
+      "gbpPerYear": {
+        "v": 1800,
+        "b": "evidenced",
+        "s": "Year-end accounts and corporation tax return prepared externally, at the top of the published range for a limited company (£1,200–£1,800); the Head of Finance keeps the books. Sleek UK, cost of running a limited company — sleek.com/uk/resources/cost-of-running-a-limited-company, published 10 Aug 2026",
+        "u": "GBP per year"
+      },
+      "from": "2027-1"
+    },
+    "legal": {
+      "name": "Legal and company secretarial",
+      "usdPerYear": {
+        "v": 20000,
+        "b": "management",
+        "s": "Contracts, agreements with institutional buyers, employment and data protection advice",
+        "u": "USD per year"
+      },
+      "from": "2027-1"
+    },
+    "establishmentLegal": {
+      "name": "Establishment: incorporation, instruments and terms",
+      "usdOnce": {
+        "v": 45000,
+        "b": "management",
+        "s": "Incorporation, the academic and governance instruments, learner terms and contracts, drafted and reviewed before the first intake",
+        "u": "USD"
+      },
+      "at": "2027-1"
+    },
+    "dataProtection": {
+      "name": "Data protection registration",
+      "gbpPerYear": {
+        "v": 78,
+        "b": "evidenced",
+        "s": "ICO data protection fee, tier 2 (small and medium organisations), £78 a year. Information Commissioner's Office — ico.org.uk/for-organisations/data-protection-fee, retrieved 23 Sep 2026",
+        "u": "GBP per year"
+      },
+      "from": "2027-1"
+    },
+    "externalExaminer": {
+      "name": "External Examiners",
+      "examiners": {
+        "v": 3,
+        "b": "design",
+        "s": "One External Examiner for each pair of levels, one of whom is appointed Chief External Examiner",
+        "u": "examiners"
+      },
+      "gbpPerExaminerYear": {
+        "v": 600,
+        "b": "evidenced",
+        "s": "University of Essex annual fee for an undergraduate award of nine or more modules, £600 — a floor, dated to 2024/25. University of Essex, Fees and expenses for external examiners — essex.ac.uk/staff/academic-standards-and-quality/fees-and-expenses-external-examiners, retrieved 23 Sep 2026",
+        "u": "GBP per examiner per year"
+      },
+      "chiefSupplementGbp": {
+        "v": 150,
+        "b": "evidenced",
+        "s": "Supplement for a Senior External Examiner, £150 (University of Dundee, policy and code of practice on external examining — dundee.ac.uk, AY2024-25)",
+        "u": "GBP per year"
+      },
+      "from": "2027-3"
+    },
+    "accreditation": {
+      "name": "Independent accreditation: British Accreditation Council, Online, Distance and Blended Learning",
+      "why": {
+        "v": "apply",
+        "b": "design",
+        "s": "The College applies for accreditation of its online provision once three years of teaching can be inspected. A cost of seeking recognition; not a claim the College holds it",
+        "u": ""
+      },
+      "applies": "2030-1",
+      "applicationGbp": {
+        "v": 551,
+        "b": "evidenced",
+        "s": "Application fee, non-refundable. British Accreditation Council, Guide to Accreditation and Inspection Fees 2026/27 — the-bac.org/wp-content/uploads/2026/06/BAC-Fees-Brochure-2026-27.pdf",
+        "u": "GBP"
+      },
+      "inspectionManagementGbp": {
+        "v": 2095,
+        "b": "evidenced",
+        "s": "Inspection management fee, UK provider. British Accreditation Council, Guide to Accreditation and Inspection Fees 2026/27 — the-bac.org/wp-content/uploads/2026/06/BAC-Fees-Brochure-2026-27.pdf",
+        "u": "GBP per inspection"
+      },
+      "inspectionGbp": {
+        "v": 7789,
+        "b": "evidenced",
+        "s": "Inspection fee, three inspectors for three days — the top of the table (£865 for one inspector for one day). British Accreditation Council, Guide to Accreditation and Inspection Fees 2026/27 — the-bac.org/wp-content/uploads/2026/06/BAC-Fees-Brochure-2026-27.pdf",
+        "u": "GBP per inspection"
+      },
+      "interimInspectionGbp": {
+        "v": 992,
+        "b": "evidenced",
+        "s": "Interim inspection within twelve months of accreditation, £992 a day (UK); one day. British Accreditation Council, Guide to Accreditation and Inspection Fees 2026/27 — the-bac.org/wp-content/uploads/2026/06/BAC-Fees-Brochure-2026-27.pdf",
+        "u": "GBP"
+      },
+      "cycleYears": {
+        "v": 4,
+        "b": "evidenced",
+        "s": "Accreditation runs for four years before full re-inspection. British Accreditation Council, Guide to Accreditation and Inspection Fees 2026/27 — the-bac.org/wp-content/uploads/2026/06/BAC-Fees-Brochure-2026-27.pdf",
+        "u": "years"
+      },
+      "annualGbpByEnrolled": {
+        "v": [
+          [
+            0,
+            1842
+          ],
+          [
+            3001,
+            3070
+          ],
+          [
+            8001,
+            3930
+          ]
+        ],
+        "b": "evidenced",
+        "s": "Annual accreditation fee by learners enrolled: £1,842 up to 3,000; £3,070 to 8,000; £3,930 above. British Accreditation Council, Guide to Accreditation and Inspection Fees 2026/27 — the-bac.org/wp-content/uploads/2026/06/BAC-Fees-Brochure-2026-27.pdf",
+        "u": "GBP per year at learners"
+      }
+    },
+    "companiesHouse": {
+      "name": "Companies House",
+      "gbpOnce": {
+        "v": 100,
+        "b": "evidenced",
+        "s": "Incorporation of a private limited company online, £100. Companies House fees — gov.uk/government/publications/companies-house-fees/companies-house-fees, updated 2 Jul 2026",
+        "u": "GBP"
+      },
+      "at": "2027-1",
+      "gbpPerYear": {
+        "v": 50,
+        "b": "evidenced",
+        "s": "Annual confirmation statement filed online, £50. Companies House fees — gov.uk/government/publications/companies-house-fees/companies-house-fees, updated 2 Jul 2026",
+        "u": "GBP per year"
+      },
+      "from": "2027-1"
+    },
+    "governance": {
+      "name": "Board of Governors",
+      "members": {
+        "v": 5,
+        "b": "design",
+        "s": "Five independent governors",
+        "u": "members"
+      },
+      "usdPerMemberYear": {
+        "v": 6000,
+        "b": "management",
+        "s": "An honorarium and expenses for four meetings a year",
+        "u": "USD"
+      },
+      "from": "2027-1"
+    }
+  }
+}

@@ -1,0 +1,207 @@
+{
+  "_": [
+    "TECHNOLOGY — each line with the one thing it scales with.",
+    "",
+    "The College's platform is its own: the learning environment, the",
+    "assessment and recording workspace, the registry and public",
+    "verification, admissions and payments. It runs on Cloudflare (Workers,",
+    "D1, R2), takes payments through Stripe and sends email through Resend.",
+    "The people who build and run it are on the establishment (people.json);",
+    "this file carries only what the College buys.",
+    "",
+    "Card processing is not technology. It is a cost of collecting revenue",
+    "and is charged there (policy.json)."
+  ],
+  "lines": {
+    "hosting": {
+      "name": "Application hosting and compute",
+      "fixedUsdPerMonth": {
+        "v": 5,
+        "b": "evidenced",
+        "s": "Workers Paid plan, $5 a month minimum; includes the D1 database allowances. Cloudflare, Workers pricing — developers.cloudflare.com/workers/platform/pricing, retrieved 23 Sep 2026",
+        "u": "USD per month"
+      },
+      "requestsPerActiveLearnerMonth": {
+        "v": 4000,
+        "b": "management",
+        "s": "About 130 page and application requests on each day of a month of study — lessons, submissions, recordings, results and messages",
+        "u": "requests"
+      },
+      "includedRequestsPerMonth": {
+        "v": 10000000,
+        "b": "evidenced",
+        "s": "10 million requests a month included. Cloudflare, Workers pricing — developers.cloudflare.com/workers/platform/pricing, retrieved 23 Sep 2026",
+        "u": "requests"
+      },
+      "usdPerMillionRequests": {
+        "v": 0.3,
+        "b": "evidenced",
+        "s": "$0.30 per additional million requests. Cloudflare, Workers pricing — developers.cloudflare.com/workers/platform/pricing, retrieved 23 Sep 2026",
+        "u": "USD"
+      },
+      "cpuMsPerRequest": {
+        "v": 10,
+        "b": "management",
+        "s": "Average compute time of one request, generous for an application that mostly reads and writes records",
+        "u": "CPU milliseconds"
+      },
+      "includedCpuMsPerMonth": {
+        "v": 30000000,
+        "b": "evidenced",
+        "s": "30 million CPU milliseconds a month included. Cloudflare, Workers pricing — developers.cloudflare.com/workers/platform/pricing, retrieved 23 Sep 2026",
+        "u": "CPU milliseconds"
+      },
+      "usdPerMillionCpuMs": {
+        "v": 0.02,
+        "b": "evidenced",
+        "s": "$0.02 per additional million CPU milliseconds. Cloudflare, Workers pricing — developers.cloudflare.com/workers/platform/pricing, retrieved 23 Sep 2026",
+        "u": "USD"
+      }
+    },
+    "database": {
+      "name": "Academic record database",
+      "rowsWrittenPerActiveLearnerMonth": {
+        "v": 3000,
+        "b": "management",
+        "s": "Attendance, submissions, marks, second marks, feedback and messages written for one learner in a month",
+        "u": "rows"
+      },
+      "includedRowsWrittenPerMonth": {
+        "v": 50000000,
+        "b": "evidenced",
+        "s": "D1: first 50 million rows written a month included (25 billion rows read are also included, far beyond the College's use). Cloudflare, Workers pricing — developers.cloudflare.com/workers/platform/pricing, retrieved 23 Sep 2026",
+        "u": "rows"
+      },
+      "usdPerMillionRowsWritten": {
+        "v": 1.0,
+        "b": "evidenced",
+        "s": "D1: $1.00 per additional million rows written. Cloudflare, Workers pricing — developers.cloudflare.com/workers/platform/pricing, retrieved 23 Sep 2026",
+        "u": "USD"
+      },
+      "mbPerLearner": {
+        "v": 5,
+        "b": "management",
+        "s": "The permanent academic record of one learner: enrolment, marks, feedback and award — kept for as long as the College exists",
+        "u": "MB"
+      },
+      "includedGb": {
+        "v": 5,
+        "b": "evidenced",
+        "s": "D1: first 5 GB of storage included. Cloudflare, Workers pricing — developers.cloudflare.com/workers/platform/pricing, retrieved 23 Sep 2026",
+        "u": "GB"
+      },
+      "usdPerGbMonth": {
+        "v": 0.75,
+        "b": "evidenced",
+        "s": "D1: $0.75 per additional GB-month. Cloudflare, Workers pricing — developers.cloudflare.com/workers/platform/pricing, retrieved 23 Sep 2026",
+        "u": "USD per GB-month"
+      }
+    },
+    "storage": {
+      "name": "Recordings and submissions storage",
+      "gbPerLearnerLevel": {
+        "v": 0.8,
+        "b": "management",
+        "s": "Recorded spoken papers, speaking practice and ten submitted assignments a level",
+        "u": "GB"
+      },
+      "usdPerGbMonth": {
+        "v": 0.015,
+        "b": "evidenced",
+        "s": "R2 Standard storage, $0.015 per GB-month; egress is free, and request charges ($4.50 and $0.36 per million) are negligible at the College's volume. Cloudflare, R2 pricing — developers.cloudflare.com/r2/pricing, retrieved 23 Sep 2026",
+        "u": "USD per GB-month"
+      },
+      "retentionMonths": {
+        "v": 72,
+        "b": "design",
+        "s": "Assessment evidence is retained for six years after it is made, the College's own retention period for assessment records",
+        "u": "months"
+      },
+      "includedGb": {
+        "v": 10,
+        "b": "evidenced",
+        "s": "R2: 10 GB-month of storage free each month. Cloudflare, R2 pricing — developers.cloudflare.com/r2/pricing, retrieved 23 Sep 2026",
+        "u": "GB"
+      }
+    },
+    "email": {
+      "name": "Transactional email",
+      "usdPerMonthAt": {
+        "v": [
+          [
+            0,
+            0
+          ],
+          [
+            3000,
+            20
+          ],
+          [
+            50000,
+            35
+          ],
+          [
+            100000,
+            160
+          ],
+          [
+            200000,
+            350
+          ],
+          [
+            500000,
+            650
+          ]
+        ],
+        "b": "evidenced",
+        "s": "Resend transactional plans by monthly volume: free to 3,000; Pro $20 for 50,000 and $35 for 100,000; Scale $160 for 200,000, $350 for 500,000, $650 for 1,000,000. Resend, pricing — resend.com/pricing, retrieved 23 Sep 2026",
+        "u": "USD per month at emails per month"
+      },
+      "emailsPerActiveLearnerMonth": {
+        "v": 12,
+        "b": "management",
+        "s": "Enrolment, schedule, results, moderation and conferral notices",
+        "u": "emails"
+      }
+    },
+    "classroom": {
+      "name": "Live classroom licences",
+      "usdPerHostMonth": {
+        "v": 14.16,
+        "b": "evidenced",
+        "s": "Zoom Workplace Pro, $14.16 per user a month billed annually; education pricing ($10) is not assumed, because the College's eligibility is unconfirmed. Zoom, pricing — zoom.us/pricing, retrieved 23 Sep 2026",
+        "u": "USD per host per month"
+      },
+      "hosts": "every instructor and senior instructor"
+    },
+    "workplace": {
+      "name": "Staff productivity suite",
+      "usdPerUserMonth": {
+        "v": 12,
+        "b": "management",
+        "s": "A planning allowance for a business email, calendar and document suite for every member of staff; no vendor price page could be read to confirm it, and the College's first purchase replaces it",
+        "u": "USD per user per month"
+      },
+      "users": "every member of staff"
+    },
+    "security": {
+      "name": "Independent security testing",
+      "gbpPerYear": {
+        "v": 6250,
+        "b": "evidenced",
+        "s": "One independent web application penetration test a year by a CREST-accredited UK provider, at the top of the published range (£3,750 to £6,250 and more; about £1,200 a day for three to five days). Precursor Security, Penetration testing cost — precursorsecurity.com/services/offensive-security/penetration-testing/cost, updated August 2026",
+        "u": "GBP per year"
+      },
+      "from": "2027-2"
+    },
+    "registry": {
+      "name": "Perpetual registry and verification",
+      "usdPerHolderYear": {
+        "v": 0.05,
+        "b": "management",
+        "s": "Storage and serving of the permanent record for every award-holder, for as long as the College exists — the one cost whose driver never decays",
+        "u": "USD per cumulative award-holder per year"
+      }
+    }
+  }
+}

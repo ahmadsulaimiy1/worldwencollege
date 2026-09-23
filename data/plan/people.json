@@ -1,0 +1,281 @@
+{
+  "_": [
+    "THE ESTABLISHMENT — every post the institution needs, why it exists, and",
+    "what creates it.",
+    "",
+    "Two kinds of post. STANDING posts exist because the institution exists:",
+    "they are hired on a date, whatever the enrolment. SCALING posts are",
+    "created by a threshold — learners under instruction, instructors to",
+    "manage, executive learners to serve — and are always hired as whole",
+    "people, one term before the workload that needs them arrives.",
+    "",
+    "Teaching staff are not on this list. Their number is derived every term",
+    "from the academic hours the service specification requires (engine.mjs).",
+    "",
+    "Salaries are the April 2025 figures of the Office for National Statistics'",
+    "earnings survey, carried forward to each year of the plan at the annual pay",
+    "rise. Teaching is online and recruited nationally, so academic salaries",
+    "are UK figures; the establishment works from London, so its salaries are",
+    "London figures wherever the survey publishes a reliable one. Pounds are",
+    "converted to dollars at the rate in policy.json.",
+    "",
+    "Offices are named here; people are not. No holder is published for any",
+    "post."
+  ],
+  "onCosts": {
+    "employerNiRate": {
+      "v": 0.15,
+      "b": "evidenced",
+      "s": "Employer Class 1 National Insurance, 2026/27. HMRC, Rates and thresholds for employers 2026 to 2027 — gov.uk/guidance/rates-and-thresholds-for-employers-2026-to-2027, retrieved 23 Sep 2026",
+      "u": "share of earnings above threshold"
+    },
+    "employerNiThresholdGbp": {
+      "v": 5000,
+      "b": "evidenced",
+      "s": "Employer NI secondary threshold, £5,000 a year, 2026/27; held flat through the plan. HMRC, Rates and thresholds for employers 2026 to 2027 — gov.uk/guidance/rates-and-thresholds-for-employers-2026-to-2027, retrieved 23 Sep 2026",
+      "u": "GBP per year"
+    },
+    "pensionRate": {
+      "v": 0.05,
+      "b": "design",
+      "s": "The College pays five per cent of salary into a workplace pension — above the statutory employer minimum of three per cent of qualifying earnings (GOV.UK, Workplace pensions: what you, your employer and the government pay, retrieved 23 Sep 2026)",
+      "u": "share of salary"
+    },
+    "employmentAllowanceGbp": {
+      "v": 10500,
+      "b": "evidenced",
+      "s": "Employment Allowance: reduces the employer's National Insurance bill by up to £10,500 a year. HMRC, Rates and thresholds for employers 2026 to 2027 — gov.uk/guidance/rates-and-thresholds-for-employers-2026-to-2027, retrieved 23 Sep 2026",
+      "u": "GBP per year"
+    },
+    "apprenticeshipLevyRate": {
+      "v": 0.005,
+      "b": "evidenced",
+      "s": "Apprenticeship Levy: 0.5% of the annual pay bill, payable where the pay bill exceeds £3 million. HMRC, Pay Apprenticeship Levy — gov.uk/guidance/pay-apprenticeship-levy, updated 6 Apr 2026",
+      "u": "share of pay bill"
+    },
+    "apprenticeshipLevyAllowanceGbp": {
+      "v": 15000,
+      "b": "evidenced",
+      "s": "Levy allowance of £15,000 a year set against the levy. HMRC, Pay Apprenticeship Levy — gov.uk/guidance/pay-apprenticeship-levy, updated 6 Apr 2026",
+      "u": "GBP per year"
+    },
+    "salaryBasisYear": {
+      "v": 2025,
+      "b": "evidenced",
+      "s": "The survey salaries are for April 2025 (ONS, ASHE 2025 provisional — ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours, released 23 Oct 2025). Each is carried forward from 2025 at the annual pay rise, so the plan's first-year salaries already include two years of increases",
+      "u": "year"
+    },
+    "recruitmentCostShare": {
+      "v": 0.12,
+      "b": "management",
+      "s": "Advertising, assessment and onboarding of one hire, as a share of first-year salary",
+      "u": "share of salary"
+    },
+    "annualPayRise": {
+      "v": 0.03,
+      "b": "management",
+      "s": "Salaries rise three per cent a year across the establishment",
+      "u": "per year"
+    }
+  },
+  "teaching": {
+    "instructor": {
+      "salaryGbp": {
+        "v": 42218,
+        "b": "evidenced",
+        "s": "Further education teaching professionals (SOC 2312), UK median — the occupation closest to teaching and marking a six-level examined qualification. ONS, Annual Survey of Hours and Earnings 2025 (provisional), Table 14.7a, full-time gross annual pay — ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/occupation4digitsoc2010ashetable14, released 23 Oct 2025",
+        "u": "GBP per year"
+      }
+    },
+    "senior": {
+      "salaryGbp": {
+        "v": 52835,
+        "b": "evidenced",
+        "s": "Higher education teaching professionals (SOC 2311), UK median — the grade that teaches the Executive and Bespoke routes and leads ten instructors. ONS, Annual Survey of Hours and Earnings 2025 (provisional), Table 14.7a, full-time gross annual pay — ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/occupation4digitsoc2010ashetable14, released 23 Oct 2025",
+        "u": "GBP per year"
+      }
+    },
+    "contractedHoursPerYear": {
+      "v": 1650,
+      "b": "design",
+      "s": "A full-time academic contract of 37.5 hours a week across 44 working weeks",
+      "u": "hours"
+    },
+    "deliveryShare": {
+      "v": 0.72,
+      "b": "management",
+      "s": "Share of contracted time spent teaching, marking, tutoring and advising; the rest is preparation, standardisation and professional development",
+      "u": "share"
+    },
+    "deliveryShareWhenPrivate": {
+      "v": 0.58,
+      "b": "management",
+      "s": "An academic held available around learners' own calendars cannot be block-scheduled; the lost fraction is what private scheduling costs",
+      "u": "share"
+    },
+    "instructorsPerAcademicLead": {
+      "v": 10,
+      "b": "design",
+      "s": "One academic lead manages, observes and standardises ten instructors",
+      "u": "instructors"
+    }
+  },
+  "posts": {
+    "principal": {
+      "name": "Principal and Chief Executive",
+      "salaryGbp": {
+        "v": 83623,
+        "b": "evidenced",
+        "s": "Head teachers and principals (SOC 2321), UK upper quartile; the London median is not published. The head of an institution that awards its own qualification is set at the upper quartile of its occupation. ONS, Annual Survey of Hours and Earnings 2025 (provisional), Table 14.7a, full-time gross annual pay — ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/occupation4digitsoc2010ashetable14, released 23 Oct 2025",
+        "u": "GBP per year"
+      },
+      "from": "2027-1",
+      "kind": "standing"
+    },
+    "academicDirector": {
+      "name": "Director of Academic Standards",
+      "salaryGbp": {
+        "v": 59897,
+        "b": "evidenced",
+        "s": "Education managers (SOC 2322), UK upper quartile — the most senior academic manager below the Principal. ONS, Annual Survey of Hours and Earnings 2025 (provisional), Table 14.7a, full-time gross annual pay — ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/occupation4digitsoc2010ashetable14, released 23 Oct 2025",
+        "u": "GBP per year"
+      },
+      "from": "2027-1",
+      "kind": "standing"
+    },
+    "registrar": {
+      "name": "Registrar",
+      "salaryGbp": {
+        "v": 49031,
+        "b": "evidenced",
+        "s": "Education managers (SOC 2322), London median — the head of the registry and the record. ONS, Annual Survey of Hours and Earnings 2025 (provisional), Table 15, full-time gross annual pay by region — ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/regionbyoccupation4digitsoc2010ashetable15, released 23 Oct 2025",
+        "u": "GBP per year"
+      },
+      "from": "2027-1",
+      "kind": "standing"
+    },
+    "financeHead": {
+      "name": "Head of Finance",
+      "salaryGbp": {
+        "v": 61549,
+        "b": "evidenced",
+        "s": "Financial accounts managers (SOC 3534), London median. ONS, Annual Survey of Hours and Earnings 2025 (provisional), Table 15, full-time gross annual pay by region — ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/regionbyoccupation4digitsoc2010ashetable15, released 23 Oct 2025",
+        "u": "GBP per year"
+      },
+      "from": "2027-1",
+      "kind": "standing"
+    },
+    "platformEngineer": {
+      "name": "Platform Engineer",
+      "salaryGbp": {
+        "v": 75296,
+        "b": "evidenced",
+        "s": "Programmers and software development professionals (SOC 2134), London median. ONS, Annual Survey of Hours and Earnings 2025 (provisional), Table 15, full-time gross annual pay by region — ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/regionbyoccupation4digitsoc2010ashetable15, released 23 Oct 2025",
+        "u": "GBP per year"
+      },
+      "from": "2027-1",
+      "kind": "scaling",
+      "base": 2,
+      "perActive": 2000
+    },
+    "marketingLead": {
+      "name": "Head of Marketing and Admissions",
+      "salaryGbp": {
+        "v": 60658,
+        "b": "evidenced",
+        "s": "Marketing and commercial managers (SOC 2432), London median. ONS, Annual Survey of Hours and Earnings 2025 (provisional), Table 15, full-time gross annual pay by region — ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/regionbyoccupation4digitsoc2010ashetable15, released 23 Oct 2025",
+        "u": "GBP per year"
+      },
+      "from": "2027-2",
+      "kind": "standing"
+    },
+    "admissionsOfficer": {
+      "name": "Admissions Officer",
+      "salaryGbp": {
+        "v": 33939,
+        "b": "evidenced",
+        "s": "Other administrative occupations n.e.c. (SOC 4159), London median. ONS, Annual Survey of Hours and Earnings 2025 (provisional), Table 15, full-time gross annual pay by region — ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/regionbyoccupation4digitsoc2010ashetable15, released 23 Oct 2025",
+        "u": "GBP per year"
+      },
+      "from": "2027-2",
+      "kind": "scaling",
+      "base": 1,
+      "perEnrolmentsPerTerm": 250
+    },
+    "learnerServices": {
+      "name": "Learner Services Officer",
+      "salaryGbp": {
+        "v": 33730,
+        "b": "evidenced",
+        "s": "Welfare and housing associate professionals (SOC 3229), London median — the closest occupation to learner support. ONS, Annual Survey of Hours and Earnings 2025 (provisional), Table 15, full-time gross annual pay by region — ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/regionbyoccupation4digitsoc2010ashetable15, released 23 Oct 2025",
+        "u": "GBP per year"
+      },
+      "from": "2027-3",
+      "kind": "scaling",
+      "base": 1,
+      "perActive": 350
+    },
+    "examinationsOfficer": {
+      "name": "Examinations Officer",
+      "salaryGbp": {
+        "v": 33939,
+        "b": "evidenced",
+        "s": "Other administrative occupations n.e.c. (SOC 4159), London median; no reliable published figure exists for examinations officers alone. ONS, Annual Survey of Hours and Earnings 2025 (provisional), Table 15, full-time gross annual pay by region — ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/regionbyoccupation4digitsoc2010ashetable15, released 23 Oct 2025",
+        "u": "GBP per year"
+      },
+      "from": "2027-3",
+      "kind": "scaling",
+      "base": 1,
+      "perActive": 1200
+    },
+    "qualityOfficer": {
+      "name": "Quality and Compliance Officer",
+      "salaryGbp": {
+        "v": 46581,
+        "b": "evidenced",
+        "s": "Education managers (SOC 2322), UK median — a post below the Registrar, set at the national median of the same occupation. ONS, Annual Survey of Hours and Earnings 2025 (provisional), Table 14.7a, full-time gross annual pay — ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/occupation4digitsoc2010ashetable14, released 23 Oct 2025",
+        "u": "GBP per year"
+      },
+      "from": "2028-1",
+      "kind": "standing"
+    },
+    "partnershipsLead": {
+      "name": "Head of Institutional Partnerships",
+      "salaryGbp": {
+        "v": 60658,
+        "b": "evidenced",
+        "s": "Marketing and commercial managers (SOC 2432), London median — the occupation that sells to institutions. ONS, Annual Survey of Hours and Earnings 2025 (provisional), Table 15, full-time gross annual pay by region — ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/regionbyoccupation4digitsoc2010ashetable15, released 23 Oct 2025",
+        "u": "GBP per year"
+      },
+      "from": "channel",
+      "kind": "standing"
+    },
+    "executiveCoordinator": {
+      "name": "Executive Programmes Coordinator",
+      "salaryGbp": {
+        "v": 33939,
+        "b": "evidenced",
+        "s": "Other administrative occupations n.e.c. (SOC 4159), London median. ONS, Annual Survey of Hours and Earnings 2025 (provisional), Table 15, full-time gross annual pay by region — ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/regionbyoccupation4digitsoc2010ashetable15, released 23 Oct 2025",
+        "u": "GBP per year"
+      },
+      "from": "route:executive",
+      "kind": "scaling",
+      "base": 1,
+      "perAdministrativeHours": 1100
+    }
+  },
+  "hiring": {
+    "minPerTerm": {
+      "v": 3,
+      "b": "management",
+      "s": "However small the establishment, the College can recruit at least three academics in a term",
+      "u": "people"
+    },
+    "growthPerTerm": {
+      "v": 0.35,
+      "b": "management",
+      "s": "Beyond that, the academic establishment can grow by about a third in a term; faster than that, recruitment and standardisation cannot keep the standard",
+      "u": "share of current establishment"
+    }
+  }
+}

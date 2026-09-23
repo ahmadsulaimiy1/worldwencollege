@@ -1,0 +1,156 @@
+{
+  "_": [
+    "POLICY — the decisions the plan takes about money, stated once.",
+    "",
+    "These are not forecasts. They are the rules the institution will run",
+    "by: how fees are collected and refunded, what the reserve is for and",
+    "how large it must be, how much cash the College keeps in hand, and how",
+    "the tariff is set."
+  ],
+  "horizon": {
+    "first": {
+      "v": 2027,
+      "b": "design",
+      "s": "The plan's first year",
+      "u": "year"
+    },
+    "last": {
+      "v": 2036,
+      "b": "design",
+      "s": "The plan's tenth year",
+      "u": "year"
+    }
+  },
+  "fxUsdPerGbp": {
+    "v": 1.3417,
+    "b": "evidenced",
+    "s": "Mean of the twelve HMRC monthly exchange rates for the US dollar, October 2025 to September 2026 (1.3126 to 1.3647). HMRC monthly exchange rates — trade-tariff.service.gov.uk/exchange_rates, retrieved 23 Sep 2026. The College earns in dollars and pays in pounds; a stronger pound is tested as a named shock",
+    "u": "USD per GBP"
+  },
+  "collection": {
+    "cardShareOfRetail": {
+      "v": 0.85,
+      "b": "management",
+      "s": "Share of learner fees paid by card; the balance by bank transfer",
+      "u": "share"
+    },
+    "stripe": {
+      "ukStandard": {
+        "v": 0.015,
+        "b": "evidenced",
+        "s": "Standard UK cards, 1.5% + 20p. Stripe, UK pricing — stripe.com/gb/pricing, retrieved 23 Sep 2026",
+        "u": "share of card revenue"
+      },
+      "ukPremium": {
+        "v": 0.028,
+        "b": "evidenced",
+        "s": "Premium UK cards, 2.8% + 20p. Stripe, UK pricing — stripe.com/gb/pricing, retrieved 23 Sep 2026",
+        "u": "share of card revenue"
+      },
+      "eea": {
+        "v": 0.025,
+        "b": "evidenced",
+        "s": "EEA cards, 2.5% + 20p. Stripe, UK pricing — stripe.com/gb/pricing, retrieved 23 Sep 2026",
+        "u": "share of card revenue"
+      },
+      "international": {
+        "v": 0.0315,
+        "b": "evidenced",
+        "s": "International cards, 3.15% + 20p. Stripe, UK pricing — stripe.com/gb/pricing, retrieved 23 Sep 2026",
+        "u": "share of card revenue"
+      },
+      "conversion": {
+        "v": 0.02,
+        "b": "evidenced",
+        "s": "An additional 2% where currency conversion is required. Fees are charged in dollars and the College settles in pounds, so the plan charges it on every card payment. Stripe, UK pricing — stripe.com/gb/pricing, retrieved 23 Sep 2026",
+        "u": "share of card revenue"
+      },
+      "fixedGbp": {
+        "v": 0.2,
+        "b": "evidenced",
+        "s": "20p per successful card payment. Stripe, UK pricing — stripe.com/gb/pricing, retrieved 23 Sep 2026",
+        "u": "GBP per transaction"
+      }
+    },
+    "paymentsPerLevel": {
+      "v": 1.6,
+      "b": "management",
+      "s": "Most learners pay each level in one payment; some by instalment",
+      "u": "transactions per learner per level"
+    },
+    "billedAhead": {
+      "v": "level",
+      "b": "design",
+      "s": "Fees are billed per level, at the start of the level. A learner never pays for a level before it begins, so the College holds no untaught fees in advance",
+      "u": ""
+    },
+    "withdrawalRate": {
+      "v": 0.03,
+      "b": "management",
+      "s": "Share of level starts withdrawn inside the fourteen-day window, refunded in full",
+      "u": "share"
+    }
+  },
+  "tariff": {
+    "indexation": {
+      "v": 0.03,
+      "b": "design",
+      "s": "Fees rise each year with the cost of the people who deliver them",
+      "u": "per year"
+    },
+    "roundingUsd": {
+      "v": 50,
+      "b": "design",
+      "s": "A level fee is stated to the nearest fifty dollars",
+      "u": "USD"
+    },
+    "onePriceWorldwide": {
+      "v": true,
+      "b": "design",
+      "s": "A route costs the same wherever the learner lives. The College's response to a market that cannot pay for a route is to offer it there through an institutional buyer, not to sell it more cheaply",
+      "u": ""
+    },
+    "pricingVolumeYear": {
+      "v": 2034,
+      "b": "design",
+      "s": "Institutional costs are absorbed over the volume the plan reaches at maturity, not over the thin first years; the difference is what the founding capital is for",
+      "u": "year"
+    }
+  },
+  "reserve": {
+    "targetMonths": {
+      "v": 6,
+      "b": "design",
+      "s": "Six months of operating cost held as an institutional reserve — enough to teach every enrolled learner to the end of the level they have begun and to meet a year in which enrolment falls and cost does not",
+      "u": "months of operating cost"
+    }
+  },
+  "cash": {
+    "minimumMonths": {
+      "v": 3,
+      "b": "design",
+      "s": "The College never plans to hold less than three months of operating cost in cash",
+      "u": "months of operating cost"
+    },
+    "payrollLeadTerms": {
+      "v": 1,
+      "b": "design",
+      "s": "An instructor is hired and paid from the term before the learners who need them arrive",
+      "u": "terms"
+    }
+  },
+  "capital": {
+    "returnBy": {
+      "v": 2036,
+      "b": "design",
+      "s": "The plan must be able to return the founding capital by the end of its tenth year while holding its reserve at target",
+      "u": "year"
+    },
+    "form": {
+      "v": "reserved",
+      "b": "design",
+      "s": "The form of the founding capital — equity, loan, grant or a combination — is a decision reserved to the founders and the Board. The plan sizes the requirement and the gates against which it is released; it does not assume the form",
+      "u": ""
+    }
+  }
+}
