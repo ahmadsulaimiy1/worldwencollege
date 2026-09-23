@@ -175,3 +175,18 @@ share this repository's history. It is **not** to be merged into
 WorldWide English College work, in whole or in part, and its rename
 (WEC-LC → AIPC) is not to be adopted here. Ruled by the owner,
 18 August 2026. Do not re-raise it.
+
+---
+
+## 8 · THE MASTER PLAN IS BUILT FROM ZERO
+
+**Ruled by the owner, 23 September 2026.** The WEC-LC Ten-Year
+Institutional Master Plan is written as if the institution starts new,
+with nothing existing before it. It does **not** read `data/standing.json`,
+the website's figures or any other existing record — not reach, not
+cohorts, not learner counts, not awards — and it does not anchor its
+demand, its starting year or its investment case on them. Every number
+in the plan comes from the plan's own model, built up from zero.
+
+`data/standing.json` stays what it is: the source for the **website's**
+published figures, governed by §5. It is not an input to the master plan.

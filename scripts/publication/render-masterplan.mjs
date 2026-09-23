@@ -20,7 +20,6 @@ import { architectures, scenarios as priceScenarios, project as priceProject, co
    it — two documents carrying their own copy of a twenty-row register
    disagree by the third revision. */
 import { RISKS, GOVERNANCE } from './plan-narrative.mjs';
-import * as REC from './record.mjs';
 
 const { K, SERIF, SANS, esc, usd, m$, num, pct, figure, table, chip } = A;
 const FIGURES = () => A.figureCount();
@@ -305,7 +304,7 @@ function document() {
     ${p(`<strong>Six.</strong> ${RESERVE_REACHED
     ? `<strong>The reserve rule in ${ref('liquidity')} is met in ${RESERVE_REACHED.calendar}, and not before.</strong> The Core case closes the decade holding ${m$(CY10.reserve)} against a target near ${m$(RESERVE_TARGET)}, but the College sits below its own ${num(PLAN.reserve.target_months_of_operating_cost)}-month target for ${RESERVE_YEARS.indexOf(RESERVE_REACHED)} of the ten years — and inside the register's six-month warning band for most of them. The resilience the plan proposes is real and it is late, and the Board is asked to decide whether a founding capital contribution should bring it forward.`
     : `<strong>The reserve rule in ${ref('liquidity')} is not met at any price tested, inside ten years.</strong> The Core case closes the decade holding ${m$(CY10.reserve)} against a target near ${m$(RESERVE_TARGET)}. This is not solved by charging more. It requires a founding capital contribution, a longer horizon to full reserve, or a lower target, and the plan puts all three to the Board rather than choosing one.`} ${chip('board')}`)}
-    ${p(`<strong>Seven.</strong> ${REC.CONFERRAL.statement} They were conferred under ${REC.CONFERRAL.authority} and moderated ${REC.CONFERRAL.moderated}. What stands between the College and awards a stranger can rely on without taking its word is not engineering, and it is two appointments: ${REC.CONFERRAL.awaiting.join('; and ')}. Every surface that would carry those names already exists and already renders, and the platform refuses to publish a person into an office they have not accepted.`)}
+    ${p(`<strong>Seven.</strong> The two things standing between this College and its first conferred award are not engineering. The Board of Academic Standards has no appointed members and cannot approve the competency mappings; no External Examiner has been appointed. Both are appointments. Every surface that would carry those names already exists and already renders, and the platform refuses to publish a person into an office they have not accepted.`)}
     ${note(`This document is a planning instrument. Every financial figure in it is a projection computed from stated assumptions, and none of it is a record of trading. Classifications are printed beside the figures throughout: ${chip('verified')} for what the College has adopted and published, ${chip('assumption')} for what this plan asserts, ${chip('board')} for what nobody has yet decided.`)}
   </div>`);
 
@@ -502,7 +501,7 @@ function document() {
       ['Decision', 'Approves', 'Consulted / reserved', 'Cycle'],
       GOVERNANCE.map((g) => [`<strong>${esc(g[0])}</strong>`, esc(g[1]), esc(g[2]), esc(g[3])]),
       `Published governance instrument, /governance/. The offices named are defined; several are not yet filled — see ${ref('risk')}.`)}
-    ${p(`${chip('board')} The Board of Academic Standards currently has no appointed members. Until it does, the competency mappings remain interim, and the platform will not confer against an unapproved mapping — so the awards already conferred at Level I and Level II, which were marked and conferred before the platform existed, cannot yet be joined by awards conferred through it. This is stated in the risk register as the highest-impact open item in the plan, and it is an appointment rather than a piece of work.`)}
+    ${p(`${chip('board')} The Board of Academic Standards currently has no appointed members. Until it does, competency mappings remain interim and no award can be conferred, because the platform will not confer against an unapproved mapping. This is stated in the risk register as the highest-impact open item in the plan, and it is an appointment rather than a piece of work.`)}
   </div>`);
 
   // ── 16 RISK ────────────────────────────────────────────────────
