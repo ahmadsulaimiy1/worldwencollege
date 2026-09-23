@@ -18,6 +18,9 @@ const E = await import(path.join(ROOT, 'scripts/plan/engine.mjs'));
 const P = await import(path.join(ROOT, 'scripts/plan/price.mjs'));
 const C = await import(path.join(ROOT, 'scripts/plan/capital.mjs'));
 const SVC = await import(path.join(ROOT, 'scripts/plan/service.mjs'));
+const A = await import(path.join(ROOT, 'scripts/plan/acquisition.mjs'));
+const SC = await import(path.join(ROOT, 'scripts/plan/scenarios.mjs'));
+const RM = await import(path.join(ROOT, 'scripts/plan/roadmap.mjs'));
 
 let pass = 0, fail = 0;
 const check = (label, cond, detail) => {
@@ -95,11 +98,21 @@ check('...and no line of it is typed anywhere in the plan\'s code',
 for (const r of S.result.rows) {
   const parts = r.cost.academic + r.cost.institution + r.cost.recruitment + r.cost.technology
     + r.cost.operations + r.cost.acquisition + r.cost.collection;
-  if (!near(parts, r.costs, 0.5) || !near(r.revenue.net - r.costs, r.cashflow, 0.5)) {
+  if (!near(parts, r.costs, 0.5) || !near(r.revenue.net - r.costs, r.surplus, 0.5)) {
     check(`${r.label} reconciles`, false, `${parts} / ${r.costs}`);
   }
 }
-check('every term\'s costs and cash flow reconcile to the dollar', true);
+check('every term\'s costs and surplus reconcile to the dollar', true);
+/* Cash is surplus less the growth in what institutional buyers owe. */
+let owed = 0; let cashOk = true;
+for (const r of S.result.rows) {
+  if (!near(r.surplus - (r.receivable - owed), r.cashflow, 0.5)) cashOk = false;
+  owed = r.receivable;
+}
+check('...and cash differs from surplus only by what buyers owe', cashOk);
+check('...and at the end of the decade, every dollar earned is either held or owed',
+  near(sum(S.result.rows.map((r) => r.surplus)) - S.result.rows[S.result.rows.length - 1].receivable,
+    S.result.rows[S.result.rows.length - 1].cumulative, 1));
 check('every year is the sum of its three terms',
   Y.every((y) => near(y.cashflow, sum(S.result.rows.filter((r) => r.year === y.year).map((r) => r.cashflow)), 0.5)));
 
@@ -116,6 +129,50 @@ const K2 = C.capital(S.result);
 check('the capital requirement keeps the balance at or above the minimum in every term',
   K2.balance.every((b) => b.balance >= b.minimum - 1), `lowest headroom ${Math.round(K2.lowest.headroom)} in ${K2.lowest.label}`);
 check('...and the tranches sum to it', near(sum(K2.tranches.map((t) => t.amount)), K2.requirement, 1));
+
+// ── 10 · Acquisition pays for itself ────────────────────────────────
+const AQ = A.acquisition(S);
+for (const m of AQ.markets.filter((x) => x.retail)) {
+  check(`${m.name}: the most the plan spends is inside the ceiling where the last dollar pays back within a learner's first level`,
+    m.withinCeiling, `${Math.round(m.plannedMax)} against ${Math.round(m.ceilingSpend)}`);
+  check(`${m.name}: a learner repays what it cost to find them within their first level`,
+    m.paybackLevels > 0 && m.paybackLevels < 1, m.paybackLevels && m.paybackLevels.toFixed(2));
+}
+
+// ── 11 · Every shock is run, not asserted ───────────────────────────
+const X = SC.scenarios(S);
+check('the central case passes the plan\'s own test', X.central.grade === 'reserve');
+for (const s of X.shocks.filter((x) => x.key !== 'capitalLate')) {
+  check(`${s.name}: leaves the College no better off in the tenth year`,
+    s.cumulative <= X.central.cumulative + 1, `${Math.round(s.cumulative)} against ${Math.round(X.central.cumulative)}`);
+}
+const twins = X.shocks.filter((a) => X.shocks.some((b) => b !== a && near(a.cumulative, b.cumulative, 1) && near(a.capital, b.capital, 1)));
+check('...and no two shocks are the same shock under different names', twins.length === 0, twins.map((s) => s.key).join(', '));
+for (const s of [...X.shocks, ...X.combined]) {
+  if (!s.response || s.response.length < 20) check(`${s.name}: states what the College does`, false);
+}
+check('every shock states what the College does about it', true);
+const lateCap = C.capital(S.result, { trancheDelayTerms: 2 });
+check('a late tranche is visible in the cash balance, not hidden by the requirement',
+  lateCap.lowest.headroom < K2.lowest.headroom, `${Math.round(lateCap.lowest.headroom)} against ${Math.round(K2.lowest.headroom)}`);
+
+// ── 12 · The roadmap says what the model says ──────────────────────
+/* The roadmap's words are design; where they name a year for an event
+   the model decides, the model must agree. */
+const RY = RM.roadmap(S);
+check('the roadmap has one entry for every year, each with every part',
+  RY.length === 10 && RY.every((y) => y.objective && y.actions.length && y.gate && y.exit));
+const phaseOf = (p) => RY.find((y) => y.phase === p).year;
+check('"The turn" is the year of the cash trough and of the first surplus',
+  String(phaseOf('The turn')) === X.central.trough.label.split(' ')[1] && phaseOf('The turn') === X.central.firstSurplusYear,
+  `${X.central.trough.label}; first surplus ${X.central.firstSurplusYear}`);
+check('"Return" is the year the founding capital first becomes returnable',
+  phaseOf('Return') === X.central.returnYear.year, String(X.central.returnYear.year));
+check('every tranche is drawn in the year whose gate releases it',
+  near(sum(RY.map((y) => y.finance.drawn)), K2.requirement, 1));
+const sixth = S.result.authoring.availableFrom[R.LEVELS - 1];
+check('the sixth level is first taught in the year the roadmap first confers it',
+  RY.find((y) => y.actions.some((a) => /first awards at the sixth level/.test(a))).year === R.yearOf(sixth));
 
 console.log(`\n${pass} passed, ${fail} failed.`);
 process.exitCode = fail ? 1 : 0;

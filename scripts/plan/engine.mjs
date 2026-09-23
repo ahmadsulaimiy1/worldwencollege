@@ -105,7 +105,7 @@ export function run(tariff, opts = {}) {
   const o = {
     conversionScale: 1, continuationDelta: 0, enquiryCostScale: 1, teachingPayScale: 1,
     technologyScale: 1, agreementDelayYears: 0, marketDelayTerms: {}, priceElasticity: 0,
-    turnAway: null, fxScale: 1, ...opts,
+    turnAway: null, fxScale: 1, seatsScale: 1, ...opts,
   };
   const fx = FX * o.fxScale;
   const gbp = (x) => x * fx;
@@ -184,7 +184,7 @@ export function run(tariff, opts = {}) {
     for (const c of CH_KEYS) {
       const src = t - lead;
       if (src < 0) continue;
-      const seats = agreementsSigned[c][src] * val(CH[c].seatsPerAgreement);
+      const seats = agreementsSigned[c][src] * val(CH[c].seatsPerAgreement) * o.seatsScale;
       if (!(seats > 0)) continue;
       for (let L = 0; L < avail; L++) out.push({ origin: c, kind: 'agreement', route: CH[c].route, level: L, n: seats * (w[L] / wSum) });
     }
@@ -222,11 +222,14 @@ export function run(tariff, opts = {}) {
       };
       for (const [k, arr] of carry) arr.forEach((n, L) => { if (n > 0) add(k, L, n); });
       let newN = 0; let newHolders = 0;
+      const newBy = {};
       const arrivalsNow = arrivals(t);
       const plannedN = sum(arrivalsNow.map((a) => a.n));
       for (const a of arrivalsNow) {
         const n = a.n * admit[t];
         add(key(a), a.level, n); newN += n; newHolders += n * completion[a.level];
+        newBy[a.origin] = newBy[a.origin] || {};
+        newBy[a.origin][a.route] = (newBy[a.origin][a.route] || 0) + n;
       }
       holders += newHolders;
       // Completion and continuation into the next term.
@@ -241,7 +244,7 @@ export function run(tariff, opts = {}) {
       }
       carry = next;
       present.push(now);
-      terms.push({ t, newN, plannedN, awards, holders });
+      terms.push({ t, newN, plannedN, awards, holders, newBy });
     }
 
     // Pass 2: the work each term requires, by grade.
@@ -327,12 +330,17 @@ export function run(tariff, opts = {}) {
     let prevHead = {};
     let cumulative = 0;
     let everEnrolled = 0;
+    let receivable = 0;
+    // An agreement is invoiced in the term it is taught and paid on its
+    // buyer's terms; the part paid after the term ends is carried.
+    const DAYS_PER_TERM = 365 / T3;
     for (let t = 0; t < TERMS; t++) {
       const y = yearOf(t); const W = work[t]; const now = present[t];
       const idx = priceIndex(t);
 
       // Revenue, recognised in the term it is taught.
       let retailGross = 0; let agreementGross = 0; let retailLevels = 0;
+      let carried = 0;
       const retailByMarket = {};
       const byRoute = {}; const byMarket = {}; const byOrigin = {};
       for (const [k, arr] of now) {
@@ -344,6 +352,7 @@ export function run(tariff, opts = {}) {
         const rev = n * fee;
         if (isAgreement) {
           agreementGross += rev;
+          carried += rev * Math.min(1, val(CH[origin].receivableDays) / DAYS_PER_TERM);
           for (const [m, s] of Object.entries(val(CH[origin].markets))) {
             byMarket[m] = byMarket[m] || { learners: 0, revenue: 0, viaAgreement: 0 };
             byMarket[m].learners += n * s; byMarket[m].revenue += rev * s; byMarket[m].viaAgreement += n * s;
@@ -517,12 +526,18 @@ export function run(tariff, opts = {}) {
 
       const academicPay = payAcademic;
       const costs = academicPay + payInstitution + recruitment + technology + operations + acquisition + collection;
-      const cashflow = revenue - costs;
+      const surplus = revenue - costs;
+      const owed = carried * (1 - val(POLICY.collection.withdrawalRate));
+      const cashflow = surplus - (owed - receivable);
+      receivable = owed;
       cumulative += cashflow;
 
       rows.push({
         t, label: termLabel(t), year: y,
         newLearners: terms[t].newN, plannedNew: terms[t].plannedN, turnedAway: terms[t].plannedN - terms[t].newN,
+        newBy: terms[t].newBy,
+        spendBy: Object.fromEntries(MARKET_KEYS.map((m) => [m, spend[m][t]])),
+        enquiriesBy: Object.fromEntries(MARKET_KEYS.map((m) => [m, enquiries[m][t]])),
         active, awards: terms[t].awards, holders: terms[t].holders,
         sections: W.sections, seminarFill: W.seminarSeats ? sum(Object.entries(W.byRouteLevel).filter(([rl]) => SVC.sectionCap(rl.split('|')[0])).map(([, n]) => n)) / W.seminarSeats : null,
         hours: W.hours, institutionalHours: W.inst, routeLevels: W.byRouteLevel,
@@ -536,7 +551,7 @@ export function run(tariff, opts = {}) {
           academic: academicPay, institution: payInstitution, recruitment, technology, operations,
           acquisition, acquisitionRetail: acqRetail, origination: origination[t], collection,
         },
-        tech, ops, statutory, payByPost, costs, cashflow, cumulative,
+        tech, ops, statutory, payByPost, costs, surplus, receivable, cashflow, cumulative,
       });
     }
     return { rows, admitShare: nextAdmit, authoring, fx };
@@ -570,7 +585,8 @@ export function years(result) {
       instructors: last.instructors.standard + last.instructors.senior, staff: last.staff,
       enquiries: s((r) => r.enquiries),
       revenue: { gross: s((r) => r.revenue.gross), refunds: s((r) => r.revenue.refunds), net: s((r) => r.revenue.net), retail: s((r) => r.revenue.retail), agreement: s((r) => r.revenue.agreement) },
-      cost, costs: s((r) => r.costs), cashflow: s((r) => r.cashflow), cumulative: last.cumulative,
+      cost, costs: s((r) => r.costs), surplus: s((r) => r.surplus), receivable: last.receivable,
+      cashflow: s((r) => r.cashflow), cumulative: last.cumulative,
       byMarket, byRoute,
     });
   }

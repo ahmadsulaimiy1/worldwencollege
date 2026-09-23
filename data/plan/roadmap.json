@@ -1,0 +1,127 @@
+{
+  "_": [
+    "THE TEN YEARS, ONE AT A TIME — what the College must achieve in each",
+    "year, what it does to achieve it, the decision the Board takes at the",
+    "end of it, and the condition that closes the year.",
+    "",
+    "The text here is the plan's design. Every number the roadmap prints —",
+    "people, learners, spend, cash, the capital drawn — is read from the",
+    "model for that year (scripts/plan/roadmap.mjs), never typed here."
+  ],
+  "years": {
+    "2027": {
+      "phase": "Establishment",
+      "objective": "Constitute the institution and teach its first intake to the standard it will keep.",
+      "actions": [
+        "Incorporate, constitute the Board of Governors and adopt the academic and governance instruments",
+        "Appoint the Principal, the Director of Academic Standards, the Registrar and the Head of Finance",
+        "Author Levels I to III and their examinations across the two terms before launch, and Level IV in the launch term; build and independently test the platform",
+        "Appoint the External Examiners before the first examination is set",
+        "Open admissions in the Gulf and teach the first intake in the Autumn term"
+      ],
+      "gate": "Launch: the Board releases the Launch tranche only when Levels I to III are authored and reviewed, the platform has passed its security test, and the academic offices and first instructors are in post",
+      "exit": "The first intake has sat its Level examination, every script has been second-marked, and the first moderation has been reported to the Board"
+    },
+    "2028": {
+      "phase": "The complete qualification",
+      "objective": "Teach every level of the qualification for the first time, and open the second market.",
+      "actions": [
+        "Author Levels V and VI, each in the term before it is first taught",
+        "Open admissions in the United Kingdom and Europe",
+        "Receive the External Examiners' first annual report and answer it in writing",
+        "Confer the first awards at the sixth level in the Autumn term",
+        "Open the employer channel in the Autumn term",
+        "Commission the first independent audit of the College's accounts"
+      ],
+      "gate": "First-year review: the Board reviews continuation, the External Examiners' report and the measured cost of an enrolment against the plan, and confirms the acquisition budget for the year ahead",
+      "exit": "All six levels taught, examined and moderated at least once; the first audit signed"
+    },
+    "2029": {
+      "phase": "Validation",
+      "objective": "Prove the academic and commercial model on measured results before the College draws the capital to expand.",
+      "actions": [
+        "Confer the six-level qualification on the first learners who entered at Level I",
+        "Measure continuation, completion and the cost of an enrolment in each market over two full years",
+        "Sign the first employer agreements and report their completion separately",
+        "Prepare the West Africa and Asia launches and the institutional channel"
+      ],
+      "gate": "Validation: the Board releases the third tranche only on a full year of teaching, assessment, moderation and conferral reviewed by the External Examiners, continuation within five points of plan, and a measured cost of an enrolment within a quarter of plan",
+      "exit": "The third tranche released or withheld on the evidence, and the acquisition budget reset to measured cost"
+    },
+    "2030": {
+      "phase": "Reach",
+      "objective": "Open the College's last two markets and its institutional channel.",
+      "actions": [
+        "Open retail admissions in Asia and sign the first institutional agreements, in West Africa, Asia and the Gulf",
+        "Apply to the British Accreditation Council for accreditation of the College's online provision and host its inspection",
+        "Run the first annual quality review across all four markets"
+      ],
+      "gate": "Reach: the Board confirms that each new market's first two intakes convert within a quarter of plan before its acquisition budget steps up",
+      "exit": "Four markets and both agreement channels open; the inspection completed"
+    },
+    "2031": {
+      "phase": "The turn",
+      "objective": "Pass the lowest point of the College's cash and earn its first surplus.",
+      "actions": [
+        "Hold hiring to the establishment the work requires, term by term",
+        "Complete the accreditation body's interim inspection",
+        "Renew or replace the External Examiners at the end of their four-year terms",
+        "Begin hedging sterling costs a year ahead"
+      ],
+      "gate": "The turn: the Board confirms the trough has passed and that the remaining capital is not needed to reach the first surplus",
+      "exit": "A full year in which fees exceed the whole cost of the institution"
+    },
+    "2032": {
+      "phase": "Scale",
+      "objective": "Bring every market to the acquisition budget its payback allows, and no further.",
+      "actions": [
+        "Take each market's acquisition budget to its final planned level",
+        "Review every route's section sizes and advising hours against measured learner results",
+        "Report learner results by route and by market to the Board, to test that every route delivers what it promises"
+      ],
+      "gate": "Scale: the Board confirms no market is funded past the level at which its last dollar pays back within a learner's first level",
+      "exit": "Every market at its planned budget, each inside its payback ceiling"
+    },
+    "2033": {
+      "phase": "Consolidation",
+      "objective": "Run the institution at full scale on its own income.",
+      "actions": [
+        "Review the curriculum of every level against five years of results, within the maintenance hours the establishment already carries",
+        "Extend institutional agreements into second terms with the first buyers"
+      ],
+      "gate": "Consolidation: the Board confirms the College has met its costs from its own income for three consecutive years",
+      "exit": "The establishment stable at the size its work requires"
+    },
+    "2034": {
+      "phase": "Maturity",
+      "objective": "Operate at the volume the tariff was built on, and renew accreditation.",
+      "actions": [
+        "Measure the year's cost of each route against the price build-up on which the tariff was set",
+        "Complete the four-yearly re-inspection for accreditation",
+        "Publish the College's first five-year report on learner results"
+      ],
+      "gate": "Maturity: the Board compares the year's actual cost of each route with the price build-up and resets the tariff if they differ",
+      "exit": "The tariff confirmed or reset on measured cost"
+    },
+    "2035": {
+      "phase": "Return",
+      "objective": "Hold enough cash to return the founding capital in full.",
+      "actions": [
+        "Agree with the founders the form and timing of the return of capital",
+        "Build the reserve towards its target"
+      ],
+      "gate": "Return: the Board decides the return of capital, having confirmed the reserve is not drawn below its target to make it",
+      "exit": "The College's cash at or above the founding capital"
+    },
+    "2036": {
+      "phase": "The reserve",
+      "objective": "End the decade with the founding capital returnable and six months of cost held in reserve.",
+      "actions": [
+        "Complete the reserve",
+        "Present the Board with the second ten-year plan, built from the first decade's measured results"
+      ],
+      "gate": "The plan's test: capital returnable and the reserve at target",
+      "exit": "The second ten-year plan adopted"
+    }
+  }
+}

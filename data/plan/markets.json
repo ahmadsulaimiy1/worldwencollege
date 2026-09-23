@@ -207,10 +207,10 @@
         "v": {
           "2030": 60000,
           "2031": 100000,
-          "2032": 140000
+          "2032": 130000
         },
         "b": "design",
-        "s": "The acquisition budget the plan commits in this market; held at the last stated level thereafter",
+        "s": "The acquisition budget the plan commits in this market; held at the last stated level thereafter. The last step is held to $130,000, inside the ceiling at which the last dollar still pays back within a learner's first level",
         "u": "USD per year"
       },
       "cardMix": {

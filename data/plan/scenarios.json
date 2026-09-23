@@ -11,11 +11,13 @@
     "enrolmentLower": {
       "name": "Enrolment twenty per cent lower",
       "set": {
-        "conversionScale": 0.8
+        "conversionScale": 0.8,
+        "seatsScale": 0.8
       },
       "b": "design",
-      "s": "Every market converts a fifth fewer enquiries into enrolments",
-      "warning": "Enrolments against plan, two consecutive intakes"
+      "s": "Every market converts a fifth fewer enquiries into enrolments, and every agreement fills a fifth fewer places",
+      "warning": "Enrolments against plan, two consecutive intakes",
+      "response": "Hiring for the next intake is held to the enrolments achieved, and acquisition spend moves to the market converting best. The Validation tranche is not released until two intakes meet plan."
     },
     "continuationLower": {
       "name": "Continuation ten points lower",
@@ -24,7 +26,8 @@
       },
       "b": "design",
       "s": "Ten percentage points fewer learners continue from each level to the next",
-      "warning": "Continuation at any level five points below plan for two terms"
+      "warning": "Continuation at any level five points below plan for two terms",
+      "response": "The level learners leave from is reviewed academically, and advising on the routes affected is increased. The level fee is not cut."
     },
     "acquisitionDearer": {
       "name": "Acquisition a quarter dearer",
@@ -33,7 +36,8 @@
       },
       "b": "design",
       "s": "Every enquiry costs a quarter more to generate",
-      "warning": "Cost per enrolment above plan for two consecutive terms"
+      "warning": "Cost per enrolment above plan for two consecutive terms",
+      "response": "Spend moves to the channels with the lowest measured cost per enrolment. A market whose cost per enrolment stays above one level's contribution for two terms is paused."
     },
     "benchmarkAverages": {
       "name": "Acquisition at the benchmark averages",
@@ -43,7 +47,8 @@
       },
       "b": "design",
       "s": "Enquiries cost the benchmark average of $140 rather than the median of $106, and convert at the 4.9% the averages imply rather than 9.0%",
-      "warning": "Cost per enrolment above $2,000 in any market for two terms"
+      "warning": "Cost per enrolment above $2,000 in any market for two terms",
+      "response": "Acquisition spend is released term by term against the measured cost per enrolment, never against the plan's schedule. The Validation gate tests it before the third tranche is drawn."
     },
     "payHigher": {
       "name": "Academic pay fifteen per cent higher",
@@ -52,7 +57,8 @@
       },
       "b": "design",
       "s": "The national market for qualified teachers of English tightens",
-      "warning": "Vacancies open more than one term"
+      "warning": "Vacancies open more than one term",
+      "response": "The tariff's annual indexation follows the pay of the people who deliver it. The Board may raise it above three per cent in the year the market moves."
     },
     "executiveThinner": {
       "name": "Executive demand half the plan",
@@ -68,7 +74,8 @@
       },
       "b": "design",
       "s": "Half of the executive and bespoke learners the plan expects take the Tutored route instead",
-      "warning": "Executive share of Gulf enrolments below plan for two intakes"
+      "warning": "Executive share of Gulf enrolments below plan for two intakes",
+      "response": "Senior academic capacity is hired only against confirmed executive enrolments. The Tutored route takes the demand without any loss of standard."
     },
     "agreementsLate": {
       "name": "Institutional agreements a year late",
@@ -77,7 +84,8 @@
       },
       "b": "design",
       "s": "Both agreement channels open a year later and ramp a year behind",
-      "warning": "No signed agreement by the planned opening term"
+      "warning": "No signed agreement by the planned opening term",
+      "response": "No institutional place is budgeted before an agreement is signed, and the partnerships post is created a term before the first agreement, not before the channel opens."
     },
     "gulfLate": {
       "name": "Gulf launch two terms late",
@@ -88,7 +96,8 @@
       },
       "b": "design",
       "s": "The first market opens two terms behind plan",
-      "warning": "Admissions not open by the planned term"
+      "warning": "Admissions not open by the planned term",
+      "response": "The curriculum schedule holds. The Launch tranche is drawn only when admissions open."
     },
     "technologyDearer": {
       "name": "Technology fifty per cent dearer",
@@ -97,7 +106,8 @@
       },
       "b": "design",
       "s": "Every purchased technology line costs half as much again",
-      "warning": "Platform spend above budget for two quarters"
+      "warning": "Platform spend above budget for two quarters",
+      "response": "Technology is a small line; procurement is the response."
     },
     "sterlingStronger": {
       "name": "The pound ten per cent stronger",
@@ -106,7 +116,8 @@
       },
       "b": "design",
       "s": "The College earns in dollars and pays in pounds; every sterling cost is ten per cent dearer in dollars for the whole decade",
-      "warning": "The dollar below its planning rate against sterling for a full term"
+      "warning": "The dollar below its planning rate against sterling for a full term",
+      "response": "Sterling costs are hedged a year ahead from the first year the College earns a surplus, and the tariff is reviewed if the rate stays above plan for a year."
     },
     "priceSensitive": {
       "name": "Demand sensitive to price",
@@ -115,7 +126,8 @@
       },
       "b": "design",
       "s": "Enrolment falls by eight tenths of one per cent for each one per cent the tariff stands above the plan's reference",
-      "warning": "Offer acceptance below plan in the premium routes"
+      "warning": "Offer acceptance below plan in the premium routes",
+      "response": "The route structure is the response: a learner who cannot pay for Tutored is offered Guided, not a discount."
     },
     "capitalLate": {
       "name": "Second tranche of capital two terms late",
@@ -124,7 +136,8 @@
       },
       "b": "design",
       "s": "The capital needed to expand arrives two terms after the gate it was released against",
-      "warning": "Tranche not drawn by the gate date"
+      "warning": "Tranche not drawn by the gate date",
+      "response": "Hiring for the next phase waits for the tranche. The minimum cash balance is never used to bridge a late tranche."
     }
   },
   "combined": {
@@ -135,7 +148,8 @@
         "enrolmentLower",
         "acquisitionDearer"
       ],
-      "s": "The first market opens late, converts less well and costs more to reach — the case the founding capital must survive"
+      "s": "The first market opens late, converts less well and costs more to reach — the case the founding capital must survive",
+      "response": "The difference between this case and the central requirement is the contingency the founders should hold available and not draw."
     },
     "thinPremium": {
       "name": "A thinner premium market",
@@ -143,7 +157,8 @@
         "executiveThinner",
         "priceSensitive"
       ],
-      "s": "The top of the market is smaller and more price-conscious than planned"
+      "s": "The top of the market is smaller and more price-conscious than planned",
+      "response": "The premium routes carry the margin. If both fall short, the Tutored tariff is reviewed and senior capacity is not hired ahead of demand."
     },
     "institutionalDelay": {
       "name": "Partners slower than planned",
@@ -151,7 +166,8 @@
         "agreementsLate",
         "continuationLower"
       ],
-      "s": "The institutional channels arrive late and learners persist less"
+      "s": "The institutional channels arrive late and learners persist less",
+      "response": "Signed agreements and continuation are both reported to the Board every term, as leading indicators of this case."
     }
   }
 }
