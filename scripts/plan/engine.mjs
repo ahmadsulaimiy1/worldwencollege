@@ -105,9 +105,12 @@ export function run(tariff, opts = {}) {
   const o = {
     conversionScale: 1, continuationDelta: 0, enquiryCostScale: 1, teachingPayScale: 1,
     technologyScale: 1, agreementDelayYears: 0, marketDelayTerms: {}, priceElasticity: 0,
-    turnAway: null, fxScale: 1, seatsScale: 1, ...opts,
+    turnAway: null, fxScale: 1, seatsScale: 1, marketScale: 1, ...opts,
   };
   const fx = FX * o.fxScale;
+  /** The price level of a year against the plan's price base: every
+   *  price other than pay is carried forward at the inflation rate. */
+  const priceLevel = (y) => Math.pow(1 + val(POLICY.inflation), y - val(POLICY.priceBaseYear));
   const gbp = (x) => x * fx;
   const lead = val(F.leadTerms);
   const completion = val(PROGRESSION.completion);
@@ -141,10 +144,16 @@ export function run(tariff, opts = {}) {
     for (let y = FIRST_YEAR; y <= LAST_YEAR; y++) {
       const terms = [0, 1, 2].map((n) => (y - FIRST_YEAR) * T3 + n).filter((t) => t >= start);
       if (!terms.length) continue;
-      const annual = stepValue(val(M.spendUsd), y);
-      if (!annual) continue;
-      const cpe = val(M.costPerEnquiryUsd) * o.enquiryCostScale
-        * Math.pow(Math.max(1, annual / val(M.referenceSpendUsd)), val(F.saturation));
+      // A larger market (marketScale) takes proportionately more spend
+      // before each enquiry grows dearer.
+      const real = stepValue(val(M.spendUsd), y) * o.marketScale;
+      if (!real) continue;
+      // Budgets and the cost of an enquiry are both stated at base-year
+      // prices and both carried forward, so a year's spend buys the same
+      // enquiries in real terms; saturation is judged on the real budget.
+      const annual = real * priceLevel(y);
+      const cpe = val(M.costPerEnquiryUsd) * priceLevel(y) * o.enquiryCostScale
+        * Math.pow(Math.max(1, real / (val(M.referenceSpendUsd) * o.marketScale)), val(F.saturation));
       for (const t of terms) { spend[m][t] = annual / terms.length; enquiries[m][t] = spend[m][t] / cpe; }
     }
   }
@@ -157,10 +166,10 @@ export function run(tariff, opts = {}) {
     for (let y = FIRST_YEAR; y <= LAST_YEAR; y++) {
       const terms = [0, 1, 2].map((n) => (y - FIRST_YEAR) * T3 + n).filter((t) => t >= openT);
       if (!terms.length) continue;
-      const annual = stepValue(val(C.agreementsPerYear), y - o.agreementDelayYears);
+      const annual = stepValue(val(C.agreementsPerYear), y - o.agreementDelayYears) * o.marketScale;
       for (const t of terms) {
         agreementsSigned[c][t] = annual / terms.length;
-        origination[t] += agreementsSigned[c][t] * val(C.originationUsd);
+        origination[t] += agreementsSigned[c][t] * val(C.originationUsd) * priceLevel(y);
       }
     }
   }
@@ -469,7 +478,7 @@ export function run(tariff, opts = {}) {
         security: at(L.security.from) ? gbp(val(L.security.gbpPerYear)) / T3 : 0,
         registry: (terms[t].holders * val(L.registry.usdPerHolderYear)) / T3,
       };
-      for (const k of Object.keys(tech)) tech[k] *= o.technologyScale;
+      for (const k of Object.keys(tech)) tech[k] *= o.technologyScale * priceLevel(y);
       const technology = sum(Object.values(tech));
 
       // Operations and governance.
@@ -491,7 +500,7 @@ export function run(tariff, opts = {}) {
       const inspection = gbp(val(BA.inspectionManagementGbp) + val(BA.inspectionGbp));
       const ops = {
         premises: annual(OL.registeredOffice) + (at(OL.office.from) ? MONTHS * desks * gbp(val(OL.office.gbpPerDeskMonth)) : 0),
-        insurance: annual(OL.insurance) + gross * val(OL.insurance.shareOfRevenue),
+        insurance: annual(OL.insurance) * priceLevel(y) + gross * val(OL.insurance.shareOfRevenue),
         assurance: (at(OL.audit.from) ? gbp(band(val(OL.audit.gbpByTurnoverGbp), lastYearGbp)) / T3 : 0)
           + (at(AC.from) ? MONTHS * gbp(val(AC.gbpPerMonth) + staff * val(AC.gbpPerPayslipMonth)) + gbp(val(AC.gbpPerYear)) / T3 : 0)
           + annual(OL.dataProtection) + annual(OL.companiesHouse) + once(OL.companiesHouse),
@@ -506,6 +515,9 @@ export function run(tariff, opts = {}) {
           + (sinceAccredited === T3 ? gbp(val(BA.interimInspectionGbp)) : 0)
           + (sinceAccredited > 0 ? gbp(band(val(BA.annualGbpByEnrolled), active)) / T3 : 0),
       };
+      // Every operating price is carried forward from the base year; the
+      // part of insurance that is a share of revenue already moves with it.
+      for (const k of Object.keys(ops)) if (k !== 'insurance') ops[k] *= priceLevel(y);
       const operations = sum(Object.values(ops));
 
       // Acquisition and collection.
@@ -521,7 +533,7 @@ export function run(tariff, opts = {}) {
         const mix = val(MARKETS.markets[m].cardMix) || {};
         const rate = sum(Object.entries(mix).map(([cls, share]) => share * val(ST[cls]))) + val(ST.conversion);
         const card = val(PC.cardShareOfRetail);
-        collection += R.revenue * card * rate + R.levels * val(PC.paymentsPerLevel) * card * gbp(val(ST.fixedGbp));
+        collection += R.revenue * card * rate + R.levels * val(PC.paymentsPerLevel) * card * gbp(val(ST.fixedGbp)) * priceLevel(y);
       }
 
       const academicPay = payAcademic;

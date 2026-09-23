@@ -13,9 +13,14 @@
  * them and of collecting the fee, it takes to recover what was spent to
  * find them.
  */
-import { MARKETS, PROGRESSION, MARKET_KEYS, ROUTE_KEYS, LEVELS, val } from './record.mjs';
+import { MARKETS, PROGRESSION, POLICY, MARKET_KEYS, ROUTE_KEYS, LEVELS, FIRST_YEAR, val } from './record.mjs';
 
 const sum = (xs) => xs.reduce((t, x) => t + x, 0);
+/* Everything here is stated at the plan's first-year prices, the prices
+   the tariff is stated in, so that what a learner costs to find and what
+   a level contributes are measured in the same money. */
+const level = (y) => Math.pow(1 + val(POLICY.inflation), y - val(POLICY.priceBaseYear));
+const toFirstYear = (usd, y) => (usd * level(FIRST_YEAR)) / level(y);
 
 /**
  * The number of levels a learner who enters at a given level can be
@@ -67,11 +72,13 @@ export function acquisition(S) {
       const next = rows[t + 1];
       const n = next ? sum(Object.values((next.newBy || {})[m] || {})) : 0;
       if (!next || !(r.spendBy[m] > 0)) return;
-      spend += r.spendBy[m]; enrolled += n; enquiries += r.enquiriesBy[m];
+      const real = toFirstYear(r.spendBy[m], r.year);
+      spend += real; enrolled += n; enquiries += r.enquiriesBy[m];
       const y = byYear[r.year] || (byYear[r.year] = { spend: 0, enquiries: 0, enrolled: 0 });
-      y.spend += r.spendBy[m]; y.enquiries += r.enquiriesBy[m]; y.enrolled += n;
+      y.spend += real; y.enquiries += r.enquiriesBy[m]; y.enrolled += n;
     });
     const cac = enrolled ? spend / enrolled : null;
+    // (In base-year prices, like the budgets it is compared with.)
     // The spend at which the LAST dollar still pays back inside a
     // learner's first level: past its reference spend a market's cost per
     // enquiry rises with spend at the saturation exponent, so the marginal
@@ -79,10 +86,10 @@ export function acquisition(S) {
     const sat = val(MARKETS.funnel.saturation);
     const yieldShare = val(MARKETS.funnel.enquiryToApplication) * val(MARKETS.funnel.applicationToPlacement)
       * val(MARKETS.funnel.placementToOffer) * val(MARKETS.funnel.offerToEnrolment);
-    const base = val(M.costPerEnquiryUsd) / yieldShare;
-    const ceilingSpend = val(M.referenceSpendUsd)
+    const base = (val(M.costPerEnquiryUsd) * level(FIRST_YEAR)) / yieldShare;
+    const ceilingSpend = val(M.referenceSpendUsd) * level(FIRST_YEAR)
       * Math.pow(Math.max(1, (contribution * (1 - sat)) / base), 1 / sat);
-    const plannedMax = Math.max(...Object.values(val(M.spendUsd)));
+    const plannedMax = Math.max(...Object.values(val(M.spendUsd))) * level(FIRST_YEAR);
     return {
       key: m, name: M.name, retail: true,
       spend, enquiries, enrolled,

@@ -37,7 +37,9 @@
     "masterplan": "node scripts/publication/render-masterplan.mjs && python3 scripts/publication/masterplan-workbook.py",
     "comment_on_monograph": "The flagship monograph. Its art direction lives in scripts/publication/monograph.mjs and its four typefaces are embedded by fetch-fonts.mjs — the publication previously asked for Cambria, Nimbus Roman and Georgia, none of which exist on the machine that renders it, so every version was set in a fallback nobody chose. The renderer FAILS the build if any page overflows, clips at the trim, or sets text on top of text.",
     "fonts": "node scripts/publication/fetch-fonts.mjs",
-    "monograph": "node scripts/publication/render-monograph.mjs"
+    "monograph": "node scripts/publication/render-monograph.mjs",
+    "comment_on_board_edition": "The WEC-LC Ten-Year Institutional Master Plan, Board & Investment Edition. Built from zero (CLAUDE.md §8): the model is scripts/plan/, reading only data/plan/, and the book is composed from one solved run of it. The renderer pours the book into pages in the browser and fails the build if any page overflows, clips, sets text on text, misnumbers itself, carries a photograph or sets a word its ground makes unreadable.",
+    "masterplan:board": "node scripts/plan/render-book.mjs"
   },
   "devDependencies": {
     "@fontsource-variable/eb-garamond": "^5.3.0",

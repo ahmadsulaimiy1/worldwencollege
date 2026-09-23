@@ -1,0 +1,116 @@
+{
+  "_": [
+    "WHAT THE MARKET ALREADY CHARGES — published prices for English study",
+    "in the College's markets, read from the providers' own pages.",
+    "",
+    "None of these is the College's product. A course sells tuition; the",
+    "College's fee buys a qualification, with every level examined, every",
+    "script marked twice and the record kept permanently. They are here so",
+    "that the Board can see where the College's tariff stands against what a",
+    "learner in each market already pays, and judge the premium the plan",
+    "asks the learner to accept."
+  ],
+  "items": {
+    "bcSaudi40": {
+      "market": "gulf",
+      "provider": "British Council, Saudi Arabia",
+      "product": "Adult English, 40 credits over four months, 60 contact hours",
+      "local": "SAR 6,037.50 incl. VAT",
+      "usd": {
+        "v": 1610,
+        "b": "evidenced",
+        "s": "British Council, Saudi Arabia, Adult English, 40 credits over four months, 60 contact hours: SAR 6,037.50 incl. VAT. saudiarabia.britishcouncil.org/en/english/courses-adults/classes/programmes-pricing; converted at the riyal's fixed rate of 3.75 to the dollar, researched 19 Sep 2026",
+        "u": "USD"
+      },
+      "months": 4,
+      "contactHours": 60
+    },
+    "bcSaudi60": {
+      "market": "gulf",
+      "provider": "British Council, Saudi Arabia",
+      "product": "Adult English, 60 credits over six months, 90 contact hours",
+      "local": "SAR 7,992.50 incl. VAT",
+      "usd": {
+        "v": 2131,
+        "b": "evidenced",
+        "s": "British Council, Saudi Arabia, Adult English, 60 credits over six months, 90 contact hours: SAR 7,992.50 incl. VAT. saudiarabia.britishcouncil.org/en/english/courses-adults/classes/programmes-pricing; converted at the riyal's fixed rate of 3.75 to the dollar, researched 19 Sep 2026",
+        "u": "USD"
+      },
+      "months": 6,
+      "contactHours": 90
+    },
+    "bcUaeIelts": {
+      "market": "gulf",
+      "provider": "British Council, United Arab Emirates",
+      "product": "IELTS preparation course, 24 hours",
+      "local": "AED 2,950",
+      "usd": {
+        "v": 803,
+        "b": "evidenced",
+        "s": "British Council, United Arab Emirates, IELTS preparation course, 24 hours: AED 2,950. britishcouncil.ae/en/english/adults/ielts-preparation; converted at the dirham's fixed rate of 3.6725 to the dollar, researched 19 Sep 2026",
+        "u": "USD"
+      },
+      "months": null,
+      "contactHours": 24
+    },
+    "chester13": {
+      "market": "ukEurope",
+      "provider": "University of Chester",
+      "product": "Pre-sessional English, 13 weeks",
+      "local": "£3,350",
+      "usd": {
+        "v": 4495,
+        "b": "evidenced",
+        "s": "University of Chester, Pre-sessional English, 13 weeks: £3,350. chester.ac.uk/international/pre-sessional-english-language-courses; converted at the plan's rate of 1.3417, researched 19 Sep 2026",
+        "u": "USD"
+      },
+      "months": 3,
+      "contactHours": null,
+      "weeks": 13
+    },
+    "stirlingOnline": {
+      "market": "ukEurope",
+      "provider": "University of Stirling",
+      "product": "Pre-sessional English, 8 weeks, online",
+      "local": "£5,150",
+      "usd": {
+        "v": 6910,
+        "b": "evidenced",
+        "s": "University of Stirling, Pre-sessional English, 8 weeks, online: £5,150. stir.ac.uk/international/international-students/pre-sessional-english-language-courses; converted at the plan's rate of 1.3417, researched 19 Sep 2026",
+        "u": "USD"
+      },
+      "months": 2,
+      "contactHours": null,
+      "weeks": 8
+    },
+    "oxford6": {
+      "market": "ukEurope",
+      "provider": "University of Oxford Language Centre",
+      "product": "Pre-sessional Academic English, 6 weeks",
+      "local": "£3,250",
+      "usd": {
+        "v": 4361,
+        "b": "evidenced",
+        "s": "University of Oxford Language Centre, Pre-sessional Academic English, 6 weeks: £3,250. lang.ox.ac.uk/summer-presessional-english-course; converted at the plan's rate of 1.3417, researched 19 Sep 2026",
+        "u": "USD"
+      },
+      "months": 1.5,
+      "contactHours": null,
+      "weeks": 6
+    },
+    "peiLagos": {
+      "market": "westAfrica",
+      "provider": "PEI Centre, Lagos",
+      "product": "IELTS training, one month",
+      "local": "NGN 75,000",
+      "usd": {
+        "v": 49,
+        "b": "evidenced",
+        "s": "PEI Centre, Lagos, IELTS training, one month: NGN 75,000. peicentre.com/ielts-training-fees; converted at NGN 1,540 to the dollar, the rate on the research date, researched 19 Sep 2026",
+        "u": "USD"
+      },
+      "months": 1,
+      "contactHours": null
+    }
+  }
+}

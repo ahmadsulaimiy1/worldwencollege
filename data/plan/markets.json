@@ -62,7 +62,7 @@
   "markets": {
     "gulf": {
       "name": "The Gulf",
-      "why": "The best-evidenced market for premium English education, where employer and family sponsorship of study is ordinary and executive demand is strongest.",
+      "why": "The market the College opens first. Employer and family sponsorship of study is common, the British Council publishes a certificated, levelled adult English programme there, and the College's executive route is written for its professional demand.",
       "opens": "2027-3",
       "costPerEnquiryUsd": {
         "v": 106,
@@ -112,7 +112,7 @@
     },
     "ukEurope": {
       "name": "The United Kingdom and Europe",
-      "why": "The home market, where the College's London standing is read directly and pre-sessional English sets a price the qualification can stand beside.",
+      "why": "The College's home market, opened second, where a London institution is read directly and university pre-sessional English sets the price of intensive, assessed study.",
       "opens": "2028-1",
       "costPerEnquiryUsd": {
         "v": 106,
@@ -162,7 +162,7 @@
     },
     "westAfrica": {
       "name": "West Africa",
-      "why": "A large and ambitious market whose published prices for English study sit far below what any route of this qualification costs to deliver — the whole published Nigerian range tops out near $1,800. The College does not sell there more cheaply; it reaches West African learners through institutions, ministries and foundations that fund places on the published terms.",
+      "why": "Published prices for English tuition in Nigeria are a small fraction of what any route costs to deliver: an IELTS course in Lagos is advertised at NGN 75,000 a month. The College does not sell there more cheaply; it reaches West African learners through institutions, ministries and foundations that fund places on the published terms.",
       "opens": "2030-1",
       "routes": {
         "v": {},
@@ -179,7 +179,7 @@
     },
     "asia": {
       "name": "Asia and the wider world",
-      "why": "Opened last, deliberately: the College holds no direct published evidence of prices there and will not spend to be known in a market it has not studied. It opens once three years of recruitment elsewhere have measured what a learner costs to reach.",
+      "why": "Opened last, deliberately. The plan holds no published price evidence for the region and will not spend to be known in a market it has not studied; it opens once three years of recruitment elsewhere have measured what a learner costs to reach.",
       "opens": "2030-1",
       "costPerEnquiryUsd": {
         "v": 106,

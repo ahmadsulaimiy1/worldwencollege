@@ -37,6 +37,8 @@ export const MARKETS = load('markets');
 export const POLICY = load('policy');
 export const PROGRESSION = load('progression');
 export const SCENARIOS = load('scenarios');
+export const COMPARABLES = load('comparables');
+export const ROADMAP_TEXT = load('roadmap');
 
 /** A leaf is any object carrying both a value and a basis. */
 export const isLeaf = (x) => x && typeof x === 'object' && !Array.isArray(x) && 'v' in x && 'b' in x;

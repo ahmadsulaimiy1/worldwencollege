@@ -27,6 +27,18 @@
     "s": "Mean of the twelve HMRC monthly exchange rates for the US dollar, October 2025 to September 2026 (1.3126 to 1.3647). HMRC monthly exchange rates — trade-tariff.service.gov.uk/exchange_rates, retrieved 23 Sep 2026. The College earns in dollars and pays in pounds; a stronger pound is tested as a named shock",
     "u": "USD per GBP"
   },
+  "inflation": {
+    "v": 0.02,
+    "b": "evidenced",
+    "s": "Prices other than pay rise at 2% a year, the inflation target of both the Bank of England (bankofengland.co.uk/monetary-policy/inflation) and the US Federal Reserve (federalreserve.gov/faqs/economy_14400.htm). Pay rises at its own rate (people.json)",
+    "u": "per year"
+  },
+  "priceBaseYear": {
+    "v": 2026,
+    "b": "design",
+    "s": "Every price other than pay — technology, premises, assurance, acquisition — is stated as published or planned in 2026 and carried forward from 2026 at the inflation rate",
+    "u": "year"
+  },
   "collection": {
     "cardShareOfRetail": {
       "v": 0.85,

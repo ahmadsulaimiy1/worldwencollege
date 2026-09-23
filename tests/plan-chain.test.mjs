@@ -51,7 +51,7 @@ check('no placeholder figure remains in the record',
 /* Evidence means a reader can find it: every evidenced figure names the
    page it came from. */
 const untraceable = reg.filter((r) => r.basis === 'evidenced'
-  && !/[a-z0-9-]+\.(?:com|org|gov\.uk|ac\.uk|co\.uk|uk|us|dev)\b/i.test(r.source));
+  && !/[a-z0-9-]+\.(?:[a-z]{2,}\.)?[a-z]{2,}\/|[a-z0-9-]+\.(?:com|org|gov\.uk|ac\.uk|co\.uk)\b/i.test(r.source));
 check('...and every evidenced figure names the page it was read from', untraceable.length === 0,
   untraceable.map((r) => `${r.file}:${r.path}`).join('; '));
 
