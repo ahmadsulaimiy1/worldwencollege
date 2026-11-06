@@ -1,6 +1,6 @@
 # StromeX MCP — last run
 
-Ran: 2026-11-05T23:13:22Z
+Ran: 2026-11-06T04:53:55Z
 Doctor outcome: success
 GitHub write outcome: success
 Cloudflare write outcome: success
@@ -33,28 +33,28 @@ Credentials
   ✓ openai      OPENAI_API_KEY=env:edd5edfe3874
 
 Live checks (one authenticated read each)
-  ✓ cloudflare    322ms  1 account(s) visible
-  ✓ github        345ms  authenticated as ahmadsulaimiy1
-  ✓ neon          338ms  3 project(s) visible
-  ✓ vercel        161ms  1 project(s) in the first page
-  ✓ clerk         423ms  1 user(s)
-  ✓ resend        201ms  2 sending domain(s)
-  ✓ openai       1215ms  96 model(s) visible; default gpt-5
+  ✓ cloudflare    298ms  1 account(s) visible
+  ✓ github        305ms  authenticated as ahmadsulaimiy1
+  ✓ neon          241ms  3 project(s) visible
+  ✓ vercel        371ms  1 project(s) in the first page
+  ✓ clerk         505ms  1 user(s)
+  ✓ resend        179ms  2 sending domain(s)
+  ✓ openai        901ms  96 model(s) visible; default gpt-5
 
 All configured providers answered.
 ```
 
 ## call github.variable.put
 ```
-{"ts":"2026-11-05T23:12:53.574Z","level":"info","msg":"server assembled","providers":["github"],"tools":37,"protectedOperations":"approval","readOnly":false,"spending":false}
+{"ts":"2026-11-06T04:53:20.491Z","level":"info","msg":"server assembled","providers":["github"],"tools":37,"protectedOperations":"approval","readOnly":false,"spending":false}
 {
   "tool": "github.variable.put",
   "provider": "github",
   "operation": "variable.put",
   "operationClass": "write",
   "dryRun": false,
-  "requestId": "req_2f88c1ebb3b24b8083f7",
-  "durationMs": 683,
+  "requestId": "req_711f90f6a4a748b58ef7",
+  "durationMs": 741,
   "ok": true,
   "summary": "Updated variable STROMEX_MCP_LAST_AUTONOMOUS_RUN",
   "data": {
@@ -73,8 +73,8 @@ All configured providers answered.
   "operation": "kv.namespace.list",
   "operationClass": "read",
   "dryRun": false,
-  "requestId": "req_bddae286d4284f3b95f0",
-  "durationMs": 416,
+  "requestId": "req_c95424665ff74fada81b",
+  "durationMs": 471,
   "ok": true,
   "summary": "1 KV namespaces",
   "data": {
@@ -98,8 +98,8 @@ Namespace stromex-mcp-proof already exists (f471971a426e4059ade21256c5aaad3f) fr
   "operation": "kv.value.put",
   "operationClass": "write",
   "dryRun": false,
-  "requestId": "req_bfcb7442a63d4211a5e3",
-  "durationMs": 661,
+  "requestId": "req_71a0407d0be74b2fabe9",
+  "durationMs": 593,
   "ok": true,
   "summary": "Wrote KV key last_autonomous_run",
   "auditSeq": 3
@@ -114,8 +114,8 @@ Namespace stromex-mcp-proof already exists (f471971a426e4059ade21256c5aaad3f) fr
   "operation": "branch.list",
   "operationClass": "read",
   "dryRun": false,
-  "requestId": "req_9e4d68fe15eb4f4ea6bd",
-  "durationMs": 364,
+  "requestId": "req_a8dff5b1dfd94e9e8bb2",
+  "durationMs": 269,
   "ok": true,
   "summary": "2 branches",
   "data": {
@@ -148,15 +148,15 @@ Branch stromex-mcp-proof already exists (br-cool-rice-zat7ruen) from an earlier 
 
 ## call vercel.env.set
 ```
-{"ts":"2026-11-05T23:12:56.680Z","level":"info","msg":"server assembled","providers":["vercel"],"tools":30,"protectedOperations":"approval","readOnly":false,"spending":false}
+{"ts":"2026-11-06T04:53:23.417Z","level":"info","msg":"server assembled","providers":["vercel"],"tools":30,"protectedOperations":"approval","readOnly":false,"spending":false}
 {
   "tool": "vercel.env.set",
   "provider": "vercel",
   "operation": "env.set",
   "operationClass": "write",
   "dryRun": false,
-  "requestId": "req_f486de1f12bd4a4da990",
-  "durationMs": 181,
+  "requestId": "req_a345fc12e9fb48f58311",
+  "durationMs": 214,
   "ok": true,
   "summary": "Set STROMEX_MCP_LAST_AUTONOMOUS_RUN on prj_42YG9LlfYzxjW0st9hN4h6k0ZHtv for preview",
   "data": {
@@ -167,7 +167,7 @@ Branch stromex-mcp-proof already exists (br-cool-rice-zat7ruen) from an earlier 
     "result": {
       "created": {
         "type": "encrypted",
-        "value": "eyJ2IjoidjIiLCJjIjoiZFBESzJQcHhScmpXcGIvSit3YklxWHpFSVNPOGl6QlJTc2NmMzRMSksxYVI0K2Z1a1VoempzeWJWUGt5R2ViL0RqZVJWcktvdlhzNlkzZU5GK0VKUHZtTC9LK2ZlSWJ0azhpNHFOOUo4aUlBdmJRM0tneFNWYUN6dml4VStzRjVTUE10YUE9PSIsImsiOlsxODQsMSwyLDMsMCwxMjAsMTA3LDExOSwxNTMsMjMsMjIzLDExNywxODMsMTIwLDU3LDE5NiwxMSwyOCwyNDksMTE5LDEwNCwyMTMsMTY5LDE2MSwxNDEsMTQyLDk5LDY1LDQ5LDIxMiwzMCwxOTksOTcsMjA0LDIxOCw3NywxMDUsMTc5LDEsMjQ2LDIwLDIyOCwxOTIsMTA4LDEzOSwxNzksNTQsMTI4LDQ0LDEzNCw2MSwyNiwyMzEsMTQwLDE5NSwwLDAsMCwxMjYsNDgsMTI0LDYsOSw0MiwxMzQsNzIsMTM0LDI0NywxMywxLDcsNiwxNjAsMTExLDQ4LDEwOSwyLDEsMCw0OCwxMDQsNiw5LDQyLDEzNCw3MiwxMzQsMjQ3LDEzLDEsNywxLDQ4LDMwLDYsOSw5NiwxMzQsNzIsMSwxMDEsMyw0LDEsNDYsNDgsMTcsNCwxMiwyMzYsMTIsMTA2LDE4NiwyMDgsMTY0LDE2LDI1MywxNTYsMjYsMTM3LDE0NiwyLDEsMTYsMTI4LDU5LDE3MiwxNTksOTQsNzIsMTcwLDc2LDIwOCwzMyw0MCw5NywyMDEsMTgxLDkzLDI2LDYzLDE3MCwyMzUsMjI4LDQ4LDExOCwxOTEsMTY4LDE5LDE4Miw4OSwyNTIsMTU5LDE4MSwyMyw5Myw0LDM5LDMsMjE1LDE1OSwxOTQsMTA3LDIyOCw1NCw3MywyMDEsNjUsMTUzLDEzNCw2MCwxOTAsMjUxLDg3LDExMCw2Miw5NSw4MSwxNjEsNzMsMTk3LDE5MywxNywzNiw5MF19",
+        "value": "eyJ2IjoidjIiLCJjIjoielVyc2x0NDdsdC9vUjZtdUdSWTFQdkNlM2ZJd2cyRTI1Rk9zNndzV0FRc0lEWkIwWitobnI0eWJ0eEFzQ09qVUVqMnVUY2FYSXdUYzNKbFJZQVhDQUh2K2RpT2pGTVhoMjBtQUUrRTBmcTR4eEFLTFljdlZzbWNnZjVQOXJIRjBISW1CWFE9PSIsImsiOlsxODQsMSwyLDMsMCwxMjAsMTA3LDExOSwxNTMsMjMsMjIzLDExNywxODMsMTIwLDU3LDE5NiwxMSwyOCwyNDksMTE5LDEwNCwyMTMsMTY5LDE2MSwxNDEsMTQyLDk5LDY1LDQ5LDIxMiwzMCwxOTksOTcsMjA0LDIxOCw3NywxMDUsMTc5LDEsNTYsMjA1LDEyNywyOSwyMDEsNzcsNTIsNjgsMTQ3LDE1MiwxNzksMjM2LDIxLDIyMiwxNzgsMjA5LDAsMCwwLDEyNiw0OCwxMjQsNiw5LDQyLDEzNCw3MiwxMzQsMjQ3LDEzLDEsNyw2LDE2MCwxMTEsNDgsMTA5LDIsMSwwLDQ4LDEwNCw2LDksNDIsMTM0LDcyLDEzNCwyNDcsMTMsMSw3LDEsNDgsMzAsNiw5LDk2LDEzNCw3MiwxLDEwMSwzLDQsMSw0Niw0OCwxNyw0LDEyLDE2NSwyNDgsMjI2LDQ4LDEwMSwyMzQsMTA3LDg3LDc4LDIwMiwzMywxMTQsMiwxLDE2LDEyOCw1OSw4NSwxMiw0MSw2OSwxNjcsNjIsMTQ4LDExMiw0Myw3OSw2OSwyNDQsMTA0LDM2LDE3OSw2MSwxMjcsMjE5LDY0LDMyLDg0LDIzMSw5NSwxNjksMTczLDE2NCwxNzcsMTgzLDE2MywxOTEsNSwxNzYsMTA0LDQyLDQzLDE5NSw1OSwxMjIsMjMsMTIyLDU4LDExNiwxMDcsMTMwLDIyNSwyNTMsODYsODYsMTM5LDc3LDEwNyw3LDEwNSwxLDE4LDk0LDExMywxNjIsMTg2XX0=",
         "target": [
           "preview"
         ],
@@ -175,7 +175,7 @@ Branch stromex-mcp-proof already exists (br-cool-rice-zat7ruen) from an earlier 
         "id": "YL11dEFjlYIt2Jlh",
         "key": "STROMEX_MCP_LAST_AUTONOMOUS_RUN",
         "createdAt": 1789001960668,
-        "updatedAt": 1793920376819,
+        "updatedAt": 1793940803563,
         "createdBy": "TSBilVo4Aio3S07lQy6Mym3M",
         "updatedBy": "TSBilVo4Aio3S07lQy6Mym3M"
       },
@@ -188,19 +188,19 @@ Branch stromex-mcp-proof already exists (br-cool-rice-zat7ruen) from an earlier 
 
 ## call resend.email.send
 ```
-{"ts":"2026-11-05T23:12:57.089Z","level":"info","msg":"server assembled","providers":["resend"],"tools":24,"protectedOperations":"approval","readOnly":false,"spending":false}
+{"ts":"2026-11-06T04:53:23.824Z","level":"info","msg":"server assembled","providers":["resend"],"tools":24,"protectedOperations":"approval","readOnly":false,"spending":false}
 {
   "tool": "resend.email.send",
   "provider": "resend",
   "operation": "email.send",
   "operationClass": "write",
   "dryRun": false,
-  "requestId": "req_b890502d999348218dbe",
-  "durationMs": 212,
+  "requestId": "req_34c730db1ae24572b7e0",
+  "durationMs": 221,
   "ok": true,
   "summary": "Sent \"StromeX MCP -- autonomous write proof\" to ahmadbinibrohim@gmail.com",
   "data": {
-    "id": "01a1adfc-a184-7610-a1c2-9db8c19bf70c"
+    "id": "01a1af34-5174-775e-8338-adc75301bcaf"
   },
   "auditSeq": 6
 }
@@ -214,8 +214,8 @@ Branch stromex-mcp-proof already exists (br-cool-rice-zat7ruen) from an earlier 
   "operation": "invitation.list",
   "operationClass": "read",
   "dryRun": false,
-  "requestId": "req_47a0b4e7913a4a2cbd54",
-  "durationMs": 189,
+  "requestId": "req_1dd34afbd4e84e29b034",
+  "durationMs": 159,
   "ok": true,
   "summary": "Invitations",
   "data": [],
@@ -228,20 +228,20 @@ Branch stromex-mcp-proof already exists (br-cool-rice-zat7ruen) from an earlier 
   "operation": "invitation.create",
   "operationClass": "write",
   "dryRun": false,
-  "requestId": "req_76877a3a50b44fb78641",
-  "durationMs": 219,
+  "requestId": "req_6639959d13644297b7d9",
+  "durationMs": 201,
   "ok": true,
   "summary": "Invited ahmadbinibrohim+stromexmcpproof@gmail.com",
   "data": {
     "object": "invitation",
-    "id": "inv_3Lhy1SRXuVa0y1i9T3JYIZc15bE",
+    "id": "inv_3LidQNdBDXfsnxyQEsSaFzJ33QX",
     "email_address": "ahmadbinibrohim+stromexmcpproof@gmail.com",
     "public_metadata": {},
     "status": "pending",
-    "url": "https://clerk.worldwencollege.co.uk/v1/tickets/accept?ticket=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlaXMiOjI1OTIwMDAsImV4cCI6MTc5NjUxMjM3OCwiaWlkIjoiaW5zXzNIelZ2a0M1c09zdHU5SHRpOGQ4NXF5bmhhcCIsInNpZCI6Imludl8zTGh5MVNSWHVWYTB5MWk5VDNKWUlaYzE1YkUiLCJzdCI6Imludml0YXRpb24ifQ.FQ-_wlsOgC7xP9gtu4dhvAarLUWLbwofnS8iI5ZvXfqC071CUM1Ul0LOLSychMc4fz0PKy67Rf2M5efmi3c-4mCbnCVg4U9CT4JMnOM1hubFhtjp0u6vydsTAaUm-a3F2gZYzZLSEj4gPng8mVtbEqm8I_RrHdoWLlh7Imfs9amhF7oqXeisOZ5r6_wdixdmo5u32_W1kxLGAhuck5MXdhxeOd6RrG2aEM8I-CVWvYF38LpOru5G7ea-Dz7EiWEhNUBzpWyWtsA1tPV9eVHA7d9Un9ZNn4DKdZ4cX5Ev5BZurkqRAIIxStouJ6mnBG9VVyGOPIA8lRy8XOFseRGKUA",
-    "expires_at": 1796512378119,
-    "created_at": 1793920378121,
-    "updated_at": 1793920378121
+    "url": "https://clerk.worldwencollege.co.uk/v1/tickets/accept?ticket=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlaXMiOjI1OTIwMDAsImV4cCI6MTc5NjUzMjgwNCwiaWlkIjoiaW5zXzNIelZ2a0M1c09zdHU5SHRpOGQ4NXF5bmhhcCIsInNpZCI6Imludl8zTGlkUU5kQkRYZnNueHlRRXNTYUZ6SjMzUVgiLCJzdCI6Imludml0YXRpb24ifQ.gsgcg0GhZK3_4PwqS8XqhdZDxUeaZKBN567llTuKgBs57y3rPwg1kLNllpbfQyfGrA11CAd8-kuvvke6ANGhZLY0QaU97MVYT0Rj4QH8fhz95NE41yJrnKPoKIc86LufBsjLDW7KPezNFyMfTnp7xWHV_ft-i3y-e2Re96TMHFBaboh4zPJAGzxuYwUTjnUM2rXCk_-RcyENdx2PnFtv773CThob9F34CZEExKJ_MGP9ueQ_aJ08tG0ZBkP66ByYWXqyGN18ebkD3Qx8_DkOxMiS-lJ5HFmWcvyb2IPLKIz6GHFRr0HxTQ9p6rgQkMIeILBNwvkWvTjoaTTXXDGrZg",
+    "expires_at": 1796532804776,
+    "created_at": 1793940804776,
+    "updated_at": 1793940804776
   },
   "auditSeq": 8
 }
@@ -252,20 +252,20 @@ Branch stromex-mcp-proof already exists (br-cool-rice-zat7ruen) from an earlier 
   "operation": "invitation.revoke",
   "operationClass": "write",
   "dryRun": false,
-  "requestId": "req_be1df8d5053e4b3c8737",
-  "durationMs": 197,
+  "requestId": "req_083188cb103940148455",
+  "durationMs": 201,
   "ok": true,
-  "summary": "Revoked invitation inv_3Lhy1SRXuVa0y1i9T3JYIZc15bE",
+  "summary": "Revoked invitation inv_3LidQNdBDXfsnxyQEsSaFzJ33QX",
   "data": {
     "object": "invitation",
-    "id": "inv_3Lhy1SRXuVa0y1i9T3JYIZc15bE",
+    "id": "inv_3LidQNdBDXfsnxyQEsSaFzJ33QX",
     "email_address": "ahmadbinibrohim+stromexmcpproof@gmail.com",
     "public_metadata": {},
     "revoked": true,
     "status": "revoked",
-    "expires_at": 1796512378119,
-    "created_at": 1793920378121,
-    "updated_at": 1793920378634
+    "expires_at": 1796532804776,
+    "created_at": 1793940804776,
+    "updated_at": 1793940805215
   },
   "auditSeq": 9
 }
@@ -273,32 +273,32 @@ Branch stromex-mcp-proof already exists (br-cool-rice-zat7ruen) from an earlier 
 
 ## call openai.validate.independent
 ```
-{"ts":"2026-11-05T23:12:58.963Z","level":"info","msg":"server assembled","providers":["openai"],"tools":30,"protectedOperations":"approval","readOnly":false,"spending":true}
+{"ts":"2026-11-06T04:53:25.499Z","level":"info","msg":"server assembled","providers":["openai"],"tools":30,"protectedOperations":"approval","readOnly":false,"spending":true}
 {
   "tool": "openai.validate.independent",
   "provider": "openai",
   "operation": "validate.independent",
   "operationClass": "write",
   "dryRun": false,
-  "requestId": "req_2c550634ad2142be9d18",
-  "durationMs": 23031,
+  "requestId": "req_2304e9c89ebd483599b1",
+  "durationMs": 29712,
   "ok": true,
-  "summary": "Council — independent validation — gpt-5-2025-08-07, 1822 tokens, 0.018374 USD",
+  "summary": "Council — independent validation — gpt-5-2025-08-07, 1949 tokens, 0.019898 USD",
   "data": {
     "model": "gpt-5-2025-08-07",
-    "finding": "Elena Voronov, Platform Reliability and Controls\n\nVerdict: Not proven by the run alone.\n\nStrongest argument against it\n- A single Actions log rarely distinguishes a real, policy-gated OpenAI write from a mocked/stubbed call, nor does it prove unattended autonomy or cap enforcement. Without verifiable evidence that:\n  - The workflow made a live OpenAI API call (not a dry-run/mocked client) and performed a side effect that can be independently checked,\n  - The policy engine actually evaluated and gated the action (with a deny path demonstrably effective, not just “allowed” logs),\n  - No human approvals or interactive steps occurred (including GitHub’s “Require approval for all outside collaborators,” environment protection rules, manual dispatch inputs, or OIDC consent prompts),\n  - Spend was metered against a configured cap and enforced (not just “estimated under budget,” but a mechanism that would have blocked if over),\nthe run is indistinguishable from a scripted demo.\n\nWhat evidence would settle it\nProvide, in the run artifacts or an immutable write-up that references the run’s commit SHA and run ID:\n- Live API proof\n  - Raw HTTP request/response logs (redacted keys) including OpenAI request_id, model, token counts, and timestamps; show they came from the runner’s public egress IPs.\n  - OpenAI usage/audit export for the same timestamps and request_ids.\n- Real “write action” with externally verifiable side effect\n  - Evidence of a mutation outside the runner (e.g., a PR/comment created via OpenAI function output, a database row, or an S3/GCS object) with object IDs and timestamps matching the API response.\n- Policy-gate enforcement\n  - The policy definition (e.g., Rego) and the evaluation trace for this run showing inputs, rule decisions, and why it allowed.\n  - A sibling run or step intentionally violating the policy that was blocked, with failure logs. Same code path, not a separate mock test.\n- Unattended autonomy\n  - Workflow configuration showing triggers (e.g., schedule or push), and repository/environment settings proving no required manual approvals, no workflow_dispatch inputs, and no pending checks.\n  - OIDC/JWT exchange or credentials acquisition logged without interactive consent; evidence of no job “Needs approval” gates.\n  - SLSA/provenance or GitHub run attestation for the workflow file and runner image digest.\n- Spending cap configuration and enforcement\n  - The configured cap value, the metering method, per-request cost calculation, and a cumulative ledger for the run.\n  - A proof run where the same job would exceed the cap and is blocked with a deterministic error before the OpenAI call.\n  - Persistence of spend state between runs if the cap is per period, not just per job.\n\nWhat I tried to break\n- Considered that the “write” could be an in-repo echo (not external), the OpenAI call a stub, the policy a no-op default allow, and “cap” a log-only estimate. Any one of these makes the claim overreach.\n\nCorrected claim (if you can’t provide the above evidence)\n- This GitHub Actions run demonstrates that stromex-mcp invoked an OpenAI API and completed a policy-evaluated write operation during CI, with logged spend estimates below a configured cap. It does not, by itself, prove unattended execution, real external side effects, or enforcement of the spending cap.",
+    "finding": "Rhea Kapoor, Infra & Compliance\n\nVerdict: Not proven by the run alone.\n\nStrongest argument against it\n- A single CI log can be staged to look “real” without proving four distinct properties: real OpenAI write, autonomy (no human-in-the-loop), policy gating actually enforced at decision time, and execution within an active spending cap. Without cross-verified OpenAI org-side usage records and a demonstrable cap/deny mechanism in-path, the run could be a dry-run, a stubbed client, a pre-seeded artifact, or a manually approved step.\n\nWhat evidence would settle it\nProvide artifacts that are independently verifiable and cryptographically or operationally cross-checkable:\n1) Real OpenAI write\n   - Log request-id headers from OpenAI responses and the target project/organization ID.\n   - Correlate those IDs and timestamps with the OpenAI Usage/Billing export for the same window (CSV or API), showing the exact model, tokens, and cost.\n   - Show the “write” side effect with an external, timestamped artifact (e.g., a PR/issue/comment or datastore mutation) and link it to the same run ID and model output.\n\n2) Autonomy (unattended)\n   - Workflow YAML showing the trigger (e.g., schedule/push) with no workflow_dispatch or required reviewers.\n   - Environment protection rules off or satisfied non-interactively; logs showing no approval gates or manual reruns.\n   - Attestation of the run provenance (GitHub OIDC/SLSA/Sigstore) tied to the commit SHA that includes the policy and cap config.\n\n3) Policy-gated\n   - The policy bundle (hash, version) and the evaluator decision log for the exact action: input, decision, rule IDs matched, and rationale.\n   - Proof the action would have been blocked if disallowed: include a failing counterexample from the same commit/run (e.g., a denied prompt/action with evaluator logs and non-execution).\n   - Hash of policy files printed in logs and included in the attestation, so reviewers can verify that the logged decision came from the same policy.\n\n4) Inside configured spending cap (and enforcement, not just configuration)\n   - The cap definition at two layers:\n     a) Provider-side: OpenAI project hard cap/limits or budget alerts with current remaining budget at run time.\n     b) Client-side: the stromex-mcp quota/budget config (per-run/per-day), including remaining budget before and after, and the code path that aborts when exceeded.\n   - Logs showing the preflight budget check, the post-call token/cost accounting, and remaining budget.\n   - Cross-verify with OpenAI usage export that cumulative spend for the cap period stayed ≤ cap after the run.\n\nIf it does not hold — corrected claim\n- This run demonstrates that stromex-mcp executed an OpenAI call and produced a write-side effect in CI, but on its own it does not prove the action was autonomous, policy-gated, or executed under and enforced by a spending cap.\n\nWhat I tried to break\n- Considered possibilities of stubbed/mocked OpenAI client, pre-seeded outputs, manual approval or workflow_dispatch, policy logs not bound to the executed commit, and cap “configured” but not enforced (no pre/post spend accounting or provider-side limit). Any one of these remains plausible without the cross-verifications above.",
     "usage": {
       "inputTokens": 349,
-      "outputTokens": 1473,
-      "reasoningTokens": 704,
-      "totalTokens": 1822
+      "outputTokens": 1600,
+      "reasoningTokens": 896,
+      "totalTokens": 1949
     },
     "cost": {
-      "amount": 0.018374,
+      "amount": 0.019898,
       "currency": "USD",
       "basis": "configured rates: 2/12 per million input/output tokens"
     },
-    "requestId": "resp_0cca6fd391495a54006aed0d7b99f487d0a77b20443c7c828e"
+    "requestId": "resp_0d1fc056cefe521a006aed5d467a6087d0b0e4dae8d728360e"
   },
   "warnings": [
     "This is a consultation, not a decision. Weigh it, explain the trade-off in your own words, and record what you adopt (SEB §32.4)."
